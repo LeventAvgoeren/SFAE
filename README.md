@@ -16,6 +16,8 @@ git push -uf origin main
 
 ## Badges
 ![GitLab Last Commit](https://img.shields.io/gitlab/last-commit/project-sfae)
+![coverage](https://gitlab.bht-berlin.de/s90643/project-sfae/badges/main/coverage.svg?job=coverage)
+
 
 
 ## Authors and acknowledgment

@@ -1,6 +1,7 @@
 -------------------------------------------------------------------------------
 Test set: com.SFAE.SFAE.SfaeApplicationTests
 -------------------------------------------------------------------------------
+<<<<<<< HEAD
 Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 5.624 s <<< FAILURE! -- in com.SFAE.SFAE.SfaeApplicationTests
 com.SFAE.SFAE.SfaeApplicationTests.contextLoads -- Time elapsed: 0.024 s <<< ERROR!
 java.lang.IllegalStateException: Failed to load ApplicationContext for [WebMergedContextConfiguration@10e56da9 testClass = com.SFAE.SFAE.SfaeApplicationTests, locations = [], classes = [com.SFAE.SFAE.SfaeApplication], contextInitializerClasses = [], activeProfiles = [], propertySourceDescriptors = [], propertySourceProperties = ["org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true"], contextCustomizers = [org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@7d3e8655, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@3aa078fd, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@7486b455, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@461ad730, org.springframework.boot.test.context.SpringBootTestAnnotation@a54c3122], resourceBasePath = "src/main/webapp", contextLoader = org.springframework.boot.test.context.SpringBootContextLoader, parent = null]
@@ -75,3 +76,6 @@ Caused by: org.hibernate.HibernateException: Unable to determine Dialect without
 	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
 	... 53 more
 
+=======
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.814 s -- in com.SFAE.SFAE.SfaeApplicationTests
+>>>>>>> d599c6ea812a2cbf54994ed5fbcdf08734a9a82f

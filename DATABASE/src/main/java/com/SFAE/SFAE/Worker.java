@@ -2,10 +2,11 @@ package com.SFAE.SFAE;
 
 import org.springframework.stereotype.Component;
 
+
 @Component
 public class Worker {
+  
 
-Long id;
 String name;
 String location;
 String password;
@@ -17,25 +18,7 @@ Float minPayment;
 Double rating;
 Boolean veification;
 
-public Worker(Long id, String name, String location, String password, Status status, StartusOrder startusOrder,
-Float range, JobList jobType, Float minPayment, Double rating, Boolean veification) {
-  this.id = id;
-  this.name = name;
-  this.location = location;
-  this.password = password;
-  this.status = status;
-  this.startusOrder = startusOrder;
-  this.range = range;
-  this.jobType = jobType;
-  this.minPayment = minPayment;
-  this.rating = rating;
-  this.veification = veification;
-}
 
-
-public Long getId() {
-  return id;
-}
 
 
 public String getName() {

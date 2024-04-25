@@ -1,6 +1,8 @@
 com\SFAE\SFAE\JobList.class
-com\SFAE\SFAE\Worker.class
+com\SFAE\SFAE\Entity\Customer.class
+com\SFAE\SFAE\Interface\CustomerInterface.class
+com\SFAE\SFAE\Controller\CustomerController.class
 com\SFAE\SFAE\SfaeApplication.class
 com\SFAE\SFAE\Status.class
-com\SFAE\SFAE\Customer.class
+com\SFAE\SFAE\Entity\Worker.class
 com\SFAE\SFAE\StartusOrder.class

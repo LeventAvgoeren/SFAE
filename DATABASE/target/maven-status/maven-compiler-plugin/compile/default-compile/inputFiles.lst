@@ -1,7 +1,8 @@
 C:\Users\leven\SFAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\JobList.java
 C:\Users\leven\SFAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\Status.java
 C:\Users\leven\SFAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\StartusOrder.java
+C:\Users\leven\SFAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\Controller\CustomerController.java
 C:\Users\leven\SFAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\SfaeApplication.java
-C:\Users\leven\SFAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\Customer.java
+C:\Users\leven\SFAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\Entity\Worker.java
 C:\Users\leven\SFAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\Interface\CustomerInterface.java
-C:\Users\leven\SFAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\Worker.java
+C:\Users\leven\SFAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\Entity\Customer.java

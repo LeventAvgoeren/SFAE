@@ -2,7 +2,8 @@
 
 # Description
 
-SfÆ - Service Fast and Efficient ist eine Dienstleistungswebsite, auf der registrierte Nutzer ("Customers") alltägliche Dienste wie Lampenwechsel, PC-Zusammenbau oder Wohnungsreinigung anfordern können. Nutzer können ihre Anfragen mit spezifischen Details wie Ort, Zeit und Budget einstellen. Verifizierte Dienstleister ("Worker") können Aufträge ansehen, verhandeln und annehmen oder ablehnen. Zusätzlich gibt es einen Admin-Bereich zur Aufrechterhaltung der Nutzungsstandards und Sanktionierung bei Regelverstößen.
+SfÆ - Service Fast and Efficient is a service website where registered users ("customers") can request everyday services such as lamp replacement, PC assembly or apartment cleaning. Users can post their requests with specific details such as location, time and budget. Verified service providers ("Workers") can view, negotiate and accept or reject jobs. There is also an admin area for maintaining usage standards and imposing sanctions in the event of rule violations.
+
 
 ## Clone
 

@@ -2,8 +2,8 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { Route, Router, Routes } from 'react-router-dom';
-import { PageIndex } from './PageIndex';
 import { createMemoryHistory } from 'history';
+import { PageIndex } from './components/PageIndex';
 const history = createMemoryHistory();
 
 function App() {

@@ -1,11 +1,11 @@
 package com.SFAE.SFAE.Entity;
 
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
-import com.SFAE.SFAE.JobList;
-import com.SFAE.SFAE.StartusOrder;
-import com.SFAE.SFAE.Status;
+
+import com.SFAE.SFAE.ENUM.JobList;
+import com.SFAE.SFAE.ENUM.StartusOrder;
+import com.SFAE.SFAE.ENUM.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,11 +16,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
-@EnableAutoConfiguration
+
 @Data
 @Entity
 @Table(name="Worker")
 
+//TODO:getter setter , UNIQUE und andere sachen sicherheitsfaktoren ergänzen
+//TODO:Mit Kenno übersicht erstellen 
+//TODO:Datenbank löscht alles bei reset fixen 
+//TODO: spring security angucken und ergänzen
 public class Worker {
 
 @Id
@@ -33,6 +37,8 @@ private String name;
 private String location;
 @Column(name = "password")
 private String password;
+@Column(name = "email")
+private String email;
 @Column(name = "status")
 private Status status;
 @Column(name = "statusOrder")
@@ -51,7 +57,7 @@ private Boolean verification;
 
 
 public Worker(Long id, String name, String location, String password, Status status, StartusOrder statusOrder,
-    Float range, JobList jobType, Float minPayment, Double rating, Boolean verification) {
+    Float range, JobList jobType, Float minPayment, Double rating, Boolean verification,String email) {
   this.id = id;
   this.name = name;
   this.location = location;
@@ -63,6 +69,7 @@ public Worker(Long id, String name, String location, String password, Status sta
   this.minPayment = minPayment;
   this.rating = rating;
   this.verification = verification;
+  this.email=email;
 }
 
 }

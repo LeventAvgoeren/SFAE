@@ -8,6 +8,9 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.SFAE.SFAE.ENTITY.Customer;
 
+/**
+ * @author erayzor
+ */
 @RepositoryRestResource
 public interface CustomerInterface {
 
@@ -16,4 +19,6 @@ public interface CustomerInterface {
     Iterable<Customer> findAllCustomer();
 
     Optional<Customer> findCustomerbyID(long id);
+
+    Customer findCustomerbyName(String Name);
 }

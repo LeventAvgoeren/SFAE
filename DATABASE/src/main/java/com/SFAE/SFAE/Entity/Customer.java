@@ -13,26 +13,30 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+/**
+ * @author erayzor
+ */
+
 @Data
 @Entity
-@Table(name="customer")
+@Table(name="CUSTOMER")
 public class Customer {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "name")
+    @Column(name = "NAME")
     private String name;
     
-    @Column(name = "password")
+    @Column(name = "PASSWORD")
     private String password;
-    
-    @Column(name = "email")
+
+    @Column(name = "EMAIL")
     private String email;
 
-    @Column(name = "role")
+    @Column(name = "ROLE")
     @Enumerated(EnumType.ORDINAL)
     private Role role;
 

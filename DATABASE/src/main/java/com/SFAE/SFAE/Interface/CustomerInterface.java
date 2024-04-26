@@ -1,12 +1,19 @@
 
-package com.SFAE.SFAE.Interface;
+package com.SFAE.SFAE.INTERFACE;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import com.SFAE.SFAE.Entity.Customer;
-@RepositoryRestResource
-public interface CustomerInterface extends JpaRepository<Customer, Long> {
+import com.SFAE.SFAE.ENTITY.Customer;
 
-    
+@RepositoryRestResource
+public interface CustomerInterface {
+
+    long countCustomer();
+
+    Iterable<Customer> findAllCustomer();
+
+    Optional<Customer> findCustomerbyID(long id);
 }

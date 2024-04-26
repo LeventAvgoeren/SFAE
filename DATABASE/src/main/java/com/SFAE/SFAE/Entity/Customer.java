@@ -1,4 +1,4 @@
-package com.SFAE.SFAE.Entity;
+package com.SFAE.SFAE.ENTITY;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
@@ -21,7 +21,7 @@ public class Customer {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private final long id;
     @Column(name = "name")
     private String name;
     @Column(name = "password")
@@ -37,10 +37,6 @@ public class Customer {
         this.password = password;
         this.email = email;
         this.role = role;
-    }
-
-    public Customer() {
-        // Notwendig für JPA
     }
 
     public long getId() {

@@ -1,4 +1,4 @@
-package com.SFAE.SFAE.Entity;
+package com.SFAE.SFAE.ENTITY;
 
 import com.SFAE.SFAE.ENUM.JobList;
 import com.SFAE.SFAE.ENUM.StartusOrder;

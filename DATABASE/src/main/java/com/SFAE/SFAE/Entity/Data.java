@@ -1,4 +1,4 @@
-package com.SFAE.SFAE.Entity;
+package com.SFAE.SFAE.ENTITY;
 
 public @interface Data {
 

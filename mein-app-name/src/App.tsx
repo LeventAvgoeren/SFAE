@@ -4,19 +4,22 @@ import './App.css';
 import { Route, Router, Routes } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { PageIndex } from './components/PageIndex';
+import { PageLogin } from './components/PageLogin';
+import { PageRegistration } from './components/PageRegistration';
+
+
+
 const history = createMemoryHistory();
 
 function App() {
   return (
     <>
-    <Router location={window.location} navigator={history}>
       <Routes>
-        <Route path={"/"} element={<PageIndex />} />
+        <Route path="/" element={<PageIndex />} />
+        <Route path="/login" element={<PageLogin />} />
+        <Route path="/registration" element={<PageRegistration />} />
       </Routes>
-      </Router>
     </>
-    
-  
   );
 }
 

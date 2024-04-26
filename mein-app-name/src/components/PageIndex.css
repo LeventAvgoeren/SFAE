@@ -1,0 +1,43 @@
+.background {
+    background-image: url('C:\Users\Ahmad\Desktop\project-sfae-3\mein-app-name\public\picture1.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-frame {
+    width: calc(100% - 4cm); /* Reduziert die Gesamtbreite um 4cm, je 2cm auf jeder Seite */
+    height: calc(100% - 4cm); /* Reduziert die Gesamthöhe um 4cm, je 2cm auf jeder Seite */
+    /*    height: 400px; 
+    width: 600px;  Feste Breite */
+    background-color: 	#2D5277; /* Hintergrundfarbe des Containers */
+    padding: 20px; /* Optional, für Innenabstand */
+    box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Schatten */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Zentriert alle Kind-Elemente horizontal */
+
+}
+
+h1 {
+    color: white;
+    display :flex;
+    justify-content: center;
+}
+
+.anmelden-button {
+    background-color: #4CAF50; /* Grüne Hintergrundfarbe */
+    color: white; /* Weiße Textfarbe */
+    padding: 10px 20px; /* Polsterung */
+    text-align: center; /* Textzentrierung */
+    display: inline-block; /* Inline-Block-Display */
+    font-size: 16px; /* Schriftgröße */
+    margin: 4px 2px; /* Rand */
+    transition-duration: 0.2s; /* Übergangsdauer für Hover-Effekt */
+    cursor: pointer; /* Cursor als Zeiger */
+    justify-content: center;
+}
+

@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './DesignVorlage.css';
 import { Button, Col, Row } from 'react-bootstrap';
 import './PageRegistration.css';
+import { Link } from 'react-router-dom';
 
 export function PageRegistration() {
 
@@ -56,13 +57,13 @@ export function PageRegistration() {
 
 {/* anmelden abbrechen button */}
   <Row>
-                      <Col xs="6">                      
-                        <Button color="primary" className="px-4">
-                            Abbrechen
-                         </Button>
+                      <Col xs="6" className="text-right">
+                        <Button>                     
+                      <Link to="/login" className="link text-decoration-none ">Abbrechen</Link>
+                      </Button> 
                       </Col>
                       <Col xs="6" className="text-right">
-                        <Button color="link" className="px-4">Anmelden</Button>
+                        <Button color="link" className="link text-decoration-none">Registrieren</Button>
                       </Col>
                     </Row>
 

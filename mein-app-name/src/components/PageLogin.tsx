@@ -8,10 +8,11 @@ export function PageLogin() {
         <div className="background">
             <div className="container-frame">
                 <div style={{ height: '200px' }}></div>
+                <img src={'/SFAE_Logo.png'} alt="SFAE Logo" className="img-fluid" />
                 <h1>Anmelden</h1>
                 <form className="w-50 mx-auto">
                     <div className="mb-3">
-                        <label htmlFor="emailInput" className="form-label">E-Mail Adresse</label>
+                        <label htmlFor="emailInput" className="form-label">Anmeldename</label>
                         <input
                             type="email"
                             className="form-control"
@@ -32,7 +33,7 @@ export function PageLogin() {
                     </div>
                     <button type="submit" className="btn btn-primary">Anmelden</button>
                     <p>
-                        Du hast noch kein Konto? 
+                        Du hast noch kein Konto? &nbsp;
                         <Link to="/registration" className="link">Hier gehts zur Registrierung</Link>
                     </p>                </form>
                 <div style={{ height: '400px' }}></div>

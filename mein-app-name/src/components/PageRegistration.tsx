@@ -14,6 +14,7 @@ export function PageRegistration() {
             <div style={{ height: '300px' }}></div>
             <img src={'/SFAE_Logo.png'} alt="SFAE Logo" className="img-fluid" />
             <h1 className="text-center">Registrieren</h1>
+            <form className="w-50 mx-auto">
             <div style={{ height: '20px' }}></div>
 
             <div className="input-group mb-3">
@@ -25,22 +26,46 @@ export function PageRegistration() {
 <Row className="mb-3">
   <Col>
     <div className="d-flex flex-row">
-      <input type="text" className="form-control me-2" id="inputName1" placeholder="Vorname"/>
-      <input type="text" className="form-control" id="inputName2" placeholder="Nachname"/>
+      <input 
+      type="text" 
+      className="form-control me-2" 
+      id="inputName1" 
+      placeholder="Vorname"
+      required/>
+
+      <input type="text" 
+      className="form-control" 
+      id="inputName2" 
+      placeholder="Nachname"
+      required/>
     </div>
   </Col>
 </Row>
 
 <div className="input-group mb-3">
-  <input type="text" className="form-control" id="inputAddress1" placeholder="Addresse" />
+  <input type="text" 
+  className="form-control" 
+  id="inputAddress1" 
+  placeholder="Addresse"
+  required 
+  />
 </div>
 
 <div className="input-group mb-3">
-  <input type="text" className="form-control" id="inputAddress1" placeholder="Email" />
+  <input type="email" 
+  className="form-control" 
+  id="emailInput" 
+  placeholder="name@example.com"
+  required
+  />
 </div>
 
 <div className="input-group mb-3">
-  <input type="password" className="form-control" id="password" placeholder="Password" />
+  <input type="password" 
+  className="form-control" 
+  id="password" 
+  placeholder="Password"
+  required />
 </div>
 
 {/* 
@@ -63,12 +88,12 @@ export function PageRegistration() {
                       </Button> 
                       </Col>
                       <Col xs="6" className="text-right">
-                        <Button color="link" className="link text-decoration-none">Registrieren</Button>
+                      <button type="submit" className="btn btn-primary">Registrieren</button>
+                        {/* <Button color="link" className="link text-decoration-none">Registrieren</Button> */}
                       </Col>
                     </Row>
-
+                    </form>
 <div style={{ height: '400px' }}></div>
-
             </div>
 
         </div>

@@ -7,6 +7,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Data;
+
 @Data
 @Entity
 @Table(name="Order")
@@ -29,7 +31,7 @@ public class Order {
   @Column(name = "workerID")
   private Worker worker;
   @Column(name = "customerID")
-  private Customer customer;
+  private Long customer;
 
   public Order(String id, JobList jobtype, String adress, Float payment, StartusOrder status, Float range,
       Worker worker, Customer customer) {
@@ -40,7 +42,7 @@ public class Order {
     this.status = status;
     this.range = range;
     this.worker = worker;
-    this.customer = customer;
+    this.customer = getCustomer().getId();
   }
 
   public String getId() {
@@ -99,14 +101,7 @@ public class Order {
     this.worker = worker;
   }
 
-  public Customer getCustomer() {
-    return customer;
-  }
-
-  public void setCustomer(Customer customer) {
-    this.customer = customer;
-  }
-
+ 
   @Override
   public String toString() {
     return "Order [id=" + id + ", jobtype=" + jobtype + ", adress=" + adress + ", payment=" + payment + ", status="

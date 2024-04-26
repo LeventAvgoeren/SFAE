@@ -2,6 +2,8 @@ package com.SFAE.SFAE.Entity;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
+import com.SFAE.SFAE.ENUM.Role;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,12 +28,15 @@ public class Customer {
     private String password;
     @Column(name = "email")
     private String email;
+    @Column(name = "role")
+    private Role role;
 
-    public Customer(long id, String name, String password, String email) {
+    public Customer(long id, String name, String password, String email, Role role) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.email = email;
+        this.role = role;
     }
 
     public Customer() {
@@ -64,5 +69,9 @@ public class Customer {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Role getRole(){
+        return role;
     }
 }

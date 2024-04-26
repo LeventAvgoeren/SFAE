@@ -5,9 +5,12 @@ C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFA
 C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\ENTITY\Order.java
 C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\Controller\WorkerController.java
 C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\ENUM\JobList.java
+C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\ENDPOINTS\CustomerEP.java
 C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\SfaeApplication.java
+C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\IMPLEMENTATIONS\DataFactoryImp.java
 C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\INTERFACE\WorkerInterface.java
 C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\Controller\CustomerController.java
+C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\INTERFACE\DataFactoryInterface.java
 C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\ENTITY\Worker.java
 C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\ENUM\StartusOrder.java
 C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\INTERFACE\CustomerInterface.java

@@ -24,6 +24,9 @@ public class CustomerImp implements CustomerInterface {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private DataFactoryImp dataFactory;
+
     @Override
     public long countCustomer() {
         List<Object> result = jdbcTemplate.query(
@@ -50,16 +53,35 @@ public class CustomerImp implements CustomerInterface {
 
     @Override
     public Optional<Customer> findCustomerbyID(long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findCustomerbyID'");
+        List<Optional<Customer>> result = jdbcTemplate.query(
+            "SELECT * FROM CUSTOMER WHERE ID = ?",
+            ps -> {
+                ps.setInt(1, (int)id);
+            },
+            (rs, rowNum) -> createCustomer(rs)
+        );
+        return result.size() > 0? result.get(0) : Optional.empty();
     }
 
     @Override
-    public Customer findCustomerbyName(String Name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findCustomerbyName'");
+    public Customer findCustomerbyName(String name) {
+       
+        List<Object> results = jdbcTemplate.query(
+            "SELECT * FROM CUSTOMER WHERE NAME LIKE ?",
+            ps -> {
+                // Setze den Parameter mit Wildcards für eine teilweise Übereinstimmung
+                ps.setString(1, "%" + name + "%");
+            },
+            (rs, rowNum) -> createCustomer(rs)
+        );
+    
+        // Verifyin if the List is empty
+        if (!results.isEmpty() && results.get(0) instanceof Customer) {
+            return (Customer) results.get(0);
+        }
+    
+        return null; 
     }
-
 
     //Creating Customer as an Object from the Database
     private Optional<Customer> createCustomer(ResultSet rs) {
@@ -70,11 +92,11 @@ public class CustomerImp implements CustomerInterface {
             String email = rs.getString("EMAIL");
             String role = rs.getString("ROLE");
        
-            //
+           
             return dataFactory.createCustomer(id, name, password, email, role);
-        //
+       
         } catch(SQLException e) { }
-        //
+        
         return Optional.empty();
     }    
 }

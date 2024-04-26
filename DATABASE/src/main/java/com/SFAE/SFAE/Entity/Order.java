@@ -42,7 +42,7 @@ public class Order {
     this.status = status;
     this.range = range;
     this.worker = worker;
-    this.customer = getCustomer().getId();
+    this.customer = getCustomer();
   }
 
   public String getId() {

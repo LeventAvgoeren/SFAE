@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.http.ResponseEntity;
 
 import com.SFAE.SFAE.ENTITY.Worker;
 /**
@@ -21,7 +22,9 @@ public interface WorkerInterface {
 
   Optional<Worker> findWorkerbyName(String Name);
 
-  boolean deleteWorkerById(long id);
+  Boolean deleteWorkerById(long id);
 
-  boolean updateWorker(Map<String, Object> map);
+  Worker updateWorker(Map<String, Object> map);
+
+  Optional <Worker> createWorker (Map<String, Object> data);
 }

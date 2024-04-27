@@ -31,7 +31,19 @@ public class WorkerController implements WorkerEp {
 
     @Override
     public ResponseEntity<Worker> createWorker( @RequestBody Map<String, Object> jsonData) {
-        throw new UnsupportedOperationException("Unimplemented method 'deleteWorkerById'");
+        try{
+            Optional<Worker> builded=dao.createWorker(jsonData);
+            if(builded.isPresent()){
+                return ResponseEntity.status(HttpStatus.CREATED).body(builded.get());
+            }
+        
+
+        
+        }
+        catch(Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Override
@@ -42,7 +54,7 @@ public class WorkerController implements WorkerEp {
         catch(Error error){
             throw new IllegalArgumentException(error+"This"+id+"Coudnt be deleted");
         }
-        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Override
@@ -63,10 +75,16 @@ public class WorkerController implements WorkerEp {
     }
 
     @Override
-    public Worker findWorkerByName(String Name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findWorkerByName'");
-    }
+    public Worker findWorkerByName(String name) {
+        if(name.length()<0){
+            throw new IllegalArgumentException("Name not found for "+name);
+        }
+        Worker found=dao.findWorkerbyName(name)
+        .map(c->c)
+        .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        return found;
+        }
 
     @Override
     public ResponseEntity<?> updateWorker(Map<String, Object> jsonData) {

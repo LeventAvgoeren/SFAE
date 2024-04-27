@@ -1,5 +1,5 @@
 .background {
-    background-image: url('C:\Users\ducki\Projekt\project-sfae\mein-app-name\public\picture1.jpg');
+    background-image: url('C:\Users\Ahmad\Desktop\project-sfae-3\mein-app-name\public\picture1.jpg');
     background-size: cover;
     background-position: center;
     min-height: 100vh; 
@@ -14,4 +14,6 @@
     background-color: #104E8B; /* Hintergrundfarbe des Containers */
     padding: 20px; /* Optional, für Innenabstand */
     box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Optional, fügt Schatten für Tiefe hinzu */
+    border-radius: 20px; /* Fügt abgerundete Ecken hinzu */
+
 }

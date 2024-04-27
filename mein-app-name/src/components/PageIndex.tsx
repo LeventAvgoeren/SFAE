@@ -1,24 +1,23 @@
-import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./PageIndex.css";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { LinkContainer } from "react-router-bootstrap";
+import "./PageIndex.css";  // Stelle sicher, dass der Pfad korrekt ist
 
 export function PageIndex() {
+  const [role, setRole] = useState("customer");
+
   return (
-    <div className="background">
+    <div className={role === "customer" ? "background-customer" : "background-worker"}>
       <div className="container-frame">
-        <div style={{ height: '400px' }}></div>
+        <div className="role-selection">
+          <button className="btn btn-outline-success me-2" onClick={() => setRole("customer")}>Customer</button>
+          <button className="btn btn-outline-success me-2" onClick={() => setRole("worker")}>Worker</button>
+        </div>
         <h1>
-          Hey , zum ersten mal hier? Melde dich am besten an und wir können
-          loslegen!
+          Hey, zum ersten Mal hier? Suche dir eine Rolle aus, melde dich am besten an und wir können loslegen!
         </h1>
         <Link to="/login">
           <button type="button" className="btn btn-outline-light anmelden-button">Anmelden</button>
         </Link>
-       
-        <div style={{ height: '400px' }}></div>
-
       </div>
     </div>
   );

@@ -31,12 +31,12 @@ public class Order {
   @Column(name = "range")
   private Float range;
   @Column(name = "workerID")
-  private Worker worker;
+  private Long worker;
   @Column(name = "customerID")
   private Long customer;
 
   public Order(String id, JobList jobtype, String adress, Float payment, StartusOrder status, Float range,
-      Worker worker, Customer customer) {
+      long worker, long customer) {
     this.id = id;
     this.jobtype = jobtype;
     this.adress = adress;
@@ -93,14 +93,6 @@ public class Order {
 
   public void setRange(Float range) {
     this.range = range;
-  }
-
-  public Worker getWorker() {
-    return worker;
-  }
-
-  public void setWorker(Worker worker) {
-    this.worker = worker;
   }
 
  

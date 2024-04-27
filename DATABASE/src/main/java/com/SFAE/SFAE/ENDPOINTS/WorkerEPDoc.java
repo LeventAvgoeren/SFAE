@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 /**
  * @author Levent
  */
+//KA 
 public interface WorkerEPDoc {
   
    static final String api_group_worker = "Worker endpoint";
@@ -71,7 +72,7 @@ public interface WorkerEPDoc {
         @ApiResponse(responseCode="404", description="Not Found"),
     })
     //
-     Optional<Worker> findWorkersbyID(long id);
+     Worker findWorkersbyID(long id);
 
       /**
      * Return Worker by id.

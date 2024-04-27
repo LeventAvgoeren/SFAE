@@ -8,7 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
-
+/**
+ * @author Levent
+ */
 @Data
 @Entity
 @Table(name="Order")

@@ -1,5 +1,6 @@
 package com.SFAE.SFAE.INTERFACE;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -19,4 +20,8 @@ public interface WorkerInterface {
   Optional<Worker> findWorkersbyID(long id);
 
   Optional<Worker> findWorkerbyName(String Name);
+
+  boolean deleteWorkerById(long id);
+
+  boolean updateWorker(Map<String, Object> map);
 }

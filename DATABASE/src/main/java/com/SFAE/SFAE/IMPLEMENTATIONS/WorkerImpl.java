@@ -1,12 +1,14 @@
 package com.SFAE.SFAE.IMPLEMENTATIONS;
 
+import java.sql.PreparedStatement;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-
+import org.springframework.stereotype.Component;
 
 import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
@@ -14,6 +16,7 @@ import com.SFAE.SFAE.INTERFACE.WorkerInterface;
  * @author Levent
  */
 
+@Component
 public class WorkerImpl implements WorkerInterface {
 
   @Autowired
@@ -133,5 +136,34 @@ public class WorkerImpl implements WorkerInterface {
     } else {
       return null;
     }
+  }
+
+  @Override
+  public boolean deleteWorkerById(long id) {
+    if(id<0){
+      throw new IllegalArgumentException("Wrong Id"+id);
+    }
+    try{
+      int deleted = jdbcTemplate.update(connection -> {
+        PreparedStatement ps = connection
+                    .prepareStatement("DELETE FROM WORKER WHERE ID = ?;");
+                ps.setInt(1, (int)id);
+                return ps;
+            });
+            if(deleted!=1){
+              throw new IllegalArgumentException("Id Coudnt deleted");
+            }
+            return true;
+    }
+     catch(Error error){
+      throw new IllegalArgumentException("Conflict deleting Id"+id);
+     }
+
+  }
+
+  @Override
+  public boolean updateWorker(Map<String, Object> map) {
+    
+    throw new UnsupportedOperationException("Unimplemented method 'updateCustomer'");
   }
 }

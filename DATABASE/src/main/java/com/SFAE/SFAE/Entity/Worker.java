@@ -16,15 +16,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+/**
+ * @author Levent
+ */
 
 @Data
 @Entity
 @Table(name="Worker")
 
-//TODO:getter setter , UNIQUE und andere sachen sicherheitsfaktoren ergänzen
-//TODO:Mit Kenno übersicht erstellen 
-//TODO:Datenbank löscht alles bei reset fixen 
-//TODO: spring security angucken und ergänzen
+
 public class Worker {
 
 @Id

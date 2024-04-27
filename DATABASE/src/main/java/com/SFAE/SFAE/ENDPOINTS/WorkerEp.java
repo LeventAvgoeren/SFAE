@@ -9,18 +9,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
-import com.SFAE.SFAE.ENTITY.Customer;
+
 import com.SFAE.SFAE.ENTITY.Worker;
+
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 /**
  * @author Levent
  */
-
+//Interface für den Controller
 public interface WorkerEp extends WorkerEPDoc{
   
     @PostMapping("")
     @Override
-    ResponseEntity<Worker> createWorker(Map<String, Object> jsonData);
+    ResponseEntity<Worker> createWorker(@RequestBody Map<String, Object> jsonData);
 
     @DeleteMapping("/{id}")
     @Override
@@ -32,7 +34,7 @@ public interface WorkerEp extends WorkerEPDoc{
 
     @GetMapping("/{id}")
     @Override
-    Optional<Worker> findWorkersbyID(long id);
+    Worker findWorkersbyID(long id);
 
     @GetMapping("/{name}")
     @Override
@@ -40,7 +42,7 @@ public interface WorkerEp extends WorkerEPDoc{
 
     @PutMapping("")
     @Override
-    ResponseEntity<?> updateWorker(Map<String, Object> jsonData);
+    ResponseEntity<?> updateWorker(@RequestBody Map<String, Object> jsonData);
     
 }
 

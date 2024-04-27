@@ -24,7 +24,7 @@ public interface WorkerEp {
   
     @PostMapping("")
    
-    ResponseEntity<Worker> createWorker(@RequestBody Map<String, Object> jsonData);
+    ResponseEntity<Worker> createWorker(@RequestBody Worker worker);
 
     @DeleteMapping("/{id}")
 

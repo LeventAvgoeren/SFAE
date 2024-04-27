@@ -29,9 +29,9 @@ public class WorkerController implements WorkerEp {
     private WorkerInterface dao;
 
     @Override
-    public ResponseEntity<Worker> createWorker( @RequestBody Map<String, Object> jsonData) {
+    public ResponseEntity<Worker> createWorker( @RequestBody Worker worker) {
         try{
-            Optional<Worker> builded=dao.createWorker(jsonData);
+            Optional<Worker> builded=dao.createWorker(worker);
             if(builded.isPresent()){
                 return ResponseEntity.status(HttpStatus.CREATED).body(builded.get());
             }

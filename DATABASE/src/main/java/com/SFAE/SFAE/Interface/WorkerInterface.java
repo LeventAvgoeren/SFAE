@@ -26,5 +26,5 @@ public interface WorkerInterface {
 
   Worker updateWorker(Map<String, Object> map);
 
-  Optional <Worker> createWorker (Map<String, Object> data);
+  Optional <Worker> createWorker (Worker rs);
 }

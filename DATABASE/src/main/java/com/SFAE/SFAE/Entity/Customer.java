@@ -36,16 +36,17 @@ public class Customer {
     @Column(name = "EMAIL")
     private String email;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "ROLE")
-    @Enumerated(EnumType.ORDINAL)
     private Role role;
 
      public Customer(long id, String name, String password, String email, Role role) {
-        this.id = id;
+    
         this.name = name;
         this.password = password;
         this.email = email;
         this.role = role;
+        System.out.println(id + name + password + email +role);
     }
 
     public long getId() {

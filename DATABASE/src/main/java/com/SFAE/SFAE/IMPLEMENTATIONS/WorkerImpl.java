@@ -1,15 +1,20 @@
 package com.SFAE.SFAE.IMPLEMENTATIONS;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 /**
@@ -95,13 +100,13 @@ public class WorkerImpl implements WorkerInterface {
           String status = rs.getString("status");
           String statusOrder = rs.getString("statusOrder");
           Float range = rs.getFloat("range");
-          Float jobType = rs.getFloat("jobType");
-          String minPayment = rs.getString("minPayment");
+          String jobType = rs.getString("jobType");
+          Float minPayment = rs.getFloat("minPayment");
           Double rating = rs.getDouble("rating");
           Boolean verification = rs.getBoolean("verification");
 
-          return dataFactory.createWorker(id, name, location, location, email, status, range, minPayment, statusOrder,
-              jobType, rating, verification);
+          return dataFactory.createWorker(id, name, location, location, email, status, range, jobType, statusOrder,
+              minPayment, rating, verification);
         });
     return result.size() > 0 ? result.get(0) : Optional.empty();
 
@@ -122,13 +127,13 @@ public class WorkerImpl implements WorkerInterface {
           String status = rs.getString("status");
           String statusOrder = rs.getString("statusOrder");
           Float range = rs.getFloat("range");
-          Float jobType = rs.getFloat("jobType");
-          String minPayment = rs.getString("minPayment");
+          String jobType = rs.getString("jobType");
+          Float minPayment = rs.getFloat("minPayment");
           Double rating = rs.getDouble("rating");
           Boolean verification = rs.getBoolean("verification");
 
-          return dataFactory.createWorker(id, name, location, location, email, status, range, minPayment, statusOrder,
-              jobType, rating, verification);
+          return dataFactory.createWorker(id, name, location, location, email, status, range, jobType, statusOrder,
+              minPayment, rating, verification);
 
         });
     if (!result.isEmpty()) {
@@ -139,7 +144,7 @@ public class WorkerImpl implements WorkerInterface {
   }
 
   @Override
-  public boolean deleteWorkerById(long id) {
+  public Boolean deleteWorkerById(long id) {
     if(id<0){
       throw new IllegalArgumentException("Wrong Id"+id);
     }
@@ -162,8 +167,56 @@ public class WorkerImpl implements WorkerInterface {
   }
 
   @Override
-  public boolean updateWorker(Map<String, Object> map) {
+  public Worker updateWorker(Map<String, Object> map) {
     
     throw new UnsupportedOperationException("Unimplemented method 'updateCustomer'");
   }
+
+  @Override
+  public Optional<Worker> createWorker(Map<String, Object> rs) {
+    try {
+      long id = (Long)rs.get("id");
+      String name = (String)rs.get("name");
+      String location = (String) rs.get("location");
+      String email = (String) rs.get("email");
+      String status = (String) rs.get("status");
+      String statusOrder =(String) rs.get("statusOrder");
+      Float range = (Float)rs.get("range");
+      String jobType = (String) rs.get("jobType");
+      Float minPayment =(Float) rs.get("minPayment");
+      Double rating = (Double)rs.get("rating");
+      Boolean verification =(Boolean) rs.get("verification");
+
+
+        return dataFactory.createWorker(id, name, location, location, email, status, range, jobType, statusOrder,minPayment, rating, verification);
+
+    } catch(Exception e) {}
+
+    return Optional.empty();
+}
+  
+  
+
+  //Creating Customer as an Object from the Database
+    private Optional<Worker> createWorker(ResultSet rs) {
+        try {
+          long id = rs.getLong("id");
+          String name = rs.getString("name");
+          String location = rs.getString("location");
+          String email = rs.getString("email");
+          String status = rs.getString("status");
+          String statusOrder = rs.getString("statusOrder");
+          Float range = rs.getFloat("range");
+          String jobType = rs.getString("jobType");
+          Float minPayment = rs.getFloat("minPayment");
+          Double rating = rs.getDouble("rating");
+          Boolean verification = rs.getBoolean("verification");
+
+
+            return dataFactory.createWorker(id, name, location, location, email, status, range, jobType, statusOrder,minPayment, rating, verification);
+
+        } catch(SQLException e) { }
+
+        return Optional.empty();
+    }
 }

@@ -18,30 +18,24 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
  * @author Levent
  */
 //Interface für den Controller
-public interface WorkerEp extends WorkerEPDoc{
+public interface WorkerEp{
   
     @PostMapping("")
-    @Override
     ResponseEntity<Worker> createWorker(@RequestBody Map<String, Object> jsonData);
 
     @DeleteMapping("/{id}")
-    @Override
     ResponseEntity<?> deleteWorkerById(long id);
 
     @GetMapping("")
-    @Override
     Iterable<Worker> findAllWorker();
 
     @GetMapping("/{id}")
-    @Override
     Worker findWorkersbyID(long id);
 
     @GetMapping("/{name}")
-    @Override
     Worker findWorkerByName(String Name);
 
     @PutMapping("")
-    @Override
     ResponseEntity<?> updateWorker(@RequestBody Map<String, Object> jsonData);
     
 }

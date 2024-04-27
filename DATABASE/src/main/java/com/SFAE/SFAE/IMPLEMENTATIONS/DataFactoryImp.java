@@ -26,9 +26,13 @@ final class DataFactoryImp implements DataFactoryInterface{
     @Override
     public Optional<Customer> createCustomer(long id, String name, String password, String email, String role) {
        try{
-        return Optional.of(
+      Optional<Customer> customer = Optional.of(
             new Customer(id, name, password, email, Role.valueOf(role))
         );
+
+        if(customer.isPresent()){
+          return customer;
+        }
        } catch(IllegalArgumentException iax){
 
        }

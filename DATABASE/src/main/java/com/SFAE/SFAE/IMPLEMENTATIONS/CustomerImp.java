@@ -1,8 +1,10 @@
 package com.SFAE.SFAE.IMPLEMENTATIONS;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -10,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.ENTITY.Customer;
+import com.SFAE.SFAE.ENUM.Role;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 
 
@@ -84,7 +88,7 @@ public class CustomerImp implements CustomerInterface {
     }
 
     //Creating Customer as an Object from the Database
-    private Optional<Customer> createCustomer(ResultSet rs) {
+    private Optional<Customer> createCustomer(ResultSet rs) { // For the class
         try {
             long id = rs.getInt("ID");
             String name = rs.getString("NAME");
@@ -98,5 +102,79 @@ public class CustomerImp implements CustomerInterface {
         } catch(SQLException e) { }
         
         return Optional.empty();
+    }
+
+    @Override
+    public Customer createCustomer(CustomerDTO jsonData) { // For the Endpoint
+        try {
+            long id = jsonData.getId();
+            String name = jsonData.getName();
+            String password = jsonData.getPassword();
+            String email = jsonData.getEmail();
+            String role = jsonData.getRole();
+    
+            jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement("INSERT INTO CUSTOMER (ID, NAME, PASSWORD, EMAIL, ROLE) VALUES (?, ?, ?, ?, ?)");
+                ps.setLong(1, id);
+                ps.setString(2, name);
+                ps.setString(3, password);
+                ps.setString(4, email);
+                ps.setString(5, role);
+                return ps;
+            });
+    
+            return new Customer(id, name, password, email, Role.valueOf(role));
+    
+        } catch (Exception e) {
+            e.printStackTrace(); 
+        }
+    
+        return null;
+    }
+    
+
+    @Override
+    public Boolean deleteCustomerById(long id) {
+        if(id<0){
+        throw new IllegalArgumentException("Wrong Id"+id);
+        }
+        try{
+        int deleted = jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection
+                        .prepareStatement("DELETE FROM CUSTOMER WHERE ID = ?;");
+                    ps.setInt(1, (int)id);
+                    return ps;
+                });
+                if(deleted!=1){
+                throw new IllegalArgumentException("Id could not been deleted");
+                }
+                return true;
+            }
+        catch(Error error){
+         return false;
+        }
+    }
+
+    @Override
+    public Customer updateCustomer(Map<String, Object> jsonData) {
+        List<Object> results = jdbcTemplate.query(
+            "UPDATE customers SET name = ?, password = ?, email = ?, role = ? WHERE id = ?",
+            ps -> {
+                // Setze den Parameter mit Wildcards für eine teilweise Übereinstimmung
+                ps.setString(1, (String) jsonData.get("NAME"));
+                ps.setString(2, (String) jsonData.get("PASSWORD"));
+                ps.setString(3, (String) jsonData.get("EMAIL"));
+                ps.setString(4, (String) jsonData.get("ROLE"));
+                ps.setLong(5, ((Number) jsonData.get("ID")).longValue());
+            },
+            (rs, rowNum) -> createCustomer(rs)
+        );
+    
+        // Verifyin if the List is empty
+        if (!results.isEmpty() && results.get(0) instanceof Customer) {
+            return (Customer) results.get(0);
+        }
+    
+        return null; 
     }    
 }

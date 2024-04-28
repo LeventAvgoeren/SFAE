@@ -6,7 +6,6 @@ import org.springframework.web.server.ResponseStatusException;
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.ENDPOINTS.CustomerEP;
 import com.SFAE.SFAE.ENTITY.Customer;
-import com.SFAE.SFAE.ENUM.Role;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -38,15 +37,16 @@ class CustomerController implements CustomerEP{
                 String.format("Customer id: %d negative", id, HttpStatus.BAD_REQUEST.value())
             );
 
-        Customer found = dao.findCustomerbyID(id)
-            .map(c -> c)    // return customer{id}, if found
-            //
-            //              // else throw error 404 (not found)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                String.format("Customer id: %d not found, error %d", id, HttpStatus.NOT_FOUND.value())
-            )); 
+        try{
 
-        return ResponseEntity.status(HttpStatus.FOUND).body(found);
+                Customer found = dao.findCustomerbyID(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(found);
+        } catch(DataAccessException dax) {
+           
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    
     }
 
  
@@ -59,7 +59,7 @@ class CustomerController implements CustomerEP{
         } catch(DataAccessException dax) {
            
         }
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @Override
@@ -85,10 +85,10 @@ class CustomerController implements CustomerEP{
 
 
     @Override
-    public ResponseEntity<Customer> findCustomerByName(String Name) {
+    public ResponseEntity<Customer> findCustomerByName(String name) {
        try{
-            Customer customer = dao.findCustomerbyName(Name);
-            return ResponseEntity.status(HttpStatus.FOUND).body(customer);
+            Customer customer = dao.findCustomerbyName(name);
+            return ResponseEntity.status(HttpStatus.OK).body(customer);
        } catch(DataAccessException dax){
 
        }

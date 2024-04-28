@@ -31,8 +31,8 @@ public interface CustomerEP{
     @GetMapping("/{id}")
     ResponseEntity<?> findCustomerById(@PathVariable("id") long id);
 
-    @GetMapping("/{name}")
-    ResponseEntity<?> findCustomerByName(String Name);
+    @GetMapping("/usr/{name}")
+    ResponseEntity<?> findCustomerByName(@PathVariable String name);
 
     @PutMapping("")
     ResponseEntity<?> updateCustomer(Map<String, Object> jsonData);

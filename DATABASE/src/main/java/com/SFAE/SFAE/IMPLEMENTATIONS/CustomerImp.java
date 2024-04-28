@@ -56,7 +56,7 @@ public class CustomerImp implements CustomerInterface {
     }
 
     @Override
-    public Optional<Customer> findCustomerbyID(long id) {
+    public Customer findCustomerbyID(long id) {
         List<Optional<Customer>> result = jdbcTemplate.query(
             "SELECT * FROM CUSTOMER WHERE ID = ?",
             ps -> {
@@ -64,28 +64,37 @@ public class CustomerImp implements CustomerInterface {
             },
             (rs, rowNum) -> createCustomer(rs)
         );
-        return result.size() > 0? result.get(0) : Optional.empty();
+          // Verifyin if the List is empty
+          if (!result.isEmpty() && result.get(0).isPresent()) {
+            return  result.get(0).get();
+        }
+
+        return null;
     }
 
+    /**
+     * find Customer just by Name.
+     */
     @Override
     public Customer findCustomerbyName(String name) {
        
-        List<Object> results = jdbcTemplate.query(
-            "SELECT * FROM CUSTOMER WHERE NAME LIKE ?",
+        List<Optional<Customer>> results = jdbcTemplate.query(
+            "SELECT * FROM CUSTOMER WHERE name = ?",
             ps -> {
-                // Setze den Parameter mit Wildcards für eine teilweise Übereinstimmung
-                ps.setString(1, "%" + name + "%");
+                ps.setString(1, name );
             },
             (rs, rowNum) -> createCustomer(rs)
         );
-    
+            
         // Verifyin if the List is empty
-        if (!results.isEmpty() && results.get(0) instanceof Customer) {
-            return (Customer) results.get(0);
+        if (!results.isEmpty() && results.get(0).isPresent()) {
+            return  results.get(0).get();
         }
     
         return null; 
     }
+
+    
 
     //Creating Customer as an Object from the Database
     private Optional<Customer> createCustomer(ResultSet rs) { // For the class
@@ -107,23 +116,21 @@ public class CustomerImp implements CustomerInterface {
     @Override
     public Customer createCustomer(CustomerDTO jsonData) { // For the Endpoint
         try {
-            long id = jsonData.getId();
             String name = jsonData.getName();
             String password = jsonData.getPassword();
             String email = jsonData.getEmail();
             String role = jsonData.getRole();
     
             jdbcTemplate.update(connection -> {
-                PreparedStatement ps = connection.prepareStatement("INSERT INTO CUSTOMER (ID, NAME, PASSWORD, EMAIL, ROLE) VALUES (?, ?, ?, ?, ?)");
-                ps.setLong(1, id);
-                ps.setString(2, name);
-                ps.setString(3, password);
-                ps.setString(4, email);
-                ps.setString(5, role);
+                PreparedStatement ps = connection.prepareStatement("INSERT INTO CUSTOMER ( NAME, PASSWORD, EMAIL, ROLE) VALUES (?, ?, ?, ?)");
+                ps.setString(1, name);
+                ps.setString(2, password);
+                ps.setString(3, email);
+                ps.setString(4, role);
                 return ps;
             });
     
-            return new Customer(id, name, password, email, Role.valueOf(role));
+            return new Customer( name, password, email, Role.valueOf(role));
     
         } catch (Exception e) {
             e.printStackTrace(); 

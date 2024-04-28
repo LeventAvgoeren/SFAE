@@ -40,8 +40,7 @@ public class Customer {
     @Column(name = "ROLE")
     private Role role;
 
-     public Customer(long id, String name, String password, String email, Role role) {
-    
+     public Customer( String name, String password, String email, Role role) {
         this.name = name;
         this.password = password;
         this.email = email;
@@ -78,5 +77,16 @@ public class Customer {
 
     public Role getRole(){
         return role;
+    }
+
+    @Override
+    public String toString() {
+    return "Customer{" +
+           "id=" + id +
+           ", name='" + name + '\'' +
+           ", password='" + password + '\'' +
+           ", email='" + email + '\'' +
+           ", role=" + role +
+           '}';
     }
 }

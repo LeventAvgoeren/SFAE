@@ -3,7 +3,6 @@ package com.SFAE.SFAE.INTERFACE;
 
 
 import java.util.Map;
-import java.util.Optional;
 
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.ENTITY.Customer;
@@ -18,7 +17,7 @@ public interface CustomerInterface {
 
     Iterable<Customer> findAllCustomer();
 
-    Optional<Customer> findCustomerbyID(long id);
+    Customer findCustomerbyID(long id);
 
     Customer findCustomerbyName(String Name);
 

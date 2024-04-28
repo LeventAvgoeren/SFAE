@@ -1,19 +1,10 @@
 package com.SFAE.SFAE.DTO;
 
 public class CustomerDTO {
-    private long id;
     private String name;
     private String email;
     private String password;
     private String role;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -50,8 +41,7 @@ public class CustomerDTO {
     @Override
     public String toString() {
         return "CustomerDTO{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +

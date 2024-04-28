@@ -45,12 +45,16 @@ public class WorkerController implements WorkerEp {
     @Override
     public ResponseEntity<?> deleteWorkerById(long id) {
         try{
-            dao.deleteWorkerById(id);
+            boolean result=dao.deleteWorkerById(id);
+            if(result){
+                return ResponseEntity.status(HttpStatus.OK).build();
+            }
         }
         catch(Error error){
-            throw new IllegalArgumentException(error+"This"+id+"Coudnt be deleted");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
     }
 
     @Override
@@ -59,27 +63,23 @@ public class WorkerController implements WorkerEp {
     }
 
     @Override
-    public Worker findWorkersbyID(long id) {
+    public ResponseEntity<?> findWorkersbyID(long id) {
         if(id<0){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-            Worker found=dao.findWorkersbyID(id)
-        .map(c-> c)
-        .orElseThrow(() ->  new ResponseStatusException(HttpStatus.NOT_FOUND));
+            Worker found=dao.findWorkersbyID(id);
 
-        return found;
+
+        return ResponseEntity.status(HttpStatus.OK).body(found);
     }
 
     @Override
-    public Worker findWorkerByName(String name) {
+    public ResponseEntity<?> findWorkerByName(String name) {
         if(name.length()<0){
             throw new IllegalArgumentException("Name not found for "+name);
         }
-        Worker found=dao.findWorkerbyName(name)
-        .map(c->c)
-        .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
-        return found;
+          Worker found=dao.findWorkerbyName(name);
+          return ResponseEntity.status(HttpStatus.OK).body(found);
         }
 
     @Override

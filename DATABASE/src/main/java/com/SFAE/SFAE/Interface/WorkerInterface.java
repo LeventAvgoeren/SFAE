@@ -19,9 +19,9 @@ public interface WorkerInterface {
 
   Iterable<Worker> findAllWorker();
 
-  Optional<Worker> findWorkersbyID(long id);
+  Worker findWorkersbyID(long id);
 
-  Optional<Worker> findWorkerbyName(String Name);
+  Worker findWorkerbyName(String Name);
 
   Boolean deleteWorkerById(long id);
 

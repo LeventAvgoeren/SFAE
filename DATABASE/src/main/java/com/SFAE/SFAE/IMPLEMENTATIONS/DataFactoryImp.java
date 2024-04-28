@@ -42,7 +42,7 @@ final class DataFactoryImp implements DataFactoryInterface{
 
     @Override
     public Optional<Worker> createWorker(String name, String location, String password, String email,
-            String status, Float range, String jobType, String StatusOrder, Float minPayment, Double rating, Boolean verification) {
+            String status, Double range, String jobType, String StatusOrder, Double minPayment, Double rating, Boolean verification) {
       try{
         return Optional.of(
             new Worker(name,location, password, Status.valueOf(status),  StartusOrder.valueOf(StatusOrder),  range, JobList.valueOf(jobType), minPayment, rating, verification, email)

@@ -48,12 +48,12 @@ private Status status;
 @Enumerated(EnumType.STRING)
 private StartusOrder statusOrder;
 @Column(name = "range")
-private Float range;
+private Double range;
 @Column(name = "jobType")
 @Enumerated(EnumType.STRING)
 private JobList jobType;
 @Column(name = "minPayment")
-private Float minPayment;
+private Double minPayment;
 @Column(name = "rating")
 private Double rating;
 @Column(name = "verification")
@@ -62,7 +62,7 @@ private Boolean verification;
 
 
 public Worker( String name, String location, String password, Status status, StartusOrder statusOrder,
-    Float range, JobList jobType, Float minPayment, Double rating, Boolean verification,String email) {
+Double range, JobList jobType, Double minPayment, Double rating, Boolean verification,String email) {
   
   this.name = name;
   this.location = location;
@@ -101,7 +101,7 @@ public StartusOrder getStatusOrder() {
   return statusOrder;
 }
 
-public Float getRange() {
+public Double getRange() {
   return range;
 }
 
@@ -109,7 +109,7 @@ public JobList getJobType() {
   return jobType;
 }
 
-public Float getMinPayment() {
+public Double getMinPayment() {
   return minPayment;
 }
 
@@ -146,7 +146,7 @@ public void setStatusOrder(StartusOrder statusOrder) {
   this.statusOrder = statusOrder;
 }
 
-public void setRange(Float range) {
+public void setRange(Double range) {
   this.range = range;
 }
 
@@ -154,7 +154,7 @@ public void setJobType(JobList jobType) {
   this.jobType = jobType;
 }
 
-public void setMinPayment(Float minPayment) {
+public void setMinPayment(Double minPayment) {
   this.minPayment = minPayment;
 }
 

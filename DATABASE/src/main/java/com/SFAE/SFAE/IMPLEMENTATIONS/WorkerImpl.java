@@ -67,8 +67,8 @@ public class WorkerImpl implements WorkerInterface {
           String email = rs.getString("email");
           String status = rs.getString("status");
           String statusOrder = rs.getString("statusOrder");
-          Float range = rs.getFloat("range");
-          Float jobType = rs.getFloat("jobType");
+          Double range = rs.getDouble("range");
+          Double jobType = rs.getDouble("jobType");
           String minPayment = rs.getString("minPayment");
           Double rating = rs.getDouble("rating");
           Boolean verification = rs.getBoolean("verification");
@@ -83,47 +83,32 @@ public class WorkerImpl implements WorkerInterface {
   }
 
   @Override
-  public Optional<Worker> findWorkersbyID(long id) {
+  public Worker findWorkersbyID(long id) {
 
     List<Optional<Worker>> result = jdbcTemplate.query(
 
-        "SELECT * FROM WORKER WHERE ID = ?",
+        "SELECT * FROM WORKER WHERE id = ?",
         // Damit setzt man das frage zeichen auf die erste stelle des platzhalters ?
         ps -> {
 
-          ps.setLong(1, (long) id);
+          ps.setInt(1, (int) id);
         },
 
-        (rs, rowNum) -> {
-          /*
-           * Extract values from ResultSet.
-           */
-
-          String name = rs.getString("name");
-          String location = rs.getString("location");
-          String password = rs.getString("password");
-          String email = rs.getString("email");
-          String status = rs.getString("status");
-          String statusOrder = rs.getString("statusOrder");
-          Float range = rs.getFloat("range");
-          String jobType = rs.getString("jobType");
-          Float minPayment = rs.getFloat("minPayment");
-          Double rating = rs.getDouble("rating");
-          Boolean verification = rs.getBoolean("verification");
-
-          return dataFactory.createWorker(name, location, password, email, status, range, jobType, statusOrder,
-              minPayment, rating, verification);
-        });
-    return result.size() > 0 ? result.get(0) : Optional.empty();
+        (rs, rowNum) -> createWorker(rs)
+        );
+        if (!result.isEmpty() && result.get(0).isPresent()) {
+          return  result.get(0).get();
+      }
+      return null;
 
   }
 
   @Override
-  public Optional<Worker> findWorkerbyName(String name) {
+  public Worker findWorkerbyName(String name) {
     List<Optional<Worker>> result = jdbcTemplate.query(
-        "SELECT * FROM CUSTOMER WHERE NAME LIKE ?",
+      "SELECT * FROM WORKER WHERE name = ?",
         ps -> {
-          ps.setString(1, "%" + name + "%");
+          ps.setString(1, name );
         },
         (rs, rowNum) -> {
 
@@ -133,9 +118,9 @@ public class WorkerImpl implements WorkerInterface {
           String email = rs.getString("email");
           String status = rs.getString("status");
           String statusOrder = rs.getString("statusOrder");
-          Float range = rs.getFloat("range");
+          Double range = rs.getDouble("range");
           String jobType = rs.getString("jobType");
-          Float minPayment = rs.getFloat("minPayment");
+          Double minPayment = rs.getDouble("minPayment");
           Double rating = rs.getDouble("rating");
           Boolean verification = rs.getBoolean("verification");
 
@@ -143,11 +128,10 @@ public class WorkerImpl implements WorkerInterface {
               minPayment, rating, verification);
 
         });
-    if (!result.isEmpty()) {
-      return result.get(0);
-    } else {
+        if (!result.isEmpty() && result.get(0).isPresent()) {
+          return  result.get(0).get();
+      }
       return null;
-    }
   }
 
   @Override
@@ -163,7 +147,7 @@ public class WorkerImpl implements WorkerInterface {
                 return ps;
             });
             if(deleted!=1){
-              throw new IllegalArgumentException("Id Coudnt deleted");
+              return false;
             }
             return true;
     }
@@ -185,9 +169,9 @@ public class WorkerImpl implements WorkerInterface {
                 ps.setString(3, (String) map.get("PASSWORD"));
                 ps.setString(4, Status.valueOf((String) map.get("STATUS")).name());
                 ps.setString(5, StartusOrder.valueOf((String) map.get("STATUSORDER")).name());
-                ps.setFloat(6,  (Float) map.get("RANGE"));
+                ps.setDouble(6,  (Double) map.get("RANGE"));
                 ps.setString(7, JobList.valueOf((String) map.get("JOBTYPE")).name());
-                ps.setFloat(8,  (Float) map.get("MINPAYMENT"));
+                ps.setDouble(8,  (Double) map.get("MINPAYMENT"));
                 ps.setDouble(9, (Double) map.get("RATING"));
                 ps.setBoolean(10,(Boolean) map.get("VERIFICATION"));
                 ps.setString(11,(String) map.get("EMAIL"));
@@ -252,9 +236,9 @@ public class WorkerImpl implements WorkerInterface {
           String email = rs.getString("email");
           String status = rs.getString("status");
           String statusOrder = rs.getString("statusOrder");
-          Float range = rs.getFloat("range");
+          Double range = rs.getDouble("range");
           String jobType = rs.getString("jobType");
-          Float minPayment = rs.getFloat("minPayment");
+          Double minPayment = rs.getDouble("minPayment");
           Double rating = rs.getDouble("rating");
           Boolean verification = rs.getBoolean("verification");
 

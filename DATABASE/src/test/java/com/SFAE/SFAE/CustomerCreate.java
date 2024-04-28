@@ -25,7 +25,7 @@ public class CustomerCreate {
 
     @Test
     public void testCreateCustomer() throws Exception {
-        String json = "{\"id\": 101, \"name\": \"Max Mustermann\", \"password\": \"passwort123\", \"email\": \"max@example.com\", \"role\": \"ADMIN\"}";
+        String json = "{ \"name\": \"Max Mustermann\", \"password\": \"passwort123\", \"email\": \"max@example.com\", \"role\": \"ADMIN\"}";
         System.out.println(json);
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 

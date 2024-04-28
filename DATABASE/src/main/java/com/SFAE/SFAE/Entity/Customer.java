@@ -46,7 +46,6 @@ public class Customer {
         this.password = password;
         this.email = email;
         this.role = role;
-        System.out.println(id + name + password + email +role);
     }
 
     public long getId() {

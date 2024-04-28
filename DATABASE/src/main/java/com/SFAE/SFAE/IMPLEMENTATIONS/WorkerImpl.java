@@ -11,12 +11,11 @@ import java.util.stream.Collectors;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import com.SFAE.SFAE.ENTITY.Customer;
+import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.JobList;
 import com.SFAE.SFAE.ENUM.StartusOrder;
@@ -61,7 +60,7 @@ public class WorkerImpl implements WorkerInterface {
 
         (rs, rowNum) -> {
 
-          long id = rs.getLong("id");
+         
           String name = rs.getString("name");
           String location = rs.getString("location");
           String password = rs.getString("password");
@@ -74,7 +73,7 @@ public class WorkerImpl implements WorkerInterface {
           Double rating = rs.getDouble("rating");
           Boolean verification = rs.getBoolean("verification");
 
-          return dataFactory.createWorker(id, name, location, password, email, status, range, minPayment, statusOrder,
+          return dataFactory.createWorker(name, location, password, email, status, range, minPayment, statusOrder,
               jobType, rating, verification);
         })
         .filter(opt -> opt.isPresent())
@@ -112,7 +111,7 @@ public class WorkerImpl implements WorkerInterface {
           Double rating = rs.getDouble("rating");
           Boolean verification = rs.getBoolean("verification");
 
-          return dataFactory.createWorker(id, name, location, password, email, status, range, jobType, statusOrder,
+          return dataFactory.createWorker(name, location, password, email, status, range, jobType, statusOrder,
               minPayment, rating, verification);
         });
     return result.size() > 0 ? result.get(0) : Optional.empty();
@@ -128,7 +127,7 @@ public class WorkerImpl implements WorkerInterface {
         },
         (rs, rowNum) -> {
 
-          long id = rs.getLong("id");
+         
           String location = rs.getString("location");
           String password = rs.getString("password");
           String email = rs.getString("email");
@@ -140,7 +139,7 @@ public class WorkerImpl implements WorkerInterface {
           Double rating = rs.getDouble("rating");
           Boolean verification = rs.getBoolean("verification");
 
-          return dataFactory.createWorker(id, name, location, password, email, status, range, jobType, statusOrder,
+          return dataFactory.createWorker(name, location, password, email, status, range, jobType, statusOrder,
               minPayment, rating, verification);
 
         });
@@ -160,7 +159,7 @@ public class WorkerImpl implements WorkerInterface {
       int deleted = jdbcTemplate.update(connection -> {
         PreparedStatement ps = connection
                     .prepareStatement("DELETE FROM WORKER WHERE ID = ?;");
-                ps.setInt(1, (int)id);
+                ps.setLong(1, (Long)id);
                 return ps;
             });
             if(deleted!=1){
@@ -206,44 +205,41 @@ public class WorkerImpl implements WorkerInterface {
   }
 
   @Override
-  public Optional<Worker> createWorker(Worker rs) {
-    try {
-      long id = rs.getId();
+  public Worker createWorker(WorkerDTO rs) {
+  
+      
       String name = rs.getName();
       String location = rs.getLocation();
       String password = rs.getPassword();
       String email = rs.getEmail();
-      Status status = rs.getStatus();
-      StartusOrder statusOrder = rs.getStatusOrder();
+      String status = rs.getStatus();
+      String statusOrder = rs.getStatusOrder();
       Float range = rs.getRange();
-      JobList jobType = rs.getJobType();
+      String jobType = rs.getJobType();
       Float minPayment = rs.getMinPayment();
       Double rating = rs.getRating();
       Boolean verification = rs.getVerification();
 
       jdbcTemplate.update(connection -> {
-          PreparedStatement ps = connection.prepareStatement("INSERT INTO Worker (ID, NAME, LOCATION,PASSWORD,STATUS, STATUSORDER, RANGE, JOBTYPE, MINPAYMENT, RATING, VERIFICATION, EMAIL) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
-          ps.setLong(1, id);
-          ps.setString(2, name);
-          ps.setString(3, location);
-          ps.setString(4, password);
-          ps.setString(5, status.name()); 
-          ps.setString(6, statusOrder.name()); 
-          ps.setFloat(7, range);
-          ps.setString(8, jobType.name()); 
-          ps.setFloat(9, minPayment);
-          ps.setDouble(10, rating);
-          ps.setBoolean(11, verification);
-          ps.setString(12, email);
+          PreparedStatement ps = connection.prepareStatement("INSERT INTO Worker (name, location,password,status, statusOrder, range, jobtype, minPayment, rating, verification, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
+         
+          ps.setString(1, name);
+          ps.setString(2, location);
+          ps.setString(3, password);
+          ps.setString(4, status); 
+          ps.setString(5, statusOrder); 
+          ps.setFloat(6, range);
+          ps.setString(7, jobType); 
+          ps.setFloat(8, minPayment);
+          ps.setDouble(9, rating);
+          ps.setBoolean(10, verification);
+          ps.setString(11, email);
           ps.executeUpdate(); 
           return ps;
       });
       
-      return Optional.of(new Worker(id, name, location, password, status, statusOrder, range, jobType, minPayment, rating, verification, email));
+      return new Worker( name, location, password, Status.valueOf(status),StartusOrder.valueOf(statusOrder), range,JobList.valueOf(jobType), minPayment, rating, verification, email);
 
-    } catch(Exception e) {}
-
-    return Optional.empty();
 }
   
   
@@ -251,7 +247,7 @@ public class WorkerImpl implements WorkerInterface {
   //Creating Customer as an Object from the Database
     private Optional<Worker> createWorker(ResultSet rs) {
         try {
-          long id = rs.getLong("id");
+       
           String name = rs.getString("name");
           String location = rs.getString("location");
           String email = rs.getString("email");
@@ -264,7 +260,7 @@ public class WorkerImpl implements WorkerInterface {
           Boolean verification = rs.getBoolean("verification");
 
 
-            return dataFactory.createWorker(id, name, location, location, email, status, range, jobType, statusOrder,minPayment, rating, verification);
+            return dataFactory.createWorker(name, location, location, email, status, range, jobType, statusOrder,minPayment, rating, verification);
 
         } catch(SQLException e) { }
 

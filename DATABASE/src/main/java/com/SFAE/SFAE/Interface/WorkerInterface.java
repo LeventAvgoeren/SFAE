@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.http.ResponseEntity;
 
+import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.SFAE.SFAE.ENTITY.Worker;
 /**
  * @author Levent
@@ -26,5 +27,5 @@ public interface WorkerInterface {
 
   Worker updateWorker(Map<String, Object> map);
 
-  Optional <Worker> createWorker (Worker rs);
+   Worker createWorker (WorkerDTO rs);
 }

@@ -42,8 +42,7 @@ public interface DataFactoryInterface {
      * @param rating the Rating from the Customer
      * @param verification is the Worker a verficiated Worker
      */
-    Optional<Worker> createWorker(
-        long id, String name, String location, String password,
+    Optional<Worker> createWorker( String name, String location, String password,
         String email, String status, Float range, String jobType, 
         String StatusOrder, Float minPayment, Double rating, Boolean verification
     );

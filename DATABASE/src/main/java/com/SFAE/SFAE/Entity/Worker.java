@@ -9,6 +9,8 @@ import com.SFAE.SFAE.ENUM.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -40,12 +42,15 @@ private String password;
 @Column(name = "email")
 private String email;
 @Column(name = "status")
+@Enumerated(EnumType.STRING)
 private Status status;
 @Column(name = "statusOrder")
+@Enumerated(EnumType.STRING)
 private StartusOrder statusOrder;
 @Column(name = "range")
 private Float range;
 @Column(name = "jobType")
+@Enumerated(EnumType.STRING)
 private JobList jobType;
 @Column(name = "minPayment")
 private Float minPayment;
@@ -56,9 +61,9 @@ private Boolean verification;
 
 
 
-public Worker(Long id, String name, String location, String password, Status status, StartusOrder statusOrder,
+public Worker( String name, String location, String password, Status status, StartusOrder statusOrder,
     Float range, JobList jobType, Float minPayment, Double rating, Boolean verification,String email) {
-  this.id = id;
+  
   this.name = name;
   this.location = location;
   this.password = password;
@@ -71,101 +76,94 @@ public Worker(Long id, String name, String location, String password, Status sta
   this.verification = verification;
   this.email=email;
 }
- public Long getId() {
-  return id;
-}
-
-public void setId(Long id) {
-  this.id = id;
-}
-
+// Getters
 public String getName() {
   return name;
-}
-
-public void setName(String name) {
-  this.name = name;
 }
 
 public String getLocation() {
   return location;
 }
 
-public void setLocation(String location) {
-  this.location = location;
-}
-
 public String getPassword() {
   return password;
-}
-
-public void setPassword(String password) {
-  this.password = password;
 }
 
 public String getEmail() {
   return email;
 }
 
-public void setEmail(String email) {
-  this.email = email;
-}
-
 public Status getStatus() {
   return status;
-}
-
-public void setStatus(Status status) {
-  this.status = status;
 }
 
 public StartusOrder getStatusOrder() {
   return statusOrder;
 }
 
-public void setStatusOrder(StartusOrder statusOrder) {
-  this.statusOrder = statusOrder;
-}
-
 public Float getRange() {
   return range;
-}
-
-public void setRange(Float range) {
-  this.range = range;
 }
 
 public JobList getJobType() {
   return jobType;
 }
 
-public void setJobType(JobList jobType) {
-  this.jobType = jobType;
-}
-
 public Float getMinPayment() {
   return minPayment;
-}
-
-public void setMinPayment(Float minPayment) {
-  this.minPayment = minPayment;
 }
 
 public Double getRating() {
   return rating;
 }
 
-public void setRating(Double rating) {
-  this.rating = rating;
-}
-
 public Boolean getVerification() {
   return verification;
+}
+
+// Setters
+public void setName(String name) {
+  this.name = name;
+}
+
+public void setLocation(String location) {
+  this.location = location;
+}
+
+public void setPassword(String password) {
+  this.password = password;
+}
+
+public void setEmail(String email) {
+  this.email = email;
+}
+
+public void setStatus(Status status) {
+  this.status = status;
+}
+
+public void setStatusOrder(StartusOrder statusOrder) {
+  this.statusOrder = statusOrder;
+}
+
+public void setRange(Float range) {
+  this.range = range;
+}
+
+public void setJobType(JobList jobType) {
+  this.jobType = jobType;
+}
+
+public void setMinPayment(Float minPayment) {
+  this.minPayment = minPayment;
+}
+
+public void setRating(Double rating) {
+  this.rating = rating;
 }
 
 public void setVerification(Boolean verification) {
   this.verification = verification;
 }
-
 
 }

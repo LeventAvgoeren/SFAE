@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.SFAE.SFAE.ENDPOINTS.WorkerEp;
 import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
@@ -29,20 +30,16 @@ public class WorkerController implements WorkerEp {
     private WorkerInterface dao;
 
     @Override
-    public ResponseEntity<Worker> createWorker( @RequestBody Worker worker) {
+    public ResponseEntity<Worker> createWorker(@RequestBody WorkerDTO worker) {
         try{
-            Optional<Worker> builded=dao.createWorker(worker);
-            if(builded.isPresent()){
-                return ResponseEntity.status(HttpStatus.CREATED).body(builded.get());
-            }
-        
-
-        
+            Worker builded=dao.createWorker(worker);
+            
+                return ResponseEntity.status(HttpStatus.CREATED).body(builded);
         }
         catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            throw new IllegalArgumentException(e);
         }
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        
     }
 
     @Override

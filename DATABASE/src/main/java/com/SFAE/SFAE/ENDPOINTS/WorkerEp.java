@@ -30,7 +30,7 @@ public interface WorkerEp {
     ResponseEntity<?> deleteWorkerById(@PathVariable("id") long id);
 
     @GetMapping("")
-    Iterable<Worker> findAllWorker();
+    ResponseEntity<Iterable<Worker>> findAllWorker();
 
     @GetMapping("/{id}")
     ResponseEntity<?> findWorkersbyID(@PathVariable("id") long id);

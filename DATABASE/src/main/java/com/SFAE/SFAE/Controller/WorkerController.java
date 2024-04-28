@@ -58,8 +58,10 @@ public class WorkerController implements WorkerEp {
     }
 
     @Override
-    public Iterable<Worker> findAllWorker() {
-       return dao.findAllWorker();
+    public ResponseEntity<Iterable<Worker>> findAllWorker() {
+        //Gucken ob es geht 
+       var worker= dao.findAllWorker();
+       return ResponseEntity.status(HttpStatus.FOUND).body(worker);
     }
 
     @Override

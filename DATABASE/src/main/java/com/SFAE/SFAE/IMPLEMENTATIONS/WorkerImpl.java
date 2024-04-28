@@ -60,7 +60,7 @@ public class WorkerImpl implements WorkerInterface {
 
         (rs, rowNum) -> {
 
-         
+         //createWorker(rs)
           String name = rs.getString("name");
           String location = rs.getString("location");
           String password = rs.getString("password");

@@ -214,31 +214,30 @@ public class WorkerImpl implements WorkerInterface {
       String email = rs.getEmail();
       String status = rs.getStatus();
       String statusOrder = rs.getStatusOrder();
-      Float range = rs.getRange();
+      Double range = rs.getRange();
       String jobType = rs.getJobType();
-      Float minPayment = rs.getMinPayment();
+      Double minPayment = rs.getMinPayment();
       Double rating = rs.getRating();
       Boolean verification = rs.getVerification();
-
       jdbcTemplate.update(connection -> {
-          PreparedStatement ps = connection.prepareStatement("INSERT INTO Worker (name, location,password,status, statusOrder, range, jobtype, minPayment, rating, verification, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
-         
-          ps.setString(1, name);
-          ps.setString(2, location);
-          ps.setString(3, password);
-          ps.setString(4, status); 
-          ps.setString(5, statusOrder); 
-          ps.setFloat(6, range);
-          ps.setString(7, jobType); 
-          ps.setFloat(8, minPayment);
-          ps.setDouble(9, rating);
-          ps.setBoolean(10, verification);
-          ps.setString(11, email);
-          ps.executeUpdate(); 
-          return ps;
-      });
+        PreparedStatement ps = connection.prepareStatement("INSERT INTO Worker (name, location, password, status, status_Order, range, job_type, min_Payment, rating, verification, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    
+        ps.setString(1, name);
+        ps.setString(2, location);
+        ps.setString(3, password);
+        ps.setString(4, status);
+        ps.setString(5, statusOrder);
+        ps.setDouble(6, range);
+        ps.setString(7, jobType);
+        ps.setDouble(8, minPayment);
+        ps.setDouble(9, rating);
+        ps.setBoolean(10, verification);
+        ps.setString(11,  email);
+    
+        return ps;
+    });
       
-      return new Worker( name, location, password, Status.valueOf(status),StartusOrder.valueOf(statusOrder), range,JobList.valueOf(jobType), minPayment, rating, verification, email);
+      return null;
 
 }
   

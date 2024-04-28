@@ -11,7 +11,6 @@ com\SFAE\SFAE\IMPLEMENTATIONS\CustomerImp.class
 com\SFAE\SFAE\ENUM\Status.class
 com\SFAE\SFAE\INTERFACE\DataFactoryInterface.class
 com\SFAE\SFAE\ENTITY\Worker.class
-com\SFAE\SFAE\IMPLEMENTATIONS\WorkerImpl.class
 com\SFAE\SFAE\SfaeApplication.class
 com\SFAE\SFAE\DTO\CustomerDTO.class
 com\SFAE\SFAE\INTERFACE\CustomerInterface.class

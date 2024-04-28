@@ -13,6 +13,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+
+
 /**
  * @author Levent
  */
@@ -30,7 +32,19 @@ public class WorkerTests{
 
     @Test
     public void testCreateWorker() throws Exception {
-        String json = "{\"name\": \"Max Mustermann\", \"location\": \"Berlin\", \"password\": \"passwort123\", \"status\": \"AVAILABLE\", \"statusOrder\": \"ACCEPTED\", \"range\": 1.1, \"jobType\": \"CHEF\", \"minPayment\": 1.1, \"rating\": 1.1, \"verification\": true, \"email\": \"Leventavgoren@gmail.com\"}";
+        String json = "{\r\n" + //
+                        "    \"name\": \"Max Mustermann\",\r\n" + //
+                        "    \"location\": \"Berlin\",\r\n" + //
+                        "    \"password\": \"passwort123\",\r\n" + //
+                        "    \"email\": \"Leventavgoren@gmail.com\",\r\n" + //
+                        "    \"status\": \"AVAIBLE\",\r\n" + //
+                        "    \"statusOrder\": \"ACCEPTED\",\r\n" + //
+                        "    \"range\": 1.1,\r\n" + //
+                        "    \"jobType\": \"GÄRTNER\",\r\n" + //
+                        "    \"minPayment\": 1.1,\r\n" + //
+                        "    \"rating\": 1.1,\r\n" + //
+                        "    \"verification\": true\r\n" + //
+                        "}";
         System.out.println(json);
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 

@@ -1,9 +1,9 @@
 -------------------------------------------------------------------------------
 Test set: com.SFAE.SFAE.WorkerTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 1.590 s <<< FAILURE! -- in com.SFAE.SFAE.WorkerTests
-com.SFAE.SFAE.WorkerTests.testCreateWorker -- Time elapsed: 0.166 s <<< ERROR!
-jakarta.servlet.ServletException: Request processing failed: java.lang.IllegalArgumentException: java.lang.NullPointerException: Cannot invoke "java.lang.Float.floatValue()" because "range" is nullhier ist der fehler
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 1.498 s <<< FAILURE! -- in com.SFAE.SFAE.WorkerTests
+com.SFAE.SFAE.WorkerTests.testCreateWorker -- Time elapsed: 0.162 s <<< ERROR!
+jakarta.servlet.ServletException: Request processing failed: java.lang.IllegalArgumentException: java.lang.NullPointerException: Cannot invoke "java.lang.Double.doubleValue()" because "range" is null
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
 	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
 	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
@@ -25,11 +25,11 @@ jakarta.servlet.ServletException: Request processing failed: java.lang.IllegalAr
 	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:151)
 	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
 	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:201)
-	at com.SFAE.SFAE.WorkerTests.testCreateWorker(WorkerTests.java:37)
+	at com.SFAE.SFAE.WorkerTests.testCreateWorker(WorkerTests.java:39)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
-Caused by: java.lang.IllegalArgumentException: java.lang.NullPointerException: Cannot invoke "java.lang.Float.floatValue()" because "range" is nullhier ist der fehler
+Caused by: java.lang.IllegalArgumentException: java.lang.NullPointerException: Cannot invoke "java.lang.Double.doubleValue()" because "range" is null
 	at com.SFAE.SFAE.Controller.WorkerController.createWorker(WorkerController.java:40)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
@@ -43,4 +43,12 @@ Caused by: java.lang.IllegalArgumentException: java.lang.NullPointerException: C
 	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
 	... 24 more
+Caused by: java.lang.NullPointerException: Cannot invoke "java.lang.Double.doubleValue()" because "range" is null
+	at com.SFAE.SFAE.IMPLEMENTATIONS.WorkerImpl.lambda$createWorker$11(WorkerImpl.java:230)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:656)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:970)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:991)
+	at com.SFAE.SFAE.IMPLEMENTATIONS.WorkerImpl.createWorker(WorkerImpl.java:222)
+	at com.SFAE.SFAE.Controller.WorkerController.createWorker(WorkerController.java:35)
+	... 35 more
 

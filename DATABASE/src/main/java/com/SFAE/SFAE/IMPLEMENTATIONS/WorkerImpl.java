@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,9 @@ import org.springframework.stereotype.Component;
 
 import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.ENTITY.Worker;
+import com.SFAE.SFAE.ENUM.JobList;
+import com.SFAE.SFAE.ENUM.StartusOrder;
+import com.SFAE.SFAE.ENUM.Status;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 /**
  * @author Levent
@@ -59,6 +64,7 @@ public class WorkerImpl implements WorkerInterface {
           long id = rs.getLong("id");
           String name = rs.getString("name");
           String location = rs.getString("location");
+          String password = rs.getString("password");
           String email = rs.getString("email");
           String status = rs.getString("status");
           String statusOrder = rs.getString("statusOrder");
@@ -68,7 +74,7 @@ public class WorkerImpl implements WorkerInterface {
           Double rating = rs.getDouble("rating");
           Boolean verification = rs.getBoolean("verification");
 
-          return dataFactory.createWorker(id, name, location, location, email, status, range, minPayment, statusOrder,
+          return dataFactory.createWorker(id, name, location, password, email, status, range, minPayment, statusOrder,
               jobType, rating, verification);
         })
         .filter(opt -> opt.isPresent())
@@ -96,6 +102,7 @@ public class WorkerImpl implements WorkerInterface {
 
           String name = rs.getString("name");
           String location = rs.getString("location");
+          String password = rs.getString("password");
           String email = rs.getString("email");
           String status = rs.getString("status");
           String statusOrder = rs.getString("statusOrder");
@@ -105,7 +112,7 @@ public class WorkerImpl implements WorkerInterface {
           Double rating = rs.getDouble("rating");
           Boolean verification = rs.getBoolean("verification");
 
-          return dataFactory.createWorker(id, name, location, location, email, status, range, jobType, statusOrder,
+          return dataFactory.createWorker(id, name, location, password, email, status, range, jobType, statusOrder,
               minPayment, rating, verification);
         });
     return result.size() > 0 ? result.get(0) : Optional.empty();
@@ -123,6 +130,7 @@ public class WorkerImpl implements WorkerInterface {
 
           long id = rs.getLong("id");
           String location = rs.getString("location");
+          String password = rs.getString("password");
           String email = rs.getString("email");
           String status = rs.getString("status");
           String statusOrder = rs.getString("statusOrder");
@@ -132,7 +140,7 @@ public class WorkerImpl implements WorkerInterface {
           Double rating = rs.getDouble("rating");
           Boolean verification = rs.getBoolean("verification");
 
-          return dataFactory.createWorker(id, name, location, location, email, status, range, jobType, statusOrder,
+          return dataFactory.createWorker(id, name, location, password, email, status, range, jobType, statusOrder,
               minPayment, rating, verification);
 
         });
@@ -169,26 +177,69 @@ public class WorkerImpl implements WorkerInterface {
   @Override
   public Worker updateWorker(Map<String, Object> map) {
     
-    throw new UnsupportedOperationException("Unimplemented method 'updateCustomer'");
+    List<Object> results = jdbcTemplate.query(
+            "UPDATE WORKER SET NAME = ?, LOCATION = ?, PASSWORD = ?, STATUS = ?, STATUSORDER = ?, RANGE = ?, JOBTYPE = ?, MINPAYMENT = ?, RATING = ?, VERIFICATION = ?, EMAIL = ? WHERE id = ?",
+            ps -> {
+                // Setze den Parameter mit Wildcards für eine teilweise Übereinstimmung
+                ps.setString(1, (String) map.get("NAME"));
+                ps.setString(2, (String) map.get("LOCATION"));
+                ps.setString(3, (String) map.get("PASSWORD"));
+                ps.setString(4, Status.valueOf((String) map.get("STATUS")).name());
+                ps.setString(5, StartusOrder.valueOf((String) map.get("STATUSORDER")).name());
+                ps.setFloat(6,  (Float) map.get("RANGE"));
+                ps.setString(7, JobList.valueOf((String) map.get("JOBTYPE")).name());
+                ps.setFloat(8,  (Float) map.get("MINPAYMENT"));
+                ps.setDouble(9, (Double) map.get("RATING"));
+                ps.setBoolean(10,(Boolean) map.get("VERIFICATION"));
+                ps.setString(11,(String) map.get("EMAIL"));
+                ps.setLong(12, ( (Number)  map.get("ID")).longValue());
+            },
+            (rs, rowNum) -> createWorker(rs)
+        );
+    
+        // Verifyin if the List is empty
+        if (!results.isEmpty() && results.get(0) instanceof Worker) {
+            return (Worker) results.get(0);
+        }
+        return null;
+    
   }
 
   @Override
-  public Optional<Worker> createWorker(Map<String, Object> rs) {
+  public Optional<Worker> createWorker(Worker rs) {
     try {
-      long id = (Long)rs.get("id");
-      String name = (String)rs.get("name");
-      String location = (String) rs.get("location");
-      String email = (String) rs.get("email");
-      String status = (String) rs.get("status");
-      String statusOrder =(String) rs.get("statusOrder");
-      Float range = (Float)rs.get("range");
-      String jobType = (String) rs.get("jobType");
-      Float minPayment =(Float) rs.get("minPayment");
-      Double rating = (Double)rs.get("rating");
-      Boolean verification =(Boolean) rs.get("verification");
+      long id = rs.getId();
+      String name = rs.getName();
+      String location = rs.getLocation();
+      String password = rs.getPassword();
+      String email = rs.getEmail();
+      Status status = rs.getStatus();
+      StartusOrder statusOrder = rs.getStatusOrder();
+      Float range = rs.getRange();
+      JobList jobType = rs.getJobType();
+      Float minPayment = rs.getMinPayment();
+      Double rating = rs.getRating();
+      Boolean verification = rs.getVerification();
 
-
-        return dataFactory.createWorker(id, name, location, location, email, status, range, jobType, statusOrder,minPayment, rating, verification);
+      jdbcTemplate.update(connection -> {
+          PreparedStatement ps = connection.prepareStatement("INSERT INTO Worker (ID, NAME, LOCATION,PASSWORD,STATUS, STATUSORDER, RANGE, JOBTYPE, MINPAYMENT, RATING, VERIFICATION, EMAIL) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
+          ps.setLong(1, id);
+          ps.setString(2, name);
+          ps.setString(3, location);
+          ps.setString(4, password);
+          ps.setString(5, status.name()); 
+          ps.setString(6, statusOrder.name()); 
+          ps.setFloat(7, range);
+          ps.setString(8, jobType.name()); 
+          ps.setFloat(9, minPayment);
+          ps.setDouble(10, rating);
+          ps.setBoolean(11, verification);
+          ps.setString(12, email);
+          ps.executeUpdate(); 
+          return ps;
+      });
+      
+      return Optional.of(new Worker(id, name, location, password, status, statusOrder, range, jobType, minPayment, rating, verification, email));
 
     } catch(Exception e) {}
 

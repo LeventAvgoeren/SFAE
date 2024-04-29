@@ -29,7 +29,7 @@ export function PagePasswordReset() {
     };
 
     return (
-        <div className="background">
+        <div className="background-city">
             <div className="container-frame">
                 <img src={'/SFAE_Logo.png'} alt="SFAE Logo" className="img-fluid" />
 

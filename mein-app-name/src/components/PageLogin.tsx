@@ -30,10 +30,10 @@ export function PageLogin() {
         }
     }
     return (
+        
         <div className="background">
             <div className="container-frame">
                 <img src={'/SFAE_Logo.png'} alt="SFAE Logo" className="img-fluid" />
-
                 <h1>Anmelden</h1>
                 <form className="w-50 mx-auto">
                     <div className="mb-3">

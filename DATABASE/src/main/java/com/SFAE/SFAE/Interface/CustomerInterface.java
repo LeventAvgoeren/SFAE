@@ -2,7 +2,6 @@
 package com.SFAE.SFAE.INTERFACE;
 
 
-import java.util.Map;
 
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.ENTITY.Customer;
@@ -25,5 +24,5 @@ public interface CustomerInterface {
 
     Boolean deleteCustomerById(long id);
 
-    Customer updateCustomer(Map<String, Object> jsonData);
+    Customer updateCustomer(CustomerDTO jsonData);
 }

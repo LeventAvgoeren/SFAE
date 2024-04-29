@@ -142,7 +142,7 @@ public class WorkerImpl implements WorkerInterface {
   @Override
   public Worker updateWorker(WorkerDTO data) {
       int rowsAffected = jdbcTemplate.update(
-              "UPDATE WORKER SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? WHERE id = ?",
+              "UPDATE worker SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? WHERE id = ?",
               ps -> {
                   // Setzen der Parameter
                   ps.setString(1, data.getName());

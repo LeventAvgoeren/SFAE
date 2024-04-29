@@ -92,7 +92,7 @@ public class WorkerController implements WorkerEp {
         }
 
     @Override
-    public ResponseEntity<?> updateWorker(@RequestBody WorkerDTO jsonData) {
+    public ResponseEntity<Worker> updateWorker(@RequestBody WorkerDTO jsonData) {
         try{
             dao.updateWorker(jsonData);
             

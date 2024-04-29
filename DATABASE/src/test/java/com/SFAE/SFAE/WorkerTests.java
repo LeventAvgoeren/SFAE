@@ -112,6 +112,7 @@ public class WorkerTests{
 public void testUpdateWorker() throws Exception {
     // Create a WorkerDTO object
     WorkerDTO worker = new WorkerDTO();
+    worker.setId(4L);
     worker.setEmail("XaloSelam@gmail.com");
     worker.setLocation("Bremen");
     worker.setJobType("HAUSMEISTER");
@@ -132,7 +133,7 @@ public void testUpdateWorker() throws Exception {
     String workerJson = objectMapper.writeValueAsString(worker);
 
     // Perform the PUT request
-    mockMvc.perform(put("/worker/7") // Pass the ID of the worker you want to update in the URL
+    mockMvc.perform(put("/worker") // Pass the ID of the worker you want to update in the URL
             .contentType(MediaType.APPLICATION_JSON)
             .content(workerJson)) // Use the JSON string
             .andExpect(status().isAccepted());

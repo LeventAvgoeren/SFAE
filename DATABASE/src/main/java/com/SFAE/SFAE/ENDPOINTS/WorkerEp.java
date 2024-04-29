@@ -42,7 +42,7 @@ public interface WorkerEp {
     ResponseEntity<?>findWorkerByName(@PathVariable String name);
 
     @PutMapping("")
-    ResponseEntity<?> updateWorker(@RequestBody WorkerDTO jsonData);
+    ResponseEntity<Worker> updateWorker(@RequestBody WorkerDTO jsonData);
     
 }
 

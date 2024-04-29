@@ -14,6 +14,9 @@ import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.ENTITY.Customer;
 
 
+/**
+ * @author erayzor
+ */
 
 @RequestMapping("/customer")
 public interface CustomerEP{

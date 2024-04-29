@@ -42,10 +42,24 @@
   }
   
   .background-customer {
-    background-image: url('C:\Users\Ahmad\Desktop\project-sfae-3\mein-app-name\public\picture1.jpg'); /* Aktualisiere diesen Pfad */
+    background-image: url('C:\Users\Ahmad\Desktop\project-sfae-3\mein-app-name\public\customer.jpg'); /* Aktualisiere diesen Pfad */
   }
   
   .background-worker {
-    background-image: url('C:\Users\Ahmad\Desktop\project-sfae-3\mein-app-name\public\Sfae_Logo.png'); /* Aktualisiere diesen Pfad */
+    background-image: url('C:\Users\Ahmad\Desktop\project-sfae-3\mein-app-name\public\worker.jpg'); /* Aktualisiere diesen Pfad */
+  }
+  
+
+  .background-customer, .background-worker {
+    transition: background-image 0.5s ease-in-out; /* Sanfter Übergang der Hintergrundbilder */
+  }
+  
+  .fade-background {
+    animation: fadeEffect 1s;
+  }
+  
+  @keyframes fadeEffect {
+    from { opacity: 0.5; }
+    to { opacity: 1; }
   }
   

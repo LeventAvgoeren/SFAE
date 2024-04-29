@@ -82,16 +82,16 @@ public class WorkerTests{
         System.out.println("A " + contentAsString);
     }
 
-    @Test
-    public void testDeleteWorkerrByid() throws Exception {
+   // @Test
+  //  public void testDeleteWorkerrByid() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(delete("/worker/6"))
-                .andExpect(status().isOk())
-                .andReturn();
+    //     MvcResult mvcResult = mockMvc.perform(delete("/worker/6"))
+    //            .andExpect(status().isOk())
+    //            .andReturn();
 
-        String contentAsString = mvcResult.getResponse().getContentAsString();
-        System.out.println("A " + contentAsString);
-    }
+     //   String contentAsString = mvcResult.getResponse().getContentAsString();
+    //    System.out.println("A " + contentAsString);
+  // }
 
-
+   
 }

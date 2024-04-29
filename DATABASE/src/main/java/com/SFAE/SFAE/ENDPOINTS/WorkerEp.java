@@ -3,6 +3,8 @@ package com.SFAE.SFAE.ENDPOINTS;
 import java.util.Map;
 
 
+
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +14,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.SFAE.SFAE.DTO.WorkerDTO;
-import com.SFAE.SFAE.ENTITY.Worker;
 
+import com.SFAE.SFAE.DTO.WorkerDTO;
+
+import com.SFAE.SFAE.ENTITY.Worker;
 
 /**
  * @author Levent
@@ -30,7 +33,7 @@ public interface WorkerEp {
     ResponseEntity<?> deleteWorkerById(@PathVariable("id") long id);
 
     @GetMapping("")
-    ResponseEntity<Iterable<Worker>> findAllWorker();
+    Iterable<Worker> findAllWorker();
 
     @GetMapping("/{id}")
     ResponseEntity<?> findWorkersbyID(@PathVariable("id") long id);

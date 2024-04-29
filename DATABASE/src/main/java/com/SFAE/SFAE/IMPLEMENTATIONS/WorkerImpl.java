@@ -58,24 +58,7 @@ public class WorkerImpl implements WorkerInterface {
 
         "SELECT * FROM Worker",
 
-        (rs, rowNum) -> {
-
-         //createWorker(rs)
-          String name = rs.getString("name");
-          String location = rs.getString("location");
-          String password = rs.getString("password");
-          String email = rs.getString("email");
-          String status = rs.getString("status");
-          String statusOrder = rs.getString("statusOrder");
-          Double range = rs.getDouble("range");
-          Double jobType = rs.getDouble("jobType");
-          String minPayment = rs.getString("minPayment");
-          Double rating = rs.getDouble("rating");
-          Boolean verification = rs.getBoolean("verification");
-
-          return dataFactory.createWorker(name, location, password, email, status, range, minPayment, statusOrder,
-              jobType, rating, verification);
-        })
+        (rs, rowNum) -> createWorker(rs))
         .filter(opt -> opt.isPresent())
         .map(opt -> opt.get())
         .collect(Collectors.toList());
@@ -204,7 +187,8 @@ public class WorkerImpl implements WorkerInterface {
       Double rating = rs.getRating();
       Boolean verification = rs.getVerification();
       jdbcTemplate.update(connection -> {
-        PreparedStatement ps = connection.prepareStatement("INSERT INTO Worker (name, location, password, status, status_Order, range, job_type, min_Payment, rating, verification, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+        PreparedStatement ps = connection.prepareStatement("INSERT INTO Worker (name, location, password, status, status_order, range, job_type, min_Payment, rating, verification, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
         ps.setString(1, name);
         ps.setString(2, location);
@@ -221,7 +205,7 @@ public class WorkerImpl implements WorkerInterface {
         return ps;
     });
       
-      return null;
+      return new Worker(name, location, password,Status.valueOf(status) ,StartusOrder.valueOf(statusOrder) , range,JobList.valueOf(jobType), minPayment, rating, verification, email);
 
 }
   
@@ -235,10 +219,10 @@ public class WorkerImpl implements WorkerInterface {
           String location = rs.getString("location");
           String email = rs.getString("email");
           String status = rs.getString("status");
-          String statusOrder = rs.getString("statusOrder");
+          String statusOrder = rs.getString("status_order");
           Double range = rs.getDouble("range");
-          String jobType = rs.getString("jobType");
-          Double minPayment = rs.getDouble("minPayment");
+          String jobType = rs.getString("job_type");
+          Double minPayment = rs.getDouble("min_payment");
           Double rating = rs.getDouble("rating");
           Boolean verification = rs.getBoolean("verification");
 

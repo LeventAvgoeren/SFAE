@@ -144,13 +144,14 @@ public class WorkerImpl implements WorkerInterface {
   }
   @Override
   public Worker updateWorker(WorkerDTO data) {
+    String password=encoder.hashPassword(data.getPassword());
       int rowsAffected = jdbcTemplate.update(
               "UPDATE worker SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? WHERE id = ?",
               ps -> {
                   // Setzen der Parameter
                   ps.setString(1, data.getName());
                   ps.setString(2, data.getLocation());
-                  ps.setString(3, data.getPassword());
+                  ps.setString(3, password);
                   ps.setString(4, data.getStatus());
                   ps.setString(5, data.getStatusOrder());
                   ps.setDouble(6, data.getRange());
@@ -166,7 +167,7 @@ public class WorkerImpl implements WorkerInterface {
       // Überprüfen, ob das Update erfolgreich war
       if (rowsAffected > 0) {
           // Das Update war erfolgreich, daher können Sie den aktualisierten Worker zurückgeben
-          return new Worker(data.getName(), data.getLocation(), data.getPassword(), Status.valueOf(data.getStatus()), StartusOrder.valueOf(data.getStatusOrder()), data.getRange(),JobList.valueOf(data.getJobType()), data.getMinPayment(), data.getRating(), data.getVerification(), data.getEmail());
+          return new Worker(data.getName(), data.getLocation(), password, Status.valueOf(data.getStatus()), StartusOrder.valueOf(data.getStatusOrder()), data.getRange(),JobList.valueOf(data.getJobType()), data.getMinPayment(), data.getRating(), data.getVerification(), data.getEmail());
       } else {
           // Das Update war nicht erfolgreich
           return null;

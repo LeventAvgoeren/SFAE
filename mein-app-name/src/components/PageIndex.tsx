@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./PageIndex.css";
 
+
+
 export function PageIndex() {
   const [role, setRole] = useState("customer");
   const [fade, setFade] = useState(false);

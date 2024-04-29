@@ -1,9 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './DesignVorlage.css';
 import { Link } from 'react-router-dom';
-
+import {getCustomerByName} from "../backend/api";
 export function PageLogin() {
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                await getCustomerName("Max");
+            } catch (error) {
+                console.error("Fehler beim Laden des Kunden:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    async function getCustomerName(name :String) {
+
+        try {
+
+            
+        await getCustomerByName("Max")
+        console.log("Kunde gefunden:");
+        } catch(e){
+            console.error("Fehler beim Laden des Kunden:");
+        }
+    }
     return (
         <div className="background">
             <div className="container-frame">
@@ -31,7 +56,7 @@ export function PageLogin() {
                             required
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary">Anmelden</button>
+                    <button type="submit" className="btn btn-primary" onClick={() => getCustomerByName("Max")}>Anmelden</button>
                     <p>
                         Du hast noch kein Konto? 
                         <Link to="/registration" className="link">Hier gehts zur Registrierung</Link>

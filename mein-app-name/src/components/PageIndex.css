@@ -42,6 +42,7 @@
   }
   
   .background-customer {
+<<<<<<< HEAD
     background-image: url('C:\Users\Ahmad\Desktop\project-sfae-3\mein-app-name\public\customer.jpg'); /* Aktualisiere diesen Pfad */
   }
   
@@ -61,5 +62,10 @@
   @keyframes fadeEffect {
     from { opacity: 0.5; }
     to { opacity: 1; }
+=======
+  }
+  
+  .background-worker {
+>>>>>>> e7de5fa29bdd97b9035cd0469ac13cb7dafb990c
   }
   

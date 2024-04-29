@@ -28,7 +28,7 @@ public class PasswordHasher {
      */
     public boolean comparePassword(String hashedPassword, String nonHashedPassword) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        return encoder.matches(nonHashedPassword, hashedPassword);  
+        return encoder.matches(hashedPassword,nonHashedPassword);  
     }
 
      

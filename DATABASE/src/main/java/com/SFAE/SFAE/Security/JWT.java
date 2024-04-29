@@ -4,13 +4,30 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import java.security.Key;
 import java.util.Date;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import com.SFAE.SFAE.ENTITY.Customer;
+import com.SFAE.SFAE.IMPLEMENTATIONS.CustomerImp;
+import com.SFAE.SFAE.Service.PasswordHasher;
+
+
+
+
+@Component
 public class JWT {
 
-    private static final String SECRET_KEY = "sehrGeheim"; 
+    @Autowired
+    CustomerImp cus;
 
-    public String generateToken(String username, String userType) {
+    @Autowired
+    PasswordHasher encoder;
+    
+    private static final String SECRET_KEY = "sehrGeheim"; 
+    private String generateToken(String id, String userType) {
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
 
@@ -19,7 +36,8 @@ public class JWT {
         Date exp = new Date(expMillis);
 
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(id)
+                .claim("role",userType)
                 .setIssuedAt(now)
                 .setExpiration(exp)
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
@@ -31,8 +49,23 @@ public class JWT {
         Jws<Claims> parsedToken = Jwts.parser()
                     .setSigningKey(SECRET_KEY.getBytes())
                     .parseClaimsJws(token);
-                    
+
         return parsedToken.getBody();
+    }
+
+
+    public String verifyPasswordAndCreateJWT(String email, String password) throws Exception {
+        if (SECRET_KEY == null || SECRET_KEY.isBlank()) {
+            throw new IllegalArgumentException("Secret is Undefined");
+        }
+
+        Customer userOptional = cus.findEmail(email);
+        if (encoder.comparePassword(userOptional.getPassword(), password)) {
+            return generateToken(String.valueOf(userOptional.getId()), userOptional.getRole().toString());
+        }
+
+
+        return null;
     }
 
 }

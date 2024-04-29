@@ -11,6 +11,7 @@ export function PageRegistration() {
         <div className="background">
             <div className="container-frame">
 
+            <div style={{ height: '300px' }}></div>
             <img src={'/SFAE_Logo.png'} alt="SFAE Logo" className="img-fluid" />
             <h1 className="text-center">Registrieren</h1>
             <form className="w-50 mx-auto">

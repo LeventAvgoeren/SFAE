@@ -6,7 +6,6 @@ export function Customer_Worker_Choice() {
     return (
       <div className="background">
         <div className="container-frame">
-          <div style={{ height: '400px' }}></div>
           <h1>
             Hey , zum ersten mal hier? Melde dich am besten an und wir können
             loslegen!
@@ -15,7 +14,6 @@ export function Customer_Worker_Choice() {
             <button type="button" className="btn btn-outline-light anmelden-button">Anmelden</button>
           </Link>
          
-          <div style={{ height: '400px' }}></div>
   
         </div>
       </div>

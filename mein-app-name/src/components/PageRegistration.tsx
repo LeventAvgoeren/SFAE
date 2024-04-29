@@ -64,7 +64,7 @@ export function PageRegistration() {
   <input type="password" 
   className="form-control" 
   id="password" 
-  placeholder="Password"
+  placeholder="Passwort"
   required />
 </div>
 
@@ -83,8 +83,8 @@ export function PageRegistration() {
 {/* anmelden abbrechen button */}
   <Row>
                       <Col xs="6" className="text-right">
-                        <Button>                     
-                      <Link to="/login" className="link text-decoration-none ">Abbrechen</Link>
+                        <Button variant='secondary'>                     
+                      <Link to="/login" className="link text-decoration-none ">Zurück zum Login</Link>
                       </Button> 
                       </Col>
                       <Col xs="6" className="text-right">

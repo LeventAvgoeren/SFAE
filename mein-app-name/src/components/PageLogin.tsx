@@ -59,8 +59,12 @@ export function PageLogin() {
                     <button type="submit" className="btn btn-primary" onClick={() => getCustomerByName("Max")}>Anmelden</button>
                     <p>
                         Du hast noch kein Konto? 
-                        <Link to="/registration" className="link">Hier gehts zur Registrierung</Link>
-                    </p>                
+                    </p>
+                    <Link to="/registration/customer" className="link">Hier gehts zur Registrierung als customer</Link>
+                    <div>
+                    <Link to="/registration/worker" className="link">Hier gehts zur Registrierung als worker</Link>
+                    </div>
+
                     </form>
             </div>
         </div>

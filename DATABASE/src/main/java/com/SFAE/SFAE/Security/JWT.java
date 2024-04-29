@@ -30,6 +30,7 @@ public class JWT {
      * The Token is being generated here
      * @params id ID of the User
      * @params userType Role of the User (Worker|Customer)
+     * @return The Token as a String
      */
     private static final String SECRET_KEY = "sehrGeheim"; 
     private String generateToken(String id, String userType) {

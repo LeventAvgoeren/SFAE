@@ -15,6 +15,7 @@ import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.ENUM.Role;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
+import com.SFAE.SFAE.Service.PasswordHasher;
 
 
 /**
@@ -22,7 +23,8 @@ import com.SFAE.SFAE.INTERFACE.CustomerInterface;
  */
 @Component
 public class CustomerImp implements CustomerInterface {
-
+    @Autowired
+    private PasswordHasher encoder; 
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -116,7 +118,7 @@ public class CustomerImp implements CustomerInterface {
     public Customer createCustomer(CustomerDTO jsonData) { // For the Endpoint
         try {
             String name = jsonData.getName();
-            String password = jsonData.getPassword();
+            String password = encoder.hashPassword(jsonData.getPassword());
             String email = jsonData.getEmail();
             String role = jsonData.getRole();
     

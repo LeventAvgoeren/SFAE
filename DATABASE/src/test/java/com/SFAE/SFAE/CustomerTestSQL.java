@@ -16,6 +16,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.SFAE.SFAE.DTO.CustomerDTO;
@@ -23,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+
 public class CustomerTestSQL {
 
     @Autowired
@@ -33,7 +35,7 @@ public class CustomerTestSQL {
 
     @Test
     public void testCreateCustomer() throws Exception {
-        String json = "{ \"name\": \"Max\", \"password\": \"passwort123\", \"email\": \"max@example.com\", \"role\": \"ADMIN\"}";
+        String json = "{ \"name\": \"Chansir\", \"password\": \"passwort123\", \"email\": \"max@example.com\", \"role\": \"ADMIN\"}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         mockMvc.perform(post("/customer")
@@ -56,13 +58,14 @@ public class CustomerTestSQL {
     @Test
     public void testGetCustomerByID() throws Exception {
 
-            mockMvc.perform(get("/customer/101"))
+            mockMvc.perform(get("/customer/1"))
                 .andExpect(status().isOk())
                 .andReturn();
 
     }
-
-    @Test
+    
+   
+    @Test 
     public void testDeleteCustomerByID() throws Exception {
 
             mockMvc.perform(delete("/customer/101"))

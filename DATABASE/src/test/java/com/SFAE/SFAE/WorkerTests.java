@@ -16,6 +16,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.SFAE.SFAE.DTO.WorkerDTO;
@@ -89,7 +90,7 @@ public class WorkerTests{
     @Test
     public void testDeleteWorkerrByid() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(delete("/worker/8"))
+         MvcResult mvcResult = mockMvc.perform(delete("/worker/7"))
                 .andExpect(status().isOk())
                 .andReturn();
 

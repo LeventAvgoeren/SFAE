@@ -21,12 +21,15 @@ import com.SFAE.SFAE.ENUM.JobList;
 import com.SFAE.SFAE.ENUM.StartusOrder;
 import com.SFAE.SFAE.ENUM.Status;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
+import com.SFAE.SFAE.Service.PasswordHasher;
 /**
  * @author Levent
  */
 
 @Component
 public class WorkerImpl implements WorkerInterface {
+  @Autowired
+  private PasswordHasher encoder; 
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
@@ -177,7 +180,7 @@ public class WorkerImpl implements WorkerInterface {
       
       String name = rs.getName();
       String location = rs.getLocation();
-      String password = rs.getPassword();
+      String password = encoder.hashPassword(rs.getPassword());
       String email = rs.getEmail();
       String status = rs.getStatus();
       String statusOrder = rs.getStatusOrder();

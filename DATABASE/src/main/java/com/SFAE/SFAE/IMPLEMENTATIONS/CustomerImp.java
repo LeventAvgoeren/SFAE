@@ -169,7 +169,7 @@ public class CustomerImp implements CustomerInterface {
             "UPDATE customer SET name = ?, password = ?, email = ?, role = ? WHERE ID = ?",
             ps -> {
                 ps.setString(1, jsonData.getName());
-                ps.setString(2, jsonData.getPassword());
+                ps.setString(2, encoder.hashPassword(jsonData.getPassword()));
                 ps.setString(3, jsonData.getEmail());
                 ps.setString(4, jsonData.getRole());
                 ps.setLong(5, jsonData.getId()); 

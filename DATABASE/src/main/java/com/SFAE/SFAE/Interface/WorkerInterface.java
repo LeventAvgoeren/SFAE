@@ -25,7 +25,7 @@ public interface WorkerInterface {
 
   Boolean deleteWorkerById(long id);
 
-  Worker updateWorker(Map<String, Object> map);
+  Worker updateWorker(WorkerDTO data);
 
    Worker createWorker (WorkerDTO rs);
 }

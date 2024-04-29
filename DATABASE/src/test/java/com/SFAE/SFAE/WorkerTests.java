@@ -12,10 +12,14 @@ import org.springframework.test.web.servlet.MvcResult;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+
+import com.SFAE.SFAE.DTO.WorkerDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 
@@ -82,16 +86,59 @@ public class WorkerTests{
         System.out.println("A " + contentAsString);
     }
 
-   // @Test
-  //  public void testDeleteWorkerrByid() throws Exception {
+    @Test
+    public void testDeleteWorkerrByid() throws Exception {
 
-    //     MvcResult mvcResult = mockMvc.perform(delete("/worker/6"))
-    //            .andExpect(status().isOk())
-    //            .andReturn();
+         MvcResult mvcResult = mockMvc.perform(delete("/worker/8"))
+                .andExpect(status().isOk())
+                .andReturn();
 
-     //   String contentAsString = mvcResult.getResponse().getContentAsString();
-    //    System.out.println("A " + contentAsString);
-  // }
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        System.out.println("A " + contentAsString);
+   }
 
-   
+   @Test
+    public void testFindAllWorker() throws Exception {
+
+         MvcResult mvcResult = mockMvc.perform(get("/worker"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        System.out.println("A " + contentAsString);
+   }
+
+ @Test
+public void testUpdateWorker() throws Exception {
+    // Create a WorkerDTO object
+    WorkerDTO worker = new WorkerDTO();
+    worker.setEmail("XaloSelam@gmail.com");
+    worker.setLocation("Bremen");
+    worker.setJobType("HAUSMEISTER");
+    worker.setMinPayment(0.9);
+    worker.setName("Kenno");
+    worker.setPassword("Meinhund123");
+    worker.setRange(0.8);
+    worker.setRating(0.5);
+    worker.setStatus("INAVIBLE");
+    worker.setStatusOrder("FINISHED");
+    worker.setVerification(true);
+
+    // Get a transaction status object
+    TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+    // Convert the WorkerDTO to a JSON string
+    ObjectMapper objectMapper = new ObjectMapper();
+    String workerJson = objectMapper.writeValueAsString(worker);
+
+    // Perform the PUT request
+    mockMvc.perform(put("/worker/7") // Pass the ID of the worker you want to update in the URL
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(workerJson)) // Use the JSON string
+            .andExpect(status().isAccepted());
+
+    // Commit the transaction
+    transactionManager.commit(status);  
+}
+
 }

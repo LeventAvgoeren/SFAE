@@ -139,37 +139,37 @@ public class WorkerImpl implements WorkerInterface {
      }
 
   }
-
   @Override
-  public Worker updateWorker(Map<String, Object> map) {
-    
-    List<Object> results = jdbcTemplate.query(
-            "UPDATE WORKER SET NAME = ?, LOCATION = ?, PASSWORD = ?, STATUS = ?, STATUSORDER = ?, RANGE = ?, JOBTYPE = ?, MINPAYMENT = ?, RATING = ?, VERIFICATION = ?, EMAIL = ? WHERE id = ?",
-            ps -> {
-                // Setze den Parameter mit Wildcards für eine teilweise Übereinstimmung
-                ps.setString(1, (String) map.get("NAME"));
-                ps.setString(2, (String) map.get("LOCATION"));
-                ps.setString(3, (String) map.get("PASSWORD"));
-                ps.setString(4, Status.valueOf((String) map.get("STATUS")).name());
-                ps.setString(5, StartusOrder.valueOf((String) map.get("STATUSORDER")).name());
-                ps.setDouble(6,  (Double) map.get("RANGE"));
-                ps.setString(7, JobList.valueOf((String) map.get("JOBTYPE")).name());
-                ps.setDouble(8,  (Double) map.get("MINPAYMENT"));
-                ps.setDouble(9, (Double) map.get("RATING"));
-                ps.setBoolean(10,(Boolean) map.get("VERIFICATION"));
-                ps.setString(11,(String) map.get("EMAIL"));
-                ps.setLong(12, ( (Number)  map.get("ID")).longValue());
-            },
-            (rs, rowNum) -> createWorker(rs)
-        );
-    
-        // Verifyin if the List is empty
-        if (!results.isEmpty() && results.get(0) instanceof Worker) {
-            return (Worker) results.get(0);
-        }
-        return null;
-    
+  public Worker updateWorker(WorkerDTO data) {
+      int rowsAffected = jdbcTemplate.update(
+              "UPDATE WORKER SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? WHERE id = ?",
+              ps -> {
+                  // Setzen der Parameter
+                  ps.setString(1, data.getName());
+                  ps.setString(2, data.getLocation());
+                  ps.setString(3, data.getPassword());
+                  ps.setString(4, data.getStatus());
+                  ps.setString(5, data.getStatusOrder());
+                  ps.setDouble(6, data.getRange());
+                  ps.setString(7, data.getJobType());
+                  ps.setDouble(8, data.getMinPayment());
+                  ps.setDouble(9, data.getRating());
+                  ps.setBoolean(10, data.getVerification());
+                  ps.setString(11, data.getEmail());
+                  ps.setLong(12, data.getId());
+              }
+      );
+  
+      // Überprüfen, ob das Update erfolgreich war
+      if (rowsAffected > 0) {
+          // Das Update war erfolgreich, daher können Sie den aktualisierten Worker zurückgeben
+          return new Worker(data.getName(), data.getLocation(), data.getPassword(), Status.valueOf(data.getStatus()), StartusOrder.valueOf(data.getStatusOrder()), data.getRange(),JobList.valueOf(data.getJobType()), data.getMinPayment(), data.getRating(), data.getVerification(), data.getEmail());
+      } else {
+          // Das Update war nicht erfolgreich
+          return null;
+      }
   }
+  
 
   @Override
   public Worker createWorker(WorkerDTO rs) {

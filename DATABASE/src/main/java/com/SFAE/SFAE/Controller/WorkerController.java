@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -58,9 +59,15 @@ public class WorkerController implements WorkerEp {
     }
 
     @Override
-    public Iterable<Worker> findAllWorker() {
-       
-      return dao.findAllWorker();
+    public ResponseEntity<Iterable<Worker>> findAllWorker() {
+       try{
+                    var worker =dao.findAllWorker();
+            return ResponseEntity.status(HttpStatus.OK).body(worker);
+       }
+       catch(Exception e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+       }
+      
      
     }
 
@@ -85,8 +92,16 @@ public class WorkerController implements WorkerEp {
         }
 
     @Override
-    public ResponseEntity<?> updateWorker(Map<String, Object> jsonData) {
-        throw new UnsupportedOperationException("Unimplemented method 'findWorkerByName'");
+    public ResponseEntity<?> updateWorker(@RequestBody WorkerDTO jsonData) {
+        try{
+            dao.updateWorker(jsonData);
+            
+        }
+        catch(Exception e){
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+        }
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
 

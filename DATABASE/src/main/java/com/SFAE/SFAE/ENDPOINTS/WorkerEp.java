@@ -33,7 +33,7 @@ public interface WorkerEp {
     ResponseEntity<?> deleteWorkerById(@PathVariable("id") long id);
 
     @GetMapping("")
-    Iterable<Worker> findAllWorker();
+    ResponseEntity<Iterable<Worker>> findAllWorker();
 
     @GetMapping("/{id}")
     ResponseEntity<?> findWorkersbyID(@PathVariable("id") long id);
@@ -42,7 +42,7 @@ public interface WorkerEp {
     ResponseEntity<?>findWorkerByName(@PathVariable String name);
 
     @PutMapping("")
-    ResponseEntity<?> updateWorker(@RequestBody Map<String, Object> jsonData);
+    ResponseEntity<?> updateWorker(@RequestBody WorkerDTO jsonData);
     
 }
 

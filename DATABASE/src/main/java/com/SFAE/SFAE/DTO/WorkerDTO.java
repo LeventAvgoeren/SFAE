@@ -1,6 +1,9 @@
 package com.SFAE.SFAE.DTO;
 
 public class WorkerDTO {
+ 
+  
+    private Long id;
     private String name;
     private String location;
     private String password;
@@ -13,7 +16,14 @@ public class WorkerDTO {
     private Double rating;
     private Boolean verification;
 
-    // Getter und Setter für jedes Feld in der gleichen Reihenfolge wie oben
+   
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
     public String getName() {
         return name;
     }

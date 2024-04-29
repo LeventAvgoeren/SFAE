@@ -4,9 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import java.security.Key;
 import java.util.Date;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +13,9 @@ import com.SFAE.SFAE.IMPLEMENTATIONS.CustomerImp;
 import com.SFAE.SFAE.Service.PasswordHasher;
 
 
-
+/**
+ * @author erayzor
+ */
 
 @Component
 public class JWT {
@@ -26,6 +26,11 @@ public class JWT {
     @Autowired
     PasswordHasher encoder;
     
+    /**
+     * The Token is being generated here
+     * @params id ID of the User
+     * @params userType Role of the User (Worker|Customer)
+     */
     private static final String SECRET_KEY = "sehrGeheim"; 
     private String generateToken(String id, String userType) {
         long nowMillis = System.currentTimeMillis();

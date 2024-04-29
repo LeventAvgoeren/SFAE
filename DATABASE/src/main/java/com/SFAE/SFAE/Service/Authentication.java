@@ -8,6 +8,10 @@ import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.IMPLEMENTATIONS.CustomerImp;
 import com.SFAE.SFAE.Security.JWT;
 
+/**
+ * @author erayzor
+ */
+
 @Component
 public class Authentication {
 

@@ -1,6 +1,5 @@
 package com.SFAE.SFAE.ENDPOINTS;
 
-import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,6 +34,6 @@ public interface CustomerEP{
     ResponseEntity<?> findCustomerByName(@PathVariable String name);
 
     @PutMapping("")
-    ResponseEntity<?> updateCustomer(Map<String, Object> jsonData);
+    ResponseEntity<Customer> updateCustomer(@RequestBody CustomerDTO jsonData);
     
 }

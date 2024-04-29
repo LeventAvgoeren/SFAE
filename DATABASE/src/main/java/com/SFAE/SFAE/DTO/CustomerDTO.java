@@ -1,6 +1,7 @@
 package com.SFAE.SFAE.DTO;
 
 public class CustomerDTO {
+    private Long id;
     private String name;
     private String email;
     private String password;
@@ -46,5 +47,11 @@ public class CustomerDTO {
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
                 '}';
+    }
+    public void setId(Long id) {
+    this.id = id;
+}
+    public Long getId() {
+        return id;
     }
 }

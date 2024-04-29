@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -163,25 +162,26 @@ public class CustomerImp implements CustomerInterface {
     }
 
     @Override
-    public Customer updateCustomer(Map<String, Object> jsonData) {
-        List<Object> results = jdbcTemplate.query(
-            "UPDATE customers SET name = ?, password = ?, email = ?, role = ? WHERE id = ?",
+    public Customer updateCustomer(CustomerDTO jsonData) {
+        int result =  jdbcTemplate.update(
+            "UPDATE customer SET name = ?, password = ?, email = ?, role = ? WHERE ID = ?",
             ps -> {
-                // Setze den Parameter mit Wildcards für eine teilweise Übereinstimmung
-                ps.setString(1, (String) jsonData.get("NAME"));
-                ps.setString(2, (String) jsonData.get("PASSWORD"));
-                ps.setString(3, (String) jsonData.get("EMAIL"));
-                ps.setString(4, (String) jsonData.get("ROLE"));
-                ps.setLong(5, ((Number) jsonData.get("ID")).longValue());
-            },
-            (rs, rowNum) -> createCustomer(rs)
+                ps.setString(1, jsonData.getName());
+                ps.setString(2, jsonData.getPassword());
+                ps.setString(3, jsonData.getEmail());
+                ps.setString(4, jsonData.getRole());
+                ps.setLong(5, jsonData.getId()); 
+
+            }
         );
     
         // Verifyin if the List is empty
-        if (!results.isEmpty() && results.get(0) instanceof Customer) {
-            return (Customer) results.get(0);
+        if(result > 0){
+            return findCustomerbyID(Long.valueOf(jsonData.getId()));
         }
     
         return null; 
-    }    
+    }
+
+   
 }

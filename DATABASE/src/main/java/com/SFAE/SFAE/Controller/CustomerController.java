@@ -10,7 +10,6 @@ import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -97,12 +96,12 @@ class CustomerController implements CustomerEP{
     }
 
     @Override
-    public ResponseEntity<Customer> updateCustomer(Map<String, Object> jsonData) {
+    public ResponseEntity<Customer> updateCustomer(@RequestBody CustomerDTO jsonData) {
         try{
             Customer customer = dao.updateCustomer(jsonData);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(customer); //Accepted unsure, could be something else
+            return ResponseEntity.status(HttpStatus.OK).body(customer); //Accepted unsure, could be something else
        } catch(DataAccessException dax){
-
+                    System.out.println(dax);
        }
 
        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

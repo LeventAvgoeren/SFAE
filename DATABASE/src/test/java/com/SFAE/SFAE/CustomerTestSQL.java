@@ -9,12 +9,17 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+
+import com.SFAE.SFAE.DTO.CustomerDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -42,22 +47,49 @@ public class CustomerTestSQL {
     @Test
     public void testGetCustomerByName() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/customer/usr/Max"))
+            mockMvc.perform(get("/customer/usr/Max"))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String contentAsString = mvcResult.getResponse().getContentAsString();
-        System.out.println("A " + contentAsString);
     }
 
     @Test
     public void testGetCustomerByID() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/customer/101"))
+            mockMvc.perform(get("/customer/101"))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String contentAsString = mvcResult.getResponse().getContentAsString();
-        System.out.println("A " + contentAsString);
+    }
+
+    @Test
+    public void testDeleteCustomerByID() throws Exception {
+
+            mockMvc.perform(delete("/customer/101"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+    }
+
+
+    
+    @Test
+    public void testUpdateCustomerByID() throws Exception {
+        CustomerDTO customerData = new CustomerDTO();
+        customerData.setId(2L);
+        customerData.setName("Test Name");
+        customerData.setEmail("test@example.com");
+        customerData.setRole("ADMIN");
+        customerData.setPassword("test123");
+        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+        mockMvc.perform(put("/customer")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(new ObjectMapper().writeValueAsString(customerData)))
+        .andExpect(status().isOk());
+           
+
+        transactionManager.commit(status);  
     }
 }
+

@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
+
 public class CustomerTestSQL {
 
     @Autowired
@@ -35,7 +35,7 @@ public class CustomerTestSQL {
 
     @Test
     public void testCreateCustomer() throws Exception {
-        String json = "{ \"name\": \"Max\", \"password\": \"passwort123\", \"email\": \"max@example.com\", \"role\": \"ADMIN\"}";
+        String json = "{ \"name\": \"Max\", \"password\": \"passwort123\", \"email\": \"levo@example.com\", \"role\": \"ADMIN\"}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         mockMvc.perform(post("/customer")
@@ -93,6 +93,26 @@ public class CustomerTestSQL {
            
 
         transactionManager.commit(status);  
+    }
+
+
+    
+    @Test
+    public void testLoginCustomer() throws Exception {
+        String json = "{ \"password\": \"passwort123\", \"email\": \"levo@example.com\"}";
+        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+        MvcResult mvcResult = mockMvc.perform(put("/customer/login")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(json))
+        .andExpect(status().isOk())
+        .andReturn();
+            
+
+        transactionManager.commit(status);  
+
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        System.out.println("A " + contentAsString);
     }
 }
 

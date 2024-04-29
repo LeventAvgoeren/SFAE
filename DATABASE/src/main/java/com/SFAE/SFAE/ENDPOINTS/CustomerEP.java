@@ -8,11 +8,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.ENTITY.Customer;
-
+import com.SFAE.SFAE.DTO.LoginRequest;;
 
 /**
  * @author erayzor
@@ -38,5 +39,7 @@ public interface CustomerEP{
 
     @PutMapping("")
     ResponseEntity<Customer> updateCustomer(@RequestBody CustomerDTO jsonData);
-    
+
+    @PutMapping("/login")
+    ResponseEntity<?> LoginCustomer(@RequestBody LoginRequest loginRequest);
 }

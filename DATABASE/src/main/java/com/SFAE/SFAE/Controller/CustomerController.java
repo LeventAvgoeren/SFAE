@@ -1,12 +1,15 @@
 package com.SFAE.SFAE.Controller;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.SFAE.SFAE.DTO.CustomerDTO;
+import com.SFAE.SFAE.DTO.LoginRequest;
 import com.SFAE.SFAE.ENDPOINTS.CustomerEP;
 import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
+import com.SFAE.SFAE.Service.Authentication;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
@@ -26,6 +29,9 @@ class CustomerController implements CustomerEP{
 
     @Autowired
     private CustomerInterface dao;
+
+    @Autowired
+    private Authentication auth;
 
     @Override
     public ResponseEntity<Customer> findCustomerById(long id) {
@@ -105,6 +111,25 @@ class CustomerController implements CustomerEP{
        }
 
        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+
+
+    @Override
+    public ResponseEntity<?> LoginCustomer(@RequestBody LoginRequest loginRequest) {
+        try {
+
+            String token = auth.loginCustomer(loginRequest.getEmail(), loginRequest.getPassword());
+            if (!token.isBlank()) {
+                return ResponseEntity.ok().body(token);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed");
+            }
+        } catch (DataAccessException dax) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Database access error");
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+        }
     }
  
     

@@ -185,5 +185,40 @@ public class CustomerImp implements CustomerInterface {
         return null; 
     }
 
+
+    public Customer findEmail(String Email){
+        List<Optional<Customer>> results = jdbcTemplate.query(
+            "SELECT * FROM customer WHERE email = ?",
+            ps -> {
+                ps.setString(1, Email );
+            },
+            (rs, rowNum) -> createCustomer(rs)
+        );
+            
+        // Verifyin if the List is empty
+        if (!results.isEmpty() && results.get(0).isPresent()) {
+            return  results.get(0).get();
+        }
+    
+        return null;  
+    }
+
+    public String getCustomerPasswordByEmail(String Email){
+        List<Optional<Customer>> results = jdbcTemplate.query(
+            "SELECT password FROM customer WHERE email = ?",
+            ps -> {
+                ps.setString(1, Email );
+            },
+            (rs, rowNum) -> createCustomer(rs)
+        );
+            
+        // Verifyin if the List is empty
+        if (!results.isEmpty() && results.get(0).isPresent() &&  results.get(0).get() instanceof Customer) {
+            return  results.get(0).get().getPassword();
+        }
+    
+        return null;  
+    }
+
    
 }

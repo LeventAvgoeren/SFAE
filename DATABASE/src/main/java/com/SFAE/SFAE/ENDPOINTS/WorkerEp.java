@@ -43,6 +43,8 @@ public interface WorkerEp {
 
     @PutMapping("")
     ResponseEntity<Worker> updateWorker(@RequestBody WorkerDTO jsonData);
-    
+
+    @PutMapping("/login")
+    ResponseEntity<?> loginWorker(@RequestBody String email,@RequestBody String password);
 }
 

@@ -14,6 +14,7 @@ import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.SFAE.SFAE.ENDPOINTS.WorkerEp;
 import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
+import com.SFAE.SFAE.Service.Authentication;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
@@ -29,6 +30,9 @@ public class WorkerController implements WorkerEp {
 
     @Autowired
     private WorkerInterface dao;
+
+    @Autowired
+    private Authentication login;
 
     @Override
     public ResponseEntity<Worker> createWorker(@RequestBody WorkerDTO worker) {
@@ -102,6 +106,17 @@ public class WorkerController implements WorkerEp {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
         }
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+    }
+
+    @Override
+    public ResponseEntity<?> loginWorker(String email, String password) {
+        try{
+            login.loginWorker(email, password);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        }
+       catch(Exception e) {
+        return ResponseEntity.status(HttpStatus.NON_AUTHORITATIVE_INFORMATION).build();
+       }
     }
 
 

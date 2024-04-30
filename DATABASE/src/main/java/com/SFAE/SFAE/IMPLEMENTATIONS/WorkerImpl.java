@@ -96,24 +96,7 @@ public class WorkerImpl implements WorkerInterface {
         ps -> {
           ps.setString(1, name );
         },
-        (rs, rowNum) -> {
-
-         
-          String location = rs.getString("location");
-          String password = rs.getString("password");
-          String email = rs.getString("email");
-          String status = rs.getString("status");
-          String statusOrder = rs.getString("statusOrder");
-          Double range = rs.getDouble("range");
-          String jobType = rs.getString("jobType");
-          Double minPayment = rs.getDouble("minPayment");
-          Double rating = rs.getDouble("rating");
-          Boolean verification = rs.getBoolean("verification");
-
-          return dataFactory.createWorker(name, location, password, email, status, range, jobType, statusOrder,
-              minPayment, rating, verification);
-
-        });
+        (rs, rowNum) -> createWorker(rs));
         if (!result.isEmpty() && result.get(0).isPresent()) {
           return  result.get(0).get();
       }

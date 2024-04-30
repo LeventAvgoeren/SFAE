@@ -42,22 +42,22 @@
   }
   
   .background-customer {
-        background-image: url('C:\Users\Ahmad\Desktop\project-sfae-3\mein-app-name\public\customer.jpg'); /* Aktualisiere diesen Pfad */
+        background-image: url('/public/customer.jpg'); /* Aktualisiere diesen Pfad */
       }
       
       .background-worker {
-        background-image: url('C:\Users\Ahmad\Desktop\project-sfae-3\mein-app-name\public\worker.jpg'); /* Aktualisiere diesen Pfad */
+        background-image: url('/public/worker.jpg'); /* Aktualisiere diesen Pfad */
       }
   .background-customer, .background-worker {
-    background-image: url('C:\Users\Ahmad\Desktop\project-sfae-3\mein-app-name\public\customer.jpg'); /* Aktualisiere diesen Pfad */
+    background-image: url('/public/customer.jpg'); /* Aktualisiere diesen Pfad */
   }
   
   .background-worker {
-    background-image: url('C:\Users\Ahmad\Desktop\project-sfae-3\mein-app-name\public\worker.jpg'); /* Aktualisiere diesen Pfad */
+    background-image: url('/public/worker.jpg'); /* Aktualisiere diesen Pfad */
   }
 
   .background-city{
-    background-image: url('C:\Users\Ahmad\Desktop\project-sfae-3\mein-app-name\public\City.gif'); /* Aktualisiere diesen Pfad */
+    background-image: url('/public/City.gif'); /* Aktualisiere diesen Pfad */
   }
   
 

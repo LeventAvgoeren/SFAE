@@ -27,18 +27,21 @@ public class Authentication {
     @Autowired
     private JWT jwt;
 
-
+    /**
+     * Attempts to log in a customer using their email and password.
+     * 
+     * @param EMail the email of the customer attempting to log in
+     * @param Password the password provided by the customer
+     * @return a JWT as a String if authentication is successful, null otherwise
+     */
     public String loginCustomer(String EMail, String Password){
         try{
             Customer foundCustomer = cus.findEmail(EMail);
             if(foundCustomer instanceof Customer){
-                        if(encoder.comparePassword(foundCustomer.getPassword(), Password)){
-                                return jwt.verifyPasswordAndCreateJWT(EMail, Password);
-                        };
-                        }
-
+                return jwt.verifyPasswordAndCreateJWT(EMail, Password);
+            }
         } catch(Exception e){
-                System.out.println(e);
+            System.out.println(e);
         }
 
         return null;

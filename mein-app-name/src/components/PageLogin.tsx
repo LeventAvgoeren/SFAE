@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';  // Import für Navigation
+import { useNavigate } from 'react-router-dom'; // Import für Navigation
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './DesignVorlage.css';
 import { Link } from 'react-router-dom';
-import { login } from "../backend/api"; 
+import { login } from "../backend/api";
 
 export function PageLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate();  // Navigation Hook
+    const navigate = useNavigate(); // Navigation Hook
 
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // Verhindert, dass das Formular neu lädt
         try {
             const result = await login(email, password);
-            if (result) {
+            if (result && result.userId) {
                 console.log("Login erfolgreich", result);
                 // Weiterleitung auf die Worker-Index-Seite
                 navigate('/worker/');  // Angenommen, `userId` ist die Worker ID

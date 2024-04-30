@@ -36,7 +36,7 @@ function App() {
         <Route path="/passwordreset" element={<PagePasswordReset/>}/>
 
         {/* Customer */}
-        <Route path="/customer/:customerId" element={<PageIndexCustomer />} />
+        <Route path="/customer/:customerId" element={<PageIndexCustomer />} />{/*Navbar machen*/}
         <Route path="/customer/:customerId/faq" element={<PageCustomerFAQ />} />
         <Route path="/customer/:customerId/orders/new"element={<PageOrderRequest />}/>
         <Route path="/customer/:customerId/orders/:order/overview"element={<PageOrderOverview />}/>

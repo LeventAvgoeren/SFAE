@@ -44,7 +44,7 @@ public interface WorkerEp {
     @PutMapping("")
     ResponseEntity<Worker> updateWorker(@RequestBody WorkerDTO jsonData);
 
-    @PutMapping("/login")
+    @PostMapping("/login")
     ResponseEntity<?> loginWorker(@RequestBody LoginRequest login);
 }
 

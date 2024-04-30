@@ -1,41 +1,39 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';  // Import für Navigation
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './DesignVorlage.css';
 import { Link } from 'react-router-dom';
-import { getCustomerByName } from "../backend/api";
+import { login } from "../backend/api"; 
+
 export function PageLogin() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();  // Navigation Hook
 
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                await getCustomerName("Max");
-            } catch (error) {
-                console.error("Fehler beim Laden des Kunden:", error);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    async function getCustomerName(name: String) {
-
+    const handleLogin = async () => {
         try {
-
-
-            await getCustomerByName("Max")
-            console.log("Kunde gefunden:");
-        } catch (e) {
-            console.error("Fehler beim Laden des Kunden:");
+            const result = await login(email, password);
+            if (result) {
+                console.log("Login erfolgreich", result);
+                // Weiterleitung auf die Worker-Index-Seite
+                navigate('/worker/' + result.userId);  // Angenommen, `userId` ist die Worker ID
+            } else {
+                console.log("Login fehlgeschlagen");
+                setError('Login fehlgeschlagen. Bitte überprüfen Sie Ihre Eingaben.');
+            }
+        } catch (error) {
+            console.error("Fehler beim Anmelden:", error);
+            setError('Ein technischer Fehler ist aufgetreten.');
         }
-    }
+    };
+
     return (
-        
         <div className="background">
             <div className="container-frame">
                 <img src={'/SFAE_Logo.png'} alt="SFAE Logo" className="img-fluid" />
                 <h1>Anmelden</h1>
-                <form className="w-50 mx-auto">
+                <form className="w-50 mx-auto" onSubmit={handleLogin}>
                     <div className="mb-3">
                         <label htmlFor="emailInput" className="form-label">E-Mail Adresse</label>
                         <input
@@ -44,6 +42,8 @@ export function PageLogin() {
                             id="emailInput"
                             placeholder="name@example.com"
                             required
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
                         />
                     </div>
                     <div className="mb-3">
@@ -54,20 +54,21 @@ export function PageLogin() {
                             id="passwordInput"
                             placeholder="Passwort"
                             required
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary" onClick={() => getCustomerByName("Max")}>Anmelden</button>
+                    <button type="submit" className="btn btn-primary">Anmelden</button>
+                    {error && <div className="alert alert-danger" role="alert">{error}</div>}
                     <p>
                         Du hast noch kein Konto?
                         <div style={{ color: 'white' }}>
                             Hier gehts zur Registrierung als&nbsp;
                             <Link to="/registration/customer" className="link">customer</Link> oder&nbsp;
                             <Link to="/registration/worker" className="link">worker</Link>.
-
                         </div>
                         <Link to="/passwordreset">Passwort vergessen?</Link>
                     </p>
-
                 </form>
             </div>
         </div>

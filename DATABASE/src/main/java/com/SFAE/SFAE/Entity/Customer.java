@@ -11,6 +11,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 /**
@@ -28,12 +30,15 @@ public class Customer {
     private long id;
 
     @Column(name = "NAME")
+    @Size(max=100)
     private String name;
     
     @Column(name = "PASSWORD")
+    @Size(min = 3, max = 100)
     private String password;
 
-    @Column(name = "EMAIL")
+    @Column(name = "EMAIL",unique = true)
+    @Email
     private String email;
 
     @Enumerated(EnumType.STRING)

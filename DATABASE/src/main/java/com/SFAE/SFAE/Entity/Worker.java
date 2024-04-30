@@ -16,6 +16,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 /**
@@ -33,29 +35,45 @@ public class Worker {
 @Column(name = "id")
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private Long id;
+
 @Column(name = "name")
+@Size(max=100)
 private String name;
+
 @Column(name = "location")
+@Size(max=100)
 private String location;
+
 @Column(name = "password")
+@Size(min = 3, max = 100)
 private String password;
-@Column(name = "email")
+
+@Column(name = "email" ,unique = true)
+@Email
+@Size(max=100)
 private String email;
+
 @Column(name = "status")
 @Enumerated(EnumType.STRING)
 private Status status;
+
 @Column(name = "statusOrder")
 @Enumerated(EnumType.STRING)
 private StartusOrder statusOrder;
+
 @Column(name = "range")
 private Double range;
+
 @Column(name = "jobType")
 @Enumerated(EnumType.STRING)
 private JobList jobType;
+
 @Column(name = "minPayment")
 private Double minPayment;
+
 @Column(name = "rating")
 private Double rating;
+
 @Column(name = "verification")
 private Boolean verification;
 

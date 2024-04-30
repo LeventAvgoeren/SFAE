@@ -1,6 +1,11 @@
-export function PageWorkerIndex() {
+import { WorkerResource } from "../Resources"
+
+export function PageWorkerIndex(props : {worker : WorkerResource}) {
+    
+    const worker = props.worker
 
     return (
-        <div>PageIndexWorker</div>
+        <h1>Willkommen {worker.name}</h1>
+
     )
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
+import com.SFAE.SFAE.DTO.LoginRequest;
 import com.SFAE.SFAE.DTO.WorkerDTO;
 
 import com.SFAE.SFAE.ENTITY.Worker;
@@ -45,6 +45,6 @@ public interface WorkerEp {
     ResponseEntity<Worker> updateWorker(@RequestBody WorkerDTO jsonData);
 
     @PutMapping("/login")
-    ResponseEntity<?> loginWorker(@RequestBody String email,@RequestBody String password);
+    ResponseEntity<?> loginWorker(@RequestBody LoginRequest login);
 }
 

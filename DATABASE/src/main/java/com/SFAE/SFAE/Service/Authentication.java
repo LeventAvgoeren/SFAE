@@ -11,14 +11,12 @@ import com.SFAE.SFAE.Security.JWT;
 
 
 /**
- * @author erayzor
+ * @author erayzor 
  * @author leventavgören
  */
+
 @Component
 public class Authentication {
-    
-   @Autowired
-    private WorkerInterface dao;
 
     @Autowired
     private CustomerImp cus;
@@ -49,29 +47,4 @@ public class Authentication {
         return null;
     }
 
-
-
-     /**
-     * Attempts to log in a worker using their email and password.
-     * 
-     * @param email the email of the worker attempting to log in
-     * @param password the password provided by the worker
-     * @return true if authentication is successful, false otherwise
-     */
-    public boolean loginWorker(String email, String password){
-        if(email==null || password==null){
-            throw new IllegalArgumentException("Enter emails or passwords");
-        }
-         Iterable <Worker> workers=dao.findAllWorker();
-
-         for (Worker worker : workers) {
-            if(worker.getEmail().equals(email) && encoder.comparePassword(worker.getPassword(), password)){
-                return true;
-            }
-         }
-        
-
-        return false;
-    }
-    
 }

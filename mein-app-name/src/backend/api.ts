@@ -51,4 +51,54 @@ export async function login(email: string, passwort: string): Promise<LoginInfo 
         return false; // Rückgabe von false im Fehlerfall
     }
 }
-            
+
+export async function registrationCustomer(name: string, password: string, email: string) {
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/customer`;
+
+    try {
+        const response = await fetchWithErrorHandling(url, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password, name }), // Ensure field names match your backend
+            credentials: "include" as RequestCredentials
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data; 
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        throw error; 
+    }
+}
+
+export async function registrationWorker(){
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/worker`;
+
+    try {
+        const response = await fetchWithErrorHandling(url , {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({}),
+            credentials: "include" as RequestCredentials
+        })
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data; 
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        throw error; 
+    }
+}

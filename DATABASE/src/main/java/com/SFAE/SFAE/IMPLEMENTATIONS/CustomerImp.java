@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -16,6 +15,7 @@ import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.ENUM.Role;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
+import com.SFAE.SFAE.Service.PasswordHasher;
 
 
 /**
@@ -23,7 +23,8 @@ import com.SFAE.SFAE.INTERFACE.CustomerInterface;
  */
 @Component
 public class CustomerImp implements CustomerInterface {
-
+    @Autowired
+    private PasswordHasher encoder; 
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -117,7 +118,7 @@ public class CustomerImp implements CustomerInterface {
     public Customer createCustomer(CustomerDTO jsonData) { // For the Endpoint
         try {
             String name = jsonData.getName();
-            String password = jsonData.getPassword();
+            String password = encoder.hashPassword(jsonData.getPassword());
             String email = jsonData.getEmail();
             String role = jsonData.getRole();
     
@@ -163,25 +164,61 @@ public class CustomerImp implements CustomerInterface {
     }
 
     @Override
-    public Customer updateCustomer(Map<String, Object> jsonData) {
-        List<Object> results = jdbcTemplate.query(
-            "UPDATE customers SET name = ?, password = ?, email = ?, role = ? WHERE id = ?",
+    public Customer updateCustomer(CustomerDTO jsonData) {
+        int result =  jdbcTemplate.update(
+            "UPDATE customer SET name = ?, password = ?, email = ?, role = ? WHERE ID = ?",
             ps -> {
-                // Setze den Parameter mit Wildcards für eine teilweise Übereinstimmung
-                ps.setString(1, (String) jsonData.get("NAME"));
-                ps.setString(2, (String) jsonData.get("PASSWORD"));
-                ps.setString(3, (String) jsonData.get("EMAIL"));
-                ps.setString(4, (String) jsonData.get("ROLE"));
-                ps.setLong(5, ((Number) jsonData.get("ID")).longValue());
-            },
-            (rs, rowNum) -> createCustomer(rs)
+                ps.setString(1, jsonData.getName());
+                ps.setString(2, encoder.hashPassword(jsonData.getPassword()));
+                ps.setString(3, jsonData.getEmail());
+                ps.setString(4, jsonData.getRole());
+                ps.setLong(5, jsonData.getId()); 
+
+            }
         );
     
         // Verifyin if the List is empty
-        if (!results.isEmpty() && results.get(0) instanceof Customer) {
-            return (Customer) results.get(0);
+        if(result > 0){
+            return findCustomerbyID(Long.valueOf(jsonData.getId()));
         }
     
         return null; 
-    }    
+    }
+
+
+    public Customer findEmail(String Email){
+        List<Optional<Customer>> results = jdbcTemplate.query(
+            "SELECT * FROM customer WHERE email = ?",
+            ps -> {
+                ps.setString(1, Email );
+            },
+            (rs, rowNum) -> createCustomer(rs)
+        );
+            
+        // Verifyin if the List is empty
+        if (!results.isEmpty() && results.get(0).isPresent()) {
+            return  results.get(0).get();
+        }
+    
+        return null;  
+    }
+
+    public String getCustomerPasswordByEmail(String Email){
+        List<Optional<Customer>> results = jdbcTemplate.query(
+            "SELECT password FROM customer WHERE email = ?",
+            ps -> {
+                ps.setString(1, Email );
+            },
+            (rs, rowNum) -> createCustomer(rs)
+        );
+            
+        // Verifyin if the List is empty
+        if (!results.isEmpty() && results.get(0).isPresent() &&  results.get(0).get() instanceof Customer) {
+            return  results.get(0).get().getPassword();
+        }
+    
+        return null;  
+    }
+
+   
 }

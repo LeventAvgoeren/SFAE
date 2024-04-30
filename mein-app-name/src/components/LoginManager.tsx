@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 export interface LoginInfo {
   userId: string;
-  admin : boolean;
+  admin : string;
 
  }
  export interface LoginContextType {

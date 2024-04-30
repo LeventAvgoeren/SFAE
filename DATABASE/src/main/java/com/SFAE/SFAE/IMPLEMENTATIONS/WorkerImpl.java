@@ -21,12 +21,15 @@ import com.SFAE.SFAE.ENUM.JobList;
 import com.SFAE.SFAE.ENUM.StartusOrder;
 import com.SFAE.SFAE.ENUM.Status;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
+import com.SFAE.SFAE.Service.PasswordHasher;
 /**
  * @author Levent
  */
 
 @Component
 public class WorkerImpl implements WorkerInterface {
+  @Autowired
+  private PasswordHasher encoder; 
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
@@ -58,24 +61,7 @@ public class WorkerImpl implements WorkerInterface {
 
         "SELECT * FROM Worker",
 
-        (rs, rowNum) -> {
-
-         //createWorker(rs)
-          String name = rs.getString("name");
-          String location = rs.getString("location");
-          String password = rs.getString("password");
-          String email = rs.getString("email");
-          String status = rs.getString("status");
-          String statusOrder = rs.getString("statusOrder");
-          Double range = rs.getDouble("range");
-          Double jobType = rs.getDouble("jobType");
-          String minPayment = rs.getString("minPayment");
-          Double rating = rs.getDouble("rating");
-          Boolean verification = rs.getBoolean("verification");
-
-          return dataFactory.createWorker(name, location, password, email, status, range, minPayment, statusOrder,
-              jobType, rating, verification);
-        })
+        (rs, rowNum) -> createWorker(rs))
         .filter(opt -> opt.isPresent())
         .map(opt -> opt.get())
         .collect(Collectors.toList());
@@ -110,24 +96,7 @@ public class WorkerImpl implements WorkerInterface {
         ps -> {
           ps.setString(1, name );
         },
-        (rs, rowNum) -> {
-
-         
-          String location = rs.getString("location");
-          String password = rs.getString("password");
-          String email = rs.getString("email");
-          String status = rs.getString("status");
-          String statusOrder = rs.getString("statusOrder");
-          Double range = rs.getDouble("range");
-          String jobType = rs.getString("jobType");
-          Double minPayment = rs.getDouble("minPayment");
-          Double rating = rs.getDouble("rating");
-          Boolean verification = rs.getBoolean("verification");
-
-          return dataFactory.createWorker(name, location, password, email, status, range, jobType, statusOrder,
-              minPayment, rating, verification);
-
-        });
+        (rs, rowNum) -> createWorker(rs));
         if (!result.isEmpty() && result.get(0).isPresent()) {
           return  result.get(0).get();
       }
@@ -156,37 +125,38 @@ public class WorkerImpl implements WorkerInterface {
      }
 
   }
-
   @Override
-  public Worker updateWorker(Map<String, Object> map) {
-    
-    List<Object> results = jdbcTemplate.query(
-            "UPDATE WORKER SET NAME = ?, LOCATION = ?, PASSWORD = ?, STATUS = ?, STATUSORDER = ?, RANGE = ?, JOBTYPE = ?, MINPAYMENT = ?, RATING = ?, VERIFICATION = ?, EMAIL = ? WHERE id = ?",
-            ps -> {
-                // Setze den Parameter mit Wildcards für eine teilweise Übereinstimmung
-                ps.setString(1, (String) map.get("NAME"));
-                ps.setString(2, (String) map.get("LOCATION"));
-                ps.setString(3, (String) map.get("PASSWORD"));
-                ps.setString(4, Status.valueOf((String) map.get("STATUS")).name());
-                ps.setString(5, StartusOrder.valueOf((String) map.get("STATUSORDER")).name());
-                ps.setDouble(6,  (Double) map.get("RANGE"));
-                ps.setString(7, JobList.valueOf((String) map.get("JOBTYPE")).name());
-                ps.setDouble(8,  (Double) map.get("MINPAYMENT"));
-                ps.setDouble(9, (Double) map.get("RATING"));
-                ps.setBoolean(10,(Boolean) map.get("VERIFICATION"));
-                ps.setString(11,(String) map.get("EMAIL"));
-                ps.setLong(12, ( (Number)  map.get("ID")).longValue());
-            },
-            (rs, rowNum) -> createWorker(rs)
-        );
-    
-        // Verifyin if the List is empty
-        if (!results.isEmpty() && results.get(0) instanceof Worker) {
-            return (Worker) results.get(0);
-        }
-        return null;
-    
+  public Worker updateWorker(WorkerDTO data) {
+    String password=encoder.hashPassword(data.getPassword());
+      int rowsAffected = jdbcTemplate.update(
+              "UPDATE worker SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? WHERE id = ?",
+              ps -> {
+                  // Setzen der Parameter
+                  ps.setString(1, data.getName());
+                  ps.setString(2, data.getLocation());
+                  ps.setString(3, password);
+                  ps.setString(4, data.getStatus());
+                  ps.setString(5, data.getStatusOrder());
+                  ps.setDouble(6, data.getRange());
+                  ps.setString(7, data.getJobType());
+                  ps.setDouble(8, data.getMinPayment());
+                  ps.setDouble(9, data.getRating());
+                  ps.setBoolean(10, data.getVerification());
+                  ps.setString(11, data.getEmail());
+                  ps.setLong(12, data.getId());
+              }
+      );
+  
+      // Überprüfen, ob das Update erfolgreich war
+      if (rowsAffected > 0) {
+          // Das Update war erfolgreich, daher können Sie den aktualisierten Worker zurückgeben
+          return new Worker(data.getName(), data.getLocation(), password, Status.valueOf(data.getStatus()), StartusOrder.valueOf(data.getStatusOrder()), data.getRange(),JobList.valueOf(data.getJobType()), data.getMinPayment(), data.getRating(), data.getVerification(), data.getEmail());
+      } else {
+          // Das Update war nicht erfolgreich
+          return null;
+      }
   }
+  
 
   @Override
   public Worker createWorker(WorkerDTO rs) {
@@ -194,7 +164,7 @@ public class WorkerImpl implements WorkerInterface {
       
       String name = rs.getName();
       String location = rs.getLocation();
-      String password = rs.getPassword();
+      String password = encoder.hashPassword(rs.getPassword());
       String email = rs.getEmail();
       String status = rs.getStatus();
       String statusOrder = rs.getStatusOrder();
@@ -204,7 +174,8 @@ public class WorkerImpl implements WorkerInterface {
       Double rating = rs.getRating();
       Boolean verification = rs.getVerification();
       jdbcTemplate.update(connection -> {
-        PreparedStatement ps = connection.prepareStatement("INSERT INTO Worker (name, location, password, status, status_Order, range, job_type, min_Payment, rating, verification, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+        PreparedStatement ps = connection.prepareStatement("INSERT INTO Worker (name, location, password, status, status_order, range, job_type, min_Payment, rating, verification, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
         ps.setString(1, name);
         ps.setString(2, location);
@@ -221,9 +192,27 @@ public class WorkerImpl implements WorkerInterface {
         return ps;
     });
       
-      return null;
+      return new Worker(name, location, password,Status.valueOf(status) ,StartusOrder.valueOf(statusOrder) , range,JobList.valueOf(jobType), minPayment, rating, verification, email);
 
 }
+
+@Override
+public Worker findWorkerbyEmail(String email) {
+  List<Optional<Worker>> result = jdbcTemplate.query(
+    "SELECT * FROM WORKER WHERE email = ?",
+      ps -> {
+        ps.setString(1, email );
+      },
+      (rs, rowNum) -> createWorker(rs));
+
+      if (!result.isEmpty() && result.get(0).isPresent()) {
+        return  result.get(0).get();
+    }
+    return null;
+}
+
+
+
   
   
 
@@ -233,17 +222,18 @@ public class WorkerImpl implements WorkerInterface {
        
           String name = rs.getString("name");
           String location = rs.getString("location");
+          String password = rs.getString("password");
           String email = rs.getString("email");
           String status = rs.getString("status");
-          String statusOrder = rs.getString("statusOrder");
+          String statusOrder = rs.getString("status_order");
           Double range = rs.getDouble("range");
-          String jobType = rs.getString("jobType");
-          Double minPayment = rs.getDouble("minPayment");
+          String jobType = rs.getString("job_type");
+          Double minPayment = rs.getDouble("min_payment");
           Double rating = rs.getDouble("rating");
           Boolean verification = rs.getBoolean("verification");
 
 
-            return dataFactory.createWorker(name, location, location, email, status, range, jobType, statusOrder,minPayment, rating, verification);
+            return dataFactory.createWorker(name, location, password,email, status, range, jobType, statusOrder,minPayment, rating, verification);
 
         } catch(SQLException e) { }
 

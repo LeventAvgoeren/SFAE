@@ -17,7 +17,8 @@ export function PageLogin() {
             const result = await login(email, password);
             if (result && result.userId) {
                 console.log("Login erfolgreich", result);
-                navigate(`/worker/${result.userId}`); // Navigiert zur Worker Index-Seite
+                // Weiterleitung auf die Worker-Index-Seite
+                navigate('/worker/');  // Angenommen, `userId` ist die Worker ID
             } else {
                 console.log("Login fehlgeschlagen");
                 setError('Login fehlgeschlagen. Bitte überprüfen Sie Ihre Eingaben.');

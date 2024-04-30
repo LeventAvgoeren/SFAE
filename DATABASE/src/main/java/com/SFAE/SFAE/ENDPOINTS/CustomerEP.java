@@ -1,6 +1,5 @@
 package com.SFAE.SFAE.ENDPOINTS;
 
-import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,11 +9,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.ENTITY.Customer;
+import com.SFAE.SFAE.DTO.LoginRequest;;
 
-
+/**
+ * @author erayzor
+ */
 
 @RequestMapping("/customer")
 public interface CustomerEP{
@@ -35,6 +36,8 @@ public interface CustomerEP{
     ResponseEntity<?> findCustomerByName(@PathVariable String name);
 
     @PutMapping("")
-    ResponseEntity<?> updateCustomer(Map<String, Object> jsonData);
-    
+    ResponseEntity<Customer> updateCustomer(@RequestBody CustomerDTO jsonData);
+
+    @PostMapping("/login")
+    ResponseEntity<?> LoginCustomer(@RequestBody LoginRequest loginRequest);
 }

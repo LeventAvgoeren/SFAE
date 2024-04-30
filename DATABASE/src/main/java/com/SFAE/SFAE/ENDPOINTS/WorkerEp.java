@@ -3,6 +3,8 @@ package com.SFAE.SFAE.ENDPOINTS;
 import java.util.Map;
 
 
+
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +14,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.SFAE.SFAE.DTO.LoginRequest;
 import com.SFAE.SFAE.DTO.WorkerDTO;
-import com.SFAE.SFAE.ENTITY.Worker;
 
+import com.SFAE.SFAE.ENTITY.Worker;
 
 /**
  * @author Levent
@@ -39,7 +42,9 @@ public interface WorkerEp {
     ResponseEntity<?>findWorkerByName(@PathVariable String name);
 
     @PutMapping("")
-    ResponseEntity<?> updateWorker(@RequestBody Map<String, Object> jsonData);
-    
+    ResponseEntity<Worker> updateWorker(@RequestBody WorkerDTO jsonData);
+
+    @PostMapping("/login")
+    ResponseEntity<?> loginWorker(@RequestBody LoginRequest login);
 }
 

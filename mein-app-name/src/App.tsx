@@ -20,6 +20,7 @@ import { PageWorkerProfile } from "./components/PageWorkerProfile";
 import { PageWorkerPreferences } from "./components/PageWorkerPreferences";
 import { PageWorkerFAQ } from "./components/PageWorkerFAQ";
 import { PageWorkerOrders } from "./components/PageWorkerOrders";
+import { PagePasswordReset } from "./components/PagePasswordReset";
 
 const history = createMemoryHistory();
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/login" element={<PageLogin />} />
         <Route path="/registration/customer" element={<PageRegistration />} />
         <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
+        <Route path="/passwordreset" element={<PagePasswordReset/>}/>
 
         {/* Customer */}
         <Route path="/customer/:customerId" element={<PageIndexCustomer />} />

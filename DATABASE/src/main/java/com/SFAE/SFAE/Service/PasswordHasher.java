@@ -3,6 +3,9 @@ package com.SFAE.SFAE.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author erayzor
+ */
 @Component
 public class PasswordHasher {
 

@@ -14,6 +14,7 @@ import com.SFAE.SFAE.Service.PasswordHasher;
 
 
 /**
+ * JWT utility class for handling JWT creation and verification.
  * @author erayzor
  */
 
@@ -26,11 +27,12 @@ public class JWT {
     @Autowired
     PasswordHasher encoder;
     
-    /**
-     * The Token is being generated here
-     * @params id ID of the User
-     * @params userType Role of the User (Worker|Customer)
-     * @return The Token as a String
+   /**
+     * Generates a JWT for a given user ID and role.
+     * 
+     * @param id the user ID to be included in the JWT as the subject
+     * @param userType the user's role (Worker|Customer) to be included as a claim
+     * @return a String representing the signed JWT
      */
     private static final String SECRET_KEY = "sehrGeheim"; 
     private String generateToken(String id, String userType) {
@@ -50,6 +52,12 @@ public class JWT {
                 .compact();
     }
 
+    /**
+     * Decodes a JWT and retrieves its claims.
+     * 
+     * @param token the JWT to decode
+     * @return Claims object containing the token's claims
+     */
     public Claims decodeToken(String token) {
         // Parsen und Validieren des Tokens
         Jws<Claims> parsedToken = Jwts.parser()
@@ -59,7 +67,14 @@ public class JWT {
         return parsedToken.getBody();
     }
 
-
+    /**
+    * Verifies a user's password and creates a JWT if the password is correct.
+    * 
+    * @param email the email of the user attempting to authenticate
+    * @param password the password provided by the user for authentication
+    * @return a JWT as a String if authentication is successful, null otherwise
+    * @throws Exception if an error occurs during authentication or JWT creation
+    */
     public String verifyPasswordAndCreateJWT(String email, String password) throws Exception {
         if (SECRET_KEY == null || SECRET_KEY.isBlank()) {
             throw new IllegalArgumentException("Secret is Undefined");

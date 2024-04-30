@@ -212,6 +212,24 @@ public class WorkerImpl implements WorkerInterface {
       return new Worker(name, location, password,Status.valueOf(status) ,StartusOrder.valueOf(statusOrder) , range,JobList.valueOf(jobType), minPayment, rating, verification, email);
 
 }
+
+@Override
+public Worker findWorkerbyEmail(String email) {
+  List<Optional<Worker>> result = jdbcTemplate.query(
+    "SELECT * FROM WORKER WHERE email = ?",
+      ps -> {
+        ps.setString(1, email );
+      },
+      (rs, rowNum) -> createWorker(rs));
+
+      if (!result.isEmpty() && result.get(0).isPresent()) {
+        return  result.get(0).get();
+    }
+    return null;
+}
+
+
+
   
   
 
@@ -221,6 +239,7 @@ public class WorkerImpl implements WorkerInterface {
        
           String name = rs.getString("name");
           String location = rs.getString("location");
+          String password = rs.getString("password");
           String email = rs.getString("email");
           String status = rs.getString("status");
           String statusOrder = rs.getString("status_order");
@@ -231,7 +250,7 @@ public class WorkerImpl implements WorkerInterface {
           Boolean verification = rs.getBoolean("verification");
 
 
-            return dataFactory.createWorker(name, location, location, email, status, range, jobType, statusOrder,minPayment, rating, verification);
+            return dataFactory.createWorker(name, location, password,email, status, range, jobType, statusOrder,minPayment, rating, verification);
 
         } catch(SQLException e) { }
 

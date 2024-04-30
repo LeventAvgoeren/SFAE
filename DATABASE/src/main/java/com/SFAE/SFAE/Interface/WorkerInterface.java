@@ -27,5 +27,7 @@ public interface WorkerInterface {
 
   Worker updateWorker(WorkerDTO data);
 
-   Worker createWorker (WorkerDTO rs);
+  Worker createWorker (WorkerDTO rs);
+
+  Worker findWorkerbyEmail(String email);
 }

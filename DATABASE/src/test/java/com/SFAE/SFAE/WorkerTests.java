@@ -110,7 +110,7 @@ public class WorkerTests{
 
  @Test
 public void testUpdateWorker() throws Exception {
-    // Create a WorkerDTO object
+    
     WorkerDTO worker = new WorkerDTO();
     worker.setId(4L);
     worker.setEmail("XaloSelam@gmail.com");
@@ -125,21 +125,41 @@ public void testUpdateWorker() throws Exception {
     worker.setStatusOrder("FINISHED");
     worker.setVerification(true);
 
-    // Get a transaction status object
+    
     TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
-    // Convert the WorkerDTO to a JSON string
+   
     ObjectMapper objectMapper = new ObjectMapper();
     String workerJson = objectMapper.writeValueAsString(worker);
 
-    // Perform the PUT request
-    mockMvc.perform(put("/worker") // Pass the ID of the worker you want to update in the URL
+    
+    mockMvc.perform(put("/worker") 
             .contentType(MediaType.APPLICATION_JSON)
-            .content(workerJson)) // Use the JSON string
+            .content(workerJson)) 
             .andExpect(status().isAccepted());
 
-    // Commit the transaction
+    
     transactionManager.commit(status);  
+}
+
+@Test
+public void loginWorker() throws Exception{
+
+        String json = "{ \"password\": \"passwort123\", \"email\": \"Leventavgoren@gmail.com\"}";
+        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+        MvcResult mvcResult = mockMvc.perform(put("/worker/login")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(json))
+        .andExpect(status().isOk())
+        .andReturn();
+            
+
+        transactionManager.commit(status);  
+
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        System.out.println("A " + contentAsString);
+
 }
 
 }

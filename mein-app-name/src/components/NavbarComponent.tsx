@@ -21,6 +21,14 @@ export function NavbarComponent() {
                         </NavDropdown.Item>
                     </NavDropdown>
                     <Nav.Link href="#home">Chat</Nav.Link>
+                    <Nav.Link href='#home'>
+                    <img
+                        src={"/SFAE_Logo.png"}
+                        height="65"
+                        className="d-inline-block align-top"
+                        alt="SFAE Logo"
+                    />ijij
+                    </Nav.Link>
                     <Nav.Link href="#features">Finanzen</Nav.Link>
                     <Nav.Link href="#pricing">Support</Nav.Link>
                 </Nav>

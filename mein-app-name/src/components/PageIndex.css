@@ -42,15 +42,15 @@
   }
   
   .background-customer {
-    background-image: url('C:\Users\ducki\Projekt\project-sfae\mein-app-name\public\customer.jpg'); /* Aktualisiere diesen Pfad */
+    background-image: url('/public/customer.jpg'); /* Aktualisiere diesen Pfad */
   }
   
   .background-worker {
-    background-image: url('C:\Users\ducki\Projekt\project-sfae\mein-app-name\public\worker.jpg'); /* Aktualisiere diesen Pfad */
+    background-image: url('/public/worker.jpg'); /* Aktualisiere diesen Pfad */
   }
 
   .background-city{
-    background-image: url('C:\Users\ducki\Projekt\project-sfae\mein-app-name\public\City.gif'); /* Aktualisiere diesen Pfad */
+    background-image: url('/public/City.gif'); /* Aktualisiere diesen Pfad */
   }
   
 

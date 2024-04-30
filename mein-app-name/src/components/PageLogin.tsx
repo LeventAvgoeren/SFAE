@@ -11,13 +11,14 @@ export function PageLogin() {
     const [error, setError] = useState('');
     const navigate = useNavigate();  // Navigation Hook
 
-    const handleLogin = async () => {
+    const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault(); // Verhindert, dass das Formular neu lädt
         try {
             const result = await login(email, password);
             if (result) {
                 console.log("Login erfolgreich", result);
                 // Weiterleitung auf die Worker-Index-Seite
-                navigate('/worker/' + result.userId);  // Angenommen, `userId` ist die Worker ID
+                navigate('/worker/');  // Angenommen, `userId` ist die Worker ID
             } else {
                 console.log("Login fehlgeschlagen");
                 setError('Login fehlgeschlagen. Bitte überprüfen Sie Ihre Eingaben.');

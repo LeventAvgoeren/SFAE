@@ -79,7 +79,8 @@ export async function registrationCustomer(name: string, password: string, email
 export async function registrationWorker(name: string, location: string, email:string, password:string, job:string, minPayment:number) {
     const url = `${process.env.REACT_APP_API_SERVER_URL}/worker`;
 
-    let jobType = job.toUpperCase;
+    let jobType = "GÄRTNER";
+
     try {
         const response = await fetch(url, {
             method: "POST",

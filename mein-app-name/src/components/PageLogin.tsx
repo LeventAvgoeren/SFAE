@@ -2,20 +2,22 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../backend/api";
 
+
+
 export function PageLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [userType, setUserType] = useState('worker'); // Standardmäßig auf 'worker' setzen
     const [error, setError] = useState('');
-    const navigate = useNavigate();
-  
+    const navigate = useNavigate();  
+    const [id, setID] = useState('');
+
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
       try {
         const result = await login(email, password, userType);
         if (result) {
-          console.log("Login erfolgreich", result);
-          navigate(`/${userType}/index`);
+            navigate(userType === 'worker' ? `/worker/${result.userId}` : `/customer/${result.userId}`);
         } else {
           console.log("Login fehlgeschlagen");
           setError('Login fehlgeschlagen. Bitte überprüfen Sie Ihre Eingaben.');
@@ -24,7 +26,8 @@ export function PageLogin() {
         console.error("Fehler beim Anmelden:", error);
         setError('Ein technischer Fehler ist aufgetreten.');
       }
-    };
+    }; 
+  
   
     return (
       <div className="background">

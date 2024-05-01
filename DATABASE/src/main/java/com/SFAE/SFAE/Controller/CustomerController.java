@@ -6,8 +6,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.DTO.LoginRequest;
+import com.SFAE.SFAE.DTO.LoginResponseCustomer;
 import com.SFAE.SFAE.ENDPOINTS.CustomerEP;
 import com.SFAE.SFAE.ENTITY.Customer;
+import com.SFAE.SFAE.IMPLEMENTATIONS.CustomerImp;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 import com.SFAE.SFAE.Service.Authentication;
 
@@ -32,6 +34,9 @@ class CustomerController implements CustomerEP{
 
     @Autowired
     private Authentication auth;
+
+    @Autowired
+    private CustomerImp cus;
 
     @Override
     public ResponseEntity<Customer> findCustomerById(long id) {
@@ -121,7 +126,10 @@ class CustomerController implements CustomerEP{
             System.out.println("IST DA " + loginRequest.toString());
             String token = auth.loginCustomer(loginRequest.getEmail(), loginRequest.getPassword());
             if (!token.isBlank()) {
-                return ResponseEntity.ok().body(token);
+
+                Customer customer = cus.findEmail(loginRequest.getEmail());
+                System.out.println(customer);
+                return ResponseEntity.ok().body(new LoginResponseCustomer(String.valueOf(customer.getId()), customer.getRole().toString(), token));
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed");
             }

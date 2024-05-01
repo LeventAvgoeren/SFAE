@@ -1,9 +1,8 @@
 import React, { useContext } from "react";
 
 export interface LoginInfo {
-  userId: string;
-  admin : string;
-
+  userId: String;
+  admin : String;
  }
  export interface LoginContextType {
   loginInfo: LoginInfo | false | undefined;

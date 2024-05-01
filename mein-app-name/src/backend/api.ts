@@ -38,17 +38,16 @@ export async function login(email:string, password:string, userType:string):Prom
       }
       
       const token = await response.json(); // oder response.json(), falls der Server JSON zurückgibt
-      let response1 = token.id
-      console.log(response1)
-
-      if(token){
-        return response1;
+      if(token.id){
+        return { userId: token.id, admin: token.role };
       }
-      return token;
+      
     } catch (error) {
       console.error('Login error:', error);
       return false; // Oder geeignete Fehlerbehandlung
     }
+
+    return false;
   }
 
 export async function registrationCustomer(name: string, password: string, email: string) {

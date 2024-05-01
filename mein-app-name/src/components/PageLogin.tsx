@@ -15,7 +15,7 @@ export function PageLogin() {
         event.preventDefault(); // Verhindert, dass das Formular neu lädt
         try {
             const result = await login(email, password);
-            if (result && result.userId) {
+            if (result) {
                 console.log("Login erfolgreich", result);
                 // Weiterleitung auf die Worker-Index-Seite
                 navigate('/worker/');  // Angenommen, `userId` ist die Worker ID

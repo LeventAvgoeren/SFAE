@@ -8,7 +8,6 @@ import { PageLogin } from "./components/PageLogin";
 import { PageRegistration } from "./components/PageRegistration";
 import { PageRegistrationWorker } from "./components/PageRegistrationWorker";
 import { PageWorkerIndex } from "./components/PageWorkerIndex";
-import { PageIndexCustomer } from "./components/PageIndexCustomer";
 import { PageOrderRequest } from "./components/PageOrderRequest";
 import { PageOrderOverview } from "./components/PageOrderOverview";
 import { PageOrderCompleted } from "./components/PageOrderCompleted";
@@ -23,7 +22,7 @@ import { PageWorkerOrders } from "./components/PageWorkerOrders";
 import { PagePasswordReset } from "./components/PagePasswordReset";
 import { LoginInfo } from "./components/LoginManager";
 import { login } from "./backend/api";
-import { MainMenu } from "./components/MainMenu";
+import { PageIndexCustomer } from "./components/PageIndexCustomer";
 
 const history = createMemoryHistory();
 
@@ -51,7 +50,6 @@ function App() {
         <Route path="/registration/customer" element={<PageRegistration />} />
         <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
         <Route path="/passwordreset" element={<PagePasswordReset/>}/>
-        <Route path="/mainmenu" element={<MainMenu/>}/>
 
         {/* Customer */}
         <Route path="/customer/:customerId" element={<PageIndexCustomer />} />{/*Navbar machen*/}

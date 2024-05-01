@@ -103,3 +103,25 @@ export async function registrationWorker(name: string, location: string, email:s
         throw error;
     }
 }
+
+export async function getWorkerByName(name: string): Promise<any> {
+    // Überprüfe zunächst, ob der Name nicht leer oder ungültig ist
+    if (!name.trim()) {
+        throw new Error("Name must be provided.");
+    }
+
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/usr/${name}`;
+    try {
+        const response = await fetchWithErrorHandling(url, { credentials: 'include' as RequestCredentials });
+
+        if (!response.ok) {
+            throw new Error(`Worker not found: ${response.status}`);
+        }
+
+        const workerData = await response.json();
+        return workerData;
+    } catch (error) {
+        console.error('Error fetching worker by name:', error);
+        throw error; // Weitergeben des Fehlers für eine mögliche Fehlerbehandlung in der Anwendung
+    }
+}

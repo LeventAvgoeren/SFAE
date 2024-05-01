@@ -43,22 +43,20 @@ public class Customer {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "ROLE")
-    private Role role;
+    private Role role = Role.valueOf("CUSTOMER");
 
-     public Customer( String name, String password, String email, Role role) {
+     public Customer( String name, String password, String email) {
         this.name = name;
         this.password = password;
         this.email = email;
-        this.role = role;
     }
 
     
-    public Customer( Long id, String name, String password, String email, Role role) {
+    public Customer( Long id, String name, String password, String email) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.email = email;
-        this.role = role;
     }
 
     public long getId() {

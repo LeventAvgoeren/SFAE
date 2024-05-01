@@ -120,18 +120,17 @@ public class CustomerImp implements CustomerInterface {
             String name = jsonData.getName();
             String password = encoder.hashPassword(jsonData.getPassword());
             String email = jsonData.getEmail();
-            String role = jsonData.getRole();
     
             jdbcTemplate.update(connection -> {
                 PreparedStatement ps = connection.prepareStatement("INSERT INTO CUSTOMER ( NAME, PASSWORD, EMAIL, ROLE) VALUES (?, ?, ?, ?)");
                 ps.setString(1, name);
                 ps.setString(2, password);
                 ps.setString(3, email);
-                ps.setString(4, role);
+                ps.setString(4, "CUSTOMER");
                 return ps;
             });
     
-            return new Customer( name, password, email, Role.valueOf(role));
+            return new Customer( name, password, email);
     
         } catch (Exception e) {
             e.printStackTrace(); 

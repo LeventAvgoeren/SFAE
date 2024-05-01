@@ -12,6 +12,7 @@ import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.IMPLEMENTATIONS.CustomerImp;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 import com.SFAE.SFAE.Service.Authentication;
+import com.SFAE.SFAE.Service.MailService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
@@ -37,6 +38,9 @@ class CustomerController implements CustomerEP{
 
     @Autowired
     private CustomerImp cus;
+    
+    @Autowired
+    private MailService mail;
 
     @Override
     public ResponseEntity<Customer> findCustomerById(long id) {
@@ -65,7 +69,11 @@ class CustomerController implements CustomerEP{
     public ResponseEntity<Customer> createCustomer(@RequestBody CustomerDTO customerData) {
         try {
             Customer customer = dao.createCustomer(customerData);
-            return ResponseEntity.status(HttpStatus.CREATED).body(customer);
+
+            if(customer != null){
+                mail.sendSimpleMessage(customerData.getEmail(), "SIE HABEN GEWONNEN", "Customer erstellt");
+                return ResponseEntity.status(HttpStatus.CREATED).body(customer);
+            }
         } catch(DataAccessException dax) {
            
         }
@@ -128,7 +136,7 @@ class CustomerController implements CustomerEP{
             if (!token.isBlank()) {
 
                 Customer customer = cus.findEmail(loginRequest.getEmail());
-                System.out.println(customer);
+
                 return ResponseEntity.ok().body(new LoginResponseCustomer(String.valueOf(customer.getId()), customer.getRole().toString(), token));
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed");

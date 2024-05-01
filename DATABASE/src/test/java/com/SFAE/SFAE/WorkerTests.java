@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -16,11 +17,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.transaction.Transactional;
 
 
 
@@ -46,7 +48,7 @@ public class WorkerTests{
                         "    \"name\": \"Kalb Hund\",\r\n" + //
                         "    \"location\": \"Köln\",\r\n" + //
                         "    \"password\": \"hahahhdaasd21\",\r\n" + //
-                        "    \"email\": \"adadad@gmail.com\",\r\n" + //
+                        "    \"email\": \"erayzor045@gmail.com\",\r\n" + //
                         "    \"status\": \"AVAIBLE\",\r\n" + //
                         "    \"statusOrder\": \"ACCEPTED\",\r\n" + //
                         "    \"range\": 1.1,\r\n" + //
@@ -66,8 +68,6 @@ public class WorkerTests{
         transactionManager.commit(status);  
     }
 
-
-    //Ein name = fehler 
       @Test
     public void testGetWorkerByName() throws Exception {
 
@@ -93,7 +93,7 @@ public class WorkerTests{
     @Test
     public void testGetWorkerrByid() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/25"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/47"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -104,7 +104,7 @@ public class WorkerTests{
     @Test
     public void testDeleteWorkerrByid() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(delete("/worker/26"))
+         MvcResult mvcResult = mockMvc.perform(delete("/worker/47"))
                 .andExpect(status().isOk())
                 .andReturn();
 

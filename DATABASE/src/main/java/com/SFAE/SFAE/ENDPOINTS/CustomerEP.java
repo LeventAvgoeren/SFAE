@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.DTO.LoginRequest;
-import com.SFAE.SFAE.DTO.LoginResponseCustomer;;
 
 /**
  * @author erayzor

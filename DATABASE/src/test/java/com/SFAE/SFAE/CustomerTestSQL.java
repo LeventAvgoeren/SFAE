@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class CustomerTestSQL {
 
     @Autowired
@@ -34,7 +35,7 @@ public class CustomerTestSQL {
 
     @Test
     public void testCreateCustomer() throws Exception {
-        String json = "{ \"name\": \"Max bauer\", \"password\": \"DucDai\", \"email\": \"eray@example.com\", \"role\": \"ADMIN\"}";
+        String json = "{ \"name\": \"Max bauer\", \"password\": \"passwort123\", \"email\": \"erayzor045@gmail.com\", \"role\": \"ADMIN\"}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         mockMvc.perform(post("/customer")
@@ -75,7 +76,7 @@ public class CustomerTestSQL {
     @Test 
     public void testDeleteCustomerByID() throws Exception {
 
-            mockMvc.perform(delete("/customer/101"))
+            mockMvc.perform(delete("/customer/3"))
                 .andExpect(status().isOk())
                 .andReturn();
 

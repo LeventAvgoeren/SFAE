@@ -16,8 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Size;
+
 import lombok.Data;
 
 /**
@@ -37,20 +36,16 @@ public class Worker {
 private Long id;
 
 @Column(name = "name")
-@Size(max=100)
+
 private String name;
 
 @Column(name = "location")
-@Size(max=100)
 private String location;
 
 @Column(name = "password")
-@Size(min = 3, max = 100)
 private String password;
 
-@Column(name = "email" ,unique = true)
-@Email
-@Size(max=100)
+@Column(name = "email")
 private String email;
 
 @Column(name = "status")
@@ -94,6 +89,24 @@ Double range, JobList jobType, Double minPayment, Double rating, Boolean verific
   this.verification = verification;
   this.email=email;
 }
+
+//For login with defaults
+public Worker( String name, String location, String password,Double range, JobList jobType, Double minPayment,String email) {
+  
+  this.name = name;
+  this.location = location;
+  this.password = password;
+  this.status = Status.AVAIBLE;
+  this.statusOrder = StartusOrder.ACCEPTED;
+  this.range = range;
+  this.jobType = jobType;
+  this.minPayment = minPayment;
+  this.rating = 0.5;
+  this.verification = false;
+  this.email=email;
+}
+
+
 // Getters
 public String getName() {
   return name;

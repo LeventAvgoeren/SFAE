@@ -166,13 +166,13 @@ public class WorkerImpl implements WorkerInterface {
       String location = rs.getLocation();
       String password = encoder.hashPassword(rs.getPassword());
       String email = rs.getEmail();
-      String status = rs.getStatus();
-      String statusOrder = rs.getStatusOrder();
-      Double range = rs.getRange();
+      String status = "AVAIBLE";
+      String statusOrder = "FINISHED";
+      Double range = 2.1;
       String jobType = rs.getJobType();
       Double minPayment = rs.getMinPayment();
-      Double rating = rs.getRating();
-      Boolean verification = rs.getVerification();
+      Double rating = 0.0;
+      Boolean verification = false;
       jdbcTemplate.update(connection -> {
 
         PreparedStatement ps = connection.prepareStatement("INSERT INTO Worker (name, location, password, status, status_order, range, job_type, min_Payment, rating, verification, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -192,7 +192,7 @@ public class WorkerImpl implements WorkerInterface {
         return ps;
     });
       
-      return new Worker(name, location, password,Status.valueOf(status) ,StartusOrder.valueOf(statusOrder) , range,JobList.valueOf(jobType), minPayment, rating, verification, email);
+      return new Worker(name, location,password,Status.valueOf(status),StartusOrder.valueOf(statusOrder),range,JobList.valueOf(jobType),minPayment,rating,verification,email);
 
 }
 

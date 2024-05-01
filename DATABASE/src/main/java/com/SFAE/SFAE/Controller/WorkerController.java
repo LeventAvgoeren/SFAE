@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.SFAE.SFAE.DTO.LoginRequest;
+import com.SFAE.SFAE.DTO.LoginResponseWorker;
 import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.SFAE.SFAE.ENDPOINTS.WorkerEp;
 import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.Security.JWT;
 import com.SFAE.SFAE.Service.Authentication;
+import com.SFAE.SFAE.Service.MailService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
@@ -33,17 +35,25 @@ public class WorkerController implements WorkerEp {
     @Autowired
     private WorkerInterface dao;
 
-   @Autowired 
-   private JWT jwt;
+    @Autowired 
+    private JWT jwt;
+
+    @Autowired
+    MailService mail;
+    
 
     @Override
     public ResponseEntity<Worker> createWorker(@RequestBody WorkerDTO worker) {
         if(worker==null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+          
         }
         try{
             Worker builded=dao.createWorker(worker);
-            
+            if(builded != null){
+                mail.sendSimpleMessage(worker.getEmail(), "SIE HABEN GEWONNEN", "Worker erstellt");
+                return ResponseEntity.status(HttpStatus.CREATED).body(builded);
+            }
                 return ResponseEntity.status(HttpStatus.CREATED).body(builded);
         }
         catch(Exception e){
@@ -130,7 +140,10 @@ public class WorkerController implements WorkerEp {
             if(token==null){
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
-            return ResponseEntity.ok().body(token);
+
+            Worker worker = dao.findWorkerbyEmail(login.getEmail());
+
+            return ResponseEntity.ok().body(new LoginResponseWorker(String.valueOf(worker.getId()), token));
         }
        catch(Exception e) {
         return ResponseEntity.status(HttpStatus.NON_AUTHORITATIVE_INFORMATION).build();

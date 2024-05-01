@@ -67,27 +67,28 @@ export async function registrationCustomer(name: string, password: string, email
     }
 }
 
-export async function registrationWorker(){
+export async function registrationWorker(name: string, address: string, email:string, password:string, jobType:string, salary:number) {
     const url = `${process.env.REACT_APP_API_SERVER_URL}/worker`;
 
     try {
-        const response = await fetchWithErrorHandling(url , {
+        const response = await fetch(url, {
             method: "POST",
             headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({}),
-            credentials: "include" as RequestCredentials
-        })
+            body: JSON.stringify({ name, address, email, password, jobType, salary }),
+            credentials: "include"
+        });
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const data = await response.json();
-        return data; 
+        return data;
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
-        throw error; 
+        throw error;
     }
 }

@@ -118,7 +118,7 @@ class CustomerController implements CustomerEP{
     @Override
     public ResponseEntity<?> LoginCustomer(@RequestBody LoginRequest loginRequest) {
         try {
-            System.out.println("IST DA");
+            System.out.println("IST DA " + loginRequest.toString());
             String token = auth.loginCustomer(loginRequest.getEmail(), loginRequest.getPassword());
             if (!token.isBlank()) {
                 return ResponseEntity.ok().body(token);

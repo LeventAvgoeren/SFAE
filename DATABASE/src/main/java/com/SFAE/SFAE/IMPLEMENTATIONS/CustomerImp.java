@@ -127,7 +127,7 @@ public class CustomerImp implements CustomerInterface {
                 ps.setString(1, name);
                 ps.setString(2, password);
                 ps.setString(3, email);
-                ps.setString(4, "ADMIN");
+                ps.setString(4, role);
                 return ps;
             });
     

@@ -53,13 +53,18 @@ public class Customer {
     }
 
     
-    public Customer( Long id, String name, String password, String email, Role role) {
+    public Customer( long id, String name, String password, String email, Role role) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.email = email;
         this.role = role;
     }
+
+    public Customer() {
+        //TODO Auto-generated constructor stub
+    }
+
 
     public long getId() {
         return id;

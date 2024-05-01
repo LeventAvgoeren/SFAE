@@ -17,6 +17,7 @@ import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.Security.JWT;
 import com.SFAE.SFAE.Service.Authentication;
+import com.SFAE.SFAE.Service.MailService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
@@ -33,8 +34,11 @@ public class WorkerController implements WorkerEp {
     @Autowired
     private WorkerInterface dao;
 
-   @Autowired 
-   private JWT jwt;
+    @Autowired 
+    private JWT jwt;
+
+    @Autowired
+    MailService mail;
 
     @Override
     public ResponseEntity<Worker> createWorker(@RequestBody WorkerDTO worker) {

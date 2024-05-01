@@ -192,7 +192,7 @@ public class WorkerImpl implements WorkerInterface {
         return ps;
     });
       
-      return new Worker(name, location, password,Status.valueOf(status) ,StartusOrder.valueOf(statusOrder) , range,JobList.valueOf(jobType), minPayment, rating, verification, email);
+      return new Worker(name, location,password,Status.valueOf(status),StartusOrder.valueOf(statusOrder),range,JobList.valueOf(jobType),minPayment,rating,verification,email);
 
 }
 

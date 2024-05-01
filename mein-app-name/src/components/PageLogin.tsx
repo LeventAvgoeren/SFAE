@@ -15,7 +15,7 @@ export function PageLogin() {
         const result = await login(email, password, userType);
         if (result) {
           console.log("Login erfolgreich", result);
-          navigate(`/${userType}/`);  // Dynamische Weiterleitung basierend auf dem Benutzertyp
+          navigate(`/${userType}/index`);
         } else {
           console.log("Login fehlgeschlagen");
           setError('Login fehlgeschlagen. Bitte überprüfen Sie Ihre Eingaben.');

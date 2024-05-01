@@ -24,7 +24,7 @@ export function PageRegistrationWorker() {
             alert('Registration failed!');
         }
     };
-
+    
     const handleSelectChange = (event:any) => {
         const selectedJobType = event.target.value;
         setJobType(selectedJobType);
@@ -101,12 +101,22 @@ export function PageRegistrationWorker() {
 
                     <Row className="mb-3">
                     <Col>
-                    <select className="form-select" id="inputJobType" value={jobType} onChange={handleSelectChange}>
-                        <option value="">Jobtyp wählen...</option>
-                        {jobTypes.map((job, index) => (
-                            <option key={index} value={job}>{job}</option>
-                        ))}
-                    </select>
+                            <select className="form-select" id="inputJobType">
+                                <option selected>Jobtyp wählen...</option>
+                                {[
+                                    "Hausmeister", "Haushälter", "Gärtner", "Kindermädchen", "Koch", 
+                                    "Putzkraft", "Handwerker", "Elektriker", "Installateur", "Klempner",
+                                    "Maler", "Schädlingsbekämpfer", "Tierpfleger", "Hausbetreuer", "Gassigeher",
+                                    "Wäscher", "Einkäufer", "Caterer", "Personal Trainer", "Ernährungsberater",
+                                    "Musiklehrer", "Babysitter", "Hauslehrer", "Chauffeur", "Reinigungskraft",
+                                    "Schneider", "Organisator", "Tischler", "Möbelträger", "Hundetrainer",
+                                    "Kammerjäger", "Fensterputzer", "Kammerzofen", "Hausdoktor", "Blumenpfleger",
+                                    "Renovierer", "Fensterreiniger", "Gartenarbeiter", "Bügeler", "Bodenleger",
+                                    "Hundepfleger", "Autobesorger"
+                                ].map((job, index) => (
+                                    <option value={index + 1}>{job}</option>
+                                ))}
+                            </select>
                         </Col>
                     </Row>
 

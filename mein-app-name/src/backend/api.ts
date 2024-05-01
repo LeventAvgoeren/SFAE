@@ -21,11 +21,13 @@ export async function getWorkerbyID(id: number | undefined): Promise<any> {
 }
 
 
-export async function login(email:string, password:string, userType:string) {
+export async function login(email:string, password:string, userType:string):Promise <LoginInfo | false> {
     const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
+      headers: { Accept: "application/json",
+      "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+      
     };
   
     try {
@@ -34,11 +36,18 @@ export async function login(email:string, password:string, userType:string) {
       if (!response.ok) {
         throw new Error('Login failed: ' + response.status);
       }
-      const token = await response.text(); // oder response.json(), falls der Server JSON zurückgibt
+      
+      const token = await response.json(); // oder response.json(), falls der Server JSON zurückgibt
+      let response1 = token.id
+      console.log(response1)
+
+      if(token){
+        return response1;
+      }
       return token;
     } catch (error) {
       console.error('Login error:', error);
-      return null; // Oder geeignete Fehlerbehandlung
+      return false; // Oder geeignete Fehlerbehandlung
     }
   }
 

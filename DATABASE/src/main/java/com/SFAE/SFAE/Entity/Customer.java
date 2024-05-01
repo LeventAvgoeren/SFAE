@@ -43,7 +43,7 @@ public class Customer {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "ROLE")
-    private Role role = Role.valueOf("CUSTOMER");
+    private Role role;
 
      public Customer( String name, String password, String email) {
         this.name = name;

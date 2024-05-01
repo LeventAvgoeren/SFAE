@@ -10,6 +10,7 @@ import com.SFAE.SFAE.ENDPOINTS.CustomerEP;
 import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 import com.SFAE.SFAE.Service.Authentication;
+import com.SFAE.SFAE.Service.MailSevice;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
@@ -32,6 +33,9 @@ class CustomerController implements CustomerEP{
 
     @Autowired
     private Authentication auth;
+
+    @Autowired
+    private MailSevice emailService;
 
     @Override
     public ResponseEntity<Customer> findCustomerById(long id) {

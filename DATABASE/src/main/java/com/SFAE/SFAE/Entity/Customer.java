@@ -49,7 +49,7 @@ public class Customer {
         this.name = name;
         this.password = password;
         this.email = email;
-        this.role = Role.valueOf("CUSTOMER");
+        this.role = Role.USER;
     }
 
     

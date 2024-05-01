@@ -21,7 +21,7 @@ export async function getWorkerbyID(id: number | undefined): Promise<any> {
 }
 
 
-export async function login(email:string, password:string) {
+export async function login(email:string, password:string, userType:string) {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -29,7 +29,8 @@ export async function login(email:string, password:string) {
     };
   
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_SERVER_URL}/worker/login`, requestOptions);
+      const path = userType === 'worker' ? '/worker/login' : '/customer/login';
+      const response = await fetch(`${process.env.REACT_APP_API_SERVER_URL}${path}`, requestOptions);
       if (!response.ok) {
         throw new Error('Login failed: ' + response.status);
       }

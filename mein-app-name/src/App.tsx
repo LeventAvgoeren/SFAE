@@ -38,13 +38,6 @@ function App() {
     // setLoginInfo(loginFromServer);
   }, []);
 
-  const handleLogin = async () => {
-    try {
-      const loginFromServer = await login(email, password);
-    } catch (error) {
-      console.error("Fehler beim Login:", error);
-    }
-  };
 
 
   return (

@@ -11,7 +11,7 @@ export function PageRegistrationWorker() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [jobType, setJobType] = useState('');
-    const [salary, setSalary] = useState(0);  // Initialwert als Zahl
+    const [salary, setSalary] = useState(1);  // Initialwert als Zahl
 
     const handleRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -24,6 +24,24 @@ export function PageRegistrationWorker() {
             alert('Registration failed!');
         }
     };
+
+    const handleSelectChange = (event:any) => {
+        const selectedJobType = event.target.value;
+        setJobType(selectedJobType);
+        // Weitere Aktionen hier einfügen, falls nötig
+    };
+
+    const jobTypes = [
+        "Hausmeister", "Haushälter", "Gärtner", "Kindermädchen", "Koch", 
+        "Putzkraft", "Handwerker", "Elektriker", "Installateur", "Klempner",
+        "MALER", "Schädlingsbekämpfer", "Tierpfleger", "Hausbetreuer", "Gassigeher",
+        "Wäscher", "Einkäufer", "Caterer", "Personal Trainer", "Ernährungsberater",
+        "Musiklehrer", "Babysitter", "Hauslehrer", "Chauffeur", "Reinigungskraft",
+        "Schneider", "Organisator", "Tischler", "Möbelträger", "Hundetrainer",
+        "Kammerjäger", "Fensterputzer", "Kammerzofen", "Hausdoktor", "Blumenpfleger",
+        "Renovierer", "Fensterreiniger", "Gartenarbeiter", "Bügeler", "Bodenleger",
+        "Hundepfleger", "Autobesorger"
+    ];
 
     return (
         <div className="background">
@@ -83,22 +101,12 @@ export function PageRegistrationWorker() {
 
                     <Row className="mb-3">
                     <Col>
-                            <select className="form-select" id="inputJobType">
-                                <option selected>Jobtyp wählen...</option>
-                                {[
-                                    "Hausmeister", "Haushälter", "Gärtner", "Kindermädchen", "Koch", 
-                                    "Putzkraft", "Handwerker", "Elektriker", "Installateur", "Klempner",
-                                    "Maler", "Schädlingsbekämpfer", "Tierpfleger", "Hausbetreuer", "Gassigeher",
-                                    "Wäscher", "Einkäufer", "Caterer", "Personal Trainer", "Ernährungsberater",
-                                    "Musiklehrer", "Babysitter", "Hauslehrer", "Chauffeur", "Reinigungskraft",
-                                    "Schneider", "Organisator", "Tischler", "Möbelträger", "Hundetrainer",
-                                    "Kammerjäger", "Fensterputzer", "Kammerzofen", "Hausdoktor", "Blumenpfleger",
-                                    "Renovierer", "Fensterreiniger", "Gartenarbeiter", "Bügeler", "Bodenleger",
-                                    "Hundepfleger", "Autobesorger"
-                                ].map((job, index) => (
-                                    <option value={index + 1}>{job}</option>
-                                ))}
-                            </select>
+                    <select className="form-select" id="inputJobType" value={jobType} onChange={handleSelectChange}>
+                        <option value="">Jobtyp wählen...</option>
+                        {jobTypes.map((job, index) => (
+                            <option key={index} value={job}>{job}</option>
+                        ))}
+                    </select>
                         </Col>
                     </Row>
 

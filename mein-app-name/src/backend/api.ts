@@ -67,9 +67,10 @@ export async function registrationCustomer(name: string, password: string, email
     }
 }
 
-export async function registrationWorker(name: string, address: string, email:string, password:string, jobType:string, salary:number) {
+export async function registrationWorker(name: string, location: string, email:string, password:string, job:string, minPayment:number) {
     const url = `${process.env.REACT_APP_API_SERVER_URL}/worker`;
 
+    let jobType = job.toUpperCase;
     try {
         const response = await fetch(url, {
             method: "POST",
@@ -77,7 +78,7 @@ export async function registrationWorker(name: string, address: string, email:st
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name, address, email, password, jobType, salary }),
+            body: JSON.stringify({ name, location, email, password,  jobType, minPayment }),
             credentials: "include"
         });
 

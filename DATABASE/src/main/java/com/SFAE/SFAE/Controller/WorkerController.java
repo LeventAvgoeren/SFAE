@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.SFAE.SFAE.DTO.LoginRequest;
+import com.SFAE.SFAE.DTO.LoginResponseWorker;
 import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.SFAE.SFAE.ENDPOINTS.WorkerEp;
 import com.SFAE.SFAE.ENTITY.Worker;
@@ -39,6 +40,7 @@ public class WorkerController implements WorkerEp {
 
     @Autowired
     MailService mail;
+    
 
     @Override
     public ResponseEntity<Worker> createWorker(@RequestBody WorkerDTO worker) {
@@ -138,7 +140,10 @@ public class WorkerController implements WorkerEp {
             if(token==null){
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
-            return ResponseEntity.ok().body(token);
+
+            Worker worker = dao.findWorkerbyEmail(login.getEmail());
+
+            return ResponseEntity.ok().body(new LoginResponseWorker(String.valueOf(worker.getId()), token));
         }
        catch(Exception e) {
         return ResponseEntity.status(HttpStatus.NON_AUTHORITATIVE_INFORMATION).build();

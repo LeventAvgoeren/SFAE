@@ -130,7 +130,7 @@ public class CustomerImp implements CustomerInterface {
                 return ps;
             });
     
-            return new Customer( name, password, email);
+            return new Customer( name, password, email, role);
     
         } catch (Exception e) {
             e.printStackTrace(); 

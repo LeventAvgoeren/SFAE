@@ -26,7 +26,7 @@ final class DataFactoryImp implements DataFactoryInterface{
     public Optional<Customer> createCustomer(long id, String name, String password, String email, String role) {
        try{
       Optional<Customer> customer = Optional.of(
-            new Customer( name, password, email)
+            new Customer( id, name, password, email, String.valueOf(role))
         );
 
         if(customer.isPresent()){

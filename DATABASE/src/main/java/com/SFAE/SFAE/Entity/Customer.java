@@ -61,7 +61,8 @@ public class Customer {
     }
 
     
-    public Customer( String name, String password, String email, String role) {
+    public Customer( long id, String name, String password, String email, String role) {
+        this.id = id;
         this.name = name;
         this.password = password;
         this.email = email;

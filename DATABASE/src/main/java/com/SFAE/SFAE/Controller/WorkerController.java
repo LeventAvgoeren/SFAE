@@ -44,10 +44,14 @@ public class WorkerController implements WorkerEp {
     public ResponseEntity<Worker> createWorker(@RequestBody WorkerDTO worker) {
         if(worker==null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+          
         }
         try{
             Worker builded=dao.createWorker(worker);
-            
+            if(builded != null){
+                mail.sendSimpleMessage(worker.getEmail(), "SIE HABEN GEWONNEN", "Worker erstellt");
+                return ResponseEntity.status(HttpStatus.CREATED).body(builded);
+            }
                 return ResponseEntity.status(HttpStatus.CREATED).body(builded);
         }
         catch(Exception e){

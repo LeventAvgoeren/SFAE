@@ -32,6 +32,7 @@ public class Authentication {
     public String loginCustomer(String EMail, String Password){
         try{
             Customer foundCustomer = cus.findEmail(EMail);
+            System.out.println(foundCustomer.toString());
             if(foundCustomer instanceof Customer){
                 return jwt.verifyPasswordAndCreateJWT(EMail, Password);
             }

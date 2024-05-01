@@ -35,7 +35,7 @@ public class CustomerTestSQL {
 
     @Test
     public void testCreateCustomer() throws Exception {
-        String json = "{ \"name\": \"Max bauer\", \"password\": \"passwort123\", \"email\": \"levo@example.com\", \"role\": \"ADMIN\"}";
+        String json = "{ \"name\": \"Max bauer\", \"password\": \"passwort123\", \"email\": \"erayzor045@gmail.com\", \"role\": \"ADMIN\"}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         mockMvc.perform(post("/customer")
@@ -110,7 +110,7 @@ public class CustomerTestSQL {
         String json = "{ \"password\": \"passwort123\", \"email\": \"levo@example.com\"}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
-        MvcResult mvcResult = mockMvc.perform(put("/customer/login")
+        MvcResult mvcResult = mockMvc.perform(post("/customer/login")
         .contentType(MediaType.APPLICATION_JSON)
         .content(json))
         .andExpect(status().isOk())

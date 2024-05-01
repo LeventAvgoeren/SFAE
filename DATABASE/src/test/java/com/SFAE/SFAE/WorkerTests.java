@@ -48,7 +48,7 @@ public class WorkerTests{
                         "    \"name\": \"Kalb Hund\",\r\n" + //
                         "    \"location\": \"Köln\",\r\n" + //
                         "    \"password\": \"hahahhdaasd21\",\r\n" + //
-                        "    \"email\": \"adadad@gmail.com\",\r\n" + //
+                        "    \"email\": \"erayzor045@gmail.com\",\r\n" + //
                         "    \"status\": \"AVAIBLE\",\r\n" + //
                         "    \"statusOrder\": \"ACCEPTED\",\r\n" + //
                         "    \"range\": 1.1,\r\n" + //

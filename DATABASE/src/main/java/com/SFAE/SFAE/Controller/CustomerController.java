@@ -6,8 +6,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.DTO.LoginRequest;
+import com.SFAE.SFAE.DTO.LoginResponseCustomer;
 import com.SFAE.SFAE.ENDPOINTS.CustomerEP;
 import com.SFAE.SFAE.ENTITY.Customer;
+import com.SFAE.SFAE.IMPLEMENTATIONS.CustomerImp;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 import com.SFAE.SFAE.Service.Authentication;
 import com.SFAE.SFAE.Service.MailService;
@@ -35,7 +37,10 @@ class CustomerController implements CustomerEP{
     private Authentication auth;
 
     @Autowired
-    private MailService emailService;
+    private CustomerImp cus;
+    
+    @Autowired
+    private MailService mail;
 
     @Override
     public ResponseEntity<Customer> findCustomerById(long id) {
@@ -64,7 +69,11 @@ class CustomerController implements CustomerEP{
     public ResponseEntity<Customer> createCustomer(@RequestBody CustomerDTO customerData) {
         try {
             Customer customer = dao.createCustomer(customerData);
-            return ResponseEntity.status(HttpStatus.CREATED).body(customer);
+
+            if(customer != null){
+                mail.sendSimpleMessage(customerData.getEmail(), "SIE HABEN GEWONNEN", "Customer erstellt");
+                return ResponseEntity.status(HttpStatus.CREATED).body(customer);
+            }
         } catch(DataAccessException dax) {
            
         }
@@ -122,10 +131,13 @@ class CustomerController implements CustomerEP{
     @Override
     public ResponseEntity<?> LoginCustomer(@RequestBody LoginRequest loginRequest) {
         try {
-
+            System.out.println("IST DA " + loginRequest.toString());
             String token = auth.loginCustomer(loginRequest.getEmail(), loginRequest.getPassword());
             if (!token.isBlank()) {
-                return ResponseEntity.ok().body(token);
+
+                Customer customer = cus.findEmail(loginRequest.getEmail());
+
+                return ResponseEntity.ok().body(new LoginResponseCustomer(String.valueOf(customer.getId()), customer.getRole().toString(), token));
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed");
             }

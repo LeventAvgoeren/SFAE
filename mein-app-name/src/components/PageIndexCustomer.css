@@ -14,13 +14,15 @@
   position: absolute; /* Positionierung des Dropdown-Menüs auf 'absolute' setzen */
   left: auto; /* Setze den linken Rand auf 'auto', damit das Menü rechtsbündig ausgerichtet wird */
   right: 0; /* Richte das Menü rechts aus */
-  top: 100%; /* Positioniere das Menü direkt unter der Nav-Komponente */
+  top: 1000%; /* Positioniere das Menü direkt unter der Nav-Komponente */
+  background-color: teal;
 }
 
 /* Dropdown-Menü für mobile Ansicht anpassen */
 @media (max-width: 768px) { /* Bootstrap mobile Ansicht Breakpoint */
   .navbar-nav {
     flex-direction: column; /* Staple die Nav-Elemente vertikal */
+    
   }
 
   .nav-dropdown, #collapsible-nav-dropdown {
@@ -32,5 +34,17 @@
   }
 }
 
+.Nav-Link {
+  text-align: center; /* Zentriert den Inhalt des Links */
+}
+
+.Nav-Link img, .Nav-Link div {
+  display: block; /* Sorgt dafür, dass das Bild und der Text als Block-Elemente gerendert werden */
+  margin: auto; /* Zentriert die Block-Elemente horizontal */
+}
+
+.Nav-Link div {
+  font-size: 10px; /* Stellt die Schriftgröße des Textes ein */
+}
 
 

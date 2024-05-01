@@ -45,10 +45,11 @@ public class Customer {
     @Column(name = "ROLE")
     private Role role;
 
-     public Customer( String name, String password, String email) {
+     public Customer( String name, String password, String email) { //This one is used when creating a customer
         this.name = name;
         this.password = password;
         this.email = email;
+        this.role = Role.valueOf("CUSTOMER");
     }
 
     
@@ -57,6 +58,14 @@ public class Customer {
         this.name = name;
         this.password = password;
         this.email = email;
+    }
+
+    
+    public Customer( String name, String password, String email, String role) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.role = Role.valueOf(role);
     }
 
     public long getId() {

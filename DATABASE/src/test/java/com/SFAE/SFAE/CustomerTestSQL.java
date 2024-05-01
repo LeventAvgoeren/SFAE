@@ -76,7 +76,7 @@ public class CustomerTestSQL {
     @Test 
     public void testDeleteCustomerByID() throws Exception {
 
-            mockMvc.perform(delete("/customer/101"))
+            mockMvc.perform(delete("/customer/3"))
                 .andExpect(status().isOk())
                 .andReturn();
 

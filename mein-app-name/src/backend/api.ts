@@ -39,6 +39,7 @@ export async function login(email:string, password:string, userType:string):Prom
       
       const token = await response.json(); // oder response.json(), falls der Server JSON zurückgibt
       if(token.id){
+        console.log(token)
         return { userId: token.id, admin: token.role };
       }
       
@@ -79,7 +80,7 @@ export async function registrationCustomer(name: string, password: string, email
 export async function registrationWorker(name: string, location: string, email:string, password:string, job:string, minPayment:number) {
     const url = `${process.env.REACT_APP_API_SERVER_URL}/worker`;
 
-    let jobType = "GÄRTNER";
+    let jobType = job.toUpperCase();
 
     try {
         const response = await fetch(url, {

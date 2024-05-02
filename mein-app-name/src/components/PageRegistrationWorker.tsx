@@ -34,7 +34,7 @@ export function PageRegistrationWorker() {
     const jobTypes = [
         "Hausmeister", "Haushälter", "Gärtner", "Kindermädchen", "Koch", 
         "Putzkraft", "Handwerker", "Elektriker", "Installateur", "Klempner",
-        "MALER", "Schädlingsbekämpfer", "Tierpfleger", "Hausbetreuer", "Gassigeher",
+        "Maler", "Schädlingsbekämpfer", "Tierpfleger", "Hausbetreuer", "Gassigeher",
         "Wäscher", "Einkäufer", "Caterer", "Personal Trainer", "Ernährungsberater",
         "Musiklehrer", "Babysitter", "Hauslehrer", "Chauffeur", "Reinigungskraft",
         "Schneider", "Organisator", "Tischler", "Möbelträger", "Hundetrainer",
@@ -101,20 +101,10 @@ export function PageRegistrationWorker() {
 
                     <Row className="mb-3">
                     <Col>
-                            <select className="form-select" id="inputJobType">
+                            <select className="form-select" id="inputJobType" onChange={handleSelectChange} value={jobType}>
                                 <option selected>Jobtyp wählen...</option>
-                                {[
-                                    "Hausmeister", "Haushälter", "Gärtner", "Kindermädchen", "Koch", 
-                                    "Putzkraft", "Handwerker", "Elektriker", "Installateur", "Klempner",
-                                    "Maler", "Schädlingsbekämpfer", "Tierpfleger", "Hausbetreuer", "Gassigeher",
-                                    "Wäscher", "Einkäufer", "Caterer", "Personal Trainer", "Ernährungsberater",
-                                    "Musiklehrer", "Babysitter", "Hauslehrer", "Chauffeur", "Reinigungskraft",
-                                    "Schneider", "Organisator", "Tischler", "Möbelträger", "Hundetrainer",
-                                    "Kammerjäger", "Fensterputzer", "Kammerzofen", "Hausdoktor", "Blumenpfleger",
-                                    "Renovierer", "Fensterreiniger", "Gartenarbeiter", "Bügeler", "Bodenleger",
-                                    "Hundepfleger", "Autobesorger"
-                                ].map((job, index) => (
-                                    <option value={index + 1}>{job}</option>
+                               {jobTypes.map((type, index) => (
+                                    <option key={index} value={type}>{type}</option>
                                 ))}
                             </select>
                         </Col>

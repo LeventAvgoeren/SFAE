@@ -107,6 +107,23 @@ public Worker( String name, String location, String password,Double range, JobLi
 }
 
 
+public Worker( Long id,String name, String location, String password, Status status, StartusOrder statusOrder,
+Double range, JobList jobType, Double minPayment, Double rating, Boolean verification,String email) {
+  this.id = id;
+  this.name = name;
+  this.location = location;
+  this.password = password;
+  this.status = status;
+  this.statusOrder = statusOrder;
+  this.range = range;
+  this.jobType = jobType;
+  this.minPayment = minPayment;
+  this.rating = rating;
+  this.verification = verification;
+  this.email=email;
+}
+
+
 // Getters
 public String getName() {
   return name;

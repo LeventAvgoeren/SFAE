@@ -219,7 +219,7 @@ public Worker findWorkerbyEmail(String email) {
   //Creating Customer as an Object from the Database
     private Optional<Worker> createWorker(ResultSet rs) {
         try {
-       
+          Long id = rs.getLong("id");
           String name = rs.getString("name");
           String location = rs.getString("location");
           String password = rs.getString("password");
@@ -233,7 +233,7 @@ public Worker findWorkerbyEmail(String email) {
           Boolean verification = rs.getBoolean("verification");
 
 
-            return dataFactory.createWorker(name, location, password,email, status, range, jobType, statusOrder,minPayment, rating, verification);
+            return dataFactory.createWorker(id, name, location, password,email, status, range, jobType, statusOrder,minPayment, rating, verification);
 
         } catch(SQLException e) { }
 

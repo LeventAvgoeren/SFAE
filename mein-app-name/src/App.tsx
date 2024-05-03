@@ -53,7 +53,7 @@ function App() {
         <Route path="/passwordreset" element={<PagePasswordReset/>}/>
         <Route path="/mainmenu" element={<MainMenu/>}/>
         {/* Customer */}
-        <Route path="/customer/:customerId" element={<PageIndexCustomer />} />{/*Navbar machen*/}
+        <Route path="/customer/:customerId" element={<PageIndexCustomer />} />
         <Route path="/customer/:customerId/faq" element={<PageCustomerFAQ />} />
         <Route path="/customer/:customerId/orders/new"element={<PageOrderRequest onSubmit={function (data: { address: string; service: string; description: string; budget: number; range: number; verified: boolean; }): void {
           throw new Error("Function not implemented.");

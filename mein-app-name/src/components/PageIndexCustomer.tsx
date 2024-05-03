@@ -12,7 +12,7 @@ export function PageIndexCustomer() {
     return (
 
         <>
-            <Navbar  variant="dark" expand="lg">
+            <Navbar      variant="dark" expand="lg">
                 <Container>
                     <Nav className='mx-auto'>
                         <NavDropdown title={<img src={"/SFAE_Logo.png"} height="35" alt="Dropdown Logo" />} id="collapsible_nav_dropdown">

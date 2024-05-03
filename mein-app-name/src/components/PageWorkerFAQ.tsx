@@ -3,3 +3,4 @@ export function PageWorkerFAQ() {
         <div>PageWorkerFAQ</div>
     )
 }
+

@@ -23,6 +23,7 @@ import { PagePasswordReset } from "./components/PagePasswordReset";
 import { LoginInfo } from "./components/LoginManager";
 import { login } from "./backend/api";
 import { PageIndexCustomer } from "./components/PageIndexCustomer";
+import { MainMenu } from "./components/MainMenu";
 
 const history = createMemoryHistory();
 
@@ -50,11 +51,13 @@ function App() {
         <Route path="/registration/customer" element={<PageRegistration />} />
         <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
         <Route path="/passwordreset" element={<PagePasswordReset/>}/>
-
+        <Route path="/mainmenu" element={<MainMenu/>}/>
         {/* Customer */}
         <Route path="/customer/:customerId" element={<PageIndexCustomer />} />{/*Navbar machen*/}
         <Route path="/customer/:customerId/faq" element={<PageCustomerFAQ />} />
-        <Route path="/customer/:customerId/orders/new"element={<PageOrderRequest />}/>
+        <Route path="/customer/:customerId/orders/new"element={<PageOrderRequest onSubmit={function (data: { address: string; service: string; description: string; budget: number; range: number; verified: boolean; }): void {
+          throw new Error("Function not implemented.");
+        } } />}/>
         <Route path="/customer/:customerId/orders/:order/overview"element={<PageOrderOverview />}/>
         <Route path="/customer/:customerId/orders/:order/completed"element={<PageOrderCompleted />}/>
         <Route path="/customer/:customerId/orders/:order/rating"element={<PageOrderRating />}/>

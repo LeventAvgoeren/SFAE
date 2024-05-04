@@ -62,8 +62,7 @@ function App() {
         {/* Worker */}
         <Route path="/worker/:workerId" element={<PageWorkerIndex/>} />
         <Route path="/worker/:workerId/orders/overview"element={<PageWorkerOrderOverview />}/>
-        <Route path="/worker/:workerId/finances"element={<PageWorkerFinances />}
-        />
+        <Route path="/worker/:workerId/finances"element={<PageWorkerFinances />}/>
         <Route path="/worker/:workerId/profile"element={<PageWorkerProfile />}/>
         <Route path="/worker/:workerId/preferences"element={<PageWorkerPreferences />}/>
         <Route path="/worker/:workerId/faq" element={<PageWorkerFAQ />} />

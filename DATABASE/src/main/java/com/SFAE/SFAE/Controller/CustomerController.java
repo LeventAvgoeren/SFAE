@@ -73,7 +73,7 @@ class CustomerController implements CustomerEP{
             Customer customer = dao.createCustomer(customerData);
 
             if(customer != null){
-                mail.sendSimpleMessage(customerData.getEmail(), "SIE HABEN GEWONNEN", "Customer erstellt");
+                mail.sendSimpleMessage(customerData.getEmail(), "Wilkommen bei SFAE", "Customer erstellt");
                 return ResponseEntity.status(HttpStatus.CREATED).body(customer);
             }else {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

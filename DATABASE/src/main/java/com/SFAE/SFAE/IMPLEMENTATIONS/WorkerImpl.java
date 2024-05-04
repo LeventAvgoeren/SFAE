@@ -166,13 +166,13 @@ public class WorkerImpl implements WorkerInterface {
       String location = rs.getLocation();
       String password = encoder.hashPassword(rs.getPassword());
       String email = rs.getEmail();
-      String status = rs.getStatus();
-      String statusOrder = rs.getStatusOrder();
-      Double range = rs.getRange();
+      String status = "AVAIBLE";
+      String statusOrder = "FINISHED";
+      Double range = 2.1;
       String jobType = rs.getJobType();
       Double minPayment = rs.getMinPayment();
-      Double rating = rs.getRating();
-      Boolean verification = rs.getVerification();
+      Double rating = 0.0;
+      Boolean verification = false;
       jdbcTemplate.update(connection -> {
 
         PreparedStatement ps = connection.prepareStatement("INSERT INTO Worker (name, location, password, status, status_order, range, job_type, min_Payment, rating, verification, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -219,7 +219,7 @@ public Worker findWorkerbyEmail(String email) {
   //Creating Customer as an Object from the Database
     private Optional<Worker> createWorker(ResultSet rs) {
         try {
-       
+          Long id = rs.getLong("id");
           String name = rs.getString("name");
           String location = rs.getString("location");
           String password = rs.getString("password");
@@ -233,7 +233,7 @@ public Worker findWorkerbyEmail(String email) {
           Boolean verification = rs.getBoolean("verification");
 
 
-            return dataFactory.createWorker(name, location, password,email, status, range, jobType, statusOrder,minPayment, rating, verification);
+            return dataFactory.createWorker(id, name, location, password,email, status, range, jobType, statusOrder,minPayment, rating, verification);
 
         } catch(SQLException e) { }
 

@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -44,19 +43,15 @@ public class WorkerTests{
 
     @Test
     public void testCreateWorker() throws Exception {
-        String json = "{\r\n" + //
-                        "    \"name\": \"Kalb Hund\",\r\n" + //
-                        "    \"location\": \"Köln\",\r\n" + //
-                        "    \"password\": \"hahahhdaasd21\",\r\n" + //
-                        "    \"email\": \"erayzor045@gmail.com\",\r\n" + //
-                        "    \"status\": \"AVAIBLE\",\r\n" + //
-                        "    \"statusOrder\": \"ACCEPTED\",\r\n" + //
-                        "    \"range\": 1.1,\r\n" + //
-                        "    \"jobType\": \"GÄRTNER\",\r\n" + //
-                        "    \"minPayment\": 1.1,\r\n" + //
-                        "    \"rating\": 1.1,\r\n" + //
-                        "    \"verification\": true\r\n" + //
-                        "}";
+        String json = "{" +
+    "\"name\": \"Kalb hund\"," +
+    "\"location\": \"Köln\"," +
+    "\"password\": \"hahahhdaasd21\"," +
+    "\"email\": \"Leventvsdgoren@gmail.com\"," +
+    "\"range\": 1.1," +
+    "\"jobType\": \"GÄRTNER\"," +
+    "\"minPayment\": 1.1" +
+"}";
         System.out.println(json);
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
@@ -104,7 +99,7 @@ public class WorkerTests{
     @Test
     public void testDeleteWorkerrByid() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(delete("/worker/47"))
+         MvcResult mvcResult = mockMvc.perform(delete("/worker/1"))
                 .andExpect(status().isOk())
                 .andReturn();
 

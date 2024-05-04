@@ -51,7 +51,7 @@ public class WorkerController implements WorkerEp {
         try{
             Worker builded=dao.createWorker(worker);
             if(builded != null){
-                mail.sendSimpleMessage(worker.getEmail(), "SIE HABEN GEWONNEN", "Worker erstellt");
+                mail.sendSimpleMessage(worker.getEmail(), "Wilkommen bei SFAE", "Worker erstellt");
                 return ResponseEntity.status(HttpStatus.CREATED).body(builded);
             }
                 return ResponseEntity.status(HttpStatus.CREATED).body(builded);

@@ -7,7 +7,6 @@ com\SFAE\SFAE\INTERFACE\CustomerInterface.class
 com\SFAE\SFAE\IMPLEMENTATIONS\DataFactoryImp.class
 com\SFAE\SFAE\ENUM\JobList.class
 com\SFAE\SFAE\Controller\CustomerController.class
-com\SFAE\SFAE\ENUM\StartusOrder.class
 com\SFAE\SFAE\DTO\WorkerDTO.class
 com\SFAE\SFAE\ENDPOINTS\CustomerEP.class
 com\SFAE\SFAE\IMPLEMENTATIONS\CustomerImp.class

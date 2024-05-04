@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.JobList;
-import com.SFAE.SFAE.ENUM.StartusOrder;
+import com.SFAE.SFAE.ENUM.StatusOrder;
 import com.SFAE.SFAE.ENUM.Status;
 import com.SFAE.SFAE.INTERFACE.DataFactoryInterface;
 
@@ -41,10 +41,10 @@ final class DataFactoryImp implements DataFactoryInterface{
 
     @Override
     public Optional<Worker> createWorker(Long id,String name, String location, String password, String email,
-            String status, Double range, String jobType, String StatusOrder, Double minPayment, Double rating, Boolean verification) {
+            String status, Double range, String jobType, String Statusorder, Double minPayment, Double rating, Boolean verification) {
       try{
         return Optional.of(
-            new Worker(name,location, password, Status.valueOf(status),  StartusOrder.valueOf(StatusOrder),  range, JobList.valueOf(jobType), minPayment, rating, verification, email)
+            new Worker(id,name,location, password, Status.valueOf(status),  StatusOrder.valueOf(Statusorder),  range, JobList.valueOf(jobType), minPayment, rating, verification, email)
         );
       }catch(IllegalArgumentException iax){
 

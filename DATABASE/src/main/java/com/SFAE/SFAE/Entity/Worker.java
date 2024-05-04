@@ -4,7 +4,7 @@ package com.SFAE.SFAE.ENTITY;
 
 
 import com.SFAE.SFAE.ENUM.JobList;
-import com.SFAE.SFAE.ENUM.StartusOrder;
+import com.SFAE.SFAE.ENUM.StatusOrder;
 import com.SFAE.SFAE.ENUM.Status;
 
 import jakarta.persistence.Column;
@@ -16,7 +16,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import jakarta.persistence.Table;
-
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 /**
@@ -35,17 +38,20 @@ public class Worker {
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private Long id;
 
+@Size(max=100)
 @Column(name = "name")
-
 private String name;
 
+@Size(max=100)
 @Column(name = "location")
 private String location;
 
-@Column(name = "password")
+@Size(min=3,max=100)
+@Column(name = "password",length=50)
 private String password;
 
-@Column(name = "email")
+@Column(name = "email",unique = true)
+@Email
 private String email;
 
 @Column(name = "status")
@@ -54,9 +60,11 @@ private Status status;
 
 @Column(name = "statusOrder")
 @Enumerated(EnumType.STRING)
-private StartusOrder statusOrder;
+private StatusOrder statusOrder;
 
 @Column(name = "range")
+@DecimalMin(value = "0.0", inclusive = false)
+@DecimalMax(value = "10.0")
 private Double range;
 
 @Column(name = "jobType")
@@ -64,9 +72,12 @@ private Double range;
 private JobList jobType;
 
 @Column(name = "minPayment")
+@DecimalMin(value = "0.0", inclusive = false)
 private Double minPayment;
 
 @Column(name = "rating")
+@DecimalMin(value = "0.0", inclusive = false)
+@DecimalMax(value = "5.0")
 private Double rating;
 
 @Column(name = "verification")
@@ -74,7 +85,7 @@ private Boolean verification;
 
 
 
-public Worker( String name, String location, String password, Status status, StartusOrder statusOrder,
+public Worker( String name, String location, String password, Status status, StatusOrder statusOrder,
 Double range, JobList jobType, Double minPayment, Double rating, Boolean verification,String email) {
   
   this.name = name;
@@ -90,24 +101,7 @@ Double range, JobList jobType, Double minPayment, Double rating, Boolean verific
   this.email=email;
 }
 
-//For login with defaults
-public Worker( String name, String location, String password,Double range, JobList jobType, Double minPayment,String email) {
-  
-  this.name = name;
-  this.location = location;
-  this.password = password;
-  this.status = Status.AVAIBLE;
-  this.statusOrder = StartusOrder.ACCEPTED;
-  this.range = range;
-  this.jobType = jobType;
-  this.minPayment = minPayment;
-  this.rating = 0.5;
-  this.verification = false;
-  this.email=email;
-}
-
-
-public Worker( Long id,String name, String location, String password, Status status, StartusOrder statusOrder,
+public Worker( Long id,String name, String location, String password, Status status, StatusOrder statusOrder,
 Double range, JobList jobType, Double minPayment, Double rating, Boolean verification,String email) {
   this.id = id;
   this.name = name;
@@ -145,7 +139,7 @@ public Status getStatus() {
   return status;
 }
 
-public StartusOrder getStatusOrder() {
+public StatusOrder getStatusOrder() {
   return statusOrder;
 }
 
@@ -190,7 +184,7 @@ public void setStatus(Status status) {
   this.status = status;
 }
 
-public void setStatusOrder(StartusOrder statusOrder) {
+public void setStatusOrder(StatusOrder statusOrder) {
   this.statusOrder = statusOrder;
 }
 

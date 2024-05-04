@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.JobList;
-import com.SFAE.SFAE.ENUM.StartusOrder;
+import com.SFAE.SFAE.ENUM.StatusOrder;
 import com.SFAE.SFAE.ENUM.Status;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.Service.PasswordHasher;
@@ -150,7 +150,7 @@ public class WorkerImpl implements WorkerInterface {
       // Überprüfen, ob das Update erfolgreich war
       if (rowsAffected > 0) {
           // Das Update war erfolgreich, daher können Sie den aktualisierten Worker zurückgeben
-          return new Worker(data.getName(), data.getLocation(), password, Status.valueOf(data.getStatus()), StartusOrder.valueOf(data.getStatusOrder()), data.getRange(),JobList.valueOf(data.getJobType()), data.getMinPayment(), data.getRating(), data.getVerification(), data.getEmail());
+          return new Worker(data.getName(), data.getLocation(), password, Status.valueOf(data.getStatus()), StatusOrder.valueOf(data.getStatusOrder()), data.getRange(),JobList.valueOf(data.getJobType()), data.getMinPayment(), data.getRating(), data.getVerification(), data.getEmail());
       } else {
           // Das Update war nicht erfolgreich
           return null;
@@ -166,9 +166,9 @@ public class WorkerImpl implements WorkerInterface {
       String location = rs.getLocation();
       String password = encoder.hashPassword(rs.getPassword());
       String email = rs.getEmail();
-      String status = "AVAIBLE";
-      String statusOrder = "FINISHED";
-      Double range = 2.1;
+      String status = "AVAILABLE";
+      String statusOrder = "UNDEFINED";
+      Double range = 0.0;
       String jobType = rs.getJobType();
       Double minPayment = rs.getMinPayment();
       Double rating = 0.0;
@@ -191,8 +191,7 @@ public class WorkerImpl implements WorkerInterface {
     
         return ps;
     });
-      
-      return new Worker(name, location,password,Status.valueOf(status),StartusOrder.valueOf(statusOrder),range,JobList.valueOf(jobType),minPayment,rating,verification,email);
+      return new Worker(name, location,password,Status.valueOf(status),StatusOrder.valueOf(statusOrder),range,JobList.valueOf(jobType),minPayment,rating,verification,email);
 
 }
 

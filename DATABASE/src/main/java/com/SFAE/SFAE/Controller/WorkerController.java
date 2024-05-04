@@ -84,7 +84,10 @@ public class WorkerController implements WorkerEp {
     public ResponseEntity<Iterable<Worker>> findAllWorker() {
        try{
             var worker =dao.findAllWorker();
-            return ResponseEntity.status(HttpStatus.OK).body(worker);
+            if(worker!=null){
+                return ResponseEntity.status(HttpStatus.OK).body(worker);
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
        }
        catch(Exception e){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -99,9 +102,11 @@ public class WorkerController implements WorkerEp {
             return ResponseEntity.badRequest().body("id can be <0 or is null");
         }
             Worker found=dao.findWorkersbyID(id);
+            if(found!=null){
+                return ResponseEntity.status(HttpStatus.OK).body(found);
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
-
-        return ResponseEntity.status(HttpStatus.OK).body(found);
     }
 
     @Override
@@ -110,7 +115,10 @@ public class WorkerController implements WorkerEp {
             return ResponseEntity.badRequest().body("Name is null");
         }
           Worker found=dao.findWorkerbyName(name);
-          return ResponseEntity.status(HttpStatus.OK).body(found);
+          if(found!=null){
+            return ResponseEntity.status(HttpStatus.OK).body(found);
+          }
+          return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
     @Override

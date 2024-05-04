@@ -32,7 +32,6 @@ import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 public class WorkerTests{
 
     @Autowired
@@ -44,10 +43,10 @@ public class WorkerTests{
     @Test
     public void testCreateWorker() throws Exception {
         String json = "{" +
-    "\"name\": \"Kalb hund\"," +
+    "\"name\": \"Levent avgören\"," +
     "\"location\": \"Köln\"," +
     "\"password\": \"hahahhdaasd21\"," +
-    "\"email\": \"Leventvsdgoren@gmail.com\"," +
+    "\"email\": \"Leventvdsdgoren@gmail.com\"," +
     "\"range\": 1.1," +
     "\"jobType\": \"GÄRTNER\"," +
     "\"minPayment\": 1.1" +
@@ -66,7 +65,7 @@ public class WorkerTests{
       @Test
     public void testGetWorkerByName() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/Kenno"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/Levent"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -77,7 +76,7 @@ public class WorkerTests{
     @Test
     public void testGetWorkerByTowNames() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/Max_Mustermann"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/Levent_avgören"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -88,7 +87,7 @@ public class WorkerTests{
     @Test
     public void testGetWorkerrByid() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/47"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/7"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -122,7 +121,7 @@ public class WorkerTests{
 public void testUpdateWorker() throws Exception {
     
     WorkerDTO worker = new WorkerDTO();
-    worker.setId(27L);
+    worker.setId(7L);
     worker.setEmail("XaloSelam@gmail.com");
     worker.setLocation("Bremen");
     worker.setJobType("HAUSMEISTER");
@@ -131,7 +130,7 @@ public void testUpdateWorker() throws Exception {
     worker.setPassword("Meinhund123");
     worker.setRange(0.8);
     worker.setRating(0.5);
-    worker.setStatus("INAVIBLE");
+    worker.setStatus("AVAILABLE");
     worker.setStatusOrder("FINISHED");
     worker.setVerification(true);
 
@@ -155,7 +154,7 @@ public void testUpdateWorker() throws Exception {
 @Test
 public void loginWorker() throws Exception{
 
-        String json = "{ \"password\": \"passwort123\", \"email\": \"Leventavgoren@gmail.com\"}";
+        String json = "{ \"password\": \"hahahhdaasd21\", \"email\": \"Leventvdsdgoren@gmail.com\"}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         MvcResult mvcResult = mockMvc.perform(post("/worker/login")

@@ -150,6 +150,7 @@ public class WorkerImpl implements WorkerInterface {
       // Überprüfen, ob das Update erfolgreich war
       if (rowsAffected > 0) {
           // Das Update war erfolgreich, daher können Sie den aktualisierten Worker zurückgeben
+          System.out.println("Hallo");
           return new Worker(data.getName(), data.getLocation(), password, Status.valueOf(data.getStatus()), StatusOrder.valueOf(data.getStatusOrder()), data.getRange(),JobList.valueOf(data.getJobType()), data.getMinPayment(), data.getRating(), data.getVerification(), data.getEmail());
       } else {
           // Das Update war nicht erfolgreich

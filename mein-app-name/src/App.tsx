@@ -58,7 +58,9 @@ function App() {
         <Route path="/customer/:customerId/orders/new"element={<PageOrderRequest onSubmit={function (data: { address: string; service: string; description: string; budget: number; range: number; verified: boolean; }): void {
           throw new Error("Function not implemented.");
         } } />}/>
-        <Route path="/customer/:customerId/orders/:order/overview"element={<PageOrderOverview />}/>
+        <Route path="/customer/:customerId/orders/:order/overview"element={<PageOrderOverview onSubmit={function (data: { address: string; service: string; description: string; budget: number; range: number; verified: boolean; }): void {
+          throw new Error("Function not implemented.");
+        } } />}/>
         <Route path="/customer/:customerId/orders/:order/completed"element={<PageOrderCompleted />}/>
         <Route path="/customer/:customerId/orders/:order/rating"element={<PageOrderRating />}/>
 

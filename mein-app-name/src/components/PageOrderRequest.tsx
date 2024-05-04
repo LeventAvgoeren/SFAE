@@ -121,7 +121,8 @@ export const PageOrderRequest: React.FC<PageOrderRequestProps> = ({ onSubmit }) 
                 </Container>
             </Navbar>
 
-            <div className="background2" >
+        <div className='background-city'>
+            <div className="container-frame" >
 
                 <form onSubmit={handleSubmit} style={{ color: 'white', padding: '20px' }}>
 
@@ -204,6 +205,7 @@ export const PageOrderRequest: React.FC<PageOrderRequestProps> = ({ onSubmit }) 
 
 
                 </form>
+            </div>
             </div>
         </>
     );

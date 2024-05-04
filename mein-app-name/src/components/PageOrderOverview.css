@@ -1,0 +1,175 @@
+/* Stelle sicher, dass die Navbar den gesamten horizontalen Platz einnimmt */
+.navbar {
+    position: sticky;
+    top: 0;
+    width: 100%; 
+    margin-left: auto; /* Zentriert die Block-Elemente horizontal */
+    margin-right: auto;
+    background-color: #184c8c;
+}
+
+  
+  /* Sorgt dafür, dass das Dropdown-Menü sich innerhalb der Grenzen der Navbar befindet */
+  .nav-dropdown, #collapsible-nav-dropdown {
+    position: static; /* Übergeordnete Positionierung für Dropdown-Menü auf 'static' setzen */
+  }
+  
+  /* Dropdown-Menü-Position anpassen */
+  .dropdown-menu {
+    position: absolute; 
+    left: auto; /* Setze den linken Rand auf 'auto', damit das Menü rechtsbündig ausgerichtet wird */
+    right: 0; /* Richte das Menü rechts aus */
+    top: 1000%; /* Positioniere das Menü direkt unter der Nav-Komponente */
+    background-color: teal;
+  }
+  
+  /* Dropdown-Menü für mobile Ansicht anpassen */
+  @media (max-width: 768px) { /* Bootstrap mobile Ansicht Breakpoint */
+    .navbar-nav {
+      flex-direction: column; /* Staple die Nav-Elemente vertikal */
+      position: sticky;
+      
+    }
+  
+    .nav-dropdown, #collapsible-nav-dropdown {
+      position: sticky; /* Setze die Position auf 'static', um ein korrektes Verhalten in der mobilen Ansicht zu gewährleisten */
+    }
+  
+
+  }
+  
+  .Nav-Link {
+    text-align: center; /* Zentriert den Inhalt des Links */
+    position: sticky;
+  }
+  
+  .Nav-Link img, .Nav-Link div {
+    display: block; /* Sorgt dafür, dass das Bild und der Text als Block-Elemente gerendert werden */
+    margin-left: auto; /* Zentriert die Block-Elemente horizontal */
+    margin-right: auto;
+    position: sticky;
+  }
+  
+  .Nav-Link div {
+    font-size: 10px; /* Stellt die Schriftgröße des Textes ein */
+    position: sticky;
+  }
+
+  .from-control .search-field {
+    text-align: center;
+    width: 200%; /* Ändere die Breite nach Bedarf */
+   
+}
+
+.search-field{
+    width: max-content;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.5); /* Hier kannst du die Größe anpassen */
+  margin-left: 20px; 
+}
+
+.background2 {
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.form-control, .form-select {
+    background-color: #0f3460;
+    border: none;
+    color: white;
+    margin-bottom: 15px; /* Abstand zwischen Feldern */
+}
+
+.form-control::placeholder, .form-select {
+    color: #b6b6b6;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #0f3460;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #9a0026;
+}
+
+
+.text-align{
+    left: auto;
+}
+
+.container-frame2 {
+    display: block;
+    flex-direction: row;  /* Elemente horizontal anordnen */
+    align-items: flex-start; /* Beginnen am Anfang des Containers */
+    justify-content: space-between; /* Maximale Distanz zwischen den Elementen */
+    padding: 20px;
+    background-color: #0f3460;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    width: 100%; /* Volle Breite einnehmen */
+    height: auto; /* Höhe automatisch an den Inhalt anpassen */
+}
+
+.profile-info {
+    order: 1; /* Gibt diesem Bereich Flexibilität in der Breite */
+    padding: 20px;
+    max-width: 40%; /* Maximale Breite des Profil-Info-Bereichs */
+}
+
+.map {
+    position: relative;
+    order: 2;
+    padding: 20px;
+    max-width: 30%; /* Maximale Breite des Worker-Info-Bereichs */
+    text-align: center;  /* Zentriert den Text */
+    right: 65px;
+}
+
+.image-and-rating {
+    order: 3;
+    display: flex;
+    padding: 20px;
+    max-width: 30%; /* Maximale Breite des Bild- und Bewertungsbereichs */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Zentriert die Elemente vertikal */
+}
+
+.profile-image {
+    display: flex;
+    left: 50px;
+    width: 150px;
+    height: 220px;
+    object-fit: cover;
+    margin-bottom: 10px; /* Abstand zwischen Bild und Bewertung */
+}
+
+.rating {
+    display: flex;
+    justify-content: center; /* Zentriert die Sterne */
+}
+
+.star {
+    color: goldenrod; /* Farbe der Sterne */
+    margin: 0 2px; /* Raum zwischen den Sternen */
+}
+
+/* In Ihrer CSS-Datei */
+.margin-bottom-20 {
+    margin-bottom: 50px;
+}

@@ -101,7 +101,7 @@ export function MainMenu() {
                                 <div className='input-group mb-3'>
                                     <input
                                         type="input"
-                                        className="form-control search-field"
+                                        className="form-control mx-auto"
                                         placeholder="Was brauchen sie ?..."
                                     />
                                     <button className="btn btn-primary" type="button">Suchen</button>

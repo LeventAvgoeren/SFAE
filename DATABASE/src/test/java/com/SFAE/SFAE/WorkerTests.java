@@ -32,6 +32,7 @@ import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+
 public class WorkerTests{
 
     @Autowired
@@ -43,10 +44,10 @@ public class WorkerTests{
     @Test
     public void testCreateWorker() throws Exception {
         String json = "{" +
-    "\"name\": \"Levent avgören\"," +
+    "\"name\": \"Levent Avgören\"," +
     "\"location\": \"Köln\"," +
-    "\"password\": \"hahahhdaasd21\"," +
-    "\"email\": \"Leventvdsdgoren@gmail.com\"," +
+    "\"password\": \"hahahhsdaasd21\"," +
+    "\"email\": \"Levenstvdsdgodsren@gmail.com\"," +
     "\"range\": 1.1," +
     "\"jobType\": \"GÄRTNER\"," +
     "\"minPayment\": 1.1" +
@@ -73,10 +74,11 @@ public class WorkerTests{
         System.out.println("A " + contentAsString);
     }
 
+    //zwei namen funktioniert nicht 
     @Test
     public void testGetWorkerByTowNames() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/Levent_avgören"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/Levent_Avgören"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -98,7 +100,7 @@ public class WorkerTests{
     @Test
     public void testDeleteWorkerrByid() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(delete("/worker/1"))
+         MvcResult mvcResult = mockMvc.perform(delete("/worker/7"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -122,7 +124,7 @@ public void testUpdateWorker() throws Exception {
     
     WorkerDTO worker = new WorkerDTO();
     worker.setId(7L);
-    worker.setEmail("XaloSelam@gmail.com");
+    worker.setEmail("XalooosSelam@gmail.com");
     worker.setLocation("Bremen");
     worker.setJobType("HAUSMEISTER");
     worker.setMinPayment(0.9);

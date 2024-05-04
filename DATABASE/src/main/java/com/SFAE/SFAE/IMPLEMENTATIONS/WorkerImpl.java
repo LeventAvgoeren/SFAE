@@ -70,6 +70,9 @@ public class WorkerImpl implements WorkerInterface {
 
   @Override
   public Worker findWorkersbyID(long id) {
+    if(id<0){
+      throw new IllegalArgumentException("Id is <0");
+    }
 
     List<Optional<Worker>> result = jdbcTemplate.query(
 
@@ -91,6 +94,9 @@ public class WorkerImpl implements WorkerInterface {
 
   @Override
   public Worker findWorkerbyName(String name) {
+    if(name==null){
+      throw new IllegalArgumentException("name is null");
+    }
     List<Optional<Worker>> result = jdbcTemplate.query(
       "SELECT * FROM WORKER WHERE name = ?",
         ps -> {
@@ -127,6 +133,13 @@ public class WorkerImpl implements WorkerInterface {
   }
   @Override
   public Worker updateWorker(WorkerDTO data) {
+    if (data.getName() == null || data.getLocation() == null || data.getPassword() == null ||
+    data.getStatus() == null || data.getStatusOrder() == null || data.getRange() == null ||
+    data.getJobType() == null || data.getMinPayment() == null || data.getRating() == null ||
+    data.getVerification() == null || data.getEmail() == null) {
+    throw new IllegalArgumentException("Some data are empty");
+    }
+    
     String password=encoder.hashPassword(data.getPassword());
       int rowsAffected = jdbcTemplate.update(
               "UPDATE worker SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? WHERE id = ?",
@@ -161,7 +174,10 @@ public class WorkerImpl implements WorkerInterface {
 
   @Override
   public Worker createWorker(WorkerDTO rs) {
-  
+    if (rs.getName() == null || rs.getLocation() == null || rs.getPassword() == null ||
+        rs.getJobType() == null || rs.getMinPayment() == null || rs.getEmail() == null) {
+        throw new IllegalArgumentException("Some data are empty");
+    }
       
       String name = rs.getName();
       String location = rs.getLocation();
@@ -198,6 +214,10 @@ public class WorkerImpl implements WorkerInterface {
 
 @Override
 public Worker findWorkerbyEmail(String email) {
+  if(email==null){
+    throw new IllegalArgumentException("Email is empty");
+  }
+  
   List<Optional<Worker>> result = jdbcTemplate.query(
     "SELECT * FROM WORKER WHERE email = ?",
       ps -> {

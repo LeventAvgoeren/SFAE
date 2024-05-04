@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -33,7 +32,7 @@ import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
+
 public class WorkerTests{
 
     @Autowired
@@ -48,8 +47,8 @@ public class WorkerTests{
                         "    \"name\": \"Kalb Hund\",\r\n" + //
                         "    \"location\": \"Köln\",\r\n" + //
                         "    \"password\": \"hahahhdaasd21\",\r\n" + //
-                        "    \"email\": \"erayzor045@gmail.com\",\r\n" + //
-                        "    \"status\": \"AVAIBLE\",\r\n" + //
+                        "    \"email\": \"Leventavgoren@gmail.com\",\r\n" + //
+                        "    \"status\": \"AVAILABLE\",\r\n" + //
                         "    \"statusOrder\": \"ACCEPTED\",\r\n" + //
                         "    \"range\": 1.1,\r\n" + //
                         "    \"jobType\": \"GÄRTNER\",\r\n" + //

@@ -106,7 +106,8 @@ public class CustomerImp implements CustomerInterface {
             String email = rs.getString("EMAIL");
             String role = rs.getString("ROLE");
        
-           
+            
+
             return dataFactory.createCustomer(id, name, password, email, role);
        
         } catch(SQLException e) { }
@@ -120,23 +121,28 @@ public class CustomerImp implements CustomerInterface {
             String name = jsonData.getName();
             String password = encoder.hashPassword(jsonData.getPassword());
             String email = jsonData.getEmail();
-            String role = jsonData.getRole();
+
+            if(password.equals(null) || name.equals(null) || email.equals(null)){
+                return null;
+            }
+
+            
+
             jdbcTemplate.update(connection -> {
-                PreparedStatement ps = connection.prepareStatement("INSERT INTO CUSTOMER ( NAME, PASSWORD, EMAIL, ROLE) VALUES (?, ?, ?, ?)");
+                PreparedStatement ps = connection.prepareStatement("INSERT INTO CUSTOMER (NAME, PASSWORD, EMAIL, ROLE) VALUES (?, ?, ?, ?)");
                 ps.setString(1, name);
                 ps.setString(2, password);
                 ps.setString(3, email);
-                ps.setString(4, role);
+                ps.setString(4, String.valueOf(Role.CUSTOMER));
                 return ps;
             });
     
             return new Customer( name, password, email);
     
         } catch (Exception e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
+            return null; 
         }
-    
-        return null;
     }
     
 

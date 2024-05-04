@@ -1,6 +1,5 @@
 package com.SFAE.SFAE.Controller;
 
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -22,6 +21,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author erayzor
@@ -53,9 +55,9 @@ class CustomerController implements CustomerEP{
 
         try{
 
-                Customer found = dao.findCustomerbyID(id);
+            Customer found = dao.findCustomerbyID(id);
 
-        return ResponseEntity.status(HttpStatus.OK).body(found);
+            return ResponseEntity.status(HttpStatus.OK).body(found);
         } catch(DataAccessException dax) {
            
         }
@@ -73,11 +75,14 @@ class CustomerController implements CustomerEP{
             if(customer != null){
                 mail.sendSimpleMessage(customerData.getEmail(), "SIE HABEN GEWONNEN", "Customer erstellt");
                 return ResponseEntity.status(HttpStatus.CREATED).body(customer);
+            }else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
+
         } catch(DataAccessException dax) {
-           
+            
+         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @Override

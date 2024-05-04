@@ -29,12 +29,12 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "NAME")
     @Size(max=100)
+    @Column(name = "NAME")
     private String name;
-    
+
+    @Size(min = 6, max = 100)
     @Column(name = "PASSWORD")
-    @Size(min = 3, max = 100)
     private String password;
 
     @Column(name = "EMAIL",unique = true)
@@ -45,11 +45,11 @@ public class Customer {
     @Column(name = "ROLE")
     private Role role;
 
-     public Customer( String name, String password, String email) { //This one is used when creating a customer
+    public Customer( String name, String password, String email) { 
         this.name = name;
         this.password = password;
         this.email = email;
-        this.role = Role.valueOf("CUSTOMER");
+        this.role = Role.CUSTOMER;
     }
 
     

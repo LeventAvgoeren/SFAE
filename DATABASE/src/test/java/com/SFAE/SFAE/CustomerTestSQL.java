@@ -35,7 +35,7 @@ public class CustomerTestSQL {
 
     @Test
     public void testCreateCustomer() throws Exception {
-        String json = "{ \"name\": \"Max bauer\", \"password\": \"passwort123\", \"email\": \"erayzor045@gmail.com\", \"role\": \"ADMIN\"}";
+        String json = "{ \"name\": \"Max Muster\", \"password\": \"passwort123\", \"email\": \"erayzor045@gmail.com\"}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         mockMvc.perform(post("/customer")

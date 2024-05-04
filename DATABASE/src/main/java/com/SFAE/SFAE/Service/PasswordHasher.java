@@ -17,9 +17,13 @@ public class PasswordHasher {
      * @return The hashed password
      */
     public String hashPassword(String password) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String encodedPassword = encoder.encode(password);
-        return encodedPassword;
+        if(3 > password.length() && password.length() < 100 && !password.equals(null)){
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            String encodedPassword = encoder.encode(password);
+            return encodedPassword;
+        }
+       
+        return null;
     }
 
 

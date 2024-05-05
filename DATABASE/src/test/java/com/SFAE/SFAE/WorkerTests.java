@@ -81,7 +81,7 @@ public class WorkerTests{
     @Test
     public void testGetWorkerByTowNames() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/Max_Mustermann"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/Levent_Avgören"))
                 .andExpect(status().isOk())
                 .andReturn();
 

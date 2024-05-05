@@ -16,6 +16,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 /**
+ * Customer Entity
+ * 
  * @author erayzor
  */
 

@@ -57,7 +57,7 @@ public class CustomerTestSQL {
     @Test
     public void testGetCustomerBySecName() throws Exception {
 
-            mockMvc.perform(get("/customer/usr/Max_bauer"))
+            mockMvc.perform(get("/customer/usr/Max_MusterMann"))
                 .andExpect(status().isOk())
                 .andReturn();
 

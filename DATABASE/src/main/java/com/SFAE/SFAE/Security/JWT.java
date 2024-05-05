@@ -16,10 +16,14 @@ import com.SFAE.SFAE.Service.PasswordHasher;
 
 
 /**
+ * JWT (JSON Web Token) Utility Class.
+ * 
+ * This class provides methods for generating, decoding, and verifying JSON Web Tokens (JWTs).
+ * It also includes methods for creating JWTs for user authentication.
+ * 
  * @author erayzor 
  * @author leventavgören
  */
-
 @Component
 public class JWT {
 
@@ -96,6 +100,12 @@ public class JWT {
 
     
 
+    /**
+     * Generates a JWT for a worker based on the worker's ID.
+     * 
+     * @param id the ID of the worker to be included in the JWT as the subject
+     * @return a String representing the signed JWT
+     */
     private String generateTokenForWorker(String id) {
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
@@ -113,6 +123,14 @@ public class JWT {
     }
 
 
+    /**
+     * Authenticates a worker using email and password and generates a JWT upon successful authentication.
+     * 
+     * @param email the email of the worker attempting to authenticate
+     * @param password the password provided by the worker for authentication
+     * @return a JWT as a String if authentication is successful, null otherwise
+     * @throws IllegalArgumentException if the secret key, email, or password is null or blank
+     */
     public String loginWorkerJWT(String email, String password){
         if(SECRET_KEY==null || SECRET_KEY.isBlank()){
             throw new IllegalArgumentException("Secret is null");

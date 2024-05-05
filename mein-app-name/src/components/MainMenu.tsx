@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import für Navigation
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './DesignVorlage.css';
-import './PageIndexCustomer.css';
+import './MainMenu.css';
 import { Link } from 'react-router-dom';
 import { login } from "../backend/api";
 import { Col, Container, Nav, NavDropdown, Navbar, Row } from 'react-bootstrap';
 
-export function PageIndexCustomer() {
+export function MainMenu() {
 
     return (
 
         <>
-            <Navbar      variant="dark" expand="lg">
+            <Navbar variant="dark" expand="lg">
                 <Container>
                     <Nav className='mx-auto'>
                         <NavDropdown title={<img src={"/SFAE_Logo.png"} height="35" alt="Dropdown Logo" />} id="collapsible_nav_dropdown">
@@ -96,19 +96,19 @@ export function PageIndexCustomer() {
                     <h1>Willkommen</h1>
 
                     <Row className="mb-3">
-    <Col className="text-center"> {/* Verwende die text-center Klasse hier */}
-        <form className="mx-auto">
-            <div className='input-group mb-3'>
-                <input
-                    type="input"
-                    className="form-control search-field"
-                    placeholder="Was brauchen sie ?..."
-                />
-                <button className="btn btn-primary" type="button">Suchen</button>
-            </div>
-        </form>
-    </Col>
-</Row>
+                        <Col className="text-center"> {/* Verwende die text-center Klasse hier */}
+                            <form className="mx-auto">
+                                <div className='input-group mb-3'>
+                                    <input
+                                        type="input"
+                                        className="form-control mx-auto"
+                                        placeholder="Was brauchen sie ?..."
+                                    />
+                                    <button className="btn btn-primary" type="button">Suchen</button>
+                                </div>
+                            </form>
+                        </Col>
+                    </Row>
 
 
 

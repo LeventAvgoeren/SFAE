@@ -1,5 +1,5 @@
 export function PageCustomerFAQ() {
     return( 
-        <div>PageFinancesWorker</div>
+        <div>PageCustomerFaq</div>
     )
 }

@@ -147,7 +147,7 @@ public class WorkerController implements WorkerEp {
      */
     @Override
     public ResponseEntity<?> findWorkerByName(String name) {
-        if (name.length() < 0) {
+        if (name == null || name.isEmpty()) {
             return ResponseEntity.badRequest().body("Name is null");
         }
         try{

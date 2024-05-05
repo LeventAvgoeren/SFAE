@@ -32,6 +32,7 @@ import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class WorkerTests{
 
     @Autowired
@@ -45,8 +46,8 @@ public class WorkerTests{
         String json = "{" +
     "\"name\": \"Levent Avgören\"," +
     "\"location\": \"Köln\"," +
-    "\"password\": \"passwordsd1234\"," +
-    "\"email\": \"Levenstavgorenda@gmail.com\"," +
+    "\"password\": \"passwordsdsad1234\"," +
+    "\"email\": \"Levenstavgorenddsa@gmail.com\"," +
     "\"range\": 1.1," +
     "\"jobType\": \"GÄRTNER\"," +
     "\"minPayment\": 1.1" +
@@ -73,11 +74,10 @@ public class WorkerTests{
         System.out.println("A " + contentAsString);
     }
 
-    //zwei namen funktioniert nicht 
     @Test
     public void testGetWorkerByTowNames() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/Levent_Avgören"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/Levent avgören"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -155,7 +155,7 @@ public void testUpdateWorker() throws Exception {
 @Test
 public void loginWorker() throws Exception{
 
-        String json = "{ \"password\": \"hahahhdaasd21\", \"email\": \"Leventvdsdgoren@gmail.com\"}";
+        String json = "{ \"password\": \"passwordsdsad1234\", \"email\": \"Levenstavgorenddsa@gmail.com\"}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         MvcResult mvcResult = mockMvc.perform(post("/worker/login")

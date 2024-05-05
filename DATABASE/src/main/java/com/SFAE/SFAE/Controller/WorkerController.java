@@ -62,10 +62,10 @@ public class WorkerController implements WorkerEp {
                 mail.sendSimpleMessage(worker.getEmail(), "Wilkommen bei SFAE", "Worker erstellt");
                 return ResponseEntity.status(HttpStatus.CREATED).body(builded);
             }
-            return ResponseEntity.status(HttpStatus.CREATED).body(builded);
         } catch (Exception e) {
-            throw new IllegalArgumentException(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
     }
 
@@ -87,10 +87,9 @@ public class WorkerController implements WorkerEp {
                 return ResponseEntity.status(HttpStatus.OK).build();
             }
         } catch (Error error) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
     }
 
     /**
@@ -106,11 +105,11 @@ public class WorkerController implements WorkerEp {
             if (worker != null) {
                 return ResponseEntity.status(HttpStatus.OK).body(worker);
             }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
 
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     /**
@@ -125,10 +124,16 @@ public class WorkerController implements WorkerEp {
         if (id < 0) {
             return ResponseEntity.badRequest().body("id can be <0 or is null");
         }
-        Worker found = dao.findWorkersbyID(id);
-        if (found != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(found);
+        try {
+            Worker found = dao.findWorkersbyID(id);
+            if (found != null) {
+                return ResponseEntity.status(HttpStatus.OK).body(found);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
         }
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
     }
@@ -145,9 +150,14 @@ public class WorkerController implements WorkerEp {
         if (name.length() < 0) {
             return ResponseEntity.badRequest().body("Name is null");
         }
-        Worker found = dao.findWorkerbyName(name);
-        if (found != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(found);
+        try{
+            Worker found = dao.findWorkerbyName(name);
+            if (found != null) {
+                return ResponseEntity.status(HttpStatus.OK).body(found);
+            }
+        }
+        catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
@@ -169,8 +179,7 @@ public class WorkerController implements WorkerEp {
             dao.updateWorker(jsonData);
 
         } catch (Exception e) {
-            System.out.println(e);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
@@ -190,14 +199,14 @@ public class WorkerController implements WorkerEp {
         try {
             String token = jwt.loginWorkerJWT(login.getEmail(), login.getPassword());
             if (token == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
 
             Worker worker = dao.findWorkerbyEmail(login.getEmail());
 
             return ResponseEntity.ok().body(new LoginResponseWorker(String.valueOf(worker.getId()), token));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NON_AUTHORITATIVE_INFORMATION).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();        
         }
     }
 

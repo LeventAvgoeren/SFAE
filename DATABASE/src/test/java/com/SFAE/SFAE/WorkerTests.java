@@ -32,7 +32,6 @@ import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 public class WorkerTests{
 
     @Autowired
@@ -46,8 +45,8 @@ public class WorkerTests{
         String json = "{" +
     "\"name\": \"Levent Avgören\"," +
     "\"location\": \"Köln\"," +
-    "\"password\": \"hahahhsdaasd21\"," +
-    "\"email\": \"Levenstvdsdgodsren@gmail.com\"," +
+    "\"password\": \"passwordsd1234\"," +
+    "\"email\": \"Levenstavgorenda@gmail.com\"," +
     "\"range\": 1.1," +
     "\"jobType\": \"GÄRTNER\"," +
     "\"minPayment\": 1.1" +

@@ -127,10 +127,6 @@ public class JWT {
                 return generateTokenForWorker(String.valueOf(worker.getId()));
             
          }
-         
-
-         //Gucken ob es den worker gibt mit der email addresse und richtigen pw 
-        
          }
         return null;
     }

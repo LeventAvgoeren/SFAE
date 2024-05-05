@@ -1,76 +1,50 @@
-.background-customer, .background-worker , .background-city{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; 
-    background-size: cover;
-    background-position: center;
-  }
-  
-  .container-frame {
-    width: 600px;
-    height: 400px;
-    background-color: #2D5277;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 20px;
-  }
-  
-  h1 {
-    color: white;
-    text-align: center;
-  }
-  
-  .role-selection button {
-    margin: 10px;
-    padding: 10px 20px;
-  }
-  
-  .anmelden-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    transition-duration: 0.2s;
-  }
-  
-  .background-customer {
-        background-image: url('/public/customer.jpg'); /* Aktualisiere diesen Pfad */
-      }
-      
-      .background-worker {
-        background-image: url('/public/worker.jpg'); /* Aktualisiere diesen Pfad */
-      }
-  .background-customer, .background-worker {
-    background-image: url('/public/customer.jpg'); /* Aktualisiere diesen Pfad */
-  }
-  
-  .background-worker {
-    background-image: url('/public/worker.jpg'); /* Aktualisiere diesen Pfad */
-  }
+.role-selection {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
 
-  .background-city{
-    background-image: url('/public/City.gif'); /* Aktualisiere diesen Pfad */
-  }
-  
+.role-image {
+  flex: 1;
+  height: 100vh;
+  cursor: pointer;
+  transition: opacity 0.5s ease;
+}
 
-  .background-customer, .background-worker , .background-city{
-    transition: background-image 0.5s ease-in-out; /* Sanfter Übergang der Hintergrundbilder */
+.left-image {
+  background: url('/public/index1.jpg') no-repeat center center;
+  background-size: cover;
+}
+
+.right-image {
+  background: url('/public/index2.jpg') no-repeat center center;
+  background-size: cover;
+}
+
+.role-image:hover {
+  opacity: 0.8;
+}
+
+.selected {
+  opacity: 1;
+  box-shadow: 0 0 20px 10px white inset;
+}
+
+.container-frame {
+  position: relative;
+  z-index: 10;
+  animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  
-  .fade-background {
-    animation: fadeEffect 1s;
+  to {
+    opacity: 1;
   }
-  
-  @keyframes fadeEffect {
-    from { opacity: 0.5; }
-    to { opacity: 1; }
-  }
-  
+}

@@ -50,7 +50,7 @@ class CustomerController implements CustomerEP {
     @Autowired
     private MailService mail;
 
-    @Autowired
+
     private Logger logger;
 
     /**

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.SFAE.SFAE.DTO.LoginRequest;
 import com.SFAE.SFAE.DTO.LoginResponseWorker;
 import com.SFAE.SFAE.DTO.WorkerDTO;
@@ -95,14 +96,12 @@ public class WorkerController implements WorkerEp {
     public ResponseEntity<Iterable<Worker>> findAllWorker() {
         try {
             var worker = dao.findAllWorker();
-            if (worker != null) {
-                return ResponseEntity.status(HttpStatus.OK).body(worker);
-            }
+
+            return ResponseEntity.status(HttpStatus.OK).body(worker);
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     /**
@@ -143,13 +142,12 @@ public class WorkerController implements WorkerEp {
         if (name == null || name.isEmpty()) {
             return ResponseEntity.badRequest().body("Name is null");
         }
-        try{
+        try {
             Worker found = dao.findWorkerbyName(name);
             if (found != null) {
                 return ResponseEntity.status(HttpStatus.OK).body(found);
             }
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -199,7 +197,7 @@ public class WorkerController implements WorkerEp {
 
             return ResponseEntity.ok().body(new LoginResponseWorker(String.valueOf(worker.getId()), token));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();        
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 

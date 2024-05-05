@@ -14,6 +14,7 @@ import com.SFAE.SFAE.ENTITY.Worker;
  * 
  * @author Levent
  */
+//@RepositoryRestResource
 public interface WorkerInterface {
 
   /**

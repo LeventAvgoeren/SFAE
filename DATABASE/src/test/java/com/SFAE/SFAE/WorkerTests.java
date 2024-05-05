@@ -32,7 +32,7 @@ import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
+
 public class WorkerTests{
 
     @Autowired
@@ -43,6 +43,7 @@ public class WorkerTests{
 
     @Test
     public void testCreateWorker() throws Exception {
+<<<<<<< HEAD
         String json = "{" +
     "\"name\": \"Levent Avgören\"," +
     "\"location\": \"Köln\"," +
@@ -52,6 +53,21 @@ public class WorkerTests{
     "\"jobType\": \"GÄRTNER\"," +
     "\"minPayment\": 1.1" +
 "}";
+=======
+        String json = "{\r\n" + //
+                        "    \"name\": \"Kalb Hund\",\r\n" + //
+                        "    \"location\": \"Köln\",\r\n" + //
+                        "    \"password\": \"hahahhdaasd21\",\r\n" + //
+                        "    \"email\": \"Leventavgoren@gmail.com\",\r\n" + //
+                        "    \"status\": \"AVAILABLE\",\r\n" + //
+                        "    \"statusOrder\": \"ACCEPTED\",\r\n" + //
+                        "    \"range\": 1.1,\r\n" + //
+                        "    \"jobType\": \"GÄRTNER\",\r\n" + //
+                        "    \"minPayment\": 1.1,\r\n" + //
+                        "    \"rating\": 1.1,\r\n" + //
+                        "    \"verification\": true\r\n" + //
+                        "}";
+>>>>>>> 95e3ef4bb914c80286f331da0052824a9d813a19
         System.out.println(json);
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
@@ -77,7 +93,11 @@ public class WorkerTests{
     @Test
     public void testGetWorkerByTowNames() throws Exception {
 
+<<<<<<< HEAD
          MvcResult mvcResult = mockMvc.perform(get("/worker/usr/Levent avgören"))
+=======
+         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/Levent_Avgören"))
+>>>>>>> 95e3ef4bb914c80286f331da0052824a9d813a19
                 .andExpect(status().isOk())
                 .andReturn();
 

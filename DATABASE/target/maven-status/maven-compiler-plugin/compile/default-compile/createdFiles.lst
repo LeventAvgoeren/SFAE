@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 com\SFAE\SFAE\ENUM\Role.class
 com\SFAE\SFAE\ENTITY\Customer.class
 com\SFAE\SFAE\INTERFACE\WorkerInterface.class
@@ -13,3 +14,5 @@ com\SFAE\SFAE\IMPLEMENTATIONS\CustomerImp.class
 com\SFAE\SFAE\INTERFACE\DataFactoryInterface.class
 com\SFAE\SFAE\ENTITY\Worker.class
 com\SFAE\SFAE\DTO\CustomerDTO.class
+=======
+>>>>>>> 95e3ef4bb914c80286f331da0052824a9d813a19

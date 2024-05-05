@@ -1,15 +1,9 @@
 package com.SFAE.SFAE.Controller;
 
-import java.util.Map;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-
 import com.SFAE.SFAE.DTO.LoginRequest;
 import com.SFAE.SFAE.DTO.LoginResponseWorker;
 import com.SFAE.SFAE.DTO.WorkerDTO;
@@ -17,7 +11,6 @@ import com.SFAE.SFAE.ENDPOINTS.WorkerEp;
 import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.Security.JWT;
-import com.SFAE.SFAE.Service.Authentication;
 import com.SFAE.SFAE.Service.MailService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;

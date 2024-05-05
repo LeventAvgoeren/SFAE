@@ -111,7 +111,6 @@ public class CustomerImp implements CustomerInterface {
      */
     @Override
     public Customer findCustomerbyName(String name) {
-
         List<Optional<Customer>> results = jdbcTemplate.query(
                 "SELECT * FROM CUSTOMER WHERE name = ?",
                 ps -> {
@@ -154,12 +153,13 @@ public class CustomerImp implements CustomerInterface {
      */
     @Override
     public Customer createCustomer(CustomerDTO jsonData) { // For the Endpoint
+        System.out.println(jsonData);
         try {
             String name = jsonData.getName();
             String password = encoder.hashPassword(jsonData.getPassword());
             String email = jsonData.getEmail();
 
-            if (password.equals(null) || name.equals(null) || email.equals(null)) {
+            if (password == null || name == null || email == null) {
                 return null;
             }
 

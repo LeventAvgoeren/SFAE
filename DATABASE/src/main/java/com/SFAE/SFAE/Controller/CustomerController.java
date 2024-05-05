@@ -50,7 +50,6 @@ class CustomerController implements CustomerEP {
     @Autowired
     private MailService mail;
 
-    @Autowired
     private Logger logger;
 
     /**
@@ -97,17 +96,13 @@ class CustomerController implements CustomerEP {
      */
     @Override
     public ResponseEntity<?> createCustomer(@Valid @RequestBody CustomerDTO customerData, BindingResult bindingResult) {
-
+        System.out.println(customerData.getPassword());
         if (bindingResult.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getFieldErrors().stream()
                     .map(fieldError -> fieldError.getDefaultMessage())
                     .collect(Collectors.toList()));
         }
 
-        if (customerData.getId() < 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    String.format("Customer id: %d negative", customerData.getId(), HttpStatus.BAD_REQUEST.value()));
-        }
 
         try {
             Customer customer = dao.createCustomer(customerData);

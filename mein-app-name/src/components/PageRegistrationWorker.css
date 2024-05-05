@@ -41,3 +41,23 @@ select {
     margin: 4px;
     border-radius: 4px;
 }
+
+select.form-select {
+    color: black; /* Textfarbe */
+    background-color: white; /* Hintergrundfarbe */
+    border: 1px solid #ccc; /* Rahmenfarbe */
+    -webkit-appearance: none; /* Entfernt den nativen macOS-Stil in WebKit-Browsern */
+    appearance: none; /* Standard-Dropdown-Stil entfernen */
+}
+
+/* Anpassen des Dropdown-Elements beim Fokussieren */
+select.form-select:focus {
+    outline: none; /* Entfernt den blauen Umriss bei Fokus */
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1); /* Optional: fügt einen subtilen Schatten hinzu */
+}
+
+/* Stil für die Optionen im Dropdown */
+select.form-select option {
+    background-color: white; /* Hintergrundfarbe für Optionen */
+    color: black; /* Textfarbe für Optionen */
+}

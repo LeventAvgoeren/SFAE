@@ -1,0 +1,37 @@
+/* Stelle sicher, dass die Navbar den gesamten horizontalen Platz einnimmt */
+.navbar {
+    width: flex;
+    z-index: 1040; /* Standard z-index von Bootstrap für Navbar */
+  }
+  
+  /* Sorgt dafür, dass das Dropdown-Menü sich innerhalb der Grenzen der Navbar befindet */
+  .nav-dropdown, #collapsible-nav-dropdown {
+    position: flex; /* Übergeordnete Positionierung für Dropdown-Menü auf 'static' setzen */
+  }
+  
+  /* Dropdown-Menü-Position anpassen */
+  .dropdown-menu {
+    position: absolute; /* Positionierung des Dropdown-Menüs auf 'absolute' setzen */
+    left: auto; /* Setze den linken Rand auf 'auto', damit das Menü rechtsbündig ausgerichtet wird */
+    right: 0; /* Richte das Menü rechts aus */
+    top: 100%; /* Positioniere das Menü direkt unter der Nav-Komponente */
+  }
+  
+  /* Dropdown-Menü für mobile Ansicht anpassen */
+  @media (max-width: 768px) { /* Bootstrap mobile Ansicht Breakpoint */
+    .navbar-nav {
+      flex-direction: column; /* Staple die Nav-Elemente vertikal */
+    }
+  
+    .nav-dropdown, #collapsible-nav-dropdown {
+      position: static; /* Setze die Position auf 'static', um ein korrektes Verhalten in der mobilen Ansicht zu gewährleisten */
+    }
+  
+    .dropdown-menu {
+      width: 100%; /* Setze die Breite des Dropdown-Menüs auf 100% */
+    }
+  }
+  
+  
+  
+  

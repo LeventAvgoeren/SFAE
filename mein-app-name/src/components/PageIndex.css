@@ -1,0 +1,50 @@
+.role-selection {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.role-image {
+  flex: 1;
+  height: 100vh;
+  cursor: pointer;
+  transition: opacity 0.5s ease;
+}
+
+.left-image {
+  background: url('/public/index1.jpg') no-repeat center center;
+  background-size: cover;
+}
+
+.right-image {
+  background: url('/public/index2.jpg') no-repeat center center;
+  background-size: cover;
+}
+
+.role-image:hover {
+  opacity: 0.8;
+}
+
+.selected {
+  opacity: 1;
+  box-shadow: 0 0 20px 10px white inset;
+}
+
+.container-frame {
+  position: relative;
+  z-index: 10;
+  animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

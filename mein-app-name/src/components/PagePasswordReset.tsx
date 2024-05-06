@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './DesignVorlage.css';
+import './PagePasswordReset.css'
 import { Link } from 'react-router-dom';
 import { Button, Col, Row } from 'react-bootstrap';
 
@@ -30,11 +30,11 @@ export function PagePasswordReset() {
 
     return (
         <div className="background-city">
-            <div className="container-frame">
+            <div className="container-frame3">
                 <img src={'/SFAE_Logo.png'} alt="SFAE Logo" className="img-fluid" />
 
-                <h1>Passwort zurücksetzen</h1>
-                <form className="w-50 mx-auto" onSubmit={handleSubmit}>
+                <h1 style={{ color: 'white', textAlign: 'center' }}>Passwort zurücksetzen</h1>
+                <form onSubmit={handleSubmit} style={{ width: '100%' }}>
                     <div className="mb-3">
                         <label htmlFor="emailInput" className="form-label"></label>
                         <input
@@ -76,13 +76,13 @@ export function PagePasswordReset() {
                     )}
 
                     <Row>
-                        <Col xs="6" className="text-right">
-                            <Button variant='secondary'>
-                                <Link to="/login" className="link text-decoration-none ">Zurück zum Login</Link>
+                        <Col xs="6">
+                            <Button variant='secondary' className="w-100 small-text">
+                                <Link to="/login" className="link">Zurück zum Login</Link>
                             </Button>
                         </Col>
-                        <Col xs="6" className="text-right">
-                            <button type="submit" className="btn btn-primary">Passwort zurücksetzen</button>
+                        <Col xs="6">
+                            <button type="submit" className="btn btn-primary w-100 small-text">Passwort zurücksetzen</button>
                         </Col>
                     </Row>
                 </form>

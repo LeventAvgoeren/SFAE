@@ -54,7 +54,6 @@ public class Contract {
   @JoinColumn(name = "worker_id")
   private Worker worker;
 
-
   public Contract(JobList jobType, String adress, Payment payment, String description, StatusOrder statusOrder,
       Double range, Customer customer, Worker worker) {
     this.jobType = jobType;
@@ -65,6 +64,20 @@ public class Contract {
     this.range = range;
     this.customer = customer;
     this.worker = worker;
+  }
+  
+//With id
+  public Contract(Long id, JobList jobType, String adress, Payment payment, String description, StatusOrder statusOrder,
+      Double range, Customer customer, Worker worker) {
+    this.jobType = jobType;
+    this.adress = adress;
+    this.payment = payment;
+    this.description = description;
+    this.statusOrder = statusOrder;
+    this.range = range;
+    this.customer = customer;
+    this.worker = worker;
+    this.id = id;
   }
 
   public Long getId() {

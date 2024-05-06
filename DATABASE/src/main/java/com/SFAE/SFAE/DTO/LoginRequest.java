@@ -1,7 +1,15 @@
 package com.SFAE.SFAE.DTO;
 
+import org.springframework.stereotype.Component;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Email;
+
+@Component
 public class LoginRequest {
+    @Email(message = "Email not valid")
     private String email;
+
+    @NotBlank(message = "Password is empty")
     private String password;
 
     public LoginRequest() {}

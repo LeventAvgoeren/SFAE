@@ -1,5 +1,10 @@
 package com.SFAE.SFAE.ENUM;
 /**
+ * Enum representing various job types.
+ * 
+ * This enum lists different types of jobs that can be associated with a Worker.
+ * Each job type represents a specific role or profession.
+ * 
  * @author Levent
  */
 public enum JobList {

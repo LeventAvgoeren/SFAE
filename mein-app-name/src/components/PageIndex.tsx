@@ -1,41 +1,40 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, Card } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './PageIndex.css';
-
-type Role = 'customer' | 'worker';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import "./PageIndex.css";
 
 export function PageIndex() {
-  const [role, setRole] = useState<Role | ''>(''); // Initial leer, keine Rolle ausgewählt
-  const navigate = useNavigate();
+  const [role, setRole] = useState("customer");
+  const [fade, setFade] = useState(false);
 
-  // Funktion zum Verarbeiten der Rollenauswahl
-  const handleRoleSelect = (selectedRole: Role) => {
-    setRole(selectedRole); // Setze die gewählte Rolle
-    navigate(`/registration/${selectedRole}`); // Navigiere zur entsprechenden Registrierungsseite
-  };
+  useEffect(() => {
+    setFade(true);
+    const timer = setTimeout(() => setFade(false), 1000);
+    return () => clearTimeout(timer);
+  }, [role]);
 
-  const navigateToLogin = () => {
-    navigate('/login');
+  // Funktion, die den Registrierungspfad basierend auf der Rolle zurückgibt
+  const getRegistrationPath = () => {
+    return role === "worker" ? "/registration/worker" : "/registration/customer";
   };
 
   return (
-    <div className="role-background" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-      <div className="role-selection">
-        <div className={`role-image left-image ${role === 'customer' ? 'selected' : ''}`} onClick={() => handleRoleSelect('customer')}></div>
-        <div className={`role-image right-image ${role === 'worker' ? 'selected' : ''}`} onClick={() => handleRoleSelect('worker')}></div>
+    <div className={`${role === "customer" ? "background-customer" : "background-worker"} ${fade ? " fade-background" : ""}`}>
+      <div className="container-frame">
+        <div className="role-selection">
+          <button className="btn btn-outline-success me-2" onClick={() => setRole("customer")}>Customer</button>
+          <button className="btn btn-outline-success me-2" onClick={() => setRole("worker")}>Worker</button>
+        </div>
+        <h1>
+          Hey, zum ersten Mal hier? Suche dir eine Rolle aus, melde dich am besten an und wir können loslegen!
+        </h1>
+        <Link to={getRegistrationPath()}>
+          <button type="button" className="btn btn-outline-light anmelden-button">Registrieren</button>
+        </Link>
+        
+        <Link to="/login">
+          <button type="button" className="btn btn-outline-light anmelden-button">Anmelden</button>
+        </Link>
       </div>
-      <Card className="container-frame text-center" style={{ width: '600px', backgroundColor: '#2D5277', padding: '20px', boxShadow: '0 0 10px rgba(0,0,0,0.5)', borderRadius: '20px' }}>
-        <Card.Header>Willkommen auf SfÆ</Card.Header>
-        <Card.Body>
-          <h1>Wähle deine Rolle aus und melde dich an!</h1>
-        </Card.Body>
-        <Card.Footer>Wenn du etwas nicht verstehen solltest oder überfordert bist Drück gerne hier damit ich dir alles erkläre.</Card.Footer>
-        <Button variant="outline-light" onClick={navigateToLogin} style={{ marginTop: '20px', fontSize: '16px', padding: '10px 20px' }}>
-            Falls du bereits ein Konto hast, kannst du dich hier anmelden.
-          </Button>
-      </Card>
     </div>
   );
 }

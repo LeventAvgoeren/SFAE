@@ -15,7 +15,7 @@
   .frame {
     flex: 1; /* Jeder Frame nimmt gleich viel Platz ein */
     margin: 0 10px; /* Abstand zwischen den Frames */
-    background-color: #f8f9fa;
+    
     border: 1px solid #ccc; /* Rahmen hinzufügen */
     box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Schatten für bessere Sichtbarkeit */
     cursor: pointer;

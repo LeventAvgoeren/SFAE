@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import für Navigation
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './DesignVorlage.css';
-import './PageIndexCustomer.css';
-import { Link } from 'react-router-dom';
-import { login } from "../backend/api";
 import { Col, Container, Nav, NavDropdown, Navbar, Row } from 'react-bootstrap';
+import "./MainMenu.css"
+import "./PageIndexCustomer.css"
 
 export function PageIndexCustomer() {
 

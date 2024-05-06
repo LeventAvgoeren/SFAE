@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../backend/api";
-import {
-  MDBContainer,
-  MDBInput,
-  MDBCheckbox,
-  MDBBtn,
-  MDBIcon
-} from 'mdb-react-ui-kit';
+import { MDBBtn, MDBContainer, MDBIcon, MDBInput } from 'mdb-react-ui-kit';
+
 
 export function PageLogin() {
   const [email, setEmail] = useState('');
@@ -59,7 +54,7 @@ export function PageLogin() {
         {error && <div className="alert alert-danger" role="alert">{error}</div>}
 
         <div className="text-center">
-          <p>Doch kein Konto? <a href="#!">Registriere dich hier</a></p>
+          <p>Doch kein Konto? Registriere dich hier als oder Worker<a href="#!">Customer</a></p>
           <div className='d-flex justify-content-between mx-auto' style={{width: '40%'}}>
             <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
               <MDBIcon fab icon='facebook-f' size="sm"/>

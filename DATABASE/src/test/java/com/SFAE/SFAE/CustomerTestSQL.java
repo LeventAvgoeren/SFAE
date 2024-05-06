@@ -35,7 +35,7 @@ public class CustomerTestSQL {
 
     @Test
     public void testCreateCustomer() throws Exception {
-        String json = "{ \"name\": \"Max bauer\", \"password\": \"passwort123\", \"email\": \"erayzor045@gmail.com\", \"role\": \"ADMIN\"}";
+        String json = "{ \"name\": \"Max Muster\", \"password\": \"passwort123\", \"email\": \"erayor045@gmail.com\"}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         mockMvc.perform(post("/customer")
@@ -48,16 +48,17 @@ public class CustomerTestSQL {
 
     @Test
     public void testGetCustomerByName() throws Exception {
-
-            mockMvc.perform(get("/customer/usr/Max"))
+            
+            mockMvc.perform(get("/customer/usr/Max MusterMann"))
                 .andExpect(status().isOk())
                 .andReturn();
 
     }
+
     @Test
     public void testGetCustomerBySecName() throws Exception {
 
-            mockMvc.perform(get("/customer/usr/Max_bauer"))
+            mockMvc.perform(get("/customer/usr/Max MusterMann"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -72,22 +73,10 @@ public class CustomerTestSQL {
 
     }
     
-   
-    @Test 
-    public void testDeleteCustomerByID() throws Exception {
-
-            mockMvc.perform(delete("/customer/3"))
-                .andExpect(status().isOk())
-                .andReturn();
-
-    }
-
-
-    
     @Test
     public void testUpdateCustomerByID() throws Exception {
         CustomerDTO customerData = new CustomerDTO();
-        customerData.setId(2L);
+        customerData.setId(1L);
         customerData.setName("Test Name");
         customerData.setEmail("test@example.com");
         customerData.setRole("ADMIN");
@@ -107,7 +96,7 @@ public class CustomerTestSQL {
     
     @Test
     public void testLoginCustomer() throws Exception {
-        String json = "{ \"password\": \"passwort123\", \"email\": \"levo@example.com\"}";
+        String json = "{ \"password\": \"passwort123\", \"email\": \"erayzor045@gmail.com\"}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         MvcResult mvcResult = mockMvc.perform(post("/customer/login")

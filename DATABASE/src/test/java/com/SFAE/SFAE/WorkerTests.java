@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -44,19 +43,15 @@ public class WorkerTests{
 
     @Test
     public void testCreateWorker() throws Exception {
-        String json = "{\r\n" + //
-                        "    \"name\": \"Kalb Hund\",\r\n" + //
-                        "    \"location\": \"Köln\",\r\n" + //
-                        "    \"password\": \"hahahhdaasd21\",\r\n" + //
-                        "    \"email\": \"erayzor045@gmail.com\",\r\n" + //
-                        "    \"status\": \"AVAIBLE\",\r\n" + //
-                        "    \"statusOrder\": \"ACCEPTED\",\r\n" + //
-                        "    \"range\": 1.1,\r\n" + //
-                        "    \"jobType\": \"GÄRTNER\",\r\n" + //
-                        "    \"minPayment\": 1.1,\r\n" + //
-                        "    \"rating\": 1.1,\r\n" + //
-                        "    \"verification\": true\r\n" + //
-                        "}";
+        String json = "{" +
+    "\"name\": \"Levent Avgören\"," +
+    "\"location\": \"Köln\"," +
+    "\"password\": \"passwordsasdsad1234\"," +
+    "\"email\": \"Levenstavgorendsssddsdsa@gmail.com\"," +
+    "\"range\": 1.1," +
+    "\"jobType\": \"GÄRTNER\"," +
+    "\"minPayment\": 1.1" +
+"}";
         System.out.println(json);
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
@@ -71,7 +66,7 @@ public class WorkerTests{
       @Test
     public void testGetWorkerByName() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/Kenno"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/Levent"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -82,7 +77,7 @@ public class WorkerTests{
     @Test
     public void testGetWorkerByTowNames() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/Max_Mustermann"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/Levent avgören"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -93,7 +88,7 @@ public class WorkerTests{
     @Test
     public void testGetWorkerrByid() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/47"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/8"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -104,7 +99,7 @@ public class WorkerTests{
     @Test
     public void testDeleteWorkerrByid() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(delete("/worker/47"))
+         MvcResult mvcResult = mockMvc.perform(delete("/worker/8"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -127,8 +122,8 @@ public class WorkerTests{
 public void testUpdateWorker() throws Exception {
     
     WorkerDTO worker = new WorkerDTO();
-    worker.setId(27L);
-    worker.setEmail("XaloSelam@gmail.com");
+    worker.setId(7L);
+    worker.setEmail("XalooosSelam@gmail.com");
     worker.setLocation("Bremen");
     worker.setJobType("HAUSMEISTER");
     worker.setMinPayment(0.9);
@@ -136,7 +131,7 @@ public void testUpdateWorker() throws Exception {
     worker.setPassword("Meinhund123");
     worker.setRange(0.8);
     worker.setRating(0.5);
-    worker.setStatus("INAVIBLE");
+    worker.setStatus("AVAILABLE");
     worker.setStatusOrder("FINISHED");
     worker.setVerification(true);
 
@@ -160,7 +155,7 @@ public void testUpdateWorker() throws Exception {
 @Test
 public void loginWorker() throws Exception{
 
-        String json = "{ \"password\": \"passwort123\", \"email\": \"Leventavgoren@gmail.com\"}";
+        String json = "{ \"password\": \"passwordsdsad1234\", \"email\": \"Levenstavgorenddsa@gmail.com\"}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         MvcResult mvcResult = mockMvc.perform(post("/worker/login")

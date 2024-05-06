@@ -1,7 +1,5 @@
 package com.SFAE.SFAE.ENDPOINTS;
 
-import java.util.Map;
-
 
 
 
@@ -19,31 +17,82 @@ import com.SFAE.SFAE.DTO.WorkerDTO;
 
 import com.SFAE.SFAE.ENTITY.Worker;
 
-/**
- * @author Levent
- */
 
+ /**
+ * Worker Endpoint Interface.
+ * 
+ * This interface defines RESTful endpoints for managing Worker entities.
+ * 
+ * @author  Levent
+ */
  @RequestMapping("/worker")
 public interface WorkerEp {
   
+
+     /**
+     * Creates a new Worker entity from the provided DTO.
+     * 
+     * @param worker The WorkerDTO containing the details of the new Worker.
+     * @return ResponseEntity containing the created Worker entity.
+     */
     @PostMapping("")
     ResponseEntity<Worker> createWorker(@RequestBody WorkerDTO worker);
 
+
+     /**
+     * Deletes a Worker entity based on the provided ID.
+     * 
+     * @param id The ID of the Worker to be deleted.
+     * @return ResponseEntity with appropriate HTTP status code.
+     */
     @DeleteMapping("/{id}")
     ResponseEntity<?> deleteWorkerById(@PathVariable("id") long id);
 
+
+     /**
+     * Retrieves all Worker entities.
+     * 
+     * @return ResponseEntity containing an Iterable of all Worker entities.
+     */
     @GetMapping("")
     ResponseEntity<Iterable<Worker>> findAllWorker();
 
+
+    /**
+     * Retrieves a Worker entity based on the provided ID.
+     * 
+     * @param id The ID of the Worker.
+     * @return ResponseEntity containing the requested Worker, if found.
+     */
     @GetMapping("/{id}")
     ResponseEntity<?> findWorkersbyID(@PathVariable("id") long id);
 
+
+
+     /**
+     * Retrieves a Worker entity based on the provided name.
+     * 
+     * @param name The name of the Worker.
+     * @return ResponseEntity containing the requested Worker, if found.
+     */
     @GetMapping("/usr/{name}")
     ResponseEntity<?>findWorkerByName(@PathVariable String name);
 
+    /**
+     * Updates a Worker entity based on the provided WorkerDTO.
+     * 
+     * @param jsonData The WorkerDTO containing the updated data.
+     * @return ResponseEntity containing the updated Worker entity.
+     */
     @PutMapping("")
     ResponseEntity<Worker> updateWorker(@RequestBody WorkerDTO jsonData);
 
+     /**
+     * Authenticates a Worker based on login credentials.
+     * 
+     * @param login The LoginRequest containing the Worker's login details.
+     * @return ResponseEntity indicating the result of the authentication process.
+     */
     @PostMapping("/login")
     ResponseEntity<?> loginWorker(@RequestBody LoginRequest login);
 }

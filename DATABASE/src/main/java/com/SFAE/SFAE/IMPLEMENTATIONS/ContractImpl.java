@@ -32,7 +32,7 @@ public class ContractImpl implements ContractInterface {
   @Override
   public Contract getContract(long id) {
     List<Contract> result = jdbcTemplate.query(
-                "SELECT * FROM CUSTOMER WHERE ID = ?",
+                "SELECT * FROM Contract WHERE ID = ?",
                 ps -> {
                     ps.setInt(1, (int) id);
                 },
@@ -93,7 +93,7 @@ private Contract createContract(ResultSet rs) {
     String adress = rs.getString("adress");
     String payment = rs.getString("payment");
     String description = rs.getString("description");
-    String statusOrder = rs.getString("status_Order");
+    String statusOrder = rs.getString("status_order");
     double range = rs.getDouble("range");
     Long customerId = rs.getLong("customer_id");
     Long workerId = rs.getLong("worker_id");
@@ -101,7 +101,7 @@ private Contract createContract(ResultSet rs) {
     Customer customer =customerImpl.findCustomerbyID(customerId);
     Worker worker= workerImpl.findWorkersbyID(workerId);
 
-    return new Contract(id,JobList.valueOf(statusOrder),adress,Payment.valueOf(payment),description,StatusOrder.valueOf(statusOrder),range,customer,worker);
+    return new Contract(id,JobList.valueOf(jobType),adress,Payment.valueOf(payment),description,StatusOrder.valueOf(statusOrder),range,customer,worker);
     //return dataFactory.createWorker(id, name, location, password, email, status, range, jobType, statusOrder,minPayment, rating, verification);
   } catch (SQLException e) {
     throw new IllegalArgumentException("Error"+e);

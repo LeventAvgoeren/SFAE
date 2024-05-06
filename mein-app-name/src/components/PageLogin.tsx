@@ -54,7 +54,8 @@ export function PageLogin() {
         {error && <div className="alert alert-danger" role="alert">{error}</div>}
 
         <div className="text-center">
-          <p>Doch kein Konto? Registriere dich hier als oder Worker<a href="#!">Customer</a></p>
+          <p>Doch kein Konto? Registriere dich hier als <a href="/registration/customer">Worker</a> oder als <a href="/registration/worker">Customer</a></p>
+          <div><a href="/passwordreset">Passwort vergessen?</a></div>
           <div className='d-flex justify-content-between mx-auto' style={{width: '40%'}}>
             <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
               <MDBIcon fab icon='facebook-f' size="sm"/>
@@ -68,7 +69,6 @@ export function PageLogin() {
             <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
               <MDBIcon fab icon='github' size="sm"/>
             </MDBBtn>
-            
           </div>
         </div>
       </form>

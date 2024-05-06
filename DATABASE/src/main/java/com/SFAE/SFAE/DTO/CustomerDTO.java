@@ -10,12 +10,16 @@ import javax.validation.constraints.NotBlank;
 @Component
 public class CustomerDTO {
     private Long id;
+
     @NotBlank(message = "Name is required")
     private String name;
+
     @NotBlank(message = "Email is required")
     private String email;
+
     @NotBlank(message = "Password is required")
     private String password;
+    
     private String role;
 
     public String getName() {

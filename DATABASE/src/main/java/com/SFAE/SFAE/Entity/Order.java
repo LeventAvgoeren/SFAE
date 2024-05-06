@@ -51,4 +51,6 @@ public class Order{
   private Double range;
 
   //TODO: Customer und Worker PK/FK
+  //TODO: Update Registrierungs email inahalt 
+  //TODO:
 }

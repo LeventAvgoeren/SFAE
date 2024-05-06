@@ -32,7 +32,7 @@ import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-
+@Transactional
 public class WorkerTests{
 
     @Autowired
@@ -47,7 +47,7 @@ public class WorkerTests{
     "\"name\": \"Levent Avgören\"," +
     "\"location\": \"Köln\"," +
     "\"password\": \"passwordsasdsad1234\"," +
-    "\"email\": \"Levenstavgorendssssdsa@gmail.com\"," +
+    "\"email\": \"Levenstavgorendsssddsdsa@gmail.com\"," +
     "\"range\": 1.1," +
     "\"jobType\": \"GÄRTNER\"," +
     "\"minPayment\": 1.1" +
@@ -88,7 +88,7 @@ public class WorkerTests{
     @Test
     public void testGetWorkerrByid() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/7"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/8"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -99,7 +99,7 @@ public class WorkerTests{
     @Test
     public void testDeleteWorkerrByid() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(delete("/worker/7"))
+         MvcResult mvcResult = mockMvc.perform(delete("/worker/8"))
                 .andExpect(status().isOk())
                 .andReturn();
 

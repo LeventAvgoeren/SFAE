@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.SFAE</groupId>
 	<artifactId>SFAE</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<name>SFAE</name>
 	<description>SFAE with PostgreSQL</description>
 	<properties>

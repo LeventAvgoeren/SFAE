@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
-import { Button, Col, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './DesignVorlage.css';
-import './PageRegistration.css';
+import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol } from 'mdb-react-ui-kit';
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import './DesignVorlage.css'; // Eigene Stilvorlagen
 import { registrationCustomer } from '../backend/api';
+import { Link } from 'react-router-dom'; // React Router für Link-Benutzung
+import './PageRegistration.css';
 
-export function PageRegistration() {
+export default function PageRegistration() {
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [role, setRole] = useState(''); // Manage this state if roles are predefined
-
+    const [backgroundImage, setBackgroundImage] = useState('/index2.jpg');
+    
     const handleRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
         try {
-            const response = await registrationCustomer(name, password,email);
+            const response = await registrationCustomer(name, password, email);
             console.log('Registration successful:', response);
             alert('Registration successful!');
         } catch (error) {
@@ -26,70 +26,27 @@ export function PageRegistration() {
     };
 
     return (
-        <div className="background">
-            <div className="container-frame">
-                <div style={{ height: '300px' }}></div>
-                <img src={'/SFAE_Logo.png'} alt="SFAE Logo" className="img-fluid" />
-                <h1 className="text-center">Registrieren</h1>
-                <form className="w-50 mx-auto" onSubmit={handleRegistration}>
-                    <div style={{ height: '20px' }}></div>
-
-                    <div className="input-group mb-3">
-                        <input 
-                            type="text" 
-                            className="form-control" 
-                            value={name}
-                            onChange={e => setName(e.target.value)}
-                            placeholder="Vollständiger Name"
-                            required 
-                        />
-                    </div>
-
-                    <div className="input-group mb-3">
-                        <input 
-                            type="text" 
-                            className="form-control" 
-                            value={address}
-                            onChange={e => setAddress(e.target.value)}
-                            placeholder="Adresse"
-                            required 
-                        />
-                    </div>
-
-                    <div className="input-group mb-3">
-                        <input 
-                            type="email" 
-                            className="form-control" 
-                            value={email}
-                            onChange={e => setEmail(e.target.value)}
-                            placeholder="name@example.com"
-                            required 
-                        />
-                    </div>
-
-                    <div className="input-group mb-3">
-                        <input 
-                            type="password" 
-                            className="form-control" 
-                            value={password}
-                            onChange={e => setPassword(e.target.value)}
-                            placeholder="Passwort"
-                            required 
-                        />
-                    </div>
-
-                    <Row>
-                        <Col xs="6" className="text-right">
-                            <Button variant="secondary">
-                                <Link to="/login" className="link text-decoration-none">Zurück zum Login</Link>
-                            </Button>
-                        </Col>
-                        <Col xs="6" className="text-right">
-                            <Button type="submit" variant="primary">Registrieren</Button>
-                        </Col>
-                    </Row>
-                </form>
-            </div>
-        </div>
-    );
+<MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{/* backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' */}}>
+          <MDBCard className='m-5' style={{maxWidth: '600px'}}>
+            <MDBCardBody className='px-5'>
+              <h2 className="text-uppercase text-center mb-5">Erstelle ein Customer Account!</h2>
+              <form onSubmit={handleRegistration}>
+                <MDBInput wrapperClass='mb-4' label='Dein Name' size='lg' id='form1' type='text' value={name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} required/>
+                <MDBInput wrapperClass='mb-4' label='Adresse' size='lg' id='formAddress' type='text' value={address} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAddress(e.target.value)} required/>
+                <MDBInput wrapperClass='mb-4' label='Deine E-Mail' size='lg' id='form2' type='email' value={email} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} required/>
+                <MDBInput wrapperClass='mb-4' label='Passwort' size='lg' id='form3' type='password' value={password} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)} required/>
+                <MDBCheckbox name='flexCheck' id='flexCheckDefault' label='Ich stimme den Nutzungsbedingungen zu' wrapperClass='d-flex justify-content-center mb-4' />
+                <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type="submit">Register</MDBBtn>
+              </form>
+              <MDBRow>
+                <MDBCol size='12' className='text-center'>
+                  <MDBTypography tag='div' className='mb-4'>
+                    Du hast bereits ein Konto? <Link to="/login" className="link">Melde dich hier an</Link>
+                  </MDBTypography>
+                </MDBCol>
+              </MDBRow>
+            </MDBCardBody>
+          </MDBCard>
+        </MDBContainer>
+      );
 }

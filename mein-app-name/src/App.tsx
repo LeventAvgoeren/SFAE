@@ -5,8 +5,9 @@ import { Route, Router, Routes } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import { PageIndex } from "./components/PageIndex";
 import { PageLogin } from "./components/PageLogin";
-import { PageRegistration } from "./components/PageRegistration";
-import { PageRegistrationWorker } from "./components/PageRegistrationWorker";
+import PageRegistration from './components/PageRegistration';
+
+import  PageRegistrationWorker  from "./components/PageRegistrationWorker";
 import { PageWorkerIndex } from "./components/PageWorkerIndex";
 import { PageOrderRequest } from "./components/PageOrderRequest";
 import { PageOrderOverview } from "./components/PageOrderOverview";

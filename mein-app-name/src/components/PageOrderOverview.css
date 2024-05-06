@@ -121,7 +121,7 @@ button:hover {
     background-color: #0f3460;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    width: 100%; /* Volle Breite einnehmen */
+    width: 80%; /* Volle Breite einnehmen */
     height: auto; /* Höhe automatisch an den Inhalt anpassen */
 }
 

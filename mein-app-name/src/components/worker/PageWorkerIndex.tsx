@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getWorkerbyID } from '../backend/api';
-import LoadingIndicator from './LoadingIndicator';
+import LoadingIndicator from '../LoadingIndicator';
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import './DesignVorlage.css';
-import './PageIndexCustomer.css'; // Stilimport
-import { WorkerResource } from '../Resources';
+import { WorkerResource } from '../../Resources';
+import { getWorkerbyID } from '../../backend/api';
+import './PageWorkerIndex.css'
 
 export function PageWorkerIndex() {
   const { workerId } = useParams<{ workerId?: string }>();

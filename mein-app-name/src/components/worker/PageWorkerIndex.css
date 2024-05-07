@@ -1,0 +1,74 @@
+.background-city {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Verwende die volle Bildschirmhöhe */
+  }
+  
+  .container-frame {
+    display: flex;
+    width: 100%;
+    max-width: 1200px; /* Maximale Breite der Container */
+    align-items: center !important;
+    justify-content: center !important;
+
+
+  }
+  
+  .frame {
+    flex: 1; /* Jeder Frame nimmt gleich viel Platz ein */
+    margin: 0 10px; /* Abstand zwischen den Frames */
+    
+    border: 1px solid #ccc; /* Rahmen hinzufügen */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Schatten für bessere Sichtbarkeit */
+    cursor: pointer;
+    transition: background-color 0.3s; /* Weiche Übergänge */
+  }
+  
+  .frame h2 {
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .frame:hover {
+    background-color: #e9ecef; /* Änderung der Hintergrundfarbe beim Hover */
+  }
+  
+  /* Globale Stileinstellungen */
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%; /* Sorgt dafür, dass der ganze Viewport ausgenutzt wird */
+  display: flex; /* Aktiviert Flexbox für den Body */
+  justify-content: center; /* Zentriert Inhalte horizontal */
+  align-items: center; /* Zentriert Inhalte vertikal */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+.container-frame {
+  display: flex;
+  width: 100%;
+  max-width: 1200px; /* Maximale Breite der Container */
+  justify-content: center; /* Zentriert die Frames horizontal im Container */
+  align-items: center; /* Vertikale Ausrichtung der Inhalte im Container */
+}
+
+.frame {
+  flex: 1; /* Jeder Frame nimmt gleich viel Platz ein */
+  margin: 0 10px; /* Abstand zwischen den Frames */
+  border: 1px solid #ccc; /* Rahmen hinzufügen */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Schatten für bessere Sichtbarkeit */
+  cursor: pointer;
+  transition: background-color 0.3s; /* Weiche Übergänge */
+  padding: 20px; /* Padding hinzugefügt, um den Text zu zentrieren */
+  text-align: center; /* Zentriert den Text im Frame */
+}
+
+.frame:hover {
+  background-color: #e9ecef; /* Änderung der Hintergrundfarbe beim Hover */
+}

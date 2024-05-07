@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import './DesignVorlage.css'; // Eigene Stilvorlagen
-import { registrationWorker } from '../backend/api';
+import { registrationWorker } from '../../backend/api';
 import { Link } from 'react-router-dom'; // React Router für Link-Benutzung
 import './PageRegistrationWorker.css'
 

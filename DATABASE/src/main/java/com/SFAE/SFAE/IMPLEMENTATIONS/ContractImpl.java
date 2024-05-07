@@ -1,18 +1,13 @@
 package com.SFAE.SFAE.IMPLEMENTATIONS;
 
 import java.sql.PreparedStatement;
-<<<<<<< HEAD
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.sql.Statement;
 import org.springframework.beans.factory.annotation.Autowired;
-=======
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
->>>>>>> 939e901dadb9b0f2971f658595fe98dfe1a92102
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.SFAE.SFAE.ENTITY.Contract;
@@ -33,10 +28,6 @@ public class ContractImpl implements ContractInterface {
 
   @Autowired
   private WorkerImpl workerImpl;
-
-
-  @Autowired
-  private JdbcTemplate jdbcTemplate;
 
   @Override
   public Contract getContract(long id) {

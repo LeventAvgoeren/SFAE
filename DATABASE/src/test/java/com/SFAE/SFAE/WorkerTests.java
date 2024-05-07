@@ -47,7 +47,7 @@ public class WorkerTests{
     "\"name\": \"Levent Avgören\"," +
     "\"location\": \"Köln\"," +
     "\"password\": \"passwordsasdsad1234\"," +
-    "\"email\": \"Levenstavgorendsssddsdsa@gmail.com\"," +
+    "\"email\": \"Levenstavgorendsssdddddsdsa@gmail.com\"," +
     "\"range\": 1.1," +
     "\"jobType\": \"GÄRTNER\"," +
     "\"minPayment\": 1.1" +

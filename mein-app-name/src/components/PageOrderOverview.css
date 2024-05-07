@@ -70,14 +70,6 @@ input[type="checkbox"] {
   margin-left: 20px; 
 }
 
-.background2 {
-  background-size: cover;
-  background-position: center;
-  min-height: 100vh; 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 
 
@@ -132,7 +124,6 @@ button:hover {
 }
 
 .map {
-    position: relative;
     order: 2;
     padding: 20px;
     max-width: 30%; /* Maximale Breite des Worker-Info-Bereichs */
@@ -142,7 +133,6 @@ button:hover {
 
 .image-and-rating {
     order: 3;
-    display: flex;
     padding: 20px;
     max-width: 30%; /* Maximale Breite des Bild- und Bewertungsbereichs */
     display: flex;
@@ -172,23 +162,5 @@ button:hover {
 /* In Ihrer CSS-Datei */
 .margin-bottom-20 {
     margin-bottom: 50px;
-}
-
-body, html {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.container-frame2, .container {
-  margin: 0 auto;  
-  max-width: 1200px;
-}
-
-.header-title {
-  text-align: center;      /* Zentriert den Text horizontal */
-  color: white;            /* Setzt die Textfarbe auf Weiß */
-  width: 98%;             /* Nimmt die volle Breite ein, um Zentrierung zu gewährleisten */
 }
 

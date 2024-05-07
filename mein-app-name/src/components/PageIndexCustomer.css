@@ -11,7 +11,7 @@
 
 /* Sorgt dafür, dass das Dropdown-Menü sich innerhalb der Grenzen der Navbar befindet */
 .nav-dropdown, #collapsible-nav-dropdown {
-  position: center; /* Übergeordnete Positionierung für Dropdown-Menü auf 'static' setzen */
+  position: static; /* Übergeordnete Positionierung für Dropdown-Menü auf 'static' setzen */
 }
 
 /* Dropdown-Menü-Position anpassen */

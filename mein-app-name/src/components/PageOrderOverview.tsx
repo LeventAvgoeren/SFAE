@@ -123,42 +123,42 @@ export const PageOrderOverview: React.FC<PageOrderRequestProps> = ({ onSubmit })
 
 
             <div className='background-city'>
-    <div className="container-frame2">
-    <h1 className="header-title" style={{ color: 'white' }}>Worker</h1>
-    <Row>
-        <div className="profile-info" style={{ color: 'white' }}>
-            <p>Name: S. Müller</p>
-            <p>Weg: 2.6 km</p>
-            <p>Kosten: 20€</p>
-            <p className="margin-bottom-20">Dienstleistung: Babysitter</p>
-            
-            <p style={{ width: '120%' }}>
-                <b>
-    <span style={{ textDecoration: 'underline' }}>Beschreibung</span> </b>
-</p>
+                <div className="container-frame">
+                    <h1 className="header-title" style={{ color: 'white' }}>Worker</h1>
+                    <Row>
+                        <div className="profile-info" style={{ color: 'white' }}>
+                            <p>Name: S. Müller</p>
+                            <p>Weg: 2.6 km</p>
+                            <p>Kosten: 20€</p>
+                            <p className="margin-bottom-20">Dienstleistung: Babysitter</p>
 
-<p style={{ width: '175%' }}> Mein Name ist Müller und ich bin leidenschaftlicher Babysitter mit über 4 Jahren Erfahrung in der Kinderbetreuung. Ich habe eine herzliche und geduldige Persönlichkeit und genieße es, kreative und erzieherische Aktivitäten zu gestalten, die Kinder fördern und unterhalten.</p>
+                            <p style={{ width: '120%' }}>
+                                <b>
+                                    <span style={{ textDecoration: 'underline' }}>Beschreibung</span> </b>
+                            </p>
 
-        </div>
+                            <p style={{ width: '175%' }}> Mein Name ist Müller und ich bin leidenschaftlicher Babysitter mit über 4 Jahren Erfahrung in der Kinderbetreuung. Ich habe eine herzliche und geduldige Persönlichkeit und genieße es, kreative und erzieherische Aktivitäten zu gestalten, die Kinder fördern und unterhalten.</p>
 
-        <div className="map">
-            <div className="header-subtitle" style={{ color: 'white' }}>
-                <p>Verfolge jetzt den Worker</p>
-                <img src="/Intersect.jpg" alt="Map Bild" style={{ width: '100px', marginTop: '10px' }}/>
-                <p>ETA: 6 min</p>
+                        </div>
+
+                        <div className="map">
+                            <div className="header-subtitle" style={{ color: 'white' }}>
+                                <p>Verfolge jetzt den Worker</p>
+                                <img src="/Intersect.jpg" alt="Map Bild" style={{ width: '100px', marginTop: '10px' }} />
+                                <p>ETA: 6 min</p>
+                            </div>
+                        </div>
+
+
+                        <div className="image-and-rating">
+                            <img src="/frau.png" alt="Profilbild" className="profile-image" />
+                            <div className="rating">
+                                {[...Array(5)].map((e, i) => <span key={i} className="star">★</span>)} {/* 5 Sterne Bewertung */}
+                            </div>
+                        </div>
+                    </Row>
+                </div>
             </div>
-        </div>
-
-
-        <div className="image-and-rating">
-            <img src="/frau.png" alt="Profilbild" className="profile-image"/>
-            <div className="rating">
-                {[...Array(5)].map((e, i) => <span key={i} className="star">★</span>)} {/* 5 Sterne Bewertung */}
-            </div>
-        </div>
-        </Row>
-    </div>
-</div>
 
 
 

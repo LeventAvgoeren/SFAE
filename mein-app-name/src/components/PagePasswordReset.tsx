@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './DesignVorlage.css';
+import './PagePasswordReset.css';
+import { MDBBtn, MDBContainer, MDBInput, MDBRow, MDBCol, MDBTypography, MDBCard, MDBCardBody } from 'mdb-react-ui-kit';
 import { Link } from 'react-router-dom';
-import { Button, Col, Row } from 'react-bootstrap';
 
 export function PagePasswordReset() {
-
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordsMatch, setPasswordsMatch] = useState(true);
@@ -21,7 +19,6 @@ export function PagePasswordReset() {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (newPassword === confirmPassword) {
-            // Passwort zurücksetzen
             console.log("Passwort zurückgesetzt!");
         } else {
             setPasswordsMatch(false);
@@ -29,64 +26,57 @@ export function PagePasswordReset() {
     };
 
     return (
-        <div className="background-city">
-            <div className="container-frame">
-                <img src={'/SFAE_Logo.png'} alt="SFAE Logo" className="img-fluid" />
+        <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundImage: `url('/background.jpg')`, backgroundSize: 'cover' }}>
+            <MDBCard className='m-5' style={{ maxWidth: '600px' }}>
+                <MDBRow className="justify-content-center">
 
-                <h1>Passwort zurücksetzen</h1>
-                <form className="w-50 mx-auto" onSubmit={handleSubmit}>
-                    <div className="mb-3">
-                        <label htmlFor="emailInput" className="form-label"></label>
-                        <input
+                </MDBRow>
+
+                <MDBCardBody>
+                <h2 className="text-uppercase text-center mb-5">Passwort zurücksetzen</h2>
+                {/* <MDBCol size="12" className="text-center">
+                        <img src={'/SFAE_Logo.png'} alt="SFAE Logo" className="img-fluid mb-2" />
+                    </MDBCol> */}
+                    <form onSubmit={handleSubmit}>
+                        <MDBInput label="Altes Passwort" type="password" id="oldPassword" wrapperClass='mb-4' required />
+
+                        <MDBInput
+                            label="Neues Passwort eingeben"
                             type="password"
-                            className="form-control"
-                            id="password"
-                            placeholder="Altes passwort"
-                            required
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="passwordInput" className="form-label"></label>
-                        <input
-                            type="password"
-                            className="form-control"
-                            id="passwordInput"
-                            placeholder="Neues Passwort eingeben"
+                            wrapperClass='mb-4'
                             value={newPassword}
                             onChange={handleNewPasswordChange}
                             required
                         />
-                    </div>
 
-                    <div className="mb-3">
-                        <label htmlFor="confirmPasswordInput" className="form-label"></label>
-                        <input
+                        <MDBInput
+                            label="Neues Passwort nochmal eingeben"
                             type="password"
-                            className="form-control"
-                            id="confirmPasswordInput"
-                            placeholder="Neues Passwort nochmal eingeben"
+                            wrapperClass='mb-4'
                             value={confirmPassword}
                             onChange={handleConfirmPasswordChange}
                             required
                         />
-                    </div>
 
-                    {!passwordsMatch && (
-                        <p style={{ color: 'red' }}>Die Passwörter stimmen nicht überein. Bitte überprüfen Sie Ihre Eingabe.</p>
-                    )}
+                        {!passwordsMatch && (
+                            <MDBTypography tag='p' className='text-danger'>
+                                Die Passwörter stimmen nicht überein. Bitte überprüfen Sie Ihre Eingabe.
+                            </MDBTypography>
+                        )}
 
-                    <Row>
-                        <Col xs="6" className="text-right">
-                            <Button variant='secondary'>
-                                <Link to="/login" className="link text-decoration-none ">Zurück zum Login</Link>
-                            </Button>
-                        </Col>
-                        <Col xs="6" className="text-right">
-                            <button type="submit" className="btn btn-primary">Passwort zurücksetzen</button>
-                        </Col>
-                    </Row>
-                </form>
-            </div>
-        </div>
+                        <MDBRow>
+                            <MDBCol size="6">
+                                <MDBBtn className='mb-4 w-100 gradient-custom-4 button-text-large' size='lg' type="submit">
+                                    <Link to="/login" className="link button-text-large">Zurück zum Login</Link>
+                                </MDBBtn>
+                            </MDBCol>
+                            <MDBCol size="6">
+                                <MDBBtn className='mb-4 w-100 gradient-custom-4 button-text-large' size='lg' type="submit">Passwort zurücksetzen</MDBBtn>
+                            </MDBCol>
+                        </MDBRow>
+                    </form>
+                </MDBCardBody>
+            </MDBCard>
+        </MDBContainer>
     );
 }

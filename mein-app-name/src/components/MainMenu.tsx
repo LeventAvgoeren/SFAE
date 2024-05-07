@@ -109,12 +109,6 @@ export function MainMenu() {
                             </form>
                         </Col>
                     </Row>
-
-
-
-
-
-
                 </div>
             </div>
         </>

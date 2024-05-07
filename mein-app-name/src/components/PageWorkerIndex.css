@@ -1,0 +1,34 @@
+.background-city {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Verwende die volle Bildschirmhöhe */
+  }
+  
+  .container-frame {
+    display: flex;
+    width: 100%;
+    max-width: 1200px; /* Maximale Breite der Container */
+  }
+  
+  .frame {
+    flex: 1; /* Jeder Frame nimmt gleich viel Platz ein */
+    margin: 0 10px; /* Abstand zwischen den Frames */
+    background-color: #f8f9fa;
+    border: 1px solid #ccc; /* Rahmen hinzufügen */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Schatten für bessere Sichtbarkeit */
+    cursor: pointer;
+    transition: background-color 0.3s; /* Weiche Übergänge */
+  }
+  
+  .frame h2 {
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .frame:hover {
+    background-color: #e9ecef; /* Änderung der Hintergrundfarbe beim Hover */
+  }
+  

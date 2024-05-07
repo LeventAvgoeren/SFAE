@@ -4,12 +4,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 import java.sql.Statement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
+import com.SFAE.SFAE.DTO.ContractDTO;
 import com.SFAE.SFAE.ENTITY.Contract;
 import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.ENTITY.Worker;
@@ -17,8 +18,8 @@ import com.SFAE.SFAE.ENUM.JobList;
 import com.SFAE.SFAE.ENUM.Payment;
 import com.SFAE.SFAE.ENUM.StatusOrder;
 import com.SFAE.SFAE.INTERFACE.ContractInterface;
-import com.SFAE.SFAE.Service.PasswordHasher;
 
+@Component
 public class ContractImpl implements ContractInterface {
   @Autowired
   private JdbcTemplate jdbcTemplate;
@@ -89,20 +90,20 @@ public class ContractImpl implements ContractInterface {
   }
 
   @Override
-  public Contract createContract(Contract contract) {
+  public Contract createContract(ContractDTO contract) {
 
-    String jobType = contract.getJobType().name();
+    String jobType = contract.getJobType();
     String address = contract.getAdress();
-    String payment = contract.getPayment().name();
+    String payment = contract.getPayment();
     String description = contract.getDescription();
-    String statusOrder = contract.getStatusOrder().name();
+    String statusOrder = contract.getStatusOrder();
     Double range = contract.getRange();
-    Customer customer = customerImpl.findCustomerbyID(contract.getCustomer().getId());
-    Worker worker = workerImpl.findWorkersbyID(contract.getWorker().getId());
+    Customer customer = customerImpl.findCustomerbyID(contract.getCustomerId());
+    Worker worker = workerImpl.findWorkersbyID(contract.getWorkerId());
 
      jdbcTemplate.update(connection -> {
         PreparedStatement ps = connection.prepareStatement(
-            "INSERT INTO Contract (job_type, address, payment, description, status_order, range, customer_id, worker_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS);
+            "INSERT INTO Contract (job_type, adress, payment, description, status_order, range, customer_id, worker_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
             ps.setString(1, jobType);
             ps.setString(2, address);
@@ -114,7 +115,7 @@ public class ContractImpl implements ContractInterface {
             ps.setLong(8, worker.getId());
             return ps;
   });
-  return new Contract(JobList.valueOf(statusOrder), address, Payment.valueOf(payment), description,StatusOrder.valueOf(statusOrder), range, customer, worker);
+  return new Contract(JobList.valueOf(jobType), address, Payment.valueOf(payment), description,StatusOrder.valueOf(statusOrder), range, customer, worker);
 }
 
 

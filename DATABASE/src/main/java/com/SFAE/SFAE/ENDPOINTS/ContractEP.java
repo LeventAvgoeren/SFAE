@@ -8,13 +8,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.SFAE.SFAE.DTO.ContractDTO;
 import com.SFAE.SFAE.ENTITY.Contract;
 
 @RequestMapping("/contract")
 public interface ContractEP {
 
     @PostMapping("")
-    ResponseEntity<?> createContract(@RequestBody Contract contract );
+    ResponseEntity<?> createContract(@RequestBody ContractDTO contract );
 
     @DeleteMapping("/{id}")
     ResponseEntity<?> deleteContactById(@PathVariable("id") long id);

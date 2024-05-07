@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.SFAE.SFAE.WorkerTests" time="2.934" tests="8" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.SFAE.SFAE.ContractTests" time="9.934" tests="1" errors="1" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -47,7 +47,7 @@
     <property name="localRepository" value="C:\Users\leven\.m2\repository"/>
     <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
     <property name="java.io.tmpdir" value="C:\Users\leven\AppData\Local\Temp\"/>
-    <property name="com.zaxxer.hikari.pool_number" value="2"/>
+    <property name="com.zaxxer.hikari.pool_number" value="1"/>
     <property name="java.version" value="21.0.2"/>
     <property name="user.dir" value="C:\Users\leven\SFAE\project-sfae\DATABASE"/>
     <property name="os.arch" value="amd64"/>
@@ -65,36 +65,107 @@
     <property name="java.class.version" value="65.0"/>
     <property name="LOGGED_APPLICATION_NAME" value="[SFAE] "/>
   </properties>
-  <testcase name="testGetWorkerByTowNames" classname="com.SFAE.SFAE.WorkerTests" time="0.186">
-    <system-out><![CDATA[2024-05-07T17:54:39.224+02:00  INFO 7604 --- [SFAE] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.SFAE.SFAE.WorkerTests]: WorkerTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2024-05-07T17:54:39.234+02:00  INFO 7604 --- [SFAE] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.SFAE.SFAE.SfaeApplication for test class com.SFAE.SFAE.WorkerTests
-A {"id":8,"name":"Levent avgÃ¶ren","location":"KÃ¶ln","password":"$2a$10$NShndSWFuTza6txDATceWuy13BdKyLPax3m1N6K2QFHQON4zDGnPm","email":"Leventvdsdgodsren@gmail.com","status":"AVAILABLE","statusOrder":"UNDEFINED","range":0.0,"jobType":"GÃRTNER","minPayment":1.1,"rating":0.0,"verification":false}
+  <testcase name="testCreateContract" classname="com.SFAE.SFAE.ContractTests" time="1.082">
+    <error message="Request processing failed: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class com.SFAE.SFAE.ENTITY.Contract]" type="jakarta.servlet.ServletException"><![CDATA[jakarta.servlet.ServletException: Request processing failed: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class com.SFAE.SFAE.ENTITY.Contract]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:72)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:165)
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:151)
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:151)
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:151)
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:201)
+	at com.SFAE.SFAE.ContractTests.testCreateContract(ContractTests.java:52)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+Caused by: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class com.SFAE.SFAE.ENTITY.Contract]
+	at org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.readJavaType(AbstractJackson2HttpMessageConverter.java:403)
+	at org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.read(AbstractJackson2HttpMessageConverter.java:354)
+	at org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodArgumentResolver.readWithMessageConverters(AbstractMessageConverterMethodArgumentResolver.java:184)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.readWithMessageConverters(RequestResponseBodyMethodProcessor.java:161)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.resolveArgument(RequestResponseBodyMethodProcessor.java:135)
+	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:122)
+	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:224)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:178)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	... 24 more
+Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Cannot construct instance of `com.SFAE.SFAE.ENTITY.Contract` (no Creators, like default constructor, exist): cannot deserialize from Object value (no delegate- or property-based Creator)
+ at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 1, column: 2]
+	at com.fasterxml.jackson.databind.exc.InvalidDefinitionException.from(InvalidDefinitionException.java:67)
+	at com.fasterxml.jackson.databind.DeserializationContext.reportBadDefinition(DeserializationContext.java:1915)
+	at com.fasterxml.jackson.databind.DatabindContext.reportBadDefinition(DatabindContext.java:414)
+	at com.fasterxml.jackson.databind.DeserializationContext.handleMissingInstantiator(DeserializationContext.java:1360)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.deserializeFromObjectUsingNonDefault(BeanDeserializerBase.java:1434)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserializeFromObject(BeanDeserializer.java:352)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:185)
+	at com.fasterxml.jackson.databind.deser.DefaultDeserializationContext.readRootValue(DefaultDeserializationContext.java:323)
+	at com.fasterxml.jackson.databind.ObjectReader._bindAndClose(ObjectReader.java:2105)
+	at com.fasterxml.jackson.databind.ObjectReader.readValue(ObjectReader.java:1481)
+	at org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.readJavaType(AbstractJackson2HttpMessageConverter.java:395)
+	... 38 more
+]]></error>
+    <system-out><![CDATA[17:54:27.898 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.SFAE.SFAE.ContractTests]: ContractTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+17:54:28.084 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.SFAE.SFAE.SfaeApplication for test class com.SFAE.SFAE.ContractTests
+17:54:28.337 [main] INFO org.springframework.boot.devtools.restart.RestartApplicationListener -- Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.5)
+
+2024-05-07T17:54:28.701+02:00  INFO 7604 --- [SFAE] [           main] com.SFAE.SFAE.ContractTests              : Starting ContractTests using Java 21.0.2 with PID 7604 (started by leven in C:\Users\leven\SFAE\project-sfae\DATABASE)
+2024-05-07T17:54:28.704+02:00  INFO 7604 --- [SFAE] [           main] com.SFAE.SFAE.ContractTests              : No active profile set, falling back to 1 default profile: "default"
+2024-05-07T17:54:29.761+02:00  INFO 7604 --- [SFAE] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-05-07T17:54:29.816+02:00  INFO 7604 --- [SFAE] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 37 ms. Found 0 JPA repository interfaces.
+2024-05-07T17:54:30.587+02:00  INFO 7604 --- [SFAE] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-05-07T17:54:31.427+02:00  INFO 7604 --- [SFAE] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@570a62a5
+2024-05-07T17:54:31.429+02:00  INFO 7604 --- [SFAE] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-05-07T17:54:31.500+02:00  INFO 7604 --- [SFAE] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-05-07T17:54:31.626+02:00  INFO 7604 --- [SFAE] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-05-07T17:54:31.688+02:00  INFO 7604 --- [SFAE] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-05-07T17:54:32.078+02:00  INFO 7604 --- [SFAE] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-05-07T17:54:32.210+02:00  WARN 7604 --- [SFAE] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-05-07T17:54:32.288+02:00 DEBUG 7604 --- [SFAE] [           main] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(2003, org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@7752c0e7) replaced previous registration(org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@77ba583)
+2024-05-07T17:54:32.289+02:00 DEBUG 7604 --- [SFAE] [           main] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(6, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@5613247e) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@6851b296)
+2024-05-07T17:54:33.487+02:00  INFO 7604 --- [SFAE] [           main] o.h.m.i.EntityInstantiatorPojoStandard   : HHH000182: No default (no-argument) constructor for class: com.SFAE.SFAE.ENTITY.Contract (class must be instantiated by Interceptor)
+2024-05-07T17:54:33.545+02:00  INFO 7604 --- [SFAE] [           main] o.h.m.i.EntityInstantiatorPojoStandard   : HHH000182: No default (no-argument) constructor for class: com.SFAE.SFAE.ENTITY.Customer (class must be instantiated by Interceptor)
+2024-05-07T17:54:33.581+02:00  INFO 7604 --- [SFAE] [           main] o.h.m.i.EntityInstantiatorPojoStandard   : HHH000182: No default (no-argument) constructor for class: com.SFAE.SFAE.ENTITY.Worker (class must be instantiated by Interceptor)
+2024-05-07T17:54:33.819+02:00  INFO 7604 --- [SFAE] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-05-07T17:54:34.135+02:00  INFO 7604 --- [SFAE] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-05-07T17:54:34.430+02:00  WARN 7604 --- [SFAE] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-05-07T17:54:36.290+02:00  INFO 7604 --- [SFAE] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-05-07T17:54:36.291+02:00  INFO 7604 --- [SFAE] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-05-07T17:54:36.293+02:00  INFO 7604 --- [SFAE] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2024-05-07T17:54:36.326+02:00  INFO 7604 --- [SFAE] [           main] com.SFAE.SFAE.ContractTests              : Started ContractTests in 8.007 seconds (process running for 9.819)
+{"jobType": "GÄRTNER","adress": "Quizostrasse 32","payment": "CASH","description": "Ich habe meinen hund gegesssen weil ich dachte er wäre ein chicken wing mein name ist","statusOrder": "UNDEFINED","range": "2.2","customer": "1","worker": 6}
 ]]></system-out>
-  </testcase>
-  <testcase name="testCreateWorker" classname="com.SFAE.SFAE.WorkerTests" time="2.229">
-    <system-out><![CDATA[{"name": "Levent Avgören","location": "Köln","password": "passwordsasdsad1234","email": "Levenstavgorendsssdddddsdsa@gmail.com","range": 1.1,"jobType": "GÄRTNER","minPayment": 1.1}
-E-Mail erfolgreich an Levenstavgorendsssdddddsdsa@gmail.com gesendet.
-]]></system-out>
-  </testcase>
-  <testcase name="testDeleteWorkerrByid" classname="com.SFAE.SFAE.WorkerTests" time="0.053">
-    <system-out><![CDATA[A 
-]]></system-out>
-  </testcase>
-  <testcase name="testGetWorkerrByid" classname="com.SFAE.SFAE.WorkerTests" time="0.046">
-    <system-out><![CDATA[A {"id":8,"name":"Levent avgÃ¶ren","location":"KÃ¶ln","password":"$2a$10$NShndSWFuTza6txDATceWuy13BdKyLPax3m1N6K2QFHQON4zDGnPm","email":"Leventvdsdgodsren@gmail.com","status":"AVAILABLE","statusOrder":"UNDEFINED","range":0.0,"jobType":"GÃRTNER","minPayment":1.1,"rating":0.0,"verification":false}
-]]></system-out>
-  </testcase>
-  <testcase name="testUpdateWorker" classname="com.SFAE.SFAE.WorkerTests" time="0.122"/>
-  <testcase name="testGetWorkerByName" classname="com.SFAE.SFAE.WorkerTests" time="0.039">
-    <system-out><![CDATA[A {"id":6,"name":"Levent","location":"KÃ¶ln","password":"$2a$10$sQTES6rfjXQBPQQIJ0HBseQr7WXRs6A9sVa1AcBio0hB.q/dHx75O","email":"Leventvddsdgoren@gmail.com","status":"AVAILABLE","statusOrder":"UNDEFINED","range":0.0,"jobType":"GÃRTNER","minPayment":1.1,"rating":0.0,"verification":false}
-]]></system-out>
-  </testcase>
-  <testcase name="loginWorker" classname="com.SFAE.SFAE.WorkerTests" time="0.168">
-    <system-out><![CDATA[A {"id":"14","token":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNCIsImlhdCI6MTcxNTA5NzI4MiwiZXhwIjoxNzE1MTAwODgyfQ.tWCUlEg-AL5vatYctFajkYm1Gbmr1Rh1ZLN-D0WNoPQ"}
-]]></system-out>
-  </testcase>
-  <testcase name="testFindAllWorker" classname="com.SFAE.SFAE.WorkerTests" time="0.051">
-    <system-out><![CDATA[A [{"id":6,"name":"Levent","location":"KÃ¶ln","password":"$2a$10$sQTES6rfjXQBPQQIJ0HBseQr7WXRs6A9sVa1AcBio0hB.q/dHx75O","email":"Leventvddsdgoren@gmail.com","status":"AVAILABLE","statusOrder":"UNDEFINED","range":0.0,"jobType":"GÃRTNER","minPayment":1.1,"rating":0.0,"verification":false},{"id":8,"name":"Levent avgÃ¶ren","location":"KÃ¶ln","password":"$2a$10$NShndSWFuTza6txDATceWuy13BdKyLPax3m1N6K2QFHQON4zDGnPm","email":"Leventvdsdgodsren@gmail.com","status":"AVAILABLE","statusOrder":"UNDEFINED","range":0.0,"jobType":"GÃRTNER","minPayment":1.1,"rating":0.0,"verification":false},{"id":9,"name":"Levent AvgÃ¶ren","location":"KÃ¶ln","password":"$2a$10$ijpexeLI72Djlr/.cpRy/.ou1giKnZaN5rBgHL0zhgLHrUej/Aa1y","email":"Levenstvdsdgodsren@gmail.com","status":"AVAILABLE","statusOrder":"UNDEFINED","range":0.0,"jobType":"GÃRTNER","minPayment":1.1,"rating":0.0,"verification":false},{"id":12,"name":"Levent AvgÃ¶ren","location":"KÃ¶ln","password":"$2a$10$HUm7bJ.onjusJxuyCJkOF.NYAnt8LFwDkWGFm04.2awEugwhSwt8i","email":"Levenstavgorenda@gmail.com","status":"AVAILABLE","statusOrder":"UNDEFINED","range":0.0,"jobType":"GÃRTNER","minPayment":1.1,"rating":0.0,"verification":false},{"id":14,"name":"Levent AvgÃ¶ren","location":"KÃ¶ln","password":"$2a$10$h4iGEKcmpvIVoqOFIFeJouORb1dWMeIX..q/wD4IVuIbdLZF.IRa.","email":"Levenstavgorenddsa@gmail.com","status":"AVAILABLE","statusOrder":"UNDEFINED","range":0.0,"jobType":"GÃRTNER","minPayment":1.1,"rating":0.0,"verification":false},{"id":21,"name":"LevoNoKeko","location":"ChansirInLvo","password":"$2a$10$cpkryhzjPuOOuJ1IZHZLvedcNJVXpJkglMEIiLkTZ.D307aL7U/r.","email":"levent@gmail.com","status":"AVAILABLE","statusOrder":"UNDEFINED","range":0.0,"jobType":"HUNDETRAINER","minPayment":1.0,"rating":0.0,"verification":false},{"id":22,"name":"Ahmad Sfarjalani","location":"Levents Zuhause","password":"$2a$10$cQwyaaNjwi2CiJMhSzvSauE1.5CWeIVkWc6wkcFscLcfqGn6O55py","email":"ahmad@gmail.com","status":"AVAILABLE","statusOrder":"UNDEFINED","range":0.0,"jobType":"KINDERMÃDCHEN","minPayment":15.0,"rating":0.0,"verification":false},{"id":24,"name":"Levent","location":"Levent","password":"$2a$10$nUEUJm1Jt73PaCEmdwkMbOAsthw/9XRDZrybR5YhbZzVzvFENR8ja","email":"Levent@gmail.com","status":"AVAILABLE","statusOrder":"UNDEFINED","range":0.0,"jobType":"MALER","minPayment":11.0,"rating":0.0,"verification":false}]
-]]></system-out>
+    <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (C:\Users\leven\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.13\byte-buddy-agent-1.14.13.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
   </testcase>
 </testsuite>

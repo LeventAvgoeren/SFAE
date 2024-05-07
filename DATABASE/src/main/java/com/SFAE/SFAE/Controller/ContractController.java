@@ -40,8 +40,21 @@ public class ContractController implements ContractEP {
 
   @Override
   public ResponseEntity<?> deleteContactById(long id) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'deleteContactById'");
+    if(id<0){
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+    try{
+      boolean result=dao.deleteContract(id);
+    if(result){
+      return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    }
+    catch(Exception e){
+      return  ResponseEntity.status((HttpStatus.INTERNAL_SERVER_ERROR)).build();
+    }
+    
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
   }
 
   @Override

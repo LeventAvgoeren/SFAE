@@ -122,7 +122,7 @@ public class WorkerTests{
 public void testUpdateWorker() throws Exception {
     
     WorkerDTO worker = new WorkerDTO();
-    worker.setId(7L);
+    worker.setId(6L);
     worker.setEmail("XalooosSelam@gmail.com");
     worker.setLocation("Bremen");
     worker.setJobType("HAUSMEISTER");

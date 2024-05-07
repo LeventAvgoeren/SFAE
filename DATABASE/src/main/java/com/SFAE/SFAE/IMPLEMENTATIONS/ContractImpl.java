@@ -18,7 +18,10 @@ import com.SFAE.SFAE.ENUM.Payment;
 import com.SFAE.SFAE.ENUM.StatusOrder;
 import com.SFAE.SFAE.INTERFACE.ContractInterface;
 import com.SFAE.SFAE.Service.PasswordHasher;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class ContractImpl implements ContractInterface {
   @Autowired
   private JdbcTemplate jdbcTemplate;

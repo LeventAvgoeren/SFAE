@@ -20,8 +20,6 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-
-
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
@@ -37,27 +35,37 @@ public class ContractTests {
   public void testCreateContract() throws Exception {
 
     String json = "{" +
-    "\"jobType\": \"GÄRTNER\"," +
-    "\"adress\": \"Quizostrasse32\"," +
-    "\"payment\": \"CASH\"," +
-    "\"description\": \"Ich\"," +
-    "\"statusOrder\": \"UNDEFINED\"," +
-    "\"range\": 2.2," + // Als Zahl, korrekt für Double
-    "\"customerId\": 1," + // Long-Wert, korrekt für die ID des Kunden
-    "\"workerId\": 6" + // Long-Wert, korrekt für die ID des Arbeiters und ohne zusätzliche Leerzeichen
-    "}";
+        "\"jobType\": \"GÄRTNER\"," +
+        "\"adress\": \"Quizostrasse32\"," +
+        "\"payment\": \"CASH\"," +
+        "\"description\": \"Ich\"," +
+        "\"statusOrder\": \"UNDEFINED\"," +
+        "\"range\": 2.2," + // Als Zahl, korrekt für Double
+        "\"customerId\": 1," + // Long-Wert, korrekt für die ID des Kunden
+        "\"workerId\": 6" + // Long-Wert, korrekt für die ID des Arbeiters und ohne zusätzliche Leerzeichen
+        "}";
 
+    System.out.println(json);
+    TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
+    mockMvc.perform(post("/contract")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(json))
+        .andExpect(status().isCreated());
 
-      System.out.println(json);
-      TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
-
-      mockMvc.perform(post("/contract")
-              .contentType(MediaType.APPLICATION_JSON)
-              .content(json))
-              .andExpect(status().isCreated());
-
-      transactionManager.commit(status);  
+    transactionManager.commit(status);
   }
-  
+
+  @Test
+  public void testGetContract() throws Exception {
+
+    TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+    mockMvc.perform(get("/contract/4"))
+        .andExpect(status().isOk())
+        .andReturn();
+
+    transactionManager.commit(status);
+  }
+
 }

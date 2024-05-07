@@ -1,10 +1,12 @@
 package com.SFAE.SFAE.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.SFAE.SFAE.DTO.ContractDTO;
 import com.SFAE.SFAE.ENDPOINTS.ContractEP;
@@ -43,14 +45,28 @@ public class ContractController implements ContractEP {
 
   @Override
   public ResponseEntity<?> deleteContactById(long id) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'deleteContactById'");
+    return null;
   }
 
   @Override
-  public ResponseEntity<?> findCustomerById(long id) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findCustomerById'");
+  public ResponseEntity<?> findContractById(long id) {
+        if (id < 0) {
+          throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                  String.format("Contract id: %d negative", id, HttpStatus.BAD_REQUEST.value()));
+      }
+
+      try {
+          Contract Answer = dao.getContract(id);
+
+          if (Answer != null) {
+              return ResponseEntity.status(HttpStatus.OK).body(Answer);
+          }
+      } catch (DataAccessException dax) {
+          logger.error("Database access error: " + dax.getMessage(), dax);
+          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+      }
+
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
   }
 
   @Override

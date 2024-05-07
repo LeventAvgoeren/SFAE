@@ -22,10 +22,9 @@ public interface ContractEP {
     ResponseEntity<?> deleteContactById(@PathVariable("id") long id);
 
     @GetMapping("/{id}")
-    ResponseEntity<?> findCustomerById(@PathVariable("id") long id);
+    ResponseEntity<?> findContractById(@PathVariable("id") long id);
 
     @PutMapping("")
     ResponseEntity<?> updateContract(@RequestBody Contract contract );
 
-  
 }

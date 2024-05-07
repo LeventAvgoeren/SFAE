@@ -38,12 +38,12 @@ export function PagePasswordReset() {
                         <img src={'/SFAE_Logo.png'} alt="SFAE Logo" className="img-fluid mb-2" />
                     </MDBCol> */}
                     <form onSubmit={handleSubmit}>
-                        <MDBInput label="Altes Passwort" type="password" id="oldPassword" className="mb-3" required />
+                        <MDBInput label="Altes Passwort" type="password" id="oldPassword" wrapperClass='mb-4' required />
 
                         <MDBInput
                             label="Neues Passwort eingeben"
                             type="password"
-                            className="mb-3"
+                            wrapperClass='mb-4'
                             value={newPassword}
                             onChange={handleNewPasswordChange}
                             required
@@ -52,7 +52,7 @@ export function PagePasswordReset() {
                         <MDBInput
                             label="Neues Passwort nochmal eingeben"
                             type="password"
-                            className="mb-3"
+                            wrapperClass='mb-4'
                             value={confirmPassword}
                             onChange={handleConfirmPasswordChange}
                             required
@@ -66,7 +66,7 @@ export function PagePasswordReset() {
 
                         <MDBRow>
                             <MDBCol size="6">
-                                <MDBBtn className='mb-4 w-100 gradient-custom-3 button-text-large' size='lg' type="submit">
+                                <MDBBtn className='mb-4 w-100 gradient-custom-4 button-text-large' size='lg' type="submit">
                                     <Link to="/login" className="link button-text-large">Zurück zum Login</Link>
                                 </MDBBtn>
                             </MDBCol>

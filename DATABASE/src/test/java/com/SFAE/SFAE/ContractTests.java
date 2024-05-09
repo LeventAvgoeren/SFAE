@@ -68,4 +68,15 @@ public class ContractTests {
     transactionManager.commit(status);
   }
 
+  @Test
+  public void testDeleteContract()throws Exception{
+    TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+    mockMvc.perform(delete("/contract/4"))
+        .andExpect(status().isOk())
+        .andReturn();
+
+    transactionManager.commit(status);
+  }
+
 }

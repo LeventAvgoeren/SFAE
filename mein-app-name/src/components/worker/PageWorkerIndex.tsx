@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import LoadingIndicator from '../LoadingIndicator';
-import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Container, Navbar, Nav, NavDropdown, Row, Col, Card } from 'react-bootstrap';
 import './DesignVorlage.css';
 import { WorkerResource } from '../../Resources';
 import { getWorkerbyID } from '../../backend/api';
@@ -12,8 +12,10 @@ export function PageWorkerIndex() {
   const [worker, setWorker] = useState<WorkerResource | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [zoom, setZoom] = useState<string | null>(null);
 
-  useEffect(() => {
+
+  /*useEffect(() => {
     if (!workerId) {
       setError('Keine Worker ID in der URL gefunden');
       setLoading(false);
@@ -36,43 +38,97 @@ export function PageWorkerIndex() {
     };
 
     fetchWorker();
-  }, [workerId]);
+  }, [workerId]);*/
 
-  if (loading) {
+ /* if (loading) {
     return <LoadingIndicator />;
   }
 
   if (!worker) {
     return <div>Fehler: {error}</div>;
-  }
+  }*/
+
+  const toggleZoom = (image: string) => {
+    if (zoom === image) {
+      setZoom(null); // Wenn das Bild bereits vergrößert ist, Vergrößerung aufheben
+    } else {
+      setZoom(image); // Andernfalls das Bild vergrößern
+    }
+  };
 
   return (
     <>
-      <Navbar variant="dark" expand="lg" className="navbar">
+      <Navbar bg="dark" variant="dark" expand="lg">
         <Container>
-          <Nav className='mx-auto'>
-            <NavDropdown title={<img src={"/SFAE_Logo.png"} height="35" alt="Dropdown Logo" />} id="collapsible_nav_dropdown">
-              <NavDropdown.Item href="#aufträge">Aufträge</NavDropdown.Item>
-              <NavDropdown.Item href="#preferenz">Preferenz</NavDropdown.Item>
-              <NavDropdown.Item href="#input">Input</NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
+          <Navbar.Brand href="#home">Logo</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Link href="#aufträge">Aufträge</Nav.Link>
+              <Nav.Link href="#präferenz">Präferenz</Nav.Link>
+              <Nav.Link href="#profile">Profile</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
         </Container>
       </Navbar>
 
-      <div className="background-city">
-        <div className="container-frame">
-          <Link to="/aufträge" className="frame">
-            <h2>Aufträge</h2>
-          </Link>
-          <Link to="/preferenz" className="frame">
-            <h2>Preferenz</h2>
-          </Link>
-          <Link to="/profile" className="frame">
-            <h2>Profile</h2>
-          </Link>
-        </div>
-      </div>
+      <Container className="mt-4">
+        <Row>
+          <Col md={4} className="mb-4">
+            <Card>
+              <Link to="/aufträge">
+                <Card.Img
+                  variant="top"
+                  src="/auftraege.jpg"
+                  className="card-img-top"
+                />
+              </Link>
+              <Card.Body>
+                <Card.Title>Aufträge</Card.Title>
+                <Card.Text>
+                  Verwalten Sie Ihre Aufträge effizient und behalten Sie den Überblick über laufende Prozesse.
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md={4} className="mb-4">
+            <Card>
+              <Link to="/präferenz">
+                <Card.Img
+                  variant="top"
+                  src="/praferenz.jpg"
+                  className="card-img-top"
+                />
+              </Link>
+              <Card.Body>
+                <Card.Title>Präferenz</Card.Title>
+                <Card.Text>
+                  Passen Sie Ihre Einstellungen an, um eine personalisierte Erfahrung zu erhalten.
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md={4} className="mb-4">
+            <Card>
+              <Link to="/profile">
+                <Card.Img
+                  variant="top"
+                  src="/profile.jpg"
+                  className="card-img-top"
+                />
+              </Link>
+              <Card.Body>
+                <Card.Title>Profile</Card.Title>
+                <Card.Text>
+                  Verwalten Sie Ihr Profil und aktualisieren Sie Ihre persönlichen Informationen.
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }
+
+export{};

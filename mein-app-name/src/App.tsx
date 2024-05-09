@@ -67,7 +67,7 @@ function App() {
 
         {/* Worker */}
         {/*:/workerId kommt noch hinzu*/}
-        <Route path="/worker/:workerId/index" element={<PageWorkerIndex/>} />
+        <Route path="/worker/index" element={<PageWorkerIndex/>} />
         <Route path="/worker/:workerId/orders/overview"element={<PageWorkerOrderOverview />}/>
         <Route path="/worker/:workerId/finances"element={<PageWorkerFinances />}/>
         {/*:/workerId kommt noch hinzu*/}

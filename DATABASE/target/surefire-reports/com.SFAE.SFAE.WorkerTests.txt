@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.SFAE.SFAE.WorkerTests
+-------------------------------------------------------------------------------
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.269 s -- in com.SFAE.SFAE.WorkerTests

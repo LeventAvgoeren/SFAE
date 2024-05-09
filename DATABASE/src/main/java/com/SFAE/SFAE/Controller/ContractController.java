@@ -12,6 +12,9 @@ import org.springframework.web.server.ResponseStatusException;
 import com.SFAE.SFAE.DTO.ContractDTO;
 import com.SFAE.SFAE.ENDPOINTS.ContractEP;
 import com.SFAE.SFAE.ENTITY.Contract;
+import com.SFAE.SFAE.ENUM.JobList;
+import com.SFAE.SFAE.ENUM.Payment;
+import com.SFAE.SFAE.ENUM.StatusOrder;
 import com.SFAE.SFAE.INTERFACE.ContractInterface;
 import com.SFAE.SFAE.Service.MailService;
 import org.slf4j.Logger;
@@ -88,12 +91,19 @@ public class ContractController implements ContractEP {
     }
 
     try {
+      JobList.valueOf(contract.getJobType());
+      Payment.valueOf(contract.getPayment());
+      StatusOrder.valueOf(contract.getStatusOrder());
+    } catch (IllegalArgumentException e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    try {
       Contract updatedContract = dao.updateContract(contract);
       if (updatedContract != null) {
         return ResponseEntity.status(HttpStatus.OK).body(updatedContract);
       }
     } catch (DataAccessException dax) {
-      logger.error("Database access error: " + dax.getMessage(), dax);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 

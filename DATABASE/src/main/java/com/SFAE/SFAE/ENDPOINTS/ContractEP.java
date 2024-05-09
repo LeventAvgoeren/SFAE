@@ -1,5 +1,7 @@
 package com.SFAE.SFAE.ENDPOINTS;
 
+import javax.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -49,7 +51,7 @@ public interface ContractEP {
      * @return ResponseEntity containing the result of the operation.
      */
     @PutMapping("")
-    ResponseEntity<?> updateContract(@RequestBody ContractDTO contract, BindingResult bindingResult );
+    ResponseEntity<?> updateContract(@Valid @RequestBody ContractDTO contract, BindingResult bindingResult );
 
   
 }

@@ -79,4 +79,99 @@ public class ContractTests {
     transactionManager.commit(status);
   }
 
+  @Test
+  public void testUpdateContract() throws Exception {
+
+    String json = "{" +
+        "\"id\":\"4\","+
+        "\"jobType\": \"HAUSMEISTER\"," +
+        "\"adress\": \"Quizostrasse32\"," +
+        "\"payment\": \"CASH\"," +
+        "\"description\": \"ASD\"," +
+        "\"statusOrder\": \"UNDEFINED\"," +
+        "\"range\": 2.2," + 
+        "\"customerId\": 1," + 
+        "\"workerId\": 6" + 
+        "}";
+
+    System.out.println(json);
+    TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+    mockMvc.perform(put("/contract")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(json))
+        .andExpect(status().isOk());
+
+    transactionManager.commit(status);
+  }
+
+  @Test
+  public void testUpdateContractNULL() throws Exception {
+
+    String json = "";
+
+    System.out.println(json);
+    TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+    mockMvc.perform(put("/contract")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(json))
+        .andExpect(status().isBadRequest());
+
+    transactionManager.commit(status);
+  }
+
+  @Test
+  public void testUpdateContractWrongValue() throws Exception {
+
+    String json = "{" +
+        "\"id\":\"4\","+
+        "\"jobType\": \"HAUSMEISTER\"," +
+        "\"adress\": \"Quizostrasse32\"," +
+        "\"payment\": \"Kreidtkarte\"," +
+        "\"description\": \"ASD\"," +
+        "\"statusOrder\": \"UNDEFINED\"," +
+        "\"range\": 2.2," + 
+        "\"customerId\": 1," + 
+        "\"workerId\": 6" + 
+        "}";
+
+    System.out.println(json);
+    TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+    mockMvc.perform(put("/contract")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(json))
+        .andExpect(status().isBadRequest());
+
+    transactionManager.commit(status);
+  }
+
+  
+  @Test
+  public void testUpdateContractWithoutAValue() throws Exception {
+
+    String json = "{" +
+        "\"id\":\"4\","+
+        "\"jobType\": \"HAUSMEISTER\"," +
+        "\"adress\":," +
+        "\"payment\": \"CASH\"," +
+        "\"description\": \"ASD\"," +
+        "\"statusOrder\": \"UNDEFINED\"," +
+        "\"range\": 2.2," + 
+        "\"customerId\": 1," + 
+        "\"workerId\": 6" + 
+        "}";
+
+    System.out.println(json);
+    TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+    mockMvc.perform(put("/contract")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(json))
+        .andExpect(status().isBadRequest());
+
+    transactionManager.commit(status);
+  }
+
 }

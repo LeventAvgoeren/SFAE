@@ -7,24 +7,24 @@ import { PageIndex } from "./components/PageIndex";
 import { PageLogin } from "./components/PageLogin";
 import PageRegistration from './components/PageRegistration';
 
-import  PageRegistrationWorker  from "./components/PageRegistrationWorker";
-import { PageWorkerIndex } from "./components/PageWorkerIndex";
+import  PageRegistrationWorker  from "./components/worker/PageRegistrationWorker";
+import { PageWorkerIndex } from "./components/worker/PageWorkerIndex";
 import { PageOrderRequest } from "./components/PageOrderRequest";
 import { PageOrderOverview } from "./components/PageOrderOverview";
 import { PageOrderCompleted } from "./components/PageOrderCompleted";
 import { PageOrderRating } from "./components/PageOrderRating";
-import { PageWorkerOrderOverview } from "./components/PageWorkerOrderOverview";
-import { PageCustomerFAQ } from "./components/PageCustomerFAQ";
-import { PageWorkerFinances } from "./components/PageWorkerFinances";
-import { PageWorkerProfile } from "./components/PageWorkerProfile";
-import { PageWorkerPreferences } from "./components/PageWorkerPreferences";
-import { PageWorkerFAQ } from "./components/PageWorkerFAQ";
-import { PageWorkerOrders } from "./components/PageWorkerOrders";
+import { PageWorkerOrderOverview } from "./components/worker/PageWorkerOrderOverview";
+import { PageWorkerFinances } from "./components/worker/PageWorkerFinances";
+import { PageWorkerProfile } from "./components/worker/PageWorkerProfile";
+import { PageWorkerPreferences } from "./components/worker/PageWorkerPreferences";
+import { PageWorkerOrders } from "./components/worker/PageWorkerOrders";
 import { PagePasswordReset } from "./components/PagePasswordReset";
 import { LoginInfo } from "./components/LoginManager";
 import { login } from "./backend/api";
 import { PageIndexCustomer } from "./components/PageIndexCustomer";
 import { MainMenu } from "./components/MainMenu";
+import PageWorkerFAQ from "./components/worker/PageWorkerFAQ";
+import { PageCustomerFAQ } from "./components/PageCustomerFAQ";
 
 const history = createMemoryHistory();
 
@@ -66,12 +66,15 @@ function App() {
         <Route path="/customer/:customerId/orders/:order/rating"element={<PageOrderRating />}/>
 
         {/* Worker */}
-        <Route path="/worker/:workerId" element={<PageWorkerIndex/>} />
+        {/*:/workerId kommt noch hinzu*/}
+        <Route path="/worker/index" element={<PageWorkerIndex/>} />
         <Route path="/worker/:workerId/orders/overview"element={<PageWorkerOrderOverview />}/>
         <Route path="/worker/:workerId/finances"element={<PageWorkerFinances />}/>
-        <Route path="/worker/:workerId/profile"element={<PageWorkerProfile />}/>
+        {/*:/workerId kommt noch hinzu*/}
+        <Route path="/profile"element={<PageWorkerProfile />}/>
         <Route path="/worker/:workerId/preferences"element={<PageWorkerPreferences />}/>
-        <Route path="/worker/:workerId/faq" element={<PageWorkerFAQ />} />
+        {/*:/workerId kommt noch hinzu*/}
+        <Route path="/worker/faq" element={<PageWorkerFAQ />} />
         <Route path="/worker/:workerId/orders" element={<PageWorkerOrders />} />
       </Routes>
     </>

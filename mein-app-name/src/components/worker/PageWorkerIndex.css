@@ -1,0 +1,8 @@
+.card-img-top {
+  transition: transform 0.2s; /* Animationseffekt */
+  cursor: pointer; /* Cursor als Hinweis, dass das Bild klickbar ist */
+}
+
+.card-img-top:hover {
+  transform: scale(1.05); /* Leichter Zoom beim Hovern */
+}

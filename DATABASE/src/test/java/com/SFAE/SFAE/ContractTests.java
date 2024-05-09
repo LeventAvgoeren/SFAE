@@ -140,7 +140,6 @@ public class ContractTests {
   }
 
   @Test
-<<<<<<< HEAD
   public void testUpdateContract() throws Exception {
 
     String json = "{" +
@@ -236,25 +235,3 @@ public class ContractTests {
   }
 
 }
-=======
-  public void testDeleteContractNegativeId() throws Exception{
-
-    TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
-
-    mockMvc.perform(delete("/contract/-1"))
-        .andExpect(status().isBadRequest())
-        .andReturn();
-
-    transactionManager.commit(status);
-
-  }
-
-  @Test
-  public void testDeleteContractNotExistingId() throws Exception{
-    assertThrows(IllegalArgumentException.class, () -> {
-            contractDao.deleteContract(1000); 
-        });
-    }
-
-  }
->>>>>>> e29138609cc26c01f057814c0e6fe7aa152e501b

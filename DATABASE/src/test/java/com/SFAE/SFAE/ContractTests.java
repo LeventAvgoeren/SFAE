@@ -1,5 +1,6 @@
 package com.SFAE.SFAE;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,6 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import com.SFAE.SFAE.DTO.CustomerDTO;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
@@ -36,25 +33,39 @@ public class ContractTests {
 
   @Test
   public void testCreateContract() throws Exception {
+
     String json = "{" +
-    "\"jobType\": \"GÄRTNER\"," +
-    "\"adress\": \"Quizostrasse 32\"," +
-    "\"payment\": \"CASH\"," +
-    "\"description\": \"Ich habe meinen hund gegesssen weil ich dachte er wäre ein chicken wing mein name ist\"," +
-    "\"statusOrder\": \"UNDEFINED\"," +
-    "\"range\": \"2.2\"," +
-    "\"customer\": \"1\"," +
-    "\"worker\": 6" +
-"}";
-      System.out.println(json);
-      TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        "\"jobType\": \"GÄRTNER\"," +
+        "\"adress\": \"Quizostrasse32\"," +
+        "\"payment\": \"CASH\"," +
+        "\"description\": \"Ich\"," +
+        "\"statusOrder\": \"UNDEFINED\"," +
+        "\"range\": 2.2," + // Als Zahl, korrekt für Double
+        "\"customerId\": 1," + // Long-Wert, korrekt für die ID des Kunden
+        "\"workerId\": 6" + // Long-Wert, korrekt für die ID des Arbeiters und ohne zusätzliche Leerzeichen
+        "}";
 
-      mockMvc.perform(post("/contract")
-              .contentType(MediaType.APPLICATION_JSON)
-              .content(json))
-              .andExpect(status().isCreated());
+    System.out.println(json);
+    TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
-      transactionManager.commit(status);  
+    mockMvc.perform(post("/contract")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(json))
+        .andExpect(status().isCreated());
+
+    transactionManager.commit(status);
   }
-  
+
+  @Test
+  public void testGetContract() throws Exception {
+
+    TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+    mockMvc.perform(get("/contract/4"))
+        .andExpect(status().isOk())
+        .andReturn();
+
+    transactionManager.commit(status);
+  }
+
 }

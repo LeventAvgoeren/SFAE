@@ -1,5 +1,6 @@
 package com.SFAE.SFAE.INTERFACE;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -78,4 +79,7 @@ public interface WorkerInterface {
    * @return A Worker entity if found, otherwise null.
    */
   Worker findWorkerbyEmail(String email);
+
+
+  Worker findWorkerByJob(String jobType);
 }

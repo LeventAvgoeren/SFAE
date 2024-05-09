@@ -300,4 +300,19 @@ public class WorkerImpl implements WorkerInterface {
 
     return Optional.empty();
   }
+
+  @Override
+  public Worker findWorkerByJob(String jobType) {
+    List<Optional<Worker>> result = jdbcTemplate.query(
+      "SELECT * FROM WORKER WHERE job_type = ?",
+      ps -> {
+        ps.setString(1, jobType);
+      },
+      (rs, rowNum) -> createWorker(rs));
+
+  if (!result.isEmpty() && result.get(0).isPresent()) {
+    return result.get(0).get();
+  }
+  return null;
+}
 }

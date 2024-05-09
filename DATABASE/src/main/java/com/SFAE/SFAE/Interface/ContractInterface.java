@@ -1,5 +1,6 @@
 package com.SFAE.SFAE.INTERFACE;
 
+import com.SFAE.SFAE.DTO.ContractDTO;
 import com.SFAE.SFAE.ENTITY.Contract;
 
 /**
@@ -51,5 +52,5 @@ public interface ContractInterface {
      * @return the newly created contract
      * @throws IllegalArgumentException if the provided contract data is invalid
      */
-    Contract createContract(Contract contract);
+    Contract createContract(ContractDTO contract);
 }

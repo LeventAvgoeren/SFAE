@@ -81,5 +81,14 @@ public interface WorkerInterface {
   Worker findWorkerbyEmail(String email);
 
 
+
+  /**
+   * Retrieves a Worker by their job type.
+   * 
+   * This method retrieves a Worker entity from the database based on their job type.
+   * 
+   * @param jobType The type of job of the Worker to find.
+   * @return A Worker entity if found based on the provided job type, otherwise null.
+   */
   Worker findWorkerByJob(String jobType);
 }

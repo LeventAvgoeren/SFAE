@@ -16,6 +16,16 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+
+/**
+ * Represents a contract entity in the system.
+ * 
+ * A contract represents an agreement between a customer and a worker for a specific job.
+ * It contains details such as job type, address, payment method, description, status order, range, and associated customer and worker.
+ * 
+ * @author Levent
+ */
+
 @Data
 @Entity
 @Table(name = "contract")

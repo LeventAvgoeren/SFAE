@@ -94,17 +94,14 @@ public class ContractController implements ContractEP {
       JobList.valueOf(contract.getJobType());
       Payment.valueOf(contract.getPayment());
       StatusOrder.valueOf(contract.getStatusOrder());
-    } catch (IllegalArgumentException e) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-    }
-
-    try {
       Contract updatedContract = dao.updateContract(contract);
       if (updatedContract != null) {
         return ResponseEntity.status(HttpStatus.OK).body(updatedContract);
       }
     } catch (DataAccessException dax) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    } catch (IllegalArgumentException e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

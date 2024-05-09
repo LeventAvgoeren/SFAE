@@ -2,26 +2,36 @@ package com.SFAE.SFAE.DTO;
 
 import lombok.Data;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
 
 @Data
 public class ContractDTO {
 
     private Long id;  
+    @NotEmpty
     @NotBlank(message = "Job type is required")
     private String jobType;
+    @NotEmpty
     @NotBlank(message = "adress is required")
     private String adress;
+    @NotEmpty
     @NotBlank(message = "payment is required")
     private String payment;
+    @NotEmpty
     @NotBlank(message = "description is required")
     private String description;
+    @NotEmpty
     @NotBlank(message = "statusOrder is required")
     private String statusOrder;
+    @NotEmpty
     @NotNull(message = "range is required")
     private Double range;
+    @NotEmpty
     @NotNull(message = "CustomerId is required")
     private Long customerId;  // Referenziert den ID des Kunden
+    @NotEmpty
     @NotNull(message = "WorkerId is required")
     private Long workerId;    // Referenziert den ID des Arbeiters
 

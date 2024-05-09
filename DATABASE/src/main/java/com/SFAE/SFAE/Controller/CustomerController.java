@@ -9,6 +9,7 @@ import com.SFAE.SFAE.DTO.LoginRequest;
 import com.SFAE.SFAE.DTO.LoginResponseCustomer;
 import com.SFAE.SFAE.ENDPOINTS.CustomerEP;
 import com.SFAE.SFAE.ENTITY.Customer;
+import com.SFAE.SFAE.ENUM.Role;
 import com.SFAE.SFAE.IMPLEMENTATIONS.CustomerImp;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 import com.SFAE.SFAE.Service.Authentication;
@@ -102,7 +103,6 @@ class CustomerController implements CustomerEP {
                     .map(fieldError -> fieldError.getDefaultMessage())
                     .collect(Collectors.toList()));
         }
-
 
         try {
             Customer customer = dao.createCustomer(customerData);
@@ -231,6 +231,7 @@ class CustomerController implements CustomerEP {
         }
 
         try {
+            Role.valueOf(jsonData.getRole());
             Customer customer = dao.updateCustomer(jsonData);
             if (customer != null) {
                 return ResponseEntity.status(HttpStatus.OK).body(customer);
@@ -238,6 +239,8 @@ class CustomerController implements CustomerEP {
         } catch (DataAccessException dax) {
             logger.error("Database access error: " + dax.getMessage(), dax);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } catch (IllegalArgumentException iae) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -267,7 +270,7 @@ class CustomerController implements CustomerEP {
         try {
             String token = auth.loginCustomer(loginRequest.getEmail(), loginRequest.getPassword());
 
-            if (!token.isBlank()) {
+            if (token != null) {
                 Customer customer = cus.findEmail(loginRequest.getEmail());
 
                 return ResponseEntity.status(HttpStatus.OK)

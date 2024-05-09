@@ -1,7 +1,10 @@
 package com.SFAE.SFAE.DTO;
 
 import org.springframework.stereotype.Component;
+
+
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * @author erayzor
@@ -11,12 +14,15 @@ import javax.validation.constraints.NotBlank;
 public class CustomerDTO {
     private Long id;
 
+    @NotEmpty
     @NotBlank(message = "Name is required")
     private String name;
 
+    @NotEmpty
     @NotBlank(message = "Email is required")
     private String email;
-
+    
+    @NotEmpty
     @NotBlank(message = "Password is required")
     private String password;
     

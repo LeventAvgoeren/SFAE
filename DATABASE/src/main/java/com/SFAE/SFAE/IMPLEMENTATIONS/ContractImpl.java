@@ -46,7 +46,7 @@ public class ContractImpl implements ContractInterface {
   }
 
   @Override
-  public Contract updateContract(Contract contract) {
+  public Contract updateContract(ContractDTO contract) {
     int result = jdbcTemplate.update(
       "UPDATE contract SET jobType = ?, adress = ?, payment = ?, description = ?, statusOrder = ?, range = ? WHERE id = ?",
       ps -> {

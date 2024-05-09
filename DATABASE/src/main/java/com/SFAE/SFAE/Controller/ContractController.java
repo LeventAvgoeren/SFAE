@@ -5,6 +5,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -14,6 +15,10 @@ import com.SFAE.SFAE.ENTITY.Contract;
 import com.SFAE.SFAE.INTERFACE.ContractInterface;
 import com.SFAE.SFAE.Service.MailService;
 import org.slf4j.Logger;
+
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 @RestController
 public class ContractController implements ContractEP {
@@ -26,7 +31,13 @@ public class ContractController implements ContractEP {
   private MailService mail;
 
   @Override
-  public ResponseEntity<?> createContract(ContractDTO contract) {
+  public ResponseEntity<?> createContract(@Valid ContractDTO contract, BindingResult bindingResult) {
+
+    if (bindingResult.hasErrors()) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getFieldErrors().stream()
+          .map(fieldError -> fieldError.getDefaultMessage())
+          .collect(Collectors.toList()));
+    }
 
     if (contract == null) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -36,8 +47,9 @@ public class ContractController implements ContractEP {
       if (created != null) {
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
       }
-    } catch (Exception e) {
-      return ResponseEntity.status((HttpStatus.INTERNAL_SERVER_ERROR)).build();
+    } catch (DataAccessException dax) {
+      logger.error("Database access error: " + dax.getMessage(), dax);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
   }
@@ -53,39 +65,60 @@ public class ContractController implements ContractEP {
         return ResponseEntity.status(HttpStatus.OK).build();
       }
 
-    } catch (Exception e) {
-      return ResponseEntity.status((HttpStatus.INTERNAL_SERVER_ERROR)).build();
+    } catch (DataAccessException dax) {
+      logger.error("Database access error: " + dax.getMessage(), dax);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
   }
 
   @Override
-  public ResponseEntity<?> updateContract(Contract contract) {
-    
-    throw new UnsupportedOperationException("Unimplemented method 'updateContract'");
+  public ResponseEntity<?> updateContract(@Valid ContractDTO contract, BindingResult bindingResult) {
+
+    if (bindingResult.hasErrors()) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getFieldErrors().stream()
+          .map(fieldError -> fieldError.getDefaultMessage())
+          .collect(Collectors.toList()));
+    }
+
+    if (contract == null || contract.getId() == null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          String.format("Contract or Contract Id is empty.", HttpStatus.BAD_REQUEST.value()));
+    }
+
+    try {
+      Contract updatedContract = dao.updateContract(contract);
+      if (updatedContract != null) {
+        return ResponseEntity.status(HttpStatus.OK).body(updatedContract);
+      }
+    } catch (DataAccessException dax) {
+      logger.error("Database access error: " + dax.getMessage(), dax);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
   }
 
   @Override
   public ResponseEntity<?> findContractById(long id) {
-        if (id < 0) {
-          throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                  String.format("Contract id: %d negative", id, HttpStatus.BAD_REQUEST.value()));
+    if (id < 0) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          String.format("Contract id: %d negative", id, HttpStatus.BAD_REQUEST.value()));
+    }
+
+    try {
+      Contract Answer = dao.getContract(id);
+
+      if (Answer != null) {
+        return ResponseEntity.status(HttpStatus.OK).body(Answer);
       }
+    } catch (DataAccessException dax) {
+      logger.error("Database access error: " + dax.getMessage(), dax);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
 
-      try {
-          Contract Answer = dao.getContract(id);
-
-          if (Answer != null) {
-              return ResponseEntity.status(HttpStatus.OK).body(Answer);
-          }
-      } catch (DataAccessException dax) {
-          logger.error("Database access error: " + dax.getMessage(), dax);
-          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-      }
-
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
   }
-
 
 }

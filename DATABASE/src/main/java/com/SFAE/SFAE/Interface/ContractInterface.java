@@ -32,7 +32,7 @@ public interface ContractInterface {
      * @throws IllegalArgumentException if the contract data is invalid
      * @throws IllegalStateException if the contract does not exist
      */
-    Contract updateContract(Contract contract);
+    Contract updateContract(ContractDTO contract);
 
     /**
      * Deletes a contract from the system based on the contract ID.

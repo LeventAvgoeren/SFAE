@@ -67,13 +67,15 @@ public class ContractController implements ContractEP {
       if (result) {
         return ResponseEntity.status(HttpStatus.OK).build();
       }
+      else{
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+      }
 
     } catch (DataAccessException dax) {
       logger.error("Database access error: " + dax.getMessage(), dax);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
   }
 
   @Override

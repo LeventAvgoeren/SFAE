@@ -50,17 +50,3 @@
   position: sticky;
 }
 
-.Nav-Link div {
-  font-size: 10px; /* Stellt die Schriftgröße des Textes ein */
-  position: sticky;
-}
-
-.from-control .search-field {
-  text-align: center;
-  width: 200%; /* Ändere die Breite nach Bedarf */
- 
-}
-
-.search-field{
-  width: max-content;
-}

@@ -271,6 +271,35 @@ public void testUpdateWorkerWithNotAllAttributes() throws Exception {
 
     transactionManager.commit(status);  
 }
+@Test
+public void testUpdateWorkerWithNotExistingId() throws Exception {
+        WorkerDTO worker = new WorkerDTO();
+        worker.setId(100L);
+        worker.setEmail("XalooosSelam@gmail.com");
+        worker.setMinPayment(0.9);
+        worker.setName("Kenno");
+        worker.setPassword("Meinhund123");
+        worker.setRange(0.8);
+        worker.setRating(0.5);
+        worker.setStatus("AVAILABLE");
+        worker.setStatusOrder("FINISHED");
+        worker.setVerification(true);
+    
+        
+        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+    
+       
+        ObjectMapper objectMapper = new ObjectMapper();
+        String workerJson = objectMapper.writeValueAsString(worker);
+
+    mockMvc.perform(put("/worker") 
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(workerJson)) 
+            .andExpect(status().isBadRequest());
+
+    transactionManager.commit(status);  
+}
+
 
 
 @Test

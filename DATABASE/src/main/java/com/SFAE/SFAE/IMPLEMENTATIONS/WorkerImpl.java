@@ -168,6 +168,15 @@ public class WorkerImpl implements WorkerInterface {
     if (data == null) {
       throw new IllegalArgumentException("data is null" + data);
     }
+    try{
+      Worker found=findWorkersbyID(data.getId());
+      if(found==null){
+        throw new IllegalArgumentException("id is null");
+      }
+    }
+    catch(Exception e){
+      throw new IllegalArgumentException("Id dos not exist");
+    }
 
     String password = encoder.hashPassword(data.getPassword());
     int rowsAffected = jdbcTemplate.update(

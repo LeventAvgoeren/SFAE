@@ -14,17 +14,17 @@ import { PageOrderOverview } from "./components/PageOrderOverview";
 import { PageOrderCompleted } from "./components/PageOrderCompleted";
 import { PageOrderRating } from "./components/PageOrderRating";
 import { PageWorkerOrderOverview } from "./components/worker/PageWorkerOrderOverview";
-import { PageCustomerFAQ } from "./components/PageCustomerFAQ";
 import { PageWorkerFinances } from "./components/worker/PageWorkerFinances";
 import { PageWorkerProfile } from "./components/worker/PageWorkerProfile";
 import { PageWorkerPreferences } from "./components/worker/PageWorkerPreferences";
-import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
 import { PageWorkerOrders } from "./components/worker/PageWorkerOrders";
 import { PagePasswordReset } from "./components/PagePasswordReset";
 import { LoginInfo } from "./components/LoginManager";
 import { login } from "./backend/api";
 import { PageIndexCustomer } from "./components/PageIndexCustomer";
 import { MainMenu } from "./components/MainMenu";
+import PageWorkerFAQ from "./components/worker/PageWorkerFAQ";
+import { PageCustomerFAQ } from "./components/PageCustomerFAQ";
 
 const history = createMemoryHistory();
 
@@ -73,7 +73,8 @@ function App() {
         {/*:/workerId kommt noch hinzu*/}
         <Route path="/profile"element={<PageWorkerProfile />}/>
         <Route path="/worker/:workerId/preferences"element={<PageWorkerPreferences />}/>
-        <Route path="/worker/:workerId/faq" element={<PageWorkerFAQ />} />
+        {/*:/workerId kommt noch hinzu*/}
+        <Route path="/worker/faq" element={<PageWorkerFAQ />} />
         <Route path="/worker/:workerId/orders" element={<PageWorkerOrders />} />
       </Routes>
     </>

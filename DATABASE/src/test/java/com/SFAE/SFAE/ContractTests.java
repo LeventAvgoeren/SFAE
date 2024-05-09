@@ -46,9 +46,9 @@ public class ContractTests {
         "\"payment\": \"CASH\"," +
         "\"description\": \"Ich\"," +
         "\"statusOrder\": \"UNDEFINED\"," +
-        "\"range\": 2.2," + // Als Zahl, korrekt für Double
-        "\"customerId\": 1," + // Long-Wert, korrekt für die ID des Kunden
-        "\"workerId\": 6" + // Long-Wert, korrekt für die ID des Arbeiters und ohne zusätzliche Leerzeichen
+        "\"range\": 2.2," + 
+        "\"customerId\": 1," + 
+        "\"workerId\": 6" +
         "}";
 
     System.out.println(json);
@@ -129,7 +129,7 @@ public class ContractTests {
         .andReturn();
     transactionManager.commit(status);
   }
-  
+
   @Test
   public void testDeleteContract()throws Exception{
     TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());

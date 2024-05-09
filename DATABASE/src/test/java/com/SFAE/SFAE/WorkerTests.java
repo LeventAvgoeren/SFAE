@@ -52,7 +52,6 @@ public class WorkerTests{
     "\"jobType\": \"GÄRTNER\"," +
     "\"minPayment\": 1.1" +
 "}";
-        System.out.println(json);
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         mockMvc.perform(post("/worker")
@@ -62,6 +61,40 @@ public class WorkerTests{
 
         transactionManager.commit(status);  
     }
+
+    @Test
+    public void testCreateWorkerWithNull() throws Exception {
+        String json = "";
+        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+        mockMvc.perform(post("/worker")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isBadRequest());
+
+        transactionManager.commit(status);  
+    }
+
+    @Test
+    public void testCreateWorkerWithNotAllAttributes() throws Exception {
+        String json = "{" +
+    "\"name\": \"Levent Avgören\"," +
+    "\"location\": \"Köln\"," +
+    "\"password\": \"passwordsasdsad1234\"," +
+    "\"email\": \"Levenstavgorendsssdddddsdsa@gmail.com\"," +
+    "\"range\": 1.1," +
+"}";
+        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+        mockMvc.perform(post("/worker")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isBadRequest());
+
+        transactionManager.commit(status);  
+    }
+
+
 
       @Test
     public void testGetWorkerByName() throws Exception {
@@ -97,6 +130,27 @@ public class WorkerTests{
     }
 
     @Test
+    public void testGetWorkerrByNegativeId() throws Exception {
+
+         MvcResult mvcResult = mockMvc.perform(get("/worker/-1"))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        System.out.println("A " + contentAsString);
+    }
+    @Test
+    public void testGetWorkerrByNotExistingId() throws Exception {
+
+         MvcResult mvcResult = mockMvc.perform(get("/worker/1000"))
+                .andExpect(status().isNotFound())
+                .andReturn();
+
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        System.out.println("A " + contentAsString);
+    }
+
+    @Test
     public void testDeleteWorkerrByid() throws Exception {
 
          MvcResult mvcResult = mockMvc.perform(delete("/worker/8"))
@@ -106,6 +160,28 @@ public class WorkerTests{
         String contentAsString = mvcResult.getResponse().getContentAsString();
         System.out.println("A " + contentAsString);
    }
+
+   @Test
+   public void testDeleteWorkerrByNegativeId() throws Exception {
+
+        MvcResult mvcResult = mockMvc.perform(delete("/worker/-1"))
+               .andExpect(status().isBadRequest())
+               .andReturn();
+
+       String contentAsString = mvcResult.getResponse().getContentAsString();
+       System.out.println("A " + contentAsString);
+  }
+
+  @Test
+   public void testDeleteWorkerNotFound() throws Exception {
+
+        MvcResult mvcResult = mockMvc.perform(delete("/worker/1000"))
+               .andExpect(status().isNotFound())
+               .andReturn();
+
+       String contentAsString = mvcResult.getResponse().getContentAsString();
+       System.out.println("A " + contentAsString);
+  }
 
    @Test
     public void testFindAllWorker() throws Exception {
@@ -153,6 +229,51 @@ public void testUpdateWorker() throws Exception {
 }
 
 @Test
+public void testUpdateWorkerWithNull() throws Exception {
+    
+        String json = "";
+
+    TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+    mockMvc.perform(put("/worker") 
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(json)) 
+            .andExpect(status().isBadRequest());
+
+    transactionManager.commit(status);  
+}
+
+@Test
+public void testUpdateWorkerWithNotAllAttributes() throws Exception {
+        WorkerDTO worker = new WorkerDTO();
+        worker.setId(6L);
+        worker.setEmail("XalooosSelam@gmail.com");
+        worker.setMinPayment(0.9);
+        worker.setName("Kenno");
+        worker.setPassword("Meinhund123");
+        worker.setRange(0.8);
+        worker.setRating(0.5);
+        worker.setStatus("AVAILABLE");
+        worker.setStatusOrder("FINISHED");
+        worker.setVerification(true);
+    
+        
+        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+    
+       
+        ObjectMapper objectMapper = new ObjectMapper();
+        String workerJson = objectMapper.writeValueAsString(worker);
+
+    mockMvc.perform(put("/worker") 
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(workerJson)) 
+            .andExpect(status().isBadRequest());
+
+    transactionManager.commit(status);  
+}
+
+
+@Test
 public void loginWorker() throws Exception{
 
         String json = "{ \"password\": \"passwordsdsad1234\", \"email\": \"Levenstavgorenddsa@gmail.com\"}";
@@ -172,4 +293,60 @@ public void loginWorker() throws Exception{
 
 }
 
+@Test
+public void loginWorkerWithNull() throws Exception{
+
+        String json = "";
+        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+        MvcResult mvcResult = mockMvc.perform(post("/worker/login")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(json))
+        .andExpect(status().isBadRequest())
+        .andReturn();
+            
+
+        transactionManager.commit(status);  
+
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        System.out.println("A " + contentAsString);
+
+}
+
+@Test
+public void loginWorkerWithEmailNull() throws Exception{
+
+        String json = "{ \"password\": \"passwordsdsad1234\" }";
+        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+        MvcResult mvcResult = mockMvc.perform(post("/worker/login")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(json))
+        .andExpect(status().isBadRequest())
+        .andReturn();
+            
+
+        transactionManager.commit(status);  
+
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        System.out.println("A " + contentAsString);
+
+}
+@Test
+public void loginWorkerNotExistingWorker() throws Exception{
+
+        String json = "{ \"password\": \"passwordsdsad1234\", \"email\": \"dnuadnaui@gmail.com\"}";
+        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+        MvcResult mvcResult = mockMvc.perform(post("/worker/login")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(json))
+        .andExpect(status().isNotFound())
+        .andReturn();
+            
+        transactionManager.commit(status);  
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        System.out.println("A " + contentAsString);
+
+}
 }

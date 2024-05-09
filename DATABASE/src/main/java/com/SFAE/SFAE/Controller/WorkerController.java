@@ -1,6 +1,7 @@
 package com.SFAE.SFAE.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -126,7 +127,7 @@ public class WorkerController implements WorkerEp {
 
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
     }
 
@@ -169,9 +170,13 @@ public class WorkerController implements WorkerEp {
         try {
             dao.updateWorker(jsonData);
 
-        } catch (Exception e) {
+        } catch(DataAccessException dax){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
@@ -184,7 +189,7 @@ public class WorkerController implements WorkerEp {
     @Override
     public ResponseEntity<?> loginWorker(@RequestBody LoginRequest login) {
         if (login.getEmail() == null || login.getPassword() == null) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
         try {

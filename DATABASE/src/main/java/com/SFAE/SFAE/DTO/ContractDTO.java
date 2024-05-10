@@ -6,31 +6,51 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 
+/**
+ * @author erayzor
+ */
+
 @Data
 public class ContractDTO {
 
-    private Long id;  
+    private Long id; 
+
+    @NotNull
     @NotEmpty
     @NotBlank(message = "Job type is required")
     private String jobType;
+
+    @NotNull
     @NotEmpty
     @NotBlank(message = "adress is required")
     private String adress;
+
+    @NotNull
     @NotEmpty
     @NotBlank(message = "payment is required")
     private String payment;
+
+    @NotNull
     @NotEmpty
     @NotBlank(message = "description is required")
     private String description;
+
+    @NotNull
     @NotEmpty
     @NotBlank(message = "statusOrder is required")
     private String statusOrder;
+
+    @NotNull
     @NotEmpty
     @NotNull(message = "range is required")
     private Double range;
+
+    @NotNull
     @NotEmpty
     @NotNull(message = "CustomerId is required")
     private Long customerId;  // Referenziert den ID des Kunden
+
+    @NotNull
     @NotEmpty
     @NotNull(message = "WorkerId is required")
     private Long workerId;    // Referenziert den ID des Arbeiters

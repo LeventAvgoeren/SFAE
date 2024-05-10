@@ -1,6 +1,8 @@
 package com.SFAE.SFAE.ENDPOINTS;
 
 
+import javax.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -81,7 +83,7 @@ public interface CustomerEP{
      * @return ResponseEntity containing the result of the operation.
      */
     @PutMapping("")
-    ResponseEntity<?> updateCustomer(@RequestBody CustomerDTO jsonData, BindingResult bindingResult);
+    ResponseEntity<?> updateCustomer(@Valid @RequestBody CustomerDTO jsonData, BindingResult bindingResult);
 
     /**
      * Logs in a customer.

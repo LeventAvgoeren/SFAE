@@ -188,7 +188,7 @@ class CustomerController implements CustomerEP {
      */
     @Override
     public ResponseEntity<Customer> findCustomerByName(String name) {
-        if (name.isBlank() || name.isEmpty()) {
+        if (name.isBlank() || name.isEmpty() || name == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     String.format("Customer name is empty. ", HttpStatus.BAD_REQUEST.value()));
         }
@@ -224,9 +224,11 @@ class CustomerController implements CustomerEP {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getFieldErrors().stream()
                     .map(fieldError -> fieldError.getDefaultMessage())
                     .collect(Collectors.toList()));
-        }
+        }   
 
-        if (jsonData.getId() == null || jsonData.getRole().equals(null)) {
+     
+
+        if (jsonData.getId() == null || jsonData.hasNull()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 

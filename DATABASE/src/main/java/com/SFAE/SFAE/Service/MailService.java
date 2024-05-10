@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
  * Spring Mail.
  * 
  * @author Levent
+ * @author erayzor
  */
 
 @Service

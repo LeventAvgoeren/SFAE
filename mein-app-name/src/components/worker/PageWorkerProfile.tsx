@@ -1,64 +1,83 @@
-import React from 'react';
-import './PageWorkerProfile.css'; 
-import { getWorkerbyID } from '../../backend/api';
+import { useEffect, useState } from "react";
+import { updateWorker } from "../../backend/api";
+import { useParams } from "react-router-dom";
+import { WorkerResource } from "../../Resources";
+import { getWorkerbyID } from "../../backend/api";
 
+export function PageWorkerProfile() {
+    const { workerId } = useParams<{ workerId?: string }>();
+    const [worker, setWorker] = useState<WorkerResource | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
+    useEffect(() => {
+        if (!workerId) {
+            setError('Keine Worker ID in der URL gefunden');
+            setLoading(false);
+            return;
+        }
+        const fetchWorker = async () => {
+            try {
+                const id = parseInt(workerId);
+                if (isNaN(id)) {
+                    throw new Error("Die Worker ID ist keine gültige Zahl");
+                }
+                const workerData = await getWorkerbyID(id);
+        if (!workerData) {
+            setWorker(null); // Sicherstellen, dass null gesetzt wird, wenn keine Daten gefunden werden
+            throw new Error("Keine Daten für diesen Worker gefunden");
+        }
+        setWorker(workerData); // Setzen des State, wenn Daten korrekt geladen wurden
+        setLoading(false);
+            } catch (error) {
+                console.error('Fehler beim Laden der Worker-Daten:', error);
+                setError('Fehler beim Laden der Daten');
+                setLoading(false);
+            }
+        };
 
-export function PageWorkerProfile() {   
-     return (
-        <div className="container emp-profile">
-            <form method="post">
-                <div className="row">
-                    <div className="col-md-4">
-                        <div className="profile-img">
-                            <img src="mein-app-name\public\levent.jpg" alt=""/>
-                        </div>
-                    </div>
-                    <div className="col-md-6">
-                        <div className="profile-head">
-                            <h5>Kshiti Ghelani</h5>
-                            <h6>Web Developer and Designer</h6>
-                            <p className="proile-rating">RANKINGS: <span>8/10</span></p>
-                            <ul className="nav nav-tabs" id="myTab" role="tablist">
-                                <li className="nav-item">
-                                    <a className="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Timeline</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div className="col-md-2">
-                        <input type="submit" className="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-md-4">
-                        <div className="profile-work">
-                            
-                            
-                        </div>
-                    </div>
-                    <div className="col-md-8">
-                        <div className="tab-content profile-tab" id="myTabContent">
-                            <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                <div className="row">
-                                    <div className="col-md-6">
-                                        <label>User Id</label>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <p>Kshiti123</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
+        fetchWorker();
+    }, [workerId]);
+
+    const handleUpdate = async (event: React.FormEvent) => {
+        event.preventDefault();
+        if (!worker || worker.id === undefined) {
+            alert('Worker-ID fehlt oder ungültig');
+            return;
+        }
+
+        try {
+            const updatedWorker = await updateWorker(worker.id, worker);
+            console.log('Updated Worker:', updatedWorker);
+            alert('Worker erfolgreich aktualisiert');
+        } catch (error) {
+            console.error('Fehler beim Aktualisieren des Workers:', error);
+            alert('Fehler beim Aktualisieren des Workers');
+        }
+    };
+
+    if (loading) return <p>Lädt...</p>;
+    if (error) return <p>Fehler: {error}</p>;
+    if (!worker) return <p>Keine Daten gefunden.</p>;
+    return (
+        <form onSubmit={handleUpdate}>
+            <label>
+                Name:
+                <input
+                    type="text"
+                    value={worker.name}
+                    onChange={e => setWorker({ ...worker, name: e.target.value })}
+                    />
+            </label>
+            <label>
+                E-Mail:
+                <input
+                    type="email"
+                    value={worker.email}
+                    onChange={e => setWorker({ ...worker, email: e.target.value })}
+                />
+            </label>
+            <button type="submit">Aktualisieren</button>
+        </form>
     );
-};
-
-
-export default PageWorkerProfile;
+}

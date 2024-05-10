@@ -66,15 +66,12 @@ function App() {
         <Route path="/customer/:customerId/orders/:order/rating"element={<PageOrderRating />}/>
 
         {/* Worker */}
-        {/*:/workerId kommt noch hinzu*/}
-        <Route path="/worker/index" element={<PageWorkerIndex/>} />
+        <Route path="/worker/:workerId" element={<PageWorkerIndex/>} />
         <Route path="/worker/:workerId/orders/overview"element={<PageWorkerOrderOverview />}/>
         <Route path="/worker/:workerId/finances"element={<PageWorkerFinances />}/>
-        {/*:/workerId kommt noch hinzu*/}
-        <Route path="/profile"element={<PageWorkerProfile />}/>
+        <Route path="/worker/:workerId/profile"element={<PageWorkerProfile />}/>
         <Route path="/worker/:workerId/preferences"element={<PageWorkerPreferences />}/>
-        {/*:/workerId kommt noch hinzu*/}
-        <Route path="/worker/faq" element={<PageWorkerFAQ />} />
+        <Route path="/worker/:workerId/faq" element={<PageWorkerFAQ />} />
         <Route path="/worker/:workerId/orders" element={<PageWorkerOrders />} />
       </Routes>
     </>

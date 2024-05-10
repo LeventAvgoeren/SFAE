@@ -30,6 +30,8 @@ export async function login(email:string, password:string, userType:string):Prom
       headers: { Accept: "application/json",
       "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
+      credentials: "include" as RequestCredentials,
+
       
     };
   
@@ -129,3 +131,29 @@ export async function getWorkerByName(name: string): Promise<any> {
         throw error; // Weitergeben des Fehlers für eine mögliche Fehlerbehandlung in der Anwendung
     }
 }
+
+export async function updateWorker(id:number, workerData : WorkerResource) {
+    if (!id) {
+      throw new Error("Worker ID must be provided.");
+    }
+  
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/${id}`;
+    const options = {
+      method: 'PUT', 
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(workerData),
+      credentials: 'include' as RequestCredentials
+    };
+  
+    try {
+      const response = await fetchWithErrorHandling(url, options);
+      const updatedWorker = await response.json();
+      return updatedWorker;
+    } catch (error) {
+      console.error("Failed to update worker:", error);
+      throw error;
+    }
+  }

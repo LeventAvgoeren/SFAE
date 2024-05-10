@@ -7,7 +7,7 @@ export type LoginResource = {
 }
 
 export type WorkerResource = {
-    id?: string;
+    id?: number;
     name: string;
     location: string;
     status: boolean;

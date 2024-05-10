@@ -9,6 +9,7 @@ import com.SFAE.SFAE.DTO.LoginRequest;
 import com.SFAE.SFAE.DTO.LoginResponseCustomer;
 import com.SFAE.SFAE.ENDPOINTS.CustomerEP;
 import com.SFAE.SFAE.ENTITY.Customer;
+import com.SFAE.SFAE.ENUM.Role;
 import com.SFAE.SFAE.IMPLEMENTATIONS.CustomerImp;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 import com.SFAE.SFAE.Service.Authentication;
@@ -20,6 +21,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -102,7 +105,6 @@ class CustomerController implements CustomerEP {
                     .map(fieldError -> fieldError.getDefaultMessage())
                     .collect(Collectors.toList()));
         }
-
 
         try {
             Customer customer = dao.createCustomer(customerData);
@@ -188,7 +190,7 @@ class CustomerController implements CustomerEP {
      */
     @Override
     public ResponseEntity<Customer> findCustomerByName(String name) {
-        if (name.isBlank() || name.isEmpty()) {
+        if (name.isBlank() || name.isEmpty() || name == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     String.format("Customer name is empty. ", HttpStatus.BAD_REQUEST.value()));
         }
@@ -224,13 +226,16 @@ class CustomerController implements CustomerEP {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getFieldErrors().stream()
                     .map(fieldError -> fieldError.getDefaultMessage())
                     .collect(Collectors.toList()));
-        }
+        }   
 
-        if (jsonData.getId() == null || jsonData.getRole().equals(null)) {
+     
+
+        if (jsonData.getId() == null || jsonData.hasNull()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
         try {
+            Role.valueOf(jsonData.getRole());
             Customer customer = dao.updateCustomer(jsonData);
             if (customer != null) {
                 return ResponseEntity.status(HttpStatus.OK).body(customer);
@@ -238,6 +243,8 @@ class CustomerController implements CustomerEP {
         } catch (DataAccessException dax) {
             logger.error("Database access error: " + dax.getMessage(), dax);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } catch (IllegalArgumentException iae) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -256,7 +263,7 @@ class CustomerController implements CustomerEP {
      *         error message
      */
     @Override
-    public ResponseEntity<?> LoginCustomer(@Valid @RequestBody LoginRequest loginRequest, BindingResult bindingResult) {
+    public ResponseEntity<?> LoginCustomer(@Valid @RequestBody LoginRequest loginRequest, BindingResult bindingResult, HttpServletResponse response) {
 
         if (bindingResult.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getFieldErrors().stream()
@@ -265,11 +272,18 @@ class CustomerController implements CustomerEP {
         }
 
         try {
-            String token = auth.loginCustomer(loginRequest.getEmail(), loginRequest.getPassword());
+            String token = auth.loginCustomer(loginRequest.getEmail(), loginRequest.getPassword(), response);
 
-            if (!token.isBlank()) {
+            if (token != null) {
                 Customer customer = cus.findEmail(loginRequest.getEmail());
 
+                Cookie cookie = new Cookie("access_token", token);
+                cookie.setHttpOnly(true);
+                cookie.setSecure(true); 
+                cookie.setPath("/");
+                cookie.setMaxAge(300); 
+                response.addCookie(cookie);
+                
                 return ResponseEntity.status(HttpStatus.OK)
                         .body(new LoginResponseCustomer(String.valueOf(customer.getId()),
                                 customer.getRole().toString(), token));

@@ -1,3 +1,4 @@
+import { WorkerResource } from "../Resources";
 import { LoginInfo } from "../components/LoginManager";
 import { fetchWithErrorHandling } from "./fetchWithErrorHandling";
 
@@ -9,7 +10,8 @@ export async function getCustomerByName(name: String): Promise<any> {
     
     return  response;
 }
-export async function getWorkerbyID(id: number | undefined): Promise<any> {
+
+export async function getWorkerbyID(id: number | undefined): Promise<WorkerResource> {
     if (typeof id !== 'number') {
         throw new Error("Worker ID must be provided.");
     }
@@ -17,7 +19,8 @@ export async function getWorkerbyID(id: number | undefined): Promise<any> {
     const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/${id}`;
     const response = await fetchWithErrorHandling(url, { credentials: 'include' as RequestCredentials });
 
-    return response;
+    const answer = await response.json()
+    return answer;
 }
 
 

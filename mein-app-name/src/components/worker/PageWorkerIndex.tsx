@@ -4,7 +4,7 @@ import LoadingIndicator from '../LoadingIndicator';
 import { Container, Navbar, Nav, NavDropdown, Row, Col, Card } from 'react-bootstrap';
 import './DesignVorlage.css';
 import { WorkerResource } from '../../Resources';
-import { getWorkerbyID } from '../../backend/api';
+import { getWorkerByName, getWorkerbyID } from '../../backend/api';
 import './PageWorkerIndex.css'
 
 export function PageWorkerIndex() {
@@ -16,18 +16,23 @@ export function PageWorkerIndex() {
 
 
   useEffect(() => {
+    console.log('useEffect ausgeführt', workerId); // Überprüfen, ob useEffect mit der korrekten workerId aufgerufen wird
+  
     if (!workerId) {
       setError('Keine Worker ID in der URL gefunden');
       setLoading(false);
       return;
     }
     const fetchWorker = async () => {
+      console.log('fetchWorker wird gestartet', workerId); // Überprüfen, ob diese Zeile erreicht wird
       try {
         const id = parseInt(workerId);
+        console.log('parsed ID:', id); // Überprüfen, ob die ID korrekt geparsed wird
         if (isNaN(id)) {
           throw new Error("Die Worker ID ist keine gültige Zahl");
         }
         const workerData = await getWorkerbyID(id);
+        console.log('Daten empfangen:', workerData); // Was wird hier ausgegeben?
         setWorker(workerData);
         setLoading(false);
       } catch (error) {
@@ -36,7 +41,7 @@ export function PageWorkerIndex() {
         setLoading(false);
       }
     };
-
+  
     fetchWorker();
   }, [workerId]);
 
@@ -83,7 +88,7 @@ export function PageWorkerIndex() {
         </Navbar>
 
         <Container className="mt-4">
-        {worker && <h1>Willkommen, {worker.name}</h1>}
+        {worker && <h1>Willkommen, {worker.name}!</h1>}
 
           <Row>
             {/* Karten für verschiedene Bereiche */}

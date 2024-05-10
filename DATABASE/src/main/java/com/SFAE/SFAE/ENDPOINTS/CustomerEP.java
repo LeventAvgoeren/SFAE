@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.DTO.LoginRequest;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 /**
  * @author erayzor
  */
@@ -93,5 +95,5 @@ public interface CustomerEP{
      * @return ResponseEntity containing the result of the operation.
      */
     @PostMapping("/login")
-    ResponseEntity<?> LoginCustomer(@RequestBody LoginRequest loginRequest, BindingResult bindingResult);
+    ResponseEntity<?> LoginCustomer(@RequestBody LoginRequest loginRequest, BindingResult bindingResult, HttpServletResponse response);
 }

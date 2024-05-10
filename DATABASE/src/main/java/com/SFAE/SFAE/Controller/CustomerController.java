@@ -21,6 +21,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -261,7 +263,7 @@ class CustomerController implements CustomerEP {
      *         error message
      */
     @Override
-    public ResponseEntity<?> LoginCustomer(@Valid @RequestBody LoginRequest loginRequest, BindingResult bindingResult) {
+    public ResponseEntity<?> LoginCustomer(@Valid @RequestBody LoginRequest loginRequest, BindingResult bindingResult, HttpServletResponse response) {
 
         if (bindingResult.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getFieldErrors().stream()
@@ -270,11 +272,18 @@ class CustomerController implements CustomerEP {
         }
 
         try {
-            String token = auth.loginCustomer(loginRequest.getEmail(), loginRequest.getPassword());
+            String token = auth.loginCustomer(loginRequest.getEmail(), loginRequest.getPassword(), response);
 
             if (token != null) {
                 Customer customer = cus.findEmail(loginRequest.getEmail());
 
+                Cookie cookie = new Cookie("access_token", token);
+                cookie.setHttpOnly(true);
+                cookie.setSecure(true); 
+                cookie.setPath("/");
+                cookie.setMaxAge(300); 
+                response.addCookie(cookie);
+                
                 return ResponseEntity.status(HttpStatus.OK)
                         .body(new LoginResponseCustomer(String.valueOf(customer.getId()),
                                 customer.getRole().toString(), token));

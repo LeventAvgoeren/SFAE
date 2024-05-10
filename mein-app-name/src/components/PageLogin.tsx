@@ -20,7 +20,23 @@ export function PageLogin() {
               navigate(userType === 'worker' ? `/worker/${result.userId}` : `/customer/${result.userId}`);
           } else {
               setError('Login fehlgeschlagen. Bitte überprüfen Sie Ihre Eingaben.');
+              let route = ''
+          if (userType === 'worker') {
+            route = `/worker/${result.userId}`
+
           }
+
+          else if(userType === 'customer') {
+            route = `/customer/${result.userId}`
+          }
+          else if(userType === 'admin') {
+            route = `/admin/${result.userId}`
+          }
+          navigate(route)
+        } else {
+          setError('Login fehlgeschlagen. Bitte überprüfen Sie Ihre Eingaben.');
+        }
+
       } catch (error) {
           console.error("Fehler beim Anmelden:", error);
           setError('Ein technischer Fehler ist aufgetreten.');

@@ -17,6 +17,8 @@ import com.SFAE.SFAE.DTO.WorkerDTO;
 
 import com.SFAE.SFAE.ENTITY.Worker;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 
  /**
  * Worker Endpoint Interface.
@@ -94,6 +96,6 @@ public interface WorkerEp {
      * @return ResponseEntity indicating the result of the authentication process.
      */
     @PostMapping("/login")
-    ResponseEntity<?> loginWorker(@RequestBody LoginRequest login);
+    ResponseEntity<?> loginWorker(@RequestBody LoginRequest login,HttpServletResponse response);
 }
 

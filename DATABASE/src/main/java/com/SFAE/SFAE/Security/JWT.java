@@ -142,7 +142,6 @@ public class JWT {
         if (worker != null) {
             if (encoder.comparePassword(worker.getPassword(), password)) {
                 return generateTokenForWorker(String.valueOf(worker.getId()));
-
             }
         }
         return null;

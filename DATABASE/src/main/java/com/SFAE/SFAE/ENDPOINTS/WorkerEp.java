@@ -97,5 +97,8 @@ public interface WorkerEp {
      */
     @PostMapping("/login")
     ResponseEntity<?> loginWorker(@RequestBody LoginRequest login,HttpServletResponse response);
+
+    @PostMapping("/logout")
+    ResponseEntity<?>logout(HttpServletResponse response);
 }
 

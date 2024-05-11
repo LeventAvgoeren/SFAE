@@ -17,17 +17,21 @@ const SetView: React.FC<{ center: [number, number]; zoom: number }> = ({
   zoom,
 }) => {
   const [initialized, setInitialized] = useState(false);
-  
+
   const map = useMap();
   if (!initialized) {
     map.setView(center, zoom);
-    setInitialized(true)
+    setInitialized(true);
   }
 
   return null;
 };
 
-const MapComponent = () => {
+interface MapComponentProps {
+  onAddressChange: (address: string) => void;
+}
+
+const MapComponent:  React.FC<MapComponentProps> = ({ onAddressChange }) => {
   const [userLocation, setUserLocation] = useState<Position | null>(null);
   const [address, setAddress] = useState("");
 
@@ -55,9 +59,9 @@ const MapComponent = () => {
   const defaultZoom: number = 6;
 
   const customIcon = L.icon({
-    iconUrl: "/MarkerIcon.png", 
-    iconSize: [50, 50], 
-    iconAnchor: [25, 50]
+    iconUrl: "/MarkerIcon.png",
+    iconSize: [50, 50],
+    iconAnchor: [25, 50],
   });
 
   const updatePosition = (event: L.DragEndEvent) => {
@@ -67,19 +71,19 @@ const MapComponent = () => {
       longitude: markerPosition.lng,
     });
     fetchAddress(markerPosition.lat, markerPosition.lng);
-    console.log(userLocation);
   };
 
-  const fetchAddress = async (lat:any, lon:any) => {
+  const fetchAddress = async (lat: any, lon: any) => {
     const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
     try {
       const response = await fetch(url);
       const data = await response.json();
-    
-      let add = data.display_name.split(",")
 
-      let adress = add[1] + " " + add[0];
-      setAddress(adress);
+      let add = data.display_name.split(",");
+
+      let formattedAddress = add[1] + " " + add[0]
+      setAddress(formattedAddress);
+      onAddressChange(formattedAddress);
     } catch (error) {
       console.error("Failed to fetch address:", error);
     }

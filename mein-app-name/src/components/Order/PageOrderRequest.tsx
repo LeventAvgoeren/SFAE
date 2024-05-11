@@ -16,7 +16,7 @@ interface PageOrderRequestProps {
 }
 
 export default function PageOrderRequest() {
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState("Eingeben...");
   const [service, setService] = useState("");
   const [description, setDescription] = useState("");
   const [budget, setBudget] = useState(10000);
@@ -87,6 +87,10 @@ export default function PageOrderRequest() {
     } else {
       setMap(true)
     }
+  };
+
+  const handleAddressChange = (newAddress: string) => {
+    setAddress(newAddress);
   };
 
   return (
@@ -187,7 +191,7 @@ export default function PageOrderRequest() {
           
           {showMap && 
             <div>
-              <MapComponent/>
+              <MapComponent onAddressChange={handleAddressChange} />
              <Button variant="light" onClick={handleClick}>
               Close</Button>
             </div> }
@@ -207,7 +211,7 @@ export default function PageOrderRequest() {
                     onChange={(e) => setAddress(e.target.value)}
                     required
                     style={{ width: "100%" }}
-                    placeholder="Straße..."
+                    placeholder={address}
                 />
 
                 <img className="MapIconImage"src="/MapIcon.png" alt=""   onClick={handleClick} />

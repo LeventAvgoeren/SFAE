@@ -1,5 +1,7 @@
 package com.SFAE.SFAE.Controller;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -14,9 +16,13 @@ import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.Security.JWT;
 import com.SFAE.SFAE.Service.MailService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.jsonwebtoken.Claims;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
@@ -226,6 +232,30 @@ public class WorkerController implements WorkerEp {
                 response.addCookie(cookie);
         
                 return ResponseEntity.status(204).build();
+    }
+
+    @Override
+    public ResponseEntity<?> checkLoginStatus(HttpServletRequest request, HttpServletResponse response) {
+      String jwtString = request.getCookies() != null ? Arrays.stream(request.getCookies())
+                .filter(c -> "access_token".equals(c.getName()))
+                .findFirst()
+                .map(Cookie::getValue)
+                .orElse(null) : null;
+
+        if (jwtString == null) {
+            return ResponseEntity.status(400).body(false);
+        }
+
+        Claims loginData = jwt.decodeToken(jwtString);
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String json = mapper.writeValueAsString(loginData);
+            return ResponseEntity.ok(json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(false);
+        }
     }
 
 }

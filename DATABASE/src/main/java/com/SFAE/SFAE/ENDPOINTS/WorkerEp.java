@@ -17,6 +17,7 @@ import com.SFAE.SFAE.DTO.WorkerDTO;
 
 import com.SFAE.SFAE.ENTITY.Worker;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 
@@ -97,6 +98,9 @@ public interface WorkerEp {
      */
     @PostMapping("/login")
     ResponseEntity<?> loginWorker(@RequestBody LoginRequest login,HttpServletResponse response);
+
+    @GetMapping("/login")
+    ResponseEntity<?> checkLoginStatus(HttpServletRequest request, HttpServletResponse response);
 
     @PostMapping("/logout")
     ResponseEntity<?>logout(HttpServletResponse response);

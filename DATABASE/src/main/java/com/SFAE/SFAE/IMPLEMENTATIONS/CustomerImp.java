@@ -223,6 +223,11 @@ public class CustomerImp implements CustomerInterface {
      */
     @Override
     public Customer updateCustomer(CustomerDTO jsonData) {
+        
+        if(!jsonData.getPassword().startsWith("$2a$")){
+           jsonData.setPassword(encoder.hashPassword(jsonData.getPassword())); 
+        }
+
         int result = jdbcTemplate.update(
                 "UPDATE customer SET name = ?, password = ?, email = ?, role = ? WHERE ID = ?",
                 ps -> {

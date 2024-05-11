@@ -15,6 +15,10 @@ import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 import com.SFAE.SFAE.Security.JWT;
 import com.SFAE.SFAE.Service.Authentication;
 import com.SFAE.SFAE.Service.MailService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.jsonwebtoken.Claims;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -233,9 +237,7 @@ class CustomerController implements CustomerEP {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getFieldErrors().stream()
                     .map(fieldError -> fieldError.getDefaultMessage())
                     .collect(Collectors.toList()));
-        }   
-
-     
+        }
 
         if (jsonData.getId() == null || jsonData.hasNull()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -270,7 +272,8 @@ class CustomerController implements CustomerEP {
      *         error message
      */
     @Override
-    public ResponseEntity<?> LoginCustomer(@Valid @RequestBody LoginRequest loginRequest, BindingResult bindingResult, HttpServletResponse response) {
+    public ResponseEntity<?> LoginCustomer(@Valid @RequestBody LoginRequest loginRequest, BindingResult bindingResult,
+            HttpServletResponse response) {
 
         if (bindingResult.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getFieldErrors().stream()
@@ -286,11 +289,11 @@ class CustomerController implements CustomerEP {
 
                 Cookie cookie = new Cookie("access_token", token);
                 cookie.setHttpOnly(true);
-                cookie.setSecure(true); 
+                cookie.setSecure(true);
                 cookie.setPath("/");
-                cookie.setMaxAge(300); 
+                cookie.setMaxAge(300);
                 response.addCookie(cookie);
-                
+
                 return ResponseEntity.status(HttpStatus.OK)
                         .body(new LoginResponseCustomer(String.valueOf(customer.getId()),
                                 customer.getRole().toString(), token));
@@ -302,48 +305,60 @@ class CustomerController implements CustomerEP {
         }
     }
 
-
-    
+    /**
+     * Logs out the user by removing the access token cookie from the response.
+     * 
+     * @param response The HTTP servlet response.
+     * @return A ResponseEntity with status code 204 (No Content) indicating
+     *         successful logout.
+     */
     @Override
     public ResponseEntity<?> logout(HttpServletResponse response) {
 
         Cookie cookie = new Cookie("access_token", null);
-                cookie.setHttpOnly(true);
-                cookie.setSecure(true); 
-                cookie.setPath("/");
-                cookie.setMaxAge(0); 
-                response.addCookie(cookie);
-        
-                return ResponseEntity.status(204).build();
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+
+        return ResponseEntity.status(204).build();
     }
 
+    /**
+     * Checks the login status of the user based on the presence of an access token
+     * cookie.
+     * 
+     * @param request  The HTTP servlet request.
+     * @param response The HTTP servlet response.
+     * @return A ResponseEntity with the login status as JSON if the access token is
+     *         found, otherwise returns a ResponseEntity with status code 400 (Bad
+     *         Request).
+     */
     @Override
     public ResponseEntity<?> checkLoginStatus(HttpServletRequest request, HttpServletResponse response) {
-        
+
         String jwtString = request.getCookies() != null ? Arrays.stream(request.getCookies())
-        .filter(c -> "access_token".equals(c.getName()))
-        .findFirst()
-        .map(Cookie::getValue)
-        .orElse(null) : null;
+                .filter(c -> "access_token".equals(c.getName()))
+                .findFirst()
+                .map(Cookie::getValue)
+                .orElse(null) : null;
 
         if (jwtString == null) {
             return ResponseEntity.status(400).body(false);
         }
-        
 
+        Claims loginData = jwt.decodeToken(jwtString);
+
+        ObjectMapper mapper = new ObjectMapper();
         try {
-            String loginData = jwt.decodeToken(jwtString).toString();
-            return ResponseEntity.ok(loginData);
-        } catch (Exception e) {
-            Cookie cookie = new Cookie("access_token", "");
-            cookie.setHttpOnly(true);
-            cookie.setSecure(true);
-            cookie.setPath("/");
-            cookie.setMaxAge(0); 
-            response.addCookie(cookie);
-
+            String json = mapper.writeValueAsString(loginData);
+            return ResponseEntity.ok(json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
             return ResponseEntity.status(400).body(false);
         }
+
     }
 
 }

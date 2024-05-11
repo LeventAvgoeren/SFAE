@@ -1,122 +1,70 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import für Navigation
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './DesignVorlage.css';
-import './PageIndexAdmin.css';
-import { Link } from 'react-router-dom';
-import { login } from "../backend/api";
-import { Col, Container, Nav, NavDropdown, Navbar, Row } from 'react-bootstrap';
-
-export function PageIndexAdmin() {
-
-    return (
-
-        <>
-            <Navbar      variant="dark" expand="lg">
-                <Container>
-                    <Nav className='mx-auto'>
-                        <NavDropdown title={<img src={"/SFAE_Logo.png"} height="35" alt="Dropdown Logo" />} id="collapsible_nav_dropdown">
-                            <NavDropdown.Item
-                                href="#profil">
-                                <img
-                                    src={"/Profil.png"}
-                                    height="35"
-                                    className="d-inline-block align-top"
-                                    alt="SFAE Logo" />
-                                Action
-                            </NavDropdown.Item>
-
-                            <NavDropdown.Item
-                                href="#support">
-                                <img
-                                    src={"/Q&A_Logo.png"}
-                                    height="35"
-                                    className="d-inline-block align-top"
-                                    alt="SFAE Logo" />
-                                Another action
-                            </NavDropdown.Item>
-
-                            <NavDropdown.Item
-                                href="#settings">
-                                <img
-                                    src={"/Einstellung.png"}
-                                    height="35"
-                                    className="d-inline-block align-top"
-                                    alt="SFAE Logo" />
-                                Something
-                            </NavDropdown.Item>
-
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">
-                                Separated link
-                            </NavDropdown.Item>
-                        </NavDropdown>
-
-                        <Nav.Link href="#profile">
-                            <img
-                                src={"/Profil.png"}
-                                height="35"
-                                className="d-inline-block align-top"
-                                alt="SFAE Logo" />
-                        </Nav.Link>
-
-                        <Nav.Link href="#support">
-                            <img
-                                src={"/Q&A_Logo.png"}
-                                height="35"
-                                className="d-inline-block align-top"
-                                alt="SFAE Logo" />
-                        </Nav.Link>
-
-                        <Nav.Link href="#settings">
-                            <img
-                                src={"/Einstellung.png"}
-                                height="35"
-                                className="d-inline-block align-top"
-                                alt="SFAE Logo" />
-                        </Nav.Link>
-
-                        {/* <Nav.Link href="#features">Finanzen</Nav.Link>
-    <Nav.Link href="#pricing">Support</Nav.Link> */}
-                    </Nav>
-
-                </Container>
-            </Navbar>
-
-            <div className="background-city">
-                <div className="container-frame">
-                    <Navbar.Brand href="/">
-                        <img
-                            src={"/SFAE_Logo.png"}
-                            className="img-fluid"
-                            alt="SFAE Logo"
-                        />
-                    </Navbar.Brand>
-
-                    <h1>Willkommen Admin</h1>
-
-                    <Row className="mb-3">
-    <Col className="text-center"> {/* Verwende die text-center Klasse hier */}
-        <form className="mx-auto">
-            <div className='input-group mb-3'>
-                <input
-                    type="input"
-                    className="form-control search-field"
-                    placeholder="Was brauchen sie ?..."
-                />
-                <button className="btn btn-primary" type="button">Suchen</button>
-            </div>
-        </form>
-    </Col>
-</Row>
-
-
-
-
-
-
-                </div>
-            </div>
-        </>
-    );
-}
+/* Stelle sicher, dass die Navbar den gesamten horizontalen Platz einnimmt */
+.navbar {
+    position: sticky;
+    top: 0;
+    width: 100%; 
+    margin-left: auto; /* Zentriert die Block-Elemente horizontal */
+    margin-right: auto;
+    background-color: #184c8c;
+  }
+  
+  
+  /* Sorgt dafür, dass das Dropdown-Menü sich innerhalb der Grenzen der Navbar befindet */
+  .nav-dropdown, #collapsible-nav-dropdown {
+    position: center; /* Übergeordnete Positionierung für Dropdown-Menü auf 'static' setzen */
+  }
+  
+  /* Dropdown-Menü-Position anpassen */
+  .dropdown-menu {
+    position: absolute; 
+    left: auto; /* Setze den linken Rand auf 'auto', damit das Menü rechtsbündig ausgerichtet wird */
+    right: 0; /* Richte das Menü rechts aus */
+    top: 1000%; /* Positioniere das Menü direkt unter der Nav-Komponente */
+    background-color: teal;
+  }
+  
+  /* Dropdown-Menü für mobile Ansicht anpassen */
+  @media (max-width: 768px) { /* Bootstrap mobile Ansicht Breakpoint */
+    .navbar-nav {
+      flex-direction: column; /* Staple die Nav-Elemente vertikal */
+      position: sticky;
+      
+    }
+  
+    .nav-dropdown, #collapsible-nav-dropdown {
+      position: sticky; /* Setze die Position auf 'static', um ein korrektes Verhalten in der mobilen Ansicht zu gewährleisten */
+    }
+  
+    .dropdown-menu {
+      width: 100%; /* Setze die Breite des Dropdown-Menüs auf 100% */
+      position: sticky;
+    }
+  }
+  
+  .Nav-Link {
+    text-align: center; /* Zentriert den Inhalt des Links */
+    position: sticky;
+  }
+  
+  .Nav-Link img, .Nav-Link div {
+    display: block; /* Sorgt dafür, dass das Bild und der Text als Block-Elemente gerendert werden */
+    margin-left: auto; /* Zentriert die Block-Elemente horizontal */
+    margin-right: auto;
+    position: sticky;
+  }
+  
+  .Nav-Link div {
+    font-size: 10px; /* Stellt die Schriftgröße des Textes ein */
+    position: sticky;
+  }
+  
+  .from-control .search-field {
+    text-align: center;
+    width: 200%; /* Ändere die Breite nach Bedarf */
+   
+  }
+  
+  .search-field{
+    width: max-content;
+  }
+  

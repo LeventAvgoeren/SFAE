@@ -17,9 +17,7 @@ export function PageLogin() {
       try {
           const result = await login(email, password, userType);
           if (result) {
-              navigate(userType === 'worker' ? `/worker/${result.userId}` : `/customer/${result.userId}`);
-          } else {
-              setError('Login fehlgeschlagen. Bitte überprüfen Sie Ihre Eingaben.');
+              
               let route = ''
           if (userType === 'worker') {
             route = `/worker/${result.userId}`

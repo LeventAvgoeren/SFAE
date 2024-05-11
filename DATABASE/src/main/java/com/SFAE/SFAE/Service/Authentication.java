@@ -8,7 +8,6 @@ import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.IMPLEMENTATIONS.CustomerImp;
 import com.SFAE.SFAE.Security.JWT;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**

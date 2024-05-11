@@ -225,7 +225,7 @@ public class WorkerController implements WorkerEp {
                 cookie.setMaxAge(0); 
                 response.addCookie(cookie);
         
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.status(204).build();
     }
 
 }

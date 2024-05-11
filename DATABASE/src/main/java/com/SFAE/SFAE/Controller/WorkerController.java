@@ -1,5 +1,7 @@
 package com.SFAE.SFAE.Controller;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -14,11 +16,14 @@ import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.Security.JWT;
 import com.SFAE.SFAE.Service.MailService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.jsonwebtoken.Claims;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 
 /**
  * Controller for managing Worker entities.
@@ -166,7 +171,8 @@ public class WorkerController implements WorkerEp {
      *         operation.
      */
     @Override
-    public ResponseEntity<Worker> updateWorker(@RequestBody WorkerDTO jsonData) {
+    public ResponseEntity<?> updateWorker(@RequestBody WorkerDTO jsonData) {
+        System.out.println("ASDAS");
         if (jsonData == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -180,7 +186,7 @@ public class WorkerController implements WorkerEp {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         
-        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(jsonData);
     }
 
     /**
@@ -226,7 +232,31 @@ public class WorkerController implements WorkerEp {
                 cookie.setMaxAge(0); 
                 response.addCookie(cookie);
         
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.status(204).build();
+    }
+
+    @Override
+    public ResponseEntity<?> checkLoginStatus(HttpServletRequest request, HttpServletResponse response) {
+      String jwtString = request.getCookies() != null ? Arrays.stream(request.getCookies())
+                .filter(c -> "access_token".equals(c.getName()))
+                .findFirst()
+                .map(Cookie::getValue)
+                .orElse(null) : null;
+
+        if (jwtString == null) {
+            return ResponseEntity.status(400).body(false);
+        }
+
+        Claims loginData = jwt.decodeToken(jwtString);
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String json = mapper.writeValueAsString(loginData);
+            return ResponseEntity.ok(json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(false);
+        }
     }
 
 }

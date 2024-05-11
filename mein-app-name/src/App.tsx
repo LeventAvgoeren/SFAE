@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import { Route, Router, Routes } from "react-router-dom";
+import { Route, Router, Routes , useNavigate} from "react-router-dom";
 import { createMemoryHistory } from "history";
 import { PageIndex } from "./components/PageIndex";
 import { PageLogin } from "./components/PageLogin";
@@ -29,15 +29,13 @@ import { PageIndexAdmin } from "./components/PageIndexAdmin";
 import { PageAdminDienstleistungen } from "./components/PageAdminDienstleistungen";
 import { PageProfil } from "./components/CustomerProfil";
 
-
 const history = createMemoryHistory();
-
 
 function App() {
   const [loginInfo, setLoginInfo] = useState<LoginInfo | false | undefined>(undefined);
   const [email, setEmail] = useState(""); // Fügen Sie Zustände für E-Mail und Passwort hinzu
   const [password, setPassword] = useState("");
-
+  const navigate = useNavigate();
 
   async function fetchLoginStatus() {
     try{
@@ -45,8 +43,7 @@ function App() {
       console.log(loginStatus)
         if (loginStatus) {
           setLoginInfo(loginStatus);
-          console.log(loginInfo)
-         } 
+        } 
     } catch (e){
       console.log(e)
     }  
@@ -66,12 +63,15 @@ function App() {
     <><LoginContext.Provider value={{ loginInfo, setLoginInfo }}>
       <Routes>
         {/* Gemeinsame Routen */}
+        {!loginInfo && <>
         <Route path="/" element={<PageIndex />} />
         <Route path="/login" element={<PageLogin />} />
         <Route path="/registration/customer" element={<PageRegistration />} />
         <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
         <Route path="/passwordreset" element={<PagePasswordReset/>}/>
         <Route path="/mainmenu" element={<MainMenu/>}/>
+        </>}
+   
 
         {loginInfo && <>
         <Route path="/registration/admin" element={<PageRegistrationAdmin />} />

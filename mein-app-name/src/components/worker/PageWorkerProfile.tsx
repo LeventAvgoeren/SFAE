@@ -35,14 +35,11 @@ export function PageWorkerProfile() {
       }
     try {
       const id = parseInt(worId);
-      console.log("1")
       if (isNaN(id)) {
         throw new Error("Die Worker ID ist keine gültige Zahl");
       }
       const workerData = await getWorkerbyID(id);
-      console.log("1")
       if(workerData){
-          console.log("2")
       setStatus(workerData.status)
       setStatusOrder(workerData.statusOrder)
       setRange(workerData.range)
@@ -59,7 +56,6 @@ export function PageWorkerProfile() {
         setWorker(null);
         throw new Error("Keine Daten für diesen Worker gefunden");
       }
-      console.log("3")
       setLoading(false);
     } catch (error) {
       console.error("Fehler beim Laden der Worker-Daten:", error);
@@ -104,7 +100,6 @@ export function PageWorkerProfile() {
 
 if (loading) return <p>Lädt...</p>;
 if (error) return <p>Fehler: {error}</p>;
-if (!worker) return <p>Keine Daten gefunden.</p>;
 
 return (
     <div className="background-image">

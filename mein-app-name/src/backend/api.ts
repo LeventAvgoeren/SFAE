@@ -256,7 +256,7 @@ export async function deleteCustomer(id: number) {
 
 export async function updateWorker(workerData: WorkerResource): Promise<WorkerResource> {
  
-  const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/${workerData.id}`;
+  const url =  `${process.env.REACT_APP_API_SERVER_URL}/worker`;
   const options = {
     method: "PUT",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
@@ -266,6 +266,7 @@ export async function updateWorker(workerData: WorkerResource): Promise<WorkerRe
   try {
     const response = await fetchWithErrorHandling(url, options);
     const updatedWorker = await response.json();
+    console.log("ASD" +  updatedWorker)
     return updatedWorker;
   } catch (error) {
     console.error("Failed to update worker:", error);

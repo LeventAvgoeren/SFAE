@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import für Navigation
+import { Link, useNavigate, useParams } from 'react-router-dom'; // Import für Navigation
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Col, Container, Nav, NavDropdown, Navbar, Row } from 'react-bootstrap';
-import "./MainMenu.css"
+
+
 import "./PageIndexCustomer.css"
 
 export function PageIndexCustomer() {
+    const params=useParams()
+    let customerId=params.customerId
 
     return (
 
@@ -49,14 +52,14 @@ export function PageIndexCustomer() {
                                 Separated link
                             </NavDropdown.Item>
                         </NavDropdown>
-
-                        <Nav.Link href="#profile">
-                            <img
-                                src={"/Profil.png"}
-                                height="35"
-                                className="d-inline-block align-top"
-                                alt="SFAE Logo" />
-                        </Nav.Link>
+                        
+                        <Link to={`/customer/${customerId}/profil`}>
+                        <img
+                            src={"/Profil.png"}
+                            height="35"
+                            className="d-inline-block align-top"
+                            alt="SFAE Logo" />
+                    </Link>
 
                         <Nav.Link href="#support">
                             <img
@@ -75,7 +78,7 @@ export function PageIndexCustomer() {
                         </Nav.Link>
 
                         {/* <Nav.Link href="#features">Finanzen</Nav.Link>
-    <Nav.Link href="#pricing">Support</Nav.Link> */}
+                        <Nav.Link href="#pricing">Support</Nav.Link> */}
                     </Nav>
 
                 </Container>

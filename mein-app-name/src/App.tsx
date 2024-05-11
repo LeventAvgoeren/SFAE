@@ -6,21 +6,20 @@ import { createMemoryHistory } from "history";
 import { PageIndex } from "./components/PageIndex";
 import { PageLogin } from "./components/PageLogin";
 import PageRegistration from './components/PageRegistration';
-
 import  PageRegistrationWorker  from "./components/worker/PageRegistrationWorker";
 import { PageWorkerIndex } from "./components/worker/PageWorkerIndex";
-import { PageOrderRequest } from "./components/PageOrderRequest";
-import { PageOrderOverview } from "./components/PageOrderOverview";
-import { PageOrderCompleted } from "./components/PageOrderCompleted";
-import { PageOrderRating } from "./components/PageOrderRating";
+import PageOrderRequest from "./components/Order/PageOrderRequest";
+import PageOrderOverview  from "./components/Order/PageOrderOverview";
+import { PageOrderCompleted } from "./components/Order/PageOrderCompleted";
+import { PageOrderRating } from "./components/Order/PageOrderRating";
 import { PageWorkerOrderOverview } from "./components/worker/PageWorkerOrderOverview";
 import { PageWorkerFinances } from "./components/worker/PageWorkerFinances";
 import { PageWorkerProfile } from "./components/worker/PageWorkerProfile";
 import { PageWorkerPreferences } from "./components/worker/PageWorkerPreferences";
 import { PageWorkerOrders } from "./components/worker/PageWorkerOrders";
 import { PagePasswordReset } from "./components/PagePasswordReset";
-import { LoginInfo } from "./components/LoginManager";
-import { login } from "./backend/api";
+import { LoginContext, LoginInfo } from "./components/LoginManager";
+import { checkLoginStatus, login } from "./backend/api";
 import { PageIndexCustomer } from "./components/PageIndexCustomer";
 import { MainMenu } from "./components/MainMenu";
 import PageWorkerFAQ from "./components/worker/PageWorkerFAQ";
@@ -28,8 +27,11 @@ import { PageCustomerFAQ } from "./components/PageCustomerFAQ";
 import PageRegistrationAdmin from "./components/PageRegistrationAdmin";
 import { PageIndexAdmin } from "./components/PageIndexAdmin";
 import { PageAdminDienstleistungen } from "./components/PageAdminDienstleistungen";
+import { PageProfil } from "./components/CustomerProfil";
+
 
 const history = createMemoryHistory();
+
 
 function App() {
   const [loginInfo, setLoginInfo] = useState<LoginInfo | false | undefined>(undefined);
@@ -37,35 +39,49 @@ function App() {
   const [password, setPassword] = useState("");
 
 
+  async function fetchLoginStatus() {
+    try{
+      const loginStatus = await checkLoginStatus();
+      console.log(loginStatus)
+        if (loginStatus) {
+          setLoginInfo(loginStatus);
+          console.log(loginInfo)
+         } 
+    } catch (e){
+      console.log(e)
+    }  
+  }
+
+
+
   useEffect(() => {
-    // Dieser Code wird nicht ausgeführt, da er falsch ist
-    // const loginFromServer = await login();
-    // setLoginInfo(loginFromServer);
-  }, []);
+    fetchLoginStatus();
+  }, []); 
+
 
 
 
   return (
     
-    <>
+    <><LoginContext.Provider value={{ loginInfo, setLoginInfo }}>
       <Routes>
         {/* Gemeinsame Routen */}
         <Route path="/" element={<PageIndex />} />
         <Route path="/login" element={<PageLogin />} />
         <Route path="/registration/customer" element={<PageRegistration />} />
         <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
-        <Route path="/registration/admin" element={<PageRegistrationAdmin />} />
         <Route path="/passwordreset" element={<PagePasswordReset/>}/>
         <Route path="/mainmenu" element={<MainMenu/>}/>
+
+        {loginInfo && <>
+        <Route path="/registration/admin" element={<PageRegistrationAdmin />} />
         {/* Customer */}
         <Route path="/customer/:customerId" element={<PageIndexCustomer />} />
         <Route path="/customer/:customerId/faq" element={<PageCustomerFAQ />} />
-        <Route path="/customer/:customerId/orders/new"element={<PageOrderRequest onSubmit={function (data: { address: string; service: string; description: string; budget: number; range: number; verified: boolean; }): void {
-          throw new Error("Function not implemented.");
-        } } />}/>
-        <Route path="/customer/:customerId/orders/:order/overview"element={<PageOrderOverview onSubmit={function (data: { address: string; service: string; description: string; budget: number; range: number; verified: boolean; }): void {
-          throw new Error("Function not implemented.");
-        } } />}/>
+        <Route path="/customer/:customerId/profil" element={<PageProfil />} />
+        {/* Order */}
+        <Route path="/customer/:customerId/order/new"element={<PageOrderRequest/>}/>
+        <Route path="/customer/:customerId/order/:order/overview"element={<PageOrderOverview/>}/>
         <Route path="/customer/:customerId/orders/:order/completed"element={<PageOrderCompleted />}/>
         <Route path="/customer/:customerId/orders/:order/rating"element={<PageOrderRating />}/>
 
@@ -80,8 +96,10 @@ function App() {
          {/* Admin */}
          <Route path="/admin/:adminId" element={<PageIndexAdmin />} />
         <Route path="/admin/:adminId/dienstleistungen" element={<PageAdminDienstleistungen />} />
-
+        </>
+        }
       </Routes>
+      </LoginContext.Provider>
     </>
   );
 }

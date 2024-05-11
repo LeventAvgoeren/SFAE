@@ -22,7 +22,9 @@ export type WorkerResource = {
 }
 
 export type CustomerResource = {
+    id?: string;
     name: string;
+    password: string;
     email: string;
     role: string; 
 }

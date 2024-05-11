@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , memo } from "react";
 import {
   MDBCol,
   MDBCollapse,
@@ -8,134 +8,74 @@ import {
   MDBListGroupItem,
   MDBRow,
   MDBTypography,
-} from "mdb-react-ui-kit";
+} from 'mdb-react-ui-kit';
+import "./PageWorkerFAQ.css"
+
+
+interface Question {
+  icon: string;
+  title: string;
+  content: string;
+}
+
+interface QuestionItemProps {
+  question: Question;
+  index: number;
+  toggleCollapse: (index: number) => void;
+  isOpen: boolean;
+}
+
 
 export default function PageWorkerFAQ() {
+  const [isOpen, setIsOpen] = useState<boolean[]>(Array(6).fill(false));
 
-  const [collapse7, setCollapse7] = useState(false);
-  const [collapse8, setCollapse8] = useState(false);
-  const [collapse9, setCollapse9] = useState(false);
-  const [collapse10, setCollapse10] = useState(false);
-  const [collapse11, setCollapse11] = useState(false);
-  const [collapse12, setCollapse12] = useState(false);
+  const toggleCollapse = (index: number) => {
+    const newState = [...isOpen];
+    newState[index] = !newState[index];
+    setIsOpen(newState);
+  };
 
-  const toggleCollapse = (callback: any) => callback((prev: any) => !prev);
+  const questions = [
+    { icon: "user", title: "Was bedeutet die Rolle des 'Worker'?", content: "Die Rolle des 'Worker' bezieht sich auf registrierte Nutzer, die auf unserer Plattform Dienstleistungen anbieten. Sie sind selbstständige Unternehmer, die ihre Fähigkeiten und Zeit anbieten, um spezifische Aufgaben oder Projekte abzuschließen." },
+    { icon: "file-signature", title: "Wie kann man sich als Worker registrieren?", content: "Zur Registrierung als Worker müssen Sie ein Anmeldeformular ausfüllen, Ihre Qualifikationen nachweisen und unsere Nutzungsbedingungen akzeptieren. Nach der Überprüfung Ihrer Angaben werden Sie zur Teilnahme freigeschaltet." },
+    { icon: "question-circle", title: "Wie funktioniert die Auftragszuweisung?", content: "Aufträge werden basierend auf den angegebenen Fähigkeiten und der Verfügbarkeit automatisch an Worker vergeben. Worker können auch Aufträge aus einer Liste verfügbarer Projekte auswählen." },
+    { icon: "dollar-sign", title: "Wie und wann erfolgt die Bezahlung?", content: "Worker erhalten ihre Bezahlung wöchentlich über PayPal oder Banküberweisung, basierend auf den abgeschlossenen Aufträgen der vorherigen Woche." },
+    { icon: "book-reader", title: "Werden Schulungen für Workers angeboten?", content: "Ja, wir bieten regelmäßige Schulungen und Workshops an, um die Fähigkeiten unserer Worker zu verbessern und sie über neue Trends und Werkzeuge auf dem Laufenden zu halten." },
+    { icon: "tools", title: "Wie können Workers techinsche Unterstützung erhalten?", content: "Technische Unterstützung ist über unser Support-Center per Telefon, E-Mail oder Live-Chat verfügbar. Unser Team steht bereit, um bei technischen Problemen oder Fragen zu helfen." }
+  ];
 
   return (
-    <MDBContainer className="mt-5" style={{ maxWidth: "1000px" }}>
-
-      <p className="mb-1 mt-3">With small icons</p>
-      <MDBListGroup>
-        <MDBListGroupItem
-          tag="a"
-          onClick={() => toggleCollapse(setCollapse7)}
-          action
-        >
-          <MDBTypography tag="h5">
-            <MDBIcon fas icon="question me-2" />
-            Question 1
-          </MDBTypography>
-          <p className="mb-1">Short & concise version of the answer.</p>
-          <small>
-            <u>Learn more</u>
-          </small>
-          <MDBCollapse open={collapse7}>
-           
-          </MDBCollapse>
-        </MDBListGroupItem>
-        <MDBListGroupItem
-          tag="a"
-          action
-          onClick={() => toggleCollapse(setCollapse8)}
-        >
-          <MDBTypography tag="h5">
-            <MDBIcon fas icon="question-circle me-2" />
-            Question 2
-          </MDBTypography>
-          <p className="mb-1">Short & concise version of the answer.</p>
-          <small>
-            <u>Learn more</u>
-          </small>
-          <MDBCollapse open={collapse8}>
-            
-          </MDBCollapse>
-        </MDBListGroupItem>
-        <MDBListGroupItem
-          tag="a"
-          action
-          onClick={() => toggleCollapse(setCollapse9)}
-        >
-          <MDBTypography tag="h5">
-            <MDBIcon far icon="question-circle me-2" />
-            Question 3
-          </MDBTypography>
-          <p className="mb-1">Short & concise version of the answer.</p>
-          <small>
-            <u>Learn more</u>
-          </small>
-          <MDBCollapse open={collapse9}>
-           
-          </MDBCollapse>
-        </MDBListGroupItem>
-      </MDBListGroup>
-
-      <p className="mb-1 mt-3">With large icons</p>
-      <MDBListGroup>
-        <MDBListGroupItem
-          tag="a"
-          onClick={() => toggleCollapse(setCollapse10)}
-          action
-        >
-          <div className="d-flex w-100 justify-content-between">
-            <MDBRow className="w-100">
-              <MDBCol
-                size="1"
-                className="text-center d-flex align-items-center"
-              >
-                <MDBIcon fas iconmoney="-bill me-2" size="3x" />
-              </MDBCol>
-              <MDBCol size="10">
-                <MDBTypography tag="h5">Question about price?</MDBTypography>
-                <p className="mb-1">Short & concise version of the answer.</p>
-                <small>
-                  <u>Learn more</u>
-                </small>
-                <MDBCollapse open={collapse10}>
-                  
-                </MDBCollapse>
-              </MDBCol>
-            </MDBRow>
-          </div>
-        </MDBListGroupItem>
-        <MDBListGroupItem
-          tag="a"
-          onClick={() => toggleCollapse(setCollapse11)}
-          action
-        >
-          <div className="d-flex w-100 justify-content-between">
-            <MDBRow className="w-100">
-              <MDBCol
-                size="1"
-                className="text-center d-flex align-items-center"
-              >
-                <MDBIcon fas icon="user-cog me-2" size="3x" />
-              </MDBCol>
-              <MDBCol size="10">
-                <MDBTypography tag="h5">Question about technical support?</MDBTypography>
-                <p className="mb-1">Short & concise version of the answer.</p>
-                <small>
-                  <u>Learn more</u>
-                </small>
-                <MDBCollapse open={collapse11}>
-                  
-                </MDBCollapse>
-              </MDBCol>
-            </MDBRow>
-          </div>
-        </MDBListGroupItem>
-      </MDBListGroup>
-    </MDBContainer>
+    <div className="background-image">
+      <MDBContainer className="mt-5" style={{ maxWidth: "1000px" }}>
+        <MDBListGroup>
+          {questions.map((question, index) => (
+            <QuestionItem key={index} question={question} index={index} toggleCollapse={toggleCollapse} isOpen={isOpen[index]} />
+          ))}
+        </MDBListGroup>
+      </MDBContainer>
+    </div>
   );
 }
 
-export{};
+const QuestionItem = memo(({ question, index, toggleCollapse, isOpen }: QuestionItemProps) => {
+  return (
+    <MDBListGroupItem tag="a" onClick={() => toggleCollapse(index)} action>
+      <div className="d-flex w-100 justify-content-between">
+        <MDBRow className="w-100">
+          <MDBCol size="1" className="text-center d-flex align-items-center">
+            <MDBIcon fas icon={question.icon} size="3x" />
+          </MDBCol>
+          <MDBCol size="10">
+            <MDBTypography tag="h5">{question.title}</MDBTypography>
+            <p className="mb-1">{question.content}</p>
+            <small><u>Learn more</u></small>
+          </MDBCol>
+        </MDBRow>
+      </div>
+      <MDBCollapse open={isOpen}>
+        <p>{question.content}</p>
+      </MDBCollapse>
+    </MDBListGroupItem>
+  );
+});
+

@@ -24,6 +24,9 @@ import { PageIndexCustomer } from "./components/PageIndexCustomer";
 import { MainMenu } from "./components/MainMenu";
 import PageWorkerFAQ from "./components/worker/PageWorkerFAQ";
 import { PageCustomerFAQ } from "./components/PageCustomerFAQ";
+import PageRegistrationAdmin from "./components/PageRegistrationAdmin";
+import { PageIndexAdmin } from "./components/PageIndexAdmin";
+import { PageAdminDienstleistungen } from "./components/PageAdminDienstleistungen";
 
 
 const history = createMemoryHistory();
@@ -51,6 +54,7 @@ function App() {
         <Route path="/login" element={<PageLogin />} />
         <Route path="/registration/customer" element={<PageRegistration />} />
         <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
+        <Route path="/registration/admin" element={<PageRegistrationAdmin />} />
         <Route path="/passwordreset" element={<PagePasswordReset/>}/>
         <Route path="/mainmenu" element={<MainMenu/>}/>
         {/* Customer */}
@@ -70,6 +74,10 @@ function App() {
         <Route path="/worker/:workerId/preferences"element={<PageWorkerPreferences />}/>
         <Route path="/worker/:workerId/faq" element={<PageWorkerFAQ />} />
         <Route path="/worker/:workerId/orders" element={<PageWorkerOrders />} />
+         {/* Admin */}
+         <Route path="/admin/:adminId" element={<PageIndexAdmin />} />
+        <Route path="/admin/:adminId/dienstleistungen" element={<PageAdminDienstleistungen />} />
+
       </Routes>
     </>
   );

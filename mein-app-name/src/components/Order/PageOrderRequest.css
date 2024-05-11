@@ -119,9 +119,31 @@ button:hover {
 
 
 
+  
+.MapIcon{
+  width: 30px !important;
+  justify-content: center;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.MapIconImage:hover {
+  cursor: pointer;
+}
+.MapIconImage{
+  padding-top: 5px;
+  width: 30px;
+  height: 30px;
+}
+
+.input-group{
+  display: flex;
+  flex-direction: row;
+
+}
+
+.input-with-icon{
+  width: 50px !important;
+}
 
 
-
-  
-  
-  

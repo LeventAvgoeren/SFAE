@@ -6,13 +6,12 @@ import { createMemoryHistory } from "history";
 import { PageIndex } from "./components/PageIndex";
 import { PageLogin } from "./components/PageLogin";
 import PageRegistration from './components/PageRegistration';
-
 import  PageRegistrationWorker  from "./components/worker/PageRegistrationWorker";
 import { PageWorkerIndex } from "./components/worker/PageWorkerIndex";
-import { PageOrderRequest } from "./components/PageOrderRequest";
-import { PageOrderOverview } from "./components/PageOrderOverview";
-import { PageOrderCompleted } from "./components/PageOrderCompleted";
-import { PageOrderRating } from "./components/PageOrderRating";
+import PageOrderRequest from "./components/Order/PageOrderRequest";
+import PageOrderOverview  from "./components/Order/PageOrderOverview";
+import { PageOrderCompleted } from "./components/Order/PageOrderCompleted";
+import { PageOrderRating } from "./components/Order/PageOrderRating";
 import { PageWorkerOrderOverview } from "./components/worker/PageWorkerOrderOverview";
 import { PageWorkerFinances } from "./components/worker/PageWorkerFinances";
 import { PageWorkerProfile } from "./components/worker/PageWorkerProfile";
@@ -25,6 +24,7 @@ import { PageIndexCustomer } from "./components/PageIndexCustomer";
 import { MainMenu } from "./components/MainMenu";
 import PageWorkerFAQ from "./components/worker/PageWorkerFAQ";
 import { PageCustomerFAQ } from "./components/PageCustomerFAQ";
+
 
 const history = createMemoryHistory();
 
@@ -56,12 +56,9 @@ function App() {
         {/* Customer */}
         <Route path="/customer/:customerId" element={<PageIndexCustomer />} />
         <Route path="/customer/:customerId/faq" element={<PageCustomerFAQ />} />
-        <Route path="/customer/:customerId/orders/new"element={<PageOrderRequest onSubmit={function (data: { address: string; service: string; description: string; budget: number; range: number; verified: boolean; }): void {
-          throw new Error("Function not implemented.");
-        } } />}/>
-        <Route path="/customer/:customerId/orders/:order/overview"element={<PageOrderOverview onSubmit={function (data: { address: string; service: string; description: string; budget: number; range: number; verified: boolean; }): void {
-          throw new Error("Function not implemented.");
-        } } />}/>
+        {/* Order */}
+        <Route path="/customer/:customerId/order/new"element={<PageOrderRequest/>}/>
+        <Route path="/customer/:customerId/order/:order/overview"element={<PageOrderOverview/>}/>
         <Route path="/customer/:customerId/orders/:order/completed"element={<PageOrderCompleted />}/>
         <Route path="/customer/:customerId/orders/:order/rating"element={<PageOrderRating />}/>
 

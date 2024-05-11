@@ -75,7 +75,7 @@ export function PageIndexCustomer() {
                         </Nav.Link>
 
                         {/* <Nav.Link href="#features">Finanzen</Nav.Link>
-    <Nav.Link href="#pricing">Support</Nav.Link> */}
+                        <Nav.Link href="#pricing">Support</Nav.Link> */}
                     </Nav>
 
                 </Container>

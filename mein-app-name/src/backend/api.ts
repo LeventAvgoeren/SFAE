@@ -158,12 +158,12 @@ export async function getWorkerByName(name: string): Promise<any> {
     }
 }
 
-export async function updateWorker(id:number, workerData : WorkerResource) {
-    if (!id) {
+export async function updateWorker(workerData : WorkerResource) {
+    if (!workerData.id) {
       throw new Error("Worker ID must be provided.");
     }
   
-    const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/${id}`;
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/${workerData}`;
     const options = {
       method: 'PUT', 
       headers: {

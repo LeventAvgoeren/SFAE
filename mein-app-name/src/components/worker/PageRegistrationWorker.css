@@ -61,3 +61,9 @@ select.form-select option {
     background-color: white; /* Hintergrundfarbe für Optionen */
     color: black; /* Textfarbe für Optionen */
 }
+.background-image {
+    background-image: url('/public/workerbr.jpg'); /* Pfad zum Bild im public-Verzeichnis */
+    background-size: cover; /* Stellt sicher, dass das Bild den gesamten Bereich abdeckt */
+    background-position: center; /* Zentriert das Bild */
+    height: 100vh; /* Sorgt dafür, dass der Bereich so hoch wie der Viewport ist */
+  }

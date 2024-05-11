@@ -18,8 +18,8 @@ import { PageWorkerProfile } from "./components/worker/PageWorkerProfile";
 import { PageWorkerPreferences } from "./components/worker/PageWorkerPreferences";
 import { PageWorkerOrders } from "./components/worker/PageWorkerOrders";
 import { PagePasswordReset } from "./components/PagePasswordReset";
-import { LoginInfo } from "./components/LoginManager";
-import { login } from "./backend/api";
+import { LoginContext, LoginInfo } from "./components/LoginManager";
+import { checkLoginStatus, login } from "./backend/api";
 import { PageIndexCustomer } from "./components/PageIndexCustomer";
 import { MainMenu } from "./components/MainMenu";
 import PageWorkerFAQ from "./components/worker/PageWorkerFAQ";
@@ -31,23 +31,38 @@ import { PageAdminDienstleistungen } from "./components/PageAdminDienstleistunge
 
 const history = createMemoryHistory();
 
+
 function App() {
   const [loginInfo, setLoginInfo] = useState<LoginInfo | false | undefined>(undefined);
   const [email, setEmail] = useState(""); // Fügen Sie Zustände für E-Mail und Passwort hinzu
   const [password, setPassword] = useState("");
 
 
+  async function fetchLoginStatus() {
+    try{
+      const loginStatus = await checkLoginStatus();
+      console.log(loginStatus)
+        if (loginStatus) {
+          setLoginInfo(loginStatus);
+          console.log(loginInfo)
+         } 
+    } catch (e){
+      console.log(e)
+    }  
+  }
+
+
+
   useEffect(() => {
-    // Dieser Code wird nicht ausgeführt, da er falsch ist
-    // const loginFromServer = await login();
-    // setLoginInfo(loginFromServer);
-  }, []);
+    fetchLoginStatus();
+  }, []); 
+
 
 
 
   return (
     
-    <>
+    <><LoginContext.Provider value={{ loginInfo, setLoginInfo }}>
       <Routes>
         {/* Gemeinsame Routen */}
         <Route path="/" element={<PageIndex />} />
@@ -82,6 +97,7 @@ function App() {
         </>
         }
       </Routes>
+      </LoginContext.Provider>
     </>
   );
 }

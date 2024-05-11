@@ -41,10 +41,9 @@ export async function login(email:string, password:string, userType:string):Prom
       if (!response.ok) {
         throw new Error('Login failed: ' + response.status);
       }
-      
+    
       const token = await response.json(); // oder response.json(), falls der Server JSON zurückgibt
       if(token.id){
-        console.log(token)
         return { userId: token.id, admin: token.role };
       }
       
@@ -182,4 +181,35 @@ export async function updateWorker(id:number, workerData : WorkerResource) {
       console.error("Failed to update worker:", error);
       throw error;
     }
-  }
+}
+
+export async function checkLoginStatus(): Promise<LoginInfo| false>{
+
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/customer/login`;
+
+    try {
+        const response = await fetchWithErrorHandling(url, {
+            method: "GET",
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            credentials: "include" as RequestCredentials
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        if(data.sub){
+            return { userId: data.sub, admin: data.role };
+        }
+        
+        
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        throw error; 
+    }
+
+    return false;
+}

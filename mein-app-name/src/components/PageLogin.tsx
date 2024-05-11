@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { login } from "../backend/api";
 import { MDBBtn, MDBContainer, MDBIcon, MDBInput } from 'mdb-react-ui-kit';
 import './PageLogin.css'
+import { useLoginContext } from './LoginManager';
 
 
 export function PageLogin() {
@@ -11,11 +12,13 @@ export function PageLogin() {
   const [userType, setUserType] = useState('worker');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-
+  const { loginInfo, setLoginInfo } = useLoginContext();
+  
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
       try {
           const result = await login(email, password, userType);
+          setLoginInfo(result)
           if (result) {
               
               let route = ''

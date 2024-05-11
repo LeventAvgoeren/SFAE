@@ -4,6 +4,9 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -58,7 +61,7 @@ public class JWT {
                 .claim("role", userType)
                 .setIssuedAt(now)
                 .setExpiration(exp)
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY.getBytes(StandardCharsets.UTF_8))
                 .compact();
     }
 
@@ -69,12 +72,24 @@ public class JWT {
      * @return Claims object containing the token's claims
      */
     public Claims decodeToken(String token) {
-        // Parsen und Validieren des Tokens
-        Jws<Claims> parsedToken = Jwts.parser()
-                .setSigningKey(SECRET_KEY.getBytes())
+        try {
+            // Verwenden Sie eine explizite Zeichenkodierung, um Konsistenz sicherzustellen
+            byte[] signingKeyBytes = SECRET_KEY.getBytes(StandardCharsets.UTF_8);
+    
+            Jws<Claims> parsedToken = Jwts.parser()
+                .setSigningKey(signingKeyBytes)
                 .parseClaimsJws(token);
-
-        return parsedToken.getBody();
+            
+            Claims claims =  parsedToken.getBody();
+            return claims;
+        } catch (SignatureException ex) {
+            System.out.println("SignatureException: " + ex.getMessage());
+            System.out.println("Failed token: " + token);
+            throw ex; // Weiterleitung der Ausnahme
+        } catch (Exception e) {
+            System.out.println("Exception in decodeToken: " + e.getMessage());
+            throw e;
+        }
     }
 
     /**

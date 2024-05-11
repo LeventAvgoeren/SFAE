@@ -130,7 +130,7 @@ export function PageWorkerIndex() {
             </Col>
             <Col md={4} className="mb-4">
               <Card>
-                <Link to="/worker/:workerId/profile">
+              <Link to={`/worker/${workerId}/profile`}>
                   <Card.Img
                     variant="top"
                     src={zoom === '/profile.jpg' ? '/profile-zoom.jpg' : '/profile.jpg'}

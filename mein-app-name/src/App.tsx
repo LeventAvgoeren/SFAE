@@ -27,6 +27,7 @@ import { PageCustomerFAQ } from "./components/PageCustomerFAQ";
 import PageRegistrationAdmin from "./components/PageRegistrationAdmin";
 import { PageIndexAdmin } from "./components/PageIndexAdmin";
 import { PageAdminDienstleistungen } from "./components/PageAdminDienstleistungen";
+import { PageProfil } from "./components/CustomerProfil";
 
 
 const history = createMemoryHistory();
@@ -77,6 +78,7 @@ function App() {
         {/* Customer */}
         <Route path="/customer/:customerId" element={<PageIndexCustomer />} />
         <Route path="/customer/:customerId/faq" element={<PageCustomerFAQ />} />
+        <Route path="/customer/:customerId/profil" element={<PageProfil />} />
         {/* Order */}
         <Route path="/customer/:customerId/order/new"element={<PageOrderRequest/>}/>
         <Route path="/customer/:customerId/order/:order/overview"element={<PageOrderOverview/>}/>

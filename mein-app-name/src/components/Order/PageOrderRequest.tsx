@@ -3,6 +3,7 @@ import { Button, Col, Container, Nav, NavDropdown, Row } from "react-bootstrap";
 import "./PageOrderRequest.css";
 import { Navbar } from "react-bootstrap";
 import MapComponent from "./MapComponent";
+import NavbarComponent from "../NavbarComponent";
 
 interface PageOrderRequestProps {
   onSubmit: (data: {
@@ -31,7 +32,6 @@ export default function PageOrderRequest() {
   const handleSelectChange = (event: any) => {
     const selectedJobType = event.target.value;
     setService(selectedJobType);
-    // Weitere Aktionen hier einfügen, falls nötig
   };
 
   
@@ -95,91 +95,7 @@ export default function PageOrderRequest() {
 
   return (
     <>
-      <Navbar variant="dark" expand="lg">
-        <Container>
-          <Nav className="me-auto">
-            <NavDropdown
-              title={
-                <img src={"/SFAE_Logo.png"} height="35" alt="Dropdown Logo" />
-              }
-              id="collapsible_nav_dropdown"
-            >
-              <NavDropdown.Item href="#profil">
-                <img
-                  src={"/Profil.png"}
-                  height="35"
-                  className="d-inline-block align-top"
-                  alt="SFAE Logo"
-                />
-                Action
-              </NavDropdown.Item>
-
-              <NavDropdown.Item href="#support">
-                <img
-                  src={"/Q&A_Logo.png"}
-                  height="35"
-                  className="d-inline-block align-top"
-                  alt="SFAE Logo"
-                />
-                Another action
-              </NavDropdown.Item>
-
-              <NavDropdown.Item href="#settings">
-                <img
-                  src={"/Einstellung.png"}
-                  height="35"
-                  className="d-inline-block align-top"
-                  alt="SFAE Logo"
-                />
-                Something
-              </NavDropdown.Item>
-
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-
-            <Nav.Link href="#profile">
-              <img
-                src={"/Profil.png"}
-                height="35"
-                className="d-inline-block align-top"
-                alt="SFAE Logo"
-              />
-            </Nav.Link>
-
-            <Nav.Link href="#support">
-              <img
-                src={"/Q&A_Logo.png"}
-                height="35"
-                className="d-inline-block align-top"
-                alt="SFAE Logo"
-              />
-            </Nav.Link>
-
-            <Nav.Link href="#settings">
-              <img
-                src={"/Einstellung.png"}
-                height="35"
-                className="d-inline-block align-top"
-                alt="SFAE Logo"
-              />
-            </Nav.Link>
-
-            <Nav className="me-auto"></Nav>
-          </Nav>
-
-          <Navbar.Brand href="/">
-            <img
-              src={"/SFAE_Logo.png"}
-              height="65"
-              className="d-inline-block align-top"
-              alt="SFAE Logo"
-            />
-          </Navbar.Brand>
-        </Container>
-      </Navbar>
+       <NavbarComponent/>
 
       <div className="background-city">
      
@@ -199,7 +115,7 @@ export default function PageOrderRequest() {
           <>
            <div id="map"></div>
             <div>
-              <label htmlFor="addresse" className="form-label">
+              <label htmlFor="addresse">
                 Ihre Adresse
               </label>
 

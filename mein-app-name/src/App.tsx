@@ -54,9 +54,11 @@ function App() {
         <Route path="/login" element={<PageLogin />} />
         <Route path="/registration/customer" element={<PageRegistration />} />
         <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
-        <Route path="/registration/admin" element={<PageRegistrationAdmin />} />
         <Route path="/passwordreset" element={<PagePasswordReset/>}/>
         <Route path="/mainmenu" element={<MainMenu/>}/>
+
+        {loginInfo && <>
+        <Route path="/registration/admin" element={<PageRegistrationAdmin />} />
         {/* Customer */}
         <Route path="/customer/:customerId" element={<PageIndexCustomer />} />
         <Route path="/customer/:customerId/faq" element={<PageCustomerFAQ />} />
@@ -77,7 +79,8 @@ function App() {
          {/* Admin */}
          <Route path="/admin/:adminId" element={<PageIndexAdmin />} />
         <Route path="/admin/:adminId/dienstleistungen" element={<PageAdminDienstleistungen />} />
-
+        </>
+        }
       </Routes>
     </>
   );

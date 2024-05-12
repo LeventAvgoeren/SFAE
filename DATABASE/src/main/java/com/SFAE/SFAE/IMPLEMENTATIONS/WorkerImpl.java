@@ -177,13 +177,16 @@ public class WorkerImpl implements WorkerInterface {
       throw new IllegalArgumentException("Id dos not exist");
     }
 
-    String password = encoder.hashPassword(data.getPassword());
+    if(!data.getPassword().startsWith("$2a$")){
+      data.setPassword(encoder.hashPassword(data.getPassword()));
+    }
+    
     int rowsAffected = jdbcTemplate.update(
         "UPDATE worker SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? WHERE id = ?",
         ps -> {
           ps.setString(1, data.getName());
           ps.setString(2, data.getLocation());
-          ps.setString(3, password);
+          ps.setString(3, data.getPassword());
           ps.setString(4, data.getStatus());
           ps.setString(5, data.getStatusOrder());
           ps.setDouble(6, data.getRange());
@@ -198,7 +201,7 @@ public class WorkerImpl implements WorkerInterface {
   
     if (rowsAffected > 0) {
      
-      return new Worker(data.getName(), data.getLocation(), password, Status.valueOf(data.getStatus()),
+      return new Worker(data.getName(), data.getLocation(), data.getPassword(), Status.valueOf(data.getStatus()),
           StatusOrder.valueOf(data.getStatusOrder()), data.getRange(), JobList.valueOf(data.getJobType()),
           data.getMinPayment(), data.getRating(), data.getVerification(), data.getEmail());
     } else {

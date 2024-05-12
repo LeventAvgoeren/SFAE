@@ -22,12 +22,12 @@ import { LoginContext, LoginInfo } from "./components/LoginManager";
 import { checkLoginStatus, login } from "./backend/api";
 import { PageIndexCustomer } from "./components/PageIndexCustomer";
 import { MainMenu } from "./components/MainMenu";
-import PageWorkerFAQ from "./components/worker/PageWorkerFAQ";
 import { PageCustomerFAQ } from "./components/PageCustomerFAQ";
 import PageRegistrationAdmin from "./components/PageRegistrationAdmin";
 import { PageIndexAdmin } from "./components/PageIndexAdmin";
 import { PageAdminDienstleistungen } from "./components/PageAdminDienstleistungen";
 import { PageProfil } from "./components/CustomerProfil";
+import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
 
 
 const history = createMemoryHistory();

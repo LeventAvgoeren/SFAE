@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { CustomerResource } from "../Resources"
-import { deleteCustomer, getCustomerbyID, updateCustomer } from "../backend/api"
+import { checkLoginStatus, deleteCookie, deleteCustomer, getCustomerbyID, updateCustomer } from "../backend/api"
 import { Button, Modal } from "react-bootstrap"
+import { LinkContainer } from "react-router-bootstrap"
+import { LoginInfo } from "./LoginManager"
 
 
 export function PageProfil(){
@@ -11,20 +13,22 @@ export function PageProfil(){
   let customerId=parseInt(params.customerId!)
 
   
+  
   const[customer,setCustomer]=useState<CustomerResource>();
   const[name,setName]=useState("");
   const[password,setPassword]=useState("");
   const[email,setEmail]=useState("");
-
+  const[login,setLogin]=useState<LoginInfo | false | undefined>(undefined);
 
   const[status,setStatus]=useState(false);
   const [showModal, setShowModal] = useState(false);
 
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
+ 
 
 
-
+  
 
 async function upCustomer(){
   const updateData:CustomerResource={
@@ -48,11 +52,14 @@ async function upCustomer(){
 async function deleten(){
   setStatus(true)
   try{
-    await deleteCustomer(customerId)
-  }
+      await deleteCustomer(customerId)
+      await deleteCookie()
+      window.location.href = "/";
+    }
   catch(error){
     console.log(error)
   }
+  
 }
 
   useEffect(()=>{
@@ -71,7 +78,6 @@ async function deleten(){
     }
     getCustomer()
   },[])
-
   return (
     <>
       <form onSubmit={upCustomer}>
@@ -109,11 +115,9 @@ async function deleten(){
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Link to="/login">
           <Button variant="danger" onClick={deleten}>
             Delete Account
           </Button>
-          </Link>
         </Modal.Footer>
       </Modal>
     </>

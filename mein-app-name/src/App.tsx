@@ -9,10 +9,6 @@ import PageRegistration from './components/PageRegistration';
 
 import  PageRegistrationWorker  from "./components/worker/PageRegistrationWorker";
 import { PageWorkerIndex } from "./components/worker/PageWorkerIndex";
-import { PageOrderRequest } from "./components/PageOrderRequest";
-import { PageOrderOverview } from "./components/PageOrderOverview";
-import { PageOrderCompleted } from "./components/PageOrderCompleted";
-import { PageOrderRating } from "./components/PageOrderRating";
 import { PageWorkerOrderOverview } from "./components/worker/PageWorkerOrderOverview";
 import { PageWorkerFinances } from "./components/worker/PageWorkerFinances";
 import { PageWorkerProfile } from "./components/worker/PageWorkerProfile";
@@ -21,10 +17,16 @@ import { PageWorkerOrders } from "./components/worker/PageWorkerOrders";
 import { PagePasswordReset } from "./components/PagePasswordReset";
 import { LoginInfo } from "./components/LoginManager";
 import { login } from "./backend/api";
-import { PageIndexCustomer } from "./components/PageIndexCustomer";
-import { MainMenu } from "./components/MainMenu";
+
 import PageWorkerFAQ from "./components/worker/PageWorkerFAQ";
-import { PageCustomerFAQ } from "./components/PageCustomerFAQ";
+import { PageIndexCustomer } from "./components/customer/PageIndexCustomer";
+import { PageCustomerFAQ } from "./components/customer/PageCustomerFAQ";
+import { PageOrderRequest } from "./components/customer/PageOrderRequest";
+import { PageOrderOverview } from "./components/customer/PageOrderOverview";
+import { PageOrderCompleted } from "./components/customer/PageOrderCompleted";
+import { MainMenu } from "./components/MainMenu";
+import PageOrderRating from "./components/customer/PageOrderRating";
+
 
 const history = createMemoryHistory();
 

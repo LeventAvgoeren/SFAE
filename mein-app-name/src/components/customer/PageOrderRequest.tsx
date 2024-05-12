@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Col, Container, Nav, NavDropdown, Row } from 'react-bootstrap';
-import "./PageOrderOverview.css"
+import "./PageOrderRequest.css"
 import { Navbar } from 'react-bootstrap';
 
 interface PageOrderRequestProps {
     onSubmit: (data: { address: string; service: string; description: string; budget: number; range: number; verified: boolean }) => void;
 }
 
-export const PageOrderOverview: React.FC<PageOrderRequestProps> = ({ onSubmit }) => {
+export const PageOrderRequest: React.FC<PageOrderRequestProps> = ({ onSubmit }) => {
     const [address, setAddress] = useState('');
     const [service, setService] = useState('');
     const [description, setDescription] = useState('');
@@ -121,53 +121,94 @@ export const PageOrderOverview: React.FC<PageOrderRequestProps> = ({ onSubmit })
                 </Container>
             </Navbar>
 
+        <div className='background-city'>
+            <div className="container-frame" >
 
-            <div className='background-city'>
-                <div className="container-frame">
-                    <h1 className="header-title" style={{ color: 'white' }}>Worker</h1>
-                    <Row>
-                        <div className="profile-info" style={{ color: 'white' }}>
-                            <p>Name: S. Müller</p>
-                            <p>Weg: 2.6 km</p>
-                            <p>Kosten: 20€</p>
-                            <p className="margin-bottom-20">Dienstleistung: Babysitter</p>
+                <form onSubmit={handleSubmit} style={{ color: 'white', padding: '20px' }}>
 
-                            <p style={{ width: '120%' }}>
-                                <b>
-                                    <span style={{ textDecoration: 'underline' }}>Beschreibung</span> </b>
-                            </p>
 
-                            <p style={{ width: '175%' }}> Mein Name ist Müller und ich bin leidenschaftlicher Babysitter mit über 4 Jahren Erfahrung in der Kinderbetreuung. Ich habe eine herzliche und geduldige Persönlichkeit und genieße es, kreative und erzieherische Aktivitäten zu gestalten, die Kinder fördern und unterhalten.</p>
+                    <div>
+                        <label htmlFor="addresse" className='form-label'>
+                            Ihre Adresse
+                        </label>
+                        <input
+                            className="form-control mx-auto"
+                            id="address"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                            required
+                            style={{ width: '100%' }}
+                            placeholder="Straße..." />
+                    </div>
 
+                    <div className="input-group">
+                        <div>
+                            <label>Dienstleistung</label>
+                            <select className="form-select" id="inputJobType" onChange={handleSelectChange} value={service}>
+                                <option selected>ServiceTyp wählen...</option>
+                                {jobTypes.map((type, index) => (
+                                    <option key={index} value={type}>{type}</option>
+                                ))}
+                            </select>
                         </div>
 
-                        <div className="map">
-                            <div className="header-subtitle" style={{ color: 'white' }}>
-                                <p>Verfolge jetzt den Worker</p>
-                                <img src="/Intersect.jpg" alt="Map Bild" style={{ width: '100px', marginTop: '10px' }} />
-                                <p>ETA: 6 min</p>
-                            </div>
+                        <div style={{ marginLeft: '20px' }}>
+                            <label>Maximales Budget (€)</label>
+                            <input
+                                id='budget'
+                                type="number"
+                                value={budget}
+                                className="form-control"
+                                onChange={(e) => setBudget(parseInt(e.target.value))}
+                            />
                         </div>
 
-
-                        <div className="image-and-rating">
-                            <img src="/frau.png" alt="Profilbild" className="profile-image" />
-                            <div className="rating">
-                                {[...Array(5)].map((e, i) => <span key={i} className="star">★</span>)} {/* 5 Sterne Bewertung */}
-                            </div>
+                        <div style={{ marginLeft: '20px' }}>
+                            <label>Verifiziert</label>
+                            <input
+                                type="checkbox"
+                                checked={verified}
+                                onChange={(e) => setVerified(e.target.checked)}
+                            />
                         </div>
-                    </Row>
-                </div>
+                    </div>
+
+                    <div>
+                        <label>Reichweite (km)</label>
+                        <input
+                            type="number"
+                            value={range}
+                            className='form-control'
+                            style={{ width: '36.75%' }}
+                            onChange={(e) => setRange(parseInt(e.target.value))} />
+                    </div>
+
+
+
+                    <div>
+                        <label htmlFor="description">Beschreibung</label>
+                        <textarea
+                            id="description"
+                            value={description}
+                            className='form-control'
+                            onChange={(e) => setDescription(e.target.value)} />
+                    </div>
+                    <div style={{ textAlign: 'center' }}>
+                        <button
+                            type="submit"
+                            style={{ width: '36.75%' }}
+                        >
+                            Suchen
+                        </button>
+                    </div>
+
+
+
+                </form>
             </div>
-
-
-
-
-
-
-
+            </div>
         </>
     );
 };
 
-export default PageOrderOverview;
+export default PageOrderRequest;

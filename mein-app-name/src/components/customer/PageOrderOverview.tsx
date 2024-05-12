@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
 import { Col, Container, Nav, NavDropdown, Row } from 'react-bootstrap';
-import "./PageOrderRequest.css"
+import "./PageOrderOverview.css"
 import { Navbar } from 'react-bootstrap';
 
 interface PageOrderRequestProps {
     onSubmit: (data: { address: string; service: string; description: string; budget: number; range: number; verified: boolean }) => void;
 }
 
-export const PageOrderRequest: React.FC<PageOrderRequestProps> = ({ onSubmit }) => {
+export const PageOrderOverview: React.FC<PageOrderRequestProps> = ({ onSubmit }) => {
     const [address, setAddress] = useState('');
     const [service, setService] = useState('');
     const [description, setDescription] = useState('');
     const [budget, setBudget] = useState(10000);
     const [range, setRange] = useState(1);
     const [verified, setVerified] = useState(false);
+    const [rating, setRating] = useState<number>(0);
+
+    const handleRatingClick = (newRating: number) => {
+        setRating(newRating);
+    };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -43,7 +48,6 @@ export const PageOrderRequest: React.FC<PageOrderRequestProps> = ({ onSubmit }) 
         <>
             <Navbar variant="dark" expand="lg">
                 <Container>
-                    
                     <Nav className='me-auto'>
                         <NavDropdown title={<img src={"/SFAE_Logo.png"} height="35" alt="Dropdown Logo" />} id="collapsible_nav_dropdown">
                             <NavDropdown.Item
@@ -122,94 +126,64 @@ export const PageOrderRequest: React.FC<PageOrderRequestProps> = ({ onSubmit }) 
                 </Container>
             </Navbar>
 
-        <div className='background-city'>
-            <div className="container-frame" >
 
-                <form onSubmit={handleSubmit} style={{ color: 'white', padding: '20px' }}>
+            <div className='background-city'>
+                <div className="container-frame">
+                    <h1 className="header-title" style={{ color: 'white' }}>Worker</h1>
+                    <Row>
+                        <div className="profile-info" style={{ color: 'white' }}>
+                            <p>Name: S. Müller</p>
+                            <p>Weg: 2.6 km</p>
+                            <p>Kosten: 20€</p>
+                            <p className="margin-bottom-20">Dienstleistung: Babysitter</p>
+
+                            <p style={{ width: '120%' }}>
+                                <b>
+                                    <span style={{ textDecoration: 'underline' }}>Beschreibung</span> </b>
+                            </p>
+
+                            <p style={{ width: '175%' }}> Mein Name ist Müller und ich bin leidenschaftlicher Babysitter mit über 4 Jahren Erfahrung in der Kinderbetreuung. Ich habe eine herzliche und geduldige Persönlichkeit und genieße es, kreative und erzieherische Aktivitäten zu gestalten, die Kinder fördern und unterhalten.</p>
+
+                        </div>
+
+                        <div className="map">
+                            <div className="header-subtitle" style={{ color: 'white' }}>
+                                <p>Verfolge jetzt den Worker</p>
+                                <img src="/Intersect.jpg" alt="Map Bild" style={{ width: '100px', marginTop: '10px' }} />
+                                <p>ETA: 6 min</p>
+                            </div>
+                        </div>
 
 
-                    <div>
-                        <label htmlFor="addresse" className='form-label'>
-                            Ihre Adresse
-                        </label>
-                        <input
-                            className="form-control mx-auto"
-                            id="address"
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
-                            required
-                            style={{ width: '100%' }}
-                            placeholder="Straße..." />
-                    </div>
-
-                    <div className="input-group">
-                        <div>
-                            <label>Dienstleistung</label>
-                            <select className="form-select" id="inputJobType" onChange={handleSelectChange} value={service}>
-                                <option selected>ServiceTyp wählen...</option>
-                                {jobTypes.map((type, index) => (
-                                    <option key={index} value={type}>{type}</option>
+                        <div className="image-and-rating">
+                            <img src="/frau.png" alt="Profilbild" className="profile-image" />
+                            <div>
+                                {[1, 2, 3, 4, 5].map((index) => (
+                                    <span
+                                        key={index}
+                                        onClick={() => handleRatingClick(index)}
+                                        style={{
+                                            cursor: 'pointer',
+                                            color: index <= rating ? 'gold' : 'grey',
+                                        }}
+                                    >
+                                        &#9733;
+                                    </span>
                                 ))}
-                            </select>
+                            </div>
                         </div>
-
-                        <div style={{ marginLeft: '20px' }}>
-                            <label>Maximales Budget (€)</label>
-                            <input
-                                id='budget'
-                                type="number"
-                                value={budget}
-                                className="form-control"
-                                onChange={(e) => setBudget(parseInt(e.target.value))}
-                            />
-                        </div>
-
-                        <div style={{ marginLeft: '20px' }}>
-                            <label>Verifiziert</label>
-                            <input
-                                type="checkbox"
-                                checked={verified}
-                                onChange={(e) => setVerified(e.target.checked)}
-                            />
-                        </div>
-                    </div>
-
-                    <div>
-                        <label>Reichweite (km)</label>
-                        <input
-                            type="number"
-                            value={range}
-                            className='form-control'
-                            style={{ width: '36.75%' }}
-                            onChange={(e) => setRange(parseInt(e.target.value))} />
-                    </div>
-
-
-
-                    <div>
-                        <label htmlFor="description">Beschreibung</label>
-                        <textarea
-                            id="description"
-                            value={description}
-                            className='form-control'
-                            onChange={(e) => setDescription(e.target.value)} />
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                        <button
-                            type="submit"
-                            style={{ width: '36.75%' }}
-                        >
-                            Suchen
-                        </button>
-                    </div>
-
-
-
-                </form>
+                    </Row>
+                </div>
             </div>
-            </div>
+
+
+
+
+
+
+
         </>
     );
 };
 
-export default PageOrderRequest;
+export default PageOrderOverview;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import für Navigation
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Col, Container, Nav, NavDropdown, Navbar, Row } from 'react-bootstrap';
-import "./MainMenu.css"
+import "../MainMenu.css"
 import "./PageIndexCustomer.css"
 
 export function PageIndexCustomer() {

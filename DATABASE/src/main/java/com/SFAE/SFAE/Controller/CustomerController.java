@@ -77,11 +77,9 @@ class CustomerController implements CustomerEP {
      * @return ResponseEntity containing the customer or an error message
      */
     @Override
-    public ResponseEntity<Customer> findCustomerById(long id) {
-
-        if (id < 0L) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    String.format("Customer id: %d negative", id, HttpStatus.BAD_REQUEST.value()));
+    public ResponseEntity<Customer> findCustomerById(String id) {
+        if(!id.startsWith("C")){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
         try {
@@ -143,13 +141,11 @@ class CustomerController implements CustomerEP {
      * @return ResponseEntity indicating success or failure of deletion
      */
     @Override
-    public ResponseEntity<?> deleteCustomerById(long id) {
-
-        if (id < 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    String.format("Customer id: %d negative", id, HttpStatus.BAD_REQUEST.value()));
+    public ResponseEntity<?> deleteCustomerById(String id) {
+        if(!id.startsWith("C")){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-
+      
         try {
             boolean Answer = dao.deleteCustomerById(id);
 

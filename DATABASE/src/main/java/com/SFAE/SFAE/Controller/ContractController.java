@@ -60,7 +60,7 @@ public class ContractController implements ContractEP {
       Contract created = dao.createContract(contract);
       if (created != null) {
         Worker found=work.findWorkersbyID(contract.getWorkerId());
-        Customer foundCustomer= custo.findCustomerbyID(contract.getCustomerId());
+        Customer foundCustomer= custo.findCustomerbyID(String.valueOf(contract.getCustomerId()));
 
         mail.sendSimpleMessage(found.getEmail(),"Job Angebot Erhalten","Das sind die folgenden Customer informationen Auftraggeber"
         +foundCustomer.getName()+"jobtyp:"+contract.getJobType()+contract.getDescription()+"Adresse:"+contract.getAdress()+

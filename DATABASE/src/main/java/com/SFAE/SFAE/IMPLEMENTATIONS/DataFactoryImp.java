@@ -23,7 +23,7 @@ import com.SFAE.SFAE.INTERFACE.DataFactoryInterface;
 final class DataFactoryImp implements DataFactoryInterface{
 
     @Override
-    public Optional<Customer> createCustomer(long id, String name, String password, String email, String role) {
+    public Optional<Customer> createCustomer(String id, String name, String password, String email, String role) {
        try{
       Optional<Customer> customer = Optional.of(
             new Customer( id, name, password, email, String.valueOf(role))

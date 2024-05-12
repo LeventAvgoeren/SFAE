@@ -52,7 +52,7 @@ public interface CustomerEP {
      * @return ResponseEntity containing the result of the operation.
      */
     @DeleteMapping("/{id}")
-    ResponseEntity<?> deleteCustomerById(@PathVariable("id") long id);
+    ResponseEntity<?> deleteCustomerById(@PathVariable("id") String id);
 
     /**
      * Retrieves all customers.
@@ -69,7 +69,7 @@ public interface CustomerEP {
      * @return ResponseEntity containing the result of the operation.
      */
     @GetMapping("/{id}")
-    ResponseEntity<?> findCustomerById(@PathVariable("id") long id);
+    ResponseEntity<?> findCustomerById(@PathVariable("id") String id);
 
     /**
      * Retrieves a customer by name.

@@ -100,7 +100,7 @@ public class ContractImpl implements ContractInterface {
     String description = contract.getDescription();
     String statusOrder = contract.getStatusOrder();
     Double range = contract.getRange();
-    Customer customer = customerImpl.findCustomerbyID(contract.getCustomerId());
+    Customer customer = customerImpl.findCustomerbyID(String.valueOf(contract.getCustomerId()));
 
 
      jdbcTemplate.update(connection -> {
@@ -113,7 +113,7 @@ public class ContractImpl implements ContractInterface {
             ps.setString(4, description);
             ps.setString(5, statusOrder);
             ps.setDouble(6, range);
-            ps.setLong(7, customer.getId());
+            ps.setString(7, customer.getId());
             ps.setLong(8, worker.getId());
             return ps;
   });
@@ -133,7 +133,7 @@ private Contract createContract(ResultSet rs) {
     Long customerId = rs.getLong("customer_id");
     Long workerId = rs.getLong("worker_id");
 
-    Customer customer =customerImpl.findCustomerbyID(customerId);
+    Customer customer =customerImpl.findCustomerbyID(String.valueOf(customerId));
     Worker worker= workerImpl.findWorkersbyID(workerId);
 
     return new Contract(id,JobList.valueOf(jobType),adress,Payment.valueOf(payment),description,StatusOrder.valueOf(statusOrder),range,customer,worker);

@@ -23,7 +23,7 @@ public interface DataFactoryInterface {
      * @param role Customer role.
      * @return Optional with object or empty when no object could be created from parameters.
      */
-    Optional<Customer> createCustomer(long id, String name, String password, String email, String role);
+    Optional<Customer> createCustomer(String id, String name, String password, String email, String role);
 
 
      /**

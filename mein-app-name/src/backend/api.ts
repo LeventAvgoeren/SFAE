@@ -254,6 +254,15 @@ export async function deleteCustomer(id: number) {
   await fetchWithErrorHandling(url, options);
 }
 
+export async function deleteCookie(){
+  const url = `${process.env.REACT_APP_API_SERVER_URL}/customer/logout`;
+  const options = {
+    method: "DELETE",
+    credentials: "include" as RequestCredentials,
+}
+const response = await fetchWithErrorHandling(url,options)
+  return response;
+}
 export async function updateWorker(workerData: WorkerResource): Promise<WorkerResource> {
  
   const url =  `${process.env.REACT_APP_API_SERVER_URL}/worker`;
@@ -272,4 +281,14 @@ export async function updateWorker(workerData: WorkerResource): Promise<WorkerRe
     console.error("Failed to update worker:", error);
     throw error;
   }
+}
+
+export async function deleteCookieWorker(){
+  const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/logout`;
+  const options = {
+    method: "DELETE",
+    credentials: "include" as RequestCredentials,
+}
+const response = await fetchWithErrorHandling(url,options)
+  return response;
 }

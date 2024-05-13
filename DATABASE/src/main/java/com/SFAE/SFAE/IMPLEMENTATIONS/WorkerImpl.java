@@ -18,6 +18,7 @@ import com.SFAE.SFAE.ENUM.JobList;
 import com.SFAE.SFAE.ENUM.StatusOrder;
 import com.SFAE.SFAE.ENUM.Status;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
+import com.SFAE.SFAE.INTERFACE.WorkerRepository;
 import com.SFAE.SFAE.Service.PasswordHasher;
 
 /**
@@ -36,6 +37,8 @@ public class WorkerImpl implements WorkerInterface {
   @Autowired
   private DataFactoryImp dataFactory;
 
+  @Autowired
+  private WorkerRepository workerRepository;
   /**
    * Counts the number of Workers in the database.
    * 
@@ -45,7 +48,7 @@ public class WorkerImpl implements WorkerInterface {
   public long countWorker() {
     List<Object> result = jdbcTemplate.query(
 
-        "SELECT COUNT(ID) FROM CUSTOMER",
+        "SELECT COUNT(ID) FROM WORKER",
 
         (rs, rowNum) -> {
           long count = rs.getInt(1);
@@ -68,7 +71,7 @@ public class WorkerImpl implements WorkerInterface {
 
     var result = jdbcTemplate.queryForStream(
 
-        "SELECT * FROM Worker",
+        "SELECT * FROM WORKER",
 
         (rs, rowNum) -> createWorker(rs))
         .filter(opt -> opt.isPresent())
@@ -84,9 +87,9 @@ public class WorkerImpl implements WorkerInterface {
    * @return a Worker object or null if not found.
    */
   @Override
-  public Worker findWorkersbyID(long id) {
-    if (id < 0) {
-      throw new IllegalArgumentException("Id is <0");
+  public Worker findWorkersbyID(String id) {
+    if (!id.startsWith("W")) {
+      throw new IllegalArgumentException("Id is not Worker");
     }
 
     List<Optional<Worker>> result = jdbcTemplate.query(
@@ -94,7 +97,7 @@ public class WorkerImpl implements WorkerInterface {
         "SELECT * FROM WORKER WHERE id = ?",
         ps -> {
 
-          ps.setInt(1, (int) id);
+          ps.setString(1,  id);
         },
 
         (rs, rowNum) -> createWorker(rs));
@@ -135,15 +138,15 @@ public class WorkerImpl implements WorkerInterface {
    * @return true if the Worker was deleted, false otherwise.
    */
   @Override
-  public Boolean deleteWorkerById(long id) {
-    if (id < 0) {
+  public Boolean deleteWorkerById(String id) {
+    if (!id.startsWith("W")) {
       throw new IllegalArgumentException("Wrong Id" + id);
     }
     try {
       int deleted = jdbcTemplate.update(connection -> {
         PreparedStatement ps = connection
             .prepareStatement("DELETE FROM WORKER WHERE ID = ?;");
-        ps.setLong(1, (Long) id);
+        ps.setString(1,  id);
         return ps;
       });
       if (deleted != 1) {
@@ -182,7 +185,7 @@ public class WorkerImpl implements WorkerInterface {
     }
     
     int rowsAffected = jdbcTemplate.update(
-        "UPDATE worker SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? WHERE id = ?",
+        "UPDATE WORKER SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? WHERE id = ?",
         ps -> {
           ps.setString(1, data.getName());
           ps.setString(2, data.getLocation());
@@ -195,7 +198,7 @@ public class WorkerImpl implements WorkerInterface {
           ps.setDouble(9, data.getRating());
           ps.setBoolean(10, data.getVerification());
           ps.setString(11, data.getEmail());
-          ps.setLong(12, data.getId());
+          ps.setString(12, data.getId());
         });
 
   
@@ -221,39 +224,26 @@ public class WorkerImpl implements WorkerInterface {
         rs.getJobType() == null || rs.getMinPayment() == null || rs.getEmail() == null) {
       throw new IllegalArgumentException("Some data are empty");
     }
-
-    String name = rs.getName();
+    try {
+       String name = rs.getName();
     String location = rs.getLocation();
     String password = encoder.hashPassword(rs.getPassword());
     String email = rs.getEmail();
-    String status = "AVAILABLE";
-    String statusOrder = "UNDEFINED";
-    Double range = 0.0;
+    Double range = rs.getRange();
     String jobType = rs.getJobType();
     Double minPayment = rs.getMinPayment();
-    Double rating = 0.0;
+    Double rating = 0.1;
     Boolean verification = false;
-    jdbcTemplate.update(connection -> {
 
-      PreparedStatement ps = connection.prepareStatement(
-          "INSERT INTO Worker (name, location, password, status, status_order, range, job_type, min_Payment, rating, verification, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-      ps.setString(1, name);
-      ps.setString(2, location);
-      ps.setString(3, password);
-      ps.setString(4, status);
-      ps.setString(5, statusOrder);
-      ps.setDouble(6, range);
-      ps.setString(7, jobType);
-      ps.setDouble(8, minPayment);
-      ps.setDouble(9, rating);
-      ps.setBoolean(10, verification);
-      ps.setString(11, email);
-
-      return ps;
-    });
-    return new Worker(name, location, password, Status.valueOf(status), StatusOrder.valueOf(statusOrder), range,
-        JobList.valueOf(jobType), minPayment, rating, verification, email);
+    Worker worker = new Worker(name, location, password, Status.valueOf("AVAILABLE"), StatusOrder.valueOf("UNDEFINED"), range, JobList.valueOf(jobType), minPayment, rating, verification, email);
+    workerRepository.save(worker); 
+       return worker;
+    } catch (Exception e) {
+      e.printStackTrace();
+            return null;
+    }
+   
+    
 
   }
 
@@ -290,7 +280,7 @@ public class WorkerImpl implements WorkerInterface {
    */
   private Optional<Worker> createWorker(ResultSet rs) {
     try {
-      Long id = rs.getLong("id");
+      String id = rs.getString("id");
       String name = rs.getString("name");
       String location = rs.getString("location");
       String password = rs.getString("password");

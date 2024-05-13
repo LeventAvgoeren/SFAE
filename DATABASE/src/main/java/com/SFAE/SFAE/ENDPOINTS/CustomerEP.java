@@ -1,6 +1,5 @@
 package com.SFAE.SFAE.ENDPOINTS;
 
-
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.DTO.LoginRequest;
@@ -25,18 +25,20 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * Endpoint interface for managing Customer entities.
  * 
- * This interface defines the endpoints for managing customer-related operations in the system.
- * It includes methods for creating, retrieving, updating, and deleting customers, as well as a method for customer login.
+ * This interface defines the endpoints for managing customer-related operations
+ * in the system.
+ * It includes methods for creating, retrieving, updating, and deleting
+ * customers, as well as a method for customer login.
  * 
  * @author erayzor
  */
 @RequestMapping("/customer")
-public interface CustomerEP{
+public interface CustomerEP {
 
     /**
      * Creates a new customer.
      * 
-     * @param customerData The data of the customer to create.
+     * @param customerData  The data of the customer to create.
      * @param bindingResult The binding result for validation.
      * @return ResponseEntity containing the result of the operation.
      */
@@ -50,7 +52,7 @@ public interface CustomerEP{
      * @return ResponseEntity containing the result of the operation.
      */
     @DeleteMapping("/{id}")
-    ResponseEntity<?> deleteCustomerById(@PathVariable("id") long id);
+    ResponseEntity<?> deleteCustomerById(@PathVariable("id") String id);
 
     /**
      * Retrieves all customers.
@@ -67,7 +69,7 @@ public interface CustomerEP{
      * @return ResponseEntity containing the result of the operation.
      */
     @GetMapping("/{id}")
-    ResponseEntity<?> findCustomerById(@PathVariable("id") long id);
+    ResponseEntity<?> findCustomerById(@PathVariable("id") String id);
 
     /**
      * Retrieves a customer by name.
@@ -81,7 +83,7 @@ public interface CustomerEP{
     /**
      * Updates an existing customer.
      * 
-     * @param jsonData The data of the customer to update.
+     * @param jsonData      The data of the customer to update.
      * @param bindingResult The binding result for validation.
      * @return ResponseEntity containing the result of the operation.
      */
@@ -91,16 +93,30 @@ public interface CustomerEP{
     /**
      * Logs in a customer.
      * 
-     * @param loginRequest The login request data.
+     * @param loginRequest  The login request data.
      * @param bindingResult The binding result for validation.
      * @return ResponseEntity containing the result of the operation.
      */
     @PostMapping("/login")
-    ResponseEntity<?> LoginCustomer(@RequestBody LoginRequest loginRequest, BindingResult bindingResult, HttpServletResponse response);
+    ResponseEntity<?> LoginCustomer(@RequestBody LoginRequest loginRequest, BindingResult bindingResult,
+            HttpServletResponse response);
 
+    /**
+     * Checks the login status of the customer.
+     * 
+     * @param request  The HTTP servlet request.
+     * @param response The HTTP servlet response.
+     * @return A ResponseEntity containing the login status of the customer.
+     */
     @GetMapping("/login")
     ResponseEntity<?> checkLoginStatus(HttpServletRequest request, HttpServletResponse response);
 
+    /**
+     * Logs out the currently logged-in customer.
+     * 
+     * @param response The HTTP servlet response.
+     * @return A ResponseEntity indicating the result of the logout operation.
+     */
     @DeleteMapping("/logout")
     ResponseEntity<?> logout(HttpServletResponse response);
 }

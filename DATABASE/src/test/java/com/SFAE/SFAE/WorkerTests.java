@@ -47,11 +47,11 @@ public class WorkerTests{
     "\"name\": \"Levent Avgören\"," +
     "\"location\": \"Köln\"," +
     "\"password\": \"passwordsasdsad1234\"," +
-    "\"email\": \"Levenstavgorendsssdddddsdsa@gmail.com\"," +
+    "\"email\": \"Levensdsaasdendsssdddddsdsa@gmail.com\"," +
     "\"range\": 1.1," +
     "\"jobType\": \"GÄRTNER\"," +
     "\"minPayment\": 1.1" +
-"}";
+    "}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         mockMvc.perform(post("/worker")
@@ -99,7 +99,7 @@ public class WorkerTests{
       @Test
     public void testGetWorkerByName() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/Levent"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/Levent Avgören"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -110,7 +110,7 @@ public class WorkerTests{
     @Test
     public void testGetWorkerByTowNames() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/Levent avgören"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/Levent Avgören"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -121,7 +121,7 @@ public class WorkerTests{
     @Test
     public void testGetWorkerrByid() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/8"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/W1"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -142,7 +142,7 @@ public class WorkerTests{
     @Test
     public void testGetWorkerrByNotExistingId() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/1000"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/W323"))
                 .andExpect(status().isNotFound())
                 .andReturn();
 
@@ -153,7 +153,7 @@ public class WorkerTests{
     @Test
     public void testDeleteWorkerrByid() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(delete("/worker/8"))
+         MvcResult mvcResult = mockMvc.perform(delete("/worker/W1"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -175,7 +175,7 @@ public class WorkerTests{
   @Test
    public void testDeleteWorkerNotFound() throws Exception {
 
-        MvcResult mvcResult = mockMvc.perform(delete("/worker/1000"))
+        MvcResult mvcResult = mockMvc.perform(delete("/worker/W1000"))
                .andExpect(status().isNotFound())
                .andReturn();
 
@@ -198,7 +198,7 @@ public class WorkerTests{
 public void testUpdateWorker() throws Exception {
     
     WorkerDTO worker = new WorkerDTO();
-    worker.setId(6L);
+    worker.setId("W1");
     worker.setEmail("XalooosSelam@gmail.com");
     worker.setLocation("Bremen");
     worker.setJobType("HAUSMEISTER");
@@ -246,7 +246,7 @@ public void testUpdateWorkerWithNull() throws Exception {
 @Test
 public void testUpdateWorkerWithNotAllAttributes() throws Exception {
         WorkerDTO worker = new WorkerDTO();
-        worker.setId(6L);
+        worker.setId("W2");
         worker.setEmail("XalooosSelam@gmail.com");
         worker.setMinPayment(0.9);
         worker.setName("Kenno");
@@ -274,7 +274,7 @@ public void testUpdateWorkerWithNotAllAttributes() throws Exception {
 @Test
 public void testUpdateWorkerWithNotExistingId() throws Exception {
         WorkerDTO worker = new WorkerDTO();
-        worker.setId(100L);
+        worker.setId("100L");
         worker.setEmail("XalooosSelam@gmail.com");
         worker.setMinPayment(0.9);
         worker.setName("Kenno");
@@ -305,7 +305,7 @@ public void testUpdateWorkerWithNotExistingId() throws Exception {
 @Test
 public void loginWorker() throws Exception{
 
-        String json = "{ \"password\": \"passwordsdsad1234\", \"email\": \"Levenstavgorenddsa@gmail.com\"}";
+        String json = "{ \"password\": \"passwordsasdsad1234\", \"email\": \"Levenstavgorendsssdddddsdsa@gmail.com\"}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         MvcResult mvcResult = mockMvc.perform(post("/worker/login")

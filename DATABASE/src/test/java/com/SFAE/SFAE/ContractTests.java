@@ -45,8 +45,8 @@ public class ContractTests {
         "\"description\": \"Ich\"," +
         "\"statusOrder\": \"UNDEFINED\"," +
         "\"range\": 2.2," + 
-        "\"customerId\": 1," + 
-        "\"workerId\": 6" +
+        "\"customerId\": \"C1\"," + 
+        "\"workerId\": \"W1\"" +
         "}";
 
     System.out.println(json);
@@ -98,7 +98,7 @@ public class ContractTests {
 
     TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
-    mockMvc.perform(get("/contract/4"))
+    mockMvc.perform(get("/contract/3"))
         .andExpect(status().isOk())
         .andReturn();
 
@@ -132,7 +132,7 @@ public class ContractTests {
   public void testDeleteContract()throws Exception{
     TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
-    mockMvc.perform(delete("/contract/4"))
+    mockMvc.perform(delete("/contract/3"))
         .andExpect(status().isOk())
         .andReturn();
 
@@ -164,15 +164,15 @@ public class ContractTests {
   public void testUpdateContract() throws Exception {
 
     String json = "{" +
-        "\"id\":\"4\","+
+        "\"id\":\"3\","+
         "\"jobType\": \"HAUSMEISTER\"," +
         "\"adress\": \"Quizostrasse32\"," +
         "\"payment\": \"CASH\"," +
         "\"description\": \"ASD\"," +
         "\"statusOrder\": \"UNDEFINED\"," +
         "\"range\": 2.2," + 
-        "\"customerId\": 1," + 
-        "\"workerId\": 6" + 
+        "\"customerId\": \"C2\"," + 
+        "\"workerId\": \"W1\"" + 
         "}";
 
     System.out.println(json);

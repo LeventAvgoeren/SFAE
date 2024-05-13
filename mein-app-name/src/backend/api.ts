@@ -302,14 +302,12 @@ export async function deleteCookieWorker(){
 const response = await fetchWithErrorHandling(url,options)
   return response;
 }
-<<<<<<< HEAD
-=======
 
 
-export async function getAllCustomer(): Promise<WorkerResource> {
+export async function countAllCustomers(): Promise<number> {
 
 
-  const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/`;
+  const url = `${process.env.REACT_APP_API_SERVER_URL}/customer/all`;
   const response = await fetchWithErrorHandling(url, {
     credentials: "include" as RequestCredentials,
   });
@@ -318,4 +316,33 @@ export async function getAllCustomer(): Promise<WorkerResource> {
   return answer;
 }
 
->>>>>>> 940fee8567c120cb80353ae31a8f832bd89ad6e6
+export async function countAllWorkers(): Promise<number> {
+
+
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/all`;
+    const response = await fetchWithErrorHandling(url, {
+      credentials: "include" as RequestCredentials,
+    });
+  
+    const answer = await response.json();
+    return answer;
+  }
+  
+
+  export async function countAllContracts(): Promise<number> {
+
+
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/all`;
+    const response = await fetchWithErrorHandling(url, {
+      credentials: "include" as RequestCredentials,
+    });
+  
+    const answer = await response.json();
+    return answer;
+  }
+  
+
+  
+  
+
+

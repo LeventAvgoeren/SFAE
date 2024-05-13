@@ -11,10 +11,14 @@ import org.springframework.web.server.ResponseStatusException;
 import com.SFAE.SFAE.DTO.ContractDTO;
 import com.SFAE.SFAE.ENDPOINTS.ContractEP;
 import com.SFAE.SFAE.ENTITY.Contract;
+import com.SFAE.SFAE.ENTITY.Customer;
+import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.JobList;
 import com.SFAE.SFAE.ENUM.Payment;
 import com.SFAE.SFAE.ENUM.StatusOrder;
 import com.SFAE.SFAE.INTERFACE.ContractInterface;
+import com.SFAE.SFAE.INTERFACE.CustomerInterface;
+import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.Service.MailService;
 import org.slf4j.Logger;
 
@@ -28,6 +32,13 @@ public class ContractController implements ContractEP {
 
   @Autowired
   private ContractInterface dao;
+
+  @Autowired
+  private WorkerInterface work;
+
+  @Autowired
+  private CustomerInterface custo;
+
 
   @Autowired
   private MailService mail;
@@ -44,11 +55,20 @@ public class ContractController implements ContractEP {
     if (contract == null) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
     try {
       Contract created = dao.createContract(contract);
       if (created != null) {
+        Worker found=work.findWorkersbyID(String.valueOf(contract.getWorkerId()));
+        Customer foundCustomer= custo.findCustomerbyID(String.valueOf(contract.getCustomerId()));
+
+        mail.sendSimpleMessage(found.getEmail(),"Job Angebot Erhalten","Das sind die folgenden Customer informationen Auftraggeber"
+        +foundCustomer.getName()+"jobtyp:"+contract.getJobType()+contract.getDescription()+"Adresse:"+contract.getAdress()+
+        "Payment:"+contract.getPayment()+"Entfernung:"+contract.getRange()+"km");
+
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
       }
+
     } catch (DataAccessException dax) {
       logger.error("Database access error: " + dax.getMessage(), dax);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

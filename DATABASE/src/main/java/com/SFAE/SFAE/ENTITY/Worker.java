@@ -1,5 +1,7 @@
 package com.SFAE.SFAE.ENTITY;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import com.SFAE.SFAE.ENUM.JobList;
 import com.SFAE.SFAE.ENUM.StatusOrder;
 import com.SFAE.SFAE.ENUM.Status;
@@ -9,7 +11,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import jakarta.persistence.Table;
@@ -27,13 +28,14 @@ import lombok.Data;
  */
 @Data
 @Entity
-@Table(name = "Worker")
+@Table(name = "WORKER")
 public class Worker {
 
   @Id
-  @Column(name = "id")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  @GeneratedValue(generator = "custom-generator")
+  @GenericGenerator(name = "custom-generator", strategy = "com.SFAE.SFAE.ENTITY.CustomWorkerIdGenerator")
+  @Column(name = "ID", updatable = false, nullable = false)
+  private String id;
 
   @Size(max = 100)
   @Column(name = "name")
@@ -80,6 +82,8 @@ public class Worker {
   @Column(name = "verification")
   private Boolean verification;
 
+  public Worker(){}
+
   public Worker(String name, String location, String password, Status status, StatusOrder statusOrder,
       Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email) {
 
@@ -96,7 +100,7 @@ public class Worker {
     this.email = email;
   }
 
-  public Worker(Long id, String name, String location, String password, Status status, StatusOrder statusOrder,
+  public Worker(String id, String name, String location, String password, Status status, StatusOrder statusOrder,
       Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email) {
     this.id = id;
     this.name = name;

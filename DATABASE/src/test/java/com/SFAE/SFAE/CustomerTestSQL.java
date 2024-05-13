@@ -33,15 +33,14 @@ public class CustomerTestSQL {
 
     @Test
     public void testCreateCustomer() throws Exception {
-        String json = "{ \"name\": \"Max Muster\", \"password\": \"passwort123\", \"email\": \"erayor045@gmail.com\"}";
+        String json = "{ \"name\": \"MaxMuster\", \"password\": \"passwort123\", \"email\": \"M@gmail.com\"}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         mockMvc.perform(post("/customer")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isCreated());
-
-        transactionManager.commit(status);
+                transactionManager.commit(status);
     }
 
     @Test
@@ -60,7 +59,7 @@ public class CustomerTestSQL {
     @Test
     public void testGetCustomerByName() throws Exception {
 
-        mockMvc.perform(get("/customer/usr/Danyal"))
+        mockMvc.perform(get("/customer/usr/MaxMuster"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -78,7 +77,7 @@ public class CustomerTestSQL {
     @Test
     public void testGetCustomerBySecName() throws Exception {
 
-        mockMvc.perform(get("/customer/usr/Max MusterMann"))
+        mockMvc.perform(get("/customer/usr/Max Muster"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -87,7 +86,7 @@ public class CustomerTestSQL {
     @Test
     public void testGetCustomerByID() throws Exception {
 
-        mockMvc.perform(get("/customer/7"))
+        mockMvc.perform(get("/customer/C3"))
                 .andExpect(status().isOk())
                 .andReturn();
     }
@@ -103,7 +102,7 @@ public class CustomerTestSQL {
     @Test
     public void testUpdateCustomerByID() throws Exception {
         CustomerDTO customerData = new CustomerDTO();
-        customerData.setId(1L);
+        customerData.setId("C3");
         customerData.setName("Test Name");
         customerData.setEmail("test@example.com");
         customerData.setRole("ADMIN");
@@ -138,7 +137,7 @@ public class CustomerTestSQL {
     @Test
     public void testUpdateCustomerEmptyName() throws Exception {
         CustomerDTO customerData = new CustomerDTO();
-        customerData.setId(1L);
+        customerData.setId("C3");
         customerData.setEmail("test@example.com");
         customerData.setRole("ADMIN");
         customerData.setPassword("test123");
@@ -155,7 +154,7 @@ public class CustomerTestSQL {
     @Test
     public void testUpdateCustomerWrongRole() throws Exception {
         CustomerDTO customerData = new CustomerDTO();
-        customerData.setId(1L);
+        customerData.setId("C3");
         customerData.setName("Test Name");
         customerData.setEmail("test@example.com");
         customerData.setRole("KILOBYTE");
@@ -172,7 +171,7 @@ public class CustomerTestSQL {
 
     @Test
     public void testLoginCustomer() throws Exception {
-        String json = "{ \"password\": \"passwort123\", \"email\": \"erayzor045@gmail.com\"}";
+        String json = "{ \"password\": \"passwort123\", \"email\": \"erayor045@gmail.com\"}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         mockMvc.perform(post("/customer/login")

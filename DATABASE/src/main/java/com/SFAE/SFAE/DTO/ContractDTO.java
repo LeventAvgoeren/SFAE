@@ -48,19 +48,19 @@ public class ContractDTO {
     @NotNull
     @NotEmpty
     @NotNull(message = "CustomerId is required")
-    private Long customerId;  // Referenziert den ID des Kunden
+    private String customerId;  // Referenziert den ID des Kunden
 
     @NotNull
     @NotEmpty
     @NotNull(message = "WorkerId is required")
-    private Long workerId;    // Referenziert den ID des Arbeiters
+    private String workerId;    // Referenziert den ID des Arbeiters
 
     public ContractDTO(){
 
     };
 
     public ContractDTO(String jobType, String adress, String payment, String description, String statusOrder,
-            Double range, Long customerId, Long workerId) {
+            Double range, String customerId, String workerId) {
         this.jobType = jobType;
         this.adress = adress;
         this.payment = payment;
@@ -72,7 +72,7 @@ public class ContractDTO {
     }
 
     public ContractDTO(Long id, String jobType, String adress, String payment, String description, String statusOrder,
-            Double range, Long customerId, Long workerId) {
+            Double range, String customerId, String workerId) {
         this.id = id;
         this.jobType = jobType;
         this.adress = adress;

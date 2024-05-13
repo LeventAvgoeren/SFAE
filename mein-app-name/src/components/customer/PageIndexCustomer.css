@@ -1,0 +1,170 @@
+
+.call-to-action {
+  position: absolute;
+  top: 50%; /* Zentriert den Block vertikal */
+  left: 50%;
+  transform: translate(-50%, -50%); /* Feinabstimmung für exakte Zentrierung */
+  color: white; /* Stellt die Textfarbe ein */
+}
+
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.call-to-action button {
+  animation: pulse 2s infinite ease-in-out; /* Fügt die pulsierende Animation hinzu */
+}
+
+
+.call-to-action {
+  background: rgba(0, 0, 0, 0.7); /* Dunkler, semi-transparenter Hintergrund */
+  padding: 30px;
+  border-radius: 15px;
+  width: fit-content;
+  max-width: 90%;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.features div {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+button {
+  margin-top: 20px;
+}
+
+
+.features p, .call-to-action p, .call-to-action h1 {
+  margin-top: 10px; /* Besseres Spacing */
+}
+
+body, button, input, textarea, h1, p {
+  font-family: 'Roboto', sans-serif; /* Stellt die Schriftart ein */
+}
+
+/* Optional: Spezifische Gewichte für verschiedene Elemente */
+h1 {
+  font-weight: 700; /* Fett für Überschriften */
+}
+
+p, button {
+  font-weight: 400; /* Normal für Text und Buttons */
+}
+
+.call-to-action {
+  background: rgba(0, 0, 0, 0.6); /* Dunkler, aber weniger intensiver Hintergrund */
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  width: auto;
+  max-width: 600px; /* Beschränkung der maximalen Breite für bessere Lesbarkeit */
+  text-align: left;
+}
+
+.features img {
+  width: 50px;  /* Feste Breite */
+  height: 50px; /* Feste Höhe, stellt sicher, dass die Icons nicht verzerrt werden */
+  object-fit: contain; /* Stellt sicher, dass der Inhalt des Bildes vollständig im Rahmen sichtbar ist */
+  margin-right: 10px; /* Abstand rechts vom Icon */
+}
+
+.features p, .call-to-action p, .call-to-action h1 {
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+.call-to-action button {
+  background-color: #ff5722; /* Orangefarbener Button */
+  color: white; /* Weiße Schrift */
+  border: none;
+  padding: 12px 24px;
+  font-size: 18px; /* Größere Schrift für bessere Lesbarkeit */
+  border-radius: 8px; /* Abgerundete Ecken */
+  cursor: pointer; /* Cursor-Effekt für bessere Benutzerinteraktion */
+  transition: background-color 0.3s, box-shadow 0.3s; /* Weiche Übergänge */
+}
+
+.call-to-action p {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+.call-to-action h1 {
+  font-size: 2.5em;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+:root {
+  --primary-color: #007BFF;
+  --hover-primary-color: #0056b3;
+  --text-color: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.4);
+  --background-dark: rgba(0, 0, 0, 0.7);
+}
+
+.call-to-action {
+  background: var(--background-dark);
+  color: var(--text-color);
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px var(--shadow-color);
+  max-width: 600px;
+  text-align: left;
+}
+
+.call-to-action button {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  padding: 12px 24px;
+  border-radius: 8px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.call-to-action button:hover {
+  background-color: var(--hover-primary-color);
+  box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+
+.call-to-action button {
+  padding: 15px 30px;
+  font-size: 18px;
+  background-color: #ff5722; /* Orangefarbener Button */
+  border-radius: 8px;
+  transition: background-color 0.3s, box-shadow 0.3s; /* Weiche Übergänge */
+  cursor: pointer;
+}
+
+.fade-enter {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
+}
+
+.fade-enter-active {
+  opacity: 1;
+}
+
+.fade-exit {
+  opacity: 1;
+  transition: opacity 500ms ease-out;
+}
+
+.fade-exit-active {
+  opacity: 0;
+}
+

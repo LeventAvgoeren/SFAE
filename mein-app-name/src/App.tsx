@@ -8,26 +8,35 @@ import { PageLogin } from "./components/PageLogin";
 import PageRegistration from './components/PageRegistration';
 import  PageRegistrationWorker  from "./components/worker/PageRegistrationWorker";
 import { PageWorkerIndex } from "./components/worker/PageWorkerIndex";
-import PageOrderRequest from "./components/Order/PageOrderRequest";
-import PageOrderOverview  from "./components/Order/PageOrderOverview";
-import { PageOrderCompleted } from "./components/Order/PageOrderCompleted";
-import { PageOrderRating } from "./components/Order/PageOrderRating";
+
 import { PageWorkerOrderOverview } from "./components/worker/PageWorkerOrderOverview";
 import { PageWorkerFinances } from "./components/worker/PageWorkerFinances";
 import { PageWorkerProfile } from "./components/worker/PageWorkerProfile";
 import { PageWorkerPreferences } from "./components/worker/PageWorkerPreferences";
 import { PageWorkerOrders } from "./components/worker/PageWorkerOrders";
 import { PagePasswordReset } from "./components/PagePasswordReset";
+
+import { PageIndexCustomer } from "./components/customer/PageIndexCustomer";
+import { PageCustomerFAQ } from "./components/customer/PageCustomerFAQ";
+
+
+import { PageOrderCompleted } from "./components/customer/PageOrderCompleted";
+import { MainMenu } from "./components/MainMenu";
+
 import { LoginContext, LoginInfo } from "./components/LoginManager";
 import { checkLoginStatus, login } from "./backend/api";
-import { PageIndexCustomer } from "./components/PageIndexCustomer";
-import { MainMenu } from "./components/MainMenu";
-import { PageCustomerFAQ } from "./components/PageCustomerFAQ";
+
 import PageRegistrationAdmin from "./components/PageRegistrationAdmin";
 import { PageIndexAdmin } from "./components/PageIndexAdmin";
 import { PageAdminDienstleistungen } from "./components/PageAdminDienstleistungen";
 import { PageProfil } from "./components/CustomerProfil";
+
+import NavbarComponent from "./components/NavbarComponent";
 import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
+import PageOrderRating from "./components/Order/PageOrderRating";
+import PageOrderRequest from "./components/Order/PageOrderRequest";
+import PageOrderOverview from "./components/Order/PageOrderOverview";
+
 
 
 const history = createMemoryHistory();
@@ -60,8 +69,12 @@ function App() {
 
 
   return (
-    
+
     <><LoginContext.Provider value={{ loginInfo, setLoginInfo }}>
+
+            
+{loginInfo && <NavbarComponent></NavbarComponent>}
+
       <Routes>
         {/* Gemeinsame Routen */}
         {!loginInfo && <>
@@ -82,7 +95,9 @@ function App() {
         <Route path="/customer/:customerId/profil" element={<PageProfil />} />
         {/* Order */}
         <Route path="/customer/:customerId/order/new"element={<PageOrderRequest/>}/>
-        <Route path="/customer/:customerId/order/:order/overview"element={<PageOrderOverview/>}/>
+        <Route path="/customer/:customerId/order/:order/overview"element={<PageOrderOverview onSubmit={function (data: { address: string; service: string; description: string; budget: number; range: number; verified: boolean; }): void {
+            throw new Error("Function not implemented.");
+          } }/>}/>
         <Route path="/customer/:customerId/orders/:order/completed"element={<PageOrderCompleted />}/>
         <Route path="/customer/:customerId/orders/:order/rating"element={<PageOrderRating />}/>
 

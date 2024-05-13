@@ -23,7 +23,7 @@ import com.SFAE.SFAE.INTERFACE.DataFactoryInterface;
 final class DataFactoryImp implements DataFactoryInterface{
 
     @Override
-    public Optional<Customer> createCustomer(long id, String name, String password, String email, String role) {
+    public Optional<Customer> createCustomer(String id, String name, String password, String email, String role) {
        try{
       Optional<Customer> customer = Optional.of(
             new Customer( id, name, password, email, String.valueOf(role))
@@ -40,7 +40,7 @@ final class DataFactoryImp implements DataFactoryInterface{
     }
 
     @Override
-    public Optional<Worker> createWorker(Long id,String name, String location, String password, String email,
+    public Optional<Worker> createWorker(String id,String name, String location, String password, String email,
             String status, Double range, String jobType, String Statusorder, Double minPayment, Double rating, Boolean verification) {
       try{
         return Optional.of(

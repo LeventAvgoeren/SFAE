@@ -2,39 +2,32 @@ import React, { useState } from 'react';
 import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import './DesignVorlage.css'; // Eigene Stilvorlagen
-import { registrationCustomer } from '../backend/api';
 import { Link, useNavigate } from 'react-router-dom'; // React Router für Link-Benutzung
 import './PageRegistration.css';
 import { LinkContainer } from 'react-router-bootstrap';
+import { registrationCustomer } from '../backend/api';
 
 export default function PageRegistration() {
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [backgroundImage, setBackgroundImage] = useState('/index2.jpg');
-    const [site, setSite] = useState(false);
-    const navigate = useNavigate();
-    
+
     const handleRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
         try {
             const response = await registrationCustomer(name, password, email);
-            if(response){
-              setSite(true)
-            }
             console.log('Registration successful:', response);
+            alert('Registration successful!');
         } catch (error) {
             console.error('Registration failed:', error);
             alert('Registration failed!');
         }
     };
 
-    if(site){
-      navigate('/login')
-    }
     return (
-<MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{/* backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' */}}>
+      <div className="background-image">
+<MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundImage: `url('/background.jpg')`, backgroundSize: 'cover' }}>
           <MDBCard className='m-5' style={{maxWidth: '600px'}}>
             <MDBCardBody className='px-5'>
               <h2 className="text-uppercase text-center mb-5">Erstelle ein Customer Account!</h2>
@@ -56,5 +49,6 @@ export default function PageRegistration() {
             </MDBCardBody>
           </MDBCard>
         </MDBContainer>
+        </div>
       );
 }

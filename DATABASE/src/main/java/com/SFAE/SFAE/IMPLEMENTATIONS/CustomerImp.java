@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.ENTITY.Customer;
-import com.SFAE.SFAE.ENUM.Role;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
+import com.SFAE.SFAE.INTERFACE.CustomerRepository;
 import com.SFAE.SFAE.Service.PasswordHasher;
 
 /**
@@ -38,6 +38,9 @@ public class CustomerImp implements CustomerInterface {
 
     @Autowired
     private DataFactoryImp dataFactory;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     /**
      * Counts the total number of customers in the database.
@@ -84,11 +87,11 @@ public class CustomerImp implements CustomerInterface {
      * @return the Customer object or null if not found
      */
     @Override
-    public Customer findCustomerbyID(long id) {
+    public Customer findCustomerbyID(String id) {
         List<Optional<Customer>> result = jdbcTemplate.query(
                 "SELECT * FROM CUSTOMER WHERE ID = ?",
                 ps -> {
-                    ps.setInt(1, (int) id);
+                    ps.setString(1,  id);
                 },
                 (rs, rowNum) -> createCustomer(rs));
 
@@ -128,7 +131,7 @@ public class CustomerImp implements CustomerInterface {
 
     private Optional<Customer> createCustomer(ResultSet rs) { // For the class
         try {
-            long id = rs.getInt("ID");
+            String id = rs.getString("ID");
             String name = rs.getString("NAME");
             String password = rs.getString("PASSWORD");
             String email = rs.getString("EMAIL");
@@ -153,27 +156,20 @@ public class CustomerImp implements CustomerInterface {
      */
     @Override
     public Customer createCustomer(CustomerDTO jsonData) { // For the Endpoint
-        System.out.println(jsonData);
-        try {
+
+        try { 
+         
             String name = jsonData.getName();
             String password = encoder.hashPassword(jsonData.getPassword());
             String email = jsonData.getEmail();
-
+            
             if (password == null || name == null || email == null) {
                 return null;
             }
-
-            jdbcTemplate.update(connection -> {
-                PreparedStatement ps = connection
-                        .prepareStatement("INSERT INTO CUSTOMER (NAME, PASSWORD, EMAIL, ROLE) VALUES (?, ?, ?, ?)");
-                ps.setString(1, name);
-                ps.setString(2, password);
-                ps.setString(3, email);
-                ps.setString(4, String.valueOf(Role.CUSTOMER));
-                return ps;
-            });
-
-            return new Customer(name, password, email);
+            Customer customer = new Customer(name, password, email);
+            customerRepository.save(customer);
+         
+            return customer;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -192,15 +188,13 @@ public class CustomerImp implements CustomerInterface {
      */
 
     @Override
-    public Boolean deleteCustomerById(long id) {
-        if (id < 0) {
-            throw new IllegalArgumentException("Wrong Id" + id);
-        }
+    public Boolean deleteCustomerById(String id) {
+     
         try {
             int deleted = jdbcTemplate.update(connection -> {
                 PreparedStatement ps = connection
                         .prepareStatement("DELETE FROM CUSTOMER WHERE ID = ?;");
-                ps.setInt(1, (int) id);
+                ps.setString(1,  id);
                 return ps;
             });
             if (deleted != 1) {
@@ -229,19 +223,19 @@ public class CustomerImp implements CustomerInterface {
         }
 
         int result = jdbcTemplate.update(
-                "UPDATE customer SET name = ?, password = ?, email = ?, role = ? WHERE ID = ?",
+                "UPDATE CUSTOMER SET name = ?, password = ?, email = ?, role = ? WHERE ID = ?",
                 ps -> {
                     ps.setString(1, jsonData.getName());
                     ps.setString(2, (jsonData.getPassword()));
                     ps.setString(3, jsonData.getEmail());
                     ps.setString(4, jsonData.getRole());
-                    ps.setLong(5, jsonData.getId());
+                    ps.setString(5, jsonData.getId());
 
                 });
 
         // Verifyin if the List is empty
         if (result > 0) {
-            return findCustomerbyID(Long.valueOf(jsonData.getId()));
+            return findCustomerbyID(jsonData.getId());
         }
 
         return null;
@@ -258,7 +252,7 @@ public class CustomerImp implements CustomerInterface {
      */
     public Customer findEmail(String Email) {
         List<Optional<Customer>> results = jdbcTemplate.query(
-                "SELECT * FROM customer WHERE email = ?",
+                "SELECT * FROM CUSTOMER WHERE email = ?",
                 ps -> {
                     ps.setString(1, Email);
                 },
@@ -283,7 +277,7 @@ public class CustomerImp implements CustomerInterface {
      */
     public String getCustomerPasswordByEmail(String Email) {
         List<Optional<Customer>> results = jdbcTemplate.query(
-                "SELECT password FROM customer WHERE email = ?",
+                "SELECT password FROM CUSTOMER WHERE email = ?",
                 ps -> {
                     ps.setString(1, Email);
                 },

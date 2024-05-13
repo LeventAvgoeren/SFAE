@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty;
  */
 
 public class CustomerDTO {
-    private Long id;
+    private String id;
 
     @NotEmpty
     @NotBlank(message = "Name is required")
@@ -68,11 +68,11 @@ public class CustomerDTO {
                 '}';
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

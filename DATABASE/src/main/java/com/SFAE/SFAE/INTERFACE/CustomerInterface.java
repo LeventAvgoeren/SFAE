@@ -33,7 +33,7 @@ public interface CustomerInterface {
      * @param id The unique ID of the Customer.
      * @return A Customer entity if found, otherwise null.
      */
-    Customer findCustomerbyID(long id);
+    Customer findCustomerbyID(String id);
 
     /**
      * Finds a Customer by their name.
@@ -57,7 +57,7 @@ public interface CustomerInterface {
      * @param id The ID of the Customer to delete.
      * @return True if the deletion was successful, otherwise false.
      */
-    Boolean deleteCustomerById(long id);
+    Boolean deleteCustomerById(String id);
 
     /**
      * Updates the details of an existing Customer in the database.

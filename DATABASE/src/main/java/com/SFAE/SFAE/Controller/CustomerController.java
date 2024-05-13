@@ -77,11 +77,9 @@ class CustomerController implements CustomerEP {
      * @return ResponseEntity containing the customer or an error message
      */
     @Override
-    public ResponseEntity<Customer> findCustomerById(long id) {
-
-        if (id < 0L) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    String.format("Customer id: %d negative", id, HttpStatus.BAD_REQUEST.value()));
+    public ResponseEntity<Customer> findCustomerById(String id) {
+        if(!id.startsWith("C")){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
         try {
@@ -143,13 +141,11 @@ class CustomerController implements CustomerEP {
      * @return ResponseEntity indicating success or failure of deletion
      */
     @Override
-    public ResponseEntity<?> deleteCustomerById(long id) {
-
-        if (id < 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    String.format("Customer id: %d negative", id, HttpStatus.BAD_REQUEST.value()));
+    public ResponseEntity<?> deleteCustomerById(String id) {
+        if(!id.startsWith("C")){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-
+      
         try {
             boolean Answer = dao.deleteCustomerById(id);
 
@@ -237,9 +233,7 @@ class CustomerController implements CustomerEP {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getFieldErrors().stream()
                     .map(fieldError -> fieldError.getDefaultMessage())
                     .collect(Collectors.toList()));
-        }   
-
-     
+        }
 
         if (jsonData.getId() == null || jsonData.hasNull()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -274,7 +268,8 @@ class CustomerController implements CustomerEP {
      *         error message
      */
     @Override
-    public ResponseEntity<?> LoginCustomer(@Valid @RequestBody LoginRequest loginRequest, BindingResult bindingResult, HttpServletResponse response) {
+    public ResponseEntity<?> LoginCustomer(@Valid @RequestBody LoginRequest loginRequest, BindingResult bindingResult,
+            HttpServletResponse response) {
 
         if (bindingResult.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getFieldErrors().stream()
@@ -290,11 +285,11 @@ class CustomerController implements CustomerEP {
 
                 Cookie cookie = new Cookie("access_token", token);
                 cookie.setHttpOnly(true);
-                cookie.setSecure(true); 
+                cookie.setSecure(true);
                 cookie.setPath("/");
-                cookie.setMaxAge(300); 
+                cookie.setMaxAge(300);
                 response.addCookie(cookie);
-                
+
                 return ResponseEntity.status(HttpStatus.OK)
                         .body(new LoginResponseCustomer(String.valueOf(customer.getId()),
                                 customer.getRole().toString(), token));
@@ -306,34 +301,48 @@ class CustomerController implements CustomerEP {
         }
     }
 
-
-    
+    /**
+     * Logs out the user by removing the access token cookie from the response.
+     * 
+     * @param response The HTTP servlet response.
+     * @return A ResponseEntity with status code 204 (No Content) indicating
+     *         successful logout.
+     */
     @Override
     public ResponseEntity<?> logout(HttpServletResponse response) {
 
         Cookie cookie = new Cookie("access_token", null);
-                cookie.setHttpOnly(true);
-                cookie.setSecure(true); 
-                cookie.setPath("/");
-                cookie.setMaxAge(0); 
-                response.addCookie(cookie);
-        
-                return ResponseEntity.status(204).build();
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+
+        return ResponseEntity.status(204).build();
     }
 
+    /**
+     * Checks the login status of the user based on the presence of an access token
+     * cookie.
+     * 
+     * @param request  The HTTP servlet request.
+     * @param response The HTTP servlet response.
+     * @return A ResponseEntity with the login status as JSON if the access token is
+     *         found, otherwise returns a ResponseEntity with status code 400 (Bad
+     *         Request).
+     */
     @Override
     public ResponseEntity<?> checkLoginStatus(HttpServletRequest request, HttpServletResponse response) {
-        
+
         String jwtString = request.getCookies() != null ? Arrays.stream(request.getCookies())
-        .filter(c -> "access_token".equals(c.getName()))
-        .findFirst()
-        .map(Cookie::getValue)
-        .orElse(null) : null;
+                .filter(c -> "access_token".equals(c.getName()))
+                .findFirst()
+                .map(Cookie::getValue)
+                .orElse(null) : null;
 
         if (jwtString == null) {
             return ResponseEntity.status(400).body(false);
         }
-        
 
         Claims loginData = jwt.decodeToken(jwtString);
 
@@ -345,7 +354,7 @@ class CustomerController implements CustomerEP {
             e.printStackTrace();
             return ResponseEntity.status(400).body(false);
         }
-        
+
     }
 
 }

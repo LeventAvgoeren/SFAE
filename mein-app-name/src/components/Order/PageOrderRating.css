@@ -1,0 +1,18 @@
+/* Rotes Füllung */
+.customFill {
+    fill: red;
+  }
+  
+  /* Grüne Füllung */
+  .customFill {
+    fill: green;
+  }
+  
+  /* Blaue Füllung */
+  .customFill {
+    fill: blue;
+  }
+  
+  .Rating{
+    font-size: 80px;
+  }

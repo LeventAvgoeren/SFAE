@@ -49,7 +49,7 @@ public interface WorkerEp {
      * @return ResponseEntity with appropriate HTTP status code.
      */
     @DeleteMapping("/{id}")
-    ResponseEntity<?> deleteWorkerById(@PathVariable("id") long id);
+    ResponseEntity<?> deleteWorkerById(@PathVariable("id") String id);
 
 
      /**
@@ -68,7 +68,7 @@ public interface WorkerEp {
      * @return ResponseEntity containing the requested Worker, if found.
      */
     @GetMapping("/{id}")
-    ResponseEntity<?> findWorkersbyID(@PathVariable("id") long id);
+    ResponseEntity<?> findWorkersbyID(@PathVariable("id") String id);
 
 
 
@@ -88,7 +88,7 @@ public interface WorkerEp {
      * @return ResponseEntity containing the updated Worker entity.
      */
     @PutMapping("")
-    ResponseEntity<?> updateWorker(@RequestBody WorkerDTO jsonData);
+    ResponseEntity<Worker> updateWorker(@RequestBody WorkerDTO jsonData);
 
      /**
      * Authenticates a Worker based on login credentials.

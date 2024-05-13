@@ -283,7 +283,6 @@ export async function updateWorker(workerData: WorkerResource): Promise<WorkerRe
   }
 }
 
-<<<<<<< HEAD
 export async function deleteWorker(id: number) {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/${id}`;
   const options = {
@@ -294,8 +293,6 @@ export async function deleteWorker(id: number) {
   await fetchWithErrorHandling(url, options);
 }
 
-=======
->>>>>>> 26f98034ab870ad3082f8f68f8179e31c7f6ec52
 export async function deleteCookieWorker(){
   const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/logout`;
   const options = {
@@ -304,8 +301,4 @@ export async function deleteCookieWorker(){
 }
 const response = await fetchWithErrorHandling(url,options)
   return response;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 26f98034ab870ad3082f8f68f8179e31c7f6ec52

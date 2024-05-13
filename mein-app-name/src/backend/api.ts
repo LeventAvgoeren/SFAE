@@ -302,8 +302,6 @@ export async function deleteCookieWorker(){
 const response = await fetchWithErrorHandling(url,options)
   return response;
 }
-<<<<<<< HEAD
-=======
 
 
 export async function getAllCustomer(): Promise<WorkerResource> {
@@ -318,4 +316,3 @@ export async function getAllCustomer(): Promise<WorkerResource> {
   return answer;
 }
 
->>>>>>> 940fee8567c120cb80353ae31a8f832bd89ad6e6

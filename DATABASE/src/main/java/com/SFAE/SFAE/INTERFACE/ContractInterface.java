@@ -2,6 +2,7 @@ package com.SFAE.SFAE.INTERFACE;
 
 import com.SFAE.SFAE.DTO.ContractDTO;
 import com.SFAE.SFAE.ENTITY.Contract;
+import com.SFAE.SFAE.ENTITY.Customer;
 
 /**
  * The ContractInterface provides a set of methods to manage contract entities within the system.
@@ -53,4 +54,7 @@ public interface ContractInterface {
      * @throws IllegalArgumentException if the provided contract data is invalid
      */
     Contract createContract(ContractDTO contract);
+
+
+    long countContracts();
 }

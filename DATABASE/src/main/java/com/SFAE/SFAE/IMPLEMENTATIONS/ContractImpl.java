@@ -144,4 +144,16 @@ private Contract createContract(ResultSet rs) {
 
 }
 
+@Override
+public long countContracts() {
+  List<Object> result = jdbcTemplate.query(
+    "SELECT COUNT(ID) FROM CONTRACT",
+    (rs, rowNum) -> {
+        long count = rs.getInt(1);
+        return count;
+    });
+return result.size() > 0 ? (long) (result.get(0)) : 0;
+}
+
+
 }

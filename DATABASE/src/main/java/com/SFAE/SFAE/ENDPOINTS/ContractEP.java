@@ -53,5 +53,12 @@ public interface ContractEP {
     @PutMapping("")
     ResponseEntity<?> updateContract(@Valid @RequestBody ContractDTO contract, BindingResult bindingResult );
 
-  
+
+    @GetMapping("/all")
+    ResponseEntity<?> countAllCContracts();
+
+
+    @GetMapping("/customer/{id}")
+    ResponseEntity<?> findContractByWorkerId(@PathVariable("id") long id);
+
 }

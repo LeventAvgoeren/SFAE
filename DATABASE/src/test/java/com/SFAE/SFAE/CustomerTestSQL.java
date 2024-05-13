@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -33,7 +34,7 @@ public class CustomerTestSQL {
 
     @Test
     public void testCreateCustomer() throws Exception {
-        String json = "{ \"name\": \"MaxMuster\", \"password\": \"passwort123\", \"email\": \"M@gmail.com\"}";
+        String json = "{ \"name\": \"MaxMuster\", \"password\": \"passwort123\", \"email\": \"Msd@gmail.com\"}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         mockMvc.perform(post("/customer")
@@ -224,5 +225,16 @@ public class CustomerTestSQL {
 
         transactionManager.commit(status);
     }
+
+   @Test
+    public void testFindAllCustomers() throws Exception {
+
+         MvcResult mvcResult = mockMvc.perform(get("/customer/all"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        System.out.println("A " + contentAsString);
+   }
 
 }

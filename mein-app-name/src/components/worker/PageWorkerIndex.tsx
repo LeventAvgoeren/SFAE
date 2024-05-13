@@ -109,7 +109,7 @@ export function PageWorkerIndex() {
             </Col>
             <Col md={4} className="mb-4">
               <Card>
-                <Link to="/präferenz">
+                <Link to={`/worker/${workerId}/preferences`}>
                   <Card.Img
                     variant="top"
                     src={zoom === '/praferenz.jpg' ? '/praferenz-zoom.jpg' : '/praferenz.jpg'}

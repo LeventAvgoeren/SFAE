@@ -14,5 +14,15 @@
   }
   
   .Rating{
-    font-size: 80px;
+    font-size: 200px;
+  }
+
+  .Left-Picture{
+    display: flex;
+    order: 1;
+  }
+
+  .question{
+    display: flex;
+    order: 2;
   }

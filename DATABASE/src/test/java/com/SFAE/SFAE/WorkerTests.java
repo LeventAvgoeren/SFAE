@@ -378,4 +378,17 @@ public void loginWorkerNotExistingWorker() throws Exception{
         System.out.println("A " + contentAsString);
 
 }
+
+@Test
+public void testCountAllWorkers() throws Exception {
+
+     MvcResult mvcResult = mockMvc.perform(get("/worker/all"))
+            .andExpect(status().isOk())
+            .andReturn();
+
+    String contentAsString = mvcResult.getResponse().getContentAsString();
+    System.out.println("A " + contentAsString);
+}
+
+
 }

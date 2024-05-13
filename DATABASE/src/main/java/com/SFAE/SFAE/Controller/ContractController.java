@@ -149,4 +149,20 @@ public class ContractController implements ContractEP {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
   }
 
+  @Override
+  public ResponseEntity<?> countAllCContracts() {
+    try{
+      long counter=dao.countContracts();
+  return ResponseEntity.status(HttpStatus.OK).body(counter);
+  }
+  catch(Exception e){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+  }
+  }
+
+  @Override
+  public ResponseEntity<?> findContractByWorkerId(long id) {
+    throw new UnsupportedOperationException("Unimplemented method 'findContractByWorkerId'");
+  }
+
 }

@@ -3,7 +3,6 @@ import { Col, Row } from 'react-bootstrap';
 import { Button, Container, Nav, NavDropdown, Navbar } from 'react-bootstrap';
 import { Left } from 'react-bootstrap/lib/Media';
 import { Link, useParams } from 'react-router-dom';
-import { Color } from 'three';
 import { getCustomerbyID } from '../../backend/api';
 
 function PageOrderRating() {

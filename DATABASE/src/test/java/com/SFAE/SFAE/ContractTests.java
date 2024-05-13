@@ -24,7 +24,6 @@ import com.SFAE.SFAE.IMPLEMENTATIONS.ContractImpl;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 public class ContractTests {
 
   @Autowired
@@ -40,13 +39,13 @@ public class ContractTests {
   public void testCreateContract() throws Exception {
 
     String json = "{" +
-        "\"jobType\": \"GÄRTNER\"," +
-        "\"adress\": \"Quizostrasse32\"," +
-        "\"payment\": \"CASH\"," +
-        "\"description\": \"Ich\"," +
+        "\"jobType\": \"KOCH\"," +
+        "\"adress\": \"HundeSTrasse 3\"," +
+        "\"payment\": \"PAYPAL\"," +
+        "\"description\": \"Ahmad steht auf männer\"," +
         "\"statusOrder\": \"UNDEFINED\"," +
-        "\"range\": 2.2," + 
-        "\"customerId\": \"C1\"," + 
+        "\"range\": 2.9," + 
+        "\"customerId\": \"C3\"," + 
         "\"workerId\": \"W1\"" +
         "}";
 
@@ -266,6 +265,19 @@ public void testCountAllContracts() throws Exception {
     String contentAsString = mvcResult.getResponse().getContentAsString();
     System.out.println("A " + contentAsString);
 }
+
+@Test
+public void testGetContractByCustomerId() throws Exception {
+
+  TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+  mockMvc.perform(get("/contract/3"))
+      .andExpect(status().isOk())
+      .andReturn();
+
+  transactionManager.commit(status);
+}
+
 
 
 }

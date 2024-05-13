@@ -36,8 +36,8 @@ import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
 import PageOrderRating from "./components/Order/PageOrderRating";
 import PageOrderRequest from "./components/Order/PageOrderRequest";
 import PageOrderOverview from "./components/Order/PageOrderOverview";
-import { PageUebersicht } from "./components/customer/PageUebersicht";
 import { Profile_2 } from "./components/customer/Profile2";
+import { PageUebersicht } from "./components/customer/PageUebersicht";
 
 
 

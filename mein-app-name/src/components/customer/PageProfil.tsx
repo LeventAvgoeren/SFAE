@@ -11,7 +11,7 @@ import { deleteCookie, deleteCustomer, getCustomerbyID, updateCustomer } from ".
 export function PageProfil(){
 
   const params=useParams()
-  let customerId=parseInt(params.customerId!)
+  let customerId=params.customerId!
 
   
   

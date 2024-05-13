@@ -10,7 +10,7 @@ import { LoginInfo } from "./LoginManager"
 export function PageProfil(){
 
   const params=useParams()
-  let customerId=parseInt(params.customerId!)
+  let customerId=params.customerId!
 
   
   
@@ -36,7 +36,7 @@ async function upCustomer(){
     password: password,
     email:email,
     role:"CUSTOMER",
-    id:customerId.toString()
+    id:customerId
   }
   if(password.trim()!==""){
     updateData.password=password

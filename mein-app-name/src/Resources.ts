@@ -1,7 +1,7 @@
 //istanbul ignore file 
 
 export type LoginResource = {
-    id: number;
+    id: string;
     role: 'customer' | 'worker' | 'admin'; 
     exp: number;  
 }

@@ -40,10 +40,7 @@ export function PageWorkerProfile() {
         return;
       }
     try {
-      const id = parseInt(worId);
-      if (isNaN(id)) {
-        throw new Error("Die Worker ID ist keine gültige Zahl");
-      }
+      const id = worId;
       const workerData = await getWorkerbyID(id);
       if(workerData){
       setStatus(workerData.status)
@@ -105,7 +102,7 @@ export function PageWorkerProfile() {
 
   const handleDelete = async () => {
     try {
-      await deleteWorker(parseInt(worId!));
+      await deleteWorker(worId!);
       alert('Profil erfolgreich gelöscht.');
     } catch (error) {
       console.error('Fehler beim Löschen des Profils:', error);

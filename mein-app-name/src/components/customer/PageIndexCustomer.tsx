@@ -11,7 +11,8 @@ import {
 
 export function PageIndexCustomer() {
   const params = useParams();
-  let customerId = parseInt(params.customerId!);
+  let customerId = params.customerId!;
+  
   const [name, setName] = useState("");
   const [quote, setQuote] = useState("");
   const [fact, setFact] = useState("");

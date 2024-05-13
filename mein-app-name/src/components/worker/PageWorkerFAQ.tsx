@@ -70,6 +70,7 @@ export function PageWorkerFAQ() {
 
   return (
     <>
+      <div className="background-image">
       <section className="faq-section">
         <div className="container">
           <div className="row">
@@ -136,6 +137,7 @@ export function PageWorkerFAQ() {
             <button type='button' className="text-white bg-[#007bff] hover:bg-blue-600 font-semibold rounded-md text-sm px-4 py-2.5 w-full">Send</button>
           </form>
         </div>
+      </div>
       </div>
     </>
   );

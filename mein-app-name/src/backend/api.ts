@@ -311,3 +311,42 @@ export async function getAllCustomer(): Promise<WorkerResource> {
   return answer;
 }
 
+export async function countAllCustomers(): Promise<number> {
+
+
+  const url = `${process.env.REACT_APP_API_SERVER_URL}/customer/all`;
+  const response = await fetchWithErrorHandling(url, {
+    credentials: "include" as RequestCredentials,
+  });
+
+  const answer = await response.json();
+  return answer;
+}
+
+export async function countAllWorkers(): Promise<number> {
+
+
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/all`;
+    const response = await fetchWithErrorHandling(url, {
+      credentials: "include" as RequestCredentials,
+    });
+  
+    const answer = await response.json();
+    return answer;
+  }
+  
+
+  export async function countAllContracts(): Promise<number> {
+
+
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/all`;
+    const response = await fetchWithErrorHandling(url, {
+      credentials: "include" as RequestCredentials,
+    });
+  
+    const answer = await response.json();
+    return answer;
+  }
+  
+
+

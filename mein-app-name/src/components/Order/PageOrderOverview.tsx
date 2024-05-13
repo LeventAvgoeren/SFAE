@@ -46,88 +46,6 @@ export const PageOrderOverview: React.FC<PageOrderRequestProps> = ({ onSubmit })
     return (
 
         <>
-            <Navbar variant="dark" expand="lg">
-                <Container>
-                    <Nav className='me-auto'>
-                        <NavDropdown title={<img src={"/SFAE_Logo.png"} height="35" alt="Dropdown Logo" />} id="collapsible_nav_dropdown">
-                            <NavDropdown.Item
-                                href="#profil">
-                                <img
-                                    src={"/Profil.png"}
-                                    height="35"
-                                    className="d-inline-block align-top"
-                                    alt="SFAE Logo" />
-                                Action
-                            </NavDropdown.Item>
-
-                            <NavDropdown.Item
-                                href="#support">
-                                <img
-                                    src={"/Q&A_Logo.png"}
-                                    height="35"
-                                    className="d-inline-block align-top"
-                                    alt="SFAE Logo" />
-                                Another action
-                            </NavDropdown.Item>
-
-                            <NavDropdown.Item
-                                href="#settings">
-                                <img
-                                    src={"/Einstellung.png"}
-                                    height="35"
-                                    className="d-inline-block align-top"
-                                    alt="SFAE Logo" />
-                                Something
-                            </NavDropdown.Item>
-
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">
-                                Separated link
-                            </NavDropdown.Item>
-                        </NavDropdown>
-
-                        <Nav.Link href="#profile">
-                            <img
-                                src={"/Profil.png"}
-                                height="35"
-                                className="d-inline-block align-top"
-                                alt="SFAE Logo" />
-                        </Nav.Link>
-
-                        <Nav.Link href="#support">
-                            <img
-                                src={"/Q&A_Logo.png"}
-                                height="35"
-                                className="d-inline-block align-top"
-                                alt="SFAE Logo" />
-                        </Nav.Link>
-
-                        <Nav.Link href="#settings">
-                            <img
-                                src={"/Einstellung.png"}
-                                height="35"
-                                className="d-inline-block align-top"
-                                alt="SFAE Logo" />
-                        </Nav.Link>
-
-                        <Nav className="me-auto"></Nav>
-
-                    </Nav>
-
-
-                    <Navbar.Brand href="/">
-                        <img
-                            src={"/SFAE_Logo.png"}
-                            height="65"
-                            className="d-inline-block align-top"
-                            alt="SFAE Logo"
-                        />
-                    </Navbar.Brand>
-                </Container>
-            </Navbar>
-
-
-            <div className='background-city'>
                 <div className="container-frame">
                     <h1 className="header-title" style={{ color: 'white' }}>Worker</h1>
                     <Row>
@@ -174,11 +92,6 @@ export const PageOrderOverview: React.FC<PageOrderRequestProps> = ({ onSubmit })
                         </div>
                     </Row>
                 </div>
-            </div>
-
-
-
-
 
 
 

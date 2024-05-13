@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { JobType, WorkerResource } from "../../Resources";
 import { deleteWorker, getWorkerbyID, updateWorker } from "../../backend/api";
 import { useParams } from "react-router-dom";
-import "./PageWorkerProfile.css";
+import "./PageWorkerPreferences.css";
+
 import { LinkContainer } from "react-router-bootstrap";
 import { workerData } from "worker_threads";
 

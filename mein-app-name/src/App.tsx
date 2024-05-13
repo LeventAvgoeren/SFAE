@@ -30,6 +30,7 @@ import { PageProfil } from "./components/CustomerProfil";
 
 import NavbarComponent from "./components/NavbarComponent";
 import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
+
 import PageOrderRating from "./components/Order/PageOrderRating";
 import PageOrderRequest from "./components/Order/PageOrderRequest";
 import PageOrderOverview from "./components/Order/PageOrderOverview";

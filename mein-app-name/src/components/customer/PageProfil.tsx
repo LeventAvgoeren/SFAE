@@ -81,6 +81,7 @@ async function deleten(){
   },[])
   return (
     <>
+      <div className="background-image">
       <form onSubmit={upCustomer}>
         <div className="mb-3">
           <label htmlFor="exampleInputName" className="form-label">Name</label>
@@ -121,5 +122,6 @@ async function deleten(){
           </Button>
         </Modal.Footer>
       </Modal>
+      </div>
     </>
   )}

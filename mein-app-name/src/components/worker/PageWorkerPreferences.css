@@ -1,5 +1,5 @@
 
-  .text-secondary {
+.text-secondary {
     --bs-text-opacity: 1;
     color: rgba(208, 212, 217, 0.5) !important;
   }

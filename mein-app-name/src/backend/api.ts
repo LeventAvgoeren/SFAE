@@ -302,3 +302,20 @@ export async function deleteCookieWorker(){
 const response = await fetchWithErrorHandling(url,options)
   return response;
 }
+<<<<<<< HEAD
+=======
+
+
+export async function getAllCustomer(): Promise<WorkerResource> {
+
+
+  const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/`;
+  const response = await fetchWithErrorHandling(url, {
+    credentials: "include" as RequestCredentials,
+  });
+
+  const answer = await response.json();
+  return answer;
+}
+
+>>>>>>> 940fee8567c120cb80353ae31a8f832bd89ad6e6

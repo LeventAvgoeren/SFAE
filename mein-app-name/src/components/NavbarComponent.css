@@ -1,37 +1,75 @@
-/* Stelle sicher, dass die Navbar den gesamten horizontalen Platz einnimmt */
-.navbar {
-    width: flex;
-    z-index: 1040; /* Standard z-index von Bootstrap für Navbar */
-  }
-  
-  /* Sorgt dafür, dass das Dropdown-Menü sich innerhalb der Grenzen der Navbar befindet */
-  .nav-dropdown, #collapsible-nav-dropdown {
-    position: static; /* Übergeordnete Positionierung für Dropdown-Menü auf 'static' setzen */
-  }
-  
-  /* Dropdown-Menü-Position anpassen */
-  .dropdown-menu {
-    position: absolute; /* Positionierung des Dropdown-Menüs auf 'absolute' setzen */
-    left: auto; /* Setze den linken Rand auf 'auto', damit das Menü rechtsbündig ausgerichtet wird */
-    right: 0; /* Richte das Menü rechts aus */
-    top: 100%; /* Positioniere das Menü direkt unter der Nav-Komponente */
-  }
-  
-  /* Dropdown-Menü für mobile Ansicht anpassen */
-  @media (max-width: 768px) { /* Bootstrap mobile Ansicht Breakpoint */
-    .navbar-nav {
-      flex-direction: column; /* Staple die Nav-Elemente vertikal */
-    }
-  
-    .nav-dropdown, #collapsible-nav-dropdown {
-      position: static; /* Setze die Position auf 'static', um ein korrektes Verhalten in der mobilen Ansicht zu gewährleisten */
-    }
-  
-    .dropdown-menu {
-      width: 100%; /* Setze die Breite des Dropdown-Menüs auf 100% */
-    }
-  }
-  
-  
-  
-  
+.page-background {
+  display: flex;            
+  justify-content: flex-start; 
+  align-items: center;     
+  height: 10vh;            
+  width: 100%;              
+  padding: 0 20px;          
+}
+
+.navbar-logo {
+  height: 80px;            
+  padding-left: 50px;       
+  margin-right: 25px;      
+}
+
+.navbar-links {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  flex-grow: 1;             
+}
+
+.page-background ul {
+  display: flex;            
+  list-style: none;
+  padding: 0;
+  margin: 0;                
+  justify-content: center;  
+}
+
+.page-background ul li {
+  margin: 0 20px;          
+}
+
+.page-background ul li a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  padding: 10px;
+}
+
+.page-background ul li a:hover {
+  background-color: white;
+  color: black;
+  border-radius: 15px;     
+}
+
+body, button, input, textarea, h1, p {
+  font-family: 'Roboto', sans-serif; 
+}
+body {
+  background-image: url('../../public/website-Backgroundss.png');
+  background-size: cover;  
+  background-position: center; 
+  background-repeat: no-repeat;
+  position: relative; 
+  z-index: 0; 
+}
+
+.page-background {
+  display: flex;            
+  justify-content: flex-start; 
+  align-items: center;     
+  height: 10vh;            
+  width: 100%;              
+  padding: 0 20px;
+  position: relative; 
+  z-index: 1; 
+}
+
+/* Überprüfen Sie, ob weitere Anpassungen bei anderen Elementen nötig sind */
+.content { 
+  position: relative;
+  z-index: 1; 
+}

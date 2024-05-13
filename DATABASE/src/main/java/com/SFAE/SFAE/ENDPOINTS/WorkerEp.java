@@ -49,7 +49,7 @@ public interface WorkerEp {
      * @return ResponseEntity with appropriate HTTP status code.
      */
     @DeleteMapping("/{id}")
-    ResponseEntity<?> deleteWorkerById(@PathVariable("id") long id);
+    ResponseEntity<?> deleteWorkerById(@PathVariable("id") String id);
 
 
      /**
@@ -68,7 +68,7 @@ public interface WorkerEp {
      * @return ResponseEntity containing the requested Worker, if found.
      */
     @GetMapping("/{id}")
-    ResponseEntity<?> findWorkersbyID(@PathVariable("id") long id);
+    ResponseEntity<?> findWorkersbyID(@PathVariable("id") String id);
 
 
 

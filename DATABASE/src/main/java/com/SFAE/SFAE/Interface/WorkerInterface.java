@@ -32,7 +32,7 @@ public interface WorkerInterface {
    * @param id The unique ID of the Worker.
    * @return A Worker entity if found, otherwise null.
    */
-  Worker findWorkersbyID(long id);
+  Worker findWorkersbyID(String id);
 
   /**
    * Finds a Worker by their name.
@@ -48,7 +48,7 @@ public interface WorkerInterface {
    * @param id The ID of the Worker to delete.
    * @return True if the deletion was successful, otherwise false.
    */
-  Boolean deleteWorkerById(long id);
+  Boolean deleteWorkerById(String id);
 
   /**
    * Updates the details of an existing Worker in the database.

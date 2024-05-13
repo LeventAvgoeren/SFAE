@@ -43,7 +43,7 @@ public interface DataFactoryInterface {
      * @param verification is the Worker a verficiated Worker
      */
     
-    Optional<Worker> createWorker(Long id, String name, String location, String password,
+    Optional<Worker> createWorker(String id, String name, String location, String password,
         String email, String status, Double range, String jobType, 
         String StatusOrder, Double minPayment, Double rating, Boolean verification);
     

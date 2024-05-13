@@ -80,9 +80,9 @@ public class WorkerController implements WorkerEp {
      *         operation.
      */
     @Override
-    public ResponseEntity<?> deleteWorkerById(long id) {
-        if (id < 0) {
-            return ResponseEntity.badRequest().body("id can be <0 or is null");
+    public ResponseEntity<?> deleteWorkerById(String id) {
+        if (!id.startsWith("W")) {
+            return ResponseEntity.badRequest().body("idis not for Worker");
         }
         try {
             boolean result = dao.deleteWorkerById(id);
@@ -121,9 +121,9 @@ public class WorkerController implements WorkerEp {
      *         response.
      */
     @Override
-    public ResponseEntity<?> findWorkersbyID(long id) {
-        if (id < 0) {
-            return ResponseEntity.badRequest().body("id can be <0 or is null");
+    public ResponseEntity<?> findWorkersbyID(String id) {
+        if (!id.startsWith("W")) {
+            return ResponseEntity.badRequest().body("idis not for Worker");
         }
         try {
             Worker found = dao.findWorkersbyID(id);

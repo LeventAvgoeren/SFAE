@@ -114,7 +114,7 @@ public class ContractImpl implements ContractInterface {
             ps.setString(5, statusOrder);
             ps.setDouble(6, range);
             ps.setString(7, customer.getId());
-            ps.setLong(8, worker.getId());
+            ps.setString(8, worker.getId());
             return ps;
   });
   return new Contract(JobList.valueOf(jobType), address, Payment.valueOf(payment), description,StatusOrder.valueOf(statusOrder), range, customer, worker);
@@ -130,11 +130,11 @@ private Contract createContract(ResultSet rs) {
     String description = rs.getString("description");
     String statusOrder = rs.getString("status_order");
     double range = rs.getDouble("range");
-    Long customerId = rs.getLong("customer_id");
-    Long workerId = rs.getLong("worker_id");
+    String customerId = rs.getString("customer_id");
+    String workerId = rs.getString("worker_id");
 
     Customer customer =customerImpl.findCustomerbyID(String.valueOf(customerId));
-    Worker worker= workerImpl.findWorkersbyID(workerId);
+    Worker worker= workerImpl.findWorkersbyID(String.valueOf(workerId));
 
     return new Contract(id,JobList.valueOf(jobType),adress,Payment.valueOf(payment),description,StatusOrder.valueOf(statusOrder),range,customer,worker);
     //return dataFactory.createWorker(id, name, location, password, email, status, range, jobType, statusOrder,minPayment, rating, verification);

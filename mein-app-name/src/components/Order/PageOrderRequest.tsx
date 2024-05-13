@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Col, Container, Nav, NavDropdown, Row } from "react-bootstrap";
 import "./PageOrderRequest.css";
 import { Navbar } from "react-bootstrap";
 import MapComponent from "./MapComponent";
 import NavbarComponent from "../NavbarComponent";
-
+import{ useTypewriter, Cursor} from 'react-simple-typewriter';
+import Typewriter from 'react-ts-typewriter';
 interface PageOrderRequestProps {
   onSubmit: (data: {
     address: string;
@@ -25,6 +26,9 @@ export default function PageOrderRequest() {
   const [verified, setVerified] = useState(false);
   const [showMap, setMap] = useState(false);
 
+
+
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
@@ -33,8 +37,7 @@ export default function PageOrderRequest() {
     const selectedJobType = event.target.value;
     setService(selectedJobType);
   };
-
-  
+    
 
   const jobTypes = [
     "Hausmeister",
@@ -95,11 +98,22 @@ export default function PageOrderRequest() {
 
   return (
     <>
-       <NavbarComponent/>
-
-      <div className="background-city">
+   
+      <h1 style={{color:"black"}}>
+        SFAE ist eine {' '}
+        <span style={{fontWeight: 'bold', color: 'green'}}>
+           <Typewriter  speed={400}  text={["effizient", "sicher", "vertrauenswürdige"]} loop={true} cursor={false}/>
+           
+        </span>
+        <span style={{color: 'red'}}>
+          <Cursor cursorStyle="/"/>
+        </span>
+        {' '}Seite.
+      </h1>
      
-        <div className="container-frame">
+      <div className="Frame" >
+
+        <div className="container-frame" >
           <form
             onSubmit={handleSubmit}
             style={{ color: "white", padding: "20px" }}
@@ -109,12 +123,13 @@ export default function PageOrderRequest() {
             <div>
               <MapComponent onAddressChange={handleAddressChange} />
              <Button variant="light" onClick={handleClick}>
-              Close</Button>
+              OK</Button>
             </div> }
           {!showMap &&
           <>
            <div id="map"></div>
             <div>
+              <h1>Auftrag</h1>
               <label htmlFor="addresse">
                 Ihre Adresse
               </label>
@@ -195,7 +210,7 @@ export default function PageOrderRequest() {
               />
             </div>
             <div style={{ textAlign: "center" }}>
-              <button type="submit" style={{ width: "36.75%" }}>
+              <button    id="myButton"  type="submit" style={{ width: "36.75%" }}>
                 Suchen
               </button>
             </div>

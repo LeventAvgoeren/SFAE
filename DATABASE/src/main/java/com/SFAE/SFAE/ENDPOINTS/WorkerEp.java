@@ -17,6 +17,9 @@ import com.SFAE.SFAE.DTO.WorkerDTO;
 
 import com.SFAE.SFAE.ENTITY.Worker;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 
  /**
  * Worker Endpoint Interface.
@@ -85,7 +88,7 @@ public interface WorkerEp {
      * @return ResponseEntity containing the updated Worker entity.
      */
     @PutMapping("")
-    ResponseEntity<Worker> updateWorker(@RequestBody WorkerDTO jsonData);
+    ResponseEntity<?> updateWorker(@RequestBody WorkerDTO jsonData);
 
      /**
      * Authenticates a Worker based on login credentials.
@@ -94,6 +97,12 @@ public interface WorkerEp {
      * @return ResponseEntity indicating the result of the authentication process.
      */
     @PostMapping("/login")
-    ResponseEntity<?> loginWorker(@RequestBody LoginRequest login);
+    ResponseEntity<?> loginWorker(@RequestBody LoginRequest login,HttpServletResponse response);
+
+    @GetMapping("/login")
+    ResponseEntity<?> checkLoginStatus(HttpServletRequest request, HttpServletResponse response);
+
+    @PostMapping("/logout")
+    ResponseEntity<?>logout(HttpServletResponse response);
 }
 

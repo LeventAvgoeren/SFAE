@@ -7,21 +7,24 @@ export type LoginResource = {
 }
 
 export type WorkerResource = {
-    id?: string;
+    id?: Number;
     name: string;
+    password:string;
     location: string;
-    status: boolean;
-    statusOrder: boolean;
-    distanceRange: number;  
-    jobType: JobType;
-    minPayment: PaymentResource;
-    rating: number;  
-    verification: boolean;
+    status: string;
+    statusOrder: string;
+    range: Number;  
+    jobType: string;
+    minPayment: Number;
+    rating: Number;  
+    verification: Boolean;
     email: string;
 }
 
 export type CustomerResource = {
+    id?: string;
     name: string;
+    password: string;
     email: string;
     role: string; 
 }

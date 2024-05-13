@@ -1,10 +1,5 @@
 package com.SFAE.SFAE.INTERFACE;
 
-import java.util.Map;
-import java.util.Optional;
-
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.http.ResponseEntity;
 
 import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.SFAE.SFAE.ENTITY.Worker;
@@ -14,7 +9,7 @@ import com.SFAE.SFAE.ENTITY.Worker;
  * 
  * @author Levent
  */
-//@RepositoryRestResource
+// @RepositoryRestResource
 public interface WorkerInterface {
 
   /**
@@ -78,4 +73,16 @@ public interface WorkerInterface {
    * @return A Worker entity if found, otherwise null.
    */
   Worker findWorkerbyEmail(String email);
+
+  /**
+   * Retrieves a Worker by their job type.
+   * 
+   * This method retrieves a Worker entity from the database based on their job
+   * type.
+   * 
+   * @param jobType The type of job of the Worker to find.
+   * @return A Worker entity if found based on the provided job type, otherwise
+   *         null.
+   */
+  Worker findWorkerByJob(String jobType);
 }

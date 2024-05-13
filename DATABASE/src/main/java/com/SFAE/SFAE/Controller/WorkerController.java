@@ -1,6 +1,9 @@
 package com.SFAE.SFAE.Controller;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,8 +16,14 @@ import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.Security.JWT;
 import com.SFAE.SFAE.Service.MailService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.jsonwebtoken.Claims;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Controller for managing Worker entities.
@@ -126,7 +135,7 @@ public class WorkerController implements WorkerEp {
 
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
     }
 
@@ -162,17 +171,22 @@ public class WorkerController implements WorkerEp {
      *         operation.
      */
     @Override
-    public ResponseEntity<Worker> updateWorker(@RequestBody WorkerDTO jsonData) {
+    public ResponseEntity<?> updateWorker(@RequestBody WorkerDTO jsonData) {
+        System.out.println("ASDAS");
         if (jsonData == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         try {
             dao.updateWorker(jsonData);
 
-        } catch (Exception e) {
+        } catch(DataAccessException dax){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(jsonData);
     }
 
     /**
@@ -182,9 +196,9 @@ public class WorkerController implements WorkerEp {
      * @return ResponseEntity containing the login response or an error response.
      */
     @Override
-    public ResponseEntity<?> loginWorker(@RequestBody LoginRequest login) {
+    public ResponseEntity<?> loginWorker(@RequestBody LoginRequest login, HttpServletResponse response) {
         if (login.getEmail() == null || login.getPassword() == null) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
         try {
@@ -195,9 +209,53 @@ public class WorkerController implements WorkerEp {
 
             Worker worker = dao.findWorkerbyEmail(login.getEmail());
 
+             Cookie cookie = new Cookie("access_token", token);
+                cookie.setHttpOnly(true);
+                cookie.setSecure(true); 
+                cookie.setPath("/");
+                cookie.setMaxAge(300); 
+                response.addCookie(cookie);
+
             return ResponseEntity.ok().body(new LoginResponseWorker(String.valueOf(worker.getId()), token));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+
+        Cookie cookie = new Cookie("access_token", null);
+                cookie.setHttpOnly(true);
+                cookie.setSecure(true); 
+                cookie.setPath("/");
+                cookie.setMaxAge(0); 
+                response.addCookie(cookie);
+        
+                return ResponseEntity.status(204).build();
+    }
+
+    @Override
+    public ResponseEntity<?> checkLoginStatus(HttpServletRequest request, HttpServletResponse response) {
+      String jwtString = request.getCookies() != null ? Arrays.stream(request.getCookies())
+                .filter(c -> "access_token".equals(c.getName()))
+                .findFirst()
+                .map(Cookie::getValue)
+                .orElse(null) : null;
+
+        if (jwtString == null) {
+            return ResponseEntity.status(400).body(false);
+        }
+
+        Claims loginData = jwt.decodeToken(jwtString);
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String json = mapper.writeValueAsString(loginData);
+            return ResponseEntity.ok(json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(false);
         }
     }
 

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { login } from "../backend/api";
 import { MDBBtn, MDBContainer, MDBIcon, MDBInput } from 'mdb-react-ui-kit';
 import './PageLogin.css'
+import { useLoginContext } from './LoginManager';
 
 
 export function PageLogin() {
@@ -11,16 +12,32 @@ export function PageLogin() {
   const [userType, setUserType] = useState('worker');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-
+  const { loginInfo, setLoginInfo } = useLoginContext();
+  
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
       try {
           const result = await login(email, password, userType);
+          setLoginInfo(result)
           if (result) {
-              navigate(userType === 'worker' ? `/worker/${result.userId}` : `/customer/${result.userId}`);
-          } else {
-              setError('Login fehlgeschlagen. Bitte überprüfen Sie Ihre Eingaben.');
+              
+              let route = ''
+          if (userType === 'worker') {
+            route = `/worker/${result.userId}`
+
           }
+
+          else if(userType === 'customer') {
+            route = `/customer/${result.userId}`
+          }
+          else if(userType === 'admin') {
+            route = `/admin/${result.userId}`
+          }
+          navigate(route)
+        } else {
+          setError('Login fehlgeschlagen. Bitte überprüfen Sie Ihre Eingaben.');
+        }
+
       } catch (error) {
           console.error("Fehler beim Anmelden:", error);
           setError('Ein technischer Fehler ist aufgetreten.');
@@ -47,6 +64,11 @@ export function PageLogin() {
                 <input className="form-check-input" type="radio" name="userType" id="customer" value="customer" checked={userType === 'customer'} onChange={() => setUserType('customer')} />
                 <label className="form-check-label" htmlFor="customer">Customer</label>
             </div>
+            <div className="form-check">
+            <input className="form-check-input" type="radio" name="userType" id="admin" value="admin" checked={userType === 'admin'} onChange={() => setUserType('admin')} />
+            <label className="form-check-label" htmlFor="admin">Admin</label>
+          </div>
+
         </div>
 
         <MDBBtn type="submit" className="mb-4">Anmelden</MDBBtn>

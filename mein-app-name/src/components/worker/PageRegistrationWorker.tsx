@@ -39,6 +39,8 @@ export default function PageRegistrationWorker() {
     };
 
     return (
+        <div className="background-image">
+
         <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundImage: `url('/background.jpg')`, backgroundSize: 'cover' }}>
             <MDBCard className='m-5' style={{ maxWidth: '600px' }}>
                 <MDBCardBody className='px-5'>
@@ -75,5 +77,6 @@ export default function PageRegistrationWorker() {
                 </MDBCardBody>
             </MDBCard>
         </MDBContainer>
+        </div>
     );
 }

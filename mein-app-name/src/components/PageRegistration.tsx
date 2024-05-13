@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import './DesignVorlage.css'; // Eigene Stilvorlagen
-import { registrationCustomer } from '../backend/api';
-import { Link } from 'react-router-dom'; // React Router für Link-Benutzung
+import { Link, useNavigate } from 'react-router-dom'; // React Router für Link-Benutzung
 import './PageRegistration.css';
+import { LinkContainer } from 'react-router-bootstrap';
+import { registrationCustomer } from '../backend/api';
 
 export default function PageRegistration() {
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [backgroundImage, setBackgroundImage] = useState('/index2.jpg');
-    
+
     const handleRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
         try {
@@ -26,7 +26,8 @@ export default function PageRegistration() {
     };
 
     return (
-<MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{/* backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' */}}>
+      <div className="background-image">
+<MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundImage: `url('/background.jpg')`, backgroundSize: 'cover' }}>
           <MDBCard className='m-5' style={{maxWidth: '600px'}}>
             <MDBCardBody className='px-5'>
               <h2 className="text-uppercase text-center mb-5">Erstelle ein Customer Account!</h2>
@@ -36,7 +37,7 @@ export default function PageRegistration() {
                 <MDBInput wrapperClass='mb-4' label='Deine E-Mail' size='lg' id='form2' type='email' value={email} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} required/>
                 <MDBInput wrapperClass='mb-4' label='Passwort' size='lg' id='form3' type='password' value={password} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)} required/>
                 <MDBCheckbox name='flexCheck' id='flexCheckDefault' label='Ich stimme den Nutzungsbedingungen zu' wrapperClass='d-flex justify-content-center mb-4' />
-                <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type="submit">Register</MDBBtn>
+                <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type="submit">Register</MDBBtn>  
               </form>
               <MDBRow>
                 <MDBCol size='12' className='text-center'>
@@ -48,5 +49,6 @@ export default function PageRegistration() {
             </MDBCardBody>
           </MDBCard>
         </MDBContainer>
+        </div>
       );
 }

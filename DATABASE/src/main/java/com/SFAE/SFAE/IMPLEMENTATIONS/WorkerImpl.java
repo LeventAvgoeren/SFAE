@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -168,14 +167,26 @@ public class WorkerImpl implements WorkerInterface {
     if (data == null) {
       throw new IllegalArgumentException("data is null" + data);
     }
+    try{
+      Worker found=findWorkersbyID(data.getId());
+      if(found==null){
+        throw new IllegalArgumentException("id is null");
+      }
+    }
+    catch(Exception e){
+      throw new IllegalArgumentException("Id dos not exist");
+    }
 
-    String password = encoder.hashPassword(data.getPassword());
+    if(!data.getPassword().startsWith("$2a$")){
+      data.setPassword(encoder.hashPassword(data.getPassword()));
+    }
+    
     int rowsAffected = jdbcTemplate.update(
         "UPDATE worker SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? WHERE id = ?",
         ps -> {
           ps.setString(1, data.getName());
           ps.setString(2, data.getLocation());
-          ps.setString(3, password);
+          ps.setString(3, data.getPassword());
           ps.setString(4, data.getStatus());
           ps.setString(5, data.getStatusOrder());
           ps.setDouble(6, data.getRange());
@@ -190,7 +201,7 @@ public class WorkerImpl implements WorkerInterface {
   
     if (rowsAffected > 0) {
      
-      return new Worker(data.getName(), data.getLocation(), password, Status.valueOf(data.getStatus()),
+      return new Worker(data.getName(), data.getLocation(), data.getPassword(), Status.valueOf(data.getStatus()),
           StatusOrder.valueOf(data.getStatusOrder()), data.getRange(), JobList.valueOf(data.getJobType()),
           data.getMinPayment(), data.getRating(), data.getVerification(), data.getEmail());
     } else {
@@ -300,4 +311,27 @@ public class WorkerImpl implements WorkerInterface {
 
     return Optional.empty();
   }
+
+   /**
+   * Retrieves a Worker by their job type.
+   * 
+   * This method retrieves a Worker entity from the database based on their job type.
+   * 
+   * @param jobType The type of job of the Worker to find.
+   * @return A Worker entity if found based on the provided job type, otherwise null.
+   */
+  @Override
+  public Worker findWorkerByJob(String jobType) {
+    List<Optional<Worker>> result = jdbcTemplate.query(
+      "SELECT * FROM WORKER WHERE job_type = ?",
+      ps -> {
+        ps.setString(1, jobType);
+      },
+      (rs, rowNum) -> createWorker(rs));
+
+  if (!result.isEmpty() && result.get(0).isPresent()) {
+    return result.get(0).get();
+  }
+  return null;
+}
 }

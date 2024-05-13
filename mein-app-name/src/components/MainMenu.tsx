@@ -16,16 +16,17 @@ export function MainMenu() {
                 <Container>
                     <Nav className='mx-auto'>
                         <NavDropdown title={<img src={"/SFAE_Logo.png"} height="35" alt="Dropdown Logo" />} id="collapsible_nav_dropdown">
-                            <NavDropdown.Item
-                                href="#profil">
-                                <img
-                                    src={"/Profil.png"}
-                                    height="35"
-                                    className="d-inline-block align-top"
-                                    alt="SFAE Logo" />
-                                Action
+                            <NavDropdown.Item>
+                            <Link to="/customer/:customerId/profil" style={{ textDecoration: 'none', color: 'black' }}>
+                                    <img
+                                        src={"/Q&A_Logo.png"}
+                                        height="35"
+                                        className="d-inline-block align-top"
+                                        alt="SFAE Logo"
+                                    />
+                                    Another action
+                                </Link>
                             </NavDropdown.Item>
-
                             <NavDropdown.Item
                                 href="#support">
                                 <img

@@ -20,7 +20,6 @@ import { PageWorkerOrders } from "./components/worker/PageWorkerOrders";
 import { PagePasswordReset } from "./components/PagePasswordReset";
 import { LoginContext, LoginInfo } from "./components/LoginManager";
 import { checkLoginStatus, login } from "./backend/api";
-import { PageIndexCustomer } from "./components/PageIndexCustomer";
 import { MainMenu } from "./components/MainMenu";
 import PageWorkerFAQ from "./components/worker/PageWorkerFAQ";
 import { PageCustomerFAQ } from "./components/PageCustomerFAQ";
@@ -28,6 +27,8 @@ import PageRegistrationAdmin from "./components/PageRegistrationAdmin";
 import { PageIndexAdmin } from "./components/PageIndexAdmin";
 import { PageAdminDienstleistungen } from "./components/PageAdminDienstleistungen";
 import { PageProfil } from "./components/CustomerProfil";
+import { PageIndexCustomer } from "./components/PageIndexCustomer";
+import NavbarComponent from "./components/NavbarComponent";
 
 
 const history = createMemoryHistory();
@@ -60,8 +61,12 @@ function App() {
 
 
   return (
-    
+
     <><LoginContext.Provider value={{ loginInfo, setLoginInfo }}>
+
+            
+{loginInfo && <NavbarComponent></NavbarComponent>}
+
       <Routes>
         {/* Gemeinsame Routen */}
         {!loginInfo && <>

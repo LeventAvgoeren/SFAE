@@ -1,5 +1,7 @@
 package com.SFAE.SFAE.INTERFACE;
 
+import java.util.List;
+
 import com.SFAE.SFAE.DTO.ContractDTO;
 import com.SFAE.SFAE.ENTITY.Contract;
 import com.SFAE.SFAE.ENTITY.Customer;
@@ -57,4 +59,6 @@ public interface ContractInterface {
 
 
     long countContracts();
+
+    List<Contract> getContractByCustomerId(String id);
 }

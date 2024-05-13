@@ -25,18 +25,12 @@ import { MainMenu } from "./components/MainMenu";
 
 import { LoginContext, LoginInfo } from "./components/LoginManager";
 import { checkLoginStatus, login } from "./backend/api";
-<<<<<<< HEAD
 
-
-=======
-import { MainMenu } from "./components/MainMenu";
-import { PageCustomerFAQ } from "./components/PageCustomerFAQ";
->>>>>>> 940fee8567c120cb80353ae31a8f832bd89ad6e6
 import PageRegistrationAdmin from "./components/PageRegistrationAdmin";
 import { PageIndexAdmin } from "./components/PageIndexAdmin";
 import { PageAdminDienstleistungen } from "./components/PageAdminDienstleistungen";
 import { PageProfil } from "./components/CustomerProfil";
-import { PageIndexCustomer } from "./components/PageIndexCustomer";
+
 import NavbarComponent from "./components/NavbarComponent";
 import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
 import PageOrderRating from "./components/Order/PageOrderRating";

@@ -16,11 +16,8 @@ import { PageWorkerPreferences } from "./components/worker/PageWorkerPreferences
 import { PageWorkerOrders } from "./components/worker/PageWorkerOrders";
 import { PagePasswordReset } from "./components/PagePasswordReset";
 
-import { PageIndexCustomer } from "./components/customer/PageIndexCustomer";
-import { PageCustomerFAQ } from "./components/customer/PageCustomerFAQ";
 
 
-import { PageOrderCompleted } from "./components/customer/PageOrderCompleted";
 import { MainMenu } from "./components/MainMenu";
 
 import { LoginContext, LoginInfo } from "./components/LoginManager";
@@ -36,6 +33,9 @@ import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
 import PageOrderRating from "./components/Order/PageOrderRating";
 import PageOrderRequest from "./components/Order/PageOrderRequest";
 import PageOrderOverview from "./components/Order/PageOrderOverview";
+import { PageOrderCompleted } from "./components/Order/PageOrderCompleted";
+import { PageCustomerFAQ } from "./components/Customer/PageCustomerFAQ";
+import { PageIndexCustomer } from "./components/Customer/PageIndexCustomer";
 
 
 
@@ -50,7 +50,7 @@ function App() {
   async function fetchLoginStatus() {
     try{
       const loginStatus = await checkLoginStatus();
-      console.log(loginStatus)
+
         if (loginStatus) {
           setLoginInfo(loginStatus);
         } 
@@ -59,10 +59,13 @@ function App() {
     }  
   }
 
+  
 
 
   useEffect(() => {
     fetchLoginStatus();
+
+
   }, []); 
 
 
@@ -73,7 +76,6 @@ function App() {
     <><LoginContext.Provider value={{ loginInfo, setLoginInfo }}>
 
             
-{loginInfo && <NavbarComponent></NavbarComponent>}
 
       <Routes>
         {/* Gemeinsame Routen */}
@@ -87,7 +89,6 @@ function App() {
         </>}
    
 
-        {loginInfo && <>
         <Route path="/registration/admin" element={<PageRegistrationAdmin />} />
         {/* Customer */}
         <Route path="/customer/:customerId" element={<PageIndexCustomer />} />
@@ -112,8 +113,7 @@ function App() {
          {/* Admin */}
          <Route path="/admin/:adminId" element={<PageIndexAdmin />} />
         <Route path="/admin/:adminId/dienstleistungen" element={<PageAdminDienstleistungen />} />
-        </>
-        }
+        
       </Routes>
       </LoginContext.Provider>
     </>

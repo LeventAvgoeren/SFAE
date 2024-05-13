@@ -1,22 +1,22 @@
 //istanbul ignore file 
 
 export type LoginResource = {
-    id: number;
+    id: string;
     role: 'customer' | 'worker' | 'admin'; 
-    exp: number;  
+    exp: number;
 }
 
 export type WorkerResource = {
-    id?: Number;
+    id?: string;
     name: string;
     password:string;
     location: string;
     status: string;
     statusOrder: string;
-    range: Number;  
+    range: Number;
     jobType: string;
     minPayment: Number;
-    rating: Number;  
+    rating: Number;
     verification: Boolean;
     email: string;
 }

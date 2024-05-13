@@ -26,11 +26,8 @@ export function PageWorkerIndex() {
     const fetchWorker = async () => {
       console.log('fetchWorker wird gestartet', workerId); // Überprüfen, ob diese Zeile erreicht wird
       try {
-        const id = parseInt(workerId);
-        console.log('parsed ID:', id); // Überprüfen, ob die ID korrekt geparsed wird
-        if (isNaN(id)) {
-          throw new Error("Die Worker ID ist keine gültige Zahl");
-        }
+        const id = workerId;
+      
         const workerData = await getWorkerbyID(id);
         console.log('Daten empfangen:', workerData); // Was wird hier ausgegeben?
         setWorker(workerData);
@@ -112,7 +109,7 @@ export function PageWorkerIndex() {
             </Col>
             <Col md={4} className="mb-4">
               <Card>
-                <Link to={`/worker/${workerId}/preferences`}>
+              <Link to= {`/worker/${workerId}/preferences`}>
                   <Card.Img
                     variant="top"
                     src={zoom === '/praferenz.jpg' ? '/praferenz-zoom.jpg' : '/praferenz.jpg'}

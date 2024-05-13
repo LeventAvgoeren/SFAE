@@ -40,11 +40,8 @@ export function PageWorkerProfile() {
         return;
       }
     try {
-      const id = parseInt(worId);
-      if (isNaN(id)) {
-        throw new Error("Die Worker ID ist keine gültige Zahl");
-      }
-      const workerData = await getWorkerbyID(id);
+   
+      const workerData = await getWorkerbyID(worId);
       if(workerData){
       setStatus(workerData.status)
       setStatusOrder(workerData.statusOrder)
@@ -78,7 +75,7 @@ export function PageWorkerProfile() {
   //Update Funkti
    const handleUpdate = async () => {
       const updatedWorkerData :WorkerResource= {
-        id: parseInt(worId!),
+        id: (worId!),
         name: name,
         email: email,
         password: password,

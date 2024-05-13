@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import "./PageIndexCustomer.css";
 import { useEffect, useState } from "react";
 import { CSSTransition } from "react-transition-group";
@@ -95,7 +95,9 @@ export function PageIndexCustomer() {
             <p>Schnelle Bearbeitungszeiten</p>
           </div>
         </div>
+        <NavLink to={`/customer/${customerId}/order/new`}>
         <button>Jetzt starten</button>
+        </NavLink>
         <CSSTransition in={true} timeout={500} classNames="fade" key={quote}>
           <p className="testimonial">{quote}</p>
         </CSSTransition>

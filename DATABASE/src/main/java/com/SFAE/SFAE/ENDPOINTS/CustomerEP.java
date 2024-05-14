@@ -119,4 +119,9 @@ public interface CustomerEP {
      */
     @DeleteMapping("/logout")
     ResponseEntity<?> logout(HttpServletResponse response);
+
+    @GetMapping("/all")
+    ResponseEntity<?> countAllCustomers();
+
+
 }

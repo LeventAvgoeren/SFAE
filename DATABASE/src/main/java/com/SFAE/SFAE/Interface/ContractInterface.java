@@ -1,5 +1,7 @@
 package com.SFAE.SFAE.INTERFACE;
 
+import java.util.List;
+
 import com.SFAE.SFAE.DTO.ContractDTO;
 import com.SFAE.SFAE.ENTITY.Contract;
 
@@ -53,4 +55,10 @@ public interface ContractInterface {
      * @throws IllegalArgumentException if the provided contract data is invalid
      */
     Contract createContract(ContractDTO contract);
+
+    long countContracts();
+
+    List<Contract>getContractByCustomerId(String id);
+
+    
 }

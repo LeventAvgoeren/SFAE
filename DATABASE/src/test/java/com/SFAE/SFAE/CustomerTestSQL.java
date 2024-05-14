@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -224,5 +225,17 @@ public class CustomerTestSQL {
 
         transactionManager.commit(status);
     }
+
+       @Test
+    public void testCountAllCustomers() throws Exception {
+
+         MvcResult mvcResult = mockMvc.perform(get("/customer/all"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        System.out.println("A " + contentAsString);
+   }
+
 
 }

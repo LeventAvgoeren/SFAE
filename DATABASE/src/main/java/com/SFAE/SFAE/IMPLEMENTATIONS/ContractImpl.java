@@ -144,4 +144,33 @@ private Contract createContract(ResultSet rs) {
 
 }
 
+@Override
+  public long countContracts() {
+    List<Object> result = jdbcTemplate.query(
+        "SELECT COUNT(ID) FROM CONTRACT",
+        (rs, rowNum) -> {
+          long count = rs.getInt(1);
+          return count;
+        });
+    return result.size() > 0 ? (long) (result.get(0)) : 0;
+  }
+
+  @Override
+  public List<Contract> getContractByCustomerId(String id) {
+
+    List<Contract> result = jdbcTemplate.query(
+        "SELECT * FROM CONTRACT WHERE customer_id = ?",
+        ps -> {
+          ps.setString(1, id);
+        },
+        (rs, rowNum) -> createContract(rs));
+
+    // Verifyin if the List is empty
+    if (!result.isEmpty() ) {
+      return result;
+    }
+
+    return null;
+
+  }
 }

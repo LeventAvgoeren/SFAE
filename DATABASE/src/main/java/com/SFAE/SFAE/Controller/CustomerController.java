@@ -357,4 +357,17 @@ class CustomerController implements CustomerEP {
 
     }
 
+    @Override
+    public ResponseEntity<?> countAllCustomers() {
+        try{
+            long counter=dao.countCustomer();
+        return ResponseEntity.status(HttpStatus.OK).body(counter);
+        }
+        catch(Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+    }
+
+
 }

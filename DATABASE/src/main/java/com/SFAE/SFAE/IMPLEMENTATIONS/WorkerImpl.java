@@ -48,7 +48,7 @@ public class WorkerImpl implements WorkerInterface {
   public long countWorker() {
     List<Object> result = jdbcTemplate.query(
 
-        "SELECT COUNT(ID) FROM WORKERTEST",
+        "SELECT COUNT(ID) FROM WORKER",
 
         (rs, rowNum) -> {
           long count = rs.getInt(1);
@@ -71,7 +71,7 @@ public class WorkerImpl implements WorkerInterface {
 
     var result = jdbcTemplate.queryForStream(
 
-        "SELECT * FROM WORKERTEST",
+        "SELECT * FROM WORKER",
 
         (rs, rowNum) -> createWorker(rs))
         .filter(opt -> opt.isPresent())
@@ -94,7 +94,7 @@ public class WorkerImpl implements WorkerInterface {
 
     List<Optional<Worker>> result = jdbcTemplate.query(
 
-        "SELECT * FROM WORKERTEST WHERE id = ?",
+        "SELECT * FROM WORKER WHERE id = ?",
         ps -> {
 
           ps.setString(1,  id);
@@ -120,7 +120,7 @@ public class WorkerImpl implements WorkerInterface {
       throw new IllegalArgumentException("name is null");
     }
     List<Optional<Worker>> result = jdbcTemplate.query(
-        "SELECT * FROM WORKERTEST WHERE name = ?",
+        "SELECT * FROM WORKER WHERE name = ?",
         ps -> {
           ps.setString(1, name);
         },
@@ -145,7 +145,7 @@ public class WorkerImpl implements WorkerInterface {
     try {
       int deleted = jdbcTemplate.update(connection -> {
         PreparedStatement ps = connection
-            .prepareStatement("DELETE FROM WORKERTEST WHERE ID = ?;");
+            .prepareStatement("DELETE FROM WORKER WHERE ID = ?;");
         ps.setString(1,  id);
         return ps;
       });
@@ -185,7 +185,7 @@ public class WorkerImpl implements WorkerInterface {
     }
     
     int rowsAffected = jdbcTemplate.update(
-        "UPDATE WORKERTEST SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? , latitude = ? , longitude =? WHERE id = ?",
+        "UPDATE WORKER SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? , latitude = ? , longitude =? WHERE id = ?",
         ps -> {
           ps.setString(1, data.getName());
           ps.setString(2, data.getLocation());
@@ -264,7 +264,7 @@ public class WorkerImpl implements WorkerInterface {
     }
 
     List<Optional<Worker>> result = jdbcTemplate.query(
-        "SELECT * FROM WORKERTEST WHERE email = ?",
+        "SELECT * FROM WORKER WHERE email = ?",
         ps -> {
           ps.setString(1, email);
         },
@@ -320,7 +320,7 @@ public class WorkerImpl implements WorkerInterface {
   @Override
   public Worker findWorkerByJob(String jobType) {
     List<Optional<Worker>> result = jdbcTemplate.query(
-      "SELECT * FROM WORKERTEST WHERE job_type = ?",
+      "SELECT * FROM WORKER WHERE job_type = ?",
       ps -> {
         ps.setString(1, jobType);
       },

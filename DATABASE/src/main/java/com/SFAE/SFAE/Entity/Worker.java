@@ -28,7 +28,7 @@ import lombok.Data;
  */
 @Data
 @Entity
-@Table(name = "WORKERTEST")
+@Table(name = "WORKER")
 public class Worker {
 
   @Id
@@ -82,18 +82,13 @@ public class Worker {
   @Column(name = "verification")
   private Boolean verification;
 
-<<<<<<< HEAD
   
-  @Column(name = "latitude")
+  @Column(name = "BREITE")
   private Double latitude;
   
-  @Column(name = "longitude")
+  @Column(name = "LÄNGE")
   private Double longitude;
 
-=======
-
-  
->>>>>>> 5073db512d12147a67f3284e8fb687ce01d33f49
   public Worker(){}
 
   public Worker(String name, String location, String password, Status status, StatusOrder statusOrder,

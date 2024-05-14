@@ -30,6 +30,8 @@ export function PageLogin() {
           else if(userType === 'customer') {
             route = `/customer/${result.userId}`
           }
+
+          
           navigate(route)
         } else {
           setError('Login fehlgeschlagen. Bitte überprüfen Sie Ihre Eingaben.');
@@ -57,11 +59,14 @@ export function PageLogin() {
                         <div className="form-check">
                             <input className="form-check-input" type="radio" name="userType" id="worker" value="worker" checked={userType === 'worker'} onChange={() => setUserType('worker')} />
                             <label className="form-check-label" htmlFor="worker">Worker</label>
+
                         </div>
                         <div className="form-check">
                             <input className="form-check-input" type="radio" name="userType" id="customer" value="customer" checked={userType === 'customer'} onChange={() => setUserType('customer')} />
                             <label className="form-check-label" htmlFor="customer">Customer</label>
                         </div>
+
+                        
                     </div>
                     <MDBBtn type="submit" className="mb-4">Anmelden</MDBBtn>
                     {error && <div className="alert alert-danger" role="alert">{error}</div>}

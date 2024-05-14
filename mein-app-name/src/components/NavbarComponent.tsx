@@ -12,12 +12,14 @@ import { LoginInfo } from './LoginManager';
 
 export function NavbarComponent() {
   const [loginInfo, setLoginInfo] = useState<LoginInfo | false | undefined>(undefined);
-
+  if (loginInfo){
+console.log (loginInfo)
+  }
   async function doLogout() {
       await deleteCookie();
       window.location.href = "/";
   }
-
+  
   async function fetchLoginStatus() {
       try {
           const loginStatus = await checkLoginStatus();
@@ -49,6 +51,9 @@ export function NavbarComponent() {
                   )}
                   {loginInfo && (
                       <li><a href={`/customer/${loginInfo.userId}/uebersicht`}>Übersicht</a></li>
+                  )}
+                   {loginInfo && loginInfo.admin ==="ADMIN" && (
+                      <li><a href={`/admin/${loginInfo.userId}`}>Admin</a></li>
                   )}
                   <li><a href="#" onClick={doLogout}>Logout</a></li>
               </ul>

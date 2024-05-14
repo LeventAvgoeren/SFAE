@@ -47,9 +47,9 @@ public class WorkerTests{
     "\"name\": \"Levent Avgören\"," +
     "\"location\": \"Köln\"," +
     "\"password\": \"passwordsasdsad1234\"," +
-    "\"email\": \"Levensdsaasdendsssdddddsdsa@gmail.com\"," +
+    "\"email\": \"KOCH@gmail.com\"," +
     "\"range\": 1.1," +
-    "\"jobType\": \"GÄRTNER\"," +
+    "\"jobType\": \"KOCH\"," +
     "\"minPayment\": 1.1" +
     "}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
@@ -121,7 +121,7 @@ public class WorkerTests{
     @Test
     public void testGetWorkerrByid() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/W1"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/W2"))
                 .andExpect(status().isOk())
                 .andReturn();
 

@@ -5,7 +5,11 @@ import './DesignVorlage.css'; // Eigene Stilvorlagen
 import { registrationWorker } from '../../backend/api';
 import { Link } from 'react-router-dom'; // React Router für Link-Benutzung
 import './PageRegistrationWorker.css'
-
+interface Position {
+    latitude: number;
+    longitude: number;
+  }
+  
 export default function PageRegistrationWorker() {
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
@@ -13,6 +17,7 @@ export default function PageRegistrationWorker() {
     const [password, setPassword] = useState('');
     const [jobType, setJobType] = useState('');
     const [salary, setSalary] = useState(1);
+    const [userLocation, setUserLocation] = useState<Position | null>(null);
 
     const jobTypes = [
         "Hausmeister", "Haushälter", "Gärtner", "Kindermädchen", "Koch", 
@@ -26,10 +31,31 @@ export default function PageRegistrationWorker() {
         "Hundepfleger", "Autobesorger"
     ];
 
+    const fetchCoordinates = async (address: string) => {
+        const url = `https://nominatim.openstreetmap.org/search?format=json&q=${address}`;
+        try {
+          console.log("DASD ")
+          const response = await fetch(url);
+          const data = await response.json();
+          if (data.length > 0) {
+            const { lat, lon } = data[0];
+            setUserLocation({
+              latitude: parseFloat(lat),
+              longitude: parseFloat(lon),
+            });
+          } else {
+            console.error("Address not found");
+          }
+        } catch (error) {
+          console.error("Failed to fetch coordinates:", error);
+        }
+      };
+
     const handleRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-            const response = await registrationWorker(name, address, email, password, jobType, salary);
+            await fetchCoordinates(address);
+            const response = await registrationWorker(name, address, email, password, jobType, salary, userLocation!);
             console.log('Registration successful:', response);
             alert('Registration successful!');
         } catch (error) {

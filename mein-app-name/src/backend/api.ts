@@ -1,4 +1,4 @@
-import { ContractResource, CustomerResource, WorkerResource } from "../Resources";
+import { ContractResource, CustomerResource, Position, WorkerResource } from "../Resources";
 import { LoginInfo } from "../components/LoginManager";
 import { fetchWithErrorHandling } from "./fetchWithErrorHandling";
 
@@ -121,12 +121,14 @@ export async function registrationWorker(
   email: string,
   password: string,
   jobType: string,
-  minPayment: number
+  minPayment: number,
+  LongLat: Position
 ) {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/worker`;
 
   jobType = jobType.toUpperCase();
-
+  let latitude = LongLat.latitude;
+  let longitude = LongLat.longitude;
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -141,6 +143,8 @@ export async function registrationWorker(
         password,
         jobType,
         minPayment,
+        latitude,
+        longitude
       }),
       credentials: "include",
     });
@@ -341,7 +345,24 @@ export async function countAllWorkers(): Promise<number> {
     const answer = await response.json();
     return answer;
   }
-  
+
+  export async function createContract(contract : ContractResource) {
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/`; 
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        credentials: "include" as RequestCredentials,
+      },
+      body: JSON.stringify(contract)
+
+    });
+    if (!response.ok) {
+      throw new Error('levent mag sucki ');
+    }
+    return response.json(); 
+
+  }
 
 
   

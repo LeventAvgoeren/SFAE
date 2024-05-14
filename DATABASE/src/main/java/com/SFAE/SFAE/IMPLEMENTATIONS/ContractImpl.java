@@ -95,7 +95,7 @@ public class ContractImpl implements ContractInterface {
 
     // gibt mir den passenden worker zu dem gesuchten job
     Worker worker = workerImpl.findWorkerByJob(contract.getJobType());
-
+    System.out.println(worker);
     String jobType = contract.getJobType();
     String address = contract.getAdress();
     String payment = contract.getPayment();

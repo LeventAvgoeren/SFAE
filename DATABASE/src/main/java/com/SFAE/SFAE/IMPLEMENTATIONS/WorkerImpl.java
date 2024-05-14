@@ -185,7 +185,7 @@ public class WorkerImpl implements WorkerInterface {
     }
     
     int rowsAffected = jdbcTemplate.update(
-        "UPDATE WORKERTEST SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? WHERE id = ?",
+        "UPDATE WORKERTEST SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? , latitude = ? , longitude =? WHERE id = ?",
         ps -> {
           ps.setString(1, data.getName());
           ps.setString(2, data.getLocation());
@@ -198,7 +198,9 @@ public class WorkerImpl implements WorkerInterface {
           ps.setDouble(9, data.getRating());
           ps.setBoolean(10, data.getVerification());
           ps.setString(11, data.getEmail());
-          ps.setString(12, data.getId());
+          ps.setDouble(12, data.getLatitude());
+          ps.setDouble(13, data.getLongitude());
+          ps.setString(14, data.getId());
         });
 
   
@@ -206,7 +208,7 @@ public class WorkerImpl implements WorkerInterface {
      
       return new Worker(data.getName(), data.getLocation(), data.getPassword(), Status.valueOf(data.getStatus()),
           StatusOrder.valueOf(data.getStatusOrder()), data.getRange(), JobList.valueOf(data.getJobType()),
-          data.getMinPayment(), data.getRating(), data.getVerification(), data.getEmail());
+          data.getMinPayment(), data.getRating(), data.getVerification(), data.getEmail(),data.getLatitude(),data.getLongitude());
     } else {
       return null;
     }
@@ -225,7 +227,7 @@ public class WorkerImpl implements WorkerInterface {
       throw new IllegalArgumentException("Some data are empty");
     }
     try {
-       String name = rs.getName();
+    String name = rs.getName();
     String location = rs.getLocation();
     String password = encoder.hashPassword(rs.getPassword());
     String email = rs.getEmail();
@@ -234,8 +236,10 @@ public class WorkerImpl implements WorkerInterface {
     Double minPayment = rs.getMinPayment();
     Double rating = 0.1;
     Boolean verification = false;
+    double latitude=rs.getLatitude();
+    double longitude=rs.getLongitude();
 
-    Worker worker = new Worker(name, location, password, Status.valueOf("AVAILABLE"), StatusOrder.valueOf("UNDEFINED"), range, JobList.valueOf(jobType), minPayment, rating, verification, email);
+    Worker worker = new Worker(name, location, password, Status.valueOf("AVAILABLE"), StatusOrder.valueOf("UNDEFINED"), range, JobList.valueOf(jobType), minPayment, rating, verification, email,latitude,longitude);
     workerRepository.save(worker); 
        return worker;
     } catch (Exception e) {
@@ -292,9 +296,12 @@ public class WorkerImpl implements WorkerInterface {
       Double minPayment = rs.getDouble("min_payment");
       Double rating = rs.getDouble("rating");
       Boolean verification = rs.getBoolean("verification");
+      double latitude=rs.getDouble("latitude");
+      double longitude=rs.getDouble("longitude");
+
 
       return dataFactory.createWorker(id, name, location, password, email, status, range, jobType, statusOrder,
-          minPayment, rating, verification);
+          minPayment, rating, verification,latitude,longitude);
 
     } catch (SQLException e) {
     }

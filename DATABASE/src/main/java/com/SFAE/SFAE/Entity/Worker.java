@@ -82,10 +82,17 @@ public class Worker {
   @Column(name = "verification")
   private Boolean verification;
 
+  
+  @Column(name = "latitude")
+  private Double latitude;
+  
+  @Column(name = "longitude")
+  private Double longitude;
+
   public Worker(){}
 
   public Worker(String name, String location, String password, Status status, StatusOrder statusOrder,
-      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email) {
+      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,double latitude,double longitude) {
 
     this.name = name;
     this.location = location;
@@ -98,10 +105,12 @@ public class Worker {
     this.rating = rating;
     this.verification = verification;
     this.email = email;
+    this.latitude=latitude;
+    this.longitude=longitude;
   }
 
   public Worker(String id, String name, String location, String password, Status status, StatusOrder statusOrder,
-      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email) {
+      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,double latitude,double longitude) {
     this.id = id;
     this.name = name;
     this.location = location;
@@ -114,6 +123,8 @@ public class Worker {
     this.rating = rating;
     this.verification = verification;
     this.email = email;
+    this.latitude=latitude;
+    this.longitude=longitude;
   }
 
   // Getters

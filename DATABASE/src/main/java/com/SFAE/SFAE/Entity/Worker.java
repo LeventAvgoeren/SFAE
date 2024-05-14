@@ -82,6 +82,7 @@ public class Worker {
   @Column(name = "verification")
   private Boolean verification;
 
+<<<<<<< HEAD
   
   @Column(name = "latitude")
   private Double latitude;
@@ -89,6 +90,10 @@ public class Worker {
   @Column(name = "longitude")
   private Double longitude;
 
+=======
+
+  
+>>>>>>> 5073db512d12147a67f3284e8fb687ce01d33f49
   public Worker(){}
 
   public Worker(String name, String location, String password, Status status, StatusOrder statusOrder,

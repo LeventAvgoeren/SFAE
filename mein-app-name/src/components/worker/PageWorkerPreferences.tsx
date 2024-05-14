@@ -36,7 +36,6 @@ export function PageWorkerPreferences() {
     }
     try {
       const id = worId;
-
       const workerData = await getWorkerbyID(id);
       if (workerData) {
         setStatus(workerData.status);
@@ -129,9 +128,8 @@ export function PageWorkerPreferences() {
     };
 
     try {
-      const updatedWorker = await updateWorker(updatedWorkerData);
-      console.log("Updated Worker:", updatedWorker);
-      alert("Worker erfolgreich aktualisiert");
+      await deleteWorker(worId!);
+      alert('Profil erfolgreich gelöscht.');
     } catch (error) {
       console.error("Fehler beim Aktualisieren des Workers:", error);
       alert("Fehler beim Aktualisieren des Workers");

@@ -21,6 +21,18 @@ export type WorkerResource = {
     email: string;
 }
 
+export type ContractResource = {
+    id?: Number;
+    adress: string;
+    description:string;
+    jobType: string;
+    payment: string;
+    range: number;
+    statusOrder: string;  
+    customerId: string;
+    workerId: string;
+}
+
 export type CustomerResource = {
     id?: string;
     name: string;

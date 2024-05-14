@@ -31,7 +31,7 @@ public class CustomWorkerIdGenerator implements IdentifierGenerator, Application
         int lastID = 0;
         for (Worker worker : cus) {
             String id = worker.getId();
-            String[] idSplitted = id.split("C");
+            String[] idSplitted = id.split("W");
             if(Integer.valueOf(idSplitted[1]) - lastID >= 2){
                count = lastID + 1;
                break;

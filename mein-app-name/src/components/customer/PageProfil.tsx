@@ -83,15 +83,16 @@ async function deleten(){
   },[])
   return (
     <>
-    <NavbarComponent/>
-      <div className="background-image">
+    <NavbarComponent />
+    <div className="background-image centered-container">
+      <div className="transparent-background bg-white mt-5 mb-5">
       <form onSubmit={upCustomer}>
         <div className="mb-3">
           <label htmlFor="exampleInputName" className="form-label">Name</label>
           <input type="text" className="form-control" id="exampleInputName" value ={name} onChange={(e)=> setName(e.target.value)}/>
         </div>
         <div className="mb-3">
-          <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
+          <label htmlFor="exampleInputEmail1" className="form-label" >Email address</label>
           <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value ={email} onChange={(e)=> setEmail(e.target.value)}/>
           <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
         </div>
@@ -101,7 +102,7 @@ async function deleten(){
         </div>
         <div className="mb-3 form-check">
           <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-          <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
+          <label className="form-check-label" htmlFor="exampleCheck1" style={{color:"gray"}}>Check me out</label>
         </div>
         <button type="submit" className="btn btn-primary">Submit</button>
       </form>
@@ -125,6 +126,7 @@ async function deleten(){
           </Button>
         </Modal.Footer>
       </Modal>
+      </div>
       </div>
     </>
   )}

@@ -4,6 +4,7 @@ import { Button, Container, Nav, NavDropdown, Navbar } from 'react-bootstrap';
 import { Left } from 'react-bootstrap/lib/Media';
 import { Link, useParams } from 'react-router-dom';
 import { getCustomerbyID } from '../../backend/api';
+import "./PageOrderRating.css"
 
 function PageOrderRating() {
   const [rating, setRating] = useState<number>(0);
@@ -29,8 +30,8 @@ function PageOrderRating() {
 
     <>
 
-
-      <div className="container-frame">
+    <div className='background-image'>
+      <div className="container-frame3">
 
         <h2 style={{ color: 'white' }}>Vielen dank für deine Bezahlung.</h2>
         <img
@@ -71,7 +72,7 @@ function PageOrderRating() {
           </Col>
         </Row>
       </div>
-
+      </div>
     </>
   )
 }

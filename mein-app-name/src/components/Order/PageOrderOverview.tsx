@@ -46,7 +46,8 @@ export const PageOrderOverview: React.FC<PageOrderRequestProps> = ({ onSubmit })
     return (
 
         <>
-                <div className="container-frame">
+        <div className='background-image'>
+                <div className="container-frame2">
                     <h1 className="header-title" style={{ color: 'white' }}>Worker</h1>
                     <Row>
                         <div className="profile-info" style={{ color: 'white' }}>
@@ -93,6 +94,7 @@ export const PageOrderOverview: React.FC<PageOrderRequestProps> = ({ onSubmit })
                     </Row>
                 </div>
 
+                </div>
 
 
         </>

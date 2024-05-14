@@ -38,7 +38,7 @@ export function NavbarComponent() {
       <>
           <nav className="page-background">
               <div className="navbar-left">
-                  <img src="/Sfae_Logo.png" alt="Logo" className="navbar-logo" />
+                  <img src="/Sfae_Logo.png" alt="Logo" className="navbar-logo"/>
               </div>
               <ul>
                   {loginInfo && (

@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import "./PageWorkerProfile.css"
 import { LinkContainer } from "react-router-bootstrap";
 import { workerData } from "worker_threads";
+import { Navbar } from "react-bootstrap";
+import NavbarComponent from "../NavbarComponent";
 
 
 
@@ -118,59 +120,59 @@ if (loading) return <p>Lädt...</p>;
 if (error) return <p>Fehler: {error}</p>;
 
 return (
-  <div className="background-image centered-container">
+    <><NavbarComponent /><div className="background-image centered-container">
     <div className="container rounded bg-white mt-5 mb-5 transparent-background">
       <div className="row">
-      <div className="col-md-3 border-right">
-        <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-        <img className="rounded-circle mt-5" width="150px" src="/image.jpg" alt="Profile" />
-          <span className="font-weight-bold">{name}</span>
-          <span className="text-black-50">{email}</span>
-          <span> </span>
+        <div className="col-md-3 border-right">
+          <div className="d-flex flex-column align-items-center text-center p-3 py-5">
+            <img className="rounded-circle mt-5" width="150px" src="/image.jpg" alt="Profile" />
+            <span className="font-weight-bold">{name}</span>
+            <span className="text-black-50">{email}</span>
+            <span> </span>
+          </div>
         </div>
-      </div>
-      <div className="col-md-5 border-right">
-        <div className="p-3 py-5">
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <h4 className="text-right">Profile Settings</h4>
-          </div>
-          <div className="row mt-2">
-            <div className="col-md-6">
-              <label className="labels">Name</label>
-              <input type="text" className="form-control" value={name} onChange={(e) => setName(e.target.value)} />
+        <div className="col-md-5 border-right">
+          <div className="p-3 py-5">
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <h4 className="text-right">Profile Settings</h4>
             </div>
-          </div>
-          <div className="row mt-3">
-            <div className="col-md-12">
-              <label className="labels">Adresse</label>
-              <input type="text" className="form-control" value={location} onChange={(e) => setLocation(e.target.value)} />
+            <div className="row mt-2">
+              <div className="col-md-6">
+                <label className="labels">Name</label>
+                <input type="text" className="form-control" value={name} onChange={(e) => setName(e.target.value)} />
+              </div>
             </div>
-            <div className="col-md-12">
-              <label className="labels">E-Mail</label>
-              <input type="text" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <div className="row mt-3">
+              <div className="col-md-12">
+                <label className="labels">Adresse</label>
+                <input type="text" className="form-control" value={location} onChange={(e) => setLocation(e.target.value)} />
+              </div>
+              <div className="col-md-12">
+                <label className="labels">E-Mail</label>
+                <input type="text" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} />
+              </div>
+              <div className="col-md-12">
+                <label className="labels">Passwort</label>
+                <input type="text" className="form-control" onChange={(e) => setPassword(e.target.value)} />
+              </div>
             </div>
-            <div className="col-md-12">
-              <label className="labels">Passwort</label>
-              <input type="text" className="form-control"onChange={(e) => setPassword(e.target.value)} />
-            </div>
-          </div>
-          <div className="mt-5 text-center">
-          <div className="button-group">
+            <div className="mt-5 text-center">
+              <div className="button-group">
 
-            <button className="button"type="button" onClick={handleUpdate}>Save Profile</button>
-            <LinkContainer to = {"/"}>
-            <button className="button" type="button" onClick={() => {handleDelete(); }}>Delete Profile</button>
-            </LinkContainer>
-            <LinkContainer to = {`/worker/${worId}`}>
-            <button type="button">Zurück zur Startseite!</button>
-         </LinkContainer>
+                <button className="button" type="button" onClick={handleUpdate}>Save Profile</button>
+                <LinkContainer to={"/"}>
+                  <button className="button" type="button" onClick={() => { handleDelete(); } }>Delete Profile</button>
+                </LinkContainer>
+                <LinkContainer to={`/worker/${worId}`}>
+                  <button type="button">Zurück zur Startseite!</button>
+                </LinkContainer>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  </div>
+  </div></>
 );
 };
 

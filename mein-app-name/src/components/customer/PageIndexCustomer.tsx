@@ -8,6 +8,7 @@ import {
   countAllWorkers,
   getCustomerbyID,
 } from "../../backend/api";
+import NavbarComponent from "../NavbarComponent";
 
 export function PageIndexCustomer() {
   const params = useParams();
@@ -79,6 +80,8 @@ export function PageIndexCustomer() {
 
   return (
     <>
+    <NavbarComponent/>
+    <div className="background-image">
       <div className="call-to-action">
         <h1>{name}, starte jetzt deinen ersten Auftrag!</h1>
         <p>
@@ -104,6 +107,7 @@ export function PageIndexCustomer() {
         <CSSTransition in={true} timeout={500} classNames="fade" key={fact}>
           <p className="registered-customers">{fact}</p>
         </CSSTransition>
+      </div>
       </div>
     </>
   );

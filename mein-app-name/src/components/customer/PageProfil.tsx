@@ -5,6 +5,8 @@ import { Button, Modal } from "react-bootstrap"
 import { LinkContainer } from "react-router-bootstrap"
 import { LoginInfo } from "../LoginManager"
 import { deleteCookie, deleteCustomer, getCustomerbyID, updateCustomer } from "../../backend/api"
+import "./PageProfil.css";  
+import NavbarComponent from "../NavbarComponent"; 
 
 
 
@@ -81,6 +83,7 @@ async function deleten(){
   },[])
   return (
     <>
+    <NavbarComponent/>
       <div className="background-image">
       <form onSubmit={upCustomer}>
         <div className="mb-3">

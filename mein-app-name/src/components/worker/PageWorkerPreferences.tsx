@@ -6,6 +6,7 @@ import "./PageWorkerPreferences.css";
 
 import { LinkContainer } from "react-router-bootstrap";
 import { workerData } from "worker_threads";
+import NavbarComponent from "../NavbarComponent";
 
 export function PageWorkerPreferences() {
   // React Hooks
@@ -150,8 +151,8 @@ export function PageWorkerPreferences() {
   if (error) return <p>Fehler: {error}</p>;
 
   return (
-    <div className="background-image centered-container">
-      <div className="container rounded bg-white mt-5 mb-5 transparent-background">
+    <><NavbarComponent /><div className="background-image centered-container">
+      <div className="container rounded bg-white mt-4 mb-4 transparent-background">
         <div className="row">
           <div className="col-md-3 border-right">
             <div className="d-flex flex-column align-items-center text-center p-3 py-5">
@@ -159,8 +160,7 @@ export function PageWorkerPreferences() {
                 className="rounded-circle mt-5"
                 width="150px"
                 src="/image.jpg"
-                alt="Profile"
-              />
+                alt="Profile" />
               <span className="font-weight-bold">{name}</span>
               <span className="text-black-50">{email}</span>
               <span> </span>
@@ -178,8 +178,7 @@ export function PageWorkerPreferences() {
                     type="text"
                     className="form-control"
                     value={range.toString()}
-                    onChange={(e) => setRange(Number(e.target.value))}
-                  />
+                    onChange={(e) => setRange(Number(e.target.value))} />
                 </div>
               </div>
               <div className="row mt-3">
@@ -189,8 +188,7 @@ export function PageWorkerPreferences() {
                     type="text"
                     className="form-control"
                     value={minPayment.toString()}
-                    onChange={(e) => setMinPayment(Number(e.target.value))}
-                  />
+                    onChange={(e) => setMinPayment(Number(e.target.value))} />
                 </div>
                 <div className="col-md-12">
                   <label className="labels">Art der Aufträge</label>
@@ -223,7 +221,7 @@ export function PageWorkerPreferences() {
                       type="button"
                       onClick={() => {
                         handleDelete();
-                      }}
+                      } }
                     >
                       Zurücksetzen
                     </button>
@@ -237,7 +235,8 @@ export function PageWorkerPreferences() {
           </div>
         </div>
       </div>
-    </div>
+    </div></>
+    
   );
 }
 

@@ -40,43 +40,34 @@ export default function PageRegistrationWorker() {
 
     return (
         <div className="background-image">
-
-        <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundImage: `url('/background.jpg')`, backgroundSize: 'cover' }}>
-            <MDBCard className='m-5' style={{ maxWidth: '600px' }}>
-                <MDBCardBody className='px-5'>
-                    <h2 className="text-uppercase text-center mb-5">Registrieren als Worker</h2>
-                    <form onSubmit={handleRegistration}>
-                        <MDBInput wrapperClass='mb-4' label='Dein Name' size='lg' type='text' value={name} onChange={(e) => setName(e.target.value)} required/>
-                        <MDBInput wrapperClass='mb-4' label='Adresse' size='lg' type='text' value={address} onChange={(e) => setAddress(e.target.value)} required/>
-                        <MDBInput wrapperClass='mb-4' label='Deine E-Mail' size='lg' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required/>
-                        <MDBInput wrapperClass='mb-4' label='Passwort' size='lg' type='password' value={password} onChange={(e) => setPassword(e.target.value)} required/>
-                        <select className="form-select mb-4" value={jobType} onChange={(e) => setJobType(e.target.value)} required>
-                            <option value="">Jobtyp wählen...</option>
-                            {jobTypes.map((type, index) => (
-                                <option key={index} value={type}>{type}</option>
-                            ))}
-                        </select>
-                        <MDBInput 
-    wrapperClass='mb-4' 
-    label='Gehaltswunsch' 
-    size='lg' 
-    type='number' 
-    value={salary} 
-    onChange={(e) => setSalary(Number(e.target.value))} // Konvertiere den Eingabewert in eine Zahl
-    required
-/>
-                        <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type="submit">Registrieren</MDBBtn>
-                    </form>
-                    <MDBRow>
-                        <MDBCol size='12' className='text-center'>
-                            <MDBTypography tag='div' className='mb-4'>
-                                Du hast bereits ein Konto? <Link to="/login" className="link">Melde dich hier an</Link>
-                            </MDBTypography>
-                        </MDBCol>
-                    </MDBRow>
-                </MDBCardBody>
-            </MDBCard>
-        </MDBContainer>
+            <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundImage: `url('/background.jpg')`, backgroundSize: 'cover' }}>
+                <MDBCard className='worker-registration-container m-5'>
+                    <MDBCardBody className='px-5'>
+                        <h2 className="text-uppercase text-center mb-5">Registrieren als Worker</h2>
+                        <form onSubmit={handleRegistration}>
+                            <MDBInput wrapperClass='mb-4' label='Dein Name' size='lg' type='text' value={name} onChange={(e) => setName(e.target.value)} required/>
+                            <MDBInput wrapperClass='mb-4' label='Adresse' size='lg' type='text' value={address} onChange={(e) => setAddress(e.target.value)} required/>
+                            <MDBInput wrapperClass='mb-4' label='Deine E-Mail' size='lg' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required/>
+                            <MDBInput wrapperClass='mb-4' label='Passwort' size='lg' type='password' value={password} onChange={(e) => setPassword(e.target.value)} required/>
+                            <select className="form-select mb-4" value={jobType} onChange={(e) => setJobType(e.target.value)} required>
+                                <option value="">Jobtyp wählen...</option>
+                                {jobTypes.map((type, index) => (
+                                    <option key={index} value={type}>{type}</option>
+                                ))}
+                            </select>
+                            <MDBInput wrapperClass='mb-4' label='Gehaltswunsch' size='lg' type='number' value={salary} onChange={(e) => setSalary(Number(e.target.value))} required/>
+                            <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type="submit">Registrieren</MDBBtn>
+                        </form>
+                        <MDBRow>
+                            <MDBCol size='12' className='text-center'>
+                                <MDBTypography tag='div' className='mb-4'>
+                                    Du hast bereits ein Konto? <Link to="/login" className="link">Melde dich hier an</Link>
+                                </MDBTypography>
+                            </MDBCol>
+                        </MDBRow>
+                    </MDBCardBody>
+                </MDBCard>
+            </MDBContainer>
         </div>
     );
 }

@@ -12,3 +12,20 @@
   background-position: center; /* Zentriert das Bild */
   height: 100vh; /* Sorgt dafür, dass der Bereich so hoch wie der Viewport ist */
 }
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Verhindert horizontales Scrollen */
+}
+
+.page-background {
+  margin-bottom: 0 !important; /* Entfernt Margin unter der Navbar */
+}
+
+.background-image {
+  margin-top: 0; /* Entfernt Margin oben, der durch vorherige Elemente verursacht sein könnte */
+}
+
+.navbar {
+  margin-bottom: 0 !important; /* Entfernt unerwünschten Abstand unter der Navbar */
+}

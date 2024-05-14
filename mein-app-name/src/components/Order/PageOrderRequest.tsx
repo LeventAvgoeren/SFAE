@@ -5,7 +5,7 @@ import { Navbar } from "react-bootstrap";
 import MapComponent from "./MapComponent";
 import NavbarComponent from "../NavbarComponent";
 import{ useTypewriter, Cursor} from 'react-simple-typewriter';
-import Typewriter from 'react-ts-typewriter';
+import Typewriter from "react-ts-typewriter";
 interface PageOrderRequestProps {
   onSubmit: (data: {
     address: string;
@@ -98,7 +98,9 @@ export default function PageOrderRequest() {
 
   return (
     <>
-   
+          <div className="background-image">
+            <NavbarComponent/>
+
       <h1 style={{color:"black"}}>
         SFAE ist eine {' '}
         <span style={{fontWeight: 'bold', color: 'green'}}>
@@ -218,6 +220,7 @@ export default function PageOrderRequest() {
 
           </form>
         </div>
+      </div>
       </div>
     </>
   );

@@ -1,69 +1,38 @@
-.link {
-    color: rgb(0, 0, 0); /* Farbe des Links anpassen, falls nötig */
-}
-
-.input-group {
-    width: 100%;
-}
-
-.gradient-custom-3 {
-    /* fallback for old browsers */
-    background: linear-gradient(to right, rgba(51, 112, 32, 0.5), rgba(150, 100, 200, 0.5));
-    /* More compatible gradients for older browsers */
-    background: -webkit-linear-gradient(to right, rgba(100, 200, 220, 0.5), rgba(150, 100, 200, 0.5));
-}
-
-.gradient-custom-4 {
-    /* fallback for old browsers */
-    background: linear-gradient(to right, rgba(100, 200, 220, 1), rgba(150, 100, 200, 1));
-    /* More compatible gradients for older browsers */
-    background: -webkit-linear-gradient(to right, rgba(100, 200, 220, 1), rgba(150, 100, 200, 1));
-}
-
-/* Stellt sicher, dass der Text in den Inputfeldern immer sichtbar ist */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="number"],
-select {
-    color: black; /* oder eine andere Farbe, die gut sichtbar ist */
-    background-color: white; /* oder eine andere Farbe, die den Text abhebt */
-    border: 1px solid #ccc; /* optional, fügt einen sichtbaren Rahmen hinzu */
-}
-
-/* Stellt sicher, dass Inputfelder einen sichtbaren Rand und ausreichend Padding haben */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="number"],
-select {
-    padding: 8px;
-    margin: 4px;
-    border-radius: 4px;
-}
-
-select.form-select {
-    color: black; /* Textfarbe */
-    background-color: white; /* Hintergrundfarbe */
-    border: 1px solid #ccc; /* Rahmenfarbe */
-    -webkit-appearance: none; /* Entfernt den nativen macOS-Stil in WebKit-Browsern */
-    appearance: none; /* Standard-Dropdown-Stil entfernen */
-}
-
-/* Anpassen des Dropdown-Elements beim Fokussieren */
-select.form-select:focus {
-    outline: none; /* Entfernt den blauen Umriss bei Fokus */
-    box-shadow: 0 0 5px rgba(81, 203, 238, 1); /* Optional: fügt einen subtilen Schatten hinzu */
-}
-
-/* Stil für die Optionen im Dropdown */
-select.form-select option {
-    background-color: white; /* Hintergrundfarbe für Optionen */
-    color: black; /* Textfarbe für Optionen */
-}
 .background-image {
-    background-image: url('/public/workerbr.jpg'); /* Pfad zum Bild im public-Verzeichnis */
-    background-size: cover; /* Stellt sicher, dass das Bild den gesamten Bereich abdeckt */
-    background-position: center; /* Zentriert das Bild */
-    height: 100vh; /* Sorgt dafür, dass der Bereich so hoch wie der Viewport ist */
-  }
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
+
+.worker-registration-container {
+    background: rgba(0, 0, 0, 0.7); /* Dunkelgrau, semi-transparent */
+    padding: 40px 50px;
+    border-radius: 14px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    color: white; /* Textfarbe auf Weiß setzen */
+}
+
+/* Textfarbe für Inputfelder und Textarea erzwingen */
+.worker-registration-container input,
+.worker-registration-container select,
+.worker-registration-container textarea {
+    color: white !important; /* Textfarbe der Eingabefelder erzwingen */
+    background-color: rgba(255, 255, 255, 0.1) !important; /* Leicht transparenter weißer Hintergrund */
+    border: 1px solid #ccc; /* Graue Grenze hinzufügen */
+}
+
+/* Farbe des Platzhaltertexts erzwingen */
+.worker-registration-container input::placeholder,
+.worker-registration-container textarea::placeholder {
+    color: white !important;
+}
+
+.worker-registration-container a {
+    color: white; /* Farbe der Links auf Weiß setzen */
+}
+
+.worker-registration-container .mb-4,
+.worker-registration-container label {
+    color: white !important; /* Textfarbe auf Weiß setzen */
+}

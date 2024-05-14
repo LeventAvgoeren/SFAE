@@ -26,7 +26,7 @@ import { checkLoginStatus, login } from "./backend/api";
 import PageRegistrationAdmin from "./components/PageRegistrationAdmin";
 import { PageIndexAdmin } from "./components/PageIndexAdmin";
 import { PageAdminDienstleistungen } from "./components/PageAdminDienstleistungen";
-import { PageProfil } from "./components/CustomerProfil";
+import { PageProfil } from "./components/Customer/CustomerProfil";
 
 import NavbarComponent from "./components/NavbarComponent";
 import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
@@ -34,8 +34,11 @@ import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
 import PageOrderRating from "./components/Order/PageOrderRating";
 import PageOrderRequest from "./components/Order/PageOrderRequest";
 import PageOrderOverview from "./components/Order/PageOrderOverview";
-import { Profile_2 } from "./components/customer/Profile2";
-import { PageUebersicht } from "./components/customer/PageUebersicht";
+import { PageIndexCustomer } from "./components/Customer/PageIndexCustomer";
+import { PageCustomerFAQ } from "./components/Customer/PageCustomerFAQ";
+import { PageOrderCompleted } from "./components/Customer/PageOrderCompleted";
+import { PageUebersicht } from "./components/Customer/PageUebersicht";
+import { Profile_2 } from "./components/Customer/Profile2";
 
 
 

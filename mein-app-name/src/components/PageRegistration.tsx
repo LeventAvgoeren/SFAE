@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol } from 'mdb-react-ui-kit';
-import 'mdb-react-ui-kit/dist/css/mdb.min.css';
-import './DesignVorlage.css'; // Eigene Stilvorlagen
-import { Link, useNavigate } from 'react-router-dom'; // React Router für Link-Benutzung
+import { Link, useNavigate } from 'react-router-dom';
 import './PageRegistration.css';
-import { LinkContainer } from 'react-router-bootstrap';
 import { registrationCustomer } from '../backend/api';
 
 export default function PageRegistration() {
@@ -16,8 +13,8 @@ export default function PageRegistration() {
     const handleRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
         try {
-            const response = await registrationCustomer(name, password, email);
-            console.log('Registration successful:', response);
+          const response = await registrationCustomer(name, password, email);
+          console.log('Registration successful:', response);
             alert('Registration successful!');
         } catch (error) {
             console.error('Registration failed:', error);
@@ -26,29 +23,78 @@ export default function PageRegistration() {
     };
 
     return (
-      <div className="background-image">
-<MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundImage: `url('/background.jpg')`, backgroundSize: 'cover' }}>
-          <MDBCard className='m-5' style={{maxWidth: '600px'}}>
-            <MDBCardBody className='px-5'>
-              <h2 className="text-uppercase text-center mb-5">Erstelle ein Customer Account!</h2>
-              <form onSubmit={handleRegistration}>
-                <MDBInput wrapperClass='mb-4' label='Dein Name' size='lg' id='form1' type='text' value={name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} required/>
-                <MDBInput wrapperClass='mb-4' label='Adresse' size='lg' id='formAddress' type='text' value={address} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAddress(e.target.value)} required/>
-                <MDBInput wrapperClass='mb-4' label='Deine E-Mail' size='lg' id='form2' type='email' value={email} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} required/>
-                <MDBInput wrapperClass='mb-4' label='Passwort' size='lg' id='form3' type='password' value={password} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)} required/>
-                <MDBCheckbox name='flexCheck' id='flexCheckDefault' label='Ich stimme den Nutzungsbedingungen zu' wrapperClass='d-flex justify-content-center mb-4' />
-                <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type="submit">Register</MDBBtn>  
-              </form>
-              <MDBRow>
-                <MDBCol size='12' className='text-center'>
-                  <MDBTypography tag='div' className='mb-4'>
-                    Du hast bereits ein Konto? <Link to="/login" className="link">Melde dich hier an</Link>
-                  </MDBTypography>
-                </MDBCol>
-              </MDBRow>
-            </MDBCardBody>
-          </MDBCard>
-        </MDBContainer>
+        <div className="background-image">
+            <div className="login-container">
+                <MDBContainer className="p-3 my-5 d-flex flex-column align-items-center justify-content-center">
+                    <div className="text-center mb-4">
+                        <h1>Registrieren als Customer</h1>
+                    </div>
+                    <form onSubmit={handleRegistration} style={{ width: '100%' }}>
+                    <MDBInput
+    wrapperClass='mb-3 inputField'
+    labelClass='text-white'
+    label='Dein Name'
+    id='nameInput'
+    type='text'
+    value={name}
+    onChange={e => setName(e.target.value)}
+    required
+/>
+
+                        <MDBInput
+                            wrapperClass='mb-3 inputField'
+                            labelClass='text-white'
+                            label='Adresse'
+                            id='addressInput'
+                            type='text'
+                            value={address}
+                            onChange={e => setAddress(e.target.value)}
+                            required
+                        />
+
+                        <MDBInput
+                            wrapperClass='mb-3 inputField'
+                            labelClass='text-white'
+                            label='E-Mail Adresse'
+                            id='emailInput'
+                            type='email'
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
+                            required
+                        />
+
+                        <MDBInput
+                            wrapperClass='mb-3 inputField'
+                            labelClass='text-white'
+                            label='Passwort'
+                            id='passwordInput'
+                            type='password'
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                            required
+                        />
+
+                        <MDBCheckbox
+                            name='termsCheck'
+                            id='termsCheck'
+                            label='Ich stimme den Nutzungsbedingungen zu'
+                            wrapperClass='d-flex justify-content-center mb-4 text-white'
+                            required
+                        />
+
+<MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type="submit">Registrieren</MDBBtn>
+
+
+                        <MDBRow>
+                            <MDBCol size='12' className='text-center'>
+                                <MDBTypography tag='div' className='mb-4'>
+                                    Du hast bereits ein Konto? <Link to="/login" className="text-white">Melde dich hier an</Link>
+                                </MDBTypography>
+                            </MDBCol>
+                        </MDBRow>
+                    </form>
+                </MDBContainer>
+            </div>
         </div>
-      );
+    );
 }

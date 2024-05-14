@@ -6,6 +6,7 @@ import './DesignVorlage.css';
 import { WorkerResource } from '../../Resources';
 import { getWorkerByName, getWorkerbyID } from '../../backend/api';
 import './PageWorkerIndex.css'
+import NavbarComponent from '../NavbarComponent';
 
 export function PageWorkerIndex() {
   const { workerId } = useParams<{ workerId?: string }>();
@@ -60,94 +61,42 @@ export function PageWorkerIndex() {
 
   return (
     <>
+      <NavbarComponent />
       <div className="background-image">
-        <Navbar bg="dark" variant="dark" expand="lg">
-          <Container>
-            <Navbar.Brand href="#home">
-              <img src="/SFAE_Logo.png" alt="SFAE Logo" style={{ maxWidth: '80px', height: 'auto' }} />
-            </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="me-auto">
-                <Nav.Link href="#aufträge">Aufträge</Nav.Link>
-                <Nav.Link href="#präferenz">Präferenz</Nav.Link>
-                <Nav.Link href="#profile">Profile</Nav.Link>
-              </Nav>
-              <Nav>
-              <NavDropdown title={<span className="fa fa-user"><img src="/public/user.png" alt="" style={{ width: '20px', marginLeft: '5px' }} /></span>} id="basic-nav-dropdown" drop="start">
-          <NavDropdown.Item href="#logout">Logout</NavDropdown.Item>
-          <NavDropdown.Item href="#einstellungen">Einstellungen</NavDropdown.Item>
-          <NavDropdown.Item href="#mitteilungen">Mitteilungen</NavDropdown.Item>
-        </NavDropdown>
-              </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
-
-        <Container className="mt-4">
-        {worker && <h1>Willkommen, {worker.name}!</h1>}
-
+        <Container className="mt-0"> {/* Stelle sicher, dass mt-0 oder eine ähnliche Klasse den oberen Margin auf 0 setzt */}
+          {worker && <h1>Willkommen, {worker.name}!</h1>}
           <Row>
-            {/* Karten für verschiedene Bereiche */}
-            <Col md={4} className="mb-4">
-              <Card>
-                <Link to="/aufträge">
-                  <Card.Img
-                    variant="top"
-                    src={zoom === '/auftraege.jpg' ? '/auftraege-zoom.jpg' : '/auftraege.jpg'}
-                    className="card-img-top"
-                    onClick={() => toggleZoom('/auftraege.jpg')}
-                  />
-                </Link>
-                <Card.Body>
-                  <Card.Title>Aufträge</Card.Title>
-                  <Card.Text>
-                    Verwalten Sie Ihre Aufträge effizient und behalten Sie den Überblick über laufende Prozesse.
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md={4} className="mb-4">
-              <Card>
-              <Link to= {`/worker/${workerId}/preferences`}>
-                  <Card.Img
-                    variant="top"
-                    src={zoom === '/praferenz.jpg' ? '/praferenz-zoom.jpg' : '/praferenz.jpg'}
-                    className="card-img-top"
-                    onClick={() => toggleZoom('/praferenz.jpg')}
-                  />
-                </Link>
-                <Card.Body>
-                  <Card.Title>Präferenz</Card.Title>
-                  <Card.Text>
-                    Passen Sie Ihre Einstellungen an, um eine personalisierte Erfahrung zu erhalten.
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md={4} className="mb-4">
-              <Card>
-              <Link to={`/worker/${workerId}/profile`}>
-                  <Card.Img
-                    variant="top"
-                    src={zoom === '/profile.jpg' ? '/profile-zoom.jpg' : '/profile.jpg'}
-                    className="card-img-top"
-                    onClick={() => toggleZoom('/profile.jpg')}
-                  />
-                </Link>
-                <Card.Body>
-                  <Card.Title>Profile</Card.Title>
-                  <Card.Text>
-                    Verwalten Sie Ihr Profil und aktualisieren Sie Ihre persönlichen Informationen.
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
+            {[
+              {path: `/aufträge`, label: 'Aufträge', img: '/auftraege.jpg'},
+              {path: `/worker/${workerId}/preferences`, label: 'Präferenz', img: '/praferenz.jpg'},
+              {path: `/worker/${workerId}/profile`, label: 'Profile', img: '/profile.jpg'}
+            ].map(({ path, label, img }, index) => (
+              <Col key={index} md={4} className="mb-4">
+                <Card>
+                  <Link to={path}>
+                    <Card.Img
+                      variant="top"
+                      src={zoom === img ? `${img}-zoom.jpg` : img}
+                      onClick={() => toggleZoom(img)}
+                    />
+                  </Link>
+                  <Card.Body>
+                    <Card.Title>{label}</Card.Title>
+                    <Card.Text>
+                      {label === 'Aufträge' ? 'Verwalten Sie Ihre Aufträge effizient und behalten Sie den Überblick über laufende Prozesse.' : 
+                      label === 'Präferenz' ? 'Passen Sie Ihre Einstellungen an, um eine personalisierte Erfahrung zu erhalten.' : 
+                      'Verwalten Sie Ihr Profil und aktualisieren Sie Ihre persönlichen Informationen.'}
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
           </Row>
         </Container>
       </div>
     </>
   );
+  
 }
 
 export{};

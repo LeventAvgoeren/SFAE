@@ -58,6 +58,7 @@ public class ContractController implements ContractEP {
     }
 
     try {
+      System.out.println("KHEIR");
       Contract created = dao.createContract(contract);
       if (created != null) {
         Worker found=work.findWorkersbyID(String.valueOf(contract.getWorkerId()));

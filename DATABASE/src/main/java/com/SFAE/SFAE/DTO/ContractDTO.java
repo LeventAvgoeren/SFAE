@@ -50,9 +50,7 @@ public class ContractDTO {
     @NotNull(message = "CustomerId is required")
     private String customerId;  // Referenziert den ID des Kunden
 
-    @NotNull
-    @NotEmpty
-    @NotNull(message = "WorkerId is required")
+ 
     private String workerId;    // Referenziert den ID des Arbeiters
 
     public ContractDTO(){

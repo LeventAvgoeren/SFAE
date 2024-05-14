@@ -30,7 +30,7 @@ export type ContractResource = {
     range: number;
     statusOrder: string;  
     customerId: string;
-    workerId: string;
+    workerId?: string;
 }
 
 export type CustomerResource = {

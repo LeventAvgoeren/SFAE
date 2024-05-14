@@ -96,11 +96,11 @@ public class WorkerImpl implements WorkerInterface {
 
         "SELECT * FROM WORKER WHERE id = ?",
         ps -> {
-
           ps.setString(1,  id);
         },
 
         (rs, rowNum) -> createWorker(rs));
+        
     if (!result.isEmpty() && result.get(0).isPresent()) {
       return result.get(0).get();
     }

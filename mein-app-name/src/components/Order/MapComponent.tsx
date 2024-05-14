@@ -89,12 +89,33 @@ const MapComponent:  React.FC<MapComponentProps> = ({ onAddressChange }) => {
     }
   };
 
+  const fetchCoordinates = async (address: string) => {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${address}`;
+    try {
+      console.log("DASD ")
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data.length > 0) {
+        const { lat, lon } = data[0];
+        setUserLocation({
+          latitude: parseFloat(lat),
+          longitude: parseFloat(lon),
+        });
+      } else {
+        console.error("Address not found");
+      }
+    } catch (error) {
+      console.error("Failed to fetch coordinates:", error);
+    }
+  };
+
   return (
+    <>
     <MapContainer
       center={defaultCenter}
       zoom={defaultZoom}
       style={{ height: "400px" }}
-    >
+    >  
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       {userLocation && (
         <>
@@ -113,6 +134,7 @@ const MapComponent:  React.FC<MapComponentProps> = ({ onAddressChange }) => {
         </>
       )}
     </MapContainer>
+    </>
   );
 };
 

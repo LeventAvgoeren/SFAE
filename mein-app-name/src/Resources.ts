@@ -20,7 +20,11 @@ export type WorkerResource = {
     verification: Boolean;
     email: string;
 }
-
+export interface Position {
+    latitude: number;
+    longitude: number;
+}
+  
 export type ContractResource = {
     id?: Number;
     adress: string;

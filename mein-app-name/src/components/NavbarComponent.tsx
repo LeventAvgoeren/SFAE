@@ -50,6 +50,9 @@ export function NavbarComponent() {
                   {loginInfo && (
                       <li><a href={`/customer/${loginInfo.userId}/uebersicht`}>Übersicht</a></li>
                   )}
+                   {loginInfo && loginInfo.admin ==="admin" && (
+                      <li><a href={`/admin/${loginInfo.userId}`}>Admin</a></li>
+                  )}
                   <li><a href="#" onClick={doLogout}>Logout</a></li>
               </ul>
           </nav>

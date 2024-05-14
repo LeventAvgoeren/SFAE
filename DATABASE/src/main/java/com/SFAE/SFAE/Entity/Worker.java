@@ -82,6 +82,12 @@ public class Worker {
   @Column(name = "verification")
   private Boolean verification;
 
+  @Column(name = "latitude")
+  private double latitude;
+
+  @Column(name = "longitude")
+  private double longitude;
+  
   public Worker(){}
 
   public Worker(String name, String location, String password, Status status, StatusOrder statusOrder,

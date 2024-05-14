@@ -6,9 +6,10 @@ import './PageIndexAdmin.css';
 import { Link } from 'react-router-dom';
 import { login } from "../backend/api";
 import { Col, Container, Nav, NavDropdown, Navbar, Row } from 'react-bootstrap';
+import { LoginInfo } from './LoginManager';
 
 export function PageIndexAdmin() {
-
+    const [loginInfo, setLoginInfo] = useState<LoginInfo | false | undefined>(undefined);
     return (
 
         <>
@@ -75,6 +76,14 @@ export function PageIndexAdmin() {
                                 className="d-inline-block align-top"
                                 alt="SFAE Logo" />
                         </Nav.Link>
+
+                        {loginInfo && loginInfo.admin ==="admin" && <Nav.Link href="#settings">
+                            <img
+                                src={"/clock.png"}
+                                height="35"
+                                className="d-inline-block align-top"
+                                alt="SFAE Logo" />
+                        </Nav.Link>}
 
                         {/* <Nav.Link href="#features">Finanzen</Nav.Link>
     <Nav.Link href="#pricing">Support</Nav.Link> */}

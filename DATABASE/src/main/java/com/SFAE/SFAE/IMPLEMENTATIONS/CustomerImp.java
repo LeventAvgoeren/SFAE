@@ -51,7 +51,7 @@ public class CustomerImp implements CustomerInterface {
     @Override
     public long countCustomer() {
         List<Object> result = jdbcTemplate.query(
-                "SELECT COUNT(ID) FROM CUSTOMERTEST",
+                "SELECT COUNT(ID) FROM CUSTOMER",
                 (rs, rowNum) -> {
                     long count = rs.getInt(1);
                     return count;
@@ -70,7 +70,7 @@ public class CustomerImp implements CustomerInterface {
     public Iterable<Customer> findAllCustomer() {
 
         return jdbcTemplate.queryForStream(
-                "SELECT * FROM CUSTOMERTEST",
+                "SELECT * FROM CUSTOMER",
                 (rs, rowNum) -> createCustomer(rs))
                 .filter(opt -> opt.isPresent())
                 .map(opt -> opt.get())
@@ -89,7 +89,7 @@ public class CustomerImp implements CustomerInterface {
     @Override
     public Customer findCustomerbyID(String id) {
         List<Optional<Customer>> result = jdbcTemplate.query(
-                "SELECT * FROM CUSTOMERTEST WHERE ID = ?",
+                "SELECT * FROM CUSTOMER WHERE ID = ?",
                 ps -> {
                     ps.setString(1,  id);
                 },
@@ -115,7 +115,7 @@ public class CustomerImp implements CustomerInterface {
     @Override
     public Customer findCustomerbyName(String name) {
         List<Optional<Customer>> results = jdbcTemplate.query(
-                "SELECT * FROM CUSTOMERTEST WHERE name = ?",
+                "SELECT * FROM CUSTOMER WHERE name = ?",
                 ps -> {
                     ps.setString(1, name);
                 },
@@ -193,7 +193,7 @@ public class CustomerImp implements CustomerInterface {
         try {
             int deleted = jdbcTemplate.update(connection -> {
                 PreparedStatement ps = connection
-                        .prepareStatement("DELETE FROM CUSTOMERTEST WHERE ID = ?;");
+                        .prepareStatement("DELETE FROM CUSTOMER WHERE ID = ?;");
                 ps.setString(1,  id);
                 return ps;
             });
@@ -223,7 +223,7 @@ public class CustomerImp implements CustomerInterface {
         }
 
         int result = jdbcTemplate.update(
-                "UPDATE CUSTOMERTEST SET name = ?, password = ?, email = ?, role = ? WHERE ID = ?",
+                "UPDATE CUSTOMER SET name = ?, password = ?, email = ?, role = ? WHERE ID = ?",
                 ps -> {
                     ps.setString(1, jsonData.getName());
                     ps.setString(2, (jsonData.getPassword()));
@@ -252,7 +252,7 @@ public class CustomerImp implements CustomerInterface {
      */
     public Customer findEmail(String Email) {
         List<Optional<Customer>> results = jdbcTemplate.query(
-                "SELECT * FROM CUSTOMERTEST WHERE email = ?",
+                "SELECT * FROM CUSTOMER WHERE email = ?",
                 ps -> {
                     ps.setString(1, Email);
                 },
@@ -277,7 +277,7 @@ public class CustomerImp implements CustomerInterface {
      */
     public String getCustomerPasswordByEmail(String Email) {
         List<Optional<Customer>> results = jdbcTemplate.query(
-                "SELECT password FROM CUSTOMERTEST WHERE email = ?",
+                "SELECT password FROM CUSTOMER WHERE email = ?",
                 ps -> {
                     ps.setString(1, Email);
                 },

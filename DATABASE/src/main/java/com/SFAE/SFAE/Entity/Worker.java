@@ -28,7 +28,7 @@ import lombok.Data;
  */
 @Data
 @Entity
-@Table(name = "WORKERTEST")
+@Table(name = "WORKER")
 public class Worker {
 
   @Id
@@ -83,10 +83,10 @@ public class Worker {
   private Boolean verification;
 
   
-  @Column(name = "latitude")
+  @Column(name = "BREITE")
   private Double latitude;
   
-  @Column(name = "longitude")
+  @Column(name = "LÄNGE")
   private Double longitude;
 
   public Worker(){}

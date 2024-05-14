@@ -40,7 +40,7 @@ public class ContractTests {
   public void testCreateContract() throws Exception {
 
     String json = "{" +
-        "\"jobType\": \"GÄRTNER\"," +
+        "\"jobType\": \"KOCH\"," +
         "\"adress\": \"Quizostrasse32\"," +
         "\"payment\": \"CASH\"," +
         "\"description\": \"Ich\"," +

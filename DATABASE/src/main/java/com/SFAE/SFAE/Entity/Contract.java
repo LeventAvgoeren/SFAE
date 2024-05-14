@@ -49,6 +49,10 @@ public class Contract {
   @Column(name = "description")
   private String description;
 
+
+  @Column(name = "maxPayment")
+  private Double maxPayment;
+
   @Column(name = "statusOrder")
   @Enumerated(EnumType.STRING)
   private StatusOrder statusOrder;
@@ -65,7 +69,7 @@ public class Contract {
   private Worker worker;
 
   public Contract(JobList jobType, String adress, Payment payment, String description, StatusOrder statusOrder,
-      Double range, Customer customer, Worker worker) {
+      Double range, Customer customer, Worker worker,Double maxPayment) {
     this.jobType = jobType;
     this.adress = adress;
     this.payment = payment;
@@ -74,11 +78,12 @@ public class Contract {
     this.range = range;
     this.customer = customer;
     this.worker = worker;
+    this.maxPayment=maxPayment;
   }
   
 //With id
   public Contract(Long id, JobList jobType, String adress, Payment payment, String description, StatusOrder statusOrder,
-      Double range, Customer customer, Worker worker) {
+      Double range, Customer customer, Worker worker,Double maxPayment) {
     this.jobType = jobType;
     this.adress = adress;
     this.payment = payment;
@@ -88,6 +93,7 @@ public class Contract {
     this.customer = customer;
     this.worker = worker;
     this.id = id;
+    this.maxPayment=maxPayment;
   }
 
   public Long getId() {

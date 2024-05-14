@@ -100,12 +100,13 @@ public class ContractImpl implements ContractInterface {
     String description = contract.getDescription();
     String statusOrder = contract.getStatusOrder();
     Double range = contract.getRange();
+    Double maxPayment= contract.getMaxPayment();
     Customer customer = customerImpl.findCustomerbyID(String.valueOf(contract.getCustomerId()));
 
 
      jdbcTemplate.update(connection -> {
         PreparedStatement ps = connection.prepareStatement(
-            "INSERT INTO Contract (job_type, adress, payment, description, status_order, range, customer_id, worker_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            "INSERT INTO Contract (job_type, adress, payment, description, status_order, range, customer_id, worker_id,max_Payment) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)");
 
             ps.setString(1, jobType);
             ps.setString(2, address);
@@ -115,9 +116,10 @@ public class ContractImpl implements ContractInterface {
             ps.setDouble(6, range);
             ps.setString(7, customer.getId());
             ps.setString(8, worker.getId());
+            ps.setDouble(9, maxPayment);
             return ps;
   });
-  return new Contract(JobList.valueOf(jobType), address, Payment.valueOf(payment), description,StatusOrder.valueOf(statusOrder), range, customer, worker);
+  return new Contract(JobList.valueOf(jobType), address, Payment.valueOf(payment), description,StatusOrder.valueOf(statusOrder), range, customer, worker,maxPayment);
 }
 
 
@@ -132,11 +134,12 @@ private Contract createContract(ResultSet rs) {
     double range = rs.getDouble("range");
     String customerId = rs.getString("customer_id");
     String workerId = rs.getString("worker_id");
+    Double maxPayment = rs.getDouble("max_Payment");
 
     Customer customer =customerImpl.findCustomerbyID(String.valueOf(customerId));
     Worker worker= workerImpl.findWorkersbyID(String.valueOf(workerId));
 
-    return new Contract(id,JobList.valueOf(jobType),adress,Payment.valueOf(payment),description,StatusOrder.valueOf(statusOrder),range,customer,worker);
+    return new Contract(id,JobList.valueOf(jobType),adress,Payment.valueOf(payment),description,StatusOrder.valueOf(statusOrder),range,customer,worker,maxPayment);
     //return dataFactory.createWorker(id, name, location, password, email, status, range, jobType, statusOrder,minPayment, rating, verification);
   } catch (SQLException e) {
     throw new IllegalArgumentException("Error"+e);

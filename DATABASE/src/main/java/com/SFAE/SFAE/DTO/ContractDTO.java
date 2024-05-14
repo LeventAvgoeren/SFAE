@@ -32,6 +32,11 @@ public class ContractDTO {
 
     @NotNull
     @NotEmpty
+    @NotBlank(message = "payment is required")
+    private Double maxPayment;
+
+    @NotNull
+    @NotEmpty
     @NotBlank(message = "description is required")
     private String description;
 

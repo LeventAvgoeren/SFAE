@@ -36,7 +36,7 @@ async function upCustomer(){
     password: password,
     email:email,
     role:"CUSTOMER",
-    id:customerId.toString()
+    id:customerId
   }
   if(password.trim()!==""){
     updateData.password=password

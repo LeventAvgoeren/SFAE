@@ -30,9 +30,6 @@ export function PageLogin() {
           else if(userType === 'customer') {
             route = `/customer/${result.userId}`
           }
-          else if(userType === 'admin') {
-            route = `/admin/${result.userId}`
-          }
           navigate(route)
         } else {
           setError('Login fehlgeschlagen. Bitte überprüfen Sie Ihre Eingaben.');
@@ -47,6 +44,8 @@ export function PageLogin() {
 
   return (
     <div className="background-image">
+          <div className="login-container">
+
 
       <MDBContainer className="p-3 my-5 d-flex flex-column align-items-center justify-content-center w-50" style={{ color: '#fff' }}>
         <div className="text-center mb-4">
@@ -62,7 +61,7 @@ export function PageLogin() {
     type='email'
     value={email}
     onChange={e => setEmail(e.target.value)}
-    className="inputField"  // Hinzugefügte Klasse für Input-Styling
+    className="inputField" 
 />
 
 <MDBInput
@@ -73,7 +72,7 @@ export function PageLogin() {
     type='password'
     value={password}
     onChange={e => setPassword(e.target.value)}
-    className="inputField"  // Hinzugefügte Klasse für Input-Styling
+    className="inputField"  
 />
             <div className="d-flex justify-content-around w-100 mb-3">
                 <div className="form-check">
@@ -84,10 +83,7 @@ export function PageLogin() {
                     <input className="form-check-input" type="radio" name="userType" id="customer" value="customer" checked={userType === 'customer'} onChange={() => setUserType('customer')} />
                     <label className="form-check-label text-white" htmlFor="customer">Customer</label>
                 </div>
-                <div className="form-check">
-                    <input className="form-check-input" type="radio" name="userType" id="admin" value="admin" checked={userType === 'admin'} onChange={() => setUserType('admin')} />
-                    <label className="form-check-label text-white" htmlFor="admin">Admin</label>
-                </div>
+               
             </div>
 
             <MDBBtn type="submit" className="mb-4">Anmelden</MDBBtn>
@@ -100,6 +96,7 @@ export function PageLogin() {
             </div>
         </form>
       </MDBContainer>
+      </div>
     </div>
   );
 }

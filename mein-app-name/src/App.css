@@ -87,19 +87,6 @@
 body, button, input, textarea, h1, p {
   font-family: 'Roboto', sans-serif; 
 }
-
-
-.page-background {
-  display: flex;            
-  justify-content: flex-start; 
-  align-items: center;     
-  height: 10vh;            
-  width: 100%;              
-  padding: 0 20px;
-  position: relative; 
-  z-index: 1; 
-}
-
 /* Überprüfen Sie, ob weitere Anpassungen bei anderen Elementen nötig sind */
 .content { 
   position: relative;

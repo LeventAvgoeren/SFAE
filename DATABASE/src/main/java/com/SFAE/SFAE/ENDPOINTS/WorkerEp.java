@@ -104,5 +104,9 @@ public interface WorkerEp {
 
     @PostMapping("/logout")
     ResponseEntity<?>logout(HttpServletResponse response);
+
+    @GetMapping("/all")
+    ResponseEntity<?> countAllWorkers();
+
 }
 

@@ -49,7 +49,6 @@ body, button, input, textarea, h1, p {
   font-family: 'Roboto', sans-serif; 
 }
 body {
-  background-image: url('../../public/b1.jpg');
   background-size: cover;
   background-position: center; 
   background-repeat: no-repeat;

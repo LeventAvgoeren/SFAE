@@ -258,4 +258,16 @@ public class WorkerController implements WorkerEp {
         }
     }
 
+    @Override
+    public ResponseEntity<?> countAllWorkers() {
+
+        try{
+            long counter=dao.countWorker();
+        return ResponseEntity.status(HttpStatus.OK).body(counter);
+        }
+        catch(Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
 }

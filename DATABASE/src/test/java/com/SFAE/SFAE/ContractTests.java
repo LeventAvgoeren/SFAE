@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -23,7 +24,6 @@ import com.SFAE.SFAE.IMPLEMENTATIONS.ContractImpl;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 public class ContractTests {
 
   @Autowired
@@ -39,13 +39,13 @@ public class ContractTests {
   public void testCreateContract() throws Exception {
 
     String json = "{" +
-        "\"jobType\": \"GÄRTNER\"," +
-        "\"adress\": \"Quizostrasse32\"," +
-        "\"payment\": \"CASH\"," +
-        "\"description\": \"Ich\"," +
+        "\"jobType\": \"KOCH\"," +
+        "\"adress\": \"HundeSTrasse 3\"," +
+        "\"payment\": \"PAYPAL\"," +
+        "\"description\": \"Ahmad steht auf männer\"," +
         "\"statusOrder\": \"UNDEFINED\"," +
-        "\"range\": 2.2," + 
-        "\"customerId\": \"C1\"," + 
+        "\"range\": 2.9," + 
+        "\"customerId\": \"C3\"," + 
         "\"workerId\": \"W1\"" +
         "}";
 
@@ -254,6 +254,31 @@ public class ContractTests {
 
     transactionManager.commit(status);
   }
+
+  @Test
+public void testCountAllContracts() throws Exception {
+
+     MvcResult mvcResult = mockMvc.perform(get("/contract/all"))
+            .andExpect(status().isOk())
+            .andReturn();
+
+    String contentAsString = mvcResult.getResponse().getContentAsString();
+    System.out.println("A " + contentAsString);
+}
+
+@Test
+public void testGetContractByCustomerId() throws Exception {
+
+  TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+  mockMvc.perform(get("/contract/3"))
+      .andExpect(status().isOk())
+      .andReturn();
+
+  transactionManager.commit(status);
+}
+
+
 
 }
 

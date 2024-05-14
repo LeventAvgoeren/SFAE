@@ -140,7 +140,7 @@ export function PageWorkerPreferences() {
 
   const handleDelete = async () => {
     try {
-      await deleteWorker(parseInt(worId!));
+      await deleteWorker((worId!));
       alert("Profil erfolgreich gelöscht.");
     } catch (error) {
       console.error("Fehler beim Löschen des Profils:", error);
@@ -186,7 +186,7 @@ export function PageWorkerPreferences() {
               </div>
               <div className="row mt-3">
                 <div className="col-md-12">
-                  <label className="labels">Bezahlmethoden</label>
+                  <label className="labels">Mindestbezahlung pro Stunde</label>
                   <input
                     type="text"
                     className="form-control"

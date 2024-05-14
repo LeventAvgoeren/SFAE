@@ -22,6 +22,7 @@ import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.Service.MailService;
 import org.slf4j.Logger;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -147,6 +148,31 @@ public class ContractController implements ContractEP {
     }
 
     return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+  }
+
+  @Override
+  public ResponseEntity<?> countAllCContracts() {
+    try{
+      long counter=dao.countContracts();
+  return ResponseEntity.status(HttpStatus.OK).body(counter);
+  }
+  catch(Exception e){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+  }
+  }
+
+  @Override
+  public ResponseEntity<?> findContractByWorkerId(String id) {
+    try{
+
+      List<Contract> contract =dao.getContractByCustomerId(id);
+
+      return ResponseEntity.status(HttpStatus.OK).body(contract);
+    }
+    catch(Exception e){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
   }
 
 }

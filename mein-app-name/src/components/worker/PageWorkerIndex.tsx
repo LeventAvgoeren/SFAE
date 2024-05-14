@@ -26,8 +26,8 @@ export function PageWorkerIndex() {
     const fetchWorker = async () => {
       console.log('fetchWorker wird gestartet', workerId); // Überprüfen, ob diese Zeile erreicht wird
       try {
-        const id = workerId;
-      
+        const id = workerId
+        console.log('parsed ID:', id); // Überprüfen, ob die ID korrekt geparsed wird
         const workerData = await getWorkerbyID(id);
         console.log('Daten empfangen:', workerData); // Was wird hier ausgegeben?
         setWorker(workerData);

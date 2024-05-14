@@ -11,11 +11,7 @@ export async function getCustomerByName(name: String): Promise<any> {
   return response;
 }
 
-export async function getWorkerbyID(
-  id: string | undefined
-): Promise<WorkerResource> {
-
-
+export async function getWorkerbyID(id: string | undefined): Promise<WorkerResource> {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/${id}`;
   const response = await fetchWithErrorHandling(url, {
     credentials: "include" as RequestCredentials,
@@ -161,6 +157,7 @@ export async function registrationWorker(
   }
 }
 
+
 export async function getWorkerByName(name: string): Promise<any> {
   // Überprüfe zunächst, ob der Name nicht leer oder ungültig ist
   if (!name.trim()) {
@@ -215,7 +212,6 @@ export async function checkLoginStatus(): Promise<LoginInfo | false> {
 }
 
 export async function getCustomerbyID(id: string): Promise<CustomerResource> {
-
   const url = `${process.env.REACT_APP_API_SERVER_URL}/customer/${id}`;
   const response = await fetchWithErrorHandling(url, {
     credentials: "include" as RequestCredentials,
@@ -278,7 +274,7 @@ export async function updateWorker(workerData: WorkerResource): Promise<WorkerRe
   }
 }
 
-export async function deleteWorker(id: number) {
+export async function deleteWorker(id: string) {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/${id}`;
   const options = {
     method: "DELETE",
@@ -298,18 +294,6 @@ const response = await fetchWithErrorHandling(url,options)
   return response;
 }
 
-
-export async function getAllCustomer(): Promise<WorkerResource> {
-
-
-  const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/`;
-  const response = await fetchWithErrorHandling(url, {
-    credentials: "include" as RequestCredentials,
-  });
-
-  const answer = await response.json();
-  return answer;
-}
 
 export async function countAllCustomers(): Promise<number> {
 
@@ -347,6 +331,9 @@ export async function countAllWorkers(): Promise<number> {
     const answer = await response.json();
     return answer;
   }
+  
+
+  
   
 
 

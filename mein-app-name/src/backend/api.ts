@@ -345,7 +345,24 @@ export async function countAllWorkers(): Promise<number> {
     const answer = await response.json();
     return answer;
   }
-  
+
+  export async function createContract(contract : ContractResource) {
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/`; 
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        credentials: "include" as RequestCredentials,
+      },
+      body: JSON.stringify(contract)
+
+    });
+    if (!response.ok) {
+      throw new Error('levent mag sucki ');
+    }
+    return response.json(); 
+
+  }
 
 
   

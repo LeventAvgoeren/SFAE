@@ -1,21 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Button, Col, Container, Nav, NavDropdown, Row } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Form } from "react-bootstrap";
 import "./PageOrderRequest.css";
-import { Navbar } from "react-bootstrap";
-import MapComponent from "./MapComponent";
 import NavbarComponent from "../NavbarComponent";
-import{ useTypewriter, Cursor} from 'react-simple-typewriter';
-import Typewriter from "react-ts-typewriter";
-interface PageOrderRequestProps {
-  onSubmit: (data: {
-    address: string;
-    service: string;
-    description: string;
-    budget: number;
-    range: number;
-    verified: boolean;
-  }) => void;
-}
+import MapComponent from "./MapComponent";
+import { createContract } from "../../backend/api";
+import { useParams, useSearchParams } from "react-router-dom";
 
 export default function PageOrderRequest() {
   const [address, setAddress] = useState("Eingeben...");
@@ -25,20 +14,19 @@ export default function PageOrderRequest() {
   const [range, setRange] = useState(1);
   const [verified, setVerified] = useState(false);
   const [showMap, setMap] = useState(false);
-
-
-
-
+  const params = useParams();
+  const customerId = params.customerId;
+  console.log(customerId)
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    handleCreateContract();
   };
 
-  const handleSelectChange = (event: any) => {
-    const selectedJobType = event.target.value;
-    setService(selectedJobType);
+  const handleClick1 = () => {
+    setMap(!showMap);  // Toggle zwischen Anzeigen und Verbergen der Karte
   };
-    
-
+  
+  
   const jobTypes = [
     "Hausmeister",
     "Haushälter",
@@ -92,136 +80,110 @@ export default function PageOrderRequest() {
     }
   };
 
+
+
+  const handleSelectChange = (event: any) => {
+    const selectedJobType = event.target.value;
+    setService(selectedJobType);
+  };
+
   const handleAddressChange = (newAddress: string) => {
     setAddress(newAddress);
   };
 
+  const handleCreateContract = async () => {
+    const contractData = {
+      adress: address,
+      jobType: service.toUpperCase(),
+      description: description,
+      payment: "PAYPAL",
+      range: range,
+      statusOrder: "PAID",
+      customerId: customerId!,
+      verified: verified,
+    };
+
+    try {
+      const response = await createContract(contractData);
+      console.log('Vertrag erfolgreich erstellt:', response);
+    } catch (error) {
+      console.error('Fehler beim Erstellen des Vertrags:', error);
+    }
+  };
+
   return (
-    <>
-          <div className="background-image">
-            <NavbarComponent/>
-
-      <h1 style={{color:"black"}}>
-        SFAE ist eine {' '}
-        <span style={{fontWeight: 'bold', color: 'green'}}>
-           <Typewriter  speed={400}  text={["effizient", "sicher", "vertrauenswürdige"]} loop={true} cursor={false}/>
-           
-        </span>
-        <span style={{color: 'red'}}>
-          <Cursor cursorStyle="/"/>
-        </span>
-        {' '}Seite.
-      </h1>
-     
-      <div className="Frame" >
-
-        <div className="container-frame" >
-          <form
-            onSubmit={handleSubmit}
-            style={{ color: "white", padding: "20px" }}
-          >   
-          
-          {showMap && 
-            <div>
-              <MapComponent onAddressChange={handleAddressChange} />
-             <Button variant="light" onClick={handleClick}>
-              OK</Button>
-            </div> }
-          {!showMap &&
-          <>
-           <div id="map"></div>
-            <div>
-              <h1>Auftrag</h1>
-              <label htmlFor="addresse">
-                Ihre Adresse
-              </label>
-
-              <div className="input-group">
-                <input
-                    className="form-control mx-auto input-with-icon"
-                    id="address"
+    <div className="background-image">
+      <NavbarComponent/>
+      <div className="Frame">
+        <div className="container-frame">
+          <Form onSubmit={handleSubmit} style={{ color: "white", padding: "20px" }}>
+            <Button onClick={handleClick1} variant="info">
+              {showMap ? "Karte verbergen" : "Karte anzeigen"}
+            </Button>
+            {showMap && 
+              <div>
+                <MapComponent onAddressChange={setAddress} />
+                <Button variant="light" onClick={() => setMap(false)}>OK</Button>
+              </div> 
+            }
+            {!showMap && (
+              <>
+                <Form.Group className="mb-3">
+                  <Form.Label>Ihre Adresse</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Adresse eingeben"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     required
-                    style={{ width: "100%" }}
-                    placeholder={address}
-                />
+                  />
+                </Form.Group>
+  
+                <Form.Group className="mb-3">
+                  <Form.Label>Dienstleistung</Form.Label>
+                  <Form.Select value={service} onChange={handleSelectChange} required>
+                    <option value="">ServiceTyp wählen...</option>
+                    {jobTypes.map((type) => (
+                      <option key={type} value={type}>{type}</option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
+  
+                <Form.Group className="mb-3">
+                  <Form.Label>Beschreibung</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                </Form.Group>
+  
+                <Form.Group className="mb-3">
+                  <Form.Label>Maximales Budget (€)</Form.Label>
+                  <Form.Control
+                    type="number"
+                    value={budget}
+                    onChange={(e) => setBudget(parseInt(e.target.value))}
+                  />
+                </Form.Group>
+  
+                <Form.Group className="mb-3">
+                  <Form.Label>Reichweite (km)</Form.Label>
+                  <Form.Control
+                    type="number"
+                    value={range}
+                    onChange={(e) => setRange(parseInt(e.target.value))}
+                  />
+                </Form.Group>
+  
+                <Button className="button" type="button" onClick={() => handleCreateContract()}>Suchen</Button>
 
-                <img className="MapIconImage"src="/MapIcon.png" alt=""   onClick={handleClick} />
-              
-              </div>
-            </div>
-
-            <div className="input-group">
-              <div>
-                <label>Dienstleistung</label>
-                <select
-                  className="form-select"
-                  id="inputJobType"
-                  onChange={handleSelectChange}
-                  value={service}
-                >
-                  <option selected>ServiceTyp wählen...</option>
-                  {jobTypes.map((type, index) => (
-                    <option key={index} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div style={{ marginLeft: "20px" }}>
-                <label>Maximales Budget (€)</label>
-                <input
-                  id="budget"
-                  type="number"
-                  value={budget}
-                  className="form-control"
-                  onChange={(e) => setBudget(parseInt(e.target.value))}
-                />
-              </div>
-
-              <div style={{ marginLeft: "20px" }}>
-                <label>Verifiziert</label>
-                <input
-                  type="checkbox"
-                  checked={verified}
-                  onChange={(e) => setVerified(e.target.checked)}
-                />
-              </div>
-            </div>
-
-            <div>
-              <label>Reichweite (km)</label>
-              <input
-                type="number"
-                value={range}
-                className="form-control"
-                style={{ width: "36.75%" }}
-                onChange={(e) => setRange(parseInt(e.target.value))}
-              />
-            </div>
-
-            <div>
-              <label htmlFor="description">Beschreibung</label>
-              <textarea
-                id="description"
-                value={description}
-                className="form-control"
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </div>
-            <div style={{ textAlign: "center" }}>
-              <button    id="myButton"  type="submit" style={{ width: "36.75%" }}>
-                Suchen
-              </button>
-            </div>
-            </>}
-
-          </form>
+              </>
+            )}
+          </Form>
         </div>
       </div>
-      </div>
-    </>
+    </div>
   );
-}
+};
+  

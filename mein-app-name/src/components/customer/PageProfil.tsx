@@ -1,132 +1,171 @@
-import { useEffect, useState } from "react"
-import { Link, useNavigate, useParams } from "react-router-dom"
-import { CustomerResource } from "../../Resources"
-import { Button, Modal } from "react-bootstrap"
-import { LinkContainer } from "react-router-bootstrap"
-import { LoginInfo } from "../LoginManager"
-import { deleteCookie, deleteCustomer, getCustomerbyID, updateCustomer } from "../../backend/api"
-import "./PageProfil.css";  
-import NavbarComponent from "../NavbarComponent"; 
+import React, { useState, useEffect } from 'react';
+import { Button, Modal } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
+import { CustomerResource } from '../../Resources';
+import { deleteCustomer, getCustomerbyID, updateCustomer } from '../../backend/api';
+import NavbarComponent from '../NavbarComponent';
+import "./PageProfil.css";
 
+export function PageProfil() {
+    const params = useParams();
+    const customerId = params.customerId!;
 
+    const [customer, setCustomer] = useState<CustomerResource>();
+    const [name, setName] = useState('');
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [status, setStatus] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
-export function PageProfil(){
+    const handleClose = () => setShowModal(false);
+    const handleShow = () => setShowModal(true);
 
-  const params=useParams()
-  let customerId=params.customerId!
-
-  
-  
-  const[customer,setCustomer]=useState<CustomerResource>();
-  const[name,setName]=useState("");
-  const[password,setPassword]=useState("");
-  const[email,setEmail]=useState("");
-  const[login,setLogin]=useState<LoginInfo | false | undefined>(undefined);
-
-  const[status,setStatus]=useState(false);
-  const [showModal, setShowModal] = useState(false);
-
-  const handleClose = () => setShowModal(false);
-  const handleShow = () => setShowModal(true);
- 
-
-
-  
-
-async function upCustomer(){
-  const updateData:CustomerResource={
-    name:name,
-    password: password,
-    email:email,
-    role:"CUSTOMER",
-    id:customerId.toString()
-  }
-  if(password.trim()!==""){
-    updateData.password=password
-  }
-  try{
-    await updateCustomer(updateData)
-  }
-  catch(error){
-    console.log("Fehler:"+error)
-  }
-}
-
-async function deleten(){
-  setStatus(true)
-  try{
-      await deleteCustomer(customerId)
-      await deleteCookie()
-      window.location.href = "/";
+    async function upCustomer() {
+        const updateData: CustomerResource = {
+            name: name,
+            password: password,
+            email: email,
+            role: 'CUSTOMER',
+            id: customerId.toString(),
+        };
+        if (password.trim() !== '') {
+            updateData.password = password;
+        }
+        try {
+            await updateCustomer(updateData);
+        } catch (error) {
+            console.log('Fehler:' + error);
+        }
     }
-  catch(error){
-    console.log(error)
-  }
-  
-}
 
-  useEffect(()=>{
-
-    async function getCustomer() {
-      try{
-        let customer=await getCustomerbyID(customerId)
-        setName(customer.name)
-        setPassword(customer.password)
-        setEmail(customer.email)
-        setCustomer(customer)
-      }
-      catch(error){
-        console.log("Fehler:"+error)
-      }
+    async function deleten() {
+        setStatus(true);
+        try {
+            await deleteCustomer(customerId);
+            // Hier die weiteren notwendigen Schritte nach dem Löschen des Kundenkontos einfügen
+        } catch (error) {
+            console.log(error);
+        }
     }
-    getCustomer()
-  },[])
-  return (
-    <>
-    <NavbarComponent />
-    <div className="background-image centered-container">
-      <div className="transparent-background bg-white mt-5 mb-5">
-      <form onSubmit={upCustomer}>
-        <div className="mb-3">
-          <label htmlFor="exampleInputName" className="form-label">Name</label>
-          <input type="text" className="form-control" id="exampleInputName" value ={name} onChange={(e)=> setName(e.target.value)}/>
-        </div>
-        <div className="mb-3">
-          <label htmlFor="exampleInputEmail1" className="form-label" >Email address</label>
-          <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value ={email} onChange={(e)=> setEmail(e.target.value)}/>
-          <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
-        </div>
-        <div className="mb-3">
-          <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-          <input type="password" className="form-control" id="exampleInputPassword1" onChange={(e)=> setPassword(e.target.value)}/>
-        </div>
-        <div className="mb-3 form-check">
-          <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-          <label className="form-check-label" htmlFor="exampleCheck1" style={{color:"gray"}}>Check me out</label>
-        </div>
-        <button type="submit" className="btn btn-primary">Submit</button>
-      </form>
 
+    useEffect(() => {
+        async function getCustomer() {
+            try {
+                let customer = await getCustomerbyID(customerId);
+                setName(customer.name);
+                setPassword(customer.password);
+                setEmail(customer.email);
+                setCustomer(customer);
+            } catch (error) {
+                console.log('Fehler:' + error);
+            }
+        }
+        getCustomer();
+    }, []);
 
-      <button type="button" className="btn btn-danger" onClick={handleShow}>
-        Delete Your Account
-      </button>
+    return (
+        <>
+            <NavbarComponent />
+            <div className="container mt-5">
+                <div className="row">
+                    <div className="col-lg-4 pb-5">
+                        {/* Account Sidebar */}
+                        <div className="author-card pb-3">
+                            <div className="author-card-cover" style={{ backgroundImage: 'url(https://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg)' }}>
+                            </div>
+                            <div className="author-card-profile">
+                                <div className="author-card-avatar">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Daniel Adams" />
+                                </div>
+                                <div className="author-card-details">
+                                    <h5 className="author-card-name text-lg">{name}</h5>
+                                    <span className="author-card-position">Joined February 06, 2017</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="wizard">
+                            <nav className="list-group list-group-flush">
+                                <a className="list-group-item active" href="#">
+                                    <i className="fe-icon-user text-muted"></i>Profile Settings
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
 
-      <Modal show={showModal} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Delete Account</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Are you sure you want to delete your account? This action cannot be undone.</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="danger" onClick={deleten}>
-            Delete Account
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      </div>
-      </div>
-    </>
-  )}
+                    {/* Profile Settings */}
+                    <div className="col-lg-8 pb-5">
+                        <form className="row">
+                            <div className="col-md-6">
+                                <div className="form-group">
+                                    <label htmlFor="account-fn">First Name</label>
+                                    <input className="form-control" type="text" id="account-fn" value={name} onChange={(e) => setName(e.target.value)} required />
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                <div className="form-group">
+                                    <label htmlFor="account-ln">Last Name</label>
+                                    <input className="form-control" type="text" id="account-ln" value="Adams" required />
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                <div className="form-group">
+                                    <label htmlFor="account-email">E-mail Address</label>
+                                    <input className="form-control" type="email" id="account-email" value={email} onChange={(e) => setEmail(e.target.value)} disabled />
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                <div className="form-group">
+                                    <label htmlFor="account-phone">Phone Number</label>
+                                    <input className="form-control" type="text" id="account-phone" value="+7 (805) 348 95 72" required />
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                <div className="form-group">
+                                    <label htmlFor="account-pass">New Password</label>
+                                    <input className="form-control" type="password" id="account-pass" onChange={(e) => setPassword(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                <div className="form-group">
+                                    <label htmlFor="account-confirm-pass">Confirm Password</label>
+                                    <input className="form-control" type="password" id="account-confirm-pass" />
+                                </div>
+                            </div>
+                            <div className="col-12">
+                                <hr className="mt-2 mb-3" />
+                                <div className="d-flex flex-wrap justify-content-between align-items-center">
+                                    <button className="btn btn-style-1 btn-primary"
+                                        type="button"
+                                        data-toast=""
+                                        data-toast-position="topRight"
+                                        data-toast-type="success"
+                                        data-toast-icon="fe-icon-check-circle"
+                                        data-toast-title="Success!"
+                                        data-toast-message="Your profile updated successfuly.">Update Profile</button>
+                                        <button type="button" className="btn btn-danger" onClick={handleShow}>
+                        Delete Your Account
+                    </button>
+
+                    <Modal show={showModal} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Delete Account</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>Are you sure you want to delete your account? This action cannot be undone.</Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleClose}>
+                                Close
+                            </Button>
+                            <Button variant="danger" onClick={deleten}>
+                                Delete Account
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+}

@@ -37,7 +37,6 @@ import PageOrderOverview from "./components/Order/PageOrderOverview";
 import { PageIndexCustomer } from "./components/customer/PageIndexCustomer";
 import { PageCustomerFAQ } from "./components/customer/PageCustomerFAQ";
 import { PageProfil } from "./components/customer/PageProfil";
-import { Profile_2 } from "./components/customer/Profile2";
 import { PageUebersicht } from "./components/customer/PageUebersicht";
 import { PageOrderCompleted } from "./components/Order/PageOrderCompleted";
 
@@ -99,7 +98,7 @@ function App() {
         <Route path="/customer/:customerId" element={<PageIndexCustomer />} />
         <Route path="/customer/:customerId/faq" element={<PageCustomerFAQ />} />
         <Route path="/customer/:customerId/profil" element={<PageProfil />} />
-        <Route path="/customer/:customerId/profil2" element={<Profile_2/>} />
+
         <Route path="/customer/:customerId/uebersicht" element={<PageUebersicht />} />
         {/* Order */}
         <Route path="/customer/:customerId/order/new"element={<PageOrderRequest/>}/>

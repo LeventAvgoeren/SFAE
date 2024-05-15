@@ -2,6 +2,7 @@ package com.SFAE.SFAE.IMPLEMENTATIONS;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -26,7 +27,7 @@ public class SFAEAlgorithm {
 
   public Map<Worker, Double> getBestWorkersforTheJob(ContractDTO contract) {
     String sql = "SELECT " +
-    "name, email, latitude, longitude, min_payment, rating,  " +
+    "name, email, latitude, longitude, min_payment, rating, id," +
     "(6371 * acos( " +
     "cos(radians(?)) * " +
     "cos(radians(latitude)) * " +
@@ -57,13 +58,14 @@ public class SFAEAlgorithm {
             },
             (rs, rowNum) -> {
                 Worker worker = new Worker();
+            worker.setId(rs.getString("id"));
             worker.setName(rs.getString("name"));
             worker.setEmail(rs.getString("email"));
             worker.setLatitude(rs.getDouble("latitude"));
             worker.setLongitude(rs.getDouble("longitude"));
             worker.setMinPayment(rs.getDouble("min_payment"));
             worker.setRating(rs.getDouble("rating"));
-          return worker;
+            return worker;
             });
 
         Map<Worker, Double> bestWorkers = new HashMap<>();
@@ -159,8 +161,9 @@ public class SFAEAlgorithm {
         Map<Worker, Double> optimalWorker = new HashMap<>();
         for (int i = entries.size() - 1; i >= entries.size() - 3; i--) {
             optimalWorker.put(entries.get(i).getKey(), entries.get(i).getValue());
-      }
-      return optimalWorker;
+        }
+        
+        return  optimalWorker;
       }
 
       return bestWorkers;

@@ -17,14 +17,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.SFAE.SFAE.IMPLEMENTATIONS.ContractImpl;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 public class ContractTests {
 
   @Autowired
@@ -43,7 +41,7 @@ public class ContractTests {
         "\"jobType\": \"GÄRTNER\"," +
         "\"adress\": \"Quizostrasse32\"," +
         "\"payment\": \"CASH\"," +
-        "\"description\": \"Ich\"," +
+        "\"description\": \"Ich brauche jeamanden, der sich um die Plfanzen für 2 Studnen kümmert.\"," +
         "\"statusOrder\": \"UNDEFINED\"," +
         "\"range\": 1.5," + 
         "\"customerId\": \"C1\"," + 
@@ -53,7 +51,6 @@ public class ContractTests {
         "\"longitude\": 13.35002718682623"+
         "}";
 
-    System.out.println(json);
     TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
     mockMvc.perform(post("/contract")
@@ -83,7 +80,7 @@ public class ContractTests {
   "\"jobType\": \"GÄRTNER\"," +
   "\"adress\": \"Quizostrasse32\"," +
   "\"payment\": \"CASH\"," +
-  "\"description\": \"Ich\"," +
+  "\"description\": \"Ich brauche jeamanden, der sich um die Plfanzen für 2 Studnen kümmert.\"," +
   "\"statusOrder\": \"UNDEFINED\"," +
   "}";
     TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());

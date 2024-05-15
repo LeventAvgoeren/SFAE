@@ -365,10 +365,6 @@ export async function countAllWorkers(): Promise<number> {
   }
 
 
+export async function deleteContractById(id: number){
   
-  
-
-  
-  
-
-
+}

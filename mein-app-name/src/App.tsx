@@ -26,10 +26,7 @@ import { checkLoginStatus, login } from "./backend/api";
 import PageRegistrationAdmin from "./components/PageRegistrationAdmin";
 import { PageIndexAdmin } from "./components/PageIndexAdmin";
 import { PageAdminDienstleistungen } from "./components/PageAdminDienstleistungen";
-<<<<<<< HEAD
 
-=======
->>>>>>> 47aa1ecf90fe9e1b15006e25c958f603cd043ba7
 
 import NavbarComponent from "./components/NavbarComponent";
 import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
@@ -38,19 +35,12 @@ import PageOrderRating from "./components/Order/PageOrderRating";
 import PageOrderRequest from "./components/Order/PageOrderRequest";
 import PageOrderOverview from "./components/Order/PageOrderOverview";
 import { PageIndexCustomer } from "./components/customer/PageIndexCustomer";
-<<<<<<< HEAD
-import { PageCustomerFAQ } from "./components/customer/PageCustomerFAQ";
-import { PageProfil } from "./components/customer/PageProfil";
-import { PageUebersicht } from "./components/customer/PageUebersicht";
-import { PageOrderCompleted } from "./components/Order/PageOrderCompleted";
 
-=======
+
 import { PageProfil } from "./components/customer/CustomerProfil";
 import { PageOrderCompleted } from "./components/Order/PageOrderCompleted";
 import { PageCustomerFAQ } from "./components/customer/PageCustomerFAQ";
 import { PageUebersicht } from "./components/customer/PageUebersicht";
-import { Profile_2 } from "./components/customer/Profile2";
->>>>>>> 47aa1ecf90fe9e1b15006e25c958f603cd043ba7
 
 
 

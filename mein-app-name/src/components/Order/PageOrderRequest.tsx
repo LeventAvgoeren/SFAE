@@ -4,7 +4,8 @@ import "./PageOrderRequest.css";
 import NavbarComponent from "../NavbarComponent";
 import MapComponent from "./MapComponent";
 import { createContract } from "../../backend/api";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 
 export default function PageOrderRequest() {
   const [address, setAddress] = useState("Eingeben...");
@@ -14,12 +15,17 @@ export default function PageOrderRequest() {
   const [range, setRange] = useState(1);
   const [verified, setVerified] = useState(false);
   const [showMap, setMap] = useState(false);
+  const [contractId, setContractId] = useState(null);
+  const [isCreatingContract, setIsCreatingContract] = useState(false);
+
   const params = useParams();
   const customerId = params.customerId;
-  console.log(customerId)
+  const navigate = useNavigate();
+
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleCreateContract();
+   
   };
 
   const handleClick1 = () => {
@@ -92,6 +98,7 @@ export default function PageOrderRequest() {
   };
 
   const handleCreateContract = async () => {
+    setIsCreatingContract(true);
     const contractData = {
       adress: address,
       jobType: service.toUpperCase(),
@@ -105,12 +112,19 @@ export default function PageOrderRequest() {
 
     try {
       const response = await createContract(contractData);
-      console.log('Vertrag erfolgreich erstellt:', response);
+      console.log(response)
+      if (response.contractId) {
+        console.log('Vertrag erfolgreich erstellt:', response);
+        navigate(`/customer/${customerId}/order/${response.contractId}/overview`);
+      } else {
+        console.error('Fehler: Keine ContractID erhalten');
+      }
     } catch (error) {
       console.error('Fehler beim Erstellen des Vertrags:', error);
+    } finally {
+      setIsCreatingContract(false);
     }
   };
-
   return (
     <div className="background-image">
       <NavbarComponent/>
@@ -175,8 +189,9 @@ export default function PageOrderRequest() {
                     onChange={(e) => setRange(parseInt(e.target.value))}
                   />
                 </Form.Group>
-  
-                <Button className="button" type="button" onClick={() => handleCreateContract()}>Suchen</Button>
+                <Button className="button" onClick={handleCreateContract} disabled={isCreatingContract}>
+    {isCreatingContract ? 'Erstellt...' : 'Vertrag erstellen und suchen'}
+</Button>
 
               </>
             )}
@@ -185,5 +200,6 @@ export default function PageOrderRequest() {
       </div>
     </div>
   );
+
 };
   

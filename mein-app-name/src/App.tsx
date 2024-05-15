@@ -42,6 +42,10 @@ import { PageOrderCompleted } from "./components/Order/PageOrderCompleted";
 import { PageCustomerFAQ } from "./components/customer/PageCustomerFAQ";
 import { PageUebersicht } from "./components/customer/PageUebersicht";
 
+import { PageIndexCustomer } from "./components/Customer/PageIndexCustomer";
+import { PageCustomerFAQ } from "./components/Customer/PageCustomerFAQ";
+import { PageUebersicht } from "./components/Customer/PageUebersicht";
+import { PageOrderCompleted } from "./components/Customer/PageOrderCompleted";
 
 
 const history = createMemoryHistory();
@@ -98,14 +102,10 @@ function App() {
         {/* Customer */}
         <Route path="/customer/:customerId" element={<PageIndexCustomer />} />
         <Route path="/customer/:customerId/faq" element={<PageCustomerFAQ />} />
-        <Route path="/customer/:customerId/profil" element={<PageProfil />} />
-
         <Route path="/customer/:customerId/uebersicht" element={<PageUebersicht />} />
         {/* Order */}
         <Route path="/customer/:customerId/order/new"element={<PageOrderRequest/>}/>
-        <Route path="/customer/:customerId/order/:order/overview"element={<PageOrderOverview onSubmit={function (data: { address: string; service: string; description: string; budget: number; range: number; verified: boolean; }): void {
-            throw new Error("Function not implemented.");
-          } }/>}/>
+        <Route path="/customer/:customerId/order/:order/overview" element={<PageOrderOverview />} />
         <Route path="/customer/:customerId/orders/:order/completed"element={<PageOrderCompleted />}/>
         <Route path="/customer/:customerId/orders/:order/rating"element={<PageOrderRating />}/>
 

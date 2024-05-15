@@ -6,7 +6,7 @@ import './DesignVorlage.css';
 import { WorkerResource } from '../../Resources';
 import { getWorkerByName, getWorkerbyID } from '../../backend/api';
 import './PageWorkerIndex.css'
-import NavbarComponent from '../NavbarComponent';
+import NavbarWComponent from './NavbarWComponent';
 
 export function PageWorkerIndex() {
   const { workerId } = useParams<{ workerId?: string }>();
@@ -61,7 +61,7 @@ export function PageWorkerIndex() {
 
   return (
     <>
-      <NavbarComponent />
+      <NavbarWComponent />
       <div className="background-image">
         <Container className="mt-0"> {/* Stelle sicher, dass mt-0 oder eine ähnliche Klasse den oberen Margin auf 0 setzt */}
           {worker && <h1>Willkommen, {worker.name}!</h1>}

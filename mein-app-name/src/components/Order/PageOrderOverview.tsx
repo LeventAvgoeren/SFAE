@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { Col, Container, Nav, NavDropdown, Row } from 'react-bootstrap';
 import "./PageOrderOverview.css"
 import { Navbar } from 'react-bootstrap';
+import NavbarComponent from '../NavbarComponent';
 
-interface PageOrderRequestProps {
-    onSubmit: (data: { address: string; service: string; description: string; budget: number; range: number; verified: boolean }) => void;
-}
 
-export const PageOrderOverview: React.FC<PageOrderRequestProps> = ({ onSubmit }) => {
+
+export function PageOrderOverview() {
     const [address, setAddress] = useState('');
     const [service, setService] = useState('');
     const [description, setDescription] = useState('');
@@ -22,7 +21,6 @@ export const PageOrderOverview: React.FC<PageOrderRequestProps> = ({ onSubmit })
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        onSubmit({ address, service, description, budget, range, verified });
     };
 
     const handleSelectChange = (event: any) => {
@@ -46,8 +44,13 @@ export const PageOrderOverview: React.FC<PageOrderRequestProps> = ({ onSubmit })
     return (
 
         <>
+<<<<<<< HEAD
+        <NavbarComponent /> <div className ="background-image">
+                <div className="container-frame">
+=======
         <div className='background-image'>
                 <div className="container-frame2">
+>>>>>>> 0596798802ccc88f40ed4abbfb71f77ed022a1e5
                     <h1 className="header-title" style={{ color: 'white' }}>Worker</h1>
                     <Row>
                         <div className="profile-info" style={{ color: 'white' }}>
@@ -93,7 +96,10 @@ export const PageOrderOverview: React.FC<PageOrderRequestProps> = ({ onSubmit })
                         </div>
                     </Row>
                 </div>
+<<<<<<< HEAD
+=======
 
+>>>>>>> 0596798802ccc88f40ed4abbfb71f77ed022a1e5
                 </div>
 
 

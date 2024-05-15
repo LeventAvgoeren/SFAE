@@ -31,6 +31,7 @@ import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
 
 import PageOrderRating from "./components/Order/PageOrderRating";
 import PageOrderRequest from "./components/Order/PageOrderRequest";
+<<<<<<< HEAD
 import PageOrderOverview from "./components/Order/PageOrderOverview";
 import { PageIndexCustomer } from "./components/customer/PageIndexCustomer";
 import { PageCustomerFAQ } from "./components/customer/PageCustomerFAQ";
@@ -38,6 +39,15 @@ import { PageUebersicht } from "./components/customer/PageUebersicht";
 import { PageOrderCompleted } from "./components/Order/PageOrderCompleted";
 import { PageProfil } from "./components/customer/PageProfil";
 
+=======
+import { PageWorkerOrderOverview } from "./components/worker/PageWorkerOrderOverview";
+import { PageOrderOverview } from "./components/Order/PageOrderOverview";
+import { PageIndexCustomer } from "./components/Customer/PageIndexCustomer";
+import { PageCustomerFAQ } from "./components/Customer/PageCustomerFAQ";
+import { PageUebersicht } from "./components/Customer/PageUebersicht";
+import { PageCustomerProfil } from "./components/Customer/PageProfilCustomer";
+import { PageOrderCompleted } from "./components/Customer/PageOrderCompleted";
+>>>>>>> 399487ab08ae8c2d8092cfbba748e0ea2d5445cf
 
 
 const history = createMemoryHistory();

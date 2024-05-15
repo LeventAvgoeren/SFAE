@@ -5,6 +5,7 @@ import './DesignVorlage.css';
 import './PageAdminDienstleistungen.css';
 import { Link } from 'react-router-dom';
 import { login } from "../backend/api";
+import { MDBInput } from 'mdb-react-ui-kit';
 import { Table, Button, Container, Nav, NavDropdown, Navbar, Modal } from 'react-bootstrap';
 // import { Trash, Search, Pencil, Modem } from 'react-bootstrap-icons';
 import { LoginInfo } from './LoginManager';
@@ -30,11 +31,11 @@ export function PageAdminDienstleistungen() {
     }
 
     const removeCustomer = () => {
-        if(selectedCustomer?.id){
-            try{
+        if (selectedCustomer?.id) {
+            try {
                 deleteCustomer(selectedCustomer.id)
                 setSelectedCustomer(null);
-            } catch{
+            } catch {
                 console.log("error")
             }
         }
@@ -42,11 +43,11 @@ export function PageAdminDienstleistungen() {
     }
 
     const editCustomer = () => {
-        if(selectedCustomer?.id){
-            try{
+        if (selectedCustomer?.id) {
+            try {
                 updateCustomer(selectedCustomer)
                 setSelectedCustomer(null);
-            } catch{
+            } catch {
                 console.log("error")
             }
         }
@@ -61,23 +62,38 @@ export function PageAdminDienstleistungen() {
         setShowEditC(false);
     }
 
-  useEffect(() => {
-    async function fetchCustomerData() {
-      try {
-        const data = await getAllCustomers();
-        setCustomerData(data);
-      } catch (error) {
-        console.error("Error fetching customers data:", error);
-      }
+    const setName = (value: string) => {
+        if (selectedCustomer){
+            const c = {...selectedCustomer}
+            c.name = value
+            setSelectedCustomer(c)
+        }
     }
-    fetchCustomerData();
-  }, []);
+
+    const setRole = (value: string) => {
+        if (selectedCustomer){
+            const c = {...selectedCustomer}
+            c.role = value
+            setSelectedCustomer(c)
+        }
+    }
+    useEffect(() => {
+        async function fetchCustomerData() {
+            try {
+                const data = await getAllCustomers();
+                setCustomerData(data);
+            } catch (error) {
+                console.error("Error fetching customers data:", error);
+            }
+        }
+        fetchCustomerData();
+    }, []);
 
 
     return (
 
         <>
-            <Navbar      variant="dark" expand="lg">
+            <Navbar variant="dark" expand="lg">
                 <Container>
                     <Nav className='mx-auto'>
                         <NavDropdown title={<img src={"/SFAE_Logo.png"} height="35" alt="Dropdown Logo" />} id="collapsible_nav_dropdown">
@@ -141,7 +157,7 @@ export function PageAdminDienstleistungen() {
                                 alt="SFAE Logo" />
                         </Nav.Link>
 
-                        {loginInfo && loginInfo.admin ==="admin" && <Nav.Link href="#settings">
+                        {loginInfo && loginInfo.admin === "admin" && <Nav.Link href="#settings">
                             <img
                                 src={"/clock.png"}
                                 height="35"
@@ -168,27 +184,27 @@ export function PageAdminDienstleistungen() {
                     <Table striped bordered hover>
                         <thead>
                             <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Id</th>
-                            <th>Delete</th>
-                            <th>Search</th>
-                            <th>Edit</th>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Id</th>
+                                <th>Delete</th>
+                                <th>Search</th>
+                                <th>Edit</th>
                             </tr>
                         </thead>
                         <tbody>
-                        {
-                            customertData.map((customer, idx) =>{
-                                return <tr key={idx}>
-                                    <td>{idx+1}</td>
-                                    <td>{customer.name}</td>
-                                    <td>{customer.id}</td>
-                                    {/* <td><Trash size={24} color='red' onClick={() => selectDeleteCustomer(customer)} /></td>
-                                    <td><Search size={24} color='green'/></td>
-                                    <td><Pencil size={24} color='orange' onClick={() => selectEditCustomer(customer)}/></td> */}
-                                </tr>
-                            })
-                        }
+                            {
+                                customertData.map((customer, idx) => {
+                                    return <tr key={idx}>
+                                        <td>{idx + 1}</td>
+                                        <td>{customer.name}</td>
+                                        <td>{customer.id}</td>
+                                        <td><Trash size={24} color='red' onClick={() => selectDeleteCustomer(customer)} /></td>
+                                        <td><Search size={24} color='green' /></td>
+                                        <td><Pencil size={24} color='orange' onClick={() => selectEditCustomer(customer)} /></td>
+                                    </tr>
+                                })
+                            }
                         </tbody>
                     </Table>
                 </div>
@@ -210,7 +226,29 @@ export function PageAdminDienstleistungen() {
                     <Modal.Title>Customer Bearbeiten</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    
+                    <div>
+                        <MDBInput
+                            wrapperClass='mb-3 inputField'
+                            labelClass='text-white'
+                            label='Customer Name'
+                            id='nameInput'
+                            type='text'
+                            value={selectedCustomer.name}
+                            onChange={e => setName(e.target.value)}
+                            required
+                        />
+
+                        <MDBInput
+                            wrapperClass='mb-3 inputField'
+                            labelClass='text-white'
+                            label='Customer Role'
+                            id='roleInput'
+                            type='text'
+                            value={selectedCustomer.role}
+                            onChange={e => setRole(e.target.value)}
+                            required
+                        />
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant='secondary' onClick={closeEditConstomerDialog}>Close</Button>

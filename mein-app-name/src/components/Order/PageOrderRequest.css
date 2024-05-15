@@ -132,17 +132,21 @@ input[type="checkbox"] {
   width: 50px !important;
 }
 
-.Frame{
-  display: flex;
-  padding-top: 50px;
-  justify-content: center;
-}
 
-.container-frame{
-  width: 30%;
-  background-color: rgba(13, 42, 76, 0.8);
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7); 
-  padding: 20px;
+.custom-container3 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.7) !important; 
+  padding: 40px;
+  border-radius: 12%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+  width: auto;
+  max-width: 100%;
+  text-align: center;
+  color: white;
+  width: 80%;
 }
 
 .myButton{
@@ -169,4 +173,14 @@ input[type="checkbox"] {
   width: 100%; 
   height: 100%;
   z-index: 1000;
+}
+.map-container {
+  position: relative;
+  width: 100%;
+  height: 400px;  /* Feste Höhe für die Karte */
+  margin-top: 20px;  /* Abstand nach oben */
+  border: 1px solid #ccc;  /* Optional: Rahmen für die Karte */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);  /* Optional: Schatten für die Karte */
+  overflow: hidden;  /* Verhindert Überlauf */
+  z-index: 0;  /* Verhindert Überlappung */
 }

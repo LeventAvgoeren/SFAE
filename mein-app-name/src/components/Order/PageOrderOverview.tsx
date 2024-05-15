@@ -1,110 +1,152 @@
-import React, { useState } from 'react';
-import { Col, Container, Nav, NavDropdown, Row } from 'react-bootstrap';
+import React, { useEffect, useState } from "react";
+import {
+  MDBCard,
+  MDBCardBody,
+  MDBCardFooter,
+  MDBCardHeader,
+  MDBCardImage,
+  MDBCol,
+  MDBContainer,
+  MDBIcon,
+  MDBRow,
+  MDBTypography,
+} from "mdb-react-ui-kit";
 import "./PageOrderOverview.css"
-import { Navbar } from 'react-bootstrap';
-import NavbarComponent from '../NavbarComponent';
+import NavbarComponent from "../NavbarComponent";
+import { useParams } from "react-router-dom";
+import { deleteContractById, getContractByCustomerId } from "../../backend/api";
+import { ContractResource } from "../../Resources";
+
 
 
 
 export function PageOrderOverview() {
-    const [address, setAddress] = useState('');
-    const [service, setService] = useState('');
-    const [description, setDescription] = useState('');
-    const [budget, setBudget] = useState(10000);
-    const [range, setRange] = useState(1);
-    const [verified, setVerified] = useState(false);
-    const [rating, setRating] = useState<number>(0);
 
-    const handleRatingClick = (newRating: number) => {
-        setRating(newRating);
-    };
+    const [contractData, setContractData] = useState<ContractResource[]>([]);
+    const params = useParams();
+    const cusId = params.cusId;
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-    };
+  useEffect(() => {
+    async function fetchContractData() {
+      try {
+        const data = await getContractByCustomerId(cusId);
+        setContractData(data);
+      } catch (error) {
+        console.error("Error fetching contract data:", error);
+      }
+    }
 
-    const handleSelectChange = (event: any) => {
-        const selectedJobType = event.target.value;
-        setService(selectedJobType);
-        // Weitere Aktionen hier einfügen, falls nötig
-    };
+    fetchContractData();
+  }, [cusId]);
 
-    const jobTypes = [
-        "Hausmeister", "Haushälter", "Gärtner", "Kindermädchen", "Koch",
-        "Putzkraft", "Handwerker", "Elektriker", "Installateur", "Klempner",
-        "Maler", "Schädlingsbekämpfer", "Tierpfleger", "Hausbetreuer", "Gassigeher",
-        "Wäscher", "Einkäufer", "Caterer", "Personal Trainer", "Ernährungsberater",
-        "Musiklehrer", "Babysitter", "Hauslehrer", "Chauffeur", "Reinigungskraft",
-        "Schneider", "Organisator", "Tischler", "Möbelträger", "Hundetrainer",
-        "Kammerjäger", "Fensterputzer", "Kammerzofen", "Hausdoktor", "Blumenpfleger",
-        "Renovierer", "Fensterreiniger", "Gartenarbeiter", "Bügeler", "Bodenleger",
-        "Hundepfleger", "Autobesorger"
-    ];
+  if (!contractData) {
+    return <div>Loading...</div>;
+  }
 
-    return (
+  const contract = contractData[0]; 
 
-        <>
-<<<<<<< HEAD
-        <NavbarComponent /> <div className ="background-image">
-                <div className="container-frame">
-=======
-        <div className='background-image'>
-                <div className="container-frame2">
->>>>>>> 0596798802ccc88f40ed4abbfb71f77ed022a1e5
-                    <h1 className="header-title" style={{ color: 'white' }}>Worker</h1>
-                    <Row>
-                        <div className="profile-info" style={{ color: 'white' }}>
-                            <p>Name: S. Müller</p>
-                            <p>Weg: 2.6 km</p>
-                            <p>Kosten: 20€</p>
-                            <p className="margin-bottom-20">Dienstleistung: Babysitter</p>
+  const handleDelete = async () => {
+    try {
+        await deleteContractById(contract.id!)
+        setContractData(contractData.filter(c => c.id !== contract.id));
+    }   catch(error) {
+        console.error(error)
+    }
+  }
 
-                            <p style={{ width: '120%' }}>
-                                <b>
-                                    <span style={{ textDecoration: 'underline' }}>Beschreibung</span> </b>
-                            </p>
-
-                            <p style={{ width: '175%' }}> Mein Name ist Müller und ich bin leidenschaftlicher Babysitter mit über 4 Jahren Erfahrung in der Kinderbetreuung. Ich habe eine herzliche und geduldige Persönlichkeit und genieße es, kreative und erzieherische Aktivitäten zu gestalten, die Kinder fördern und unterhalten.</p>
-
-                        </div>
-
-                        <div className="map">
-                            <div className="header-subtitle" style={{ color: 'white' }}>
-                                <p style={{marginRight: "35%"}}>Verfolge jetzt den Worker</p>
-                                <img src="/Intersect.jpg" alt="Map Bild" style={{ width: '100px', marginTop: '10px' ,marginRight: "35%" }} />
-                                <p style={{marginRight: "35%"}}>ETA: 6 min</p>
-                            </div>
-                        </div>
-
-
-                        <div className="image-and-rating">
-                            <img src="/frau.png" alt="Profilbild" className="profile-image" />
-                            <div>
-                                {[1, 2, 3, 4, 5].map((index) => (
-                                    <span
-                                        key={index}
-                                        onClick={() => handleRatingClick(index)}
-                                        style={{
-                                            cursor: 'pointer',
-                                            color: index <= rating ? 'gold' : 'grey',
-                                        }}
-                                    >
-                                        &#9733;
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-                    </Row>
-                </div>
-<<<<<<< HEAD
-=======
-
->>>>>>> 0596798802ccc88f40ed4abbfb71f77ed022a1e5
-                </div>
-
-
-        </>
-    );
-};
-
-export default PageOrderOverview;
+  return (
+    <>
+      <NavbarComponent />
+      <div className="background-image">
+        <section className="vh-100 gradient-custom-2">
+          <MDBContainer className="py-5 h-100">
+            <MDBRow className="justify-content-center align-items-center h-100">
+              <MDBCol md="10" lg="8" xl="6">
+                <MDBCard className="card-stepper" style={{ borderRadius: "16px" }}>
+                  <MDBCardHeader className="p-4">
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div>
+                        <p className="text-muted mb-2">
+                          Order ID{" "}
+                          <span className="fw-bold text-body">{contract.id}</span>
+                        </p>
+                        <p className="text-muted mb-0">
+                          Placed On{" "}
+                          <span className="fw-bold text-body">{contract.range}</span>
+                        </p>
+                      </div>
+                      <div>
+                        <MDBTypography tag="h6" className="mb-0">
+                          <a href="#" style={{ color: 'black' }}>View Details</a>
+                        </MDBTypography>
+                      </div>
+                    </div>
+                  </MDBCardHeader>
+                  <MDBCardBody className="p-4">
+                    <div className="d-flex flex-row mb-4 pb-2">
+                      <div className="flex-fill">
+                        <MDBTypography tag="h5" className="bold" style={{ color: 'black' }}>
+                          {contract.description}
+                        </MDBTypography>
+                        <p className="text-muted"> Job Type: {contract.jobType}</p>
+                        <MDBTypography tag="h4" className="mb-3">
+                          ${contract.payment}{" "}
+                          <span className="small text-muted"> via (COD) </span>
+                        </MDBTypography>
+                        <p className="text-muted">
+                          Tracking Status:{" "}
+                          <span className="text-body">{contract.statusOrder}</span>
+                        </p>
+                      </div>
+                      <div>
+                        <MDBCardImage
+                          fluid
+                          className="align-self-center"
+                          src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/6.webp"
+                          width="250"
+                        />
+                      </div>
+                    </div>
+                    <ul id="progressbar-1" className="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">
+                      <li className="step0 active" id="step1">
+                        <span style={{ marginLeft: "22px", marginTop: "12px" }}>PLACED</span>
+                      </li>
+                      <li className="step0 active text-center" id="step2">
+                        <span>SHIPPED</span>
+                      </li>
+                      <li className="step0 text-muted text-end" id="step3">
+                        <span style={{ marginRight: "22px" }}>DELIVERED</span>
+                      </li>
+                    </ul>
+                  </MDBCardBody>
+                  <MDBCardFooter className="p-4">
+                    <div className="d-flex justify-content-between">
+                      <MDBTypography tag="h5" className="fw-normal mb-0">
+                        <a href="#!" style={{ color: 'black' }}>Track</a>
+                      </MDBTypography>
+                      <div className="border-start h-100"></div>
+                      <MDBTypography tag="h5" className="fw-normal mb-0">
+                        <a href="#!" style={{ color: 'black' }}>Cancel</a>
+                      </MDBTypography>
+                      <div className="border-start h-100"></div>
+                      <MDBTypography tag="h5" className="fw-normal mb-0">
+                        <a href="#!" style={{ color: 'black' }}>Pre-pay</a>
+                      </MDBTypography>
+                      <div className="border-start h-100"></div>
+                      <MDBTypography tag="h5" className="fw-normal mb-0">
+                        <a href="#!" className="text-muted">
+                          <MDBIcon fas icon="ellipsis-v" />
+                        </a>
+                      </MDBTypography>
+                    </div>
+                  </MDBCardFooter>
+                </MDBCard>
+              </MDBCol>
+            </MDBRow>
+          </MDBContainer>
+        </section>
+      </div>
+    </>
+  );
+  
+}

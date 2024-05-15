@@ -9,7 +9,6 @@ import PageRegistration from './components/PageRegistration';
 import  PageRegistrationWorker  from "./components/worker/PageRegistrationWorker";
 import { PageWorkerIndex } from "./components/worker/PageWorkerIndex";
 
-import { PageWorkerOrderOverview } from "./components/worker/PageWorkerOrderOverview";
 import { PageWorkerFinances } from "./components/worker/PageWorkerFinances";
 import { PageWorkerProfile } from "./components/worker/PageWorkerProfile";
 import { PageWorkerPreferences } from "./components/worker/PageWorkerPreferences";
@@ -32,11 +31,13 @@ import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
 
 import PageOrderRating from "./components/Order/PageOrderRating";
 import PageOrderRequest from "./components/Order/PageOrderRequest";
-import PageOrderOverview from "./components/Order/PageOrderOverview";
 import { PageIndexCustomer } from "./components/Customer/PageIndexCustomer";
 import { PageCustomerFAQ } from "./components/Customer/PageCustomerFAQ";
 import { PageUebersicht } from "./components/Customer/PageUebersicht";
 import { PageOrderCompleted } from "./components/Customer/PageOrderCompleted";
+import { PageCustomerProfil } from "./components/Customer/PageProfilCustomer";
+import { PageWorkerOrderOverview } from "./components/worker/PageWorkerOrderOverview";
+import { PageOrderOverview } from "./components/Order/PageOrderOverview";
 
 
 const history = createMemoryHistory();
@@ -94,9 +95,11 @@ function App() {
         <Route path="/customer/:customerId" element={<PageIndexCustomer />} />
         <Route path="/customer/:customerId/faq" element={<PageCustomerFAQ />} />
         <Route path="/customer/:customerId/uebersicht" element={<PageUebersicht />} />
+        <Route path="/customer/:customerId/profile" element={<PageCustomerProfil />} />
+
         {/* Order */}
         <Route path="/customer/:customerId/order/new"element={<PageOrderRequest/>}/>
-        <Route path="/customer/:customerId/order/:order/overview" element={<PageOrderOverview />} />
+        <Route path="/customer/:customerId/:orderId" element={<PageOrderOverview />} />
         <Route path="/customer/:customerId/orders/:order/completed"element={<PageOrderCompleted />}/>
         <Route path="/customer/:customerId/orders/:order/rating"element={<PageOrderRating />}/>
 

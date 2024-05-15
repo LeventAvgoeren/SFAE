@@ -8,7 +8,7 @@ import { LoginInfo } from "../LoginManager"
 import NavbarComponent from "../NavbarComponent"
 
 
-export function PageProfil(){
+export function PageCustomerProfil(){
 
   const params=useParams()
   let customerId=params.customerId!
@@ -116,3 +116,4 @@ async function deleten(){
     </>
   );
 }
+export{}

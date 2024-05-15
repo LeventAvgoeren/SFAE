@@ -115,7 +115,7 @@ export default function PageOrderRequest() {
       console.log(response)
       if (response.contractId) {
         console.log('Vertrag erfolgreich erstellt:', response);
-        navigate(`/customer/${customerId}/order/${response.contractId}/overview`);
+        navigate(`/customer/${customerId}/order/${response.contractId}`);
       } else {
         console.error('Fehler: Keine ContractID erhalten');
       }

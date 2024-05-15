@@ -1,158 +1,90 @@
-/* Stelle sicher, dass die Navbar den gesamten horizontalen Platz einnimmt */
-.navbar {
-    position: sticky;
-    top: 0;
-    width: 100%; 
-    margin-left: auto; /* Zentriert die Block-Elemente horizontal */
-    margin-right: auto;
-    background-color: #184c8c;
+SX
+CSS
+.gradient-custom-2 {
+  /* fallback for old browsers */
+  background: #a1c4fd;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, rgba(161, 196, 253, 1), rgba(194, 233, 251, 1));
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, rgba(161, 196, 253, 1), rgba(194, 233, 251, 1))
 }
 
-  
-  /* Sorgt dafür, dass das Dropdown-Menü sich innerhalb der Grenzen der Navbar befindet */
-  .nav-dropdown, #collapsible-nav-dropdown {
-    position: static; /* Übergeordnete Positionierung für Dropdown-Menü auf 'static' setzen */
-  }
-  
-  /* Dropdown-Menü-Position anpassen */
-  .dropdown-menu {
-    position: absolute; 
-    left: auto; /* Setze den linken Rand auf 'auto', damit das Menü rechtsbündig ausgerichtet wird */
-    right: 0; /* Richte das Menü rechts aus */
-    top: 1000%; /* Positioniere das Menü direkt unter der Nav-Komponente */
-    background-color: teal;
-  }
-  
-  /* Dropdown-Menü für mobile Ansicht anpassen */
-  @media (max-width: 768px) { /* Bootstrap mobile Ansicht Breakpoint */
-    .navbar-nav {
-      flex-direction: column; /* Staple die Nav-Elemente vertikal */
-      position: sticky;
-      
-    }
-  
-    .nav-dropdown, #collapsible-nav-dropdown {
-      position: sticky; /* Setze die Position auf 'static', um ein korrektes Verhalten in der mobilen Ansicht zu gewährleisten */
-    }
-  
-
-  }
-  
-  .Nav-Link {
-    text-align: center; /* Zentriert den Inhalt des Links */
-    position: sticky;
-  }
-  
-  .Nav-Link img, .Nav-Link div {
-    display: block; /* Sorgt dafür, dass das Bild und der Text als Block-Elemente gerendert werden */
-    margin-left: auto; /* Zentriert die Block-Elemente horizontal */
-    margin-right: auto;
-    position: sticky;
-  }
-  
-  .Nav-Link div {
-    font-size: 10px; /* Stellt die Schriftgröße des Textes ein */
-    position: sticky;
-  }
-
-  .from-control .search-field {
-    text-align: center;
-    width: 200%; /* Ändere die Breite nach Bedarf */
-   
+#progressbar-1 {
+  color: #455A64;
 }
 
-.search-field{
-    width: max-content;
+#progressbar-1 li {
+  list-style-type: none;
+  font-size: 13px;
+  width: 33.33%;
+  float: left;
+  position: relative;
 }
 
-input[type="checkbox"] {
-  transform: scale(1.5); /* Hier kannst du die Größe anpassen */
-  margin-left: 20px; 
+#progressbar-1 #step1:before {
+  content: "1";
+  color: #fff;
+  width: 29px;
+  margin-left: 22px;
+  padding-left: 11px;
 }
 
-
-.form-control::placeholder, .form-select {
-    color: #b6b6b6;
+#progressbar-1 #step2:before {
+  content: "2";
+  color: #fff;
+  width: 29px;
 }
 
-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #0f3460;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+#progressbar-1 #step3:before {
+  content: "3";
+  color: #fff;
+  width: 29px;
+  margin-right: 22px;
+  text-align: center;
 }
 
-button:hover {
-    background-color: #9a0026;
+#progressbar-1 li:before {
+  line-height: 29px;
+  display: block;
+  font-size: 12px;
+  background: #455A64;
+  border-radius: 50%;
+  margin: auto;
 }
 
-
-.text-align{
-    left: auto;
+#progressbar-1 li:after {
+  content: '';
+  width: 121%;
+  height: 2px;
+  background: #455A64;
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 15px;
+  z-index: -1;
 }
 
-
-.profile-info {
-    order: 1; /* Gibt diesem Bereich Flexibilität in der Breite */
-    padding: 20px;
-    max-width: 40%; /* Maximale Breite des Profil-Info-Bereichs */
+#progressbar-1 li:nth-child(2):after {
+  left: 50%
 }
 
-.map {
-    order: 2;
-    padding: 20px;
-    max-width: 30%; /* Maximale Breite des Worker-Info-Bereichs */
-    text-align: center;  /* Zentriert den Text */
-    right: 65px;
+#progressbar-1 li:nth-child(1):after {
+  left: 25%;
+  width: 121%
 }
 
-.image-and-rating {
-    order: 3;
-    padding: 20px;
-    max-width: 30%; /* Maximale Breite des Bild- und Bewertungsbereichs */
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Zentriert die Elemente vertikal */
+#progressbar-1 li:nth-child(3):after {
+  left: 25%;
+  width: 50%;
 }
 
-.profile-image {
-    display: flex;
-    left: 50px;
-    width: 150px;
-    height: 220px;
-    object-fit: cover;
-    margin-bottom: 10px; /* Abstand zwischen Bild und Bewertung */
+#progressbar-1 li.active:before,
+#progressbar-1 li.active:after {
+  background: #1266f1;
 }
 
-.rating {
-    display: flex;
-    justify-content: center; /* Zentriert die Sterne */
-}
-
-.star {
-    color: goldenrod; /* Farbe der Sterne */
-    margin: 0 2px; /* Raum zwischen den Sternen */
-}
-
-/* In Ihrer CSS-Datei */
-.margin-bottom-20 {
-    margin-bottom: 50px;
-}
-
-.container-frame2{
-  width: calc(80% - 4cm); /* Reduziert die Gesamtbreite um 4cm, je 2cm auf jeder Seite */
-    height: calc(100% - 4cm); /* Reduziert die Gesamthöhe um 4cm, je 2cm auf jeder Seite */
-    background-color: #104E8B; /* Hintergrundfarbe des Containers */
-    padding: 20px; /* Optional, für Innenabstand */
-    box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Optional, fügt Schatten für Tiefe hinzu */
-    border-radius: 20px; /* Fügt abgerundete Ecken hinzu */
-    background-position: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.card-stepper {
+  z-index: 0
 }

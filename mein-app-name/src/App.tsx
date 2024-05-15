@@ -33,12 +33,10 @@ import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
 import PageOrderRating from "./components/Order/PageOrderRating";
 import PageOrderRequest from "./components/Order/PageOrderRequest";
 import PageOrderOverview from "./components/Order/PageOrderOverview";
-import { PageOrderCompleted } from "./components/Order/PageOrderCompleted";
-import { PageUebersicht } from "./components/Customer/PageUebersicht";
-import { PageCustomerFAQ } from "./components/Customer/PageCustomerFAQ";
-import { PageProfil } from "./components/Customer/CustomerProfil";
 import { PageIndexCustomer } from "./components/Customer/PageIndexCustomer";
-
+import { PageCustomerFAQ } from "./components/Customer/PageCustomerFAQ";
+import { PageUebersicht } from "./components/Customer/PageUebersicht";
+import { PageOrderCompleted } from "./components/Customer/PageOrderCompleted";
 
 
 const history = createMemoryHistory();
@@ -95,7 +93,6 @@ function App() {
         {/* Customer */}
         <Route path="/customer/:customerId" element={<PageIndexCustomer />} />
         <Route path="/customer/:customerId/faq" element={<PageCustomerFAQ />} />
-        <Route path="/customer/:customerId/profil" element={<PageProfil />} />
         <Route path="/customer/:customerId/uebersicht" element={<PageUebersicht />} />
         {/* Order */}
         <Route path="/customer/:customerId/order/new"element={<PageOrderRequest/>}/>

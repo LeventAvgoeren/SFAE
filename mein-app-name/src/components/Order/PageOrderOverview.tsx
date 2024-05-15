@@ -44,8 +44,13 @@ export function PageOrderOverview() {
     return (
 
         <>
+<<<<<<< HEAD
         <NavbarComponent /> <div className ="background-image">
                 <div className="container-frame">
+=======
+        <div className='background-image'>
+                <div className="container-frame2">
+>>>>>>> 0596798802ccc88f40ed4abbfb71f77ed022a1e5
                     <h1 className="header-title" style={{ color: 'white' }}>Worker</h1>
                     <Row>
                         <div className="profile-info" style={{ color: 'white' }}>
@@ -91,6 +96,10 @@ export function PageOrderOverview() {
                         </div>
                     </Row>
                 </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0596798802ccc88f40ed4abbfb71f77ed022a1e5
                 </div>
 
 

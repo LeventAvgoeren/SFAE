@@ -31,9 +31,7 @@ export function PageLogin() {
             route = `/customer/${result.userId}`
           }
 
-          else if(userType === 'admin') {
-            route = `/admin/${result.userId}`
-          }
+          
           navigate(route)
         } else {
           setError('Login fehlgeschlagen. Bitte überprüfen Sie Ihre Eingaben.');

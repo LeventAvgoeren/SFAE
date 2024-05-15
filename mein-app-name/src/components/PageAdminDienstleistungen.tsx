@@ -5,8 +5,8 @@ import './DesignVorlage.css';
 import './PageAdminDienstleistungen.css';
 import { Link } from 'react-router-dom';
 import { login } from "../backend/api";
-import { Table, Container, Nav, NavDropdown, Navbar } from 'react-bootstrap';
-import { Trash, Search, Pencil } from 'react-bootstrap-icons';
+import { Table, Button, Container, Nav, NavDropdown, Navbar, Modal } from 'react-bootstrap';
+import { Trash, Search, Pencil, Modem } from 'react-bootstrap-icons';
 import { LoginInfo } from './LoginManager';
 import { CustomerResource } from "../Resources";
 import { getAllCustomers } from "../backend/api";
@@ -14,8 +14,28 @@ import { getAllCustomers } from "../backend/api";
 
 export function PageAdminDienstleistungen() {
     const [loginInfo, setLoginInfo] = useState<LoginInfo | false | undefined>(undefined);
+    const [showDeleteC, setShowDeleteC] = useState<boolean>(false);
+    const [showEditC, setShowEditC] = useState<boolean>(false);
     const [customertData, setCustomerData] = useState<CustomerResource[]>([]);
+    const [selectedCustomer, setSelectedCustomer] = useState<CustomerResource | null>(null);
 
+    const selectDeleteCustomer = (cus: CustomerResource) => {
+        setSelectedCustomer(cus);
+        setShowDeleteC(true);
+    }
+
+    const selectEditCustomer = (cus: CustomerResource) => {
+        setSelectedCustomer(cus);
+        setShowEditC(true);
+    }
+
+    const closeDeleteConstomerDialog = () => {
+        setShowDeleteC(false);
+    }
+
+    const closeEditConstomerDialog = () => {
+        setShowEditC(false);
+    }
 
   useEffect(() => {
     async function fetchCustomerData() {
@@ -139,9 +159,9 @@ export function PageAdminDienstleistungen() {
                                     <td>{idx+1}</td>
                                     <td>{customer.name}</td>
                                     <td>{customer.id}</td>
-                                    <td><Trash size={24} color='red' /></td>
+                                    <td><Trash size={24} color='red' onClick={() => selectDeleteCustomer(customer)} /></td>
                                     <td><Search size={24} color='green'/></td>
-                                    <td><Pencil size={24} color='orange' /></td>
+                                    <td><Pencil size={24} color='orange' onClick={() => selectEditCustomer(customer)}/></td>
                                 </tr>
                             })
                         }
@@ -149,6 +169,30 @@ export function PageAdminDienstleistungen() {
                     </Table>
                 </div>
             </div>
+            <Modal show={showDeleteC}>
+                <Modal.Header>
+                    <Modal.Title>Delete Customer</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Möchten sie wirklich {selectedCustomer?.name} löschen?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant='secondary' onClick={closeDeleteConstomerDialog}>Close</Button>
+                    <Button variant='primary'>Delete</Button>
+                </Modal.Footer>
+            </Modal>
+            <Modal show={showEditC}>
+                <Modal.Header>
+                    <Modal.Title>Customer Bearbeiten</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant='secondary' onClick={closeEditConstomerDialog}>Close</Button>
+                    <Button variant='primary'>Bearbeiten</Button>
+                </Modal.Footer>
+            </Modal>
         </>
     );
 }

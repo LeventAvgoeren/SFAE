@@ -25,14 +25,20 @@ export default function PageOrderRequest() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-   
+    console.log("Form submitted");
+    await handleCreateContract();
   };
 
-  const handleClick1 = () => {
+  const handleClickMap1 = () => {
     setMap(!showMap);  // Toggle zwischen Anzeigen und Verbergen der Karte
   };
+   
+  const handleSelectChange1 = (event: any) => {
+    setService(event.target.value);
+  };
   
-  
+ 
+
   const jobTypes = [
     "Hausmeister",
     "Haushälter",
@@ -79,10 +85,10 @@ export default function PageOrderRequest() {
   ];
 
   const handleClick = () => {
-    if(showMap){
+    if (showMap) {
       setMap(false);
     } else {
-      setMap(true)
+      setMap(true);
     }
   };
 
@@ -99,6 +105,7 @@ export default function PageOrderRequest() {
 
   const handleCreateContract = async () => {
     setIsCreatingContract(true);
+    console.log("Creating contract...");
     const contractData = {
       adress: address,
       jobType: service.toUpperCase(),
@@ -110,9 +117,11 @@ export default function PageOrderRequest() {
       verified: verified,
     };
 
+    console.log("Contract data:", contractData);
+
     try {
       const response = await createContract(contractData);
-      console.log(response)
+      console.log("Response from createContract:", response);
       if (response.contractId) {
         console.log('Vertrag erfolgreich erstellt:', response);
         navigate(`/customer/${customerId}/order/${response.contractId}`);
@@ -127,79 +136,69 @@ export default function PageOrderRequest() {
   };
   return (
     <div className="background-image">
-      <NavbarComponent/>
+      <NavbarComponent />
       <div className="Frame">
-        <div className="container-frame">
+        <div className="container-frame3">
           <Form onSubmit={handleSubmit} style={{ color: "white", padding: "20px" }}>
-            <Button onClick={handleClick1} variant="info">
+            <Button onClick={handleClickMap1} variant="info">
               {showMap ? "Karte verbergen" : "Karte anzeigen"}
             </Button>
-            {showMap && 
-              <div>
-                <MapComponent onAddressChange={setAddress} />
+            {showMap && (
+              <div className="map-container">
+                <MapComponent onAddressChange={handleAddressChange} />
                 <Button variant="light" onClick={() => setMap(false)}>OK</Button>
-              </div> 
-            }
-            {!showMap && (
-              <>
-                <Form.Group className="mb-3">
-                  <Form.Label>Ihre Adresse</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Adresse eingeben"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    required
-                  />
-                </Form.Group>
-  
-                <Form.Group className="mb-3">
-                  <Form.Label>Dienstleistung</Form.Label>
-                  <Form.Select value={service} onChange={handleSelectChange} required>
-                    <option value="">ServiceTyp wählen...</option>
-                    {jobTypes.map((type) => (
-                      <option key={type} value={type}>{type}</option>
-                    ))}
-                  </Form.Select>
-                </Form.Group>
-  
-                <Form.Group className="mb-3">
-                  <Form.Label>Beschreibung</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
-                </Form.Group>
-  
-                <Form.Group className="mb-3">
-                  <Form.Label>Maximales Budget (€)</Form.Label>
-                  <Form.Control
-                    type="number"
-                    value={budget}
-                    onChange={(e) => setBudget(parseInt(e.target.value))}
-                  />
-                </Form.Group>
-  
-                <Form.Group className="mb-3">
-                  <Form.Label>Reichweite (km)</Form.Label>
-                  <Form.Control
-                    type="number"
-                    value={range}
-                    onChange={(e) => setRange(parseInt(e.target.value))}
-                  />
-                </Form.Group>
-                <Button className="button" onClick={handleCreateContract} disabled={isCreatingContract}>
-    {isCreatingContract ? 'Erstellt...' : 'Vertrag erstellen und suchen'}
-</Button>
-
-              </>
+              </div>
             )}
+            <Form.Group className="mb-3">
+              <Form.Label>Adresse</Form.Label>
+              <Form.Control
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                required
+                placeholder="Straße..."
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Dienstleistung</Form.Label>
+              <Form.Select value={service} onChange={handleSelectChange} required>
+                <option value="">ServiceTyp wählen...</option>
+                {jobTypes.map((type) => (
+                  <option key={type} value={type}>{type}</option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Beschreibung</Form.Label>
+              <Form.Control
+                as="textarea"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Maximales Budget (€)</Form.Label>
+              <Form.Control
+                type="number"
+                value={budget}
+                onChange={(e) => setBudget(parseInt(e.target.value))}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Reichweite (km)</Form.Label>
+              <Form.Control
+                type="number"
+                value={range}
+                onChange={(e) => setRange(parseInt(e.target.value))}
+              />
+            </Form.Group>
+            <Button className="button" type="submit" disabled={isCreatingContract}>
+              {isCreatingContract ? 'Erstellt...' : 'Vertrag erstellen und suchen'}
+            </Button>
           </Form>
         </div>
       </div>
     </div>
   );
-
 };
   

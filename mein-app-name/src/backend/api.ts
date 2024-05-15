@@ -347,7 +347,7 @@ export async function countAllWorkers(): Promise<number> {
   }
 
   export async function createContract(contract : ContractResource) {
-    const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/`; 
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/contract`; 
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -365,6 +365,22 @@ export async function countAllWorkers(): Promise<number> {
   }
 
 
+  export async function deleteContractById(id: number): Promise<boolean> {
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/${id}`;
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        credentials: "include" as RequestCredentials,
+      }
+    });
+  
+    if (!response.ok) {
+      throw new Error('Failed to delete contract with id: ' + id);
+    }
+  
+    return true;
+  }
   
   
 

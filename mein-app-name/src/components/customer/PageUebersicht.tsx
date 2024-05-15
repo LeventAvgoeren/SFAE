@@ -4,6 +4,7 @@ import { getContractByCustomerId } from "../../backend/api";
 import NavbarComponent from "../NavbarComponent";
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { ContractResource } from "../../Resources";
+import "./PageUebersicht.css"
 
 export function PageUebersicht() {
   
@@ -45,12 +46,13 @@ export function PageUebersicht() {
 
   return (
     <>
+    
       <NavbarComponent/>
-      <div style={{ height: 400, width: '100%' }}>
+      <div style={{ height: 500, width: '100%' }}>
         <DataGrid
+        className='namen1'
           rows={contracts}
           columns={columns}
-
         />
       </div>
     </>

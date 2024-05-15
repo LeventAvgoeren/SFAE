@@ -143,16 +143,18 @@ button:hover {
     margin-bottom: 50px;
 }
 
-.container-frame2{
-  width: calc(80% - 4cm); /* Reduziert die Gesamtbreite um 4cm, je 2cm auf jeder Seite */
-    height: calc(100% - 4cm); /* Reduziert die Gesamthöhe um 4cm, je 2cm auf jeder Seite */
-    background-color: #104E8B; /* Hintergrundfarbe des Containers */
-    padding: 20px; /* Optional, für Innenabstand */
-    box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Optional, fügt Schatten für Tiefe hinzu */
-    border-radius: 20px; /* Fügt abgerundete Ecken hinzu */
-    background-position: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.custom-container3{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.7); 
+  padding: 40px;
+  border-radius: 12%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: auto;
+  max-width: 100%;
+  text-align: center;
+  color: white;
+  width: 80%;
 }

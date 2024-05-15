@@ -1,5 +1,4 @@
-.page-background {
-  background-image: url('/public/b1.jpg'); /* Überprüfen Sie den korrekten Pfad */
+.page-background { /* Überprüfen Sie den korrekten Pfad */
   display: flex;
   justify-content: flex-start; 
   align-items: center;

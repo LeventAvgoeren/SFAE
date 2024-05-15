@@ -52,6 +52,9 @@ console.log (loginInfo)
                   {loginInfo && (
                       <li><a href={`/customer/${loginInfo.userId}/uebersicht`}>Übersicht</a></li>
                   )}
+                  {loginInfo && (
+                      <li><a href={`/customer/${loginInfo.userId}/faq`}>Faq</a></li>
+                  )}
                    {loginInfo && loginInfo.admin ==="ADMIN" && (
                       <li><a href={`/admin/${loginInfo.userId}`}>Admin</a></li>
                   )}

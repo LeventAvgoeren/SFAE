@@ -5,6 +5,7 @@ import { Left } from 'react-bootstrap/lib/Media';
 import { Link, useParams } from 'react-router-dom';
 import { getCustomerbyID } from '../../backend/api';
 import "./PageOrderRating.css"
+import NavbarComponent from '../NavbarComponent';
 
 function PageOrderRating() {
   const [rating, setRating] = useState<number>(0);
@@ -29,17 +30,18 @@ function PageOrderRating() {
 
 
     <>
-
+  <NavbarComponent/>
     <div className='background-image'>
-      <div className="container-frame3">
+      <div className="custom-container4">
 
-        <h2 style={{ color: 'white' }}>Vielen dank für deine Bezahlung.</h2>
-        <img
+      <img
           src="/Working_man.png"
           alt="working_man"
           className='Left-Picture'
           height="250"
-          style={{ float: 'left', borderRadius: '50%' }} />
+          style={{ borderRadius: '50%' }} />
+
+        <h2 style={{ color: 'white' }}>Vielen dank für deine Bezahlung.</h2>
 
         <div className='question' style={{ color: 'white' }}> Hinterlasse bitte noch eine Bewertung für S.Müller.</div>
         <div style={{ color: 'white' }}>

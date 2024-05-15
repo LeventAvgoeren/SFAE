@@ -40,14 +40,17 @@ public class ContractTests {
   public void testCreateContract() throws Exception {
 
     String json = "{" +
-        "\"jobType\": \"KOCH\"," +
+        "\"jobType\": \"GÄRTNER\"," +
         "\"adress\": \"Quizostrasse32\"," +
         "\"payment\": \"CASH\"," +
         "\"description\": \"Ich\"," +
         "\"statusOrder\": \"UNDEFINED\"," +
-        "\"range\": 2.2," + 
+        "\"range\": 1.5," + 
         "\"customerId\": \"C1\"," + 
-        "\"workerId\": \"W1\"" +
+        "\"maxPayment\": 50.0," +
+        "\"workerId\": \"W1\"," +
+        "\"latitude\": 52.5347706933045," +
+        "\"longitude\": 13.35002718682623"+
         "}";
 
     System.out.println(json);
@@ -242,7 +245,9 @@ public class ContractTests {
         "\"statusOrder\": \"UNDEFINED\"," +
         "\"range\": 2.2," + 
         "\"customerId\": 1," + 
-        "\"workerId\": 6" + 
+        "\"workerId\": 6" +
+        "\"latitude\": 52.5347706933045," +
+        "\"longitude\": 13.35002718682623"+ 
         "}";
 
     System.out.println(json);

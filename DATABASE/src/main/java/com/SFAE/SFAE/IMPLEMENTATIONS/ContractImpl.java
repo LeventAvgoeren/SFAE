@@ -106,7 +106,7 @@ public class ContractImpl implements ContractInterface {
 
      jdbcTemplate.update(connection -> {
         PreparedStatement ps = connection.prepareStatement(
-            "INSERT INTO Contract (job_type, adress, payment, description, status_order, range, customer_id, worker_id,max_Payment) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)");
+            "INSERT INTO Contract (job_type, adress, payment, description, status_order, range, customer_id, worker_id,max_Payment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             ps.setString(1, jobType);
             ps.setString(2, address);
@@ -117,6 +117,7 @@ public class ContractImpl implements ContractInterface {
             ps.setString(7, customer.getId());
             ps.setString(8, worker.getId());
             ps.setDouble(9, maxPayment);
+       
             return ps;
   });
   return new Contract(JobList.valueOf(jobType), address, Payment.valueOf(payment), description,StatusOrder.valueOf(statusOrder), range, customer, worker,maxPayment);

@@ -68,6 +68,7 @@ public class Contract {
   @JoinColumn(name = "worker_id")
   private Worker worker;
 
+
   public Contract(JobList jobType, String adress, Payment payment, String description, StatusOrder statusOrder,
       Double range, Customer customer, Worker worker,Double maxPayment) {
     this.jobType = jobType;

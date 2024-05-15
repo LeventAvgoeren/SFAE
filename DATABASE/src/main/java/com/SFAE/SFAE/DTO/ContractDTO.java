@@ -60,6 +60,9 @@ public class ContractDTO {
     @NotNull(message = "WorkerId is required")
     private String workerId;    // Referenziert den ID des Arbeiters
 
+    private Double latitude;
+    private Double longitude;
+
     public ContractDTO(){
 
     };

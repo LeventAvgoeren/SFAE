@@ -83,10 +83,10 @@ public class Worker {
   private Boolean verification;
 
   
-  @Column(name = "BREITE")
+  @Column(name = "latitude")
   private Double latitude;
   
-  @Column(name = "LÄNGE")
+  @Column(name = "longitude")
   private Double longitude;
 
   public Worker(){}

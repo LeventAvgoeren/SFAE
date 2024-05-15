@@ -16,6 +16,7 @@ import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.JobList;
 import com.SFAE.SFAE.ENUM.Payment;
 import com.SFAE.SFAE.ENUM.StatusOrder;
+import com.SFAE.SFAE.IMPLEMENTATIONS.SFAEAlgorithm;
 import com.SFAE.SFAE.INTERFACE.ContractInterface;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
@@ -44,6 +45,9 @@ public class ContractController implements ContractEP {
   @Autowired
   private MailService mail;
 
+  @Autowired
+  SFAEAlgorithm sfae;
+
   @Override
   public ResponseEntity<?> createContract(@Valid ContractDTO contract, BindingResult bindingResult) {
 
@@ -62,10 +66,14 @@ public class ContractController implements ContractEP {
       if (created != null) {
         Worker found=work.findWorkersbyID(String.valueOf(contract.getWorkerId()));
         Customer foundCustomer= custo.findCustomerbyID(String.valueOf(contract.getCustomerId()));
-
+        
+      /*
         mail.sendSimpleMessage(found.getEmail(),"Job Angebot Erhalten","Das sind die folgenden Customer informationen Auftraggeber"
         +foundCustomer.getName()+"jobtyp:"+contract.getJobType()+contract.getDescription()+"Adresse:"+contract.getAdress()+
         "Payment:"+contract.getPayment()+"Entfernung:"+contract.getRange()+"km");
+      */  
+       
+        System.out.println( sfae.getBestWorkersforTheJob(contract));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
       }

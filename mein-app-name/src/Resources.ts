@@ -35,6 +35,9 @@ export type ContractResource = {
     statusOrder: string;  
     customerId: string;
     workerId?: string;
+    longitude: number;
+    latitude: number;
+    maxPayment: number;
 }
 
 export type CustomerResource = {

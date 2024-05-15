@@ -28,7 +28,7 @@ const SetView: React.FC<{ center: [number, number]; zoom: number }> = ({
 };
 
 interface MapComponentProps {
-  onAddressChange: (address: string) => void;
+  onAddressChange: (address: string, Location:Position) => void;
 }
 
 const MapComponent:  React.FC<MapComponentProps> = ({ onAddressChange }) => {
@@ -83,7 +83,8 @@ const MapComponent:  React.FC<MapComponentProps> = ({ onAddressChange }) => {
 
       let formattedAddress = add[1] + " " + add[0]
       setAddress(formattedAddress);
-      onAddressChange(formattedAddress);
+      fetchCoordinates(data.display_name)
+      onAddressChange(formattedAddress, userLocation!);
     } catch (error) {
       console.error("Failed to fetch address:", error);
     }

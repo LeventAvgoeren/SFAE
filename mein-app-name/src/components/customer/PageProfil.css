@@ -298,4 +298,10 @@ a.list-group-item, .list-group-item-action {
   color: white;
   width: 80%;
 }
-  
+
+.ButtonsDiv{
+  width: 100%;
+}
+.ButtonUpdate{
+  width: 100%;
+}

@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { login } from "../backend/api";
 import { MDBInput } from 'mdb-react-ui-kit';
 import { Table, Button, Container, Nav, NavDropdown, Navbar, Modal } from 'react-bootstrap';
-// import { Trash, Search, Pencil, Modem } from 'react-bootstrap-icons';
+import { Trash, Search, Pencil, Modem } from 'react-bootstrap-icons';
 import { LoginInfo } from './LoginManager';
 import { CustomerResource } from "../Resources";
 import { getAllCustomers, deleteCustomer, updateCustomer } from "../backend/api";
@@ -22,7 +22,7 @@ export function PageAdminDienstleistungen() {
 
     const selectDeleteCustomer = (cus: CustomerResource) => {
         setSelectedCustomer(cus);
-        setShowDeleteC(true);
+        setShowDeleteC(true); 
     }
 
     const selectEditCustomer = (cus: CustomerResource) => {

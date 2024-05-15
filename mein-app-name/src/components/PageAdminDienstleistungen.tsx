@@ -1,16 +1,77 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import für Navigation
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './DesignVorlage.css';
 import './PageAdminDienstleistungen.css';
 import { Link } from 'react-router-dom';
 import { login } from "../backend/api";
-import { Col, Container, Nav, NavDropdown, Navbar, Row } from 'react-bootstrap';
+import { Table, Button, Container, Nav, NavDropdown, Navbar, Modal } from 'react-bootstrap';
+// import { Trash, Search, Pencil, Modem } from 'react-bootstrap-icons';
 import { LoginInfo } from './LoginManager';
+import { CustomerResource } from "../Resources";
+import { getAllCustomers, deleteCustomer, updateCustomer } from "../backend/api";
 
 
 export function PageAdminDienstleistungen() {
     const [loginInfo, setLoginInfo] = useState<LoginInfo | false | undefined>(undefined);
+    const [showDeleteC, setShowDeleteC] = useState<boolean>(false);
+    const [showEditC, setShowEditC] = useState<boolean>(false);
+    const [customertData, setCustomerData] = useState<CustomerResource[]>([]);
+    const [selectedCustomer, setSelectedCustomer] = useState<CustomerResource | null>(null);
+
+    const selectDeleteCustomer = (cus: CustomerResource) => {
+        setSelectedCustomer(cus);
+        setShowDeleteC(true);
+    }
+
+    const selectEditCustomer = (cus: CustomerResource) => {
+        setSelectedCustomer(cus);
+        setShowEditC(true);
+    }
+
+    const removeCustomer = () => {
+        if(selectedCustomer?.id){
+            try{
+                deleteCustomer(selectedCustomer.id)
+                setSelectedCustomer(null);
+            } catch{
+                console.log("error")
+            }
+        }
+        setShowDeleteC(false);
+    }
+
+    const editCustomer = () => {
+        if(selectedCustomer?.id){
+            try{
+                updateCustomer(selectedCustomer)
+                setSelectedCustomer(null);
+            } catch{
+                console.log("error")
+            }
+        }
+        setShowEditC(false);
+    }
+
+    const closeDeleteConstomerDialog = () => {
+        setShowDeleteC(false);
+    }
+
+    const closeEditConstomerDialog = () => {
+        setShowEditC(false);
+    }
+
+  useEffect(() => {
+    async function fetchCustomerData() {
+      try {
+        const data = await getAllCustomers();
+        setCustomerData(data);
+      } catch (error) {
+        console.error("Error fetching customers data:", error);
+      }
+    }
+    fetchCustomerData();
+  }, []);
 
 
     return (
@@ -104,45 +165,58 @@ export function PageAdminDienstleistungen() {
                             alt="SFAE Logo"
                         />
                     </Navbar.Brand>
-
-                    {/* Static template */}
-                    <table>
-                        <th>
-                            <td>Name</td>
-                            <td>Id</td>
-                            <td>Delete</td>
-                            <td>Search</td>
-                            <td>Edit</td>
-
-                        </th>
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Id</th>
+                            <th>Delete</th>
+                            <th>Search</th>
+                            <th>Edit</th>
+                            </tr>
+                        </thead>
                         <tbody>
-
-                        <tr>
-                        <td>Person 1</td>
-                        <td>1</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        </tr>
-
-                        <tr>
-                        <td>Person 2</td>
-                        <td>2</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        </tr>
+                        {
+                            customertData.map((customer, idx) =>{
+                                return <tr key={idx}>
+                                    <td>{idx+1}</td>
+                                    <td>{customer.name}</td>
+                                    <td>{customer.id}</td>
+                                    {/* <td><Trash size={24} color='red' onClick={() => selectDeleteCustomer(customer)} /></td>
+                                    <td><Search size={24} color='green'/></td>
+                                    <td><Pencil size={24} color='orange' onClick={() => selectEditCustomer(customer)}/></td> */}
+                                </tr>
+                            })
+                        }
                         </tbody>
-                        
-                    </table>
-
-
-
-
-
-
+                    </Table>
                 </div>
             </div>
+            {selectedCustomer && <Modal show={showDeleteC}>
+                <Modal.Header>
+                    <Modal.Title>Delete Customer</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Möchten sie wirklich {selectedCustomer?.name} löschen?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant='secondary' onClick={closeDeleteConstomerDialog}>Close</Button>
+                    <Button variant='primary' onClick={removeCustomer}>Delete</Button>
+                </Modal.Footer>
+            </Modal>}
+            {selectedCustomer && <Modal show={showEditC}>
+                <Modal.Header>
+                    <Modal.Title>Customer Bearbeiten</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant='secondary' onClick={closeEditConstomerDialog}>Close</Button>
+                    <Button variant='primary'>Bearbeiten</Button>
+                </Modal.Footer>
+            </Modal>}
         </>
     );
 }

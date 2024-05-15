@@ -6,10 +6,9 @@ import { Button, Modal } from "react-bootstrap"
 import { LinkContainer } from "react-router-bootstrap"
 import { LoginInfo } from "../LoginManager"
 import NavbarComponent from "../NavbarComponent"
-import React from "react"
 
 
-export function PageProfil(){
+export function PageCustomerProfil(){
 
   const params=useParams()
   let customerId=params.customerId!
@@ -117,3 +116,4 @@ async function deleten(){
     </>
   );
 }
+export{}

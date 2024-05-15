@@ -26,7 +26,7 @@ export interface Position {
 }
   
 export type ContractResource = {
-    id?: Number;
+    id?: number;
     adress: string;
     description:string;
     jobType: string;

@@ -45,7 +45,7 @@ export function PageOrderOverview() {
 
         <>
         <NavbarComponent /> <div className ="background-image">
-                <div className="custom-container2">
+                <div className="custom-container3">
                     <h1 className="header-title" style={{ color: 'white' }}>Worker</h1>
                     <Row>
                         <div className="profile-info" style={{ color: 'white' }}>

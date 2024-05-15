@@ -27,8 +27,6 @@ import PageRegistrationAdmin from "./components/PageRegistrationAdmin";
 import { PageIndexAdmin } from "./components/PageIndexAdmin";
 import { PageAdminDienstleistungen } from "./components/PageAdminDienstleistungen";
 
-
-import NavbarComponent from "./components/NavbarComponent";
 import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
 
 import PageOrderRating from "./components/Order/PageOrderRating";
@@ -39,6 +37,7 @@ import { PageCustomerFAQ } from "./components/customer/PageCustomerFAQ";
 import { PageUebersicht } from "./components/customer/PageUebersicht";
 import { PageOrderCompleted } from "./components/Order/PageOrderCompleted";
 import { PageProfil } from "./components/customer/PageProfil";
+
 
 
 const history = createMemoryHistory();

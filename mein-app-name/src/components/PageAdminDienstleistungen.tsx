@@ -9,7 +9,7 @@ import { Table, Button, Container, Nav, NavDropdown, Navbar, Modal } from 'react
 import { Trash, Search, Pencil, Modem } from 'react-bootstrap-icons';
 import { LoginInfo } from './LoginManager';
 import { CustomerResource } from "../Resources";
-import { getAllCustomers } from "../backend/api";
+import { getAllCustomers, deleteCustomer, updateCustomer } from "../backend/api";
 
 
 export function PageAdminDienstleistungen() {
@@ -27,6 +27,30 @@ export function PageAdminDienstleistungen() {
     const selectEditCustomer = (cus: CustomerResource) => {
         setSelectedCustomer(cus);
         setShowEditC(true);
+    }
+
+    const removeCustomer = () => {
+        if(selectedCustomer?.id){
+            try{
+                deleteCustomer(selectedCustomer.id)
+                setSelectedCustomer(null);
+            } catch{
+                console.log("error")
+            }
+        }
+        setShowDeleteC(false);
+    }
+
+    const editCustomer = () => {
+        if(selectedCustomer?.id){
+            try{
+                updateCustomer(selectedCustomer)
+                setSelectedCustomer(null);
+            } catch{
+                console.log("error")
+            }
+        }
+        setShowEditC(false);
     }
 
     const closeDeleteConstomerDialog = () => {
@@ -169,7 +193,7 @@ export function PageAdminDienstleistungen() {
                     </Table>
                 </div>
             </div>
-            <Modal show={showDeleteC}>
+            {selectedCustomer && <Modal show={showDeleteC}>
                 <Modal.Header>
                     <Modal.Title>Delete Customer</Modal.Title>
                 </Modal.Header>
@@ -178,10 +202,10 @@ export function PageAdminDienstleistungen() {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant='secondary' onClick={closeDeleteConstomerDialog}>Close</Button>
-                    <Button variant='primary'>Delete</Button>
+                    <Button variant='primary' onClick={removeCustomer}>Delete</Button>
                 </Modal.Footer>
-            </Modal>
-            <Modal show={showEditC}>
+            </Modal>}
+            {selectedCustomer && <Modal show={showEditC}>
                 <Modal.Header>
                     <Modal.Title>Customer Bearbeiten</Modal.Title>
                 </Modal.Header>
@@ -192,7 +216,7 @@ export function PageAdminDienstleistungen() {
                     <Button variant='secondary' onClick={closeEditConstomerDialog}>Close</Button>
                     <Button variant='primary'>Bearbeiten</Button>
                 </Modal.Footer>
-            </Modal>
+            </Modal>}
         </>
     );
 }

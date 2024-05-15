@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './PageWorkerFAQ.css';
+import NavbarWComponent from './NavbarWComponent';
 
 type FAQEntry = {
   id: number;
@@ -70,6 +71,7 @@ export function PageWorkerFAQ() {
 
   return (
     <>
+    <NavbarWComponent />
       <div className="background-image">
       <section className="faq-section">
         <div className="container">
@@ -125,7 +127,6 @@ export function PageWorkerFAQ() {
             <div className="mt-12">
               <h2 className="text-lg font-extrabold">Oder melde dich hier ganz bequem bei uns per Kontaktformular!</h2>
               <ul className="flex mt-3 space-x-4">
-                {/* Social Icons */}
               </ul>
             </div>
           </div>

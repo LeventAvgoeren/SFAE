@@ -21,8 +21,8 @@
 }
 
 .inputField input, .inputField input::placeholder {
-  color: white !important; /* Erzwingt die Textfarbe Weiß für Text und Platzhalter */
-  background-color: rgba(255, 255, 255, 0.1) !important; /* Leicht transparenter weißer Hintergrund */
+  color: white ; /* Erzwingt die Textfarbe Weiß für Text und Platzhalter */
+  background-color: rgba(255, 255, 255, 0.1) ; /* Leicht transparenter weißer Hintergrund */
   border: 1px solid #ccc; /* Optional: Grenze */
 }
 
@@ -36,4 +36,8 @@
 
 .alert {
   color: red; /* Farbe für Fehlermeldungen, wenn gewünscht */
+}
+
+h4 {
+  color:white
 }

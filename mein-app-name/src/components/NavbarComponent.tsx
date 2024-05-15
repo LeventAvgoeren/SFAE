@@ -53,7 +53,7 @@ console.log (loginInfo)
                       <li><a href={`/customer/${loginInfo.userId}/uebersicht`}>Übersicht</a></li>
                   )}
                    {loginInfo && loginInfo.admin ==="ADMIN" && (
-                      <li><a href={`/admin/${loginInfo.userId}`}>Admin</a></li>
+                      <li><a href={`/admin/${loginInfo.userId}/dienstleistungen`}>Admin</a></li>
                   )}
                   <li><a href="#" onClick={doLogout}>Logout</a></li>
               </ul>

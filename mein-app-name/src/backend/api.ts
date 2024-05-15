@@ -215,6 +215,14 @@ export async function checkLoginStatus(): Promise<LoginInfo | false> {
   return false;
 }
 
+export async function getAllCustomers(): Promise<CustomerResource[]> {
+  const url = `${process.env.REACT_APP_API_SERVER_URL}/customer`;
+  const response = await fetchWithErrorHandling(url, {
+    credentials: "include" as RequestCredentials,
+  });
+  return response.json();
+}
+
 export async function getCustomerbyID(id: string): Promise<CustomerResource> {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/customer/${id}`;
   const response = await fetchWithErrorHandling(url, {

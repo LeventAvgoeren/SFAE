@@ -1,16 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import für Navigation
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './DesignVorlage.css';
 import './PageAdminDienstleistungen.css';
 import { Link } from 'react-router-dom';
 import { login } from "../backend/api";
-import { Col, Container, Nav, NavDropdown, Navbar, Row } from 'react-bootstrap';
+import { Table, Container, Nav, NavDropdown, Navbar } from 'react-bootstrap';
+import { Trash, Search, Pencil } from 'react-bootstrap-icons';
 import { LoginInfo } from './LoginManager';
+import { CustomerResource } from "../Resources";
+import { getAllCustomers } from "../backend/api";
 
 
 export function PageAdminDienstleistungen() {
     const [loginInfo, setLoginInfo] = useState<LoginInfo | false | undefined>(undefined);
+    const [customertData, setCustomerData] = useState<CustomerResource[]>([]);
+
+
+  useEffect(() => {
+    async function fetchCustomerData() {
+      try {
+        const data = await getAllCustomers();
+        setCustomerData(data);
+      } catch (error) {
+        console.error("Error fetching customers data:", error);
+      }
+    }
+    fetchCustomerData();
+  }, []);
 
 
     return (
@@ -104,43 +121,32 @@ export function PageAdminDienstleistungen() {
                             alt="SFAE Logo"
                         />
                     </Navbar.Brand>
-
-                    {/* Static template */}
-                    <table>
-                        <th>
-                            <td>Name</td>
-                            <td>Id</td>
-                            <td>Delete</td>
-                            <td>Search</td>
-                            <td>Edit</td>
-
-                        </th>
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Id</th>
+                            <th>Delete</th>
+                            <th>Search</th>
+                            <th>Edit</th>
+                            </tr>
+                        </thead>
                         <tbody>
-
-                        <tr>
-                        <td>Person 1</td>
-                        <td>1</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        </tr>
-
-                        <tr>
-                        <td>Person 2</td>
-                        <td>2</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        </tr>
+                        {
+                            customertData.map((customer, idx) =>{
+                                return <tr key={idx}>
+                                    <td>{idx+1}</td>
+                                    <td>{customer.name}</td>
+                                    <td>{customer.id}</td>
+                                    <td><Trash size={24} color='red' /></td>
+                                    <td><Search size={24} color='green'/></td>
+                                    <td><Pencil size={24} color='orange' /></td>
+                                </tr>
+                            })
+                        }
                         </tbody>
-                        
-                    </table>
-
-
-
-
-
-
+                    </Table>
                 </div>
             </div>
         </>

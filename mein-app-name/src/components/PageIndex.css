@@ -35,11 +35,11 @@
     flex: 1;
     height: 100vh;
     cursor: pointer;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Fügen Sie 'transform' zu den Übergängen hinzu */
     position: relative; /* Macht die Position der Überschrift relativ zum Bild */
-
+    overflow: hidden; /* Verhindert das Überlaufen des Inhalts */
   }
-  
+
   .left-image {
     background: url('/public/t1.jpeg') no-repeat center center;
     background-size: cover;
@@ -123,8 +123,9 @@
     transform: translateX(-50%);
   }
   
-  .role-image:hover .hammer-icon {
-    animation: swingHammer 2s infinite;
+  .role-image:hover {
+    opacity: 0.8;
+    transform: scale(1.05); /* Zoom-Effekt */
   }
   
   .question-icon {
@@ -173,3 +174,19 @@
     color: white;
     text-align: center;
   }
+.role-image::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0); /* Anfangs transparent */
+  transition: background-color 0.5s ease; /* Übergang für die Hintergrundfarbe */
+  z-index: 1; /* Stellt sicher, dass es über dem Bild liegt */
+}.role-image:hover::before {
+  background-color: rgba(0, 0, 0, 0.5); /* Halbtransparentes Schwarz bei Hover */
+}.role-image:hover {
+  opacity: 0.8;
+  transform: scale(1.05); /* Zoom-Effekt */
+}

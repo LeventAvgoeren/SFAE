@@ -39,19 +39,6 @@ export function PageIndex() {
           Falls du bereits ein Konto hast, kannst du dich hier anmelden.
         </Button>
       </div>
-<<<<<<< HEAD
-=======
-      <Card className="container-frame text-center" style={{ width: '600px', backgroundColor: '#2D5277', padding: '20px', boxShadow: '0 0 10px rgba(0,0,0,0.5)', borderRadius: '20px', color: "white" }}>
-        <Card.Header>Willkommen auf SfÆ</Card.Header>
-        <Card.Body>
-          <h1>Wähle deine Rolle aus und melde dich an!</h1>
-        </Card.Body>
-        <Card.Footer>Wenn du etwas nicht verstehen solltest oder überfordert bist Drück gerne hier damit ich dir alles erkläre.</Card.Footer>
-        <Button variant="outline-light" onClick={navigateToLogin} style={{ marginTop: '20px', fontSize: '16px', padding: '10px 20px' }}>
-            Falls du bereits ein Konto hast, kannst du dich hier anmelden.
-          </Button>
-      </Card>
->>>>>>> 60225ece152fb3b46d5c8f2af42c603faa0fa69d
     </div>
   );
 }

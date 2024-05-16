@@ -149,11 +149,7 @@ return (
                     className="form-control"
                     value={range.toString()}
        onChange={(e) => setRange(Number(e.target.value))} />
-<<<<<<< HEAD
-            <MDBInput wrapperClass="inputField1" label="Mindestlohn /h" type="text"
-=======
             <MDBInput wrapperClass="inputField1" label="Mindestbertrag" type="text"
->>>>>>> 60225ece152fb3b46d5c8f2af42c603faa0fa69d
                     className="form-control"
                     value={minPayment.toString()}
                     onChange={(e) => setMinPayment(Number(e.target.value))} />

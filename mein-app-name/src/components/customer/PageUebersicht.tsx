@@ -40,12 +40,11 @@ export function PageUebersicht() {
     { field: 'jobType', headerName: 'Job Typ', width: 130 },
     { field: 'payment', headerName: 'Payment', width: 130 },
     { field: 'range', headerName: 'Range', width: 130 },
-    { field: 'workerId', headerName: 'Worker ID', width: 130 },
-  ];
-
-  if (noContracts) {
-    return <p>Sie haben keine Aufträge bis jetzt</p>;
-  }
+    { field: 'worker', headerName: 'Worker Name', width: 130, 
+     renderCell: (params) => {
+      return params.value ? params.value.name : 'N/A';
+    }}
+  ]
 
   return (
     <>

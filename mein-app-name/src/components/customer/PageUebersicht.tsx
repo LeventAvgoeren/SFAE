@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { getContractByCustomerId } from "../../backend/api";
 import NavbarComponent from "../NavbarComponent";
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { ContractResource } from "../../Resources";
+import { ContractResource, WorkerResource } from "../../Resources";
 import "./PageUebersicht.css"
 
 export function PageUebersicht() {
@@ -12,12 +12,15 @@ export function PageUebersicht() {
   const customerId = params.customerId!;
 
   const [contracts, setContracts] = useState<ContractResource[]>([]);
+  const [worker,setWorker]=useState<WorkerResource[]>([])
   const [noContracts, setNoContracts] = useState(false);
 
   useEffect(() => {
     async function fetchContracts() {
       try {
         let contracts = await getContractByCustomerId(customerId);
+        
+        console.log(contracts)
         if (contracts.length === 0) {
           setNoContracts(true);
         } else {
@@ -32,7 +35,7 @@ export function PageUebersicht() {
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 130 },
-    { field: 'address', headerName: 'Adresse', width: 130 },
+    { field: 'adress', headerName: 'Adresse', width: 130 },
     { field: 'description', headerName: 'Beschreibung', width: 130 },
     { field: 'jobType', headerName: 'Job Typ', width: 130 },
     { field: 'payment', headerName: 'Payment', width: 130 },
@@ -48,11 +51,11 @@ export function PageUebersicht() {
     <>
 
       <NavbarComponent/>
-      <div style={{ height: 500, width: '100%' }}>
+      <div style={{ height: 'calc(100vh - 100px)', width: '100%' }}>
         <DataGrid
-        className='namen1'
           rows={contracts}
           columns={columns}
+          style={{ backgroundColor: 'white', color: 'black' }}
         />
       </div>
     </>

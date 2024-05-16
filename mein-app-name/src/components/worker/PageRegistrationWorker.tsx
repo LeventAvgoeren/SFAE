@@ -3,7 +3,7 @@ import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBCheckbox, MDBT
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import './DesignVorlage.css'; // Eigene Stilvorlagen
 import { registrationWorker } from '../../backend/api';
-import { Link } from 'react-router-dom'; // React Router für Link-Benutzung
+import { Link, useNavigate } from 'react-router-dom'; // React Router für Link-Benutzung
 import './PageRegistrationWorker.css'
 interface Position {
     latitude: number;
@@ -18,6 +18,7 @@ export default function PageRegistrationWorker() {
     const [jobType, setJobType] = useState('');
     const [salary, setSalary] = useState(1);
     const [userLocation, setUserLocation] = useState<Position | null>(null);
+    const navigate=useNavigate()
 
     const jobTypes = [
         "Hausmeister", "Haushälter", "Gärtner", "Kindermädchen", "Koch", 
@@ -57,6 +58,7 @@ export default function PageRegistrationWorker() {
             const response = await registrationWorker(name, address, email, password, jobType, salary, userLocation!);
             console.log('Registration successful:', response);
             alert('Registration successful!');
+            navigate("/login")
         } catch (error) {
             console.error('Registration failed:', error);
             alert('Registration failed!');

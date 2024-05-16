@@ -45,21 +45,17 @@ public class WorkerImpl implements WorkerInterface {
    * @return the count of Workers.
    */
   @Override
-  public long countWorker() {
-    List<Object> result = jdbcTemplate.query(
-
-        "SELECT COUNT(ID) FROM WORKER",
-
-        (rs, rowNum) -> {
-          long count = rs.getInt(1);
-          return count;
-        });
-    if (result.isEmpty()) {
-      return 0;
-    } else {
-      return result.size();
+    public long countWorker() {
+        List<Object> result = jdbcTemplate.query(
+                "SELECT COUNT(ID) FROM WORKER",
+                (rs, rowNum) -> {
+                    long count = rs.getInt(1);
+                    return count;
+                });
+        return result.size() > 0 ? (long) (result.get(0)) : 0;
     }
-  }
+
+    /**
 
   /**
    * Retrieves all Workers from the database.

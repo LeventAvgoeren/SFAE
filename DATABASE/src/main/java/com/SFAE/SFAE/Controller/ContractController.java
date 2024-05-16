@@ -16,13 +16,18 @@ import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.JobList;
 import com.SFAE.SFAE.ENUM.Payment;
 import com.SFAE.SFAE.ENUM.StatusOrder;
+import com.SFAE.SFAE.IMPLEMENTATIONS.SFAEAlgorithm;
 import com.SFAE.SFAE.INTERFACE.ContractInterface;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.Service.MailService;
 import org.slf4j.Logger;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -44,6 +49,9 @@ public class ContractController implements ContractEP {
   @Autowired
   private MailService mail;
 
+  @Autowired
+  SFAEAlgorithm sfae;
+
   @Override
   public ResponseEntity<?> createContract(@Valid ContractDTO contract, BindingResult bindingResult) {
 
@@ -58,15 +66,40 @@ public class ContractController implements ContractEP {
     }
 
     try {
-      System.out.println("KHEIR");
+
+      Map<Worker, Double> best = sfae.getBestWorkersforTheJob(contract);
+    
+      List<Map.Entry<Worker, Double>> entries = new ArrayList<>(best.entrySet());
+      entries.sort(Map.Entry.comparingByValue());
+
+      Iterator<Entry<Worker, Double>> iterator = entries.iterator(); 
+      Entry<Worker, Double> lastEntry = null;
+
+      while(iterator.hasNext()){
+          lastEntry = iterator.next();
+      }
+
+    
+      System.out.println(lastEntry);
+      contract.setWorkerId(lastEntry.getKey().getId());
+
       Contract created = dao.createContract(contract);
       if (created != null) {
         Worker found=work.findWorkersbyID(String.valueOf(contract.getWorkerId()));
         Customer foundCustomer= custo.findCustomerbyID(String.valueOf(contract.getCustomerId()));
-
-        mail.sendSimpleMessage(found.getEmail(),"Job Angebot Erhalten","Das sind die folgenden Customer informationen Auftraggeber"
-        +foundCustomer.getName()+"jobtyp:"+contract.getJobType()+contract.getDescription()+"Adresse:"+contract.getAdress()+
-        "Payment:"+contract.getPayment()+"Entfernung:"+contract.getRange()+"km");
+        
+       mail.sendSimpleMessage(found.getEmail(), "Jobangebot erhalten\n\n" ,
+       "Sehr geehrte/r " + found.getName() + ",\n\n" +
+       "wir freuen uns, Ihnen mitteilen zu können, dass wir ein neues Jobangebot erhalten haben. Unten finden Sie die Details zum Auftrag:\n\n" +
+       "Auftraggeber: " + foundCustomer.getName() + "\n" +
+       "Jobtyp: " + contract.getJobType() + "\n" +
+       "Beschreibung: " + contract.getDescription() + "\n" +
+       "Adresse: " + contract.getAdress() + "\n" +
+       "Zahlung: " + contract.getPayment() + "\n" +
+       "Entfernung: " + contract.getRange() + " km\n\n" +
+       "Bei Fragen oder für weitere Informationen stehen wir Ihnen gerne zur Verfügung.\n\n" +
+       "Mit freundlichen Grüßen,\n" +
+       "Ihr SFAE-Team\n");
 
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
       }
@@ -175,5 +208,6 @@ public class ContractController implements ContractEP {
     }
 
   }
+
 
 }

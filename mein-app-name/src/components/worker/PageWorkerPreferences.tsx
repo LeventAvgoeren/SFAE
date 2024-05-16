@@ -4,7 +4,7 @@ import { deleteWorker, getWorkerbyID, updateWorker } from "../../backend/api";
 import { useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { workerData } from "worker_threads";
-import { Navbar } from "react-bootstrap";
+import { Button, Navbar } from "react-bootstrap";
 import NavbarComponent from "../NavbarComponent";
 import NavbarWComponent from "./NavbarWComponent";
 import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
@@ -149,7 +149,7 @@ return (
                     className="form-control"
                     value={minPayment.toString()}
                     onChange={(e) => setMinPayment(Number(e.target.value))} />
-<select
+        <select
                     className="form-control"
                     value={jobType || ""}
                     onChange={(e) => setJobType(e.target.value)}
@@ -160,13 +160,8 @@ return (
                         {type}
                       </option>
                     ))}
-                  </select>            <button className="button" type="submit">Profil speichern</button>
-            <LinkContainer to="/">
-              <button className="button" onClick={handleDelete}>Profil löschen</button>
-            </LinkContainer>
-            <LinkContainer to={`/worker/${worId}`}>
-              <button type="button">Zurück zur Startseite!</button>
-            </LinkContainer>
+                  </select>            
+                  <Button className="button" variant="success" type="submit">Profil speichern</Button>
           </form>
         </MDBContainer>
       </div>

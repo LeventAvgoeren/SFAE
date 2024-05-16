@@ -41,10 +41,10 @@ final class DataFactoryImp implements DataFactoryInterface{
 
     @Override
     public Optional<Worker> createWorker(String id,String name, String location, String password, String email,
-            String status, Double range, String jobType, String Statusorder, Double minPayment, Double rating, Boolean verification) {
+            String status, Double range, String jobType, String Statusorder, Double minPayment, Double rating, Boolean verification,double latitude,double longitude) {
       try{
         return Optional.of(
-            new Worker(id,name,location, password, Status.valueOf(status),  StatusOrder.valueOf(Statusorder),  range, JobList.valueOf(jobType), minPayment, rating, verification, email)
+            new Worker(id,name,location, password, Status.valueOf(status),  StatusOrder.valueOf(Statusorder),  range, JobList.valueOf(jobType), minPayment, rating, verification, email,latitude,longitude)
         );
       }catch(IllegalArgumentException iax){
 

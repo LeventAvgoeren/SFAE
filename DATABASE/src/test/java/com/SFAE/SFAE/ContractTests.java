@@ -17,7 +17,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.SFAE.SFAE.IMPLEMENTATIONS.ContractImpl;
@@ -39,17 +38,19 @@ public class ContractTests {
   public void testCreateContract() throws Exception {
 
     String json = "{" +
-        "\"jobType\": \"KOCH\"," +
-        "\"adress\": \"HundeSTrasse 3\"," +
-        "\"payment\": \"PAYPAL\"," +
-        "\"description\": \"Ahmad steht auf männer\"," +
+        "\"jobType\": \"GÄRTNER\"," +
+        "\"adress\": \"Quizostrasse32\"," +
+        "\"payment\": \"CASH\"," +
+        "\"description\": \"Ich brauche jeamanden, der sich um die Plfanzen für 2 Studnen kümmert.\"," +
         "\"statusOrder\": \"UNDEFINED\"," +
-        "\"range\": 2.9," + 
-        "\"customerId\": \"C3\"," + 
-        "\"workerId\": \"W1\"" +
+        "\"range\": 1.5," + 
+        "\"customerId\": \"C1\"," + 
+        "\"maxPayment\": 50.0," +
+        "\"workerId\": \"W1\"," +
+        "\"latitude\": 52.5347706933045," +
+        "\"longitude\": 13.35002718682623"+
         "}";
 
-    System.out.println(json);
     TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
     mockMvc.perform(post("/contract")
@@ -79,7 +80,7 @@ public class ContractTests {
   "\"jobType\": \"GÄRTNER\"," +
   "\"adress\": \"Quizostrasse32\"," +
   "\"payment\": \"CASH\"," +
-  "\"description\": \"Ich\"," +
+  "\"description\": \"Ich brauche jeamanden, der sich um die Plfanzen für 2 Studnen kümmert.\"," +
   "\"statusOrder\": \"UNDEFINED\"," +
   "}";
     TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
@@ -241,7 +242,9 @@ public class ContractTests {
         "\"statusOrder\": \"UNDEFINED\"," +
         "\"range\": 2.2," + 
         "\"customerId\": 1," + 
-        "\"workerId\": 6" + 
+        "\"workerId\": 6" +
+        "\"latitude\": 52.5347706933045," +
+        "\"longitude\": 13.35002718682623"+ 
         "}";
 
     System.out.println(json);
@@ -255,7 +258,7 @@ public class ContractTests {
     transactionManager.commit(status);
   }
 
-  @Test
+@Test
 public void testCountAllContracts() throws Exception {
 
      MvcResult mvcResult = mockMvc.perform(get("/contract/all"))
@@ -271,12 +274,13 @@ public void testGetContractByCustomerId() throws Exception {
 
   TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
-  mockMvc.perform(get("/contract/3"))
+  mockMvc.perform(get("/contract/customer/C3"))
       .andExpect(status().isOk())
       .andReturn();
 
   transactionManager.commit(status);
 }
+
 
 
 

@@ -1,10 +1,15 @@
 {
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/x-data-grid": "^7.4.0",
     "bootstrap": "^5.3.3",
     "react-bootstrap": "^2.10.2",
+    "react-bootstrap-icons": "^1.11.4",
     "react-router-bootstrap": "^0.26.2"
   },
   "devDependencies": {
+    "@types/leaflet": "^1.9.12",
     "@types/react-bootstrap": "^0.32.36",
     "@types/react-router-bootstrap": "^0.26.6"
   }

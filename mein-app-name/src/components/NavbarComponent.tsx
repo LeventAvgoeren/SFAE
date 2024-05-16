@@ -47,10 +47,13 @@ console.log (loginInfo)
                       <li><a href={`/customer/${loginInfo.userId}`}>Home</a></li>
                   )}
                   {loginInfo && (
-                      <li><a href={`/customer/${loginInfo.userId}/profile`}>Profil</a></li>
+                      <li><a href={`/customer/${loginInfo.userId}/profil`}>Profil</a></li>
                   )}
                   {loginInfo && (
                       <li><a href={`/customer/${loginInfo.userId}/uebersicht`}>Übersicht</a></li>
+                  )}
+                  {loginInfo && (
+                      <li><a href={`/customer/${loginInfo.userId}/faq`}>Faq</a></li>
                   )}
                    {loginInfo && loginInfo.admin ==="ADMIN" && (
                       <li><a href={`/admin/${loginInfo.userId}/dienstleistungen`}>Admin</a></li>

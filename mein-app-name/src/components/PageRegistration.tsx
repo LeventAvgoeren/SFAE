@@ -9,13 +9,16 @@ export default function PageRegistration() {
     const [address, setAddress] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate= useNavigate()
 
     const handleRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
         try {
           const response = await registrationCustomer(name, password, email);
+         
           console.log('Registration successful:', response);
             alert('Registration successful!');
+            navigate("/login")
         } catch (error) {
             console.error('Registration failed:', error);
             alert('Registration failed!');

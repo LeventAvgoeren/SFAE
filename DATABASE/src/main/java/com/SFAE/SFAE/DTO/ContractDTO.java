@@ -32,6 +32,11 @@ public class ContractDTO {
 
     @NotNull
     @NotEmpty
+    @NotBlank(message = "payment is required")
+    private Double maxPayment;
+
+    @NotNull
+    @NotEmpty
     @NotBlank(message = "description is required")
     private String description;
 
@@ -50,8 +55,13 @@ public class ContractDTO {
     @NotNull(message = "CustomerId is required")
     private String customerId;  // Referenziert den ID des Kunden
 
- 
+    @NotNull
+    @NotEmpty
+    @NotNull(message = "WorkerId is required")
     private String workerId;    // Referenziert den ID des Arbeiters
+
+    private Double latitude;
+    private Double longitude;
 
     public ContractDTO(){
 

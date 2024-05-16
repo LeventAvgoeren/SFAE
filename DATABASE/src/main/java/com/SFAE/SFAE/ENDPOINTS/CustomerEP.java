@@ -123,4 +123,5 @@ public interface CustomerEP {
     @GetMapping("/all")
     ResponseEntity<?> countAllCustomers();
 
+
 }

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { JobType, WorkerResource } from "../../Resources";
+import { JobType, Position, WorkerResource } from "../../Resources";
 import { deleteWorker, getWorkerbyID, updateWorker } from "../../backend/api";
 import { useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { workerData } from "worker_threads";
-import { Navbar } from "react-bootstrap";
+import { Button, Navbar } from "react-bootstrap";
 import NavbarComponent from "../NavbarComponent";
 import NavbarWComponent from "./NavbarWComponent";
 import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
@@ -29,6 +29,7 @@ export function PageWorkerProfile() {
   const [minPayment , setMinPayment] = useState<Number>(0); 
   const [rating , setRating] = useState<Number>(0); 
   const [verification , setVerification] = useState<Boolean>(false);
+  const [userLocation, setUserLocation] = useState<Position | null>(null);
   const params = useParams();
   const worId = params.workerId;
 
@@ -58,6 +59,10 @@ export function PageWorkerProfile() {
       setLocation(workerData.location)
       setEmail(workerData.email)
       setPassword(workerData.password)
+      setUserLocation({
+        latitude: workerData.latitude,
+        longitude: workerData.longitude,
+      })
       }
       if (!workerData) {
         setWorker(null);
@@ -78,6 +83,8 @@ export function PageWorkerProfile() {
 
   //Update Funkti
    const handleUpdate = async () => {
+      fetchCoordinates(location);
+
       const updatedWorkerData :WorkerResource= {
         id: (worId!),
         name: name,
@@ -91,6 +98,8 @@ export function PageWorkerProfile() {
         jobType: jobType,
         minPayment: minPayment!,
         rating: rating,
+        longitude: userLocation!.longitude,
+        latitude: userLocation!.latitude
       }
 
       try {
@@ -103,6 +112,26 @@ export function PageWorkerProfile() {
       }
   };
 
+
+  const fetchCoordinates = async (address: string) => {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${address}`;
+    try {
+      console.log("DASD ")
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data.length > 0) {
+        const { lat, lon } = data[0];
+        setUserLocation({
+          latitude: parseFloat(lat),
+          longitude: parseFloat(lon),
+        });
+      } else {
+        console.error("Address not found");
+      }
+    } catch (error) {
+      console.error("Failed to fetch coordinates:", error);
+    }
+  };
 
   const handleDelete = async () => {
     try {
@@ -135,12 +164,12 @@ return (
             <MDBInput wrapperClass="inputField1" label="Adresse" type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
             <MDBInput wrapperClass="inputField1" label="E-Mail" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <MDBInput wrapperClass="inputField1" label="Passwort" type="text"onChange={(e) => setPassword(e.target.value)} />
-            <button className="button" type="submit">Profil speichern</button>
+            <Button className="button" variant="success" type="submit">Profil speichern</Button>
             <LinkContainer to="/">
-              <button className="button" onClick={handleDelete}>Profil löschen</button>
+              <Button className="button" variant="danger" onClick={handleDelete}>Profil löschen</Button>
             </LinkContainer>
             <LinkContainer to={`/worker/${worId}`}>
-              <button type="button">Zurück zur Startseite!</button>
+              <Button type="button">Zurück zur Startseite!</Button>
             </LinkContainer>
           </form>
         </MDBContainer>

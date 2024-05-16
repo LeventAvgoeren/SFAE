@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { CustomerResource } from '../../Resources';
 import { deleteCustomer, getCustomerbyID, updateCustomer } from '../../backend/api';
 import NavbarComponent from '../NavbarComponent';
 import "./PageProfil.css";
+import { MDBTypography } from 'mdb-react-ui-kit';
+import { LinkContainer } from 'react-router-bootstrap';
 
 export function PageProfil() {
     const params = useParams();
     const customerId = params.customerId!;
+    const navigate = useNavigate();
 
     const [customer, setCustomer] = useState<CustomerResource>();
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
+    const [newPassword, setNewPassword] = useState(password);
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordsMatch, setPasswordsMatch] = useState(true);
     const [email, setEmail] = useState('');
     const [status, setStatus] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -20,33 +26,44 @@ export function PageProfil() {
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
 
-    async function upCustomer() {
-        const updateData: CustomerResource = {
-            name: name,
-            password: password,
-            email: email,
-            role: 'CUSTOMER',
-            id: customerId.toString(),
-        };
-        if (password.trim() !== '') {
-            updateData.password = password;
+    const handleNewPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if(event.target.value == null){
+            setPassword(password)
+        } else{
+             setPassword(event.target.value);
         }
-        try {
-            await updateCustomer(updateData);
-        } catch (error) {
-            console.log('Fehler:' + error);
-        }
-    }
+    };
 
-    async function deleten() {
-        setStatus(true);
+
+    async function handleUpdateCustomer(){
+        const updateData:CustomerResource={
+          name:name,
+          password: password,
+          email:email,
+          role:"CUSTOMER",
+          id:customerId
+        }
+        if(password.trim()!==""){
+          updateData.password=password
+        }
+        try{
+          await updateCustomer(updateData)
+        }
+        catch(error){
+          console.log("Fehler:"+error)
+        }
+      }
+
+    const handleDeleteCustomer = async () => {
         try {
             await deleteCustomer(customerId);
-            // Hier die weiteren notwendigen Schritte nach dem Löschen des Kundenkontos einfügen
+            console.log("Konto erfolgreich gelöscht.");
         } catch (error) {
-            console.log(error);
+            console.error('Fehler beim Löschen des Kontos:', error);
         }
-    }
+    };
+
+
 
     useEffect(() => {
         async function getCustomer() {
@@ -63,9 +80,27 @@ export function PageProfil() {
         getCustomer();
     }, []);
 
+    const handleUpdateProfile = async () => {
+        try {
+            const updateData: CustomerResource = {
+                name: name,
+                email: email,
+                role: 'CUSTOMER',
+                password: password,
+                id: customerId,
+            };
+            await updateCustomer(updateData);
+            // Erfolgsmeldung anzeigen
+            console.log("Profil erfolgreich aktualisiert!");
+        } catch (error) {
+            console.log("Fehler beim Aktualisieren des Profils:", error);
+        }
+    };
+
     return (
         <>
             <NavbarComponent />
+            <div className="custom-container2">
             <div className="container mt-5">
                 <div className="row">
                     <div className="col-lg-4 pb-5">
@@ -113,58 +148,72 @@ export function PageProfil() {
                                     <input className="form-control" type="email" id="account-email" value={email} onChange={(e) => setEmail(e.target.value)} disabled />
                                 </div>
                             </div>
+
+
                             <div className="col-md-6">
-                                <div className="form-group">
-                                    <label htmlFor="account-phone">Phone Number</label>
-                                    <input className="form-control" type="text" id="account-phone" value="+7 (805) 348 95 72" required />
-                                </div>
                             </div>
-                            <div className="col-md-6">
-                                <div className="form-group">
-                                    <label htmlFor="account-pass">New Password</label>
-                                    <input className="form-control" type="password" id="account-pass" onChange={(e) => setPassword(e.target.value)} />
+
+                            <form onSubmit={handleUpdateCustomer} className='col-md-6'>
+                                <div >
+                                    <div className="form-group">
+                                        <label htmlFor="account-pass">New Password</label>
+                                        <input className="form-control"
+                                            type="password"
+                                            id="account-pass"
+                                            onChange={handleNewPasswordChange} />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="col-md-6">
-                                <div className="form-group">
-                                    <label htmlFor="account-confirm-pass">Confirm Password</label>
-                                    <input className="form-control" type="password" id="account-confirm-pass" />
+                                <div>
+                                    <div className="form-group">
+                                        <label htmlFor="account-confirm-pass">Confirm Password</label>
+                                        <input className="form-control"
+                                            type="password"
+                                            id="account-confirm-pass"
+                                            value={confirmPassword}
+                                            
+                                        />
+                                    </div>
+                                    {!passwordsMatch && (
+                                        <MDBTypography tag='p' className='text-danger'>
+                                            Die Passwörter stimmen nicht überein. Bitte überprüfen Sie Ihre Eingabe.
+                                        </MDBTypography>
+                                    )}
                                 </div>
-                            </div>
+                            </form>
                             <div className="col-12">
                                 <hr className="mt-2 mb-3" />
-                                <div className="d-flex flex-wrap justify-content-between align-items-center">
-                                    <button className="btn btn-style-1 btn-primary"
-                                        type="button"
-                                        data-toast=""
-                                        data-toast-position="topRight"
-                                        data-toast-type="success"
-                                        data-toast-icon="fe-icon-check-circle"
-                                        data-toast-title="Success!"
-                                        data-toast-message="Your profile updated successfuly.">Update Profile</button>
-                                        <button type="button" className="btn btn-danger" onClick={handleShow}>
-                        Delete Your Account
-                    </button>
+                                <div className="ButtonsDiv">
 
-                    <Modal show={showModal} onHide={handleClose}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Delete Account</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>Are you sure you want to delete your account? This action cannot be undone.</Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="secondary" onClick={handleClose}>
-                                Close
-                            </Button>
-                            <Button variant="danger" onClick={deleten}>
-                                Delete Account
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
+                                    <LinkContainer to={`/customer/${customerId}`}>
+                                    <Button className = "ButtonUpdate" onClick={handleUpdateCustomer}>
+                                          Update Profile
+                                        </Button>
+                                    </LinkContainer>
+
+                                    <Button type="button" className="btn btn-danger" onClick={handleShow}>
+                                        Delete Your Account
+                                    </Button>
+
+                                    <Modal show={showModal} onHide={handleClose}>
+                                        <Modal.Header closeButton>
+                                            <Modal.Title>Delete Account</Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body>Are you sure you want to delete your account? This action cannot be undone.</Modal.Body>
+                                        <Modal.Footer>
+                                            <Button variant="secondary" onClick={handleClose}>
+                                                Close
+                                            </Button>
+                                            <Button variant="danger" onClick={handleDeleteCustomer}>
+                                                Delete Account
+                                            </Button>
+                                        </Modal.Footer>
+                                    </Modal>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
+            </div>
             </div>
         </>
     );

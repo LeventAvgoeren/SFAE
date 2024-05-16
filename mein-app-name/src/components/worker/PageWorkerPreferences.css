@@ -104,3 +104,7 @@
     place-items: center; /* Zentriert den Inhalt sowohl horizontal als auch vertikal */
     min-height: 100vh; /* Mindesthöhe auf volle Bildschirmhöhe setzen */
   }
+
+  .FRAME{
+    width: 100% ;
+  }

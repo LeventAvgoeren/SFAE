@@ -53,3 +53,8 @@
   width: 100% !important; /* Setzt die Breite auf 100% des umgebenden Containers */
   max-width: 600px; /* Optional: Maximale Breite */
 }
+
+.button{
+  width: 100%;
+  margin-bottom: 10px;
+}

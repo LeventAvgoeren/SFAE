@@ -23,7 +23,7 @@ public interface ContractEP {
      * @param contract The data of the contract to create.
      * @return ResponseEntity containing the result of the operation.
      */
-    @PostMapping("/")
+    @PostMapping("")
     ResponseEntity<?> createContract(@RequestBody ContractDTO contract, BindingResult bindingResult );
 
     /**
@@ -52,7 +52,6 @@ public interface ContractEP {
      */
     @PutMapping("")
     ResponseEntity<?> updateContract(@Valid @RequestBody ContractDTO contract, BindingResult bindingResult );
-
 
     @GetMapping("/all")
     ResponseEntity<?> countAllCContracts();

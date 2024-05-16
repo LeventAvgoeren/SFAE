@@ -19,6 +19,8 @@ export type WorkerResource = {
     rating: Number;
     verification: Boolean;
     email: string;
+    latitude: number;
+    longitude: number;
 }
 export interface Position {
     latitude: number;
@@ -34,7 +36,10 @@ export type ContractResource = {
     range: number;
     statusOrder: string;  
     customerId: string;
-    workerId?: string;
+    worker?: WorkerResource;
+    longitude: number;
+    latitude: number;
+    maxPayment: number;
 }
 
 export type CustomerResource = {

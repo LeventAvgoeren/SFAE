@@ -3,8 +3,7 @@ import { JobType, WorkerResource } from "../../Resources";
 import { deleteWorker, getWorkerbyID, updateWorker } from "../../backend/api";
 import { useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import { workerData } from "worker_threads";
-import { Navbar } from "react-bootstrap";
+import { Button, Navbar } from "react-bootstrap";
 import NavbarComponent from "../NavbarComponent";
 import NavbarWComponent from "./NavbarWComponent";
 import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
@@ -29,6 +28,8 @@ export function PageWorkerPreferences() {
   const [minPayment , setMinPayment] = useState<Number>(0); 
   const [rating , setRating] = useState<Number>(0); 
   const [verification , setVerification] = useState<Boolean>(false);
+  const [getlatitude , setLatitude] = useState<number>(0); 
+  const [getlongitude , setLongitude] = useState<number>(0); 
   const params = useParams();
   const worId = params.workerId;
 
@@ -37,7 +38,6 @@ export function PageWorkerPreferences() {
 
 // Worker Fetch
   const fetchWorker = async () => {
-    console.log("1")
     if (!worId) {
         setError("Keine Worker ID in der URL gefunden");
         setLoading(false);
@@ -58,6 +58,8 @@ export function PageWorkerPreferences() {
       setLocation(workerData.location)
       setEmail(workerData.email)
       setPassword(workerData.password)
+      setLatitude(workerData.latitude)
+      setLongitude(workerData.longitude)
       }
       if (!workerData) {
         setWorker(null);
@@ -101,6 +103,8 @@ export function PageWorkerPreferences() {
         jobType: jobType,
         minPayment: minPayment!,
         rating: rating,
+        longitude: getlongitude,
+        latitude: getlatitude
       }
 
       try {
@@ -136,7 +140,7 @@ return (
     <NavbarWComponent />
     <div className="background-image">
       <div className="custom-container">
-        <MDBContainer className="p-3 my-5 d-flex flex-column align-items-center justify-content-center w-50">
+        <MDBContainer>
           <div className="text-center mb-4">
             <h1>Präferenzen</h1>
           </div>
@@ -145,11 +149,15 @@ return (
                     className="form-control"
                     value={range.toString()}
        onChange={(e) => setRange(Number(e.target.value))} />
+<<<<<<< HEAD
             <MDBInput wrapperClass="inputField1" label="Mindestlohn /h" type="text"
+=======
+            <MDBInput wrapperClass="inputField1" label="Mindestbertrag" type="text"
+>>>>>>> 60225ece152fb3b46d5c8f2af42c603faa0fa69d
                     className="form-control"
                     value={minPayment.toString()}
                     onChange={(e) => setMinPayment(Number(e.target.value))} />
-<select
+                  <select
                     className="form-control"
                     value={jobType || ""}
                     onChange={(e) => setJobType(e.target.value)}
@@ -160,13 +168,8 @@ return (
                         {type}
                       </option>
                     ))}
-                  </select>            <button className="button" type="submit">Profil speichern</button>
-            <LinkContainer to="/">
-              <button className="button" onClick={handleDelete}>Profil löschen</button>
-            </LinkContainer>
-            <LinkContainer to={`/worker/${worId}`}>
-              <button type="button">Zurück zur Startseite!</button>
-            </LinkContainer>
+                  </select>            
+                  <Button className="button" variant="success" type="submit">Profil speichern</Button>
           </form>
         </MDBContainer>
       </div>

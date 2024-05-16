@@ -85,6 +85,33 @@ CSS
   background: #1266f1;
 }
 
-.card-stepper {
-  z-index: 0
+.rating {
+    display: flex;
+    justify-content: center; /* Zentriert die Sterne */
+}
+
+.star {
+    color: goldenrod; /* Farbe der Sterne */
+    margin: 0 2px; /* Raum zwischen den Sternen */
+}
+
+/* In Ihrer CSS-Datei */
+.margin-bottom-20 {
+    margin-bottom: 50px;
+}
+
+.custom-container3{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.7); 
+  padding: 40px;
+  border-radius: 12%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: auto;
+  max-width: 100%;
+  text-align: center;
+  color: white;
+  width: 80%;
 }

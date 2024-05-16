@@ -175,3 +175,18 @@ p, button {
   height: 100vh;
 }
 
+.custom-container2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.7); 
+  padding: 40px;
+  border-radius: 12%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: auto;
+  max-width: 100%;
+  text-align: center;
+  color: white;  
+  width: 80%;
+}

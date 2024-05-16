@@ -34,7 +34,7 @@ public class CustomerTestSQL {
 
     @Test
     public void testCreateCustomer() throws Exception {
-        String json = "{ \"name\": \"MaxMuster\", \"password\": \"passwort123\", \"email\": \"Msd@gmail.com\"}";
+        String json = "{ \"name\": \"MaxMuster\", \"password\": \"passwort123\", \"email\": \"M@gmail.com\"}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         mockMvc.perform(post("/customer")
@@ -60,7 +60,7 @@ public class CustomerTestSQL {
     @Test
     public void testGetCustomerByName() throws Exception {
 
-        mockMvc.perform(get("/customer/usr/MaxMuster"))
+        mockMvc.perform(get("/customer/usr/Eray"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -78,7 +78,7 @@ public class CustomerTestSQL {
     @Test
     public void testGetCustomerBySecName() throws Exception {
 
-        mockMvc.perform(get("/customer/usr/Max Muster"))
+        mockMvc.perform(get("/customer/usr/Ahmad Sfarjalani"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -226,8 +226,8 @@ public class CustomerTestSQL {
         transactionManager.commit(status);
     }
 
-   @Test
-    public void testFindAllCustomers() throws Exception {
+       @Test
+    public void testCountAllCustomers() throws Exception {
 
          MvcResult mvcResult = mockMvc.perform(get("/customer/all"))
                 .andExpect(status().isOk())
@@ -236,5 +236,6 @@ public class CustomerTestSQL {
         String contentAsString = mvcResult.getResponse().getContentAsString();
         System.out.println("A " + contentAsString);
    }
+
 
 }

@@ -62,7 +62,7 @@ public class WorkerController implements WorkerEp {
         try {
             Worker builded = dao.createWorker(worker);
             if (builded != null) {
-                mail.sendSimpleMessage(worker.getEmail(), "Wilkommen bei SFAE", "Worker erstellt");
+                //mail.sendSimpleMessage(worker.getEmail(), "Wilkommen bei SFAE", "Worker erstellt");
                 return ResponseEntity.status(HttpStatus.CREATED).body(builded);
             }
         } catch (Exception e) {
@@ -176,8 +176,8 @@ public class WorkerController implements WorkerEp {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         try {
-            dao.updateWorker(jsonData);
-
+            Worker found = dao.updateWorker(jsonData); 
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(found);
         } catch(DataAccessException dax){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -185,7 +185,7 @@ public class WorkerController implements WorkerEp {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         
-        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+       
     }
 
     /**
@@ -269,5 +269,6 @@ public class WorkerController implements WorkerEp {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
 
 }

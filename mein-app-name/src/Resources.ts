@@ -19,6 +19,8 @@ export type WorkerResource = {
     rating: Number;
     verification: Boolean;
     email: string;
+    latitude: number;
+    longitude: number;
 }
 export interface Position {
     latitude: number;

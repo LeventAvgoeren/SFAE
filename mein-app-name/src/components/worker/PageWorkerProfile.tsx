@@ -4,7 +4,7 @@ import { deleteWorker, getWorkerbyID, updateWorker } from "../../backend/api";
 import { useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { workerData } from "worker_threads";
-import { Navbar } from "react-bootstrap";
+import { Button, Navbar } from "react-bootstrap";
 import NavbarComponent from "../NavbarComponent";
 import NavbarWComponent from "./NavbarWComponent";
 import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
@@ -135,12 +135,12 @@ return (
             <MDBInput wrapperClass="inputField1" label="Adresse" type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
             <MDBInput wrapperClass="inputField1" label="E-Mail" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <MDBInput wrapperClass="inputField1" label="Passwort" type="text"onChange={(e) => setPassword(e.target.value)} />
-            <button className="button" type="submit">Profil speichern</button>
+            <Button className="button" variant="success" type="submit">Profil speichern</Button>
             <LinkContainer to="/">
-              <button className="button" onClick={handleDelete}>Profil löschen</button>
+              <Button className="button" variant="danger" onClick={handleDelete}>Profil löschen</Button>
             </LinkContainer>
             <LinkContainer to={`/worker/${worId}`}>
-              <button type="button">Zurück zur Startseite!</button>
+              <Button type="button">Zurück zur Startseite!</Button>
             </LinkContainer>
           </form>
         </MDBContainer>

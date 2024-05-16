@@ -7,7 +7,7 @@ import { ContractResource } from "../../Resources";
 import "./PageUebersicht.css"
 
 export function PageUebersicht() {
-  
+
   const params = useParams();
   const customerId = params.customerId!;
 
@@ -46,7 +46,7 @@ export function PageUebersicht() {
 
   return (
     <>
-    
+
       <NavbarComponent/>
       <div style={{ height: 500, width: '100%' }}>
         <DataGrid

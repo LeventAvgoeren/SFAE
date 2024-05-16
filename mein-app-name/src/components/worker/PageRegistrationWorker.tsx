@@ -34,7 +34,6 @@ export default function PageRegistrationWorker() {
     const fetchCoordinates = async (address: string) => {
         const url = `https://nominatim.openstreetmap.org/search?format=json&q=${address}`;
         try {
-          console.log("DASD ")
           const response = await fetch(url);
           const data = await response.json();
           if (data.length > 0) {

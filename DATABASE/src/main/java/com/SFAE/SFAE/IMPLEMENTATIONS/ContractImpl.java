@@ -4,8 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,7 +22,7 @@ import com.SFAE.SFAE.INTERFACE.ContractInterface;
 public class ContractImpl implements ContractInterface {
   @Autowired
   private JdbcTemplate jdbcTemplate;
-
+ 
   @Autowired
   private CustomerImp customerImpl;
 
@@ -34,23 +32,23 @@ public class ContractImpl implements ContractInterface {
   @Override
   public Contract getContract(long id) {
     List<Contract> result = jdbcTemplate.query(
-        "SELECT * FROM Contract WHERE ID = ?",
-        ps -> {
-          ps.setInt(1, (int) id);
-        },
-        (rs, rowNum) -> createContract(rs));
+                "SELECT * FROM Contract WHERE ID = ?",
+                ps -> {
+                    ps.setInt(1, (int) id);
+                },
+                (rs, rowNum) -> createContract(rs));
 
-    if (!result.isEmpty()) {
-      return result.get(0);
-    }
-    return null;
+        if (!result.isEmpty() ) {
+            return result.get(0);
+        }
+        return null;
   }
 
   @Override
   public Contract updateContract(ContractDTO contract) {
     int result = jdbcTemplate.update(
-        "UPDATE contract SET job_type = ?, adress = ?, payment = ?, description = ?, status_order = ?, range = ? WHERE id = ?",
-        ps -> {
+      "UPDATE contract SET job_type = ?, adress = ?, payment = ?, description = ?, status_order = ?, range = ? WHERE id = ?",
+      ps -> {
           ps.setString(1, contract.getJobType().toString());
           ps.setString(2, contract.getAdress());
           ps.setString(3, contract.getPayment().toString());
@@ -58,7 +56,7 @@ public class ContractImpl implements ContractInterface {
           ps.setString(5, contract.getStatusOrder().toString());
           ps.setDouble(6, contract.getRange());
           ps.setLong(7, contract.getId());
-        });
+      });
 
     if (result > 0) {
       return getContract(Long.valueOf(contract.getId()));
@@ -69,85 +67,88 @@ public class ContractImpl implements ContractInterface {
 
   @Override
   public boolean deleteContract(long id) {
-    if (id < 0) {
-      throw new IllegalArgumentException("Wrong Id: " + id);
-    }
-
-    try {
-      int deleted = jdbcTemplate.update(connection -> {
-        PreparedStatement ps = connection
-            .prepareStatement("DELETE FROM CONTRACT WHERE ID = ?;");
-        ps.setInt(1, (int) id);
-        return ps;
-      });
-
-      if (deleted != 1) {
-        throw new IllegalArgumentException("Id could not been deleted");
+      if(id < 0){
+        throw new IllegalArgumentException("Wrong Id: " + id);
       }
-      return true;
-    } catch (DataAccessException dax) {
-      return false;
-    }
+
+      try{
+          int deleted = jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection
+                        .prepareStatement("DELETE FROM CONTRACT WHERE ID = ?;");
+                ps.setInt(1, (int) id);
+                return ps;
+            });
+
+            if (deleted != 1) {
+                throw new IllegalArgumentException("Id could not been deleted");
+            }
+            return true;
+      } catch (DataAccessException dax){
+        return false;
+      }
   }
 
   @Override
   public Contract createContract(ContractDTO contract) {
 
-    // gibt mir den passenden worker zu dem gesuchten job
-    Worker worker = workerImpl.findWorkerByJob(contract.getJobType());
-    System.out.println(worker);
+    //gibt mir den passenden worker zu dem gesuchten job 
+    Worker worker=workerImpl.findWorkerByJob(contract.getJobType());
+
     String jobType = contract.getJobType();
     String address = contract.getAdress();
     String payment = contract.getPayment();
     String description = contract.getDescription();
     String statusOrder = contract.getStatusOrder();
     Double range = contract.getRange();
+    Double maxPayment= contract.getMaxPayment();
     Customer customer = customerImpl.findCustomerbyID(String.valueOf(contract.getCustomerId()));
 
-    jdbcTemplate.update(connection -> {
-      PreparedStatement ps = connection.prepareStatement(
-          "INSERT INTO Contract (job_type, adress, payment, description, status_order, range, customer_id, worker_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
-      ps.setString(1, jobType);
-      ps.setString(2, address);
-      ps.setString(3, payment);
-      ps.setString(4, description);
-      ps.setString(5, statusOrder);
-      ps.setDouble(6, range);
-      ps.setString(7, customer.getId());
-      ps.setString(8, worker.getId());
-      return ps;
-    });
-    return new Contract(JobList.valueOf(jobType), address, Payment.valueOf(payment), description,
-        StatusOrder.valueOf(statusOrder), range, customer, worker);
+     jdbcTemplate.update(connection -> {
+        PreparedStatement ps = connection.prepareStatement(
+            "INSERT INTO Contract (job_type, adress, payment, description, status_order, range, customer_id, worker_id,max_Payment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+            ps.setString(1, jobType);
+            ps.setString(2, address);
+            ps.setString(3, payment);
+            ps.setString(4, description);
+            ps.setString(5, statusOrder);
+            ps.setDouble(6, range);
+            ps.setString(7, customer.getId());
+            ps.setString(8, worker.getId());
+            ps.setDouble(9, maxPayment);
+       
+            return ps;
+  });
+  return new Contract(JobList.valueOf(jobType), address, Payment.valueOf(payment), description,StatusOrder.valueOf(statusOrder), range, customer, worker,maxPayment);
+}
+
+
+private Contract createContract(ResultSet rs) {
+  try {
+    Long id = rs.getLong("id");
+    String jobType = rs.getString("job_type");
+    String adress = rs.getString("adress");
+    String payment = rs.getString("payment");
+    String description = rs.getString("description");
+    String statusOrder = rs.getString("status_order");
+    double range = rs.getDouble("range");
+    String customerId = rs.getString("customer_id");
+    String workerId = rs.getString("worker_id");
+    Double maxPayment = rs.getDouble("max_Payment");
+
+    Customer customer =customerImpl.findCustomerbyID(String.valueOf(customerId));
+    Worker worker= workerImpl.findWorkersbyID(String.valueOf(workerId));
+
+    return new Contract(id,JobList.valueOf(jobType),adress,Payment.valueOf(payment),description,StatusOrder.valueOf(statusOrder),range,customer,worker,maxPayment);
+    //return dataFactory.createWorker(id, name, location, password, email, status, range, jobType, statusOrder,minPayment, rating, verification);
+  } catch (SQLException e) {
+    throw new IllegalArgumentException("Error"+e);
   }
 
-  private Contract createContract(ResultSet rs) {
-    try {
-      Long id = rs.getLong("id");
-      String jobType = rs.getString("job_type");
-      String adress = rs.getString("adress");
-      String payment = rs.getString("payment");
-      String description = rs.getString("description");
-      String statusOrder = rs.getString("status_order");
-      double range = rs.getDouble("range");
-      String customerId = rs.getString("customer_id");
-      String workerId = rs.getString("worker_id");
+}
 
-      Customer customer = customerImpl.findCustomerbyID(String.valueOf(customerId));
-      Worker worker = workerImpl.findWorkersbyID(String.valueOf(workerId));
-
-      return new Contract(id, JobList.valueOf(jobType), adress, Payment.valueOf(payment), description,
-          StatusOrder.valueOf(statusOrder), range, customer, worker);
-      // return dataFactory.createWorker(id, name, location, password, email, status,
-      // range, jobType, statusOrder,minPayment, rating, verification);
-    } catch (SQLException e) {
-      throw new IllegalArgumentException("Error" + e);
-    }
-
-  }
-
-  @Override
+@Override
   public long countContracts() {
     List<Object> result = jdbcTemplate.query(
         "SELECT COUNT(ID) FROM CONTRACT",
@@ -176,5 +177,4 @@ public class ContractImpl implements ContractInterface {
     return null;
 
   }
-
 }

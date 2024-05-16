@@ -6,6 +6,7 @@ import { deleteCustomer, getCustomerbyID, updateCustomer } from '../../backend/a
 import NavbarComponent from '../NavbarComponent';
 import "./PageProfil.css";
 import { MDBTypography } from 'mdb-react-ui-kit';
+import { LinkContainer } from 'react-router-bootstrap';
 
 export function PageProfil() {
     const params = useParams();
@@ -15,7 +16,7 @@ export function PageProfil() {
     const [customer, setCustomer] = useState<CustomerResource>();
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
+    const [newPassword, setNewPassword] = useState(password);
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordsMatch, setPasswordsMatch] = useState(true);
     const [email, setEmail] = useState('');
@@ -26,55 +27,43 @@ export function PageProfil() {
     const handleShow = () => setShowModal(true);
 
     const handleNewPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setNewPassword(event.target.value);
-    };
-
-    const handleConfirmPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setConfirmPassword(event.target.value);
-    };
-
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        if (newPassword === confirmPassword) {
-            try {
-                // Passwort ändern
-                await updatePassword(newPassword);
-                // Zurück zum Home-Profil
-                navigate(-1); // Gehe eine Seite zurück
-            } catch (error) {
-                console.log("Fehler beim Aktualisieren des Passworts:", error);
-            }
-        } else {
-            setPasswordsMatch(false);
+        if(event.target.value == null){
+            setPassword(password)
+        } else{
+             setPassword(event.target.value);
         }
     };
 
 
-    async function updatePassword(newPassword: string) {
-        const updateData: CustomerResource = {
-            name: name,
-            password: newPassword,
-            email: email,
-            role: 'CUSTOMER',
-            id: customerId.toString(),
-        };
-        try {
-            await updateCustomer(updateData);
-        } catch (error) {
-            console.log('Fehler beim Aktualisieren des Passworts:' + error);
-            throw error; // Fehler weiterwerfen, um im handleSubmit behandelt zu werden
+    async function handleUpdateCustomer(){
+        const updateData:CustomerResource={
+          name:name,
+          password: password,
+          email:email,
+          role:"CUSTOMER",
+          id:customerId
         }
-    }
+        if(password.trim()!==""){
+          updateData.password=password
+        }
+        try{
+          await updateCustomer(updateData)
+        }
+        catch(error){
+          console.log("Fehler:"+error)
+        }
+      }
 
-    async function deleten() {
-        setStatus(true);
+    const handleDeleteCustomer = async () => {
         try {
             await deleteCustomer(customerId);
-            // Hier die weiteren notwendigen Schritte nach dem Löschen des Kundenkontos einfügen
+            console.log("Konto erfolgreich gelöscht.");
         } catch (error) {
-            console.log(error);
+            console.error('Fehler beim Löschen des Kontos:', error);
         }
-    }
+    };
+
+
 
     useEffect(() => {
         async function getCustomer() {
@@ -97,7 +86,7 @@ export function PageProfil() {
                 name: name,
                 email: email,
                 role: 'CUSTOMER',
-                password: newPassword,
+                password: password,
                 id: customerId,
             };
             await updateCustomer(updateData);
@@ -164,14 +153,13 @@ export function PageProfil() {
                             <div className="col-md-6">
                             </div>
 
-                            <form onSubmit={handleSubmit} className='col-md-6'>
+                            <form onSubmit={handleUpdateCustomer} className='col-md-6'>
                                 <div >
                                     <div className="form-group">
                                         <label htmlFor="account-pass">New Password</label>
                                         <input className="form-control"
                                             type="password"
                                             id="account-pass"
-                                            value={newPassword}
                                             onChange={handleNewPasswordChange} />
                                     </div>
                                 </div>
@@ -182,7 +170,7 @@ export function PageProfil() {
                                             type="password"
                                             id="account-confirm-pass"
                                             value={confirmPassword}
-                                            onChange={handleConfirmPasswordChange}
+                                            
                                         />
                                     </div>
                                     {!passwordsMatch && (
@@ -194,23 +182,17 @@ export function PageProfil() {
                             </form>
                             <div className="col-12">
                                 <hr className="mt-2 mb-3" />
-                                <div className="d-flex flex-wrap justify-content-between align-items-center">
-                                    <Link
-                                        to={`/customer/${customerId}`}
-                                        className="btn btn-style-1 btn-primary"
-                                        onClick={handleUpdateProfile}
-                                        data-toast=""
-                                        data-toast-position="topRight"
-                                        data-toast-type="success"
-                                        data-toast-icon="fe-icon-check-circle"
-                                        data-toast-title="Success!"
-                                        data-toast-message="Your profile updated successfuly."
-                                    >
-                                        Update Profile
-                                    </Link>
-                                    <button type="button" className="btn btn-danger" onClick={handleShow}>
+                                <div className="ButtonsDiv">
+
+                                    <LinkContainer to={`/customer/${customerId}`}>
+                                    <Button className = "ButtonUpdate" onClick={handleUpdateCustomer}>
+                                          Update Profile
+                                        </Button>
+                                    </LinkContainer>
+
+                                    <Button type="button" className="btn btn-danger" onClick={handleShow}>
                                         Delete Your Account
-                                    </button>
+                                    </Button>
 
                                     <Modal show={showModal} onHide={handleClose}>
                                         <Modal.Header closeButton>
@@ -221,7 +203,7 @@ export function PageProfil() {
                                             <Button variant="secondary" onClick={handleClose}>
                                                 Close
                                             </Button>
-                                            <Button variant="danger" onClick={deleten}>
+                                            <Button variant="danger" onClick={handleDeleteCustomer}>
                                                 Delete Account
                                             </Button>
                                         </Modal.Footer>

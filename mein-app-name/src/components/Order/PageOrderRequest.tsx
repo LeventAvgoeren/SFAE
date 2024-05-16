@@ -6,6 +6,7 @@ import MapComponent from "./MapComponent";
 import { createContract } from "../../backend/api";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
+import { Position } from "../../Resources";
 
 export default function PageOrderRequest() {
   const [address, setAddress] = useState("Eingeben...");
@@ -17,6 +18,7 @@ export default function PageOrderRequest() {
   const [showMap, setMap] = useState(false);
   const [contractId, setContractId] = useState(null);
   const [isCreatingContract, setIsCreatingContract] = useState(false);
+  const [getPosition, setPosition] = useState<Position>()
 
   const params = useParams();
   const customerId = params.customerId;
@@ -99,8 +101,9 @@ export default function PageOrderRequest() {
     setService(selectedJobType);
   };
 
-  const handleAddressChange = (newAddress: string) => {
+  const handleAddressChange = (newAddress: string, Location: Position) => {
     setAddress(newAddress);
+    setPosition(Location)
   };
 
   const handleCreateContract = async () => {
@@ -115,6 +118,9 @@ export default function PageOrderRequest() {
       statusOrder: "PAID",
       customerId: customerId!,
       verified: verified,
+      longitude: getPosition!.longitude,
+      latitude: getPosition!.latitude,
+      maxPayment: budget
     };
 
     console.log("Contract data:", contractData);

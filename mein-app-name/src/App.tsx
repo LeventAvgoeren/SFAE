@@ -33,10 +33,17 @@ import PageOrderRating from "./components/Order/PageOrderRating";
 import PageOrderRequest from "./components/Order/PageOrderRequest";
 import { PageIndexCustomer } from "./components/customer/PageIndexCustomer";
 import { PageCustomerFAQ } from "./components/customer/PageCustomerFAQ";
+<<<<<<< HEAD
 import { PageUebersicht } from "./components/customer/PageUebersicht";
 import { PageProfil } from "./components/customer/PageProfil";
 import PageOrderOverview from "./components/Order/PageOrderOverview";
 import { PageOrderCompleted } from "./components/Order/PageOrderCompleted";
+=======
+import { PageOrderCompleted } from "./components/Order/PageOrderCompleted";
+import PageOrderOverview from "./components/Order/PageOrderOverview";
+import { PageProfil } from "./components/customer/PageProfil";
+import { PageUebersicht } from "./components/customer/PageUebersicht";
+>>>>>>> f7d20fe8f4ed6a4efa8771246607d2e2a48da5b7
 
 
 

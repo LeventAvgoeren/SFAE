@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.SFAE.SFAE.DTO.ContractDTO;
 import com.SFAE.SFAE.ENTITY.Contract;
-import com.SFAE.SFAE.ENTITY.Customer;
 
 /**
  * The ContractInterface provides a set of methods to manage contract entities within the system.
@@ -57,8 +56,9 @@ public interface ContractInterface {
      */
     Contract createContract(ContractDTO contract);
 
-
     long countContracts();
 
-    List<Contract> getContractByCustomerId(String id);
+    List<Contract>getContractByCustomerId(String id);
+
+    
 }

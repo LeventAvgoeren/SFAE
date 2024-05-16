@@ -26,7 +26,7 @@ export function PageIndex() {
         <div className={`role-image left-image ${role === 'customer' ? 'selected' : ''}`} onClick={() => handleRoleSelect('customer')}></div>
         <div className={`role-image right-image ${role === 'worker' ? 'selected' : ''}`} onClick={() => handleRoleSelect('worker')}></div>
       </div>
-      <Card className="container-frame text-center" style={{ width: '600px', backgroundColor: '#2D5277', padding: '20px', boxShadow: '0 0 10px rgba(0,0,0,0.5)', borderRadius: '20px' }}>
+      <Card className="container-frame text-center" style={{ width: '600px', backgroundColor: '#2D5277', padding: '20px', boxShadow: '0 0 10px rgba(0,0,0,0.5)', borderRadius: '20px', color: "white" }}>
         <Card.Header>Willkommen auf SfÆ</Card.Header>
         <Card.Body>
           <h1>Wähle deine Rolle aus und melde dich an!</h1>

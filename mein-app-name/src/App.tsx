@@ -31,12 +31,13 @@ import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
 
 import PageOrderRating from "./components/Order/PageOrderRating";
 import PageOrderRequest from "./components/Order/PageOrderRequest";
-import { PageIndexCustomer } from "./components/Customer/PageIndexCustomer";
-import { PageCustomerFAQ } from "./components/Customer/PageCustomerFAQ";
+
 import { PageOrderCompleted } from "./components/Order/PageOrderCompleted";
 import PageOrderOverview from "./components/Order/PageOrderOverview";
-import { PageProfil } from "./components/Customer/PageProfil";
-import { PageUebersicht } from "./components/Customer/PageUebersicht";
+import { PageCustomerFAQ } from "./components/customer/PageCustomerFAQ";
+import { PageIndexCustomer } from "./components/customer/PageIndexCustomer";
+import { PageProfil } from "./components/customer/PageProfil";
+import { PageUebersicht } from "./components/customer/PageUebersicht";
 
 
 

@@ -16,10 +16,6 @@
     animation: fadeEffect 1s;
   }
   
-  @keyframes fadeEffect {
-    from { opacity: 0.5; }
-    to { opacity: 1; }
-  }
 
   .role-selection {
     position: absolute;
@@ -49,10 +45,7 @@
     background: url('/public/t2.jpeg') no-repeat center center;
     background-size: cover;
   }
-  
-  .role-image:hover {
-    opacity: 0.8;
-  }
+
   
   .selected {
     opacity: 1;
@@ -65,11 +58,7 @@
     animation: fadeIn 1s;
   }
   
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-  }
+  
 
   .role-title {
     position: absolute;
@@ -101,7 +90,7 @@
   
   .role-image:hover .role-title {
     visibility: visible;
-    width: auto; /* Stellt sicher, dass der gesamte Text sichtbar ist */
+    width: auto; 
     animation: typing 3s steps(20, end), blink-caret 0.75s step-end infinite;
   }
   
@@ -124,7 +113,6 @@
   }
   
   .role-image:hover {
-    opacity: 0.8;
     transform: scale(1.05); /* Zoom-Effekt */
   }
   
@@ -186,7 +174,4 @@
   z-index: 1; /* Stellt sicher, dass es über dem Bild liegt */
 }.role-image:hover::before {
   background-color: rgba(0, 0, 0, 0.5); /* Halbtransparentes Schwarz bei Hover */
-}.role-image:hover {
-  opacity: 0.8;
-  transform: scale(1.05); /* Zoom-Effekt */
 }

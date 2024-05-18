@@ -1,8 +1,10 @@
 package com.SFAE.SFAE.IMPLEMENTATIONS;
 
+import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -330,6 +332,51 @@ public class WorkerImpl implements WorkerInterface {
     return result.get(0).get();
   }
   return null;
+}
+
+  @Override
+  public Double avgWorkerRating(Double rating,String id) {
+
+
+     List<Double> currentRatings = jdbcTemplate.query(
+        "SELECT RatingAV FROM WORKER WHERE id = ?",
+        (rs, rowNum) -> {
+            Array sqlArray = rs.getArray("RatingAV");
+            if (sqlArray != null) {
+                return List.of((Double[]) sqlArray.getArray());
+            } else {
+                return new ArrayList<Double>();
+            }
+        }
+        ).stream().findFirst().orElse(new ArrayList<>());
+
+        currentRatings.add(rating);
+
+        Double avg=0.0;
+        for (Double rat  : currentRatings) {
+          avg+=rat;
+        }
+
+        Double result= avg/currentRatings.size();
+
+
+        int rowsAffected = jdbcTemplate.update(
+    "UPDATE WORKER SET RatingAV = ?, rating = ? WHERE id = ?",
+    ps -> {
+        Array sqlArray = ps.getConnection().createArrayOf("DOUBLE", currentRatings.toArray());
+        ps.setArray(1, sqlArray);
+        ps.setDouble(2, result);
+        ps.setString(3, id);
+    }
+);
+
+if(rowsAffected>0){
+  return result;
+}
+else{
+  return null;
+}
+
 }
 
 }

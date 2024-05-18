@@ -85,4 +85,6 @@ public interface WorkerInterface {
    *         null.
    */
   Worker findWorkerByJob(String jobType);
+
+  Double avgWorkerRating(Double rating,String id);
 }

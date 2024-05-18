@@ -1,5 +1,8 @@
 package com.SFAE.SFAE.ENTITY;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.annotations.GenericGenerator;
 
 import com.SFAE.SFAE.ENUM.JobList;
@@ -89,6 +92,10 @@ public class Worker {
   @Column(name = "longitude")
   private Double longitude;
 
+  @Column(name = "RatingAV")
+  private ArrayList<Double> ratingAV;
+
+
   public Worker(){}
 
   public Worker(String name, String location, String password, Status status, StatusOrder statusOrder,
@@ -127,94 +134,5 @@ public class Worker {
     this.longitude=longitude;
   }
 
-  // Getters
-  public String getName() {
-    return name;
-  }
-
-  public String getLocation() {
-    return location;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public Status getStatus() {
-    return status;
-  }
-
-  public StatusOrder getStatusOrder() {
-    return statusOrder;
-  }
-
-  public Double getRange() {
-    return range;
-  }
-
-  public JobList getJobType() {
-    return jobType;
-  }
-
-  public Double getMinPayment() {
-    return minPayment;
-  }
-
-  public Double getRating() {
-    return rating;
-  }
-
-  public Boolean getVerification() {
-    return verification;
-  }
-
-  // Setters
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public void setLocation(String location) {
-    this.location = location;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public void setStatus(Status status) {
-    this.status = status;
-  }
-
-  public void setStatusOrder(StatusOrder statusOrder) {
-    this.statusOrder = statusOrder;
-  }
-
-  public void setRange(Double range) {
-    this.range = range;
-  }
-
-  public void setJobType(JobList jobType) {
-    this.jobType = jobType;
-  }
-
-  public void setMinPayment(Double minPayment) {
-    this.minPayment = minPayment;
-  }
-
-  public void setRating(Double rating) {
-    this.rating = rating;
-  }
-
-  public void setVerification(Boolean verification) {
-    this.verification = verification;
-  }
 
 }

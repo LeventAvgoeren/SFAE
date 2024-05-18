@@ -86,5 +86,5 @@ public interface WorkerInterface {
    */
   Worker findWorkerByJob(String jobType);
 
-  Double avgWorkerRating(Double rating,String id);
+  Boolean avgWorkerRating(Double rating,String id);
 }

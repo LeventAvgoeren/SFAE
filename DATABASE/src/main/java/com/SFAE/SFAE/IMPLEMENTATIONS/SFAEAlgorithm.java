@@ -2,7 +2,6 @@ package com.SFAE.SFAE.IMPLEMENTATIONS;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -42,7 +41,7 @@ public class SFAEAlgorithm {
     "cos(radians(longitude) - radians(?)) + " +
     "sin(radians(?)) * " +
     "sin(radians(latitude)) " +
-    ")) < ? " +
+    ")) < ? AND job_type = ? " +
     "ORDER BY rating;";
         try {
           List<Worker> result = jdbcTemplate.query(
@@ -55,6 +54,7 @@ public class SFAEAlgorithm {
               ps.setDouble(5, contract.getLongitude());
               ps.setDouble(6, contract.getLatitude());
               ps.setDouble(7, contract.getRange());
+              ps.setString(8, contract.getJobType());
             },
             (rs, rowNum) -> {
                 Worker worker = new Worker();
@@ -161,11 +161,11 @@ public class SFAEAlgorithm {
         Map<Worker, Double> optimalWorker = new HashMap<>();
         for (int i = entries.size() - 1; i >= entries.size() - 3; i--) {
             optimalWorker.put(entries.get(i).getKey(), entries.get(i).getValue());
-        }
-        
-        return  optimalWorker;
+        } 
+        return optimalWorker;
       }
 
+      System.out.println(bestWorkers);
       return bestWorkers;
     } catch (Exception e) {
       System.out.println(e);

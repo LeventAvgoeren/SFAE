@@ -41,6 +41,7 @@ public class WorkerImpl implements WorkerInterface {
 
   @Autowired
   private WorkerRepository workerRepository;
+
   /**
    * Counts the number of Workers in the database.
    * 
@@ -49,18 +50,12 @@ public class WorkerImpl implements WorkerInterface {
   @Override
   public long countWorker() {
     List<Object> result = jdbcTemplate.query(
-
         "SELECT COUNT(ID) FROM WORKER",
-
         (rs, rowNum) -> {
           long count = rs.getInt(1);
           return count;
         });
-    if (result.isEmpty()) {
-      return 0;
-    } else {
-      return result.size();
-    }
+    return result.size() > 0 ? (long) (result.get(0)) : 0;
   }
 
   /**
@@ -99,7 +94,7 @@ public class WorkerImpl implements WorkerInterface {
         "SELECT * FROM WORKER WHERE id = ?",
         ps -> {
 
-          ps.setString(1,  id);
+          ps.setString(1, id);
         },
 
         (rs, rowNum) -> createWorker(rs));
@@ -148,7 +143,7 @@ public class WorkerImpl implements WorkerInterface {
       int deleted = jdbcTemplate.update(connection -> {
         PreparedStatement ps = connection
             .prepareStatement("DELETE FROM WORKER WHERE ID = ?;");
-        ps.setString(1,  id);
+        ps.setString(1, id);
         return ps;
       });
       if (deleted != 1) {
@@ -172,20 +167,19 @@ public class WorkerImpl implements WorkerInterface {
     if (data == null) {
       throw new IllegalArgumentException("data is null" + data);
     }
-    try{
-      Worker found=findWorkersbyID(data.getId());
-      if(found==null){
+    try {
+      Worker found = findWorkersbyID(data.getId());
+      if (found == null) {
         throw new IllegalArgumentException("id is null");
       }
-    }
-    catch(Exception e){
+    } catch (Exception e) {
       throw new IllegalArgumentException("Id dos not exist");
     }
 
-    if(!data.getPassword().startsWith("$2a$")){
+    if (!data.getPassword().startsWith("$2a$")) {
       data.setPassword(encoder.hashPassword(data.getPassword()));
     }
-    
+
     int rowsAffected = jdbcTemplate.update(
         "UPDATE WORKER SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? , latitude = ? , longitude =? WHERE id = ?",
         ps -> {
@@ -205,12 +199,12 @@ public class WorkerImpl implements WorkerInterface {
           ps.setString(14, data.getId());
         });
 
-  
     if (rowsAffected > 0) {
-     
+
       return new Worker(data.getName(), data.getLocation(), data.getPassword(), Status.valueOf(data.getStatus()),
           StatusOrder.valueOf(data.getStatusOrder()), data.getRange(), JobList.valueOf(data.getJobType()),
-          data.getMinPayment(), data.getRating(), data.getVerification(), data.getEmail(),data.getLatitude(),data.getLongitude());
+          data.getMinPayment(), data.getRating(), data.getVerification(), data.getEmail(), data.getLatitude(),
+          data.getLongitude());
     } else {
       return null;
     }
@@ -229,27 +223,27 @@ public class WorkerImpl implements WorkerInterface {
       throw new IllegalArgumentException("Some data are empty");
     }
     try {
-    String name = rs.getName();
-    String location = rs.getLocation();
-    String password = encoder.hashPassword(rs.getPassword());
-    String email = rs.getEmail();
-    Double range = rs.getRange();
-    String jobType = rs.getJobType();
-    Double minPayment = rs.getMinPayment();
-    Double rating = 0.1;
-    Boolean verification = false;
-    double latitude=rs.getLatitude();
-    double longitude=rs.getLongitude();
+      String name = rs.getName();
+      String location = rs.getLocation();
+      String password = encoder.hashPassword(rs.getPassword());
+      String email = rs.getEmail();
+      Double range = rs.getRange();
+      String jobType = rs.getJobType();
+      Double minPayment = rs.getMinPayment();
+      Double rating = 0.1;
+      Boolean verification = false;
+      double latitude = rs.getLatitude();
+      double longitude = rs.getLongitude();
 
-    Worker worker = new Worker(name, location, password, Status.valueOf("AVAILABLE"), StatusOrder.valueOf("UNDEFINED"), range, JobList.valueOf(jobType), minPayment, rating, verification, email,latitude,longitude);
-    workerRepository.save(worker); 
-       return worker;
+      Worker worker = new Worker(name, location, password, Status.valueOf("AVAILABLE"),
+          StatusOrder.valueOf("UNDEFINED"), range, JobList.valueOf(jobType), minPayment, rating, verification, email,
+          latitude, longitude);
+      workerRepository.save(worker);
+      return worker;
     } catch (Exception e) {
       e.printStackTrace();
-            return null;
+      return null;
     }
-   
-    
 
   }
 
@@ -298,12 +292,11 @@ public class WorkerImpl implements WorkerInterface {
       Double minPayment = rs.getDouble("min_payment");
       Double rating = rs.getDouble("rating");
       Boolean verification = rs.getBoolean("verification");
-      double latitude=rs.getDouble("latitude");
-      double longitude=rs.getDouble("longitude");
-
+      double latitude = rs.getDouble("latitude");
+      double longitude = rs.getDouble("longitude");
 
       return dataFactory.createWorker(id, name, location, password, email, status, range, jobType, statusOrder,
-          minPayment, rating, verification,latitude,longitude);
+          minPayment, rating, verification, latitude, longitude);
 
     } catch (SQLException e) {
     }
@@ -311,72 +304,69 @@ public class WorkerImpl implements WorkerInterface {
     return Optional.empty();
   }
 
-   /**
+  /**
    * Retrieves a Worker by their job type.
    * 
-   * This method retrieves a Worker entity from the database based on their job type.
+   * This method retrieves a Worker entity from the database based on their job
+   * type.
    * 
    * @param jobType The type of job of the Worker to find.
-   * @return A Worker entity if found based on the provided job type, otherwise null.
+   * @return A Worker entity if found based on the provided job type, otherwise
+   *         null.
    */
   @Override
   public Worker findWorkerByJob(String jobType) {
     List<Optional<Worker>> result = jdbcTemplate.query(
-      "SELECT * FROM WORKER WHERE job_type = ?",
-      ps -> {
-        ps.setString(1, jobType);
-      },
-      (rs, rowNum) -> createWorker(rs));
+        "SELECT * FROM WORKER WHERE job_type = ?",
+        ps -> {
+          ps.setString(1, jobType);
+        },
+        (rs, rowNum) -> createWorker(rs));
 
-  if (!result.isEmpty() && result.get(0).isPresent()) {
-    return result.get(0).get();
+    if (!result.isEmpty() && result.get(0).isPresent()) {
+      return result.get(0).get();
+    }
+    return null;
   }
-  return null;
-}
 
   @Override
-  public Double avgWorkerRating(Double rating,String id) {
+  public Boolean avgWorkerRating(Double rating, String id) {
 
-
-     List<Double> currentRatings = jdbcTemplate.query(
+    List<Double> currentRatings = jdbcTemplate.query(
         "SELECT RatingAV FROM WORKER WHERE id = ?",
         (rs, rowNum) -> {
-            Array sqlArray = rs.getArray("RatingAV");
-            if (sqlArray != null) {
-                return List.of((Double[]) sqlArray.getArray());
-            } else {
-                return new ArrayList<Double>();
-            }
-        }
-        ).stream().findFirst().orElse(new ArrayList<>());
+          Array sqlArray = rs.getArray("RatingAV");
+          if (sqlArray != null) {
+            return List.of((Double[]) sqlArray.getArray());
+          } else {
+            return new ArrayList<Double>();
+          }
+        }).stream().findFirst().orElse(new ArrayList<>());
 
-        currentRatings.add(rating);
+    currentRatings.add(rating);
 
-        Double avg=0.0;
-        for (Double rat  : currentRatings) {
-          avg+=rat;
-        }
-
-        Double result= avg/currentRatings.size();
-
-
-        int rowsAffected = jdbcTemplate.update(
-    "UPDATE WORKER SET RatingAV = ?, rating = ? WHERE id = ?",
-    ps -> {
-        Array sqlArray = ps.getConnection().createArrayOf("DOUBLE", currentRatings.toArray());
-        ps.setArray(1, sqlArray);
-        ps.setDouble(2, result);
-        ps.setString(3, id);
+    Double avg = 0.0;
+    for (Double rat : currentRatings) {
+      avg += rat;
     }
-);
 
-if(rowsAffected>0){
-  return result;
-}
-else{
-  return null;
-}
+    Double result = avg / currentRatings.size();
 
-}
+    int rowsAffected = jdbcTemplate.update(
+        "UPDATE WORKER SET RatingAV = ?, rating = ? WHERE id = ?",
+        ps -> {
+          Array sqlArray = ps.getConnection().createArrayOf("DOUBLE", currentRatings.toArray());
+          ps.setArray(1, sqlArray);
+          ps.setDouble(2, result);
+          ps.setString(3, id);
+        });
+
+    if (rowsAffected > 0) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
 
 }

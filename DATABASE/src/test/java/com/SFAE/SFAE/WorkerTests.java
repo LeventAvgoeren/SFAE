@@ -50,18 +50,17 @@ public class WorkerTests{
     @Test
     public void testCreateWorker() throws Exception {
                 String json = "{" +
-                "\"name\": \"4km\"," +
+                "\"name\": \"test\"," +
                 "\"location\": \"BERLIN\"," +
                 "\"password\": \"COLORBOX\"," +
-                "\"email\": \"4km@gmail.com\"," +
+                "\"email\": \"testabc@gmail.com\"," +
                 "\"range\": 1.5," +
                 "\"jobType\":\"INSTALLATEUR\"," +
                 "\"minPayment\": 35.0," +
                 "\"latitude\":  52.5164521479732," +
-                "\"longitude\": 13.350172988628778" +
+                "\"longitude\":\"350172988628778\"," +                
+                "\"rating\":2" +
             "}";
-    
-                transactionTemplate.execute(status -> {
                     try {
                         mockMvc.perform(post("/worker")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -70,8 +69,7 @@ public class WorkerTests{
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
-                    return null;
-                });
+
     }
 
     @Test
@@ -404,4 +402,17 @@ public void testCountAllWorkers() throws Exception {
 }
 
 
+@Test
+public void testAvgRating() throws Exception {
+
+String json = "{ \"id\": \"W11\", \"rating\": 2}";
+MvcResult mvcResult = mockMvc.perform(put("/worker/rating")
+.contentType(MediaType.APPLICATION_JSON)
+.content(json))
+.andExpect(status().isOk())
+.andReturn();
+
+    String contentAsString = mvcResult.getResponse().getContentAsString();
+    System.out.println("A " + contentAsString);
+}
 }

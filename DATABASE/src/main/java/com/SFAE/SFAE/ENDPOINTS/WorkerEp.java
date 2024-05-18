@@ -108,5 +108,8 @@ public interface WorkerEp {
     @GetMapping("/all")
     ResponseEntity<?> countAllWorkers();
 
+    @PutMapping("/rating")
+    ResponseEntity<Boolean> avgRating(@RequestBody String id,Double rating);
+
 }
 

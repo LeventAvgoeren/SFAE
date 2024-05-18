@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -273,5 +274,16 @@ public class WorkerController implements WorkerEp {
         }
     }
 
+    @Override
+    public ResponseEntity<Boolean> avgRating(String id, Double rating) {
+        try{
+            dao.avgWorkerRating(rating, id);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }catch(Exception e){
+            throw new IllegalArgumentException("Fehler:"+e);
+        }
+    }
+
+ 
 
 }

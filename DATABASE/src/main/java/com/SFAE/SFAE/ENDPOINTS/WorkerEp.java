@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.SFAE.SFAE.DTO.LoginRequest;
+import com.SFAE.SFAE.DTO.RatingDTO;
 import com.SFAE.SFAE.DTO.WorkerDTO;
 
 import com.SFAE.SFAE.ENTITY.Worker;
@@ -108,5 +110,7 @@ public interface WorkerEp {
     @GetMapping("/all")
     ResponseEntity<?> countAllWorkers();
 
+    @PutMapping("/rating")
+    ResponseEntity<Boolean> avgRating(@RequestBody RatingDTO id);
 }
 

@@ -50,28 +50,24 @@ public class WorkerTests{
     @Test
     public void testCreateWorker() throws Exception {
                 String json = "{" +
-                "\"name\": \"4km\"," +
+                "\"name\": \"TestRating\"," +
                 "\"location\": \"BERLIN\"," +
                 "\"password\": \"COLORBOX\"," +
-                "\"email\": \"4km@gmail.com\"," +
+                "\"email\": \"RATING@gmail.com\"," +
                 "\"range\": 1.5," +
                 "\"jobType\":\"INSTALLATEUR\"," +
                 "\"minPayment\": 35.0," +
-                "\"latitude\":  52.5164521479732," +
+                "\"latitude\":  54.5164521479732," +
                 "\"longitude\": 13.350172988628778" +
             "}";
-    
-                transactionTemplate.execute(status -> {
-                    try {
-                        mockMvc.perform(post("/worker")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(json))
-                                .andExpect(status().isCreated());
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                    return null;
-                });
+            try {
+                mockMvc.perform(post("/worker")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                        .andExpect(status().isCreated());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
     }
 
     @Test
@@ -403,5 +399,19 @@ public void testCountAllWorkers() throws Exception {
     System.out.println("A " + contentAsString);
 }
 
+@Test
+public void testAvgRating() throws Exception {
+
+String json = "{\"rating\": 2.0, " +
+               " \"id\": \"W13\"} ";
+MvcResult mvcResult = mockMvc.perform(put("/worker/rating")
+.contentType(MediaType.APPLICATION_JSON)
+.content(json))
+.andExpect(status().isOk())
+.andReturn();
+
+    String contentAsString = mvcResult.getResponse().getContentAsString();
+    System.out.println("A " + contentAsString);
+}
 
 }

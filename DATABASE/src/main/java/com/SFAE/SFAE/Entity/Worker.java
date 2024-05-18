@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.SFAE.SFAE.ENUM.JobList;
 import com.SFAE.SFAE.ENUM.StatusOrder;
@@ -93,13 +94,13 @@ public class Worker {
   private Double longitude;
 
   @Column(name = "RatingAV")
-  private ArrayList<Double> ratingAV;
+  private ArrayList<Double> ratingAV = new ArrayList<>();
 
 
   public Worker(){}
 
   public Worker(String name, String location, String password, Status status, StatusOrder statusOrder,
-      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,double latitude,double longitude) {
+      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,double latitude,double longitude, ArrayList<Double> ratingAv) {
 
     this.name = name;
     this.location = location;
@@ -114,6 +115,8 @@ public class Worker {
     this.email = email;
     this.latitude=latitude;
     this.longitude=longitude;
+    this.ratingAV = new ArrayList<>();
+    this.ratingAV.add(1.0);
   }
 
   public Worker(String id, String name, String location, String password, Status status, StatusOrder statusOrder,
@@ -134,5 +137,23 @@ public class Worker {
     this.longitude=longitude;
   }
 
+  
+  
+  public Worker(String name, String location, String password, Status status, StatusOrder statusOrder,
+      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,double latitude,double longitude) {
+    this.name = name;
+    this.location = location;
+    this.password = password;
+    this.status = status;
+    this.statusOrder = statusOrder;
+    this.range = range;
+    this.jobType = jobType;
+    this.minPayment = minPayment;
+    this.rating = rating;
+    this.verification = verification;
+    this.email = email;
+    this.latitude=latitude;
+    this.longitude=longitude;
+  }
 
 }

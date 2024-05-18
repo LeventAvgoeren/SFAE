@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.SFAE.SFAE.DTO.LoginRequest;
 import com.SFAE.SFAE.DTO.LoginResponseWorker;
+import com.SFAE.SFAE.DTO.RatingDTO;
 import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.SFAE.SFAE.ENDPOINTS.WorkerEp;
 import com.SFAE.SFAE.ENTITY.Worker;
@@ -273,5 +274,14 @@ public class WorkerController implements WorkerEp {
         }
     }
 
+    @Override
+    public ResponseEntity<Boolean> avgRating(RatingDTO rating) {
+        try{
+            dao.avgWorkerRating(rating.getRating() ,rating.getId() );
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }catch(Exception e){
+            throw new IllegalArgumentException("Fehler:"+e);
+        }
+    }
 
 }

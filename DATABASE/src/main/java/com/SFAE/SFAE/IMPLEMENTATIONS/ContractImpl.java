@@ -109,9 +109,8 @@ public class ContractImpl implements ContractInterface {
 
     Contract newContract = new Contract(JobList.valueOf(jobType), address, Payment.valueOf(payment), description,StatusOrder.valueOf(statusOrder), range, customer, worker,maxPayment);
 
-    contractRepository.save(newContract);
-
-    return newContract;
+    
+    return contractRepository.save(newContract);
 }
 
 

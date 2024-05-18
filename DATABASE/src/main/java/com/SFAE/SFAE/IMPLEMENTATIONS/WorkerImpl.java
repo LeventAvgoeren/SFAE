@@ -1,5 +1,9 @@
 package com.SFAE.SFAE.IMPLEMENTATIONS;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,6 +26,8 @@ import com.SFAE.SFAE.ENUM.Status;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.INTERFACE.WorkerRepository;
 import com.SFAE.SFAE.Service.PasswordHasher;
+
+import io.jsonwebtoken.io.IOException;
 
 /**
  * Implementation of WorkerInterface for managing Worker entities.
@@ -231,13 +237,15 @@ public class WorkerImpl implements WorkerInterface {
       String jobType = rs.getJobType();
       Double minPayment = rs.getMinPayment();
       Double rating = 0.1;
+      ArrayList<Double> ratingAv = new ArrayList<>();
+      ratingAv.add(0.1);
       Boolean verification = false;
       double latitude = rs.getLatitude();
       double longitude = rs.getLongitude();
 
       Worker worker = new Worker(name, location, password, Status.valueOf("AVAILABLE"),
           StatusOrder.valueOf("UNDEFINED"), range, JobList.valueOf(jobType), minPayment, rating, verification, email,
-          latitude, longitude);
+          latitude, longitude, ratingAv);
       workerRepository.save(worker);
       return worker;
     } catch (Exception e) {
@@ -333,15 +341,26 @@ public class WorkerImpl implements WorkerInterface {
   public Boolean avgWorkerRating(Double rating, String id) {
 
     List<Double> currentRatings = jdbcTemplate.query(
-        "SELECT RatingAV FROM WORKER WHERE id = ?",
+        "SELECT ratingav FROM WORKER WHERE id = ?",
+        ps -> {
+          ps.setString(1, id);
+        },
         (rs, rowNum) -> {
-          Array sqlArray = rs.getArray("RatingAV");
-          if (sqlArray != null) {
-            return List.of((Double[]) sqlArray.getArray());
+          byte[] data = rs.getBytes("ratingav");
+          if (data != null) {
+              try {
+                  return deserializeList(data);
+              } catch (IOException | ClassNotFoundException e) {
+                  throw new RuntimeException("Error deserializing ratingav", e);
+              } catch (java.io.IOException e) {
+
+                return new ArrayList<Double>();
+              }
           } else {
-            return new ArrayList<Double>();
+              return new ArrayList<Double>();
           }
-        }).stream().findFirst().orElse(new ArrayList<>());
+      }
+  ).stream().findFirst().orElse(new ArrayList<>());
 
     currentRatings.add(rating);
 
@@ -350,23 +369,43 @@ public class WorkerImpl implements WorkerInterface {
       avg += rat;
     }
 
-    Double result = avg / currentRatings.size();
-
+    double gänsehaut = avg /= currentRatings.size();
+    
     int rowsAffected = jdbcTemplate.update(
-        "UPDATE WORKER SET RatingAV = ?, rating = ? WHERE id = ?",
-        ps -> {
-          Array sqlArray = ps.getConnection().createArrayOf("DOUBLE", currentRatings.toArray());
-          ps.setArray(1, sqlArray);
-          ps.setDouble(2, result);
+        "UPDATE WORKER SET rating = ?, ratingav = ?  WHERE id = ?",
+        ps -> { 
+          ps.setDouble(1, gänsehaut);
+         byte[] serialisedRating = serializeList(currentRatings);
+          ps.setBytes(2, serialisedRating);
           ps.setString(3, id);
         });
-
+        
     if (rowsAffected > 0) {
       return true;
     } else {
       return false;
     }
 
+  }
+
+  private byte[] serializeList(List<Double> list) throws IOException {
+    ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+    ObjectOutputStream out;
+    try {
+      out = new ObjectOutputStream(byteOut); 
+      out.writeObject(list);
+      out.flush();
+    } catch (java.io.IOException e) {
+      e.printStackTrace();
+    }
+  
+    return byteOut.toByteArray();
+}
+
+  private List<Double> deserializeList(byte[] data) throws IOException, ClassNotFoundException, java.io.IOException {
+      ByteArrayInputStream bis = new ByteArrayInputStream(data);
+      ObjectInputStream ois = new ObjectInputStream(bis);
+      return (List<Double>) ois.readObject();
   }
 
 }

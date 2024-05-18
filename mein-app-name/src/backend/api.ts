@@ -354,7 +354,7 @@ export async function countAllWorkers(): Promise<number> {
     return answer;
   }
 
-  export async function createContract(contract : ContractResource) {
+  export async function createContract(contract : ContractResource): Promise<ContractResource>{
     const url = `${process.env.REACT_APP_API_SERVER_URL}/contract`; 
     const response = await fetch(url, {
       method: 'POST',

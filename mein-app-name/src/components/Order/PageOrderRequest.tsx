@@ -6,24 +6,23 @@ import MapComponent from "./MapComponent";
 import { createContract } from "../../backend/api";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import { Position } from "../../Resources";
+import { ContractResource, Position } from "../../Resources";
 
 export default function PageOrderRequest() {
   const [address, setAddress] = useState("Eingeben...");
   const [service, setService] = useState("");
   const [description, setDescription] = useState("");
-  const [budget, setBudget] = useState(10000);
+  const [budget, setBudget] = useState(100);
   const [range, setRange] = useState(1);
   const [verified, setVerified] = useState(false);
   const [showMap, setMap] = useState(false);
-  const [contractId, setContractId] = useState(null);
+  const [contract, setContract] = useState<ContractResource>();
   const [isCreatingContract, setIsCreatingContract] = useState(false);
-  const [getPosition, setPosition] = useState<Position>()
+  const [getPosition, setPosition] = useState<Position>();
 
   const params = useParams();
   const customerId = params.customerId;
   const navigate = useNavigate();
-
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -32,14 +31,12 @@ export default function PageOrderRequest() {
   };
 
   const handleClickMap1 = () => {
-    setMap(!showMap);  // Toggle zwischen Anzeigen und Verbergen der Karte
+    setMap(!showMap); // Toggle zwischen Anzeigen und Verbergen der Karte
   };
-   
+
   const handleSelectChange1 = (event: any) => {
     setService(event.target.value);
   };
-  
- 
 
   const jobTypes = [
     "Hausmeister",
@@ -94,8 +91,6 @@ export default function PageOrderRequest() {
     }
   };
 
-
-
   const handleSelectChange = (event: any) => {
     const selectedJobType = event.target.value;
     setService(selectedJobType);
@@ -103,7 +98,7 @@ export default function PageOrderRequest() {
 
   const handleAddressChange = (newAddress: string, Location: Position) => {
     setAddress(newAddress);
-    setPosition(Location)
+    setPosition(Location);
   };
 
   const handleCreateContract = async () => {
@@ -120,91 +115,100 @@ export default function PageOrderRequest() {
       verified: verified,
       longitude: getPosition!.longitude,
       latitude: getPosition!.latitude,
-      maxPayment: budget
+      maxPayment: budget,
+
     };
-
+  
     console.log("Contract data:", contractData);
-
+  
     try {
-      const response = await createContract(contractData);
-      console.log("Response from createContract:", response);
-      if (response.contractId) {
-        console.log('Vertrag erfolgreich erstellt:', response);
-        navigate(`/customer/${customerId}/order/${response.contractId}`);
+      const contract = await createContract(contractData);
+  
+      console.log("Response from createContract:", contract);
+      if (contract) {
+        setContract(contract);
+        console.log(`Navigating to /customer/${customerId}/order/${contract.id}`);
+        navigate(`/customer/${customerId}/order/${contract.id}`);
       } else {
-        console.error('Fehler: Keine ContractID erhalten');
+        console.error("Fehler: Keine ContractID erhalten, Response:", contract);
       }
     } catch (error) {
-      console.error('Fehler beim Erstellen des Vertrags:', error);
+      console.error("Fehler beim Erstellen des Vertrags:", error);
     } finally {
       setIsCreatingContract(false);
     }
   };
   return (
-    <div className="background-image">
+    <>
       <NavbarComponent />
-      <div className="Frame">
-        <div className="container-frame3">
-          <Form onSubmit={handleSubmit} style={{ color: "white", padding: "20px" }}>
-            <Button onClick={handleClickMap1} variant="info">
-              {showMap ? "Karte verbergen" : "Karte anzeigen"}
-            </Button>
-            {showMap && (
-              <div className="map-container">
-                <MapComponent onAddressChange={handleAddressChange} />
-                <Button variant="light" onClick={() => setMap(false)}>OK</Button>
-              </div>
-            )}
-            <Form.Group className="mb-3">
-              <Form.Label>Adresse</Form.Label>
-              <Form.Control
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                required
-                placeholder="Straße..."
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Dienstleistung</Form.Label>
-              <Form.Select value={service} onChange={handleSelectChange} required>
-                <option value="">ServiceTyp wählen...</option>
-                {jobTypes.map((type) => (
-                  <option key={type} value={type}>{type}</option>
-                ))}
-              </Form.Select>
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Beschreibung</Form.Label>
-              <Form.Control
-                as="textarea"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Maximales Budget (€)</Form.Label>
-              <Form.Control
-                type="number"
-                value={budget}
-                onChange={(e) => setBudget(parseInt(e.target.value))}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Reichweite (km)</Form.Label>
-              <Form.Control
-                type="number"
-                value={range}
-                onChange={(e) => setRange(parseInt(e.target.value))}
-              />
-            </Form.Group>
-            <Button className="button" type="submit" disabled={isCreatingContract}>
+
+      <div className="container-frame3">
+        <Form onSubmit={handleSubmit} className="form-content">
+          <Button onClick={handleClickMap1} variant="info">
+            {showMap ? "Karte verbergen" : "Karte anzeigen"}
+          </Button>
+          {showMap && (
+            <div className="map-container">
+              <MapComponent onAddressChange={handleAddressChange} />
+              <Button variant="light" onClick={() => setMap(false)}>
+                OK
+              </Button>
+            </div>
+          )}
+          <Form.Group className="mb-3">
+            <Form.Label>Adresse</Form.Label>
+            <Form.Control
+              type="text"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              required
+              placeholder="Straße..."
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Dienstleistung</Form.Label>
+            <Form.Select value={service} onChange={handleSelectChange} required>
+              <option value="">ServiceTyp wählen...</option>
+              {jobTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </Form.Select>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Beschreibung</Form.Label>
+            <Form.Control
+              as="textarea"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Maximales Budget (€)</Form.Label>
+            <Form.Control
+              type="number"
+              value={budget}
+              onChange={(e) => setBudget(parseInt(e.target.value))}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Reichweite (km)</Form.Label>
+            <Form.Control
+              type="number"
+              value={range}
+              onChange={(e) => setRange(parseInt(e.target.value))}
+            />
+          </Form.Group>
+              <Button
+              className="myButton"
+              type="submit"
+              disabled={isCreatingContract}
+            >
               {isCreatingContract ? 'Erstellt...' : 'Vertrag erstellen und suchen'}
             </Button>
-          </Form>
-        </div>
+        </Form>
       </div>
-    </div>
+    </>
   );
-};
-  
+}

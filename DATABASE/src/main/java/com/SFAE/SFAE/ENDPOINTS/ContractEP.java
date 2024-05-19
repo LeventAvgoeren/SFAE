@@ -62,4 +62,15 @@ public interface ContractEP {
 
     @GetMapping("/worker/{id}")
     ResponseEntity<?> findContractByWorkerId(@PathVariable("id") String id);
+
+    @PutMapping("/{boolean}")
+    ResponseEntity<?> setContract(@RequestBody ContractDTO Data, @PathVariable("boolean") Boolean accpeted);
+
+    /**
+     * @param token
+     * @return
+     * Validates the token in email this should expire after 5 min 
+     */
+    @GetMapping("/token/${token}")
+    ResponseEntity<?> validateToken(@PathVariable("token") String token);
 }

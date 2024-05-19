@@ -63,5 +63,7 @@ public interface ContractInterface {
 
     List<Contract>getContractByWorkerId(String id);
 
+    Boolean updateWorkerId(long contractid,String workerId);
+
     
 }

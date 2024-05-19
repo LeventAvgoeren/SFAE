@@ -185,5 +185,30 @@ private Contract createContract(ResultSet rs) {
   return null;
 
 }
+
+  @Override
+  public Boolean updateWorkerId(long contractId, String workerId) {
+    if(contractId <0 || workerId==null){
+      return false;
+    }
+
+    int result= jdbcTemplate.update(
+      "Update contract SET worker_id=? where id= ? ",
+      ps -> {
+        ps.setString(1, workerId);
+        ps.setLong(2, contractId);
+      });
+
+      if(result>0){
+        return true;
+      }
+      else{
+        return false;
+      }
+
+  }
+
+
+
 }
 

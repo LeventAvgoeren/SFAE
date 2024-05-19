@@ -21,6 +21,7 @@ import com.SFAE.SFAE.INTERFACE.ContractInterface;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.Service.MailService;
+import com.SFAE.SFAE.Service.TokenMailService;
 
 import jakarta.mail.MessagingException;
 
@@ -51,7 +52,10 @@ public class ContractController implements ContractEP {
   private MailService mail;
 
   @Autowired
-  SFAEAlgorithm sfae;
+  private SFAEAlgorithm sfae;
+
+  @Autowired
+  private TokenMailService tokenService;
 
   @Override
   public ResponseEntity<?> createContract(@Valid ContractDTO contract, BindingResult bindingResult) {
@@ -222,5 +226,40 @@ public class ContractController implements ContractEP {
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+  }
+
+  @Override
+  public ResponseEntity<?> setContract(ContractDTO data, Boolean accpeted) {
+    if(data==null){
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    if(accpeted){
+      Boolean result =dao.updateWorkerId(data.getId(),data.getWorkerId());
+      if(result){
+        return ResponseEntity.status(HttpStatus.OK).build();
+      }
+      else{
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+      }
+      
+    }
+    else{
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
+  
+  }
+
+  @Override
+  public ResponseEntity<Boolean> validateToken(String token) {
+      if(token != null){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+      }
+
+      if(tokenService.validateToken(token)){
+        return ResponseEntity.status(HttpStatus.OK).body(true);
+      }
+
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).body(false);
   }
 }

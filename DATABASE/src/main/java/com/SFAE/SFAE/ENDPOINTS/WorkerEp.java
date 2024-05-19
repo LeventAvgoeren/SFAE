@@ -114,5 +114,6 @@ public interface WorkerEp {
     ResponseEntity<Boolean> avgRating(@RequestBody RatingDTO id);
 
     
+
 }
 

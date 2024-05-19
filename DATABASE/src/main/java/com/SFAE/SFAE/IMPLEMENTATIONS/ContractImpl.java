@@ -160,7 +160,6 @@ private Contract createContract(ResultSet rs) {
         },
         (rs, rowNum) -> createContract(rs));
 
-    // Verifyin if the List is empty
     if (!result.isEmpty() ) {
       return result;
     }

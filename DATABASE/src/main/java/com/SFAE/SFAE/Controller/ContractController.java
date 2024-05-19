@@ -21,8 +21,10 @@ import com.SFAE.SFAE.INTERFACE.ContractInterface;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.Service.MailService;
-import org.slf4j.Logger;
 
+import jakarta.mail.MessagingException;
+
+import org.slf4j.Logger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -86,19 +88,23 @@ public class ContractController implements ContractEP {
         Worker found = work.findWorkersbyID(String.valueOf(contract.getWorkerId()));
         Customer foundCustomer = custo.findCustomerbyID(String.valueOf(contract.getCustomerId()));
 
-        mail.sendSimpleMessage(found.getEmail(), "Jobangebot erhalten\n\n",
-            "Sehr geehrte/r " + found.getName() + ",\n\n" +
-                "wir freuen uns, Ihnen mitteilen zu können, dass wir ein neues Jobangebot erhalten haben. Unten finden Sie die Details zum Auftrag:\n\n"
+        mail.sendHtmlMessage(found.getEmail(), "Jobangebot erhalten",
+            "<html><body>" +
+                "wir freuen uns, Ihnen mitteilen zu können, dass wir ein neues Jobangebot erhalten haben. Unten finden Sie die Details zum Auftrag:<br><br>"
                 +
-                "Auftraggeber: " + foundCustomer.getName() + "\n" +
-                "Jobtyp: " + contract.getJobType() + "\n" +
-                "Beschreibung: " + contract.getDescription() + "\n" +
-                "Adresse: " + contract.getAdress() + "\n" +
-                "Zahlung: " + contract.getPayment() + "\n" +
-                "Entfernung: " + contract.getRange() + " km\n\n" +
-                "Bei Fragen oder für weitere Informationen stehen wir Ihnen gerne zur Verfügung.\n\n" +
-                "Mit freundlichen Grüßen,\n" +
-                "Ihr SFAE-Team\n");
+                "<strong>Auftraggeber:</strong> " + foundCustomer.getName() + "<br>" +
+                "<strong>Jobtyp:</strong> " + contract.getJobType() + "<br>" +
+                "<strong>Beschreibung:</strong> " + contract.getDescription() + "<br>" +
+                "<strong>Adresse:</strong> " + contract.getAdress() + "<br>" +
+                "<strong>Zahlung:</strong> " + contract.getPayment() + "<br>" +
+                "<strong>Zahlung:</strong> " + contract.getMaxPayment() + "€<br>" +
+                "<strong>Entfernung:</strong> " + contract.getRange() + " km<br><br>" +
+                "Unter diesem <a href='https://erayzor.de/login'>Link</a> können Sie die Anfrage bestätigen. Sie haben 5 Minuten Zeit die Anfrage anzunehmen.<br>"
+                +
+                "Bei Fragen oder für weitere Informationen stehen wir Ihnen gerne zur Verfügung.<br><br>" +
+                "Mit freundlichen Grüßen,<br>" +
+                "Ihr SFAE-Team" +
+                "</body></html>");
 
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
       }
@@ -106,6 +112,9 @@ public class ContractController implements ContractEP {
     } catch (DataAccessException dax) {
       logger.error("Database access error: " + dax.getMessage(), dax);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    } catch (MessagingException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
   }
@@ -213,7 +222,5 @@ public class ContractController implements ContractEP {
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
-
   }
-
 }

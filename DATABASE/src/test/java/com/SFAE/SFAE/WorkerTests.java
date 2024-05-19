@@ -36,7 +36,6 @@ import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-
 public class WorkerTests{
 
     @Autowired

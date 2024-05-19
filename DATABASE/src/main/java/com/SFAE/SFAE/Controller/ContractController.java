@@ -57,6 +57,7 @@ public class ContractController implements ContractEP {
   @Autowired
   private TokenMailService tokenService;
 
+
   @Override
   public ResponseEntity<?> createContract(@Valid ContractDTO contract, BindingResult bindingResult) {
 
@@ -92,6 +93,9 @@ public class ContractController implements ContractEP {
         Worker found = work.findWorkersbyID(String.valueOf(contract.getWorkerId()));
         Customer foundCustomer = custo.findCustomerbyID(String.valueOf(contract.getCustomerId()));
 
+        String token= tokenService.createToken();
+        String link = "localhost:3000/login?token=" + token; 
+
         mail.sendHtmlMessage(found.getEmail(), "Jobangebot erhalten",
             "<html><body>" +
                 "wir freuen uns, Ihnen mitteilen zu können, dass wir ein neues Jobangebot erhalten haben. Unten finden Sie die Details zum Auftrag:<br><br>"
@@ -103,7 +107,7 @@ public class ContractController implements ContractEP {
                 "<strong>Zahlung:</strong> " + contract.getPayment() + "<br>" +
                 "<strong>Zahlung:</strong> " + contract.getMaxPayment() + "€<br>" +
                 "<strong>Entfernung:</strong> " + contract.getRange() + " km<br><br>" +
-                "Unter diesem <a href='https://erayzor.de/login'>Link</a> können Sie die Anfrage bestätigen. Sie haben 5 Minuten Zeit die Anfrage anzunehmen.<br>"
+                "Unter diesem <a href='" + link + "'>Link</a> können Sie die Anfrage bestätigen. Sie haben 5 Minuten Zeit die Anfrage anzunehmen.<br>"
                 +
                 "Bei Fragen oder für weitere Informationen stehen wir Ihnen gerne zur Verfügung.<br><br>" +
                 "Mit freundlichen Grüßen,<br>" +
@@ -123,6 +127,15 @@ public class ContractController implements ContractEP {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
   }
 
+  /**
+ * Deletes a contract by its unique identifier.
+ *
+ * @param id the unique identifier of the contract to be deleted.
+ * @return ResponseEntity indicating the success or failure of the deletion process.
+ *         Returns HttpStatus.OK if the contract is successfully deleted, HttpStatus.NOT_FOUND
+ *         if the contract does not exist, or HttpStatus.INTERNAL_SERVER_ERROR in case of
+ *         database access issues.
+ */
   @Override
   public ResponseEntity<?> deleteContactById(long id) {
     if (id < 0) {
@@ -143,6 +156,13 @@ public class ContractController implements ContractEP {
 
   }
 
+  /**
+ * Updates the details of an existing contract.
+ *
+ * @param contract the contract DTO that contains the updated contract details.
+ * @param bindingResult captures validation errors related to the contract DTO.
+ * @return ResponseEntity containing the updated contract or an error message if the update fails.
+ */
   @Override
   public ResponseEntity<?> updateContract(@Valid ContractDTO contract, BindingResult bindingResult) {
 
@@ -174,6 +194,12 @@ public class ContractController implements ContractEP {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
   }
 
+  /**
+ * Retrieves a contract by its unique identifier.
+ *
+ * @param id the unique identifier of the contract to be retrieved.
+ * @return ResponseEntity containing the contract if found, or an appropriate error status.
+ */
   @Override
   public ResponseEntity<?> findContractById(long id) {
     if (id < 0) {
@@ -195,6 +221,12 @@ public class ContractController implements ContractEP {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
   }
 
+  
+/**
+ * Counts all contracts currently managed by the system.
+ *
+ * @return ResponseEntity containing the count of all contracts or an error if the operation fails.
+ */
   @Override
   public ResponseEntity<?> countAllCContracts() {
     try {
@@ -205,6 +237,12 @@ public class ContractController implements ContractEP {
     }
   }
 
+  /**
+ * Retrieves all contracts associated with a specific customer ID.
+ *
+ * @param id the customer ID used to retrieve related contracts.
+ * @return ResponseEntity containing a list of contracts or an error if no contracts found.
+ */
   @Override
   public ResponseEntity<?> findContractByCustomerId(String id) {
     try {
@@ -218,6 +256,12 @@ public class ContractController implements ContractEP {
 
   }
 
+  /**
+ * Retrieves all contracts associated with a specific worker ID.
+ *
+ * @param id the worker ID used to retrieve related contracts.
+ * @return ResponseEntity containing a list of contracts or an error if no contracts found.
+ */
   @Override
   public ResponseEntity<?> findContractByWorkerId(String id) {
     try {
@@ -228,6 +272,13 @@ public class ContractController implements ContractEP {
     }
   }
 
+  /**
+ * Sets or updates a contract based on the acceptance status provided.
+ *
+ * @param data the contract DTO containing the details to be updated.
+ * @param accepted boolean value indicating if the contract update is accepted.
+ * @return ResponseEntity indicating the result of the operation, either success or an appropriate error status.
+ */
   @Override
   public ResponseEntity<?> setContract(ContractDTO data, Boolean accpeted) {
     if(data==null){
@@ -250,6 +301,12 @@ public class ContractController implements ContractEP {
   
   }
 
+  /**
+ * Validates a given token for authenticity and currency.
+ *
+ * @param token the token to be validated.
+ * @return ResponseEntity indicating whether the token is valid (true) or not (false).
+ */
   @Override
   public ResponseEntity<Boolean> validateToken(String token) {
       if(token != null){

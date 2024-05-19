@@ -337,6 +337,18 @@ public class WorkerImpl implements WorkerInterface {
     return null;
   }
 
+  /**
+   * Updates the average rating of a Worker.
+   * 
+   * This method calculates the new average rating for a Worker based on
+   * additional rating data provided.
+   * The new average is persisted in the database.
+   * 
+   * @param rating The new rating to be added.
+   * @param id     The unique identifier of the Worker whose rating is to be
+   *               updated.
+   * @return True if the update is successful, false otherwise.
+   */
   @Override
   public Boolean avgWorkerRating(Double rating, String id) {
 
@@ -348,19 +360,18 @@ public class WorkerImpl implements WorkerInterface {
         (rs, rowNum) -> {
           byte[] data = rs.getBytes("ratingav");
           if (data != null) {
-              try {
-                  return deserializeList(data);
-              } catch (IOException | ClassNotFoundException e) {
-                  throw new RuntimeException("Error deserializing ratingav", e);
-              } catch (java.io.IOException e) {
+            try {
+              return deserializeList(data);
+            } catch (IOException | ClassNotFoundException e) {
+              throw new RuntimeException("Error deserializing ratingav", e);
+            } catch (java.io.IOException e) {
 
-                return new ArrayList<Double>();
-              }
-          } else {
               return new ArrayList<Double>();
+            }
+          } else {
+            return new ArrayList<Double>();
           }
-      }
-  ).stream().findFirst().orElse(new ArrayList<>());
+        }).stream().findFirst().orElse(new ArrayList<>());
 
     currentRatings.add(rating);
 
@@ -368,19 +379,18 @@ public class WorkerImpl implements WorkerInterface {
     for (Double rat : currentRatings) {
       avg += rat;
     }
-    
- double gänsehaut = avg /= currentRatings.size();
-   
-    
+
+    double gänsehaut = avg /= currentRatings.size();
+
     int rowsAffected = jdbcTemplate.update(
         "UPDATE WORKER SET rating = ?, ratingav = ?  WHERE id = ?",
-        ps -> { 
+        ps -> {
           ps.setDouble(1, gänsehaut);
-         byte[] serialisedRating = serializeList(currentRatings);
+          byte[] serialisedRating = serializeList(currentRatings);
           ps.setBytes(2, serialisedRating);
           ps.setString(3, id);
         });
-        
+
     if (rowsAffected > 0) {
       return true;
     } else {
@@ -389,24 +399,48 @@ public class WorkerImpl implements WorkerInterface {
 
   }
 
+  /**
+   * Serializes a list of Double objects into a byte array.
+   * 
+   * This method is used internally to serialize rating lists for storage in a
+   * database.
+   * 
+   * @param list The list of Doubles to serialize.
+   * @return A byte array containing the serialized list.
+   * @throws IOException If an input/output error occurs during serialization.
+   */
+
   private byte[] serializeList(List<Double> list) throws IOException {
     ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
     ObjectOutputStream out;
     try {
-      out = new ObjectOutputStream(byteOut); 
+      out = new ObjectOutputStream(byteOut);
       out.writeObject(list);
       out.flush();
     } catch (java.io.IOException e) {
       e.printStackTrace();
     }
-  
-    return byteOut.toByteArray();
-}
 
+    return byteOut.toByteArray();
+  }
+
+  /**
+   * Deserializes a list of Double objects from a byte array.
+   * 
+   * This method is used internally to deserialize lists of ratings from database
+   * storage.
+   * 
+   * @param data The byte array containing the serialized list.
+   * @return The deserialized list of Doubles.
+   * @throws IOException            If an input/output error occurs during
+   *                                deserialization.
+   * @throws ClassNotFoundException If the class of a serialized object cannot be
+   *                                found.
+   */
   private List<Double> deserializeList(byte[] data) throws IOException, ClassNotFoundException, java.io.IOException {
-      ByteArrayInputStream bis = new ByteArrayInputStream(data);
-      ObjectInputStream ois = new ObjectInputStream(bis);
-      return (List<Double>) ois.readObject();
+    ByteArrayInputStream bis = new ByteArrayInputStream(data);
+    ObjectInputStream ois = new ObjectInputStream(bis);
+    return (List<Double>) ois.readObject();
   }
 
 }

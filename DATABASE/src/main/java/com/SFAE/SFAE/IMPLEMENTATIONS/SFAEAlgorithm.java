@@ -24,6 +24,23 @@ public class SFAEAlgorithm {
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
+
+
+   /**
+   * Calculates and retrieves the best workers for a specific job based on multiple criteria.
+   * This method uses geographic location, worker ratings, and payment expectations to determine
+   * the most suitable workers. It leverages a geospatial query to filter workers within a specified
+   * distance and sorts them by their rating and payment demands using a custom scoring algorithm.
+   *
+   * @param contract The ContractDTO containing the job's requirements including type, location, and payment range.
+   * @return A map of Worker entities to their calculated scores, sorted by the best score descending,
+   *         representing the most suitable workers for the job. Returns an empty map if no suitable workers are found.
+   *
+   * The method first filters workers by their proximity to the job's location and their job type compatibility.
+   * It then assigns scores based on a combination of the worker's requested minimum payment and their professional rating.
+   * Workers requesting payments below the job's maximum payment threshold and with higher ratings are scored higher.
+   * The final output is a sorted list of the top three workers, though the method can be adjusted to return more or fewer results.
+   */
   public Map<Worker, Double> getBestWorkersforTheJob(ContractDTO contract) {
     String sql = "SELECT " +
     "name, email, latitude, longitude, min_payment, rating, id," +

@@ -362,6 +362,13 @@ class CustomerController implements CustomerEP {
 
     }
 
+
+    /**
+     * Counts all customers registered in the system.
+     * 
+     * @return ResponseEntity containing the count of all Customer or an error if the
+     *         operation fails.
+     */
     @Override
     public ResponseEntity<?> countAllCustomers() {
         try {

@@ -21,7 +21,7 @@ export default function PageOrderRequest() {
   const [getPosition, setPosition] = useState<Position>();
 
   const params = useParams();
-  const customerId = params.customerId;
+  const cusId = params.customerId;
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -111,7 +111,7 @@ export default function PageOrderRequest() {
       payment: "PAYPAL",
       range: range,
       statusOrder: "PAID",
-      customerId: customerId!,
+      customerId: cusId!,
       verified: verified,
       longitude: getPosition!.longitude,
       latitude: getPosition!.latitude,
@@ -127,8 +127,8 @@ export default function PageOrderRequest() {
       console.log("Response from createContract:", contract);
       if (contract) {
         setContract(contract);
-        console.log(`Navigating to /customer/${customerId}/order/${contract.id}`);
-        navigate(`/customer/${customerId}/order/${contract.id}`);
+        console.log(`Navigating to /customer/${cusId}/${contract.id}`);
+        navigate(`/customer/${cusId}/order/${contract.id}`);
       } else {
         console.error("Fehler: Keine ContractID erhalten, Response:", contract);
       }

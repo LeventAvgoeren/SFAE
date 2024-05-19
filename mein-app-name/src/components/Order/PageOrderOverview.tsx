@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Container, Nav, NavDropdown, Row, Navbar } from 'react-bootstrap';
 import {
   MDBCard,
   MDBCardBody,
@@ -14,47 +13,56 @@ import {
 } from 'mdb-react-ui-kit';
 import './PageOrderOverview.css';
 import { useParams } from 'react-router-dom';
-import { deleteContractById, getContractByCustomerId } from '../../backend/api';
+import { deleteContractById, getContract, getContractByCustomerId } from '../../backend/api';
 import { ContractResource } from '../../Resources';
 import NavbarComponent from '../NavbarComponent';
 
-
 export function PageOrderOverview() {
-    const [contractData, setContractData] = useState<ContractResource[]>([]);
-    const params = useParams();
-    const cusId = params.cusId;
-  
-    useEffect(() => {
-      async function fetchContractData() {
-        try {
-          const data = await getContractByCustomerId(cusId);
-          setContractData(data);
-        } catch (error) {
-          console.error('Error fetching contract data:', error);
-        }
+  const { customerId} = useParams();
+  const [contractData, setContractData] = useState<ContractResource[]>([]);
+  const [loading, setLoading] = useState(true);
+  const params = useParams();
+  const contId = params.orderId;
+  let contractId=parseInt(contId!)
+  const [conData, setConData] = useState<ContractResource>();
+
+  useEffect(() => {
+    async function fetchContractData() {
+      try {
+        const data = await getContractByCustomerId(customerId);
+        console.log("Data fetched: ", data);
+        setContractData(data);
+
+       let contract= await getContract(contractId)
+       setConData(contract)
+      } catch (error) {
+        console.error('Error fetching contract data:', error);
+      } finally {
+        setLoading(false);
       }
-  
-      fetchContractData();
-    }, [cusId]);
-  
-    if (!contractData.length) {
-      return <div>Loading...</div>;
     }
   
-    const contract = contractData[0];
+    fetchContractData();
+  }, [customerId, contractId]);
   
-    const handleDelete = async () => {
-      try {
-        await deleteContractById(contract.id!);
-        setContractData(contractData.filter(c => c.id !== contract.id));
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  console.log("Searching for contract ID: ", contractId);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!contractData.length) {
+    return <div>No contracts found</div>;
+  }
+  //const specificContract = contractData.find(contract => conData.id!.toString() === contractId);
+
+  if (!conData) {
+    return <div>No contract found for ID {contractId}</div>;
+  }
       return (
         <>
           <NavbarComponent />
-          <div className="background-image">
+          <div className="background-image-berlin">
             <section className="vh-100 gradient-custom-2">
               <MDBContainer className="py-5 h-100">
                 <MDBRow className="justify-content-center align-items-center h-100">
@@ -65,11 +73,11 @@ export function PageOrderOverview() {
                           <div>
                             <p className="text-muted mb-2">
                               Order ID{" "}
-                              <span className="fw-bold text-body">{contract.id}</span>
+                              <span className="fw-bold text-body">{conData!.id}</span>
                             </p>
                             <p className="text-muted mb-0">
                               Placed On{" "}
-                              <span className="fw-bold text-body">{contract.range}</span>
+                              <span className="fw-bold text-body">{conData!.range}</span>
                             </p>
                           </div>
                           <div>
@@ -83,16 +91,16 @@ export function PageOrderOverview() {
                         <div className="d-flex flex-row mb-4 pb-2">
                           <div className="flex-fill">
                             <MDBTypography tag="h5" className="bold" style={{ color: 'black' }}>
-                              {contract.description}
+                              {conData!.description}
                             </MDBTypography>
-                            <p className="text-muted"> Job Type: {contract.jobType}</p>
+                            <p className="text-muted"> Job Type: {conData!.jobType}</p>
                             <MDBTypography tag="h4" className="mb-3">
-                              ${contract.payment}{" "}
+                              ${conData!.payment}{" "}
                               <span className="small text-muted"> via (COD) </span>
                             </MDBTypography>
                             <p className="text-muted">
                               Tracking Status:{" "}
-                              <span className="text-body">{contract.statusOrder}</span>
+                              <span className="text-body">{conData!.statusOrder}</span>
                             </p>
                           </div>
                           <div>

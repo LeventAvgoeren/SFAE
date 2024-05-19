@@ -391,7 +391,15 @@ export async function countAllWorkers(): Promise<number> {
   }
   
   
-
+  export async function getContract(id: number ): Promise<ContractResource> {
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/${id}`;
+    const response = await fetchWithErrorHandling(url, {
+      credentials: "include" as RequestCredentials,
+    });
+  
+    const answer = await response.json();
+    return answer;
+  }
   
   
 

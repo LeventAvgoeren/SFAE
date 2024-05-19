@@ -402,7 +402,7 @@ public void testCountAllWorkers() throws Exception {
 @Test
 public void testAvgRating() throws Exception {
 
-String json = "{\"rating\": 2.0, " +
+String json = "{\"rating\": 1.0, " +
                " \"id\": \"W13\"} ";
 MvcResult mvcResult = mockMvc.perform(put("/worker/rating")
 .contentType(MediaType.APPLICATION_JSON)

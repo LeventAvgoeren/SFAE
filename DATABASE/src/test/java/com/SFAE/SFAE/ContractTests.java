@@ -285,6 +285,23 @@ public void testGetContractByCustomerId() throws Exception {
 }
 
 
+@Test
+public void testGetContractByWorkerId() throws Exception {
+
+  TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+  MvcResult mvcResult =mockMvc.perform(get("/contract/worker/W4"))
+      .andExpect(status().isOk())
+      .andReturn();
+
+  transactionManager.commit(status);
+
+  String contentAsString = mvcResult.getResponse().getContentAsString();
+  System.out.println("A " + contentAsString);
+}
+
+
+
 
 
 }

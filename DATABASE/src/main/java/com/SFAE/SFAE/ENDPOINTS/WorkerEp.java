@@ -111,7 +111,6 @@ public interface WorkerEp {
     ResponseEntity<?> countAllWorkers();
 
     @PutMapping("/rating")
-    
     ResponseEntity<Boolean> avgRating(@RequestBody RatingDTO id);
 }
 

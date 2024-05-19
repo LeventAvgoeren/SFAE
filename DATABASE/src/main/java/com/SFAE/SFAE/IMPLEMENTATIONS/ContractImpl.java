@@ -168,4 +168,23 @@ private Contract createContract(ResultSet rs) {
     return null;
 
   }
+
+  @Override
+  public List<Contract> getContractByWorkerId(String id) {
+    List<Contract> result = jdbcTemplate.query(
+      "SELECT * FROM CONTRACT WHERE worker_id = ?",
+      ps -> {
+        ps.setString(1, id);
+      },
+      (rs, rowNum) -> createContract(rs));
+
+      
+  if (!result.isEmpty() ) {
+    return result;
+  }
+
+  return null;
+
 }
+}
+

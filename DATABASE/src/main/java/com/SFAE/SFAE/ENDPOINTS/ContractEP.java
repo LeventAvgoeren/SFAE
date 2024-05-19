@@ -58,6 +58,8 @@ public interface ContractEP {
 
 
     @GetMapping("/customer/{id}")
-    ResponseEntity<?> findContractByWorkerId(@PathVariable("id") String id);
+    ResponseEntity<?> findContractByCustomerId(@PathVariable("id") String id);
 
+    @GetMapping("/worker/{id}")
+    ResponseEntity<?> findContractByWorkerId(@PathVariable("id") String id);
 }

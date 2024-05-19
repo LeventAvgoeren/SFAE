@@ -45,7 +45,6 @@ public class ContractController implements ContractEP {
   @Autowired
   private CustomerInterface custo;
 
-
   @Autowired
   private MailService mail;
 
@@ -68,38 +67,38 @@ public class ContractController implements ContractEP {
     try {
 
       Map<Worker, Double> best = sfae.getBestWorkersforTheJob(contract);
-    
+
       List<Map.Entry<Worker, Double>> entries = new ArrayList<>(best.entrySet());
       entries.sort(Map.Entry.comparingByValue());
 
-      Iterator<Entry<Worker, Double>> iterator = entries.iterator(); 
+      Iterator<Entry<Worker, Double>> iterator = entries.iterator();
       Entry<Worker, Double> lastEntry = null;
 
-      while(iterator.hasNext()){
-          lastEntry = iterator.next();
+      while (iterator.hasNext()) {
+        lastEntry = iterator.next();
       }
 
-    
       System.out.println(lastEntry);
       contract.setWorkerId(lastEntry.getKey().getId());
-      
+
       Contract created = dao.createContract(contract);
       if (created != null) {
-        Worker found=work.findWorkersbyID(String.valueOf(contract.getWorkerId()));
-        Customer foundCustomer= custo.findCustomerbyID(String.valueOf(contract.getCustomerId()));
-        
-       mail.sendSimpleMessage(found.getEmail(), "Jobangebot erhalten\n\n" ,
-       "Sehr geehrte/r " + found.getName() + ",\n\n" +
-       "wir freuen uns, Ihnen mitteilen zu können, dass wir ein neues Jobangebot erhalten haben. Unten finden Sie die Details zum Auftrag:\n\n" +
-       "Auftraggeber: " + foundCustomer.getName() + "\n" +
-       "Jobtyp: " + contract.getJobType() + "\n" +
-       "Beschreibung: " + contract.getDescription() + "\n" +
-       "Adresse: " + contract.getAdress() + "\n" +
-       "Zahlung: " + contract.getPayment() + "\n" +
-       "Entfernung: " + contract.getRange() + " km\n\n" +
-       "Bei Fragen oder für weitere Informationen stehen wir Ihnen gerne zur Verfügung.\n\n" +
-       "Mit freundlichen Grüßen,\n" +
-       "Ihr SFAE-Team\n");
+        Worker found = work.findWorkersbyID(String.valueOf(contract.getWorkerId()));
+        Customer foundCustomer = custo.findCustomerbyID(String.valueOf(contract.getCustomerId()));
+
+        mail.sendSimpleMessage(found.getEmail(), "Jobangebot erhalten\n\n",
+            "Sehr geehrte/r " + found.getName() + ",\n\n" +
+                "wir freuen uns, Ihnen mitteilen zu können, dass wir ein neues Jobangebot erhalten haben. Unten finden Sie die Details zum Auftrag:\n\n"
+                +
+                "Auftraggeber: " + foundCustomer.getName() + "\n" +
+                "Jobtyp: " + contract.getJobType() + "\n" +
+                "Beschreibung: " + contract.getDescription() + "\n" +
+                "Adresse: " + contract.getAdress() + "\n" +
+                "Zahlung: " + contract.getPayment() + "\n" +
+                "Entfernung: " + contract.getRange() + " km\n\n" +
+                "Bei Fragen oder für weitere Informationen stehen wir Ihnen gerne zur Verfügung.\n\n" +
+                "Mit freundlichen Grüßen,\n" +
+                "Ihr SFAE-Team\n");
 
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
       }
@@ -120,8 +119,7 @@ public class ContractController implements ContractEP {
       boolean result = dao.deleteContract(id);
       if (result) {
         return ResponseEntity.status(HttpStatus.OK).build();
-      }
-      else{
+      } else {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
       }
 
@@ -186,28 +184,36 @@ public class ContractController implements ContractEP {
 
   @Override
   public ResponseEntity<?> countAllCContracts() {
-    try{
-      long counter=dao.countContracts();
-  return ResponseEntity.status(HttpStatus.OK).body(counter);
-  }
-  catch(Exception e){
+    try {
+      long counter = dao.countContracts();
+      return ResponseEntity.status(HttpStatus.OK).body(counter);
+    } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
   }
+
+  @Override
+  public ResponseEntity<?> findContractByCustomerId(String id) {
+    try {
+
+      List<Contract> contract = dao.getContractByCustomerId(id);
+
+      return ResponseEntity.status(HttpStatus.OK).body(contract);
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
   }
 
   @Override
   public ResponseEntity<?> findContractByWorkerId(String id) {
-    try{
-
-      List<Contract> contract =dao.getContractByCustomerId(id);
-
-      return ResponseEntity.status(HttpStatus.OK).body(contract);
-    }
-    catch(Exception e){
+    try {
+      List<Contract> contractWorker = dao.getContractByWorkerId(id);
+      return ResponseEntity.status(HttpStatus.OK).body(contractWorker);
+    } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
   }
-
 
 }

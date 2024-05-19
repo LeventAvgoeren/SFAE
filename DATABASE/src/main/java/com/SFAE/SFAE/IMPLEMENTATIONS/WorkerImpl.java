@@ -368,8 +368,9 @@ public class WorkerImpl implements WorkerInterface {
     for (Double rat : currentRatings) {
       avg += rat;
     }
-
-    double gänsehaut = avg /= currentRatings.size();
+    
+ double gänsehaut = avg /= currentRatings.size();
+   
     
     int rowsAffected = jdbcTemplate.update(
         "UPDATE WORKER SET rating = ?, ratingav = ?  WHERE id = ?",

@@ -60,5 +60,8 @@ public interface ContractInterface {
 
     List<Contract>getContractByCustomerId(String id);
 
+
+    List<Contract>getContractByWorkerId(String id);
+
     
 }

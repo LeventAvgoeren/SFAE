@@ -113,8 +113,9 @@ function App() {
               <Route path="/worker/:workerId/preferences"element={<PageWorkerPreferences />}/>
               <Route path="/worker/:workerId/faq" element={<PageWorkerFAQ />} />
               <Route path="/worker/:workerId/orders" element={<PageWorkerOrders />} />
+              {/*Contract*/}
+              <Route path="/contract" element={<PageDeclineJob />} />
 
-              <Route path="/worker/:workerId/contract" element={<PageDeclineJob />} />
       </Routes>
       </LoginContext.Provider>
     </>

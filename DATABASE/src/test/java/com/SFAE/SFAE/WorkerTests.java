@@ -52,7 +52,7 @@ public class WorkerTests{
                 "\"name\": \"TestRating\"," +
                 "\"location\": \"BERLIN\"," +
                 "\"password\": \"COLORBOX\"," +
-                "\"email\": \"RATING@gmail.com\"," +
+                "\"email\": \"leventavgoren@gmail.com\"," +
                 "\"range\": 1.5," +
                 "\"jobType\":\"INSTALLATEUR\"," +
                 "\"minPayment\": 35.0," +

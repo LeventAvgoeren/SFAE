@@ -29,18 +29,20 @@ export interface Position {
   
 export type ContractResource = {
     id?: number;
-    adress: string;
-    description:string;
-    jobType: string;
-    payment: string;
-    range: number;
-    statusOrder: string;  
-    customerId: string;
+    adress?: string;
+    description?:string;
+    jobType?: string;
+    payment?: string;
+    range?: number;
+    statusOrder?: string;  
+    customerId?: string;
     worker?: WorkerResource;
-    longitude: number;
-    latitude: number;
-    maxPayment: number;
+    longitude?: number;
+    latitude?: number;
+    maxPayment?: number;
 }
+
+
 export type ContractResourceforWorker = {
     id?: number;
     adress: string;
@@ -82,4 +84,10 @@ export type PaymentResource = {
     currency: string;
     method: string;
     status: string; 
+}
+
+export type TokenRessource = {
+    id: number;
+    toke: string;
+    workerId: string;
 }

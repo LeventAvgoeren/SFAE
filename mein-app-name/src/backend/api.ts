@@ -1,4 +1,4 @@
-import { ContractResource, ContractResourceforWorker, CustomerResource, Position, WorkerResource } from "../Resources";
+import { ContractResource, ContractResourceforWorker, CustomerResource, Position, TokenRessource, WorkerResource } from "../Resources";
 import { LoginInfo } from "../components/LoginManager";
 import { fetchWithErrorHandling } from "./fetchWithErrorHandling";
 
@@ -411,9 +411,8 @@ export async function countAllWorkers(): Promise<number> {
     return answer;
   }
 
-  export async function contractAcceptOrDecline(accepted: Boolean,workerData:WorkerResource): Promise<void> {
-
-    console.log("PENIS"+accepted,workerData)
+  export async function contractAcceptOrDecline(accepted: boolean, contractData:ContractResource): Promise<void> {
+    console.log(accepted, contractData)
     const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/${accepted}`;
     const options = {
       method: "PUT",
@@ -421,11 +420,30 @@ export async function countAllWorkers(): Promise<number> {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify(workerData),
+      body: JSON.stringify({ id: contractData.id,   adress: contractData.adress,description: contractData.description, jobType: contractData.jobType, payment: contractData.payment,range: contractData.range, statusOrder: contractData.statusOrder, customerId: contractData.customerId,  workerId: contractData.worker!.id}),
       credentials: "include" as RequestCredentials,
     };
   
     await fetchWithErrorHandling(url, options);
+  }
+
+  
+  export async function validateToken(token: string): Promise<TokenRessource> {
+
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/token/${token}`;
+    const options = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      credentials: "include" as RequestCredentials,
+    };
+  
+   const response = await fetchWithErrorHandling(url, options);
+   const jsonData = await response.json();
+  
+   return jsonData;
   }
 
 

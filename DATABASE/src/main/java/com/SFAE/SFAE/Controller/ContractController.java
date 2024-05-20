@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.SFAE.SFAE.DTO.ContractDTO;
+import com.SFAE.SFAE.DTO.Token;
 import com.SFAE.SFAE.ENDPOINTS.ContractEP;
 import com.SFAE.SFAE.ENTITY.Contract;
 import com.SFAE.SFAE.ENTITY.Customer;
@@ -86,15 +87,14 @@ public class ContractController implements ContractEP {
       }
 
       System.out.println(lastEntry);
-      contract.setWorkerId(lastEntry.getKey().getId());
-
+      contract.setWorkerId("W0"); //Bessere Lösung finden.
       Contract created = dao.createContract(contract);
       if (created != null) {
-        Worker found = work.findWorkersbyID(String.valueOf(contract.getWorkerId()));
+        Worker found = work.findWorkersbyID(String.valueOf(lastEntry.getKey().getId()));
         Customer foundCustomer = custo.findCustomerbyID(String.valueOf(contract.getCustomerId()));
 
-        String token= tokenService.createToken();
-        String link = "localhost:3000/login?token=" + token; 
+        String token= tokenService.createToken(created.getId(), lastEntry.getKey().getId());
+        String link = "localhost:3000/contract?token=" + token; 
 
         mail.sendHtmlMessage(found.getEmail(), "Jobangebot erhalten",
             "<html><body>" +
@@ -107,7 +107,7 @@ public class ContractController implements ContractEP {
                 "<strong>Zahlung:</strong> " + contract.getPayment() + "<br>" +
                 "<strong>Zahlung:</strong> " + contract.getMaxPayment() + "€<br>" +
                 "<strong>Entfernung:</strong> " + contract.getRange() + " km<br><br>" +
-                "Unter diesem <a href='" + link + "'>Link</a> können Sie die Anfrage bestätigen. Sie haben 5 Minuten Zeit die Anfrage anzunehmen.<br>"
+                "Unter diesem " +  link + " können Sie die Anfrage bestätigen. Sie haben 5 Minuten Zeit die Anfrage anzunehmen.<br>"
                 +
                 "Bei Fragen oder für weitere Informationen stehen wir Ihnen gerne zur Verfügung.<br><br>" +
                 "Mit freundlichen Grüßen,<br>" +
@@ -307,13 +307,14 @@ public class ContractController implements ContractEP {
  * @return ResponseEntity indicating whether the token is valid (true) or not (false).
  */
   @Override
-  public ResponseEntity<Boolean> validateToken(String token) {
-      if(token != null){
+  public ResponseEntity<?> validateToken(String token) {
+      if(token == null){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
       }
 
-      if(tokenService.validateToken(token)){
-        return ResponseEntity.status(HttpStatus.OK).body(true);
+       Token getToken = tokenService.validateToken(token);
+      if(getToken != null){
+        return ResponseEntity.status(HttpStatus.OK).body(getToken);
       }
 
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body(false);

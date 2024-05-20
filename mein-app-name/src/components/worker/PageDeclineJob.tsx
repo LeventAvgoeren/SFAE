@@ -1,45 +1,62 @@
-import { useParams } from "react-router-dom";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import NavbarWComponent from "./NavbarWComponent"
 import { useEffect, useState } from "react";
 
-import { WorkerResource } from "../../Resources";
+import { ContractResource, TokenRessource, WorkerResource } from "../../Resources";
 import { Button } from "react-bootstrap";
-import { contractAcceptOrDecline, getWorkerbyID } from "../../backend/api";
+import { contractAcceptOrDecline, getContract, getWorkerbyID, validateToken } from "../../backend/api";
 import { LinkContainer } from "react-router-bootstrap";
 
 
 export function PageDeclineJob(){
-  
-  const params = useParams();
-  const workerId = params.workerId!;
-  console.log(workerId)
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const tokenID = searchParams.get("token");
+
+  const navigate = useNavigate();
   const [worker, setWorker] = useState<WorkerResource>();
-  console.log(worker)
-  const [response, setResponse] = useState(false);
-  
+  const [getcontract, setcontract] = useState<ContractResource>();
+  const [getToken, setToken] = useState<TokenRessource>();
 
   async function handleResponse(accepted:boolean){
-    setResponse(accepted);
-
-    await contractAcceptOrDecline(response,worker!)
+    
+    await contractAcceptOrDecline(accepted, getcontract!)
+    if(accepted){
+       navigate(`/worker/${getToken?.workerId}/orders/overview`)
+    } else{
+      navigate(`/worker/${getToken?.workerId}`)
+    }
    
   }
 
+  async function getContractIdByToken(token:string) {
+    let res = await validateToken(token);
+    setToken(res)
+    let res2 = await getContract(res.id);
+    setcontract(res2);
+  }
+
+  
   useEffect(() => {
+
     async function fetchContracts() {
       try {
-        let worker = await getWorkerbyID(workerId);
-        if(worker){
-          console.log("kheir")
-        }
-        setWorker(worker)
-        console.log(worker)
+        await getContractIdByToken(tokenID!)
+
+       let workerFound = await getWorkerbyID(getToken!.workerId);
+       setcontract(prevContract => ({
+        ...prevContract,
+        worker: workerFound
+      }));
+       setWorker(workerFound);
       } catch (error) {
         console.log("Fehler:" + error);
       }
     }
     fetchContracts();
-  }, [workerId]);
+  }, []);
+
+  
   return (
     <>
       <NavbarWComponent/>
@@ -47,13 +64,9 @@ export function PageDeclineJob(){
       <h2>Möchtest du diesen Job annehmen?</h2>
   
       <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '20px' }}>
-        <LinkContainer to={`/worker/${workerId}`}>
-          <Button variant="danger" onClick={() => handleResponse(false)}>Ablehnen</Button>
-        </LinkContainer>
-        
-        <LinkContainer to={`/worker/${workerId}/orders/overview`}>
-          <Button variant="success" onClick={() => handleResponse(true)}>Annehmen</Button>
-        </LinkContainer>
+           <Button variant="danger" onClick={() => handleResponse(false)}>Ablehnen</Button>
+
+            <Button variant="success" onClick={() => handleResponse(true)}>Annehmen</Button>
       </div>
     </>
   )}

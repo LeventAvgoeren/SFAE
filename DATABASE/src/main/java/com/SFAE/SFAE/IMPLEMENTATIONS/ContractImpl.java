@@ -17,6 +17,7 @@ import com.SFAE.SFAE.ENUM.JobList;
 import com.SFAE.SFAE.ENUM.Payment;
 import com.SFAE.SFAE.ENUM.StatusOrder;
 import com.SFAE.SFAE.INTERFACE.ContractInterface;
+import com.SFAE.SFAE.INTERFACE.ContractRepository;
 
 @Component
 public class ContractImpl implements ContractInterface {
@@ -28,6 +29,10 @@ public class ContractImpl implements ContractInterface {
 
   @Autowired
   private WorkerImpl workerImpl;
+
+  @Autowired
+  private ContractRepository contractRepository;
+
 
   @Override
   public Contract getContract(long id) {
@@ -91,8 +96,6 @@ public class ContractImpl implements ContractInterface {
   @Override
   public Contract createContract(ContractDTO contract) {
 
-    //gibt mir den passenden worker zu dem gesuchten job 
-    Worker worker=workerImpl.findWorkerByJob(contract.getJobType());
 
     String jobType = contract.getJobType();
     String address = contract.getAdress();
@@ -102,25 +105,13 @@ public class ContractImpl implements ContractInterface {
     Double range = contract.getRange();
     Double maxPayment= contract.getMaxPayment();
     Customer customer = customerImpl.findCustomerbyID(String.valueOf(contract.getCustomerId()));
+    Worker worker= workerImpl.findWorkersbyID(String.valueOf(contract.getWorkerId()));
+    System.out.println("WORKER IM CREATE: " + worker);
+
+    Contract newContract = new Contract(JobList.valueOf(jobType), address, Payment.valueOf(payment), description,StatusOrder.valueOf(statusOrder), range, customer, worker,maxPayment);
 
 
-     jdbcTemplate.update(connection -> {
-        PreparedStatement ps = connection.prepareStatement(
-            "INSERT INTO Contract (job_type, adress, payment, description, status_order, range, customer_id, worker_id,max_Payment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-            ps.setString(1, jobType);
-            ps.setString(2, address);
-            ps.setString(3, payment);
-            ps.setString(4, description);
-            ps.setString(5, statusOrder);
-            ps.setDouble(6, range);
-            ps.setString(7, customer.getId());
-            ps.setString(8, worker.getId());
-            ps.setDouble(9, maxPayment);
-       
-            return ps;
-  });
-  return new Contract(JobList.valueOf(jobType), address, Payment.valueOf(payment), description,StatusOrder.valueOf(statusOrder), range, customer, worker,maxPayment);
+    return contractRepository.save(newContract);
 }
 
 

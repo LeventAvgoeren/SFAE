@@ -54,7 +54,6 @@ export function PageOrderOverview() {
   if (!contractData.length) {
     return <div>No contracts found</div>;
   }
-  //const specificContract = contractData.find(contract => conData.id!.toString() === contractId);
 
   if (!conData) {
     return <div>No contract found for ID {contractId}</div>;

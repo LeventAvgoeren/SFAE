@@ -41,6 +41,21 @@ export type ContractResource = {
     latitude: number;
     maxPayment: number;
 }
+export type ContractResourceforWorker = {
+    id?: number;
+    adress: string;
+    description:string;
+    jobType: string;
+    payment: string;
+    range: number;
+    statusOrder: string;  
+    customer: CustomerResource;
+    worker?: WorkerResource;
+    longitude: number;
+    latitude: number;
+    maxPayment: number;
+}
+
 
 export type CustomerResource = {
     id?: string;

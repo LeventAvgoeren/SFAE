@@ -28,6 +28,7 @@ import { PageProfil } from "./components/customer/PageProfil";
 import { PageUebersicht } from "./components/customer/PageUebersicht";
 import { PageOrderOverview } from "./components/Order/PageOrderOverview";
 import PageError from "./components/Error";
+import { PageDeclineJob } from "./components/worker/PageDeclineJob";
 
 
 

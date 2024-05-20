@@ -1,4 +1,4 @@
-import { ContractResource, CustomerResource, Position, WorkerResource } from "../Resources";
+import { ContractResource, ContractResourceforWorker, CustomerResource, Position, WorkerResource } from "../Resources";
 import { LoginInfo } from "../components/LoginManager";
 import { fetchWithErrorHandling } from "./fetchWithErrorHandling";
 
@@ -401,6 +401,16 @@ export async function countAllWorkers(): Promise<number> {
     return answer;
   }
   
+  export async function getContractByWorkerId(id: string): Promise<ContractResourceforWorker[]> {
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/worker/${id}`;
+    const response = await fetchWithErrorHandling(url, {
+      credentials: "include" as RequestCredentials,
+    });
+  
+    const answer = await response.json();
+    return answer;
+  }
+
   
 
 

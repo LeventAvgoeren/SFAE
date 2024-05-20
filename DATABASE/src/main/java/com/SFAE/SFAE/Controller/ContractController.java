@@ -316,6 +316,6 @@ public class ContractController implements ContractEP {
         return ResponseEntity.status(HttpStatus.OK).body(getToken);
       }
 
-      return ResponseEntity.status(HttpStatus.FORBIDDEN).body(false);
+      return ResponseEntity.status(HttpStatus.GONE).body(false);
   }
 }

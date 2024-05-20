@@ -6,6 +6,7 @@ import { ContractResource, TokenRessource, WorkerResource } from "../../Resource
 import { Button } from "react-bootstrap";
 import { contractAcceptOrDecline, getContract, getWorkerbyID, validateToken } from "../../backend/api";
 import { LinkContainer } from "react-router-bootstrap";
+import PageError from "../Error";
 
 
 export function PageDeclineJob(){
@@ -18,6 +19,7 @@ export function PageDeclineJob(){
   const [getcontract, setcontract] = useState<ContractResource>();
   const [getToken, setToken] = useState<TokenRessource>();
   const [refresh, setRefresh] = useState(false);
+  
 
   async function handleResponse(accepted:boolean){
     
@@ -33,7 +35,8 @@ export function PageDeclineJob(){
   async function getContractIdByToken(token:string) {
  
     let res = await validateToken(token);
-    setToken(res)
+    if(res){
+         setToken(res)
     let res2 = await getContract(res.id);
     setcontract(res2);
     let workerFound = await getWorkerbyID(res.workerId);
@@ -42,6 +45,9 @@ export function PageDeclineJob(){
           worker: workerFound
         }));
       setWorker(workerFound);
+      setRefresh(true)
+    }
+ 
   }
 
   
@@ -55,14 +61,14 @@ export function PageDeclineJob(){
       }
     }
     fetchContracts();
-  }, [refresh]);
+  }, []);
 
   
   return (
 
     <>
-  
-      <NavbarWComponent/>
+    {refresh ? ( <> 
+     <NavbarWComponent/>
       <h1>Willkommen {worker?.name}, du hast ein Jobangebot erhalten.</h1>
       <h2>Möchtest du diesen Job annehmen?</h2>
   
@@ -71,6 +77,9 @@ export function PageDeclineJob(){
 
             <Button variant="success" onClick={() => handleResponse(true)}>Annehmen</Button>
       </div> 
+    </>
+    ) : (<PageError error={410}/>)}
+     
       
     </>
   )}

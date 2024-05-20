@@ -427,7 +427,7 @@ export async function countAllWorkers(): Promise<number> {
   }
 
   
-  export async function validateToken(token: string): Promise<TokenRessource> {
+  export async function validateToken(token: string): Promise<TokenRessource | false> {
 
     const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/token/${token}`;
     const options = {

@@ -15,7 +15,8 @@ enum ErrorCode {
     NotFound = 404,
     Forbidden = 403,
     Unauthorized = 401,
-    BadRequest = 400
+    BadRequest = 400,
+    Gone = 410
 }
 
 interface ErrorMessage {
@@ -47,6 +48,7 @@ export default function PageError({ error }: PageErrorProps){
         [ErrorCode.Forbidden]: "Keine Berechtigung (403)",
         [ErrorCode.Unauthorized]: "Nicht Autorisiert (401)",
         [ErrorCode.BadRequest]: "Anfrage war fehlerhaft (400)",
+        [ErrorCode.Gone]: "Auftrag abegelaufen(410)"
       };
 
     return (

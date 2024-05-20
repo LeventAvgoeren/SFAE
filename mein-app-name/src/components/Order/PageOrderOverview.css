@@ -1,84 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
 
-#progressbar-1 {
-  color: #455A64;
-}
 
-#progressbar-1 li {
-  list-style-type: none;
-  font-size: 13px;
-  width: 33.33%;
-  float: left;
-  position: relative;
-}
-
-#progressbar-1 #step1:before {
-  content: "1";
-  color: #fff;
-  width: 29px;
-  margin-left: 22px;
-  padding-left: 11px;
-}
-
-#progressbar-1 #step2:before {
-  content: "2";
-  color: #fff;
-  width: 29px;
-}
-
-#progressbar-1 #step3:before {
-  content: "3";
-  color: #fff;
-  width: 29px;
-  margin-right: 22px;
-  text-align: center;
-}
-
-#progressbar-1 li:before {
-  line-height: 29px;
-  display: block;
-  font-size: 12px;
-  background: #455A64;
-  border-radius: 50%;
-  margin: auto;
-}
-
-#progressbar-1 li:after {
-  content: '';
-  width: 121%;
-  height: 2px;
-  background: #455A64;
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 15px;
-  z-index: -1;
-}
-
-#progressbar-1 li:nth-child(2):after {
-  left: 50%
-}
-
-#progressbar-1 li:nth-child(1):after {
-  left: 25%;
-  width: 121%
-}
-
-#progressbar-1 li:nth-child(3):after {
-  left: 25%;
-  width: 50%;
-}
-
-#progressbar-1 li.active:before,
-#progressbar-1 li.active:after {
-  background: #1266f1;
-}
-
-.card-stepper {
-  z-index: 0
-}
 .background-image-berlin {
-  background-image: url('/public/b1.jpg'); /* Überprüfen Sie den korrekten Pfad */
+  font-family: 'Nunito', sans-serif;
+  background-image: url('/public/b1.jpg'); /* Stellen Sie sicher, dass der Pfad korrekt ist */
   background-size: cover;
   background-position: center;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-informationen {
+  background: rgba(0, 0, 0, 0.7); /* Dunkelgrau, semi-transparent */
+  padding: 40px 50px;
+  border-radius: 14px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: calc(100vw - 3cm); /* Berechnet die Breite: Bildschirmbreite - 3cm */
+  max-width: calc(100vw - 3cm); /* Stellen Sie sicher, dass der Container nie breiter als die Breite minus 3cm ist */
+  height: calc(100vh - 2cm); /* Berechnet die Höhe: Bildschirmhöhe - 2cm */
+  box-sizing: border-box; /* Stellt sicher, dass padding und border in der Breiten-/Höhenberechnung enthalten sind */
+  color: white; /* Setzt die Textfarbe auf Weiß */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+.layout {
+  display: grid;
+  grid-template-areas:
+    'header header'
+    'sidebar main'
+    'widget statistics'
+    'footer footer';
+  gap: 10px;
+  grid-template-columns: 1fr 3fr; /* Sidebar kleiner als Main */
+  grid-template-rows: auto;
+  width: 100%;
+  height: 100%;
+}
+
+.container-informationen * {
+  color: white;
+}
+
+.container-informationen * {
+  color: white !important; /* Erzwingt die weiße Textfarbe */
+}
+
+.text-body, .text-muted, a {
+  color: white !important; /* Setzt sicher, dass alle Links und spezifische MDB-Klassen weiß sind */
+}
+
+a.text-muted {
+  color: #ccc !important; /* Setzt sicher, dass die mutierten Links eine andere Farbe haben */
 }

@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
+
 .parent {
   display: flex;
   justify-content: center; /* Zentriert Kinder horizontal */
@@ -76,4 +79,14 @@
 
 .nav-dropdown, #collapsible-nav-dropdown {
   position: sticky;
+}
+.background-image-berlin {
+  font-family: 'Nunito', sans-serif;
+  background-image: url('/public/b1.jpg'); /* Stellen Sie sicher, dass der Pfad korrekt ist */
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

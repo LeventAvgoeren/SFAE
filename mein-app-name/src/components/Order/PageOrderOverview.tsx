@@ -12,7 +12,7 @@ import {
   MDBTypography,
 } from 'mdb-react-ui-kit';
 import './PageOrderOverview.css';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { deleteContractById, getContract, getContractByCustomerId } from '../../backend/api';
 import { ContractResource } from '../../Resources';
 import NavbarComponent from '../NavbarComponent';
@@ -58,100 +58,65 @@ export function PageOrderOverview() {
   if (!conData) {
     return <div>No contract found for ID {contractId}</div>;
   }
-      return (
-        <>
-          <NavbarComponent />
-          <div className="background-image-berlin">
-            <section className="vh-100 gradient-custom-2">
-              <MDBContainer className="py-5 h-100">
-                <MDBRow className="justify-content-center align-items-center h-100">
-                  <MDBCol md="10" lg="8" xl="6">
-                    <MDBCard className="card-stepper" style={{ borderRadius: "16px" }}>
-                      <MDBCardHeader className="p-4">
-                        <div className="d-flex justify-content-between align-items-center">
-                          <div>
-                            <p className="text-muted mb-2">
-                              Order ID{" "}
-                              <span className="fw-bold text-body">{conData!.id}</span>
-                            </p>
-                            <p className="text-muted mb-0">
-                              Placed On{" "}
-                              <span className="fw-bold text-body">{conData!.range}</span>
-                            </p>
-                          </div>
-                          <div>
-                            <MDBTypography tag="h6" className="mb-0">
-                              <a href="#" style={{ color: 'black' }}>View Details</a>
-                            </MDBTypography>
-                          </div>
-                        </div>
-                      </MDBCardHeader>
-                      <MDBCardBody className="p-4">
-                        <div className="d-flex flex-row mb-4 pb-2">
-                          <div className="flex-fill">
-                            <MDBTypography tag="h5" className="bold" style={{ color: 'black' }}>
-                              {conData!.description}
-                            </MDBTypography>
-                            <p className="text-muted"> Job Type: {conData!.jobType}</p>
-                            <MDBTypography tag="h4" className="mb-3">
-                              ${conData!.payment}{" "}
-                              <span className="small text-muted"> via (COD) </span>
-                            </MDBTypography>
-                            <p className="text-muted">
-                              Tracking Status:{" "}
-                              <span className="text-body">{conData!.statusOrder}</span>
-                            </p>
-                          </div>
-                          <div>
-                            <MDBCardImage
-                              fluid
-                              className="align-self-center"
-                              src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/6.webp"
-                              width="250"
-                            />
-                          </div>
-                        </div>
-                        <ul id="progressbar-1" className="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">
-                          <li className="step0 active" id="step1">
-                            <span style={{ marginLeft: "22px", marginTop: "12px" }}>PLACED</span>
-                          </li>
-                          <li className="step0 active text-center" id="step2">
-                            <span>SHIPPED</span>
-                          </li>
-                          <li className="step0 text-muted text-end" id="step3">
-                            <span style={{ marginRight: "22px" }}>DELIVERED</span>
-                          </li>
-                        </ul>
-                      </MDBCardBody>
-                      <MDBCardFooter className="p-4">
-                        <div className="d-flex justify-content-between">
-                          <MDBTypography tag="h5" className="fw-normal mb-0">
-                            <a href="#!" style={{ color: 'black' }}>Track</a>
-                          </MDBTypography>
-                          <div className="border-start h-100"></div>
-                          <MDBTypography tag="h5" className="fw-normal mb-0">
-                            <a href="#!" style={{ color: 'black' }}>Cancel</a>
-                          </MDBTypography>
-                          <div className="border-start h-100"></div>
-                          <MDBTypography tag="h5" className="fw-normal mb-0">
-                            <a href="#!" style={{ color: 'black' }}>Pre-pay</a>
-                          </MDBTypography>
-                          <div className="border-start h-100"></div>
-                          <MDBTypography tag="h5" className="fw-normal mb-0">
-                            <a href="#!" className="text-muted">
-                              <MDBIcon fas icon="ellipsis-v" />
-                            </a>
-                          </MDBTypography>
-                        </div>
-                      </MDBCardFooter>
-                    </MDBCard>
-                  </MDBCol>
-                </MDBRow>
-              </MDBContainer>
-            </section>
+  return (
+    <>
+      <NavbarComponent />
+      <div className="background-image-berlin">
+        <div className="container-informationen">
+          <div className="layout">
+            <header style={{ gridArea: 'header' }}>
+              <div className="d-flex justify-content-between align-items-center">
+                <div>
+                  <p className="text-muted mb-2">
+                    Order ID <span className="fw-bold text-body">{conData!.id}</span>
+                  </p>
+                  <p className="text-muted mb-0">
+                    Placed On <span className="fw-bold text-body">{conData!.range}</span>
+                  </p>
+                </div>
+                <div>
+                </div>
+              </div>
+            </header>
+            <nav style={{ gridArea: 'sidebar' }}>
+              <img
+                src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/6.webp"
+                alt="Product"
+                width="100%"
+              />
+            </nav>
+            <main style={{ gridArea: 'main' }}>
+              <h5 style={{ color: 'white' }}>Beschreibung : {conData!.description}</h5>
+              <div style={{ height: '10px' }}></div>
+              <p className="text-muted">Job Type: {conData!.jobType}</p>
+              <div style={{ height: '10px' }}></div>
+
+              <h4>
+                Zahlungsmethode : {conData!.payment} <span className="small text-muted"></span>
+              </h4>
+              <div style={{ height: '10px' }}></div>
+
+              <p className="text-muted">
+                 <span className="text-body">Status deiner Bestellung : {conData!.statusOrder}</span>
+              </p>
+              <div style={{ height: '10px' }}></div>
+
+            </main>
+            <article style={{ gridArea: 'widget' }}>
+            </article>
+            <footer style={{ gridArea: 'footer' }}>
+              <div className="d-flex justify-content-between">
+                <a href="#!" style={{ color: 'white' }}>Bestellung stornieren</a>
+                <Link to={`/customer/${customerId}/orders/${contractId}/completed`} style={{ color: 'white' }}>Auftrag beendet? Lasse doch gerne eine Bewertung für den Worker da!</Link>
+                <a href="#!" className="text-muted">
+                  <MDBIcon fas icon="ellipsis-v" />
+                </a>
+              </div>
+            </footer>
           </div>
-        </>
-      );
-      
-    }
-    
+        </div>
+      </div>
+    </>
+  );
+  
+}

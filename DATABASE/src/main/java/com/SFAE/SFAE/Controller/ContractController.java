@@ -54,6 +54,7 @@ public class ContractController implements ContractEP {
   @Autowired
   private SFAEAlgorithm sfae;
 
+  @Autowired
   private TokenMailService tokenService;
 
 

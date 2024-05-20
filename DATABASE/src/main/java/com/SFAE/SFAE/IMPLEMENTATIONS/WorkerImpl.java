@@ -91,6 +91,7 @@ public class WorkerImpl implements WorkerInterface {
    */
   @Override
   public Worker findWorkersbyID(String id) {
+    System.out.println(id);
     if (!id.startsWith("W")) {
       throw new IllegalArgumentException("Id is not Worker");
     }

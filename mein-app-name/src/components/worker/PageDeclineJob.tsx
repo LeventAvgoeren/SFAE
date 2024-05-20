@@ -17,6 +17,7 @@ export function PageDeclineJob(){
   const [worker, setWorker] = useState<WorkerResource>();
   const [getcontract, setcontract] = useState<ContractResource>();
   const [getToken, setToken] = useState<TokenRessource>();
+  const [refresh, setRefresh] = useState(false);
 
   async function handleResponse(accepted:boolean){
     
@@ -28,12 +29,19 @@ export function PageDeclineJob(){
     }
    
   }
-
+ //Beim ersten Mal Laden der Seite kommt undefined bzw die fkae WorkerID
   async function getContractIdByToken(token:string) {
+ 
     let res = await validateToken(token);
     setToken(res)
     let res2 = await getContract(res.id);
     setcontract(res2);
+    let workerFound = await getWorkerbyID(res.workerId);
+    setcontract(prevContract => ({
+          ...prevContract,
+          worker: workerFound
+        }));
+      setWorker(workerFound);
   }
 
   
@@ -41,24 +49,19 @@ export function PageDeclineJob(){
 
     async function fetchContracts() {
       try {
-        await getContractIdByToken(tokenID!)
-
-       let workerFound = await getWorkerbyID(getToken!.workerId);
-       setcontract(prevContract => ({
-        ...prevContract,
-        worker: workerFound
-      }));
-       setWorker(workerFound);
+        await getContractIdByToken(tokenID!) 
       } catch (error) {
-        console.log("Fehler:" + error);
+        console.log("Fehler:" + error); 
       }
     }
     fetchContracts();
-  }, []);
+  }, [refresh]);
 
   
   return (
+
     <>
+  
       <NavbarWComponent/>
       <h1>Willkommen {worker?.name}, du hast ein Jobangebot erhalten.</h1>
       <h2>Möchtest du diesen Job annehmen?</h2>
@@ -67,6 +70,7 @@ export function PageDeclineJob(){
            <Button variant="danger" onClick={() => handleResponse(false)}>Ablehnen</Button>
 
             <Button variant="success" onClick={() => handleResponse(true)}>Annehmen</Button>
-      </div>
+      </div> 
+      
     </>
   )}

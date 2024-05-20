@@ -94,7 +94,7 @@ public class ContractController implements ContractEP {
         Customer foundCustomer = custo.findCustomerbyID(String.valueOf(contract.getCustomerId()));
 
         String token= tokenService.createToken(created.getId(), lastEntry.getKey().getId());
-        String link = "localhost:3000/contract?token=" + token; 
+        String link = "https://localhost:3000/contract?token=" + token; 
 
         mail.sendHtmlMessage(found.getEmail(), "Jobangebot erhalten",
             "<html><body>" +
@@ -107,8 +107,7 @@ public class ContractController implements ContractEP {
                 "<strong>Zahlung:</strong> " + contract.getPayment() + "<br>" +
                 "<strong>Zahlung:</strong> " + contract.getMaxPayment() + "€<br>" +
                 "<strong>Entfernung:</strong> " + contract.getRange() + " km<br><br>" +
-                "Unter diesem " +  link + " können Sie die Anfrage bestätigen. Sie haben 5 Minuten Zeit die Anfrage anzunehmen.<br>"
-                +
+                "Unter diesem <a href='" + link + "'>Link</a> können Sie die Anfrage bestätigen. Sie haben 5 Minuten Zeit die Anfrage anzunehmen.<br>" +
                 "Bei Fragen oder für weitere Informationen stehen wir Ihnen gerne zur Verfügung.<br><br>" +
                 "Mit freundlichen Grüßen,<br>" +
                 "Ihr SFAE-Team" +

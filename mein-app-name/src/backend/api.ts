@@ -412,7 +412,6 @@ export async function countAllWorkers(): Promise<number> {
   }
 
   export async function contractAcceptOrDecline(accepted: boolean, contractData:ContractResource): Promise<void> {
-    console.log(accepted, contractData)
     const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/${accepted}`;
     const options = {
       method: "PUT",

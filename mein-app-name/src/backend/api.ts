@@ -11,7 +11,7 @@ export async function getCustomerByName(name: String): Promise<any> {
   return response;
 }
 
-export async function getWorkerbyID(id: string | undefined): Promise<WorkerResource> {
+export async function getWorkerbyID(id: string): Promise<WorkerResource> {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/${id}`;
   const response = await fetchWithErrorHandling(url, {
     credentials: "include" as RequestCredentials,
@@ -410,6 +410,25 @@ export async function countAllWorkers(): Promise<number> {
     const answer = await response.json();
     return answer;
   }
+
+  export async function contractAcceptOrDecline(accepted: Boolean,workerData:WorkerResource): Promise<void> {
+
+    console.log("PENIS"+accepted,workerData)
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/${accepted}`;
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(workerData),
+      credentials: "include" as RequestCredentials,
+    };
+  
+    await fetchWithErrorHandling(url, options);
+  }
+
+
 
   
 

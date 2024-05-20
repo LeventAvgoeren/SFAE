@@ -113,6 +113,7 @@ function App() {
         <Route path="/worker/:workerId/preferences"element={<PageWorkerPreferences />}/>
         <Route path="/worker/:workerId/faq" element={<PageWorkerFAQ />} />
         <Route path="/worker/:workerId/orders" element={<PageWorkerOrders />} />
+        <Route path="/worker/:workerId/contract" element={<PageDeclineJob />} />
          {/* Admin */}
          <Route path="/admin/:adminId" element={<PageIndexAdmin />} />
         <Route path="/admin/:adminId/dienstleistungen" element={<PageAdminDienstleistungen />} />

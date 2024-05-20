@@ -1,11 +1,10 @@
 .parent {
   display: flex;
-  justify-content: center; /* Zentriert Kinder horizontal */
-  align-items: center;     /* Zentriert Kinder vertikal */
-  height: 100vh;           /* Setzt die Höhe des übergeordneten Elements, z.B. auf die Höhe des Viewports */
+  justify-content: center; 
+  align-items: center;    
+  height: 100vh;          
 }
 
-/* Container-Stil */
 .container-frame3 {
   background: rgba(0, 0, 0, 0.7);
   padding: 40px;
@@ -21,7 +20,7 @@
   flex-direction: column !important;
   align-items: center !important;
 }
-/* Formular-Stil */
+
 .form-content {
   color: white;
   display: flex;
@@ -30,7 +29,6 @@
   width: 100%;
 }
 
-/* Kartencontainer */
 .map-container {
   position: relative;
   width: 100%;
@@ -41,7 +39,6 @@
   overflow: hidden;
 }
 
-/* Button-Stil */
 .myButton {
   width: 100%;
   background-color: #007bff;
@@ -57,7 +54,6 @@
   color: black;
 }
 
-/* Dropdown-Menü für mobile Ansicht anpassen */
 @media (max-width: 768px) {
   .navbar-nav {
     flex-direction: column;
@@ -69,11 +65,21 @@
   }
 }
 
-/* Überschriften-Stil */
 .form-content .form-label {
   color: white;
 }
 
 .nav-dropdown, #collapsible-nav-dropdown {
   position: sticky;
+}
+
+.background-image-berlin {
+  font-family: 'Nunito', sans-serif;
+  background-image: url('/public/b1.jpg'); 
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

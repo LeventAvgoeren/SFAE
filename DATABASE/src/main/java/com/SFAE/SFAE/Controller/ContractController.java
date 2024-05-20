@@ -54,7 +54,6 @@ public class ContractController implements ContractEP {
   @Autowired
   private SFAEAlgorithm sfae;
 
-  @Autowired
   private TokenMailService tokenService;
 
 
@@ -121,7 +120,6 @@ public class ContractController implements ContractEP {
       logger.error("Database access error: " + dax.getMessage(), dax);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     } catch (MessagingException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

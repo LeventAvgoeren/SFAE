@@ -56,9 +56,53 @@ public interface ContractInterface {
      */
     Contract createContract(ContractDTO contract);
 
+    /**
+ * Counts the total number of contracts currently stored in the system.
+ *
+ * This method provides an essential overview for administrative purposes, giving a count
+ * that can be used for reporting and monitoring.
+ *
+ * @return The total number of contracts.
+ */
     long countContracts();
 
+
+    /**
+ * Retrieves all contracts associated with a specific customer identified by their unique identifier.
+ *
+ * This method is useful for customer service and management purposes, allowing the retrieval
+ * of all contracts where a particular customer is involved.
+ *
+ * @param id The unique identifier of the customer.
+ * @return A list of all contracts related to the specified customer or an empty list if no contracts are found.
+ */
     List<Contract>getContractByCustomerId(String id);
+
+/**
+ * Retrieves all contracts associated with a specific worker identified by their unique identifier.
+ *
+ * This method is useful for managing and reviewing all the contracts a worker is assigned to,
+ * facilitating operations and HR management.
+ *
+ * @param id The unique identifier of the worker.
+ * @return A list of all contracts related to the specified worker or an empty list if no contracts are found.
+ */
+    List<Contract>getContractByWorkerId(String id);
+
+
+    /**
+ * Updates the worker ID for a specific contract.
+ *
+ * This method allows the association of a different worker to a contract, which can be necessary
+ * in situations where reassignment is required due to scheduling conflicts, expertise requirements,
+ * or other operational considerations.
+ *
+ * @param contractId The ID of the contract to update.
+ * @param workerId The new worker ID to assign to the contract.
+ * @return true if the worker ID was successfully updated, false otherwise.
+ * @throws IllegalArgumentException if the contractId or workerId is invalid.
+ */
+    Boolean updateWorkerId(long contractid,String workerId);
 
     
 }

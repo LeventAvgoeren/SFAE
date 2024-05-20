@@ -5,11 +5,13 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.SFAE.SFAE.DTO.LoginRequest;
 import com.SFAE.SFAE.DTO.LoginResponseWorker;
+import com.SFAE.SFAE.DTO.RatingDTO;
 import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.SFAE.SFAE.ENDPOINTS.WorkerEp;
 import com.SFAE.SFAE.ENTITY.Worker;
@@ -62,7 +64,8 @@ public class WorkerController implements WorkerEp {
         try {
             Worker builded = dao.createWorker(worker);
             if (builded != null) {
-                //mail.sendSimpleMessage(worker.getEmail(), "Wilkommen bei SFAE", "Worker erstellt");
+                // mail.sendSimpleMessage(worker.getEmail(), "Wilkommen bei SFAE", "Worker
+                // erstellt");
                 return ResponseEntity.status(HttpStatus.CREATED).body(builded);
             }
         } catch (Exception e) {
@@ -176,19 +179,26 @@ public class WorkerController implements WorkerEp {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         try {
-            Worker found = dao.updateWorker(jsonData); 
+            Worker found = dao.updateWorker(jsonData);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(found);
+<<<<<<< HEAD
+        } catch (DataAccessException dax) {
+
+            System.out.println(dax);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } catch (Exception e) {
+=======
         } catch(DataAccessException dax){
           
             System.out.println(dax);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
         catch (Exception e) {
+>>>>>>> e01dae699f3c64c9bdec168720fd2ac51c709721
             System.out.println(e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        
-       
+
     }
 
     /**
@@ -211,12 +221,12 @@ public class WorkerController implements WorkerEp {
 
             Worker worker = dao.findWorkerbyEmail(login.getEmail());
 
-             Cookie cookie = new Cookie("access_token", token);
-                cookie.setHttpOnly(true);
-                cookie.setSecure(true); 
-                cookie.setPath("/");
-                cookie.setMaxAge(300); 
-                response.addCookie(cookie);
+            Cookie cookie = new Cookie("access_token", token);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(true);
+            cookie.setPath("/");
+            cookie.setMaxAge(300);
+            response.addCookie(cookie);
 
             return ResponseEntity.ok().body(new LoginResponseWorker(String.valueOf(worker.getId()), token));
         } catch (Exception e) {
@@ -224,22 +234,40 @@ public class WorkerController implements WorkerEp {
         }
     }
 
+    /**
+     * Logs out a Worker by clearing the JWT token cookie.
+     * 
+     * @param response The HttpServletResponse to which the cookie is attached.
+     * @return ResponseEntity with HTTP status 204 (No Content) indicating that the
+     *         Worker has been successfully logged out.
+     */
     @Override
     public ResponseEntity<?> logout(HttpServletResponse response) {
 
         Cookie cookie = new Cookie("access_token", null);
-                cookie.setHttpOnly(true);
-                cookie.setSecure(true); 
-                cookie.setPath("/");
-                cookie.setMaxAge(0); 
-                response.addCookie(cookie);
-        
-                return ResponseEntity.status(204).build();
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+
+        return ResponseEntity.status(204).build();
     }
+
+    /**
+     * Checks the login status of a Worker by validating the JWT token stored in a
+     * cookie.
+     * 
+     * @param request  The HttpServletRequest from which to retrieve cookies.
+     * @param response The HttpServletResponse for sending back any necessary
+     *                 responses.
+     * @return ResponseEntity containing the login data as JSON or a false boolean
+     *         value if no valid token is found.
+     */
 
     @Override
     public ResponseEntity<?> checkLoginStatus(HttpServletRequest request, HttpServletResponse response) {
-      String jwtString = request.getCookies() != null ? Arrays.stream(request.getCookies())
+        String jwtString = request.getCookies() != null ? Arrays.stream(request.getCookies())
                 .filter(c -> "access_token".equals(c.getName()))
                 .findFirst()
                 .map(Cookie::getValue)
@@ -261,17 +289,40 @@ public class WorkerController implements WorkerEp {
         }
     }
 
+    /**
+     * Counts all workers registered in the system.
+     * 
+     * @return ResponseEntity containing the count of all Workers or an error if the
+     *         operation fails.
+     */
     @Override
     public ResponseEntity<?> countAllWorkers() {
 
-        try{
-            long counter=dao.countWorker();
-        return ResponseEntity.status(HttpStatus.OK).body(counter);
-        }
-        catch(Exception e){
+        try {
+            long counter = dao.countWorker();
+            return ResponseEntity.status(HttpStatus.OK).body(counter);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
+    /**
+     * Calculates and updates the average rating for a Worker based on a new rating.
+     * 
+     * @param rating The RatingDTO object containing the new rating and the ID of
+     *               the Worker to be rated.
+     * @return ResponseEntity with HTTP status OK if the average rating was
+     *         successfully updated, or throws an IllegalArgumentException if an
+     *         error occurs.
+     */
+    @Override
+    public ResponseEntity<Boolean> avgRating(RatingDTO rating) {
+        try {
+            dao.avgWorkerRating(rating.getRating(), rating.getId());
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Fehler:" + e);
+        }
+    }
 
 }

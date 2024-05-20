@@ -27,6 +27,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -79,7 +80,7 @@ class CustomerController implements CustomerEP {
      */
     @Override
     public ResponseEntity<Customer> findCustomerById(String id) {
-        if(!id.startsWith("C")){
+        if (!id.startsWith("C")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
@@ -120,7 +121,11 @@ class CustomerController implements CustomerEP {
             Customer customer = dao.createCustomer(customerData);
 
             if (customer != null) {
-                mail.sendSimpleMessage(customerData.getEmail(), "Wilkommen bei SFAE", "Customer erstellt");
+                try {
+                    mail.sendHtmlMessage(customerData.getEmail(), "Wilkommen bei SFAE", "Customer erstellt");
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
                 return ResponseEntity.status(HttpStatus.CREATED).body(customer);
             }
 
@@ -143,10 +148,10 @@ class CustomerController implements CustomerEP {
      */
     @Override
     public ResponseEntity<?> deleteCustomerById(String id) {
-        if(!id.startsWith("C")){
+        if (!id.startsWith("C")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-      
+
         try {
             boolean Answer = dao.deleteCustomerById(id);
 
@@ -357,17 +362,22 @@ class CustomerController implements CustomerEP {
 
     }
 
+
+    /**
+     * Counts all customers registered in the system.
+     * 
+     * @return ResponseEntity containing the count of all Customer or an error if the
+     *         operation fails.
+     */
     @Override
     public ResponseEntity<?> countAllCustomers() {
-        try{
-            long counter=dao.countCustomer();
-        return ResponseEntity.status(HttpStatus.OK).body(counter);
-        }
-        catch(Exception e){
+        try {
+            long counter = dao.countCustomer();
+            return ResponseEntity.status(HttpStatus.OK).body(counter);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
     }
-
 
 }

@@ -1,6 +1,7 @@
 
 package com.SFAE.SFAE.INTERFACE;
 
+
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.ENTITY.Customer;
 
@@ -11,7 +12,7 @@ import com.SFAE.SFAE.ENTITY.Customer;
  * 
  * @author erayzor
  */
-public interface CustomerInterface {
+public interface CustomerInterface{
 
     /**
      * Counts the total number of Customer entities in the database.

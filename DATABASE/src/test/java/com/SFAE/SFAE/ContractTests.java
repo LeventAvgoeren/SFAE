@@ -21,8 +21,11 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.SFAE.SFAE.IMPLEMENTATIONS.ContractImpl;
 
+import jakarta.transaction.Transactional;
+
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class ContractTests {
 
   @Autowired
@@ -38,7 +41,7 @@ public class ContractTests {
   public void testCreateContract() throws Exception {
 
     String json = "{" +
-        "\"jobType\": \"GÄRTNER\"," +
+        "\"jobType\": \"INSTALLATEUR\"," +
         "\"adress\": \"Quizostrasse32\"," +
         "\"payment\": \"CASH\"," +
         "\"description\": \"Ich brauche jeamanden, der sich um die Plfanzen für 2 Studnen kümmert.\"," +
@@ -280,6 +283,23 @@ public void testGetContractByCustomerId() throws Exception {
 
   transactionManager.commit(status);
 }
+
+
+@Test
+public void testGetContractByWorkerId() throws Exception {
+
+  TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+  MvcResult mvcResult =mockMvc.perform(get("/contract/worker/W4"))
+      .andExpect(status().isOk())
+      .andReturn();
+
+  transactionManager.commit(status);
+
+  String contentAsString = mvcResult.getResponse().getContentAsString();
+  System.out.println("A " + contentAsString);
+}
+
 
 
 

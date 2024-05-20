@@ -1,6 +1,5 @@
 package com.SFAE.SFAE.INTERFACE;
 
-
 import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.SFAE.SFAE.ENTITY.Worker;
 
@@ -85,4 +84,24 @@ public interface WorkerInterface {
    *         null.
    */
   Worker findWorkerByJob(String jobType);
+
+  /**
+   * Updates the average rating of a Worker based on new ratings provided.
+   *
+   * This method is intended to update a Worker's average rating when new feedback
+   * is received.
+   * It recalculates the average based on the existing rating values stored and
+   * the new rating provided,
+   * ensuring the Worker's profile reflects the most current assessment of their
+   * performance.
+   *
+   * @param rating The new rating to incorporate into the average.
+   * @param id     The unique identifier of the Worker whose rating is being
+   *               updated.
+   * @return True if the average rating was successfully updated, false if the
+   *         update fails,
+   *         for example if the Worker does not exist or the database operation
+   *         fails.
+   */
+  Boolean avgWorkerRating(Double rating, String id);
 }

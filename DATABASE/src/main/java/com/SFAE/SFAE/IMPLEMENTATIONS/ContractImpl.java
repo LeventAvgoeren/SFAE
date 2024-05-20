@@ -33,16 +33,12 @@ public class ContractImpl implements ContractInterface {
   @Autowired
   private ContractRepository contractRepository;
 
-<<<<<<< HEAD
-
-=======
   /**
    * Retrieves a specific contract by its ID from the database.
    *
    * @param id The ID of the contract to retrieve.
    * @return The requested Contract if found, otherwise returns null.
    */
->>>>>>> 721f75cd64d00f5faf9dbd1b4946345f9de8ef87
   @Override
   public Contract getContract(long id) {
     List<Contract> result = jdbcTemplate.query(
@@ -126,10 +122,6 @@ public class ContractImpl implements ContractInterface {
   @Override
   public Contract createContract(ContractDTO contract) {
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 721f75cd64d00f5faf9dbd1b4946345f9de8ef87
     String jobType = contract.getJobType();
     String address = contract.getAdress();
     String payment = contract.getPayment();
@@ -138,46 +130,13 @@ public class ContractImpl implements ContractInterface {
     Double range = contract.getRange();
     Double maxPayment = contract.getMaxPayment();
     Customer customer = customerImpl.findCustomerbyID(String.valueOf(contract.getCustomerId()));
-<<<<<<< HEAD
-    Worker worker= workerImpl.findWorkersbyID(String.valueOf(contract.getWorkerId()));
-    System.out.println("WORKER IM CREATE: " + worker);
-
-    Contract newContract = new Contract(JobList.valueOf(jobType), address, Payment.valueOf(payment), description,StatusOrder.valueOf(statusOrder), range, customer, worker,maxPayment);
-=======
     Worker worker = workerImpl.findWorkersbyID(String.valueOf(contract.getWorkerId()));
     System.out.println("WORKER IM CREATE: " + worker);
->>>>>>> 721f75cd64d00f5faf9dbd1b4946345f9de8ef87
 
     Contract newContract = new Contract(JobList.valueOf(jobType), address, Payment.valueOf(payment), description,
         StatusOrder.valueOf(statusOrder), range, customer, worker, maxPayment);
 
     return contractRepository.save(newContract);
-<<<<<<< HEAD
-}
-
-
-private Contract createContract(ResultSet rs) {
-  try {
-    Long id = rs.getLong("id");
-    String jobType = rs.getString("job_type");
-    String adress = rs.getString("adress");
-    String payment = rs.getString("payment");
-    String description = rs.getString("description");
-    String statusOrder = rs.getString("status_order");
-    double range = rs.getDouble("range");
-    String customerId = rs.getString("customer_id");
-    String workerId = rs.getString("worker_id");
-    Double maxPayment = rs.getDouble("max_Payment");
-
-    Customer customer =customerImpl.findCustomerbyID(String.valueOf(customerId));
-    Worker worker= workerImpl.findWorkersbyID(String.valueOf(workerId));
-
-    return new Contract(id,JobList.valueOf(jobType),adress,Payment.valueOf(payment),description,StatusOrder.valueOf(statusOrder),range,customer,worker,maxPayment);
-    //return dataFactory.createWorker(id, name, location, password, email, status, range, jobType, statusOrder,minPayment, rating, verification);
-  } catch (SQLException e) {
-    throw new IllegalArgumentException("Error"+e);
-=======
->>>>>>> 721f75cd64d00f5faf9dbd1b4946345f9de8ef87
   }
 
   /**

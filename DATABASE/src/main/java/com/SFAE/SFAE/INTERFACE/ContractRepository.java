@@ -5,8 +5,6 @@ import com.SFAE.SFAE.ENTITY.Contract;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-<<<<<<< HEAD
-=======
 /**
  * Spring Data JPA repository for the {@link Contract} entities.
  *
@@ -21,7 +19,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Usage of this repository also enables features like pagination and sorting, making it a robust
  * tool for any data access layer in applications managing contracts.
  */
->>>>>>> 721f75cd64d00f5faf9dbd1b4946345f9de8ef87
 public interface ContractRepository extends JpaRepository<Contract, String> {
     
 }

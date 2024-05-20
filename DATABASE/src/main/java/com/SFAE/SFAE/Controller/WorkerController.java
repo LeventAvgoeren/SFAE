@@ -181,11 +181,20 @@ public class WorkerController implements WorkerEp {
         try {
             Worker found = dao.updateWorker(jsonData);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(found);
+<<<<<<< HEAD
         } catch (DataAccessException dax) {
 
             System.out.println(dax);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         } catch (Exception e) {
+=======
+        } catch(DataAccessException dax){
+          
+            System.out.println(dax);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+        catch (Exception e) {
+>>>>>>> e01dae699f3c64c9bdec168720fd2ac51c709721
             System.out.println(e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

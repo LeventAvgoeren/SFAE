@@ -31,12 +31,14 @@ import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
 
 import PageOrderRating from "./components/Order/PageOrderRating";
 import PageOrderRequest from "./components/Order/PageOrderRequest";
-import { PageIndexCustomer } from "./components/customer/PageIndexCustomer";
-import { PageCustomerFAQ } from "./components/customer/PageCustomerFAQ";
+
 import { PageOrderCompleted } from "./components/Order/PageOrderCompleted";
-import PageOrderOverview from "./components/Order/PageOrderOverview";
+import { PageCustomerFAQ } from "./components/customer/PageCustomerFAQ";
+import { PageIndexCustomer } from "./components/customer/PageIndexCustomer";
 import { PageProfil } from "./components/customer/PageProfil";
 import { PageUebersicht } from "./components/customer/PageUebersicht";
+import { PageOrderOverview } from "./components/Order/PageOrderOverview";
+
 
 
 
@@ -98,7 +100,7 @@ function App() {
         <Route path="/customer/:customerId/profil" element={<PageProfil />} />
         {/* Order */}
         <Route path="/customer/:customerId/order/new"element={<PageOrderRequest/>}/>
-        <Route path="/customer/:customerId/order/:order/overview" element={<PageOrderOverview />} />
+        <Route path="/customer/:customerId/order/:orderId" element={<PageOrderOverview />} />
         <Route path="/customer/:customerId/orders/:order/completed"element={<PageOrderCompleted />}/>
         <Route path="/customer/:customerId/orders/:order/rating"element={<PageOrderRating />}/>
 

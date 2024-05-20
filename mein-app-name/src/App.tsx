@@ -94,23 +94,27 @@ function App() {
         </>
           }
 
-       
-             
-              <Route path="/registration/admin" element={<PageRegistrationAdmin />} />
+              {/* Customer */}
+              <Route path="/customer/:customerId" element={<PageIndexCustomer />} />
+              <Route path="/customer/:customerId/faq" element={<PageCustomerFAQ />} />
+              <Route path="/customer/:customerId/uebersicht" element={<PageUebersicht />} />
+              <Route path="/customer/:customerId/profil" element={<PageProfil />} />
+              {/* Order */}
+              <Route path="/customer/:customerId/order/new"element={<PageOrderRequest/>}/>
+              <Route path="/customer/:customerId/order/:orderId" element={<PageOrderOverview />} />
+              <Route path="/customer/:customerId/orders/:order/completed"element={<PageOrderCompleted />}/>
+              <Route path="/customer/:customerId/orders/:order/rating"element={<PageOrderRating />}/>
 
-        {/* Worker */}
-        <Route path="/worker/:workerId" element={<PageWorkerIndex/>} />
-        <Route path="/worker/:workerId/orders/overview"element={<PageWorkerOrderOverview />}/>
-        <Route path="/worker/:workerId/finances"element={<PageWorkerFinances />}/>
-        <Route path="/worker/:workerId/profile"element={<PageWorkerProfile />}/>
-        <Route path="/worker/:workerId/preferences"element={<PageWorkerPreferences />}/>
-        <Route path="/worker/:workerId/faq" element={<PageWorkerFAQ />} />
-        <Route path="/worker/:workerId/orders" element={<PageWorkerOrders />} />
-        <Route path="/worker/:workerId/contract" element={<PageDeclineJob />} />
-         {/* Admin */}
-         <Route path="/admin/:adminId" element={<PageIndexAdmin />} />
-        <Route path="/admin/:adminId/dienstleistungen" element={<PageAdminDienstleistungen />} />
-        
+              {/* Worker */}
+              <Route path="/worker/:workerId" element={<PageWorkerIndex/>} />
+              <Route path="/worker/:workerId/orders/overview"element={<PageWorkerOrderOverview />}/>
+              <Route path="/worker/:workerId/finances"element={<PageWorkerFinances />}/>
+              <Route path="/worker/:workerId/profile"element={<PageWorkerProfile />}/>
+              <Route path="/worker/:workerId/preferences"element={<PageWorkerPreferences />}/>
+              <Route path="/worker/:workerId/faq" element={<PageWorkerFAQ />} />
+              <Route path="/worker/:workerId/orders" element={<PageWorkerOrders />} />
+
+              <Route path="/worker/:workerId/contract" element={<PageDeclineJob />} />
       </Routes>
       </LoginContext.Provider>
     </>

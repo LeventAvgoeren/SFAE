@@ -99,5 +99,5 @@ public interface ContractEP {
  *         Returns HttpStatus.OK if the token is valid, HttpStatus.FORBIDDEN if the token is invalid or expired.
  */
     @GetMapping("/token/{token}")
-    ResponseEntity<Boolean> validateToken(@PathVariable("token") String token);
+    ResponseEntity<?> validateToken(@PathVariable("token") String token);
 }

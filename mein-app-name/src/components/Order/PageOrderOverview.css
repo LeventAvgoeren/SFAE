@@ -1,7 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
 
 
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
+
 .background-image-berlin {
+  font-family: 'Nunito', sans-serif;
+  background-image: url('/public/b1.jpg'); /* Stellen Sie sicher, dass der Pfad korrekt ist */
   font-family: 'Nunito', sans-serif;
   background-image: url('/public/b1.jpg'); /* Stellen Sie sicher, dass der Pfad korrekt ist */
   background-size: cover;

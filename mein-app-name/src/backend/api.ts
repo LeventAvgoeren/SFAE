@@ -1,4 +1,4 @@
-import { ContractResource, CustomerResource, Position, WorkerResource } from "../Resources";
+import { ContractResource, ContractResourceforWorker, CustomerResource, Position, TokenRessource, WorkerResource } from "../Resources";
 import { LoginInfo } from "../components/LoginManager";
 import { fetchWithErrorHandling } from "./fetchWithErrorHandling";
 
@@ -11,7 +11,7 @@ export async function getCustomerByName(name: String): Promise<any> {
   return response;
 }
 
-export async function getWorkerbyID(id: string | undefined): Promise<WorkerResource> {
+export async function getWorkerbyID(id: string): Promise<WorkerResource> {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/${id}`;
   const response = await fetchWithErrorHandling(url, {
     credentials: "include" as RequestCredentials,
@@ -401,6 +401,52 @@ export async function countAllWorkers(): Promise<number> {
     return answer;
   }
   
+  export async function getContractByWorkerId(id: string): Promise<ContractResourceforWorker[]> {
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/worker/${id}`;
+    const response = await fetchWithErrorHandling(url, {
+      credentials: "include" as RequestCredentials,
+    });
+  
+    const answer = await response.json();
+    return answer;
+  }
+
+  export async function contractAcceptOrDecline(accepted: boolean, contractData:ContractResource): Promise<void> {
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/${accepted}`;
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ id: contractData.id,   adress: contractData.adress,description: contractData.description, jobType: contractData.jobType, payment: contractData.payment,range: contractData.range, statusOrder: contractData.statusOrder, customerId: contractData.customerId,  workerId: contractData.worker!.id}),
+      credentials: "include" as RequestCredentials,
+    };
+  
+    await fetchWithErrorHandling(url, options);
+  }
+
+  
+  export async function validateToken(token: string): Promise<TokenRessource | false> {
+
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/token/${token}`;
+    const options = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      credentials: "include" as RequestCredentials,
+    };
+  
+   const response = await fetchWithErrorHandling(url, options);
+   const jsonData = await response.json();
+  
+   return jsonData;
+  }
+
+
+
   
 
 

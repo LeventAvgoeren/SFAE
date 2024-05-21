@@ -45,9 +45,10 @@ export function NavbarWComponent() {
               <ul>
                   
                       <li><a href={`/worker/${workerId}`}>Home</a></li>
-                    <li><a href={`/worker/${workerId}/profile`}>Profil</a></li>
+                      <li><a href={`/worker/${workerId}/profile`}>Profil</a></li>
                       <li><a href={`/worker/${workerId}/preferences`}>Präferenzen</a></li>
                       <li><a href={`/worker/${workerId}/faq`}>FAQ</a></li>
+                      <li><a href={`/worker/${workerId}/orders/overview`}>Overview</a></li>
 
              
                   <li><a href="#" onClick={doLogout}>Logout</a></li>

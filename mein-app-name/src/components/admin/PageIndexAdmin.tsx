@@ -4,9 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './DesignVorlage.css';
 import './PageIndexAdmin.css';
 import { Link } from 'react-router-dom';
-import { login } from "../backend/api";
 import { Col, Container, Nav, NavDropdown, Navbar, Row } from 'react-bootstrap';
-import { LoginInfo } from './LoginManager';
+import { LoginInfo } from '../LoginManager';
 
 export function PageIndexAdmin() {
     const [loginInfo, setLoginInfo] = useState<LoginInfo | false | undefined>(undefined);

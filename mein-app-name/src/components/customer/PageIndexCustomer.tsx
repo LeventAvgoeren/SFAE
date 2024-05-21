@@ -8,7 +8,8 @@ import {
   countAllWorkers,
   getCustomerbyID,
 } from "../../backend/api";
-import NavbarComponent from "../NavbarComponent";
+import NavbarComponent from "../navbar/NavbarComponent";
+
 
 export function PageIndexCustomer() {
   const params = useParams();

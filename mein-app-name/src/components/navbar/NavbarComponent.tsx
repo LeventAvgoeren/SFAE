@@ -6,9 +6,9 @@ import Navbar from 'react-bootstrap/Navbar';
 import './NavbarComponent.css';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
-import { checkLoginStatus, deleteCookie } from '../backend/api';
 import { useEffect, useState } from 'react';
-import { LoginInfo } from './LoginManager';
+import { LoginInfo } from '../LoginManager';
+import { checkLoginStatus, deleteCookie } from '../../backend/api';
 
 export function NavbarComponent() {
   const [loginInfo, setLoginInfo] = useState<LoginInfo | false | undefined>(undefined);

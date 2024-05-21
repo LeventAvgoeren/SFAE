@@ -5,7 +5,7 @@ import { Left } from 'react-bootstrap/lib/Media';
 import { Link, useParams } from 'react-router-dom';
 import { getCustomerbyID } from '../../backend/api';
 import "./PageOrderRating.css"
-import NavbarComponent from '../NavbarComponent';
+import NavbarComponent from '../navbar/NavbarComponent';
 
 function PageOrderRating() {
   const [rating, setRating] = useState<number>(0);

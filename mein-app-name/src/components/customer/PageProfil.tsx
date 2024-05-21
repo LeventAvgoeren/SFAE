@@ -3,10 +3,10 @@ import { Button, Modal } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { CustomerResource } from '../../Resources';
 import { deleteCustomer, getCustomerbyID, updateCustomer } from '../../backend/api';
-import NavbarComponent from '../NavbarComponent';
 import "./PageProfil.css";
 import { MDBTypography } from 'mdb-react-ui-kit';
 import { LinkContainer } from 'react-router-bootstrap';
+import NavbarComponent from '../navbar/NavbarComponent';
 
 export function PageProfil() {
     const params = useParams();

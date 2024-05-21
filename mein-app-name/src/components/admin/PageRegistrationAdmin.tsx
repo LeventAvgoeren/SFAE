@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import './DesignVorlage.css'; // Eigene Stilvorlagen
-import { registrationAdmin } from '../backend/api';
 import { Link } from 'react-router-dom'; // React Router für Link-Benutzung
 import './PageRegistrationAdmin.css';
+import { registrationAdmin } from '../../backend/api';
 
 export default function PageRegistrationAdmin() {
     const [name, setName] = useState('');

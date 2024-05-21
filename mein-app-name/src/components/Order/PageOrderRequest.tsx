@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import "./PageOrderRequest.css";
-import NavbarComponent from "../NavbarComponent";
-import MapComponent from "./MapComponent";
 import { createContract } from "../../backend/api";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { ContractResource, Position } from "../../Resources";
+import MapComponent from "./MapComponent";
+import NavbarComponent from "../navbar/NavbarComponent";
+
 
 export default function PageOrderRequest() {
   const [address, setAddress] = useState("Eingeben...");

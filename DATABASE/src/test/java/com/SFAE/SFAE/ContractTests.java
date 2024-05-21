@@ -49,7 +49,6 @@ public class ContractTests {
         "\"range\": 1.5," + 
         "\"customerId\": \"C1\"," + 
         "\"maxPayment\": 50.0," +
-        "\"workerId\": \"W1\"," +
         "\"latitude\": 52.5347706933045," +
         "\"longitude\": 13.35002718682623"+
         "}";
@@ -102,7 +101,7 @@ public class ContractTests {
 
     TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
-    mockMvc.perform(get("/contract/3"))
+    mockMvc.perform(get("/contract/200"))
         .andExpect(status().isOk())
         .andReturn();
 
@@ -126,7 +125,7 @@ public class ContractTests {
 
     TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
-    mockMvc.perform(get("/contract/100"))
+    mockMvc.perform(get("/contract/1000"))
         .andExpect(status().isNotFound())
         .andReturn();
     transactionManager.commit(status);
@@ -136,7 +135,7 @@ public class ContractTests {
   public void testDeleteContract()throws Exception{
     TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
-    mockMvc.perform(delete("/contract/3"))
+    mockMvc.perform(delete("/contract/200"))
         .andExpect(status().isOk())
         .andReturn();
 
@@ -277,7 +276,7 @@ public void testGetContractByCustomerId() throws Exception {
 
   TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
-  mockMvc.perform(get("/contract/customer/C3"))
+  mockMvc.perform(get("/contract/customer/C5"))
       .andExpect(status().isOk())
       .andReturn();
 

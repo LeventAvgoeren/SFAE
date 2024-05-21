@@ -36,6 +36,7 @@ import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class WorkerTests{
 
     @Autowired
@@ -52,7 +53,7 @@ public class WorkerTests{
                 "\"name\": \"TestRating\"," +
                 "\"location\": \"BERLIN\"," +
                 "\"password\": \"COLORBOX\"," +
-                "\"email\": \"RATING@gmail.com\"," +
+                "\"email\": \"leventavgorensss@gmail.com\"," +
                 "\"range\": 1.5," +
                 "\"jobType\":\"INSTALLATEUR\"," +
                 "\"minPayment\": 35.0," +
@@ -106,7 +107,7 @@ public class WorkerTests{
       @Test
     public void testGetWorkerByName() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/TANKSTELLE"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/RISA"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -128,7 +129,7 @@ public class WorkerTests{
     @Test
     public void testGetWorkerrByid() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/W1"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/W5"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -149,7 +150,7 @@ public class WorkerTests{
     @Test
     public void testGetWorkerrByNotExistingId() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/W323"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/W423"))
                 .andExpect(status().isNotFound())
                 .andReturn();
 
@@ -160,7 +161,7 @@ public class WorkerTests{
     @Test
     public void testDeleteWorkerrByid() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(delete("/worker/W1"))
+         MvcResult mvcResult = mockMvc.perform(delete("/worker/W15"))
                 .andExpect(status().isOk())
                 .andReturn();
 

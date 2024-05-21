@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.server.Cookie.SameSite;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -119,9 +120,22 @@ class CustomerController implements CustomerEP {
         try {
             Customer customer = dao.createCustomer(customerData);
 
+            
+
             if (customer != null) {
+            String subject = "Willkommen bei SFAE";
+            String message = "<html><body>";
+            message += "Sehr geehrter " + customer.getName()+ ",<br><br>";
+            message += "herzlichen Dank für Ihre Registrierung bei SFAE. Wir freuen uns sehr, dass Sie sich entschieden haben, unserem Netzwerk beizutreten, um schnelle und effiziente Hilfe bei Problemen in Ihrem Zuhause zu finden.<br><br>";
+            message += "Bei SFAE verstehen wir, dass unerwartete Herausforderungen zu Hause stressig sein können. Deshalb haben wir einen spezialisierten Algorithmus entwickelt, der Ihnen schnell den passenden Facharbeiter in Ihrer Nähe vermittelt, um Ihnen so schnell wie möglich Hilfe zu leisten.<br><br>";
+            message += "Um einen Service anzufordern, loggen Sie sich einfach in Ihr Konto ein und beschreiben Sie das Problem. Unser System wird sofort den nächstverfügbaren und qualifiziertesten Arbeiter in Ihrer Umgebung lokalisieren, der Ihnen bei der Lösung Ihres Anliegens behilflich sein kann.<br><br>";
+            message += "Falls Sie Fragen haben oder weitere Informationen benötigen, zögern Sie nicht, uns zu kontaktieren. Unser Kundenservice steht Ihnen jederzeit zur Verfügung.<br><br>";
+            message += "Wir freuen uns darauf, Ihnen zu helfen und Ihre Zufriedenheit ist unser höchstes Ziel.<br><br>";
+            message += "Mit freundlichen Grüßen,<br>";
+            message += "Ihr Team von SFAE";
+            message += "</body></html>";
                 try {
-                    mail.sendHtmlMessage(customerData.getEmail(), "Wilkommen bei SFAE", "Customer erstellt");
+                    mail.sendHtmlMessage(customer.getEmail(), subject, message);
                 } catch (MessagingException e) {
                     e.printStackTrace();
                 }
@@ -322,7 +336,6 @@ class CustomerController implements CustomerEP {
         cookie.setPath("/");
         cookie.setMaxAge(0);
         response.addCookie(cookie);
-
         return ResponseEntity.status(204).build();
     }
 

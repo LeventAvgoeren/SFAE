@@ -2,6 +2,7 @@ package com.SFAE.SFAE.INTERFACE;
 
 import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.SFAE.SFAE.ENTITY.Worker;
+import com.SFAE.SFAE.ENUM.Status;
 
 /**
  * Interface for managing Worker entities.
@@ -104,4 +105,6 @@ public interface WorkerInterface {
    *         fails.
    */
   Boolean avgWorkerRating(Double rating, String id);
+
+  Boolean updateStatusByWorkerId(String workerId,String status);
 }

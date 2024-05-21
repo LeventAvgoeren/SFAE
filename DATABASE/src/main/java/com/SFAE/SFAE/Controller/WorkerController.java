@@ -64,7 +64,18 @@ public class WorkerController implements WorkerEp {
         try {
             Worker builded = dao.createWorker(worker);
             if (builded != null) {
-                // mail.sendSimpleMessage(worker.getEmail(), "Wilkommen bei SFAE", "Worker
+                String subject = "Willkommen bei SFAE";
+                String message = "<html><body>";
+                message += "Sehr geehrte/r "+builded.getName()+",<br><br>";
+                message += "herzlichen Dank für Ihre Registrierung bei SFAE. Wir heißen Sie herzlich willkommen in unserem Team und freuen uns, dass Sie sich dazu entschieden haben, Ihre Fähigkeiten und Expertise bei uns einzubringen.<br><br>";
+                message += "Bei SFAE bieten wir Ihnen die Möglichkeit, mit Ihren Fähigkeiten und Ihrem Know-how Geld zu verdienen. Unser einzigartiger Algorithmus vermittelt Sie an Kunden, die Ihre Hilfe benötigen und bereit sind, dafür zu zahlen.<br><br>";
+                message += "Egal, ob Sie handwerklich begabt sind, technisches Know-how besitzen oder in anderen Bereichen spezialisiert sind - bei SFAE gibt es eine Vielzahl von Möglichkeiten, Ihr Talent einzusetzen und dabei Geld zu verdienen.<br><br>";
+                message += "Unser Ziel ist es, Ihnen nicht nur eine Einkommensquelle zu bieten, sondern auch eine Plattform, auf der Sie Ihre Fähigkeiten weiterentwickeln und Ihr Potenzial voll ausschöpfen können. Wir glauben fest daran, dass Sie bei SFAE genau richtig sind und einen wertvollen Beitrag leisten können.<br><br>";
+                message += "Falls Sie Fragen haben oder Unterstützung benötigen, stehen wir Ihnen jederzeit zur Verfügung. Wir freuen uns darauf, mit Ihnen zusammenzuarbeiten und gemeinsam erfolgreich zu sein.<br><br>";
+                message += "Herzliche Grüße,<br>";
+                message += "Ihr Team von SFAE";
+                message += "</body></html>";
+                mail.sendHtmlMessage(builded.getEmail(), subject, message);
                 // erstellt");
                 return ResponseEntity.status(HttpStatus.CREATED).body(builded);
             }

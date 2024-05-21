@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -91,6 +90,7 @@ public class WorkerImpl implements WorkerInterface {
    */
   @Override
   public Worker findWorkersbyID(String id) {
+    System.out.println(id);
     if (!id.startsWith("W")) {
       throw new IllegalArgumentException("Id is not Worker");
     }
@@ -441,6 +441,26 @@ public class WorkerImpl implements WorkerInterface {
     ByteArrayInputStream bis = new ByteArrayInputStream(data);
     ObjectInputStream ois = new ObjectInputStream(bis);
     return (List<Double>) ois.readObject();
+  }
+
+  @Override
+  public Boolean updateStatusByWorkerId(String workerId, String status) {
+
+    int row=jdbcTemplate.update(
+        "UPDATE WORKER SET  status = ? WHERE id = ?",
+        ps -> {
+          ps.setString(1, status);
+          ps.setString(2, workerId);
+        });
+
+
+        if(row>0){
+          return true;
+        }
+        else{
+          return false;
+        }
+
   }
 
 }

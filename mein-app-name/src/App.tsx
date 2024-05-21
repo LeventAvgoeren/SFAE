@@ -29,6 +29,7 @@ import { PageUebersicht } from "./components/customer/PageUebersicht";
 import { PageOrderOverview } from "./components/Order/PageOrderOverview";
 import PageError from "./components/Error";
 import { PageDeclineJob } from "./components/worker/PageDeclineJob";
+import { PageRequestPasswordReset } from "./components/PageRequestPasswordReset";
 
 
 
@@ -85,14 +86,15 @@ function App() {
       <Routes>
         {/* Gemeinsame Routen */}
         {!loginInfo && <>
-              <Route path="/" element={<PageIndex />} />
-        <Route path="/login" element={<PageLogin />} />
-        <Route path="/registration/customer" element={<PageRegistration />} />
-        <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
-        <Route path="/passwordreset" element={<PagePasswordReset/>}/>
-        <Route path="/mainmenu" element={<MainMenu/>}/> 
-        </>
-          }
+          <Route path="/" element={<PageIndex />} />
+          <Route path="/login" element={<PageLogin />} />
+          <Route path="/registration/customer" element={<PageRegistration />} />
+          <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
+          <Route path="/passwordreset" element={<PageRequestPasswordReset/>}/>
+          <Route path="/mainmenu" element={<MainMenu/>}/> 
+          <Route path="/newPassword" element={<PagePasswordReset/>}/>
+          </>
+        }
 
               {/* Customer */}
               <Route path="/customer/:customerId" element={<PageIndexCustomer />} />

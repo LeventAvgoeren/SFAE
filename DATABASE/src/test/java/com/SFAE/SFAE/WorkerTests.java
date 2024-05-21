@@ -36,7 +36,6 @@ import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 public class WorkerTests{
 
     @Autowired
@@ -47,44 +46,28 @@ public class WorkerTests{
 
      @Autowired
     private TransactionTemplate transactionTemplate;
-
-    private final double baseLatitude = 52.5200;
-    private final double baseLongitude = 13.4050;
-
-    private final Random random = new Random();
-    
     @Test
     public void testCreateWorker() throws Exception {
-      
-                double latitude = baseLatitude + (random.nextDouble() - 0.5) / 100; // Variation von +/- 0.005
-                double longitude = baseLongitude + (random.nextDouble() - 0.5) / 100; // Variation von +/- 0.005
-                
-                double minPayment = 10 + (90 * random.nextDouble()); // Zufälliger minPayment zwischen 10 und 100
-                double range = 2 + (3 * random.nextDouble()); // Zufälliger range zwischen 2 und 5
                 String json = "{" +
-                "\"name\": \"COLORBOX\"," +
+                "\"name\": \"TestRating\"," +
                 "\"location\": \"BERLIN\"," +
                 "\"password\": \"COLORBOX\"," +
-                "\"email\": \"COLORBOX@gmail.com\"," +
+                "\"email\": \"leventavgoren@gmail.com\"," +
                 "\"range\": 1.5," +
-                "\"jobType\": \"GÄRTNER\"," +
-                "\"minPayment\": 16.0," +
-                "\"latitude\": 52.53300544067164," +
-                "\"longitude\": 13.348867173967935" +
+                "\"jobType\":\"INSTALLATEUR\"," +
+                "\"minPayment\": 35.0," +
+                "\"latitude\":  54.5164521479732," +
+                "\"longitude\": 13.350172988628778" +
             "}";
-    
-                transactionTemplate.execute(status -> {
-                    try {
-                        mockMvc.perform(post("/worker")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(json))
-                                .andExpect(status().isCreated());
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                    return null;
-                });
-        }
+            try {
+                mockMvc.perform(post("/worker")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                        .andExpect(status().isCreated());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+    }
 
     @Test
     public void testCreateWorkerWithNull() throws Exception {
@@ -415,5 +398,19 @@ public void testCountAllWorkers() throws Exception {
     System.out.println("A " + contentAsString);
 }
 
+@Test
+public void testAvgRating() throws Exception {
+
+String json = "{\"rating\": 1.0, " +
+               " \"id\": \"W13\"} ";
+MvcResult mvcResult = mockMvc.perform(put("/worker/rating")
+.contentType(MediaType.APPLICATION_JSON)
+.content(json))
+.andExpect(status().isOk())
+.andReturn();
+
+    String contentAsString = mvcResult.getResponse().getContentAsString();
+    System.out.println("A " + contentAsString);
+}
 
 }

@@ -100,7 +100,7 @@ export function PageWorkerPreferences() {
         verification: verification,
         statusOrder: statusOrder,
         range: range,
-        jobType: jobType,
+        jobType: jobType.toUpperCase(),
         minPayment: minPayment!,
         rating: rating,
         longitude: getlongitude,

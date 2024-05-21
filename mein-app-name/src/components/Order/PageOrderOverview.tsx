@@ -1,102 +1,122 @@
-import React, { useState } from 'react';
-import { Col, Container, Nav, NavDropdown, Row } from 'react-bootstrap';
-import "./PageOrderOverview.css"
-import { Navbar } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import {
+  MDBCard,
+  MDBCardBody,
+  MDBCardFooter,
+  MDBCardHeader,
+  MDBCardImage,
+  MDBCol,
+  MDBContainer,
+  MDBIcon,
+  MDBRow,
+  MDBTypography,
+} from 'mdb-react-ui-kit';
+import './PageOrderOverview.css';
+import { Link, useParams } from 'react-router-dom';
+import { deleteContractById, getContract, getContractByCustomerId } from '../../backend/api';
+import { ContractResource } from '../../Resources';
 import NavbarComponent from '../NavbarComponent';
 
-
-
 export function PageOrderOverview() {
-    const [address, setAddress] = useState('');
-    const [service, setService] = useState('');
-    const [description, setDescription] = useState('');
-    const [budget, setBudget] = useState(10000);
-    const [range, setRange] = useState(1);
-    const [verified, setVerified] = useState(false);
-    const [rating, setRating] = useState<number>(0);
+  const { customerId} = useParams();
+  const [contractData, setContractData] = useState<ContractResource[]>([]);
+  const [loading, setLoading] = useState(true);
+  const params = useParams();
+  const contId = params.orderId;
+  let contractId=parseInt(contId!)
+  const [conData, setConData] = useState<ContractResource>();
 
-    const handleRatingClick = (newRating: number) => {
-        setRating(newRating);
-    };
+  useEffect(() => {
+    async function fetchContractData() {
+      try {
+        const data = await getContractByCustomerId(customerId);
+        console.log("Data fetched: ", data);
+        setContractData(data);
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-    };
+       let contract= await getContract(contractId)
+       setConData(contract)
+      } catch (error) {
+        console.error('Error fetching contract data:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  
+    fetchContractData();
+  }, [customerId, contractId]);
+  
+  console.log("Searching for contract ID: ", contractId);
 
-    const handleSelectChange = (event: any) => {
-        const selectedJobType = event.target.value;
-        setService(selectedJobType);
-        // Weitere Aktionen hier einfügen, falls nötig
-    };
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-    const jobTypes = [
-        "Hausmeister", "Haushälter", "Gärtner", "Kindermädchen", "Koch",
-        "Putzkraft", "Handwerker", "Elektriker", "Installateur", "Klempner",
-        "Maler", "Schädlingsbekämpfer", "Tierpfleger", "Hausbetreuer", "Gassigeher",
-        "Wäscher", "Einkäufer", "Caterer", "Personal Trainer", "Ernährungsberater",
-        "Musiklehrer", "Babysitter", "Hauslehrer", "Chauffeur", "Reinigungskraft",
-        "Schneider", "Organisator", "Tischler", "Möbelträger", "Hundetrainer",
-        "Kammerjäger", "Fensterputzer", "Kammerzofen", "Hausdoktor", "Blumenpfleger",
-        "Renovierer", "Fensterreiniger", "Gartenarbeiter", "Bügeler", "Bodenleger",
-        "Hundepfleger", "Autobesorger"
-    ];
+  if (!contractData.length) {
+    return <div>No contracts found</div>;
+  }
 
-    return (
-
-        <>
-        <NavbarComponent /> 
-        <div className ="background-image">
-                <div className="custom-container3">
-                    <h1 className="header-title" style={{ color: 'white' }}>Worker</h1>
-                    <Row>
-                        <div className="profile-info" style={{ color: 'white' }}>
-                            <p>Name: S. Müller</p>
-                            <p>Weg: 2.6 km</p>
-                            <p>Kosten: 20€</p>
-                            <p className="margin-bottom-20">Dienstleistung: Babysitter</p>
-
-                            <p style={{ width: '120%' }}>
-                                <b>
-                                    <span style={{ textDecoration: 'underline' }}>Beschreibung</span> </b>
-                            </p>
-
-                            <p style={{ width: '175%' }}> Mein Name ist Müller und ich bin leidenschaftlicher Babysitter mit über 4 Jahren Erfahrung in der Kinderbetreuung. Ich habe eine herzliche und geduldige Persönlichkeit und genieße es, kreative und erzieherische Aktivitäten zu gestalten, die Kinder fördern und unterhalten.</p>
-
-                        </div>
-
-                        <div className="map">
-                            <div className="header-subtitle" style={{ color: 'white' }}>
-                                <p style={{marginRight: "35%"}}>Verfolge jetzt den Worker</p>
-                                <img src="/Intersect.jpg" alt="Map Bild" style={{ width: '100px', marginTop: '10px' ,marginRight: "35%" }} />
-                                <p style={{marginRight: "35%"}}>ETA: 6 min</p>
-                            </div>
-                        </div>
-
-
-                        <div className="image-and-rating">
-                            <img src="/frau.png" alt="Profilbild" className="profile-image" />
-                            <div>
-                                {[1, 2, 3, 4, 5].map((index) => (
-                                    <span
-                                        key={index}
-                                        onClick={() => handleRatingClick(index)}
-                                        style={{
-                                            cursor: 'pointer',
-                                            color: index <= rating ? 'gold' : 'grey',
-                                        }}
-                                    >
-                                        &#9733;
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-                    </Row>
+  if (!conData) {
+    return <div>No contract found for ID {contractId}</div>;
+  }
+  return (
+    <>
+      <NavbarComponent />
+      <div className="background-image-berlin">
+        <div className="container-informationen">
+          <div className="layout">
+            <header style={{ gridArea: 'header' }}>
+              <div className="d-flex justify-content-between align-items-center">
+                <div>
+                  <p className="text-muted mb-2">
+                    Order ID <span className="fw-bold text-body">{conData!.id}</span>
+                  </p>
+                  <p className="text-muted mb-0">
+                    Umkreis <span className="fw-bold text-body">{conData!.range}</span>
+                  </p>
                 </div>
+                <div>
                 </div>
+              </div>
+            </header>
+            <nav style={{ gridArea: 'sidebar' }}>
+              <img
+                src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/6.webp"
+                alt="Product"
+                width="100%"
+              />
+            </nav>
+            <main style={{ gridArea: 'main' }}>
+              <h5 style={{ color: 'white' }}>Beschreibung : {conData!.description}</h5>
+              <div style={{ height: '10px' }}></div>
+              <p className="text-muted">Job Type: {conData!.jobType}</p>
+              <div style={{ height: '10px' }}></div>
 
+              <h4>
+                Zahlungsmethode : {conData!.payment} <span className="small text-muted"></span>
+              </h4>
+              <div style={{ height: '10px' }}></div>
 
-        </>
-    );
-};
+              <p className="text-muted">
+                 <span className="text-body">Status deiner Bestellung : {conData!.statusOrder}</span>
+              </p>
+              <div style={{ height: '10px' }}></div>
 
-export default PageOrderOverview;
+            </main>
+            <article style={{ gridArea: 'widget' }}>
+            </article>
+            <footer style={{ gridArea: 'footer' }}>
+              <div className="d-flex justify-content-between">
+                <a href="#!" style={{ color: 'white' }}>Bestellung stornieren</a>
+                <Link to={`/customer/${customerId}/orders/${contractId}/completed`} style={{ color: 'white' }}>Auftrag beendet? Lasse doch gerne eine Bewertung für den Worker da!</Link>
+                <a href="#!" className="text-muted">
+                  <MDBIcon fas icon="ellipsis-v" />
+                </a>
+              </div>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+  
+}

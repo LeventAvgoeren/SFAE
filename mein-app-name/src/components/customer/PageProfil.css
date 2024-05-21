@@ -113,7 +113,7 @@
 }
 .author-card {
   position: relative;
-  padding-bottom: 48px;
+  padding-bottom: 80px;
   background-color: #fff;
   box-shadow: 0 12px 20px 1px rgba(64, 64, 64, .09);
 }
@@ -155,7 +155,7 @@
   vertical-align: middle;
 }
 .author-card .author-card-profile .author-card-avatar {
-  width: 85px;
+  width: 50%;
   border-radius: 50%;
   box-shadow: 0 8px 20px 0 rgba(0, 0, 0, .15);
   overflow: hidden;
@@ -188,7 +188,7 @@
   position: absolute;
   bottom: -18px;
   left: 0;
-  width: 100%;
+  width: 70%;
 }
 .author-card .author-card-social-bar-wrap .author-card-social-bar {
   display: table;

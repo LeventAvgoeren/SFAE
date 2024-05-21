@@ -40,7 +40,7 @@ console.log (loginInfo)
       <>
           <nav className="page-background">
               <div className="navbar-left">
-                  <img src="/Sfae_Logo.png" alt="Logo" className="navbar-logo"/>
+                  <img src="/Sfae_Logo.png" alt="Logo" style={{height:60, width:60}}/>
               </div>
               <ul>
                   {loginInfo && (

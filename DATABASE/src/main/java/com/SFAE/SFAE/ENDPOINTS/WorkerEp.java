@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.SFAE.SFAE.DTO.LoginRequest;
+import com.SFAE.SFAE.DTO.RatingDTO;
 import com.SFAE.SFAE.DTO.WorkerDTO;
 
 import com.SFAE.SFAE.ENTITY.Worker;
@@ -99,14 +101,57 @@ public interface WorkerEp {
     @PostMapping("/login")
     ResponseEntity<?> loginWorker(@RequestBody LoginRequest login,HttpServletResponse response);
 
+
+    /**
+ * Retrieves the current login status of a Worker.
+ * 
+ * This method checks whether a Worker is currently logged in by examining session or token-based authentication information.
+ * 
+ * @param request The HttpServletRequest which may contain the session or authentication token.
+ * @return ResponseEntity indicating the login status (true if logged in, false otherwise).
+ */
     @GetMapping("/login")
     ResponseEntity<?> checkLoginStatus(HttpServletRequest request, HttpServletResponse response);
 
-    @PostMapping("/logout")
+
+
+/**
+ * Logs out a Worker by clearing the session or authentication tokens.
+ * 
+ * This method is responsible for securely logging out a Worker, ensuring that any session information
+ * or authentication tokens are invalidated.
+ * 
+ * @param response The HttpServletResponse where the logout procedure is applied.
+ * @return ResponseEntity indicating the result of the logout operation (typically HTTP 204 No Content on success).
+ */    
+@PostMapping("/logout")
     ResponseEntity<?>logout(HttpServletResponse response);
 
+    /**
+ * Counts all registered Workers in the system.
+ * 
+ * This method retrieves the total number of Workers registered, providing a count that can be used for
+ * administrative or reporting purposes.
+ * 
+ * @return ResponseEntity containing the total number of Workers as a Long or an error response if unable to perform the operation.
+ */
     @GetMapping("/all")
     ResponseEntity<?> countAllWorkers();
+
+
+    /**
+ * Updates the average rating of a Worker.
+ * 
+ * This method calculates and updates the average rating of a Worker based on new rating input. It is typically
+ * used to update the Worker's profile with new feedback from clients or peers.
+ * 
+ * @param ratingDto The RatingDTO containing the new rating and Worker ID.
+ * @return ResponseEntity indicating the success of the rating update (true on success, false otherwise).
+ */
+    @PutMapping("/rating")
+    ResponseEntity<Boolean> avgRating(@RequestBody RatingDTO id);
+
+    
 
 }
 

@@ -120,8 +120,22 @@ public interface CustomerEP {
     @DeleteMapping("/logout")
     ResponseEntity<?> logout(HttpServletResponse response);
 
+    /**
+     * Counts all customers currently registered in the system.
+     * 
+     * This endpoint retrieves the total number of customers from the database and
+     * returns that count.
+     * It is useful for administrative purposes where a quick total count of
+     * registered customers is needed.
+     *
+     * @return ResponseEntity containing the count of all customers or an error
+     *         response if the operation fails.
+     *         The response typically contains the count as a long integer within
+     *         the body on successful retrieval,
+     *         or an HttpStatus.INTERNAL_SERVER_ERROR if there is an issue accessing
+     *         the data.
+     */
     @GetMapping("/all")
     ResponseEntity<?> countAllCustomers();
-
 
 }

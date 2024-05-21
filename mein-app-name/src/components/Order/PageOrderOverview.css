@@ -1,160 +1,59 @@
-/* Stelle sicher, dass die Navbar den gesamten horizontalen Platz einnimmt */
-.navbar {
-    position: sticky;
-    top: 0;
-    width: 100%; 
-    margin-left: auto; /* Zentriert die Block-Elemente horizontal */
-    margin-right: auto;
-    background-color: #184c8c;
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
+
+.background-image-berlin {
+  font-family: 'Nunito', sans-serif;
+  background-image: url('/public/b1.jpg'); /* Stellen Sie sicher, dass der Pfad korrekt ist */
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-  
-  /* Sorgt dafür, dass das Dropdown-Menü sich innerhalb der Grenzen der Navbar befindet */
-  .nav-dropdown, #collapsible-nav-dropdown {
-    position: static; /* Übergeordnete Positionierung für Dropdown-Menü auf 'static' setzen */
-  }
-  
-  /* Dropdown-Menü-Position anpassen */
-  .dropdown-menu {
-    position: absolute; 
-    left: auto; /* Setze den linken Rand auf 'auto', damit das Menü rechtsbündig ausgerichtet wird */
-    right: 0; /* Richte das Menü rechts aus */
-    top: 1000%; /* Positioniere das Menü direkt unter der Nav-Komponente */
-    background-color: teal;
-  }
-  
-  /* Dropdown-Menü für mobile Ansicht anpassen */
-  @media (max-width: 768px) { /* Bootstrap mobile Ansicht Breakpoint */
-    .navbar-nav {
-      flex-direction: column; /* Staple die Nav-Elemente vertikal */
-      position: sticky;
-      
-    }
-  
-    .nav-dropdown, #collapsible-nav-dropdown {
-      position: sticky; /* Setze die Position auf 'static', um ein korrektes Verhalten in der mobilen Ansicht zu gewährleisten */
-    }
-  
-
-  }
-  
-  .Nav-Link {
-    text-align: center; /* Zentriert den Inhalt des Links */
-    position: sticky;
-  }
-  
-  .Nav-Link img, .Nav-Link div {
-    display: block; /* Sorgt dafür, dass das Bild und der Text als Block-Elemente gerendert werden */
-    margin-left: auto; /* Zentriert die Block-Elemente horizontal */
-    margin-right: auto;
-    position: sticky;
-  }
-  
-  .Nav-Link div {
-    font-size: 10px; /* Stellt die Schriftgröße des Textes ein */
-    position: sticky;
-  }
-
-  .from-control .search-field {
-    text-align: center;
-    width: 200%; /* Ändere die Breite nach Bedarf */
-   
-}
-
-.search-field{
-    width: max-content;
-}
-
-input[type="checkbox"] {
-  transform: scale(1.5); /* Hier kannst du die Größe anpassen */
-  margin-left: 20px; 
-}
-
-
-.form-control::placeholder, .form-select {
-    color: #b6b6b6;
-}
-
-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #0f3460;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #9a0026;
-}
-
-
-.text-align{
-    left: auto;
-}
-
-
-.profile-info {
-    order: 1; /* Gibt diesem Bereich Flexibilität in der Breite */
-    padding: 20px;
-    max-width: 40%; /* Maximale Breite des Profil-Info-Bereichs */
-}
-
-.map {
-    order: 2;
-    padding: 20px;
-    max-width: 30%; /* Maximale Breite des Worker-Info-Bereichs */
-    text-align: center;  /* Zentriert den Text */
-    right: 65px;
-}
-
-.image-and-rating {
-    order: 3;
-    padding: 20px;
-    max-width: 30%; /* Maximale Breite des Bild- und Bewertungsbereichs */
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Zentriert die Elemente vertikal */
-}
-
-.profile-image {
-    display: flex;
-    left: 50px;
-    width: 150px;
-    height: 220px;
-    object-fit: cover;
-    margin-bottom: 10px; /* Abstand zwischen Bild und Bewertung */
-}
-
-.rating {
-    display: flex;
-    justify-content: center; /* Zentriert die Sterne */
-}
-
-.star {
-    color: goldenrod; /* Farbe der Sterne */
-    margin: 0 2px; /* Raum zwischen den Sternen */
-}
-
-/* In Ihrer CSS-Datei */
-.margin-bottom-20 {
-    margin-bottom: 50px;
-}
-
-.custom-container3{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.7); 
-  padding: 40px;
-  border-radius: 12%;
+.container-informationen {
+  background: rgba(0, 0, 0, 0.7); /* Dunkelgrau, semi-transparent */
+  padding: 40px 50px;
+  border-radius: 14px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: auto;
-  max-width: 100%;
-  text-align: center;
+  width: calc(100vw - 3cm); /* Berechnet die Breite: Bildschirmbreite - 3cm */
+  max-width: calc(100vw - 3cm); /* Stellen Sie sicher, dass der Container nie breiter als die Breite minus 3cm ist */
+  height: calc(100vh - 2cm); /* Berechnet die Höhe: Bildschirmhöhe - 2cm */
+  box-sizing: border-box; /* Stellt sicher, dass padding und border in der Breiten-/Höhenberechnung enthalten sind */
+  color: white; /* Setzt die Textfarbe auf Weiß */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+.layout {
+  display: grid;
+  grid-template-areas:
+    'header header'
+    'sidebar main'
+    'widget statistics'
+    'footer footer';
+  gap: 10px;
+  grid-template-columns: 1fr 3fr; /* Sidebar kleiner als Main */
+  grid-template-rows: auto;
+  width: 100%;
+  height: 100%;
+}
+
+.container-informationen {
   color: white;
-  width: 80%;
+}
+
+.container-informationen * {
+  color: white !important; /* Erzwingt die weiße Textfarbe */
+}
+
+.text-body, .text-muted, a {
+  color: white !important; /* Setzt sicher, dass alle Links und spezifische MDB-Klassen weiß sind */
+}
+
+a.text-muted {
+  color: #ccc !important; /* Setzt sicher, dass die mutierten Links eine andere Farbe haben */
 }

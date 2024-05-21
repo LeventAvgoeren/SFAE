@@ -107,4 +107,6 @@ public interface WorkerInterface {
   Boolean avgWorkerRating(Double rating, String id);
 
   Boolean updateStatusByWorkerId(String workerId,String status);
+
+  Boolean updateOrderStatusByWorkerId(String workerId,String statusOrder);
 }

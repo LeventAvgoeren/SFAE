@@ -264,4 +264,22 @@ public class ContractImpl implements ContractInterface {
 
   }
 
+  @Override
+  public Boolean updateOrderStatus(Long contractId, String statusOrder) {
+    int row=jdbcTemplate.update(
+        "UPDATE Contract SET status_order = ? WHERE id = ?",
+        ps -> {
+          ps.setString(1, statusOrder);
+          ps.setLong(2, contractId);
+        });
+
+
+        if(row>0){
+          return true;
+        }
+        else{
+          return false;
+        }
+  }
+
 }

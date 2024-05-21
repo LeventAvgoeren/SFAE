@@ -463,4 +463,23 @@ public class WorkerImpl implements WorkerInterface {
 
   }
 
+  @Override
+  public Boolean updateOrderStatusByWorkerId(String workerId, String statusOrder) {
+    int row=jdbcTemplate.update(
+        "UPDATE WORKER SET status_order = ? WHERE id = ?",
+        ps -> {
+          ps.setString(1, statusOrder);
+          ps.setString(2, workerId);
+        });
+
+
+        if(row>0){
+          return true;
+        }
+        else{
+          return false;
+        }
+
+  }
+
 }

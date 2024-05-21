@@ -36,7 +36,6 @@ import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 public class WorkerTests{
 
     @Autowired
@@ -53,7 +52,7 @@ public class WorkerTests{
                 "\"name\": \"TestRating\"," +
                 "\"location\": \"BERLIN\"," +
                 "\"password\": \"COLORBOX\"," +
-                "\"email\": \"leventavgorensss@gmail.com\"," +
+                "\"email\": \"leventavgorensssssa@gmail.com\"," +
                 "\"range\": 1.5," +
                 "\"jobType\":\"INSTALLATEUR\"," +
                 "\"minPayment\": 35.0," +
@@ -413,5 +412,9 @@ MvcResult mvcResult = mockMvc.perform(put("/worker/rating")
     String contentAsString = mvcResult.getResponse().getContentAsString();
     System.out.println("A " + contentAsString);
 }
+
+
+
+
 
 }

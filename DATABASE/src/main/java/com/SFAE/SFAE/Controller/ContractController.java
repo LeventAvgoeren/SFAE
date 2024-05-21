@@ -58,8 +58,6 @@ public class ContractController implements ContractEP {
   @Autowired
   private TokenMailService tokenService;
 
-//TODO: Konstruktor without WorkeID
-//Statusse setzen 
   @Override
   public ResponseEntity<?> createContract(@Valid ContractDTO contract, BindingResult bindingResult) {
 
@@ -288,6 +286,8 @@ public class ContractController implements ContractEP {
     if(accpeted){
       Boolean result =dao.updateWorkerId(data.getId(),data.getWorkerId());
       work.updateStatusByWorkerId(data.getWorkerId(), "INAVAILABLE");
+      work.updateOrderStatusByWorkerId(data.getWorkerId(), "ACCEPTED");
+      dao.updateOrderStatus(data.getId(), "ACCEPTED");
       if(result){
         return ResponseEntity.status(HttpStatus.OK).build();
       }
@@ -297,6 +297,9 @@ public class ContractController implements ContractEP {
       
     }
     else{
+      work.updateStatusByWorkerId(data.getWorkerId(), "AVAILABLE");
+      work.updateOrderStatusByWorkerId(data.getWorkerId(), "DECLINED");
+      dao.updateOrderStatus(data.getId(), "DECLINED");
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
   

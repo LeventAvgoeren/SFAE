@@ -2,6 +2,8 @@ package com.SFAE.SFAE.DTO;
 
 import java.time.LocalDateTime;
 
+import com.SFAE.SFAE.ENUM.TokenType;
+
 import jakarta.persistence.Entity;
 
 import jakarta.persistence.Id;
@@ -14,6 +16,7 @@ public class Token {
     @Id
     private Long id;
     private String token;
-    private String workerId;
+    private String receiver;
     private LocalDateTime expiryDate;
+    private TokenType type;
 }

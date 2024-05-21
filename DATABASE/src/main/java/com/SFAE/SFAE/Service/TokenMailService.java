@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.SFAE.SFAE.DTO.Token;
+import com.SFAE.SFAE.ENUM.TokenType;
 import com.SFAE.SFAE.INTERFACE.TokenRepository;
 import java.util.UUID;
 
@@ -23,17 +24,23 @@ public class TokenMailService {
      *
      * @return A uniquely generated token as a String, which remains valid for only 5 minutes after its creation.
      */
-    public String createToken(long id, String workerId) {
+    public String createToken(long id, String receiver, TokenType type) {
         String token = UUID.randomUUID().toString();
         LocalDateTime expiryDate = LocalDateTime.now().plusMinutes(60); // Setzt die Gültigkeit auf 5 Minuten
 
-        Token newToken = new Token();
+        Token newToken = new Token(); 
         newToken.setToken(token);
-        newToken.setId(id);
-        newToken.setWorkerId(workerId);
         newToken.setExpiryDate(expiryDate);
-        tokenRepository.save(newToken);
+     
+        if(TokenType.CONTRACT == type){
+            newToken.setId(id);                 //Contract ID
+            newToken.setReceiver(receiver);     //ID of the Worker
+        } else if(TokenType.PASSWORDRESET == type){
+            newToken.setId(id);                 // ID for the validation checking if the User requesting is a Customer = 0, Admin = 1 and Worker = 2.
+            newToken.setReceiver(receiver);     //ID of the Person, who is requesting a password reset
+        }
 
+        tokenRepository.save(newToken);
         return token;
     }
 
@@ -46,8 +53,7 @@ public class TokenMailService {
      */
     public Token validateToken(String token) {
         Token foundToken = tokenRepository.findByToken(token);
-        if (foundToken != null && foundToken.getExpiryDate().isAfter(LocalDateTime.now())) {
-            System.out.println(foundToken);
+        if (foundToken != null && LocalDateTime.now().isBefore(foundToken.getExpiryDate())) {
             return foundToken;
         }
         return null;

@@ -444,4 +444,20 @@ public class WorkerImpl implements WorkerInterface {
     return (List<Double>) ois.readObject();
   }
 
+  @Override
+  public Boolean updatePassword(String password, String Id) {
+    int result = jdbcTemplate.update(
+      "UPDATE WORKER SET password = ? WHERE id = ?",
+      ps -> {
+          ps.setString(1,  encoder.hashPassword(password));
+          ps.setString(2, Id);
+      });
+      
+      if(result > 0){
+          return true;
+      }
+
+      return false;
+  }
+
 }

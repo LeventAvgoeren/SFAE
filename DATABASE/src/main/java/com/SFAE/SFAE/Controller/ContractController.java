@@ -17,6 +17,8 @@ import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.JobList;
 import com.SFAE.SFAE.ENUM.Payment;
 import com.SFAE.SFAE.ENUM.StatusOrder;
+import com.SFAE.SFAE.ENUM.TokenType;
+import com.SFAE.SFAE.IMPLEMENTATIONS.CustomerImp;
 import com.SFAE.SFAE.IMPLEMENTATIONS.SFAEAlgorithm;
 import com.SFAE.SFAE.INTERFACE.ContractInterface;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
@@ -47,7 +49,7 @@ public class ContractController implements ContractEP {
   private WorkerInterface work;
 
   @Autowired
-  private CustomerInterface custo;
+  private CustomerImp custo;
 
   @Autowired
   private MailService mail;
@@ -93,7 +95,7 @@ public class ContractController implements ContractEP {
         Worker found = work.findWorkersbyID(String.valueOf(lastEntry.getKey().getId()));
         Customer foundCustomer = custo.findCustomerbyID(String.valueOf(contract.getCustomerId()));
 
-        String token= tokenService.createToken(created.getId(), lastEntry.getKey().getId());
+        String token= tokenService.createToken(created.getId(), lastEntry.getKey().getId(), TokenType.CONTRACT);
         String link = "https://localhost:3000/contract?token=" + token; 
 
         mail.sendHtmlMessage(found.getEmail(), "Jobangebot erhalten",
@@ -317,5 +319,26 @@ public class ContractController implements ContractEP {
       }
 
       return ResponseEntity.status(HttpStatus.GONE).body(false);
+  }
+
+  @Override
+  public ResponseEntity<?> getUserFromEmail(String email) {
+    if(email == null){
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    Worker foundWorker = work.findWorkerbyEmail(email);
+
+    if(foundWorker != null){
+      return ResponseEntity.status(HttpStatus.FOUND).body(foundWorker);
+    }
+
+    Customer foundCustomer = custo.findEmail(email);
+
+    if(foundCustomer != null){
+      return ResponseEntity.status(HttpStatus.FOUND).body(foundCustomer);
+    }
+
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
   }
 }

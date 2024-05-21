@@ -251,12 +251,14 @@ public class CustomerImp implements CustomerInterface {
      * @return the Customer object or null if not found
      */
     public Customer findEmail(String Email) {
+       
         List<Optional<Customer>> results = jdbcTemplate.query(
-                "SELECT * FROM CUSTOMER WHERE email = ?",
+                "SELECT * FROM customer WHERE email = ?",
                 ps -> {
                     ps.setString(1, Email);
                 },
                 (rs, rowNum) -> createCustomer(rs));
+
 
         if (!results.isEmpty() && results.get(0).isPresent()) {
             return results.get(0).get();
@@ -288,6 +290,23 @@ public class CustomerImp implements CustomerInterface {
         }
 
         return null;
+    }
+
+    @Override
+    public boolean updatePassword(String password, String Id) {
+      
+        int result = jdbcTemplate.update(
+        "UPDATE CUSTOMER SET password = ? WHERE id = ?",
+        ps -> {
+            ps.setString(1,  encoder.hashPassword(password));
+            ps.setString(2, Id);
+        });
+        
+        if(result > 0){
+            return true;
+        }
+
+        return false;
     }
 
 }

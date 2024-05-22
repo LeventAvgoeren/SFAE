@@ -5,7 +5,7 @@ import { checkLoginStatus, deleteCookie, deleteCustomer, getCustomerbyID, update
 import { Button, Modal } from "react-bootstrap"
 import { LinkContainer } from "react-router-bootstrap"
 import { LoginInfo } from "../LoginManager"
-import NavbarComponent from "../NavbarComponent"
+import NavbarComponent from "../navbar/NavbarComponent"
 
 
 export function PageCustomerProfil(){

@@ -6,9 +6,9 @@ import Navbar from 'react-bootstrap/Navbar';
 import './NavbarComponent.css';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
-import { checkLoginStatus, deleteCookie } from '../backend/api';
 import { useEffect, useState } from 'react';
-import { LoginInfo } from './LoginManager';
+import { LoginInfo } from '../LoginManager';
+import { checkLoginStatus, deleteCookie } from '../../backend/api';
 
 export function NavbarComponent() {
   const [loginInfo, setLoginInfo] = useState<LoginInfo | false | undefined>(undefined);
@@ -40,8 +40,8 @@ console.log (loginInfo)
       <>
           <nav className="page-background">
               <div className="navbar-left">
-                  <img src="/Sfae_Logo.png" alt="Logo" className="navbar-logo"/>
-              </div>
+              <img src="/Sfae_Logo.png" alt="Logo" style={{height:100, width:100}}/>
+                       </div>
               <ul>
                   {loginInfo && (
                       <li><a href={`/customer/${loginInfo.userId}`}>Home</a></li>

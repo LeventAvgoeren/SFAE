@@ -3,7 +3,6 @@ import "./App.css";
 import { Route, Router, Routes , useNavigate} from "react-router-dom";
 import { PageIndex } from "./components/PageIndex";
 import { PageLogin } from "./components/PageLogin";
-import PageRegistration from './components/PageRegistration';
 import  PageRegistrationWorker  from "./components/worker/PageRegistrationWorker";
 import { PageWorkerIndex } from "./components/worker/PageWorkerIndex";
 import { PageWorkerOrderOverview } from "./components/worker/PageWorkerOrderOverview";
@@ -15,9 +14,8 @@ import { PagePasswordReset } from "./components/PagePasswordReset";
 import { MainMenu } from "./components/MainMenu";
 import { LoginContext, LoginInfo } from "./components/LoginManager";
 import { checkLoginStatus, login } from "./backend/api";
-import PageRegistrationAdmin from "./components/PageRegistrationAdmin";
-import { PageIndexAdmin } from "./components/PageIndexAdmin";
-import { PageAdminDienstleistungen } from "./components/PageAdminDienstleistungen";
+
+
 import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
 import PageOrderRating from "./components/Order/PageOrderRating";
 import PageOrderRequest from "./components/Order/PageOrderRequest";
@@ -27,7 +25,10 @@ import { PageIndexCustomer } from "./components/customer/PageIndexCustomer";
 import { PageProfil } from "./components/customer/PageProfil";
 import { PageUebersicht } from "./components/customer/PageUebersicht";
 import { PageOrderOverview } from "./components/Order/PageOrderOverview";
-import PageError from "./components/Error";
+import PageRegistration from "./components/customer/PageRegistration";
+import PageRegistrationAdmin from "./components/admin/PageRegistrationAdmin";
+import { PageIndexAdmin } from "./components/admin/PageIndexAdmin";
+import { PageAdminDienstleistungen } from "./components/admin/PageAdminDienstleistungen";
 import { PageDeclineJob } from "./components/worker/PageDeclineJob";
 import { PageRequestPasswordReset } from "./components/PageRequestPasswordReset";
 

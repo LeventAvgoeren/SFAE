@@ -1,3 +1,5 @@
+
+
 import React, { useState } from 'react';
 import {
   MDBCard,
@@ -8,14 +10,15 @@ import {
 } from 'mdb-react-ui-kit';
 import './PageOrderCompleted.css';
 import { Link, useParams } from 'react-router-dom';
-import NavbarComponent from '../NavbarComponent';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import NavbarComponent from '../navbar/NavbarComponent';
 
 
 export function PageOrderCompleted() {
   const { orderId } = useParams();
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
+  const { customerId } = useParams();
 
   return (
     <>
@@ -57,7 +60,7 @@ export function PageOrderCompleted() {
             </MDBCardBody>
             <MDBCardFooter>
               <div className="d-flex justify-content-between">
-                <Link to="/" className="btn btn-secondary">Zur Startseite</Link>
+                <Link to={`/customer/${customerId}`} className="btn btn-secondary">Zur Startseite</Link>
                 <Link to="/orders" className="btn btn-secondary">Bestellverlauf</Link>
               </div>
             </MDBCardFooter>

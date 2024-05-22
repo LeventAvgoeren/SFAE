@@ -348,4 +348,21 @@ public class ContractController implements ContractEP {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
   }
 
+  @Override
+  public ResponseEntity<?> getContractStatus(Long contractId) {
+
+    try {
+      String status=dao.getStatusFromContract(contractId);
+      if(status!=null){
+        return ResponseEntity.status(HttpStatus.OK).body(status);
+      }
+      else{
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+      }
+    
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+  }
+
 }

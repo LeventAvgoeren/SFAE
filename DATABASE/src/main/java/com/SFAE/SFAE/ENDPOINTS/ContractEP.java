@@ -104,4 +104,9 @@ public interface ContractEP {
 
    @PutMapping("/email")
    ResponseEntity<?> getUserFromEmail(@RequestBody String email);
+
+   
+   @GetMapping("/status/{id}")
+   ResponseEntity<?> getContractStatus(@PathVariable ("id") Long contractId);
+    
 }

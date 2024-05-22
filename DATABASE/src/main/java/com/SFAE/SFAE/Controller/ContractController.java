@@ -88,8 +88,6 @@ public class ContractController implements ContractEP {
         lastEntry = iterator.next();
       }
 
-      System.out.println(lastEntry);
-      contract.setWorkerId("W0"); //Bessere Lösung finden.
       Contract created = dao.createContract(contract);
       if (created != null) {
         Worker found = work.findWorkersbyID(String.valueOf(lastEntry.getKey().getId()));
@@ -279,7 +277,7 @@ public class ContractController implements ContractEP {
  * @param accepted boolean value indicating if the contract update is accepted.
  * @return ResponseEntity indicating the result of the operation, either success or an appropriate error status.
  */
-  @Override
+@Override
   public ResponseEntity<?> setContract(ContractDTO data, Boolean accpeted) {
     if(data==null){
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -287,18 +285,24 @@ public class ContractController implements ContractEP {
 
     if(accpeted){
       Boolean result =dao.updateWorkerId(data.getId(),data.getWorkerId());
+      work.updateStatusByWorkerId(data.getWorkerId(), "INAVAILABLE");
+      work.updateOrderStatusByWorkerId(data.getWorkerId(), "ACCEPTED");
+      dao.updateOrderStatus(data.getId(), "ACCEPTED");
       if(result){
         return ResponseEntity.status(HttpStatus.OK).build();
       }
       else{
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
       }
-      
+
     }
     else{
+      work.updateStatusByWorkerId(data.getWorkerId(), "AVAILABLE");
+      work.updateOrderStatusByWorkerId(data.getWorkerId(), "DECLINED");
+      dao.updateOrderStatus(data.getId(), "DECLINED");
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
-  
+
   }
 
   /**
@@ -341,4 +345,5 @@ public class ContractController implements ContractEP {
 
     return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
   }
+
 }

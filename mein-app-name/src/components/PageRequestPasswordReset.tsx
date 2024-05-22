@@ -14,7 +14,6 @@ export function PageRequestPasswordReset(){
        const User = await getUserFromEmail(event.target.value)
         
        if( User as CustomerResource ){
-        console.log("ASDASD")
             setType("Customer");
        } else if( User as WorkerResource){
             setType("Worker");

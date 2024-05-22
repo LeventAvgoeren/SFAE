@@ -448,8 +448,6 @@ class CustomerController implements CustomerEP {
             }
         }
 
-       
-
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 

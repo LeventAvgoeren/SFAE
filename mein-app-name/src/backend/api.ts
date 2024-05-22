@@ -502,9 +502,3 @@ export async function countAllWorkers(): Promise<number> {
 
     return response.json();
   }
-
-
-
-  
-
-

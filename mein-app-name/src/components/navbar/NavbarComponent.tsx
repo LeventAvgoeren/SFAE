@@ -40,8 +40,8 @@ console.log (loginInfo)
       <>
           <nav className="page-background">
               <div className="navbar-left">
-                  <img src="/Sfae_Logo.png" alt="Logo" className="navbar-logo"/>
-              </div>
+              <img src="/Sfae_Logo.png" alt="Logo" style={{height:100, width:100}}/>
+                       </div>
               <ul>
                   {loginInfo && (
                       <li><a href={`/customer/${loginInfo.userId}`}>Home</a></li>

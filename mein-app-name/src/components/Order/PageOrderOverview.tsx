@@ -71,6 +71,12 @@ export function PageOrderOverview() {
   if (!conData) {
     return <div>No contract found for ID {contractId}</div>;
   }
+  const workerDetails = {
+    name: "John Doe",
+    age: 32,
+    role: "Technician",
+    experience: "5 years"
+  };
 
   return (
     <>
@@ -85,40 +91,30 @@ export function PageOrderOverview() {
                     Order ID <span className="fw-bold text-body">{conData!.id}</span>
                   </p>
                   <p className="text-muted mb-0">
-                    Placed On <span className="fw-bold text-body">{conData!.range}</span>
+                    Umkreis des Workers <span className="fw-bold text-body">**{conData!.range} km</span>
                   </p>
-                </div>
-                <div>
                 </div>
               </div>
             </header>
-            <nav style={{ gridArea: 'sidebar' }}>
-              <img
-                src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/6.webp"
-                alt="Product"
-                width="100%"
-              />
-            </nav>
-            <main style={{ gridArea: 'main' }}>
-              <h5 style={{ color: 'white' }}>Beschreibung : {conData!.description}</h5>
-              <div style={{ height: '10px' }}></div>
+            <nav style={{ gridArea: 'orderDetails' }}>
+              <h5>Beschreibung: {conData!.description}</h5>
               <p className="text-muted">Job Type: {conData!.jobType}</p>
-              <div style={{ height: '10px' }}></div>
-              <h4>
-                Zahlungsmethode : {conData!.payment} <span className="small text-muted"></span>
-              </h4>
-              <div style={{ height: '10px' }}></div>
-              <p className="text-muted">
-                <span className="text-body">Status deiner Bestellung : {conData!.statusOrder}</span>
-              </p>
-              <div style={{ height: '10px' }}></div>
+              <h4>Zahlungsmethode: {conData!.payment}</h4>
+              <p className="text-muted">Status deiner Bestellung: {conData!.statusOrder}</p>
+            </nav>
+            <main style={{ gridArea: 'map' }}>
+              <div style={{ width: '80%', height: '80%', backgroundColor: '#eee' }}>
+              </div>
             </main>
-            <article style={{ gridArea: 'widget' }}>
+            <article style={{ gridArea: 'workerDetails' }}>
+              <h5>Worker Details</h5>
+              <p className="text-muted">{conData!.worker!.name}</p>
+              <p className="text-muted">{conData!.worker!.email}</p>
+              <p className="text-muted">{conData!.worker!.location}</p>
             </article>
             <footer style={{ gridArea: 'footer' }}>
               <div className="d-flex justify-content-between">
-                <a href="#!" style={{ color: 'white' }}>Bestellung stornieren</a>
-                <button onClick={toggleShow} style={{ color: 'white' }}>Auftrag beendet?</button>
+                <button onClick={toggleShow} className="btn btn-danger">Auftrag beendet?</button>
                 <a href="#!" className="text-muted">
                   <MDBIcon fas icon="ellipsis-v" />
                 </a>
@@ -132,7 +128,6 @@ export function PageOrderOverview() {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">Auftrag beendet?</h5>
-              <button type="button" className="btn-close" onClick={toggleShow} aria-label="Close"></button>
             </div>
             <div className="modal-body">
               Bist du sicher, dass du diesen Auftrag als beendet markieren möchtest? Wurde alles ordnungsgemäß ausgeführt?

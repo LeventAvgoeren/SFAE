@@ -3,19 +3,19 @@
 
 
 .container-completed {
-    background: rgba(0, 0, 0, 0.7);
-    padding: 40px 50px;
-    border-radius: 14px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: calc(100vw - 3cm);
-    max-width: calc(100vw - 3cm);
-    height: calc(100vh - 2cm);
-    box-sizing: border-box;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+  background: rgba(0, 0, 0, 0.7); /* Dunkelgrau, semi-transparent */
+  padding: 40px 50px;
+  border-radius: 14px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: calc(100vw - 4cm); /* Berechnet die Breite: Bildschirmbreite - 4cm */
+  max-width: calc(100vw - 4cm); /* Stellen Sie sicher, dass der Container nie breiter als die Breite minus 4cm ist */
+  height: calc(100vh - 4cm); /* Berechnet die Höhe: Bildschirmhöhe - 4cm */
+  box-sizing: border-box; /* Stellt sicher, dass padding und border in der Breiten-/Höhenberechnung enthalten sind */
+  color: white; /* Setzt die Textfarbe auf Weiß */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
   
   .centered-container {
     display: flex;

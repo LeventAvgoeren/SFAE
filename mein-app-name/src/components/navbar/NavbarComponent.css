@@ -1,4 +1,4 @@
-.page-background { /* Überprüfen Sie den korrekten Pfad */
+.page-background { 
   display: flex;
   justify-content: flex-start; 
   align-items: center;
@@ -7,11 +7,6 @@
   padding: 0 20px;
 }
 
-.navbar-logo {
-  height: 60px;
-  padding-left: 50px;
-  margin-right: 25px;
-}
 
 .navbar-links {
   display: flex;
@@ -67,7 +62,6 @@ body {
   z-index: 1; 
 }
 
-/* Überprüfen Sie, ob weitere Anpassungen bei anderen Elementen nötig sind */
 .content { 
   position: relative;
   z-index: 1; 

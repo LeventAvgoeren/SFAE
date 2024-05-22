@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import './PagePasswordReset.css';
 import { MDBBtn, MDBContainer, MDBInput, MDBRow, MDBCol, MDBTypography, MDBCard, MDBCardBody } from 'mdb-react-ui-kit';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { updatePassword } from '../backend/api';
 
 export function PagePasswordReset() {
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const tokenID = searchParams.get("token");
+    
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordsMatch, setPasswordsMatch] = useState(true);
@@ -16,10 +21,10 @@ export function PagePasswordReset() {
         setConfirmPassword(event.target.value);
     };
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (newPassword === confirmPassword) {
-            console.log("Passwort zurückgesetzt!");
+            await updatePassword(tokenID!, newPassword);
         } else {
             setPasswordsMatch(false);
         }
@@ -41,14 +46,6 @@ export function PagePasswordReset() {
                         <img src={'/SFAE_Logo.png'} alt="SFAE Logo" className="img-fluid mb-2" />
                     </MDBCol> */}
                     <form onSubmit={handleSubmit}>
-                        <MDBInput wrapperClass='mb-3 inputField' 
-                        labelClass='text-white' 
-                        label='Altes Passwort' 
-                        id='altes-passwort' 
-                        type='password'
-                        required
-                        style={{ width: '280px' }}
-                        />
 
                         <MDBInput
                         wrapperClass='mb-3 inputField' 
@@ -57,8 +54,9 @@ export function PagePasswordReset() {
                         id='neues-passwort' 
                         type='password'
                         required
-                            value={newPassword}
-                            onChange={handleNewPasswordChange}
+                        value={newPassword}
+                        onChange={handleNewPasswordChange}
+                        style={{ width: '280px' }}
                         />
 
                         <MDBInput

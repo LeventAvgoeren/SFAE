@@ -444,4 +444,58 @@ public class WorkerImpl implements WorkerInterface {
     return (List<Double>) ois.readObject();
   }
 
+  @Override
+  public Boolean updatePassword(String password, String Id) {
+    int result = jdbcTemplate.update(
+      "UPDATE WORKER SET password = ? WHERE id = ?",
+      ps -> {
+          ps.setString(1,  encoder.hashPassword(password));
+          ps.setString(2, Id);
+      });
+      
+      if(result > 0){
+          return true;
+      }
+
+      return false;
+  }
+
+  @Override
+  public Boolean updateStatusByWorkerId(String workerId, String status) {
+
+    int row=jdbcTemplate.update(
+        "UPDATE WORKER SET  status = ? WHERE id = ?",
+        ps -> {
+          ps.setString(1, status);
+          ps.setString(2, workerId);
+        });
+
+
+        if(row>0){
+          return true;
+        }
+        else{
+          return false;
+        }
+
+  }
+
+  @Override
+  public Boolean updateOrderStatusByWorkerId(String workerId, String statusOrder) {
+    int row=jdbcTemplate.update(
+        "UPDATE WORKER SET status_order = ? WHERE id = ?",
+        ps -> {
+          ps.setString(1, statusOrder);
+          ps.setString(2, workerId);
+        });
+
+
+        if(row>0){
+          return true;
+        }
+        else{
+          return false;
+        }
+
+  }
 }

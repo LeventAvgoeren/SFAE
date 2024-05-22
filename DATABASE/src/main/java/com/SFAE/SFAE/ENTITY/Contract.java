@@ -97,6 +97,18 @@ public class Contract {
     this.maxPayment=maxPayment;
   }
 
+  public Contract(JobList jobType, String adress, Payment payment, String description, StatusOrder statusOrder,
+      Double range, Customer customer, Double maxPayment) {
+    this.jobType = jobType;
+    this.adress = adress;
+    this.payment = payment;
+    this.description = description;
+    this.statusOrder = statusOrder;
+    this.range = range;
+    this.customer = customer;
+    this.maxPayment = maxPayment;
+  }
+
   public Long getId() {
     return id;
   }

@@ -67,4 +67,6 @@ public interface CustomerInterface{
      * @return The updated Customer entity, or null if the update fails.
      */
     Customer updateCustomer(CustomerDTO jsonData);
+
+    boolean updatePassword(String password, String Id);
 }

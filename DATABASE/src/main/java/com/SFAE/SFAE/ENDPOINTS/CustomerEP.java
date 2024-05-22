@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.DTO.LoginRequest;
+import com.SFAE.SFAE.DTO.PasswordResetRequest;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -138,4 +138,10 @@ public interface CustomerEP {
     @GetMapping("/all")
     ResponseEntity<?> countAllCustomers();
 
+
+    @PutMapping("/passwordreset")
+    ResponseEntity<?> requestResetPassword(@RequestBody String email);
+
+    @PutMapping("/updatepassword")
+    ResponseEntity<?> resetPassword(@RequestBody PasswordResetRequest data);
 }

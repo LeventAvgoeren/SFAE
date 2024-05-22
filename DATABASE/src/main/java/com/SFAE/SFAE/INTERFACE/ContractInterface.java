@@ -104,5 +104,6 @@ public interface ContractInterface {
  */
     Boolean updateWorkerId(long contractid,String workerId);
 
+    Boolean updateOrderStatus(Long contractId,String statusOrder);
     
 }

@@ -40,7 +40,7 @@ export function NavbarWComponent() {
       <>
           <nav className="page-background">
               <div className="navbar-left">
-                  <img src="/Sfae_Logo.png" alt="Logo" className="navbar-logo" />
+                  <img src="/Sfae_Logo.png" alt="Logo" style={{height: 80, width:80}}/>
               </div>
               <ul>
                   

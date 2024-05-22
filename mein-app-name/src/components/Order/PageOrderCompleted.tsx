@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   MDBCard,
   MDBCardBody,
@@ -11,14 +11,48 @@ import { Link, useParams } from 'react-router-dom';
 
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import NavbarComponent from '../navbar/NavbarComponent';
+import { getContract, setRating } from '../../backend/api';
+import { ContractResource, RatingRessource } from '../../Resources';
 
 
 export function PageOrderCompleted() {
-  const { orderId } = useParams();
-  const [rating, setRating] = useState(0);
-  const [hover, setHover] = useState(0);
+
   const params = useParams();
-  let customerId = params.customerId!;
+  const orderId = params.orderId!;
+
+  console.log(orderId)
+  const [ratting, setRatting] = useState(0);
+  const [hover, setHover] = useState(0);
+
+  const [contract, setContract] = useState<ContractResource>();
+
+
+  const rat :RatingRessource={
+    id:contract?.worker?.id!,
+    rating:ratting
+  }
+
+
+  useEffect(() => {
+
+    async function getOrder() {
+      try {
+        console.log("WURDE AUSGEFÜHRT")
+        let result=await getContract(parseInt(orderId));
+        setContract(result)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getOrder()
+  }, [orderId]);
+  
+  
+  async function updateRating() {
+   
+  console.log("DAS IST MEINE BEWERTUNG   "+ratting);
+    await setRating(rat);
+  }
 
   return (
     <>
@@ -40,10 +74,10 @@ export function PageOrderCompleted() {
                     <button
                     type="button"
                     key={index}
-                    style={{ color: index <= (hover || rating) ? 'gold' : 'grey' }} // Direkte Inline-Style Zuweisung
-                    onClick={() => setRating(index)}
+                    style={{ color: index <= (hover || ratting) ? 'gold' : 'grey' }} // Direkte Inline-Style Zuweisung
+                    onClick={() => setRatting(index)}
                     onMouseEnter={() => setHover(index)}
-                    onMouseLeave={() => setHover(rating)}
+                    onMouseLeave={() => setHover(ratting)}
                   >
                     <MDBIcon fas icon="star" size="2x" />
                   </button>
@@ -55,14 +89,9 @@ export function PageOrderCompleted() {
                   <label htmlFor="comments">Kommentare:</label>
                   <textarea id="comments" className="form-control" rows={3}></textarea>
                 </div>
-                <button type="submit" className="btn btn-primary">Bewertung absenden</button>
-              </form>
+                <button type="submit" className="btn btn-primary" onClick={updateRating}>Bewertung absenden</button>              </form>
             </MDBCardBody>
             <MDBCardFooter>
-              <div className="d-flex justify-content-between">
-                <Link to={`/custo mer/${customerId}`} className="btn btn-secondary">Zur Startseite</Link>
-                <Link to={`/customer/${customerId}/uebersicht`} className="btn btn-secondary">Bestellverlauf</Link>
-              </div>
             </MDBCardFooter>
           </MDBCard>
         </div>

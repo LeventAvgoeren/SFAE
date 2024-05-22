@@ -108,7 +108,7 @@ function App() {
               {/* Order */}
               <Route path="/customer/:customerId/order/new"element={<PageOrderRequest/>}/>
               <Route path="/customer/:customerId/order/:orderId" element={<PageOrderOverview />} />
-              <Route path="/customer/:customerId/orders/:order/completed"element={<PageOrderCompleted />}/>
+              <Route path="/customer/:customerId/orders/:orderId/completed"element={<PageOrderCompleted />}/>
               <Route path="/customer/:customerId/orders/:order/rating"element={<PageOrderRating />}/>
 
               {/* Worker */}

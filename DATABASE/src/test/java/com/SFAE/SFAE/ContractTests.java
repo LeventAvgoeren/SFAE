@@ -360,7 +360,5 @@ public void testGetContractStatusWithWrongId() throws Exception {
   System.out.println("A " + contentAsString);
 }
 
-
-
 }
 

@@ -17,9 +17,9 @@
   padding: 40px 50px;
   border-radius: 14px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: calc(100vw - 3cm); /* Berechnet die Breite: Bildschirmbreite - 3cm */
-  max-width: calc(100vw - 3cm); /* Stellen Sie sicher, dass der Container nie breiter als die Breite minus 3cm ist */
-  height: calc(100vh - 2cm); /* Berechnet die Höhe: Bildschirmhöhe - 2cm */
+  width: calc(100vw - 5cm); /* Berechnet die Breite: Bildschirmbreite - 3cm */
+  max-width: calc(100vw - 5cm); /* Stellen Sie sicher, dass der Container nie breiter als die Breite minus 3cm ist */
+  height: calc(100vh - 5cm); /* Berechnet die Höhe: Bildschirmhöhe - 2cm */
   box-sizing: border-box; /* Stellt sicher, dass padding und border in der Breiten-/Höhenberechnung enthalten sind */
   color: white; /* Setzt die Textfarbe auf Weiß */
   display: flex;
@@ -88,4 +88,20 @@ a.text-muted {
 .custom-btn {
   padding: 5px 10px; /* Weniger Padding, um den Button schmaler zu machen */
   width: auto; /* Automatische Breite basierend auf dem Inhalt */
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Verschiebt den Inhalt nach oben */
+  height: 100vh;
+  padding-top: 100px; /* Reduziert den Abstand zum oberen Rand */
+}
+
+.loading-message {
+  color: white;
+  margin-top: 20px;
+  font-size: 20px;
+  font-family: 'Arial', sans-serif;
 }

@@ -287,4 +287,25 @@ public class ContractImpl implements ContractInterface {
           return false;
         }
   }
+
+  @Override
+  public String getStatusFromContract(Long contractId) {
+    List<String> statusList = jdbcTemplate.query(
+        "SELECT status_order FROM Contract WHERE ID = ?",
+        ps -> {
+            ps.setLong(1, contractId);
+        },
+        (rs, rowNum) -> rs.getString("status_order")  
+    );
+
+    if(statusList.isEmpty()){
+      return null;
+    }
+    else{
+      return statusList.get(0);
+    }
+}
+  
+
+
 }

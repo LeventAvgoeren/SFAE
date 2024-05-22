@@ -290,6 +290,9 @@ public class ContractImpl implements ContractInterface {
 
   @Override
   public String getStatusFromContract(Long contractId) {
+    if(contractId<0){
+      throw new IllegalArgumentException("Id can not be negative");
+    }
     List<String> statusList = jdbcTemplate.query(
         "SELECT status_order FROM Contract WHERE ID = ?",
         ps -> {

@@ -130,11 +130,10 @@ public class ContractImpl implements ContractInterface {
     Double range = contract.getRange();
     Double maxPayment = contract.getMaxPayment();
     Customer customer = customerImpl.findCustomerbyID(String.valueOf(contract.getCustomerId()));
-    //Worker worker = workerImpl.findWorkersbyID(String.valueOf("W1"));//ÄNDERN WEIL NULL GESETZT WIRD
    
 
     Contract newContract = new Contract(JobList.valueOf(jobType), address, Payment.valueOf(payment), description,
-        StatusOrder.valueOf(statusOrder), range, customer,maxPayment);
+        StatusOrder.valueOf(statusOrder), range, customer, maxPayment);
 
     return contractRepository.save(newContract);
   }
@@ -281,5 +280,4 @@ public class ContractImpl implements ContractInterface {
           return false;
         }
   }
-
 }

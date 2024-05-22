@@ -16,13 +16,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+
 /**
  * Represents a contract entity in the system.
  * 
- * A contract represents an agreement between a customer and a worker for a
- * specific job.
- * It contains details such as job type, address, payment method, description,
- * status order, range, and associated customer and worker.
+ * A contract represents an agreement between a customer and a worker for a specific job.
+ * It contains details such as job type, address, payment method, description, status order, range, and associated customer and worker.
  * 
  * @author Levent
  */
@@ -50,6 +49,7 @@ public class Contract {
   @Column(name = "description")
   private String description;
 
+
   @Column(name = "maxPayment")
   private Double maxPayment;
 
@@ -68,8 +68,9 @@ public class Contract {
   @JoinColumn(name = "worker_id")
   private Worker worker;
 
+
   public Contract(JobList jobType, String adress, Payment payment, String description, StatusOrder statusOrder,
-      Double range, Customer customer, Worker worker, Double maxPayment) {
+      Double range, Customer customer, Worker worker,Double maxPayment) {
     this.jobType = jobType;
     this.adress = adress;
     this.payment = payment;
@@ -78,25 +79,12 @@ public class Contract {
     this.range = range;
     this.customer = customer;
     this.worker = worker;
-    this.maxPayment = maxPayment;
+    this.maxPayment=maxPayment;
   }
-
-  //Without worker so that the worker id is null in database 
-  public Contract(JobList jobType, String adress, Payment payment, String description, StatusOrder statusOrder,
-      Double range, Customer customer, Double maxPayment) {
-    this.jobType = jobType;
-    this.adress = adress;
-    this.payment = payment;
-    this.description = description;
-    this.statusOrder = statusOrder;
-    this.range = range;
-    this.customer = customer;
-    this.maxPayment = maxPayment;
-  }
-
-  // With id
+  
+//With id
   public Contract(Long id, JobList jobType, String adress, Payment payment, String description, StatusOrder statusOrder,
-      Double range, Customer customer, Worker worker, Double maxPayment) {
+      Double range, Customer customer, Worker worker,Double maxPayment) {
     this.jobType = jobType;
     this.adress = adress;
     this.payment = payment;
@@ -106,6 +94,18 @@ public class Contract {
     this.customer = customer;
     this.worker = worker;
     this.id = id;
+    this.maxPayment=maxPayment;
+  }
+
+  public Contract(JobList jobType, String adress, Payment payment, String description, StatusOrder statusOrder,
+      Double range, Customer customer, Double maxPayment) {
+    this.jobType = jobType;
+    this.adress = adress;
+    this.payment = payment;
+    this.description = description;
+    this.statusOrder = statusOrder;
+    this.range = range;
+    this.customer = customer;
     this.maxPayment = maxPayment;
   }
 

@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -444,6 +445,22 @@ public class WorkerImpl implements WorkerInterface {
   }
 
   @Override
+  public Boolean updatePassword(String password, String Id) {
+    int result = jdbcTemplate.update(
+      "UPDATE WORKER SET password = ? WHERE id = ?",
+      ps -> {
+          ps.setString(1,  encoder.hashPassword(password));
+          ps.setString(2, Id);
+      });
+      
+      if(result > 0){
+          return true;
+      }
+
+      return false;
+  }
+
+  @Override
   public Boolean updateStatusByWorkerId(String workerId, String status) {
 
     int row=jdbcTemplate.update(
@@ -481,5 +498,4 @@ public class WorkerImpl implements WorkerInterface {
         }
 
   }
-
 }

@@ -25,6 +25,7 @@ import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class ContractTests {
 
   @Autowired
@@ -48,6 +49,7 @@ public class ContractTests {
         "\"range\": 1.5," + 
         "\"customerId\": \"C1\"," + 
         "\"maxPayment\": 50.0," +
+        "\"workerId\": \"W1\"," +
         "\"latitude\": 52.5347706933045," +
         "\"longitude\": 13.35002718682623"+
         "}";
@@ -100,7 +102,7 @@ public class ContractTests {
 
     TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
-    mockMvc.perform(get("/contract/200"))
+    mockMvc.perform(get("/contract/3"))
         .andExpect(status().isOk())
         .andReturn();
 
@@ -124,7 +126,7 @@ public class ContractTests {
 
     TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
-    mockMvc.perform(get("/contract/1000"))
+    mockMvc.perform(get("/contract/100"))
         .andExpect(status().isNotFound())
         .andReturn();
     transactionManager.commit(status);
@@ -134,7 +136,7 @@ public class ContractTests {
   public void testDeleteContract()throws Exception{
     TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
-    mockMvc.perform(delete("/contract/200"))
+    mockMvc.perform(delete("/contract/3"))
         .andExpect(status().isOk())
         .andReturn();
 
@@ -166,7 +168,7 @@ public class ContractTests {
   public void testUpdateContract() throws Exception {
 
     String json = "{" +
-        "\"id\":\"209\","+
+        "\"id\":\"3\","+
         "\"jobType\": \"HAUSMEISTER\"," +
         "\"adress\": \"Quizostrasse32\"," +
         "\"payment\": \"CASH\"," +
@@ -239,8 +241,7 @@ public class ContractTests {
         "\"jobType\": \"HAUSMEISTER\"," +
         "\"adress\":," +
         "\"payment\": \"CASH\"," +
-        "\"maxPayment\": \"34.0\"," +
-        "\"description\": \"ASdadadD\"," +
+        "\"description\": \"ASD\"," +
         "\"statusOrder\": \"UNDEFINED\"," +
         "\"range\": 2.2," + 
         "\"customerId\": 1," + 
@@ -276,7 +277,7 @@ public void testGetContractByCustomerId() throws Exception {
 
   TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
-  mockMvc.perform(get("/contract/customer/C5"))
+  mockMvc.perform(get("/contract/customer/C3"))
       .andExpect(status().isOk())
       .andReturn();
 
@@ -299,30 +300,29 @@ public void testGetContractByWorkerId() throws Exception {
   System.out.println("A " + contentAsString);
 }
 
-
 @Test
 public void testStatusAndStatusOrder() throws Exception {
 
   String json = "{" +
-  "\"id\":207,"+
+  "\"id\": 207," +
   "\"jobType\": \"INSTALLATEUR\"," +
-  "\"adress\":\"Rathenowerstrasse 36\"," +
+  "\"address\": \"Rathenowerstrasse 36\"," +
   "\"payment\": \"CASH\"," +
   "\"maxPayment\": 34.0," +
   "\"description\": \"ASdadadD\"," +
   "\"statusOrder\": \"UNDEFINED\"," +
   "\"range\": 2.2," + 
   "\"customerId\": \"C1\"," + 
-  "\"workerId\": \"W12\","+
+  "\"workerId\": \"W12\"," +
   "\"latitude\": 52.5347706933045," +
-  "\"longitude\": 13.35002718682623"+ 
+  "\"longitude\": 13.35002718682623" + 
   "}";
 
-MvcResult mvcResult = mockMvc.perform(put("/contract/true")
-.contentType(MediaType.APPLICATION_JSON)
-.content(json))
-.andExpect(status().isOk())
-.andReturn();
+  MvcResult mvcResult = mockMvc.perform(put("/contract/true")
+  .contentType(MediaType.APPLICATION_JSON)
+  .content(json))
+  .andExpect(status().isOk())
+  .andReturn();
 
     String contentAsString = mvcResult.getResponse().getContentAsString();
     System.out.println("A " + contentAsString);

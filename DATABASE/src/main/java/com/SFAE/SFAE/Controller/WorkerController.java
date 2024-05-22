@@ -11,18 +11,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.SFAE.SFAE.DTO.LoginRequest;
 import com.SFAE.SFAE.DTO.LoginResponseWorker;
+import com.SFAE.SFAE.DTO.PasswordResetRequest;
 import com.SFAE.SFAE.DTO.RatingDTO;
+import com.SFAE.SFAE.DTO.Token;
 import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.SFAE.SFAE.ENDPOINTS.WorkerEp;
+import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.ENTITY.Worker;
+import com.SFAE.SFAE.ENUM.TokenType;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.Security.JWT;
 import com.SFAE.SFAE.Service.MailService;
+import com.SFAE.SFAE.Service.TokenMailService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -46,7 +52,10 @@ public class WorkerController implements WorkerEp {
     private JWT jwt;
 
     @Autowired
-    MailService mail;
+    private MailService mail;
+
+    @Autowired
+    private TokenMailService mailService;
 
     /**
      * Endpoint for creating a new Worker.
@@ -64,18 +73,7 @@ public class WorkerController implements WorkerEp {
         try {
             Worker builded = dao.createWorker(worker);
             if (builded != null) {
-                String subject = "Willkommen bei SFAE";
-                String message = "<html><body>";
-                message += "Sehr geehrte/r "+builded.getName()+",<br><br>";
-                message += "herzlichen Dank für Ihre Registrierung bei SFAE. Wir heißen Sie herzlich willkommen in unserem Team und freuen uns, dass Sie sich dazu entschieden haben, Ihre Fähigkeiten und Expertise bei uns einzubringen.<br><br>";
-                message += "Bei SFAE bieten wir Ihnen die Möglichkeit, mit Ihren Fähigkeiten und Ihrem Know-how Geld zu verdienen. Unser einzigartiger Algorithmus vermittelt Sie an Kunden, die Ihre Hilfe benötigen und bereit sind, dafür zu zahlen.<br><br>";
-                message += "Egal, ob Sie handwerklich begabt sind, technisches Know-how besitzen oder in anderen Bereichen spezialisiert sind - bei SFAE gibt es eine Vielzahl von Möglichkeiten, Ihr Talent einzusetzen und dabei Geld zu verdienen.<br><br>";
-                message += "Unser Ziel ist es, Ihnen nicht nur eine Einkommensquelle zu bieten, sondern auch eine Plattform, auf der Sie Ihre Fähigkeiten weiterentwickeln und Ihr Potenzial voll ausschöpfen können. Wir glauben fest daran, dass Sie bei SFAE genau richtig sind und einen wertvollen Beitrag leisten können.<br><br>";
-                message += "Falls Sie Fragen haben oder Unterstützung benötigen, stehen wir Ihnen jederzeit zur Verfügung. Wir freuen uns darauf, mit Ihnen zusammenzuarbeiten und gemeinsam erfolgreich zu sein.<br><br>";
-                message += "Herzliche Grüße,<br>";
-                message += "Ihr Team von SFAE";
-                message += "</body></html>";
-                mail.sendHtmlMessage(builded.getEmail(), subject, message);
+                // mail.sendSimpleMessage(worker.getEmail(), "Wilkommen bei SFAE", "Worker
                 // erstellt");
                 return ResponseEntity.status(HttpStatus.CREATED).body(builded);
             }
@@ -192,11 +190,12 @@ public class WorkerController implements WorkerEp {
         try {
             Worker found = dao.updateWorker(jsonData);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(found);
-        } catch (DataAccessException dax) {
-
+        } catch(DataAccessException dax){
+          
             System.out.println(dax);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             System.out.println(e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -326,5 +325,58 @@ public class WorkerController implements WorkerEp {
             throw new IllegalArgumentException("Fehler:" + e);
         }
     }
+
+    @Override
+    public ResponseEntity<?> requestResetPassword(String email) {
+          if(email == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        email = email.replace("\"", "");
+        Worker foundCustomer = dao.findWorkerbyEmail(email);
+        if(foundCustomer != null){
+            String token = mailService.createToken(1, foundCustomer.getId(), TokenType.PASSWORDRESET);
+        
+            String link = "https://localhost:3000/newPassword?token=" + token; 
+
+            try {
+                mail.sendHtmlMessage(foundCustomer.getEmail(), "Email zurücksetzen",
+                    "<html><body>" +
+                        "Hallo " + foundCustomer.getName() + ",<br>" +
+                        "Sie haben beantragt ihr Passwort zu ändern.<br>"+
+                        "Unter diesem <a href='" + link + "'>Link</a> können Sie ihr Passwort ändern. Der Link läuft nach 5 Minuten ab.<br>" +
+                        "Bei Fragen oder für weitere Informationen stehen wir Ihnen gerne zur Verfügung.<br><br>" +
+                        "Mit freundlichen Grüßen,<br>" +
+                        "Ihr SFAE-Team" +
+                        "</body></html>");  
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+
+            return ResponseEntity.status(HttpStatus.OK).body(token);
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    @Override
+    public ResponseEntity<?> resetPassword(PasswordResetRequest data) { //The frontend doesnt use this route. It uses instead the customer route.
+         if(data == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        Token token = mailService.validateToken(data.getToken());
+        if(token == null){
+            return ResponseEntity.status(HttpStatus.GONE).build();
+        }
+
+        if(dao.updatePassword(data.getPassword(), token.getReceiver())){
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+   
 
 }

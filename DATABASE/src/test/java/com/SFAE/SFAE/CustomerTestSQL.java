@@ -34,7 +34,7 @@ public class CustomerTestSQL {
 
     @Test
     public void testCreateCustomer() throws Exception {
-        String json = "{ \"name\": \"MaxMuster\", \"password\": \"passwort123\", \"email\": \"leventavgoren@gmail.com\"}";
+        String json = "{ \"name\": \"MaxMuster\", \"password\": \"passwort123\", \"email\": \"M@gmail.com\"}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         mockMvc.perform(post("/customer")
@@ -60,7 +60,7 @@ public class CustomerTestSQL {
     @Test
     public void testGetCustomerByName() throws Exception {
 
-        mockMvc.perform(get("/customer/usr/Eray Kaan"))
+        mockMvc.perform(get("/customer/usr/Eray"))
                 .andExpect(status().isOk())
                 .andReturn();
 

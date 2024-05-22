@@ -36,6 +36,7 @@ import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class WorkerTests{
 
     @Autowired
@@ -52,7 +53,7 @@ public class WorkerTests{
                 "\"name\": \"TestRating\"," +
                 "\"location\": \"BERLIN\"," +
                 "\"password\": \"COLORBOX\"," +
-                "\"email\": \"leventavgorensssssa@gmail.com\"," +
+                "\"email\": \"leventavgoredddn@gmail.com\"," +
                 "\"range\": 1.5," +
                 "\"jobType\":\"INSTALLATEUR\"," +
                 "\"minPayment\": 35.0," +
@@ -106,7 +107,7 @@ public class WorkerTests{
       @Test
     public void testGetWorkerByName() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/RISA"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/usr/TANKSTELLE"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -128,7 +129,7 @@ public class WorkerTests{
     @Test
     public void testGetWorkerrByid() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/W5"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/W1"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -149,7 +150,7 @@ public class WorkerTests{
     @Test
     public void testGetWorkerrByNotExistingId() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(get("/worker/W423"))
+         MvcResult mvcResult = mockMvc.perform(get("/worker/W323"))
                 .andExpect(status().isNotFound())
                 .andReturn();
 
@@ -160,7 +161,7 @@ public class WorkerTests{
     @Test
     public void testDeleteWorkerrByid() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(delete("/worker/W15"))
+         MvcResult mvcResult = mockMvc.perform(delete("/worker/W1"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -412,9 +413,5 @@ MvcResult mvcResult = mockMvc.perform(put("/worker/rating")
     String contentAsString = mvcResult.getResponse().getContentAsString();
     System.out.println("A " + contentAsString);
 }
-
-
-
-
 
 }

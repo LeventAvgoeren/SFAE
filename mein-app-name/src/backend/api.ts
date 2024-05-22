@@ -337,20 +337,6 @@ export async function getContractByWorkerId(id: string): Promise<ContractResourc
   return answer;
 }
 
-export async function contractAcceptOrDecline(accepted: boolean, contractData: ContractResource): Promise<void> {
-  const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/${accepted}`;
-  const options = {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({ id: contractData.id, adress: contractData.adress, description: contractData.description, jobType: contractData.jobType, payment: contractData.payment, range: contractData.range, statusOrder: contractData.statusOrder, customerId: contractData.customerId, workerId: contractData.worker!.id }),
-    credentials: "include" as RequestCredentials,
-  };
-
-  await fetchWithErrorHandling(url, options);
-}
 
 export async function getContractByCustomerId(id: string | undefined): Promise<ContractResource[]> {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/customer/${id}`;
@@ -519,6 +505,7 @@ export async function setRating(data:RatingRessource) :Promise <Boolean > {
     credentials: "include" as RequestCredentials,
   };
 
+
   const response = await fetchWithErrorHandling(url, options);
   
   if (response.ok) {
@@ -527,28 +514,11 @@ export async function setRating(data:RatingRessource) :Promise <Boolean > {
   } else {
     return false;
   }
+}
   
   
-  export async function getContract(id: number ): Promise<ContractResource> {
-    const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/${id}`;
-    const response = await fetchWithErrorHandling(url, {
-      credentials: "include" as RequestCredentials,
-    });
-  
-    const answer = await response.json();
-    return answer;
-  }
-  
-  export async function getContractByWorkerId(id: string): Promise<ContractResourceforWorker[]> {
-    const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/worker/${id}`;
-    const response = await fetchWithErrorHandling(url, {
-      credentials: "include" as RequestCredentials,
-    });
-  
-    const answer = await response.json();
-    return answer;
-  }
 
+  
   export async function contractAcceptOrDecline(accepted: boolean, contractData:ContractResource): Promise<void> {
     const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/${accepted}`;
     const options = {
@@ -564,77 +534,13 @@ export async function setRating(data:RatingRessource) :Promise <Boolean > {
     await fetchWithErrorHandling(url, options);
   }
 
-  
-  export async function validateToken(token: string): Promise<TokenRessource | false> {
 
-    const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/token/${token}`;
-    const options = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      credentials: "include" as RequestCredentials,
-    };
-  
-   const response = await fetchWithErrorHandling(url, options);
-   const jsonData = await response.json();
-  
-   return jsonData;
-  }
 
-  export async function requestPassword(email: String ): Promise<void> {
-    let url = `${process.env.REACT_APP_API_SERVER_URL}/customer/passwordreset`;
 
-    const options = {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(email),
-      credentials: "include" as RequestCredentials,
-    };
-  
-    await fetchWithErrorHandling(url, options);
-  }
 
-  export async function updatePassword(token: String, password: String): Promise<void> {
- 
-    let url = `${process.env.REACT_APP_API_SERVER_URL}/customer/updatepassword`;
 
-    const options = {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({token: token, password: password}),
-      credentials: "include" as RequestCredentials,
-    };
-  
-    await fetchWithErrorHandling(url, options);
-  }
 
-  export async function getUserFromEmail(email: String): Promise< CustomerResource | WorkerResource | false> {
-   
-    
-    const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/email`;
-   
-    const options = {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({email}),
-      credentials: "include" as RequestCredentials,
-    };
-  
-    const response = await fetchWithErrorHandling(url, options);
 
-    return response.json();
-  }
 
   export async function getContractStatus(contractId: number): Promise<string> {
     const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/status/${contractId}`;

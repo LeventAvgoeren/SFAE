@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import { getContractByCustomerId } from "../../backend/api";
-import NavbarComponent from "../NavbarComponent";
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { ContractResource, WorkerResource } from "../../Resources";
 import "./PageUebersicht.css"
+import NavbarComponent from '../navbar/NavbarComponent';
 
 export function PageUebersicht() {
 

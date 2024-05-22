@@ -4,10 +4,9 @@ import { deleteWorker, getWorkerbyID, updateWorker } from "../../backend/api";
 import { useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { Button, Navbar } from "react-bootstrap";
-import NavbarComponent from "../NavbarComponent";
-import NavbarWComponent from "./NavbarWComponent";
 import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
 import "./PageWorkerProfile.css"
+import NavbarWComponent from "./NavbarWComponent";
 
 
 

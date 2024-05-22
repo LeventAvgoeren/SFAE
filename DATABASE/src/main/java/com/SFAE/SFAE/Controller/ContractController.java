@@ -17,6 +17,8 @@ import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.JobList;
 import com.SFAE.SFAE.ENUM.Payment;
 import com.SFAE.SFAE.ENUM.StatusOrder;
+import com.SFAE.SFAE.ENUM.TokenType;
+import com.SFAE.SFAE.IMPLEMENTATIONS.CustomerImp;
 import com.SFAE.SFAE.IMPLEMENTATIONS.SFAEAlgorithm;
 import com.SFAE.SFAE.INTERFACE.ContractInterface;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
@@ -47,7 +49,7 @@ public class ContractController implements ContractEP {
   private WorkerInterface work;
 
   @Autowired
-  private CustomerInterface custo;
+  private CustomerImp custo;
 
   @Autowired
   private MailService mail;
@@ -86,14 +88,13 @@ public class ContractController implements ContractEP {
         lastEntry = iterator.next();
       }
 
-      System.out.println(lastEntry);
-      contract.setWorkerId("W0"); //Bessere Lösung finden.
       Contract created = dao.createContract(contract);
       if (created != null) {
+        System.out.println(lastEntry.getKey().getId());
         Worker found = work.findWorkersbyID(String.valueOf(lastEntry.getKey().getId()));
         Customer foundCustomer = custo.findCustomerbyID(String.valueOf(contract.getCustomerId()));
 
-        String token= tokenService.createToken(created.getId(), lastEntry.getKey().getId());
+        String token= tokenService.createToken(created.getId(), lastEntry.getKey().getId(), TokenType.CONTRACT);
         String link = "https://localhost:3000/contract?token=" + token; 
 
         mail.sendHtmlMessage(found.getEmail(), "Jobangebot erhalten",
@@ -204,7 +205,6 @@ public class ContractController implements ContractEP {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
           String.format("Contract id: %d negative", id, HttpStatus.BAD_REQUEST.value()));
     }
-
     try {
       Contract Answer = dao.getContract(id);
 
@@ -277,26 +277,32 @@ public class ContractController implements ContractEP {
  * @param accepted boolean value indicating if the contract update is accepted.
  * @return ResponseEntity indicating the result of the operation, either success or an appropriate error status.
  */
-  @Override
+@Override
   public ResponseEntity<?> setContract(ContractDTO data, Boolean accpeted) {
     if(data==null){
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
-
+    System.out.println(data + "ASD");
     if(accpeted){
       Boolean result =dao.updateWorkerId(data.getId(),data.getWorkerId());
+      work.updateStatusByWorkerId(data.getWorkerId(), "INAVAILABLE");
+      work.updateOrderStatusByWorkerId(data.getWorkerId(), "ACCEPTED");
+      dao.updateOrderStatus(data.getId(), "ACCEPTED");
       if(result){
         return ResponseEntity.status(HttpStatus.OK).build();
       }
       else{
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
       }
-      
+
     }
     else{
+      work.updateStatusByWorkerId(data.getWorkerId(), "AVAILABLE");
+      work.updateOrderStatusByWorkerId(data.getWorkerId(), "DECLINED");
+      dao.updateOrderStatus(data.getId(), "DECLINED");
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
-  
+
   }
 
   /**
@@ -318,4 +324,28 @@ public class ContractController implements ContractEP {
 
       return ResponseEntity.status(HttpStatus.GONE).body(false);
   }
+
+  @Override
+  public ResponseEntity<?> getUserFromEmail(String email) {
+    if(email == null){
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+    email = email.replace("\"", "");
+    System.out.println(email);
+    Worker foundWorker = work.findWorkerbyEmail(email);
+
+    if(foundWorker != null){
+      System.out.println("WORKER");
+      return ResponseEntity.status(HttpStatus.FOUND).body(foundWorker);
+    }
+
+    Customer foundCustomer = custo.findEmail(email);
+
+    if(foundCustomer != null){
+      return ResponseEntity.status(HttpStatus.FOUND).body(foundCustomer);
+    }
+
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+  }
+
 }

@@ -59,6 +59,13 @@ export function PageWorkerIndex() {
     }
   };
 
+  const Footer = () => (
+    <div className="footer">
+      © 2024 Ihr Unternehmen oder Ihr Name. Alle Rechte vorbehalten.
+    </div>
+  );
+  
+
   return (
     <>
       <NavbarWComponent />
@@ -94,6 +101,7 @@ export function PageWorkerIndex() {
           </Row>
         </Container>
       </div>
+      <Footer></Footer>
     </>
   );
   

@@ -300,7 +300,33 @@ public void testGetContractByWorkerId() throws Exception {
   System.out.println("A " + contentAsString);
 }
 
+@Test
+public void testStatusAndStatusOrder() throws Exception {
 
+  String json = "{" +
+  "\"id\": 207," +
+  "\"jobType\": \"INSTALLATEUR\"," +
+  "\"address\": \"Rathenowerstrasse 36\"," +
+  "\"payment\": \"CASH\"," +
+  "\"maxPayment\": 34.0," +
+  "\"description\": \"ASdadadD\"," +
+  "\"statusOrder\": \"UNDEFINED\"," +
+  "\"range\": 2.2," + 
+  "\"customerId\": \"C1\"," + 
+  "\"workerId\": \"W12\"," +
+  "\"latitude\": 52.5347706933045," +
+  "\"longitude\": 13.35002718682623" + 
+  "}";
+
+  MvcResult mvcResult = mockMvc.perform(put("/contract/true")
+  .contentType(MediaType.APPLICATION_JSON)
+  .content(json))
+  .andExpect(status().isOk())
+  .andReturn();
+
+    String contentAsString = mvcResult.getResponse().getContentAsString();
+    System.out.println("A " + contentAsString);
+}
 
 
 

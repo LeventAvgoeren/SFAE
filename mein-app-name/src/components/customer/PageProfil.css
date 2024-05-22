@@ -305,3 +305,22 @@ a.list-group-item, .list-group-item-action {
 .ButtonUpdate{
   width: 100%;
 }
+
+.author-card-name{
+  color: white;
+}
+
+.author-card{
+  margin-top: 20px;
+  height: 100%;
+}
+
+
+.author-card{
+  display: flex;
+  flex-direction: column;
+  border: red solid;
+}
+.container{
+  align-self: center;
+}

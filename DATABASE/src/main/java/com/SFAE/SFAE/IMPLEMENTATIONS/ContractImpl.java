@@ -130,11 +130,10 @@ public class ContractImpl implements ContractInterface {
     Double range = contract.getRange();
     Double maxPayment = contract.getMaxPayment();
     Customer customer = customerImpl.findCustomerbyID(String.valueOf(contract.getCustomerId()));
-    Worker worker = workerImpl.findWorkersbyID(String.valueOf("W1"));//ÄNDERN WEIL NULL GESETZT WIRD
    
 
     Contract newContract = new Contract(JobList.valueOf(jobType), address, Payment.valueOf(payment), description,
-        StatusOrder.valueOf(statusOrder), range, customer, worker, maxPayment);
+        StatusOrder.valueOf(statusOrder), range, customer, maxPayment);
 
     return contractRepository.save(newContract);
   }
@@ -159,8 +158,15 @@ public class ContractImpl implements ContractInterface {
       Double maxPayment = rs.getDouble("max_Payment");
 
       Customer customer = customerImpl.findCustomerbyID(String.valueOf(customerId));
-      Worker worker = workerImpl.findWorkersbyID(String.valueOf(workerId));
+   
 
+      if(workerId == null){ 
+         
+        return new Contract(id, JobList.valueOf(jobType), adress, Payment.valueOf(payment), description,
+          StatusOrder.valueOf(statusOrder), range, customer,  maxPayment);
+      } 
+      
+      Worker worker = workerImpl.findWorkersbyID(String.valueOf(workerId));
       return new Contract(id, JobList.valueOf(jobType), adress, Payment.valueOf(payment), description,
           StatusOrder.valueOf(statusOrder), range, customer, worker, maxPayment);
       // return dataFactory.createWorker(id, name, location, password, email, status,
@@ -264,4 +270,21 @@ public class ContractImpl implements ContractInterface {
 
   }
 
+  @Override
+  public Boolean updateOrderStatus(Long contractId, String statusOrder) {
+    int row=jdbcTemplate.update(
+        "UPDATE Contract SET status_order = ? WHERE id = ?",
+        ps -> {
+          ps.setString(1, statusOrder);
+          ps.setLong(2, contractId);
+        });
+
+
+        if(row>0){
+          return true;
+        }
+        else{
+          return false;
+        }
+  }
 }

@@ -445,8 +445,55 @@ export async function countAllWorkers(): Promise<number> {
    return jsonData;
   }
 
+  export async function requestPassword(email: String ): Promise<void> {
+    let url = `${process.env.REACT_APP_API_SERVER_URL}/customer/passwordreset`;
 
-
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(email),
+      credentials: "include" as RequestCredentials,
+    };
   
+    await fetchWithErrorHandling(url, options);
+  }
 
+  export async function updatePassword(token: String, password: String): Promise<void> {
+ 
+    let url = `${process.env.REACT_APP_API_SERVER_URL}/customer/updatepassword`;
 
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({token: token, password: password}),
+      credentials: "include" as RequestCredentials,
+    };
+  
+    await fetchWithErrorHandling(url, options);
+  }
+
+  export async function getUserFromEmail(email: String): Promise< CustomerResource | WorkerResource | false> {
+   
+    
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/email`;
+   
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({email}),
+      credentials: "include" as RequestCredentials,
+    };
+  
+    const response = await fetchWithErrorHandling(url, options);
+
+    return response.json();
+  }

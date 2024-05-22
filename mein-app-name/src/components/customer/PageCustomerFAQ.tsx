@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './PageCustomerFAQ.css';
+import NavbarComponent from '../navbar/NavbarComponent';
 
 type FAQEntry = {
   id: number;
@@ -70,6 +71,7 @@ export function PageCustomerFAQ() {
 
   return (
     <>
+    <NavbarComponent />
       <div className="background-image">
       <section className="faq-section">
         <div className="container">

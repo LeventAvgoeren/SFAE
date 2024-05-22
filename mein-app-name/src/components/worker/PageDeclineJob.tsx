@@ -25,9 +25,9 @@ export function PageDeclineJob(){
     
     await contractAcceptOrDecline(accepted, getcontract!)
     if(accepted){
-       navigate(`/worker/${getToken?.workerId}/orders/overview`)
+       navigate(`/worker/${getToken?.receiver}/orders/overview`)
     } else{
-      navigate(`/worker/${getToken?.workerId}`)
+      navigate(`/worker/${getToken?.receiver}`)
     }
    
   }
@@ -35,17 +35,18 @@ export function PageDeclineJob(){
   async function getContractIdByToken(token:string) {
  
     let res = await validateToken(token);
+    console.log(res);
     if(res){
-         setToken(res)
-    let res2 = await getContract(res.id);
-    setcontract(res2);
-    let workerFound = await getWorkerbyID(res.workerId);
-    setcontract(prevContract => ({
-          ...prevContract,
-          worker: workerFound
-        }));
-      setWorker(workerFound);
-      setRefresh(true)
+          setToken(res)
+          let res2 = await getContract(res.id);
+          setcontract(res2);
+          let workerFound = await getWorkerbyID(res.receiver);
+          setcontract(prevContract => ({
+                ...prevContract,
+                worker: workerFound
+              }));
+            setWorker(workerFound);
+            setRefresh(true)
     }
  
   }

@@ -1,30 +1,31 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import für Navigation
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './DesignVorlage.css';
+import './PageIndexAdmin.css';
 import { Link } from 'react-router-dom';
-import { login } from "../backend/api";
 import { Col, Container, Nav, NavDropdown, Navbar, Row } from 'react-bootstrap';
+import { LoginInfo } from '../LoginManager';
 
-export function MainMenu() {
-
+export function PageIndexAdmin() {
+    const [loginInfo, setLoginInfo] = useState<LoginInfo | false | undefined>(undefined);
     return (
 
         <>
-            <Navbar variant="dark" expand="lg">
+            <Navbar      variant="dark" expand="lg">
                 <Container>
                     <Nav className='mx-auto'>
                         <NavDropdown title={<img src={"/SFAE_Logo.png"} height="35" alt="Dropdown Logo" />} id="collapsible_nav_dropdown">
-                            <NavDropdown.Item>
-                            <Link to="/customer/:customerId/profil" style={{ textDecoration: 'none', color: 'black' }}>
-                                    <img
-                                        src={"/Q&A_Logo.png"}
-                                        height="35"
-                                        className="d-inline-block align-top"
-                                        alt="SFAE Logo"
-                                    />
-                                    Another action
-                                </Link>
+                            <NavDropdown.Item
+                                href="#profil">
+                                <img
+                                    src={"/Profil.png"}
+                                    height="35"
+                                    className="d-inline-block align-top"
+                                    alt="SFAE Logo" />
+                                Action
                             </NavDropdown.Item>
+
                             <NavDropdown.Item
                                 href="#support">
                                 <img
@@ -75,6 +76,14 @@ export function MainMenu() {
                                 alt="SFAE Logo" />
                         </Nav.Link>
 
+                        {loginInfo && loginInfo.admin ==="admin" && <Nav.Link href="#settings">
+                            <img
+                                src={"/clock.png"}
+                                height="35"
+                                className="d-inline-block align-top"
+                                alt="SFAE Logo" />
+                        </Nav.Link>}
+
                         {/* <Nav.Link href="#features">Finanzen</Nav.Link>
     <Nav.Link href="#pricing">Support</Nav.Link> */}
                     </Nav>
@@ -92,22 +101,28 @@ export function MainMenu() {
                         />
                     </Navbar.Brand>
 
-                    <h1>Willkommen</h1>
+                    <h1>Willkommen Admin</h1>
 
                     <Row className="mb-3">
-                        <Col className="text-center"> {/* Verwende die text-center Klasse hier */}
-                            <form className="mx-auto">
-                                <div className='input-group mb-3'>
-                                    <input
-                                        type="input"
-                                        className="form-control mx-auto"
-                                        placeholder="Was brauchen sie ?..."
-                                    />
-                                    <button className="btn btn-primary" type="button">Suchen</button>
-                                </div>
-                            </form>
-                        </Col>
-                    </Row>
+    <Col className="text-center"> {/* Verwende die text-center Klasse hier */}
+        <form className="mx-auto">
+            <div className='input-group mb-3'>
+                <input
+                    type="input"
+                    className="form-control search-field"
+                    placeholder="Was brauchen sie ?..."
+                />
+                <button className="btn btn-primary" type="button">Suchen</button>
+            </div>
+        </form>
+    </Col>
+</Row>
+
+
+
+
+
+
                 </div>
             </div>
         </>

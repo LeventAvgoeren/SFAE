@@ -9,7 +9,8 @@ import {
 import './PageOrderCompleted.css';
 import { Link, useParams } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import NavbarComponent from '../NavbarComponent';
+import NavbarComponent from '../navbar/NavbarComponent';
+
 
 
 export function PageOrderCompleted() {

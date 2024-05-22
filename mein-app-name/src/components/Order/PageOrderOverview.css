@@ -17,9 +17,9 @@
   padding: 40px 50px;
   border-radius: 14px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: calc(100vw - 3cm); /* Berechnet die Breite: Bildschirmbreite - 3cm */
-  max-width: calc(100vw - 3cm); /* Stellen Sie sicher, dass der Container nie breiter als die Breite minus 3cm ist */
-  height: calc(100vh - 2cm); /* Berechnet die Höhe: Bildschirmhöhe - 2cm */
+  width: calc(100vw - 5cm); /* Berechnet die Breite: Bildschirmbreite - 3cm */
+  max-width: calc(100vw - 5cm); /* Stellen Sie sicher, dass der Container nie breiter als die Breite minus 3cm ist */
+  height: calc(100vh - 5cm); /* Berechnet die Höhe: Bildschirmhöhe - 2cm */
   box-sizing: border-box; /* Stellt sicher, dass padding und border in der Breiten-/Höhenberechnung enthalten sind */
   color: white; /* Setzt die Textfarbe auf Weiß */
   display: flex;
@@ -42,7 +42,7 @@
   height: 100%;
 }
 
-.container-informationen {
+.container-informationen * {
   color: white;
 }
 
@@ -56,4 +56,52 @@
 
 a.text-muted {
   color: #ccc !important; /* Setzt sicher, dass die mutierten Links eine andere Farbe haben */
+}
+
+.layout {
+  display: grid;
+  grid-template-areas:
+    'header header header'
+    'orderDetails map workerDetails'
+    'footer footer footer';
+  grid-template-columns: 1fr 2fr 1fr; /* Einstellung der Breite der Bereiche */
+  grid-template-rows: auto 1fr auto;
+  gap: 20px;
+  width: 100%;
+  height: 100%;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  box-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
+}
+
+.custom-btn {
+  padding: 5px 10px; /* Weniger Padding, um den Button schmaler zu machen */
+  width: auto; /* Automatische Breite basierend auf dem Inhalt */
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Verschiebt den Inhalt nach oben */
+  height: 100vh;
+  padding-top: 100px; /* Reduziert den Abstand zum oberen Rand */
+}
+
+.loading-message {
+  color: white;
+  margin-top: 20px;
+  font-size: 20px;
+  font-family: 'Arial', sans-serif;
 }

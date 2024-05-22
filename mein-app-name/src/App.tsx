@@ -1,9 +1,8 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import "./App.css";
-import { Route, Router, Routes , useNavigate} from "react-router-dom";
+import { Navigate, Route, Router, Routes , useNavigate} from "react-router-dom";
 import { PageIndex } from "./components/PageIndex";
 import { PageLogin } from "./components/PageLogin";
-import PageRegistration from './components/PageRegistration';
 import  PageRegistrationWorker  from "./components/worker/PageRegistrationWorker";
 import { PageWorkerIndex } from "./components/worker/PageWorkerIndex";
 import { PageWorkerOrderOverview } from "./components/worker/PageWorkerOrderOverview";
@@ -15,22 +14,24 @@ import { PagePasswordReset } from "./components/PagePasswordReset";
 import { MainMenu } from "./components/MainMenu";
 import { LoginContext, LoginInfo } from "./components/LoginManager";
 import { checkLoginStatus, login } from "./backend/api";
-import PageRegistrationAdmin from "./components/PageRegistrationAdmin";
-import { PageIndexAdmin } from "./components/PageIndexAdmin";
-import { PageAdminDienstleistungen } from "./components/PageAdminDienstleistungen";
+
+
 import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
 import PageOrderRating from "./components/Order/PageOrderRating";
 import PageOrderRequest from "./components/Order/PageOrderRequest";
-import PageError from "./components/Error";
-import { PageDeclineJob } from "./components/worker/PageDeclineJob";
-import { PageIndexCustomer } from "./components/customer/PageIndexCustomer";
-import { PageCustomerFAQ } from "./components/customer/PageCustomerFAQ";
 import { PageOrderCompleted } from "./components/Order/PageOrderCompleted";
-import { PageOrderOverview } from "./components/Order/PageOrderOverview";
+import { PageCustomerFAQ } from "./components/customer/PageCustomerFAQ";
+import { PageIndexCustomer } from "./components/customer/PageIndexCustomer";
 import { PageUebersicht } from "./components/customer/PageUebersicht";
+import { PageOrderOverview } from "./components/Order/PageOrderOverview";
+import PageRegistration from "./components/customer/PageRegistration";
+import PageRegistrationAdmin from "./components/admin/PageRegistrationAdmin";
+import { PageIndexAdmin } from "./components/admin/PageIndexAdmin";
+import { PageAdminDienstleistungen } from "./components/admin/PageAdminDienstleistungen";
+import { PageDeclineJob } from "./components/worker/PageDeclineJob";
+import { PageRequestPasswordReset } from "./components/PageRequestPasswordReset";
+import PageError from "./components/Error";
 import { PageProfil } from "./components/customer/PageProfil";
-
-
 
 
 
@@ -87,15 +88,18 @@ function App() {
       <Routes>
         {/* Gemeinsame Routen */}
         {!loginInfo && <>
-              <Route path="/" element={<PageIndex />} />
-        <Route path="/login" element={<PageLogin />} />
-        <Route path="/registration/customer" element={<PageRegistration />} />
-        <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
-        <Route path="/passwordreset" element={<PagePasswordReset/>}/>
-        <Route path="/mainmenu" element={<MainMenu/>}/> 
-        </>
-          }
+          <Route path="/" element={<PageIndex />} />
+          <Route path="/login" element={<PageLogin />} />
+          <Route path="/registration/customer" element={<PageRegistration />} />
+          <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
+          <Route path="/passwordreset" element={<PageRequestPasswordReset/>}/>
+          <Route path="/mainmenu" element={<MainMenu/>}/> 
+          <Route path="/newPassword" element={<PagePasswordReset/>}/>
+         
+          </>
+        }
 
+              {loginInfo ? (<>
               {/* Customer */}
               <Route path="/customer/:customerId" element={<PageIndexCustomer />} />
               <Route path="/customer/:customerId/faq" element={<PageCustomerFAQ />} />
@@ -116,7 +120,17 @@ function App() {
               <Route path="/worker/:workerId/faq" element={<PageWorkerFAQ />} />
               <Route path="/worker/:workerId/orders" element={<PageWorkerOrders />} />
               {/*Contract*/}
+              </>
+             ):(<>
+              {/* <Route path="*" element={<Navigate to="/NotAuth" replace />} />
+              <Route path="/NotAuth" element={<PageError error={401}/>} /> */}
+             </>
+             )} 
+
               <Route path="/contract" element={<PageDeclineJob />} />
+
+              {/* <Route path="*" element={<Navigate to="/NotFound" replace />} /> */}
+              {/* <Route path="/NotFound" element={<PageError error={404}/>} /> */}
 
       </Routes>
       </LoginContext.Provider>

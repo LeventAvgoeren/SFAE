@@ -8,13 +8,6 @@
     padding: 0 20px;
   }
   
-  .navbar-logo {
-    height: 80px;
-    width: 80px;
-    padding-left: 50px;
-    margin-right: 25px;
-  }
-  
   .navbar-links {
     display: flex;
     justify-content: center; 

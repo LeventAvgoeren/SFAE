@@ -497,3 +497,14 @@ export async function countAllWorkers(): Promise<number> {
 
     return response.json();
   }
+
+  export async function getContractStatus(contractId: number): Promise<string> {
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/status/${contractId}`;
+    const response = await fetchWithErrorHandling(url, {
+      credentials: "include" as RequestCredentials,
+    });
+    
+    const status = await response.text(); 
+    return status;
+  }
+  

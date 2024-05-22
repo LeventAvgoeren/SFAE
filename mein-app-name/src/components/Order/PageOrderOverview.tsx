@@ -21,16 +21,26 @@ import {
 } from 'mdb-react-ui-kit';
 import './PageOrderOverview.css';
 import { Link, useParams } from 'react-router-dom';
-import { deleteContractById, getContract, getContractByCustomerId } from '../../backend/api';
+import { deleteContractById, getContract, getContractByCustomerId, getContractStatus } from '../../backend/api';
 import { ContractResource } from '../../Resources';
 import NavbarComponent from '../navbar/NavbarComponent';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import Lottie from 'react-lottie';
-import animationData from "./LoadingAnimation.json"
+import animationData from "./LoadingAnimation.json";
+// import { MapContainer, TileLayer, Marker, Polyline, Popup } from 'react-leaflet';
+// import 'leaflet/dist/leaflet.css';
+// import L from 'leaflet';
 
+// // Fix for Leaflet icons
+// import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+// import markerIcon from 'leaflet/dist/images/marker-icon.png';
+// import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
-
-
+// L.Icon.Default.mergeOptions({
+//   iconRetinaUrl: markerIcon2x,
+//   iconUrl: markerIcon,
+//   shadowUrl: markerShadow,
+// });
 
 export function PageOrderOverview() {
   const { customerId } = useParams();
@@ -38,11 +48,11 @@ export function PageOrderOverview() {
   const [loading, setLoading] = useState(true);
   const params = useParams();
   const contId = params.orderId;
-  let contractId = parseInt(contId!)
+  let contractId = parseInt(contId!);
   const [conData, setConData] = useState<ContractResource>();
   const [modalShow, setModalShow] = useState(false); // Zustand für die Anzeige des Modals
   const [messageIndex, setMessageIndex] = useState(0);
-
+  const [workerAssigned, setWorkerAssigned] = useState(false);
 
   const messages = [
     "Passender Worker wird gesucht...",
@@ -61,21 +71,37 @@ export function PageOrderOverview() {
 
   useEffect(() => {
     async function fetchContractData() {
-      setLoading(true); // Setze loading auf true, wenn der Fetch beginnt
+      setLoading(true);
       try {
         const data = await getContractByCustomerId(customerId);
         setContractData(data);
-  
         let contract = await getContract(contractId);
         setConData(contract);
+        if (contract && contract.worker) {
+          setWorkerAssigned(true); // Worker ist zugewiesen
+        }
       } catch (error) {
         console.error('Error fetching contract data:', error);
       } finally {
-        setTimeout(() => setLoading(false), 300); // Verzögern das Setzen von loading auf false um 3 Sekunden
+        setLoading(false);
       }
     }
-  
     fetchContractData();
+
+    const statusInterval = setInterval(async () => {
+      try {
+        const status = await getContractStatus(contractId);
+        if (status === 'ACCEPTED') {
+          clearInterval(statusInterval);
+          setLoading(false);
+          setWorkerAssigned(true);
+        }
+      } catch (error) {
+        console.error('Error fetching contract status:', error);
+      }
+    }, 5000);
+
+    return () => clearInterval(statusInterval);
   }, [customerId, contractId]);
 
   const toggleShow = () => {
@@ -99,10 +125,15 @@ export function PageOrderOverview() {
     }
   };
 
+  // Sicherstellen, dass die Koordinaten nicht undefined sind
+  // const contractLocation = conData && conData.latitude && conData.longitude ? [conData.latitude, conData.longitude] : null;
+  // const workerLocation = conData && conData.worker && conData.worker.latitude && conData.worker.longitude ? [conData.worker.latitude, conData.worker.longitude] : null;
+  // const polylinePositions = [contractLocation, workerLocation];
+
   return (
     <>
       <NavbarComponent />
-      {loading ? (
+      {loading || !workerAssigned ? (
         <div className="loading-container">
           <Lottie options={defaultOptions} height={400} width={400} />
           <div className="loading-message">{messages[messageIndex]}</div>
@@ -131,14 +162,34 @@ export function PageOrderOverview() {
               </nav>
               <main style={{ gridArea: 'map' }}>
                 <div style={{ width: '80%', height: '80%', backgroundColor: '#eee' }}>
-                  {/* map kommt hier hin*/}
+                  {/* <MapContainer center={contractLocation as [number, number]} zoom={13} style={{ height: '100%', width: '100%' }}>
+                    <TileLayer
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                      attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    />
+                    <Marker position={contractLocation as [number, number]}>
+                      {React.createElement('popup', null, 'Contract Location')}
+                    </Marker>
+                    {workerAssigned && (
+                      <>
+                        <Marker position={workerLocation as [number, number]}>
+                          {React.createElement('popup', null, 'Worker Location')}
+                        </Marker>
+                        <Polyline positions={polylinePositions as [number, number][]} />
+                      </>
+                    )}
+                  </MapContainer> */}
                 </div>
               </main>
               <article style={{ gridArea: 'workerDetails' }}>
                 <h5>Worker Details</h5>
-                <p className="text-muted">{conData.worker?.name}</p>
-                <p className="text-muted">{conData.worker?.email}</p>
-                <p className="text-muted">{conData.worker?.location}</p>
+                {conData.worker && (
+                  <>
+                    <p className="text-muted">{conData.worker.name}</p>
+                    <p className="text-muted">{conData.worker.email}</p>
+                    <p className="text-muted">{conData.worker.location}</p>
+                  </>
+                )}
               </article>
               <footer style={{ gridArea: 'footer' }}>
                 <div className="d-flex justify-content-between">

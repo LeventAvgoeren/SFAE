@@ -158,8 +158,15 @@ public class ContractImpl implements ContractInterface {
       Double maxPayment = rs.getDouble("max_Payment");
 
       Customer customer = customerImpl.findCustomerbyID(String.valueOf(customerId));
-      Worker worker = workerImpl.findWorkersbyID(String.valueOf(workerId));
+   
 
+      if(workerId == null){ 
+         
+        return new Contract(id, JobList.valueOf(jobType), adress, Payment.valueOf(payment), description,
+          StatusOrder.valueOf(statusOrder), range, customer,  maxPayment);
+      } 
+      
+      Worker worker = workerImpl.findWorkersbyID(String.valueOf(workerId));
       return new Contract(id, JobList.valueOf(jobType), adress, Payment.valueOf(payment), description,
           StatusOrder.valueOf(statusOrder), range, customer, worker, maxPayment);
       // return dataFactory.createWorker(id, name, location, password, email, status,

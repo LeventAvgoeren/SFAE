@@ -89,5 +89,5 @@ export type PaymentResource = {
 export type TokenRessource = {
     id: number;
     toke: string;
-    workerId: string;
+    receiver: string;
 }

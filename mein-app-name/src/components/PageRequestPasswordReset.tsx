@@ -7,22 +7,16 @@ import { ContractResource, ContractResourceforWorker, CustomerResource, Position
 
 export function PageRequestPasswordReset(){
     const [getEmail, setEmail] = useState('');
-    const [getType, setType] = useState('');
 
     const handleNewPasswordChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
        const User = await getUserFromEmail(event.target.value)
-        
-       if( User as CustomerResource ){
-            setType("Customer");
-       } else if( User as WorkerResource){
-            setType("Worker");
-       }
+     
     };
 
     async function reqPaw(event: React.FormEvent<HTMLFormElement>){
         event.preventDefault();
-       await requestPassword(getEmail,getType);
+       await requestPassword(getEmail);
 
     }
 

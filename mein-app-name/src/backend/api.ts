@@ -445,13 +445,8 @@ export async function countAllWorkers(): Promise<number> {
    return jsonData;
   }
 
-  export async function requestPassword(email: String , Type: String ): Promise<void> {
-    let url="";
-    if(Type === "CUSTOMER"){
-      url = `${process.env.REACT_APP_API_SERVER_URL}/customer/passwordreset`;
-    } else {
-      url = `${process.env.REACT_APP_API_SERVER_URL}/worker/passwordreset`;
-    }
+  export async function requestPassword(email: String ): Promise<void> {
+    let url = `${process.env.REACT_APP_API_SERVER_URL}/customer/passwordreset`;
 
     const options = {
       method: "PUT",

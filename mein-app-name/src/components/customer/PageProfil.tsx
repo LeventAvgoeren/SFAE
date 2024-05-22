@@ -100,46 +100,28 @@ export function PageProfil() {
     return (
         <>
             <NavbarComponent />
-            <div className="custom-container2">
-            <div className="container mt-5">
+            <div className="custom-container2">                             
+            <h1>PROFILE</h1>
+            <div className="mt-5">
                 <div className="row">
-                    <div className="col-lg-4 pb-5">
+                    <div className="container col-lg-4 pb-5">
                         {/* Account Sidebar */}
-                        <div className="author-card pb-3">
-                            <div className="author-card-cover" style={{ backgroundImage: 'url(https://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg)' }}>
-                            </div>
                             <div className="author-card-profile">
-                                <div className="author-card-avatar">
                                     <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Daniel Adams" />
-                                </div>
-                                <div className="author-card-details">
-                                    <h5 className="author-card-name text-lg">{name}</h5>
-                                    <span className="author-card-position">Joined February 06, 2017</span>
-                                </div>
+                                    <div className="author-card-details">
+                                        <h5 className="author-card-name">{name}</h5>
+                                    </div>
                             </div>
-                        </div>
-                        <div className="wizard">
-                            <nav className="list-group list-group-flush">
-                                <a className="list-group-item active" href="#">
-                                    <i className="fe-icon-user text-muted"></i>Profile Settings
-                                </a>
-                            </nav>
-                        </div>
                     </div>
 
                     {/* Profile Settings */}
-                    <div className="col-lg-8 pb-5">
+                    <div className="container col-lg-8 pb-5">
+                    
                         <form className="row">
                             <div className="col-md-6">
                                 <div className="form-group">
                                     <label htmlFor="account-fn">First Name</label>
                                     <input className="form-control" type="text" id="account-fn" value={name} onChange={(e) => setName(e.target.value)} required />
-                                </div>
-                            </div>
-                            <div className="col-md-6">
-                                <div className="form-group">
-                                    <label htmlFor="account-ln">Last Name</label>
-                                    <input className="form-control" type="text" id="account-ln" value="Adams" required />
                                 </div>
                             </div>
                             <div className="col-md-6">
@@ -153,7 +135,7 @@ export function PageProfil() {
                             <div className="col-md-6">
                             </div>
 
-                            <form onSubmit={handleUpdateCustomer} className='col-md-6'>
+                            <form onSubmit={handleUpdateCustomer} className='col-md-6' style={{ width: "200%"}}>
                                 <div >
                                     <div className="form-group">
                                         <label htmlFor="account-pass">New Password</label>
@@ -180,6 +162,7 @@ export function PageProfil() {
                                     )}
                                 </div>
                             </form>
+
                             <div className="col-12">
                                 <hr className="mt-2 mb-3" />
                                 <div className="ButtonsDiv">

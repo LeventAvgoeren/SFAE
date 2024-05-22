@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import "./App.css";
-import { Route, Router, Routes , useNavigate} from "react-router-dom";
+import { Navigate, Route, Router, Routes , useNavigate} from "react-router-dom";
 import { PageIndex } from "./components/PageIndex";
 import { PageLogin } from "./components/PageLogin";
 import  PageRegistrationWorker  from "./components/worker/PageRegistrationWorker";
@@ -31,6 +31,7 @@ import { PageIndexAdmin } from "./components/admin/PageIndexAdmin";
 import { PageAdminDienstleistungen } from "./components/admin/PageAdminDienstleistungen";
 import { PageDeclineJob } from "./components/worker/PageDeclineJob";
 import { PageRequestPasswordReset } from "./components/PageRequestPasswordReset";
+import PageError from "./components/Error";
 
 
 
@@ -94,9 +95,11 @@ function App() {
           <Route path="/passwordreset" element={<PageRequestPasswordReset/>}/>
           <Route path="/mainmenu" element={<MainMenu/>}/> 
           <Route path="/newPassword" element={<PagePasswordReset/>}/>
+         
           </>
         }
 
+              {loginInfo ? (<>
               {/* Customer */}
               <Route path="/customer/:customerId" element={<PageIndexCustomer />} />
               <Route path="/customer/:customerId/faq" element={<PageCustomerFAQ />} />
@@ -117,7 +120,17 @@ function App() {
               <Route path="/worker/:workerId/faq" element={<PageWorkerFAQ />} />
               <Route path="/worker/:workerId/orders" element={<PageWorkerOrders />} />
               {/*Contract*/}
+              </>
+             ):(<>
+              <Route path="*" element={<Navigate to="/NotAuth" replace />} />
+              <Route path="/NotAuth" element={<PageError error={401}/>} />
+             </>
+             )} 
+
               <Route path="/contract" element={<PageDeclineJob />} />
+
+              <Route path="*" element={<Navigate to="/NotFound" replace />} />
+              <Route path="/NotFound" element={<PageError error={404}/>} />
 
       </Routes>
       </LoginContext.Provider>

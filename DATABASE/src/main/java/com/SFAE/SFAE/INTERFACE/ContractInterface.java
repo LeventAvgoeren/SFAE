@@ -106,4 +106,6 @@ public interface ContractInterface {
 
     Boolean updateOrderStatus(Long contractId,String statusOrder);
     
+    String getStatusFromContract(Long contractId);
+
 }

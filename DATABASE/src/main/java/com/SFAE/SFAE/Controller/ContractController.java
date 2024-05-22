@@ -282,7 +282,7 @@ public class ContractController implements ContractEP {
     if(data==null){
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
-    System.out.println(data + "ASD");
+    
     if(accpeted){
       Boolean result =dao.updateWorkerId(data.getId(),data.getWorkerId());
       work.updateStatusByWorkerId(data.getWorkerId(), "INAVAILABLE");
@@ -346,6 +346,23 @@ public class ContractController implements ContractEP {
     }
 
     return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+  }
+
+  @Override
+  public ResponseEntity<?> getContractStatus(Long contractId) {
+
+    try {
+      String status=dao.getStatusFromContract(contractId);
+      if(status!=null){
+        return ResponseEntity.status(HttpStatus.OK).body(status);
+      }
+      else{
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+      }
+    
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
   }
 
 }

@@ -20,7 +20,6 @@ export function PageLogin() {
           const result = await login(email, password, userType);
           if (result) {
               setLoginInfo(result)
-                window.localStorage.setItem("isLoggedIn", "true");
               let route = ''
             if (userType === 'worker') {
                 route = `/worker/${result.userId}`

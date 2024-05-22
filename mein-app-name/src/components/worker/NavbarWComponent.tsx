@@ -1,10 +1,3 @@
-
-import { NavDropdown } from 'react-bootstrap';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import './NavbarWComponent.css';
-import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import { checkLoginStatus,deleteCookie } from '../../backend/api';
 import { useEffect, useState } from 'react';
@@ -17,7 +10,6 @@ export function NavbarWComponent() {
 
   async function doLogout() {
       await deleteCookie();
-      window.localStorage.removeItem("isLoggedIn");
       window.location.href = "/";
   }
 
@@ -41,7 +33,7 @@ export function NavbarWComponent() {
       <>
           <nav className="page-background">
               <div className="navbar-left">
-                  <img src="/Sfae_Logo.png" alt="Logo" className="navbar-logo" />
+                  <img src="/Sfae_Logo.png" alt="Logo" style={{height: 80, width:80}}/>
               </div>
               <ul>
                   

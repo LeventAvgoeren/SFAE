@@ -1,4 +1,5 @@
 .page-background { 
+  background-image: url('/public/b1.jpg');
   display: flex;
   justify-content: flex-start; 
   align-items: center;

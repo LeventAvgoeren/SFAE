@@ -6,6 +6,7 @@ import { LoginInfo, useLoginContext } from "./LoginManager";
 import { deleteCookie } from "../backend/api";
 import "./Error.css"
 import { Typewriter } from 'react-simple-typewriter'
+import { Err404 } from "./Errorpages/404";
 
 interface PageErrorProps {
     error: number;
@@ -45,22 +46,15 @@ export default function PageError({ error }: PageErrorProps){
 
 
     const errorMessages: ErrorMessage = {
-        [ErrorCode.NotFound]: "Seite wurde nicht gefunden (404)",
-        [ErrorCode.Forbidden]: "Keine Berechtigung (403)",
-        [ErrorCode.Unauthorized]: "Nicht Autorisiert (401)",
-        [ErrorCode.BadRequest]: "Anfrage war fehlerhaft (400)",
-        [ErrorCode.Gone]: "Auftrag abegelaufen(410)"
+        [ErrorCode.NotFound]: "404",
+        [ErrorCode.Forbidden]: "403",
+        [ErrorCode.Unauthorized]: "401",
+        [ErrorCode.BadRequest]: "400",
+        [ErrorCode.Gone]: "410"
       };
 
     return (
-            <div className="Container">
-                	<img src="https://images.plurk.com/5pHVCIyRNMdudWmVrrtQ.png" alt=""></img>
-                    <div className="textMessage">
-                        <Typewriter words={[`${errorMessages[error]}`]}  loop={0}  cursor   cursorStyle='/'  cursorColor="red" typeSpeed={200}    deleteSpeed={150}   delaySpeed={1000}/> 
-                    </div>
-                   
-                    <BackToSite />
-            </div>
+                	<Err404 code={errorMessages[error]}/>
     );
  
 }

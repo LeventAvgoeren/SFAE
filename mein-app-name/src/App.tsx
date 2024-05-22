@@ -38,7 +38,6 @@ import LoadingIndicator from "./components/LoadingIndicator";
 
 function App() {
   const [loginInfo, setLoginInfo] = useState<LoginInfo | false>();
-  const navigate = useNavigate();
   const [isLoading, setLoading] = useState(true);
 
   async function fetchLoginStatus() {
@@ -55,7 +54,6 @@ function App() {
     }
   }
 
-  const log = window.localStorage.getItem("isLoggedIn");
 
   useEffect(() => {
     fetchLoginStatus();
@@ -110,11 +108,11 @@ function App() {
              
                      
                 
-              <Route path="/NotAuth" element={<PageError error={401}/>} />
-              <Route path="/contract" element={<PageDeclineJob />} />
+                  <Route path="/NotAuth" element={<PageError error={401}/>} />
+                  <Route path="/contract" element={<PageDeclineJob />} />
 
-              <Route path="*" element={<Navigate to="/NotFound" replace />} />
-              <Route path="/NotFound" element={<PageError error={404}/>} />  
+                  <Route path="*" element={<Navigate to="/NotFound" replace />} />
+                  <Route path="/NotFound" element={<PageError error={404}/>} />  
           
 
         </Routes>

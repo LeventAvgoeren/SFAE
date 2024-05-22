@@ -110,12 +110,7 @@
 }
 .author-card {
   position: relative;
-<<<<<<< HEAD
   padding-bottom: 48px;
-=======
-  padding-bottom: 80px;
-  background-color: #fff;
->>>>>>> 89117faa4308c5040962810e2405f9dd06aa1558
   box-shadow: 0 12px 20px 1px rgba(64, 64, 64, .09);
 }
 

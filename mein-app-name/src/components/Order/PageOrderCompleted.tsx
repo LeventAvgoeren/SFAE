@@ -56,6 +56,8 @@ export function PageOrderCompleted() {
 
   return (
     <>
+
+    <div className="Backg">
       <NavbarComponent />
       <div className="background-image-completed">
         <div className="centered-container">
@@ -95,6 +97,7 @@ export function PageOrderCompleted() {
             </MDBCardFooter>
           </MDBCard>
         </div>
+      </div>
       </div>
     </>
   );

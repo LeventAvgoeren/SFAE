@@ -91,8 +91,8 @@ function App() {
                   {/* Order */}
                   <Route path="/customer/:customerId/order/new"element={(loginInfo && loginInfo.userId.startsWith("C") ) ?  <PageOrderRequest/> : < Navigate to="/NotAuth" replace />}/>
                   <Route path="/customer/:customerId/order/:orderId" element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageOrderOverview /> : < Navigate to="/NotAuth" replace />} />
-                  <Route path="/customer/:customerId/orders/:order/completed"element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageOrderCompleted /> : < Navigate to="/NotAuth" replace />}/>
-                  <Route path="/customer/:customerId/orders/:order/rating"element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageOrderRating /> : < Navigate to="/NotAuth" replace />}/>
+                  <Route path="/customer/:customerId/orders/:orderId/completed"element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageOrderCompleted /> : < Navigate to="/NotAuth" replace />}/>
+                  <Route path="/customer/:customerId/orders/:orderId/rating"element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageOrderRating /> : < Navigate to="/NotAuth" replace />}/>
              
 
                 

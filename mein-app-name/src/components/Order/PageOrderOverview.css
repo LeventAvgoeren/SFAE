@@ -105,3 +105,7 @@ a.text-muted {
   font-size: 20px;
   font-family: 'Arial', sans-serif;
 }
+
+.Backg{
+  background-image: url('/public/b1.jpg');
+}

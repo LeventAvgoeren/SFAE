@@ -71,7 +71,7 @@ export function PageOrderOverview() {
       } catch (error) {
         console.error('Error fetching contract data:', error);
       } finally {
-        setTimeout(() => setLoading(false), 30000); // Verzögern das Setzen von loading auf false um 3 Sekunden
+        setTimeout(() => setLoading(false), 300); // Verzögern das Setzen von loading auf false um 3 Sekunden
       }
     }
   

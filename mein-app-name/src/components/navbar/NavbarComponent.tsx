@@ -7,34 +7,17 @@ import './NavbarComponent.css';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { LoginInfo } from '../LoginManager';
+import { LoginInfo, useLoginContext } from '../LoginManager';
 import { checkLoginStatus, deleteCookie } from '../../backend/api';
 
 export function NavbarComponent() {
-  const [loginInfo, setLoginInfo] = useState<LoginInfo | false | undefined>(undefined);
-  if (loginInfo){
-console.log (loginInfo)
-  }
+  const {loginInfo} = useLoginContext();
+ 
   async function doLogout() {
       await deleteCookie();
       window.location.href = "/";
   }
-  
-  async function fetchLoginStatus() {
-      try {
-          const loginStatus = await checkLoginStatus();
-          console.log(loginStatus);
-          if (loginStatus) {
-              setLoginInfo(loginStatus);
-          }
-      } catch (e) {
-          console.log(e);
-      }
-  }
 
-  useEffect(() => {
-      fetchLoginStatus();
-  }, []);
 
   return (
       <>

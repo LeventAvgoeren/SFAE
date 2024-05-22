@@ -2,7 +2,7 @@ import { Alert } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { Button } from "react-bootstrap";
 import {useEffect } from "react";
-import { LoginInfo } from "./LoginManager";
+import { LoginInfo, useLoginContext } from "./LoginManager";
 import { deleteCookie } from "../backend/api";
 import "./Error.css"
 import { Typewriter } from 'react-simple-typewriter'
@@ -26,17 +26,18 @@ interface ErrorMessage {
 
 
 export function BackToSite(){
-
+    const{setLoginInfo} = useLoginContext()
     async function setLog() {
-       await deleteCookie()
+       await deleteCookie();
+       setLoginInfo(false);
     }
 
    
     return(<>
     <p className="textMessage2">Sie wurden abgemeldet. Bitte Erneut anmelden.</p>
-    <LinkContainer to={"/"} >
-         <Button className="buttonContainer" onClick={() => { setLog()}}> Zurück auf die Hauptseite </Button>
-         </LinkContainer>
+        <LinkContainer to="/">
+            <Button className="buttonContainer" onClick={() => { setLog()}}> Zurück auf die Hauptseite </Button>
+        </LinkContainer>
     </> )
 }
 

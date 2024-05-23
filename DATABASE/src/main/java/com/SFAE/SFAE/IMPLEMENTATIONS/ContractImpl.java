@@ -290,6 +290,7 @@ public class ContractImpl implements ContractInterface {
 
   @Override
   public String getStatusFromContract(Long contractId) {
+    System.out.println("Implementation drinne");
     if(contractId<0){
       throw new IllegalArgumentException("Id can not be negative");
     }

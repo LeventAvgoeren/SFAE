@@ -69,4 +69,7 @@ public interface CustomerInterface{
     Customer updateCustomer(CustomerDTO jsonData);
 
     boolean updatePassword(String password, String Id);
+
+    boolean updatePw(String password, String Id);
+
 }

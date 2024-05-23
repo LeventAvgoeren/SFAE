@@ -85,7 +85,9 @@ export function PageWorkerIndex() {
                       variant="top"
                       src={zoom === img ? `${img}-zoom.jpg` : img}
                       onClick={() => toggleZoom(img)}
+                      style={label === 'Präferenz' ? { width: '100%', height: 'auto' } : { width: '100%', height: 'auto' }}
                     />
+
                   </Link>
                   <Card.Body>
                     <Card.Title>{label}</Card.Title>

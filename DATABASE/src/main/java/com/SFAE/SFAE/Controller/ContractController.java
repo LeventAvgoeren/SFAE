@@ -285,8 +285,8 @@ public class ContractController implements ContractEP {
     System.out.println(data + "ASD");
     if(accpeted){
       Boolean result =dao.updateWorkerId(data.getId(),data.getWorkerId());
-      work.updateStatusByWorkerId(data.getWorkerId(), "INAVAILABLE");
-      work.updateOrderStatusByWorkerId(data.getWorkerId(), "ACCEPTED");
+      //work.updateStatusByWorkerId(data.getWorkerId(), "INAVAILABLE");
+      //work.updateOrderStatusByWorkerId(data.getWorkerId(), "ACCEPTED");
       dao.updateOrderStatus(data.getId(), "ACCEPTED");
       if(result){
         return ResponseEntity.status(HttpStatus.OK).build();
@@ -348,12 +348,15 @@ public class ContractController implements ContractEP {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
   }
 
+  
   @Override
   public ResponseEntity<?> getContractStatus(Long contractId) {
+ System.out.println("Bin drinnneeeee in dem endpunkt");
 
     try {
       String status=dao.getStatusFromContract(contractId);
       if(status!=null){
+        System.out.println("Bin drinnneeeee");
         return ResponseEntity.status(HttpStatus.OK).body(status);
       }
       else{

@@ -27,6 +27,7 @@ import NavbarComponent from '../navbar/NavbarComponent';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import Lottie from 'react-lottie';
 import animationData from "./LoadingAnimation.json";
+import { Col, Row } from 'react-bootstrap';
 // import { MapContainer, TileLayer, Marker, Polyline, Popup } from 'react-leaflet';
 // import 'leaflet/dist/leaflet.css';
 // import L from 'leaflet';
@@ -145,45 +146,34 @@ export function PageOrderOverview() {
             <div className="layout">
               <header style={{ gridArea: 'header' }}>
                 <div className="d-flex justify-content-between align-items-center">
-                  <div>
+                <div className="order-details-container">
+                    {/* Order details */}
+                    <h4 style={{ fontWeight: 'bold', marginBottom: "20px" }}>Order Details</h4>
                     <p className="text-muted mb-2">
                       Order ID <span className="fw-bold text-body">{conData.id}</span>
                     </p>
+                    <p></p>
                     <p className="text-muted mb-0">
-                      Umkreis des Workers <span className="fw-bold text-body">**{conData.range} km</span>
+                      Umkreis des Workers <span className="fw-bold text-body">:**{conData.range} km</span>
                     </p>
                   </div>
                 </div>
               </header>
-              <nav style={{ gridArea: 'orderDetails' }}>
-                <h5>Beschreibung: {conData.description}</h5>
+              <nav style={{ gridArea: 'orderDetails'}}>
+                <p>Beschreibung: {conData.description}</p>
                 <p className="text-muted">Job Type: {conData.jobType}</p>
-                <h4>Zahlungsmethode: {conData.payment}</h4>
+                <p>Zahlungsmethode: {conData.payment}</p>
                 <p className="text-muted">Status deiner Bestellung: {conData.statusOrder}</p>
               </nav>
+              {/* Map */}
               <main style={{ gridArea: 'map' }}>
-                <div style={{ width: '80%', height: '80%', backgroundColor: '#eee' }}>
-                  {/* <MapContainer center={contractLocation as [number, number]} zoom={13} style={{ height: '100%', width: '100%' }}>
-                    <TileLayer
-                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                      attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    />
-                    <Marker position={contractLocation as [number, number]}>
-                      {React.createElement('popup', null, 'Contract Location')}
-                    </Marker>
-                    {workerAssigned && (
-                      <>
-                        <Marker position={workerLocation as [number, number]}>
-                          {React.createElement('popup', null, 'Worker Location')}
-                        </Marker>
-                        <Polyline positions={polylinePositions as [number, number][]} />
-                      </>
-                    )}
-                  </MapContainer> */}
+                <div style={{ marginLeft:"40px",width: '70%', height: '90%', backgroundColor: '#eee' }}>
                 </div>
               </main>
+              {/* Worker details */}
+              <div className="worker-details-container">
               <article style={{ gridArea: 'workerDetails' }}>
-                <h5>Worker Details</h5>
+                <h4 style={{ fontWeight: 'bold', marginBottom: "20px" }}>Worker Details</h4>
                 {conData.worker && (
                   <>
                     <p >{conData.worker.name}</p>
@@ -192,14 +182,15 @@ export function PageOrderOverview() {
                   </>
                 )}
               </article>
+              </div>
               <footer style={{ gridArea: 'footer' }}>
                 <div className="d-flex justify-content-between">
-                  <button onClick={toggleShow} className="btn btn-danger">Auftrag beendet?</button>
-                  <a href="#!" className="text-muted">
-                    <MDBIcon fas icon="ellipsis-v" />
-                  </a>
+                  <button onClick={toggleShow} className="btn btn-danger mb-4"
+                  style={{width: "250px", marginLeft: "auto"}}
+                  >Auftrag beendet?</button>
                 </div>
               </footer>
+
             </div>
           </div>
         </div>
@@ -215,10 +206,12 @@ export function PageOrderOverview() {
               Bist du sicher, dass du diesen Auftrag als beendet markieren möchtest? Wurde alles ordnungsgemäß ausgeführt?
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" onClick={toggleShow}>Abbrechen</button>
+              <Row>
+              <button type="button" className="btn btn-secondary" onClick={toggleShow} style={{width: "150px", marginLeft:"12px"}}>Abbrechen</button>
               <Link to={`/customer/${customerId}/orders/${contractId}/completed`}>
-                <button type="button" className="btn btn-primary">Bestätigen</button>
+                <button type="button" className="btn btn-primary" style={{width: "150px"}}>Bestätigen</button>
               </Link>
+              </Row>
             </div>
           </div>
         </div>

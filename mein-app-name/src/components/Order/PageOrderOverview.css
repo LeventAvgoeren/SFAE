@@ -33,12 +33,20 @@
   grid-template-areas:
     'header header'
     'sidebar main'
-    'widget statistics'
+    'workerDetails'
     'footer footer';
   gap: 10px;
   grid-template-columns: 1fr 3fr; /* Sidebar kleiner als Main */
   grid-template-rows: auto;
   width: 100%;
+  height: 100%;
+}
+
+.order-details-container,
+.worker-details-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   height: 100%;
 }
 

@@ -19,6 +19,7 @@ export function PageOrderCompleted() {
 
   const params = useParams();
   const orderId = params.orderId!;
+  const { customerId } = useParams();
 
   console.log(orderId)
   const [ratting, setRatting] = useState(0);
@@ -91,7 +92,11 @@ export function PageOrderCompleted() {
                   <label htmlFor="comments">Kommentare:</label>
                   <textarea id="comments" className="form-control" rows={3}></textarea>
                 </div>
-                <button type="submit" className="btn btn-primary" onClick={updateRating}>Bewertung absenden</button>              </form>
+                <button type="submit" className="btn btn-primary" onClick={updateRating} style={{width:"300px"}}>Bewertung absenden</button>
+                </form>
+                <Link to={`/customer/${customerId}`}>
+                  <button className="btn btn-primary" style={{width:"300px", marginLeft:"5%"}}>Zurück zur Startseite</button>
+                </Link>
             </MDBCardBody>
             <MDBCardFooter>
             </MDBCardFooter>

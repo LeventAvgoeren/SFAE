@@ -36,3 +36,8 @@
 .worker-registration-container label {
     color: white !important; /* Textfarbe auf Weiß setzen */
 }
+
+.option-black {
+    color: black !important; /* Stellt die Schriftfarbe sicher */
+}
+

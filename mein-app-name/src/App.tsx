@@ -29,6 +29,8 @@ import { PageDeclineJob } from "./components/worker/PageDeclineJob";
 import { PageRequestPasswordReset } from "./components/PageRequestPasswordReset";
 import PageError from "./components/Error";
 import LoadingIndicator from "./components/LoadingIndicator";
+import { PageIndexAdmin } from "./components/admin/PageIndexAdmin";
+import { PageAdminDienstleistungen } from "./components/admin/PageAdminDienstleistungen";
 
 
 

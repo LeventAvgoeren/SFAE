@@ -15,6 +15,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: 100%;
   max-width: 900px;
+  max-height: 900px;
   text-align: center !important;
   color: white;
   margin:auto;
@@ -26,6 +27,10 @@
 
 .Backg{
   background-image: url('/public/b1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100vh; /* Vollbildhöhe */
 }
 
 .form-content {

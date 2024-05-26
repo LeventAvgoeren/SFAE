@@ -5,6 +5,7 @@ import './DesignVorlage.css'; // Eigene Stilvorlagen
 import { registrationWorker } from '../../backend/api';
 import { Link, useNavigate } from 'react-router-dom'; // React Router für Link-Benutzung
 import './PageRegistrationWorker.css'
+import validator from 'validator';
 interface Position {
     latitude: number;
     longitude: number;
@@ -53,6 +54,12 @@ export default function PageRegistrationWorker() {
 
     const handleRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        //Duc Dai Validation email
+        if (!validator.isEmail(email)) {
+            alert('Bitte gib eine gültige E-Mail-Adresse ein.');
+            return;
+        }
+
         try {
             await fetchCoordinates(address);
             const response = await registrationWorker(name, address, email, password, jobType, salary, userLocation!);
@@ -66,7 +73,7 @@ export default function PageRegistrationWorker() {
     };
 
     return (
-        <div className="background-image">
+        <div className="background-image" style={{position: "relative"}}>
             <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundImage: `url('/background.jpg')`, backgroundSize: 'cover' }}>
                 <MDBCard className='worker-registration-container m-5'>
                     <MDBCardBody className='px-5'>
@@ -76,10 +83,11 @@ export default function PageRegistrationWorker() {
                             <MDBInput wrapperClass='mb-4' label='Adresse' size='lg' type='text' value={address} onChange={(e) => setAddress(e.target.value)} required/>
                             <MDBInput wrapperClass='mb-4' label='Deine E-Mail' size='lg' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required/>
                             <MDBInput wrapperClass='mb-4' label='Passwort' size='lg' type='password' value={password} onChange={(e) => setPassword(e.target.value)} required/>
-                            <select className="form-select mb-4" value={jobType} onChange={(e) => setJobType(e.target.value)} required>
-                                <option value="">Jobtyp wählen...</option>
+                            <select className="form-select mb-4 option-black" value={jobType} onChange={(e) => setJobType(e.target.value)} required
+                            style={{backgroundColor:"black", color: "black"}}>
+                                <option value="" style={{color:'black'}}>Jobtyp wählen...</option>,
                                 {jobTypes.map((type, index) => (
-                                    <option key={index} value={type}>{type}</option>
+                                    <option key={index} value={type} style={{color:'black'}}>{type}</option>
                                 ))}
                             </select>
                             <MDBInput wrapperClass='mb-4' label='Gehaltswunsch' size='lg' type='number' value={salary} onChange={(e) => setSalary(Number(e.target.value))} required/>

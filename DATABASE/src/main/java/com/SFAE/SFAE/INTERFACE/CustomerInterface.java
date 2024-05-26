@@ -70,6 +70,4 @@ public interface CustomerInterface{
 
     boolean updatePassword(String password, String Id);
 
-    boolean updatePw(String password, String Id);
-
 }

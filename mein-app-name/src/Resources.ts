@@ -91,3 +91,9 @@ export type TokenRessource = {
     toke: string;
     receiver: string;
 }
+
+
+export type RatingRessource = {
+    id: String;
+    rating: number;
+}

@@ -18,18 +18,17 @@ export function PageLogin() {
     event.preventDefault();
       try {
           const result = await login(email, password, userType);
-          setLoginInfo(result)
           if (result) {
-              
+              setLoginInfo(result)
               let route = ''
-          if (userType === 'worker') {
-            route = `/worker/${result.userId}`
+            if (userType === 'worker') {
+                route = `/worker/${result.userId}`
 
-          }
+            }
 
-          else if(userType === 'customer') {
-            route = `/customer/${result.userId}`
-          }
+            else if(userType === 'customer') {
+                route = `/customer/${result.userId}`
+            }
 
           
           navigate(route)

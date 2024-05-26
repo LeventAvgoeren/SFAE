@@ -110,11 +110,11 @@ export function PageOrderOverview() {
   };
 
   if (!contractData.length) {
-    return <div>No contracts found</div>;
+    return <div className="Backg">No contracts found</div>;
   }
 
   if (!conData) {
-    return <div>No contract found for ID {contractId}</div>;
+    return <div className="Backg">No contract found for ID {contractId}</div>;
   }
   const defaultOptions = {
     loop: true,
@@ -131,7 +131,7 @@ export function PageOrderOverview() {
   // const polylinePositions = [contractLocation, workerLocation];
 
   return (
-    <>
+    <> <div className="Backg">
       <NavbarComponent />
       {loading || !workerAssigned ? (
         <div className="loading-container">
@@ -139,6 +139,7 @@ export function PageOrderOverview() {
           <div className="loading-message">{messages[messageIndex]}</div>
         </div>
       ) : (
+       
         <div className="background-image-berlin">
           <div className="container-informationen">
             <div className="layout">
@@ -185,9 +186,9 @@ export function PageOrderOverview() {
                 <h5>Worker Details</h5>
                 {conData.worker && (
                   <>
-                    <p className="text-muted">{conData.worker.name}</p>
-                    <p className="text-muted">{conData.worker.email}</p>
-                    <p className="text-muted">{conData.worker.location}</p>
+                    <p >{conData.worker.name}</p>
+                    <p >{conData.worker.email}</p>
+                    <p >{conData.worker.location}</p> 
                   </>
                 )}
               </article>
@@ -202,6 +203,7 @@ export function PageOrderOverview() {
             </div>
           </div>
         </div>
+      
       )}
       <div className={`modal fade ${modalShow ? 'show' : ''}`} style={{ display: modalShow ? 'block' : 'none' }}>
         <div className="modal-dialog">
@@ -222,6 +224,7 @@ export function PageOrderOverview() {
         </div>
       </div>
       {modalShow && <div className="modal-backdrop fade show"></div>}
+      </div>
     </>
   );
 }

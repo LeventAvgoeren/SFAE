@@ -100,9 +100,10 @@ export function PageProfil() {
     return (
         <>
             <NavbarComponent />
+            <div className='Backg'>
             <div className="custom-container2">                             
             <h1>PROFILE</h1>
-            <div className="mt-5">
+            <div className="mt-5 Back">
                 <div className="row">
                     <div className="container col-lg-4 pb-5">
                         {/* Account Sidebar */}
@@ -198,6 +199,7 @@ export function PageProfil() {
                 </div>
             </div>
             </div>
+         </div>
         </>
     );
 }

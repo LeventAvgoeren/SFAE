@@ -198,9 +198,9 @@ export function PageAdminDienstleistungen() {
                                         <td>{idx + 1}</td>
                                         <td>{customer.name}</td>
                                         <td>{customer.id}</td>
-                                        <td><Trash size={24} color='red' onClick={() => selectDeleteCustomer(customer)} /></td>
+                                        {/* <td><Trash size={24} color='red' onClick={() => selectDeleteCustomer(customer)} /></td>
                                         <td><Search size={24} color='green' /></td>
-                                        <td><Pencil size={24} color='orange' onClick={() => selectEditCustomer(customer)} /></td>
+                                        <td><Pencil size={24} color='orange' onClick={() => selectEditCustomer(customer)} /></td> */}
                                     </tr>
                                 })
                             }

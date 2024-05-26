@@ -32,107 +32,92 @@ import { PageAdminDienstleistungen } from "./components/admin/PageAdminDienstlei
 import { PageDeclineJob } from "./components/worker/PageDeclineJob";
 import { PageRequestPasswordReset } from "./components/PageRequestPasswordReset";
 import PageError from "./components/Error";
-
+import LoadingIndicator from "./components/LoadingIndicator";
+import { PageIntroduction } from "./components/PageIntroduction";
+ 
 
 
 function App() {
-  const [loginInfo, setLoginInfo] = useState<LoginInfo | false | undefined>(undefined);
-  const [email, setEmail] = useState(""); // Fügen Sie Zustände für E-Mail und Passwort hinzu
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const [loginInfo, setLoginInfo] = useState<LoginInfo | false>();
+  const [isLoading, setLoading] = useState(true);
 
   async function fetchLoginStatus() {
-    try{
-      const loginStatus = await checkLoginStatus();
-
-        if (loginStatus) {
-          setLoginInfo(loginStatus);
-        } 
-    } catch (e){
-      console.log(e)
-    }  
-  }
-
-  async function checkAndRedirect() {
     try {
-      const loginStatus = await checkLoginStatus();
-
-      if (loginStatus) {
-        
-        if (loginStatus.userId) {
-          if (loginStatus.userId.startsWith("C")) {
-            navigate(`/customer/${loginStatus.userId}`);
-          } else {
-            navigate(`/worker/${loginStatus.userId}`);
-          }}
-      } else {
-      }
-    } catch (error) {
-      console.error("Error fetching login status:", error);
+       const loginStatus = await checkLoginStatus();
+        console.log("CHECK " + loginStatus)
+        if (loginStatus) {
+            setLoginInfo(loginStatus);
+        }
+    } catch (e) {
+        console.log(e);
+    } finally {
+      setLoading(false); 
     }
   }
 
 
-
   useEffect(() => {
     fetchLoginStatus();
-  }, []); 
+  }, []);
 
-
-
-
+  if(isLoading){
+    return <LoadingIndicator/>
+  }
   return (
 
     <><LoginContext.Provider value={{ loginInfo, setLoginInfo }}>
+        <Routes>
+            
+                  {/* Gemeinsame Routen */}
+                  <Route path ="/" element={<PageIntroduction/>}/>
+                  <Route path="/index" element={ loginInfo ? ( loginInfo.userId.startsWith("C") ? 
+                        ( <Navigate to={`/customer/${loginInfo.userId}`} replace /> ) :
+                         (<Navigate to={`/worker/${loginInfo.userId}`} replace />)) :
+                          (<PageIndex />)
+                    }
+                  />
 
-      <Routes>
-        {/* Gemeinsame Routen */}
-        {!loginInfo && <>
-          <Route path="/" element={<PageIndex />} />
-          <Route path="/login" element={<PageLogin />} />
-          <Route path="/registration/customer" element={<PageRegistration />} />
-          <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
-          <Route path="/passwordreset" element={<PageRequestPasswordReset/>}/>
-          <Route path="/mainmenu" element={<MainMenu/>}/> 
-          <Route path="/newPassword" element={<PagePasswordReset/>}/>
-         
-          </>
-        }
+                  <Route path="/login" element={<PageLogin />} />
+                  <Route path="/registration/customer" element={<PageRegistration />} />
+                  <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
+                  <Route path="/passwordreset" element={<PageRequestPasswordReset/>}/>
+                  <Route path="/mainmenu" element={<MainMenu/>}/> 
+                  <Route path="/newPassword" element={<PagePasswordReset/>}/>
 
-              {loginInfo ? (<>
-              {/* Customer */}
-              <Route path="/customer/:customerId" element={<PageIndexCustomer />} />
-              <Route path="/customer/:customerId/faq" element={<PageCustomerFAQ />} />
-              <Route path="/customer/:customerId/uebersicht" element={<PageUebersicht />} />
-              <Route path="/customer/:customerId/profil" element={<PageProfil />} />
-              {/* Order */}
-              <Route path="/customer/:customerId/order/new"element={<PageOrderRequest/>}/>
-              <Route path="/customer/:customerId/order/:orderId" element={<PageOrderOverview />} />
-              <Route path="/customer/:customerId/orders/:order/completed"element={<PageOrderCompleted />}/>
-              <Route path="/customer/:customerId/orders/:order/rating"element={<PageOrderRating />}/>
 
-              {/* Worker */}
-              <Route path="/worker/:workerId" element={<PageWorkerIndex/>} />
-              <Route path="/worker/:workerId/orders/overview"element={<PageWorkerOrderOverview />}/>
-              <Route path="/worker/:workerId/finances"element={<PageWorkerFinances />}/>
-              <Route path="/worker/:workerId/profile"element={<PageWorkerProfile />}/>
-              <Route path="/worker/:workerId/preferences"element={<PageWorkerPreferences />}/>
-              <Route path="/worker/:workerId/faq" element={<PageWorkerFAQ />} />
-              <Route path="/worker/:workerId/orders" element={<PageWorkerOrders />} />
-              {/*Contract*/}
-              </>
-             ):(<>
-              <Route path="*" element={<Navigate to="/NotAuth" replace />} />
-              <Route path="/NotAuth" element={<PageError error={401}/>} />
-             </>
-             )} 
+                  {/* Customer */}
+                  <Route path="/customer/:customerId" element={(loginInfo && loginInfo.userId.startsWith("C") )? <PageIndexCustomer />  : < Navigate to="/NotAuth" replace />} />
+                  <Route path="/customer/:customerId/faq" element={(loginInfo && loginInfo.userId.startsWith("C")) ? <PageCustomerFAQ /> : /* <Navigate to="/NotAuth" replace /> */ null} />
+                  <Route path="/customer/:customerId/uebersicht" element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageUebersicht />  : < Navigate to="/NotAuth" replace />} />
+                  <Route path="/customer/:customerId/profil" element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageProfil /> : < Navigate to="/NotAuth" replace />} />
+                  {/* Order */}
+                  <Route path="/customer/:customerId/order/new"element={(loginInfo && loginInfo.userId.startsWith("C") ) ?  <PageOrderRequest/> : < Navigate to="/NotAuth" replace />}/>
+                  <Route path="/customer/:customerId/order/:orderId" element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageOrderOverview /> : < Navigate to="/NotAuth" replace />} />
+                  <Route path="/customer/:customerId/orders/:orderId/completed"element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageOrderCompleted /> : < Navigate to="/NotAuth" replace />}/>
+                  <Route path="/customer/:customerId/orders/:orderId/rating"element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageOrderRating /> : < Navigate to="/NotAuth" replace />}/>
+             
 
-              <Route path="/contract" element={<PageDeclineJob />} />
+                
+            
+                  {/* Worker */}
+                  <Route path="/worker/:workerId" element={(loginInfo && loginInfo.userId.startsWith("W") ) ? <PageWorkerIndex/> : < Navigate to="/NotAuth" replace />} />
+                  <Route path="/worker/:workerId/orders/overview"element={(loginInfo && loginInfo.userId.startsWith("W") ) ?  <PageWorkerOrderOverview /> : < Navigate to="/NotAuth" replace />}/>
+                  <Route path="/worker/:workerId/finances"element={(loginInfo && loginInfo.userId.startsWith("W") ) ? <PageWorkerFinances /> : < Navigate to="/NotAuth" replace />}/>
+                  <Route path="/worker/:workerId/profile"element={(loginInfo && loginInfo.userId.startsWith("W") ) ? <PageWorkerProfile />: < Navigate to="/NotAuth" replace />}/>
+                  <Route path="/worker/:workerId/preferences"element={(loginInfo && loginInfo.userId.startsWith("W") ) ? <PageWorkerPreferences />: < Navigate to="/NotAuth" replace />}/>
+                  <Route path="/worker/:workerId/faq" element={(loginInfo && loginInfo.userId.startsWith("W") ) ? <PageWorkerFAQ />: < Navigate to="/NotAuth" replace />} />
+                  <Route path="/worker/:workerId/orders" element={(loginInfo && loginInfo.userId.startsWith("W") ) ? <PageWorkerOrders />: < Navigate to="/NotAuth" replace />} />
+             
+                     
+                
+                  <Route path="/NotAuth" element={<PageError error={401}/>} />
+                  <Route path="/contract" element={<PageDeclineJob />} />
 
-              <Route path="*" element={<Navigate to="/NotFound" replace />} />
-              <Route path="/NotFound" element={<PageError error={404}/>} />
+                  <Route path="*" element={<Navigate to="/NotFound" replace />} />
+                  <Route path="/NotFound" element={<PageError error={404}/>} />  
+          
 
-      </Routes>
+        </Routes>
       </LoginContext.Provider>
     </>
   );

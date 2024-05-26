@@ -1,0 +1,58 @@
+.ag-theme-quartz, .ag-theme-quartz-dark {
+    /* Changes the color of the grid text /
+    --ag-foreground-color: rgb(14, 68, 145);
+    / Changes the color of the grid background /
+    --ag-background-color: rgb(241, 247, 255);
+    / Changes the header color of the top row /
+    --ag-header-background-color: rgb(228, 237, 250);
+    / Changes the hover color of the row*/
+    --ag-row-hover-color: rgb(216, 226, 255);
+}
+
+.custom-container5{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7); 
+    padding: 40px;
+    border-radius: 12%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: auto;
+    max-width: 100%;
+    text-align: center;
+    width: 80%;
+  }
+
+  /* DataGrid styling */
+.MuiDataGrid-root {
+    background-color: white; /* Ensure background is not transparent */
+    color: black; /* Ensure text is visible */
+}
+
+/* Other styles */
+.ag-theme-quartz, .ag-theme-quartz-dark {
+    /* Changes the color of the grid text */
+    --ag-foreground-color: rgb(14, 68, 145);
+    /* Changes the color of the grid background */
+    --ag-background-color: rgb(241, 247, 255);
+    /* Changes the header color of the top row */
+    --ag-header-background-color: rgb(228, 237, 250);
+    /* Changes the hover color of the row */
+    --ag-row-hover-color: rgb(216, 226, 255);
+}
+
+.custom-container5 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 40px;
+    border-radius: 12%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: auto;
+    max-width: 100%;
+    text-align: center;
+    width: 80%;
+}

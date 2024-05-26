@@ -141,6 +141,7 @@ export default function PageOrderRequest() {
   };
   return (
     <>
+    <div className={"Backg"}>
       <NavbarComponent />
 
       <div className="container-frame3">
@@ -156,7 +157,8 @@ export default function PageOrderRequest() {
               </Button>
             </div>
           )}
-          <Form.Group className="mb-3">
+          {!showMap && <> 
+             <Form.Group className="mb-3">
             <Form.Label>Adresse</Form.Label>
             <Form.Control
               type="text"
@@ -208,7 +210,10 @@ export default function PageOrderRequest() {
             >
               {isCreatingContract ? 'Erstellt...' : 'Vertrag erstellen und suchen'}
             </Button>
+          </>}
+       
         </Form>
+      </div>
       </div>
     </>
   );

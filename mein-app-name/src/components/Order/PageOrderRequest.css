@@ -24,6 +24,10 @@
   align-items: center !important;
 }
 
+.Backg{
+  background-image: url('/public/b1.jpg');
+}
+
 .form-content {
   color: white;
   display: flex;

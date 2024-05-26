@@ -30,6 +30,10 @@ export async function getCustomerbyID(id: string): Promise<CustomerResource> {
 
 export async function deleteCustomer(id: string) {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/customer/${id}`;
+  const isCustomerAdmin = await getCustomerbyID(id);
+  if (isCustomerAdmin.role === 'ADMIN') {
+    throw new Error('Cannot delete an admin user');
+  }
   const options = {
     method: "DELETE",
     credentials: "include" as RequestCredentials,
@@ -536,6 +540,15 @@ export async function setRating(data:RatingRessource) :Promise <Boolean > {
 
 
 
+  export async function getAllWorker(): Promise<WorkerResource[]> {
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/worker`;
+    const response = await fetchWithErrorHandling(url, {
+      credentials: "include" as RequestCredentials,
+    });
+
+    const status = await response.json(); 
+    return status;
+  }
 
 
 

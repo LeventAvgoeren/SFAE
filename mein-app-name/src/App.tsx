@@ -74,7 +74,8 @@ function App() {
                           (<PageIndex />)
                     }
                   />
-
+                  <Route path="/admin/:adminId" element={<PageIndexAdmin />} />
+                  <Route path="/admin/:adminId/dienstleistungen" element={<PageAdminDienstleistungen />} />
                   <Route path="/login" element={<PageLogin />} />
                   <Route path="/registration/customer" element={<PageRegistration />} />
                   <Route path="/registration/worker" element={<PageRegistrationWorker />}/>

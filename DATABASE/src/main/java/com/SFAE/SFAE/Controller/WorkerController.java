@@ -135,7 +135,7 @@ public class WorkerController implements WorkerEp {
     @Override
     public ResponseEntity<?> findWorkersbyID(String id) {
         if (!id.startsWith("W")) {
-            return ResponseEntity.badRequest().body("idis not for Worker");
+            return ResponseEntity.badRequest().body("Id is not for Worker");
         }
         try {
             Worker found = dao.findWorkersbyID(id);

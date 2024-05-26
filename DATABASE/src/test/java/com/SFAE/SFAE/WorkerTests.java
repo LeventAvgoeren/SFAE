@@ -53,7 +53,7 @@ public class WorkerTests{
                 "\"name\": \"TestRating\"," +
                 "\"location\": \"BERLIN\"," +
                 "\"password\": \"COLORBOX\"," +
-                "\"email\": \"leventavgoredddn@gmail.com\"," +
+                "\"email\": \"leventavgorenssss@gmail.com\"," +
                 "\"range\": 1.5," +
                 "\"jobType\":\"INSTALLATEUR\"," +
                 "\"minPayment\": 35.0," +
@@ -161,7 +161,8 @@ public class WorkerTests{
     @Test
     public void testDeleteWorkerrByid() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(delete("/worker/W1"))
+        //Fix foreigns 
+         MvcResult mvcResult = mockMvc.perform(delete("/worker/W22"))
                 .andExpect(status().isOk())
                 .andReturn();
 

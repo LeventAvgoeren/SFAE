@@ -158,8 +158,15 @@ public class ContractImpl implements ContractInterface {
       Double maxPayment = rs.getDouble("max_Payment");
 
       Customer customer = customerImpl.findCustomerbyID(String.valueOf(customerId));
-      Worker worker = workerImpl.findWorkersbyID(String.valueOf(workerId));
+   
 
+      if(workerId == null){ 
+         
+        return new Contract(id, JobList.valueOf(jobType), adress, Payment.valueOf(payment), description,
+          StatusOrder.valueOf(statusOrder), range, customer,  maxPayment);
+      } 
+      
+      Worker worker = workerImpl.findWorkersbyID(String.valueOf(workerId));
       return new Contract(id, JobList.valueOf(jobType), adress, Payment.valueOf(payment), description,
           StatusOrder.valueOf(statusOrder), range, customer, worker, maxPayment);
       // return dataFactory.createWorker(id, name, location, password, email, status,
@@ -280,4 +287,28 @@ public class ContractImpl implements ContractInterface {
           return false;
         }
   }
+
+  @Override
+  public String getStatusFromContract(Long contractId) {
+    if(contractId<0){
+      throw new IllegalArgumentException("Id can not be negative");
+    }
+    List<String> statusList = jdbcTemplate.query(
+        "SELECT status_order FROM Contract WHERE ID = ?",
+        ps -> {
+            ps.setLong(1, contractId);
+        },
+        (rs, rowNum) -> rs.getString("status_order")  
+    );
+
+    if(statusList.isEmpty()){
+      return null;
+    }
+    else{
+      return statusList.get(0);
+    }
+}
+  
+
+
 }

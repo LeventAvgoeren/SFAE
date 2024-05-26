@@ -1,10 +1,8 @@
 package com.SFAE.SFAE.ENTITY;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.SFAE.SFAE.ENUM.JobList;
 import com.SFAE.SFAE.ENUM.StatusOrder;

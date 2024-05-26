@@ -90,6 +90,7 @@ public class ContractController implements ContractEP {
 
       Contract created = dao.createContract(contract);
       if (created != null) {
+        System.out.println(lastEntry.getKey().getId());
         Worker found = work.findWorkersbyID(String.valueOf(lastEntry.getKey().getId()));
         Customer foundCustomer = custo.findCustomerbyID(String.valueOf(contract.getCustomerId()));
 
@@ -204,7 +205,6 @@ public class ContractController implements ContractEP {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
           String.format("Contract id: %d negative", id, HttpStatus.BAD_REQUEST.value()));
     }
-
     try {
       Contract Answer = dao.getContract(id);
 
@@ -282,7 +282,7 @@ public class ContractController implements ContractEP {
     if(data==null){
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
-
+    
     if(accpeted){
       Boolean result =dao.updateWorkerId(data.getId(),data.getWorkerId());
       work.updateStatusByWorkerId(data.getWorkerId(), "INAVAILABLE");
@@ -330,10 +330,12 @@ public class ContractController implements ContractEP {
     if(email == null){
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
-
+    email = email.replace("\"", "");
+    System.out.println(email);
     Worker foundWorker = work.findWorkerbyEmail(email);
 
     if(foundWorker != null){
+      System.out.println("WORKER");
       return ResponseEntity.status(HttpStatus.FOUND).body(foundWorker);
     }
 
@@ -344,6 +346,23 @@ public class ContractController implements ContractEP {
     }
 
     return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+  }
+
+  @Override
+  public ResponseEntity<?> getContractStatus(Long contractId) {
+
+    try {
+      String status=dao.getStatusFromContract(contractId);
+      if(status!=null){
+        return ResponseEntity.status(HttpStatus.OK).body(status);
+      }
+      else{
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+      }
+    
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
   }
 
 }

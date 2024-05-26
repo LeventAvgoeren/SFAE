@@ -59,6 +59,7 @@ public class SFAEAlgorithm {
     "sin(radians(?)) * " +
     "sin(radians(latitude)) " +
     ")) < ? AND job_type = ? " +
+    "AND status = 'AVAILABLE' " +
     "ORDER BY rating;";
         try {
           List<Worker> result = jdbcTemplate.query(

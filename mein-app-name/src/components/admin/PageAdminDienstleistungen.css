@@ -1,69 +1,203 @@
 .navbar {
+  position: sticky;
+  top: 0;
+  width: 100%; 
+  margin-left: auto; /* Zentriert die Block-Elemente horizontal */
+  margin-right: auto;
+  background-color: #184c8c;
+}
+
+
+/* Sorgt dafür, dass das Dropdown-Menü sich innerhalb der Grenzen der Navbar befindet */
+.nav-dropdown, #collapsible-nav-dropdown {
+  position: center; /* Übergeordnete Positionierung für Dropdown-Menü auf 'static' setzen */
+}
+
+/* Dropdown-Menü-Position anpassen */
+.dropdown-menu {
+  position: absolute; 
+  left: auto; /* Setze den linken Rand auf 'auto', damit das Menü rechtsbündig ausgerichtet wird */
+  right: 0; /* Richte das Menü rechts aus */
+  top: 1000%; /* Positioniere das Menü direkt unter der Nav-Komponente */
+  background-color: teal;
+}
+
+/* Dropdown-Menü für mobile Ansicht anpassen */
+@media (max-width: 768px) { /* Bootstrap mobile Ansicht Breakpoint */
+  .navbar-nav {
+    flex-direction: column; /* Staple die Nav-Elemente vertikal */
     position: sticky;
-    top: 0;
-    width: 100%; 
-    margin-left: auto; /* Zentriert die Block-Elemente horizontal */
-    margin-right: auto;
-    background-color: #184c8c;
+    
   }
-  
-  
-  /* Sorgt dafür, dass das Dropdown-Menü sich innerhalb der Grenzen der Navbar befindet */
+
   .nav-dropdown, #collapsible-nav-dropdown {
-    position: center; /* Übergeordnete Positionierung für Dropdown-Menü auf 'static' setzen */
+    position: sticky; /* Setze die Position auf 'static', um ein korrektes Verhalten in der mobilen Ansicht zu gewährleisten */
   }
-  
-  /* Dropdown-Menü-Position anpassen */
+
   .dropdown-menu {
-    position: absolute; 
-    left: auto; /* Setze den linken Rand auf 'auto', damit das Menü rechtsbündig ausgerichtet wird */
-    right: 0; /* Richte das Menü rechts aus */
-    top: 1000%; /* Positioniere das Menü direkt unter der Nav-Komponente */
-    background-color: teal;
-  }
-  
-  /* Dropdown-Menü für mobile Ansicht anpassen */
-  @media (max-width: 768px) { /* Bootstrap mobile Ansicht Breakpoint */
-    .navbar-nav {
-      flex-direction: column; /* Staple die Nav-Elemente vertikal */
-      position: sticky;
-      
-    }
-  
-    .nav-dropdown, #collapsible-nav-dropdown {
-      position: sticky; /* Setze die Position auf 'static', um ein korrektes Verhalten in der mobilen Ansicht zu gewährleisten */
-    }
-  
-    .dropdown-menu {
-      width: 100%; /* Setze die Breite des Dropdown-Menüs auf 100% */
-      position: sticky;
-    }
-  }
-  
-  .Nav-Link {
-    text-align: center; /* Zentriert den Inhalt des Links */
+    width: 100%; /* Setze die Breite des Dropdown-Menüs auf 100% */
     position: sticky;
   }
-  
-  .Nav-Link img, .Nav-Link div {
-    display: block; /* Sorgt dafür, dass das Bild und der Text als Block-Elemente gerendert werden */
-    margin-left: auto; /* Zentriert die Block-Elemente horizontal */
-    margin-right: auto;
-    position: sticky;
+}
+
+.background-image-Diesntleistungen {
+  background-image: url('/public/b1.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+
+
+.Nav-Link {
+  text-align: center; /* Zentriert den Inhalt des Links */
+  position: sticky;
+}
+
+.Nav-Link img, .Nav-Link div {
+  display: block; /* Sorgt dafür, dass das Bild und der Text als Block-Elemente gerendert werden */
+  margin-left: auto; /* Zentriert die Block-Elemente horizontal */
+  margin-right: auto;
+  position: sticky;
+}
+
+.Nav-Link div {
+  font-size: 10px; /* Stellt die Schriftgröße des Textes ein */
+  position: sticky;
+}
+
+.from-control .search-field {
+ /* text-align: center;*/
+  width: 200%; /* Ändere die Breite nach Bedarf */
+ 
+}
+
+.search-field{
+  /*max-width: 700px;*/
+/*   margin: 0 auto;*/
+  border-radius: 5px;
+}
+
+.search-field input {
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+  background-color: #003366;
+  border: none; 
+  outline: none;
+  color: white; 
+  margin-top: 20px ;
   }
-  
-  .Nav-Link div {
-    font-size: 10px; /* Stellt die Schriftgröße des Textes ein */
-    position: sticky;
+
+  .search-field input::placeholder {
+    color: white;
+    opacity: 0.7; 
   }
-  
-  .from-control .search-field {
-    text-align: center;
-    width: 200%; /* Ändere die Breite nach Bedarf */
-   
+
+  .search-field input:focus {
+    background-color: #003366;  
+    color: white; 
+}
+
+  .glassmorphism {
+    background: rgba(255, 255, 255, 0.2); 
+    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.3); 
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px); 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
   }
-  
-  .search-field{
-    width: max-content;
+
+  .flex-container {
+    display: flex;
   }
-  
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr; /* Erste Spalte nimmt doppelt so viel Platz wie die anderen beiden */
+    gap: 10px;
+  }
+
+  .margin-container {
+    margin-bottom: 50px;
+    }
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  background-color: transparent;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.table th, .table td {
+  padding: 12px;
+  vertical-align: middle;
+  text-align: left;
+  border-top: 1px solid #dee2e6;
+}
+
+.table thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dee2e6;
+  background-color: #f8f9fa;
+  color: #495057;
+}
+
+.table tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.table-bordered {
+  border: 1px solid #dee2e6;
+}
+
+.table-bordered th, .table-bordered td {
+  border: 1px solid #dee2e6;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+
+.table .icon {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.table .icon:hover {
+  transform: scale(1.1);
+}
+
+
+.table .btn-icon {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.table .btn-icon .icon {
+  pointer-events: none;
+}
+
+
+.table .icon-trash {
+color: red;
+}
+
+.table .icon-search {
+color: green;
+}
+
+.table .icon-pencil {
+color: orange;
+}
+

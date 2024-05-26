@@ -1,24 +1,42 @@
-import React, { useState } from 'react';
-import './PageIntroduction.css';
+import React, { useRef } from 'react';
+import './PageIntroduction.css'; // Stelle sicher, dass der Pfad korrekt ist
+
+type Direction = 'left' | 'right';
 
 export function PageIntroduction() {
-  const [page, setPage] = useState(1);
+    const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const nextPage = () => {
-    setPage(2);
-  };
+    const scrollToSection = (direction: Direction) => {
+        const container = containerRef.current;
+        if (container) {
+            if (direction === 'left') {
+                container.scrollBy({ left: -window.innerWidth, behavior: 'smooth' });
+            } else if (direction === 'right') {
+                container.scrollBy({ left: window.innerWidth, behavior: 'smooth' });
+            }
+        }
+    };
 
-  return (
-    <div className="welcome-container">
-        <h1 className="welcome-title">Welcome to SfÆ</h1>
-        <button className="arrow-button" onClick={nextPage}>➡️</button>
-      {page === 2 && (
-        <div className="welcome-content">
-          <h1 className="welcome-title">Die dritte Info</h1>
+    return (
+        <div className="horizontal-scroll-container" ref={containerRef}>
+            <div className="horizontal-section section1">
+                <h1>Über Uns</h1>
+                <button onClick={() => scrollToSection('right')} className="arrow arrow-right">&#x2192;</button>
+            </div>
+            <div className="horizontal-section section2">
+                <button onClick={() => scrollToSection('left')} className="arrow arrow-left">&#x2190;</button>
+                <h1>Warum uns</h1>
+                <button onClick={() => scrollToSection('right')} className="arrow arrow-right">&#x2192;</button>
+            </div>
+            <div className="horizontal-section section3">
+                <button onClick={() => scrollToSection('left')} className="arrow arrow-left">&#x2190;</button>
+                <h1>Willkommen</h1>
+                <button onClick={() => scrollToSection('right')} className="arrow arrow-right">&#x2192;</button>
+            </div>
+            <div className="horizontal-section section4">
+                <button onClick={() => scrollToSection('left')} className="arrow arrow-left">&#x2190;</button>
+                <h1>Irgendwas</h1>
+            </div>
         </div>
-      )}
-    </div>
-  );
+    );
 }
-
-export default PageIntroduction;

@@ -1,92 +1,36 @@
-/* src/PageIntroduction.css */
-.welcome-container {
-    position: relative;
+/* PageIntroduction.css */
+.horizontal-scroll-container {
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll; /* Geändert von auto zu scroll, um das Scrollen zu erzwingen */
+    width: 100vw;
+    scroll-snap-type: x mandatory;
+}
+
+.horizontal-section {
+    flex: 0 0 100vw;
+    scroll-snap-align: start;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background: linear-gradient(135deg, #00b4db, #0083b0);
-    color: white;
     text-align: center;
-    overflow: hidden;
-}
-
-.background-animation {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: url('');
-    background-size: cover;
-    animation: moveBackground 20s linear infinite;
-}
-
-.welcome-content {
     position: relative;
-    z-index: 2;
-    animation: fadeIn 2s ease-out;
 }
 
-.welcome-title {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    animation: slideIn 1s ease-out, breathe 3s ease-in-out infinite;
-}
+.section1 { background-color: #f8b400; }
+.section2 { background-color: #1e90ff; }
+.section3 { background-color: #ff6347; }
+.section4 { background-color: #32cd32; }
 
-.welcome-description {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-    animation: slideIn 1.5s ease-out;
-}
-
-.steps-container {
-    display: flex;
-    justify-content: space-evenly;
-    margin-bottom: 20px;
-}
-
-.step {
-    width: 30%;
-    animation: stepIn 1s ease-out forwards;
-}
-
-.welcome-button {
-    padding: 1rem 2rem;
-    font-size: 1rem;
-    color: white;
-    background: #00796b;
-    border: none;
-    border-radius: 5px;
+.arrow {
+    font-size: 2rem;
     cursor: pointer;
-    animation: fadeIn 2s ease-out;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
 }
 
-.welcome-button:hover {
-    background: #004d40;
-    transform: scale(1.05);
-    transition: background 0.3s, transform 0.3s;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes slideIn {
-    from { transform: translateY(20px); }
-    to { transform: translateY(0); }
-}
-
-@keyframes breathe {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-}
-
-@keyframes stepIn {
-    from { transform: translateX(50px); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-}
-
-@keyframes moveBackground {
-    0% { background-position: 0% 0%; }
-    100% { background-position: 100% 100%; }
-}
+.arrow-left { left: 20px; }
+.arrow-right { right: 20px; }

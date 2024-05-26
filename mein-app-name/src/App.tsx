@@ -33,6 +33,7 @@ import { PageDeclineJob } from "./components/worker/PageDeclineJob";
 import { PageRequestPasswordReset } from "./components/PageRequestPasswordReset";
 import PageError from "./components/Error";
 import LoadingIndicator from "./components/LoadingIndicator";
+import PageChat from "./components/PageChat";
 import { PageIntroduction } from "./components/PageIntroduction";
  
 
@@ -76,7 +77,8 @@ function App() {
                           (<PageIndex />)
                     }
                   />
-
+                  <Route path="/admin/:adminId" element={<PageIndexAdmin />} />
+                  <Route path="/admin/:adminId/dienstleistungen" element={<PageAdminDienstleistungen />} />
                   <Route path="/login" element={<PageLogin />} />
                   <Route path="/registration/customer" element={<PageRegistration />} />
                   <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
@@ -95,7 +97,17 @@ function App() {
                   <Route path="/customer/:customerId/order/:orderId" element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageOrderOverview /> : < Navigate to="/NotAuth" replace />} />
                   <Route path="/customer/:customerId/orders/:orderId/completed"element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageOrderCompleted /> : < Navigate to="/NotAuth" replace />}/>
                   <Route path="/customer/:customerId/orders/:orderId/rating"element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageOrderRating /> : < Navigate to="/NotAuth" replace />}/>
-             
+{/* Chat Route */}
+<Route
+          path="/chat/:userId"
+          element={
+            loginInfo && (loginInfo.userId.startsWith("C") || loginInfo.userId.startsWith("W")) ? (
+              <PageChat />
+            ) : (
+              <Navigate to="/NotAuth" replace />
+            )
+          }
+        />             
 
                 
             

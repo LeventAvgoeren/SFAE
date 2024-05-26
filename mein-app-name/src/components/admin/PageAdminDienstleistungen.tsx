@@ -4,30 +4,112 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './DesignVorlage.css';
 import './PageAdminDienstleistungen.css';
 import { Link } from 'react-router-dom';
-import { MDBInput } from 'mdb-react-ui-kit';
-import { Table, Button, Container, Nav, NavDropdown, Navbar, Modal } from 'react-bootstrap';
+import { Table, Button, Container, Nav, NavDropdown, Navbar, Modal, Form, Badge } from 'react-bootstrap';
 import { Trash, Search, Pencil, Modem } from 'react-bootstrap-icons';
+import { CustomerResource, WorkerResource } from '../../Resources';
+import { deleteCustomer, deleteWorker, getAllCustomers, getAllWorker, updateCustomer } from '../../backend/api';
 import { LoginInfo } from '../LoginManager';
-import { CustomerResource } from '../../Resources';
-import { deleteCustomer, getAllCustomers, updateCustomer } from '../../backend/api';
+import NavbarComponent from '../navbar/NavbarComponent';
 
+interface PageAdminComponentProps {
+    isAdminPage?: boolean;
+  }
 
-export function PageAdminDienstleistungen() {
+export function PageAdminDienstleistungen({ isAdminPage }: PageAdminComponentProps) {
     const [loginInfo, setLoginInfo] = useState<LoginInfo | false | undefined>(undefined);
     const [showDeleteC, setShowDeleteC] = useState<boolean>(false);
-    const [showEditC, setShowEditC] = useState<boolean>(false);
-    const [customertData, setCustomerData] = useState<CustomerResource[]>([]);
+    const [showDeleteW, setShowDeleteW] = useState<boolean>(false);
+    const [showSearchC, setshowSearchC] = useState<boolean>(false);
+    const [showSearchW, setshowSearchW] = useState<boolean>(false);
+    const [customerData, setCustomerData] = useState<CustomerResource[]>([]);
+    const [customerFilterData, setCustomerFilterData] = useState<CustomerResource[]>([]);
+    const [workerData, setWorkerData] = useState<WorkerResource[]>([]);
+    const [workerFilterData, setWorkerFilterData] = useState<WorkerResource[]>([]);
     const [selectedCustomer, setSelectedCustomer] = useState<CustomerResource | null>(null);
+    const [selectedWorker, setSelectedWorker] = useState<WorkerResource | null>(null);
+    const [customerButtonClicked, setCustomerButtonClicked] = useState<boolean>(false);
+    const [showDialog, setShowDialog] = useState(false);
+
+
+    const [costumerName, setCostumerName] = useState("");
+    const [costumerEmail, setCostumerEmail] = useState("");
+    const [costumerPassword, setCostumerPassword] = useState("");
+    const [WorkerName, setWorkerName] = useState("");
+    const [WorkerEmail, setWorkerEmail] = useState("");
+    const [WorkerPassword, setWorkerPassword] = useState("");
+
+    const navigate = useNavigate();
+
+    const handleCustomerClick = (): void => {
+        setCustomerButtonClicked(true);
+    }
+
+    const handleWorkerClick = (): void => {
+        setCustomerButtonClicked(false);
+    }
 
     const selectDeleteCustomer = (cus: CustomerResource) => {
         setSelectedCustomer(cus);
-        setShowDeleteC(true); 
+        setShowDeleteC(true);
+    }
+    const selectSearchCustomer = (cus: CustomerResource) => {
+        setSelectedCustomer(cus);
+        setshowSearchC(true);
     }
 
     const selectEditCustomer = (cus: CustomerResource) => {
         setSelectedCustomer(cus);
-        setShowEditC(true);
+        setShowDialog(true);
     }
+    const handleClose = () => {
+        setShowDialog(false);
+        setSelectedCustomer(null);
+        setSelectedWorker(null);
+    }
+    const selectDeleteWorker = (cus: WorkerResource) => {
+        setSelectedWorker(cus);
+        setShowDeleteW(true);
+    }
+
+    const selectEditWorker = (cus: WorkerResource) => {
+        setSelectedWorker(cus);
+        setShowDialog(true)
+    }
+    const selectSearchWorker = (cus: WorkerResource) => {
+        setSelectedWorker(cus);
+        setshowSearchW(true);
+    }
+    
+const handleUpdateCustomer = async (updatedCustomer: CustomerResource) => {
+    try {
+        await updateCustomer(updatedCustomer);
+        handleClose();
+    } catch (error) {
+        console.error('Fehler beim Aktualisieren des Kunden:', error);
+    }
+}
+
+
+const handleSave = () => {
+    const updatedCustomer: CustomerResource = {
+        ...selectedCustomer!,
+        name: costumerName,
+        email: costumerEmail,
+        password: costumerPassword
+    };
+    handleUpdateCustomer(updatedCustomer);
+};
+
+const handleSaveWorkerUpdate = () => {
+    const updatedWorker: any  = {
+        ...selectedCustomer!,
+        name: WorkerName,
+        email: WorkerEmail,
+        password: WorkerPassword,
+    };
+    handleUpdateCustomer(updatedWorker);
+};
+
 
     const removeCustomer = () => {
         if (selectedCustomer?.id) {
@@ -41,46 +123,64 @@ export function PageAdminDienstleistungen() {
         setShowDeleteC(false);
     }
 
-    const editCustomer = () => {
-        if (selectedCustomer?.id) {
+    const removeWorker = () => {
+        if (selectedWorker?.id) {
             try {
-                updateCustomer(selectedCustomer)
-                setSelectedCustomer(null);
+                deleteWorker(selectedWorker.id)
+                setSelectedWorker(null);
             } catch {
                 console.log("error")
             }
         }
-        setShowEditC(false);
+        setShowDeleteW(false);
     }
 
-    const closeDeleteConstomerDialog = () => {
+
+    const closeDeleteCustomerDialog = () => {
         setShowDeleteC(false);
     }
 
-    const closeEditConstomerDialog = () => {
-        setShowEditC(false);
+    const closeSearchDialog = () => {
+        setshowSearchC(false);
     }
 
-    const setName = (value: string) => {
-        if (selectedCustomer){
-            const c = {...selectedCustomer}
-            c.name = value
-            setSelectedCustomer(c)
+    const closeDeleteWorkerDialog = () => {
+        setShowDeleteW(false);
+    }
+
+    const closeSearchWorkerDialog = () => {
+        setshowSearchW(false);
+    }
+
+    const changeSearch = (value: string) => {
+
+        if (customerButtonClicked){
+            const newCustomers = customerData.filter(element => {
+                if(!value){
+                    return true;
+                }else{
+                    return element.name.toLowerCase().startsWith(value.toLowerCase());
+                }
+            })
+            setCustomerFilterData(newCustomers)
+        }else{
+            const newWorkers = workerData.filter(element => {
+                if(!value){
+                    return true;
+                }else{
+                    return element.name.toLowerCase().startsWith(value.toLowerCase());
+                }
+            })
+            setWorkerFilterData(newWorkers)
         }
     }
 
-    const setRole = (value: string) => {
-        if (selectedCustomer){
-            const c = {...selectedCustomer}
-            c.role = value
-            setSelectedCustomer(c)
-        }
-    }
     useEffect(() => {
         async function fetchCustomerData() {
             try {
                 const data = await getAllCustomers();
                 setCustomerData(data);
+                setCustomerFilterData(data);
             } catch (error) {
                 console.error("Error fetching customers data:", error);
             }
@@ -88,172 +188,224 @@ export function PageAdminDienstleistungen() {
         fetchCustomerData();
     }, []);
 
+    useEffect(() => {
+        async function fetchWorkerData() {
+            try {
+                const data = await getAllWorker();
+                setWorkerData(data);
+                setWorkerFilterData(data);
+            } catch (error) {
+                console.error("Error fetching customers data:", error);
+            }
+        }
+        fetchWorkerData();
+    }, []);
 
     return (
-
         <>
-            <Navbar variant="dark" expand="lg">
-                <Container>
-                    <Nav className='mx-auto'>
-                        <NavDropdown title={<img src={"/SFAE_Logo.png"} height="35" alt="Dropdown Logo" />} id="collapsible_nav_dropdown">
-                            <NavDropdown.Item
-                                href="#profil">
-                                <img
-                                    src={"/Profil.png"}
-                                    height="35"
-                                    className="d-inline-block align-top"
-                                    alt="SFAE Logo" />
-                                Action
-                            </NavDropdown.Item>
-
-                            <NavDropdown.Item
-                                href="#support">
-                                <img
-                                    src={"/Q&A_Logo.png"}
-                                    height="35"
-                                    className="d-inline-block align-top"
-                                    alt="SFAE Logo" />
-                                Another action
-                            </NavDropdown.Item>
-
-                            <NavDropdown.Item
-                                href="#settings">
-                                <img
-                                    src={"/Einstellung.png"}
-                                    height="35"
-                                    className="d-inline-block align-top"
-                                    alt="SFAE Logo" />
-                                Something
-                            </NavDropdown.Item>
-
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">
-                                Separated link
-                            </NavDropdown.Item>
-                        </NavDropdown>
-
-                        <Nav.Link href="#profile">
-                            <img
-                                src={"/Profil.png"}
-                                height="35"
-                                className="d-inline-block align-top"
-                                alt="SFAE Logo" />
-                        </Nav.Link>
-
-                        <Nav.Link href="#support">
-                            <img
-                                src={"/Q&A_Logo.png"}
-                                height="35"
-                                className="d-inline-block align-top"
-                                alt="SFAE Logo" />
-                        </Nav.Link>
-
-                        <Nav.Link href="#settings">
-                            <img
-                                src={"/Einstellung.png"}
-                                height="35"
-                                className="d-inline-block align-top"
-                                alt="SFAE Logo" />
-                        </Nav.Link>
-
-                        {loginInfo && loginInfo.admin === "admin" && <Nav.Link href="#settings">
-                            <img
-                                src={"/clock.png"}
-                                height="35"
-                                className="d-inline-block align-top"
-                                alt="SFAE Logo" />
-                        </Nav.Link>}
-
-                        {/* <Nav.Link href="#features">Finanzen</Nav.Link>
-    <Nav.Link href="#pricing">Support</Nav.Link> */}
-                    </Nav>
-
-                </Container>
-            </Navbar>
-
-            <div className="background-city">
-                <div className="container-frame">
-                    <Navbar.Brand href="/">
-                        <img
-                            src={"/SFAE_Logo.png"}
-                            className="img-fluid"
-                            alt="SFAE Logo"
-                        />
-                    </Navbar.Brand>
-                    <Table striped bordered hover>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Id</th>
-                                <th>Delete</th>
-                                <th>Search</th>
-                                <th>Edit</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                customertData.map((customer, idx) => {
-                                    return <tr key={idx}>
-                                        <td>{idx + 1}</td>
-                                        <td>{customer.name}</td>
-                                        <td>{customer.id}</td>
-                                        {/* <td><Trash size={24} color='red' onClick={() => selectDeleteCustomer(customer)} /></td>
-                                        <td><Search size={24} color='green' /></td>
-                                        <td><Pencil size={24} color='orange' onClick={() => selectEditCustomer(customer)} /></td> */}
-                                    </tr>
-                                })
-                            }
-                        </tbody>
-                    </Table>
-                </div>
-            </div>
-            {selectedCustomer && <Modal show={showDeleteC}>
-                <Modal.Header>
-                    <Modal.Title>Delete Customer</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    Möchten sie wirklich {selectedCustomer?.name} löschen?
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant='secondary' onClick={closeDeleteConstomerDialog}>Close</Button>
-                    <Button variant='primary' onClick={removeCustomer}>Delete</Button>
-                </Modal.Footer>
-            </Modal>}
-            {selectedCustomer && <Modal show={showEditC}>
-                <Modal.Header>
-                    <Modal.Title>Customer Bearbeiten</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <div>
-                        <MDBInput
-                            wrapperClass='mb-3 inputField'
-                            labelClass='text-white'
-                            label='Customer Name'
-                            id='nameInput'
-                            type='text'
-                            value={selectedCustomer.name}
-                            onChange={e => setName(e.target.value)}
-                            required
-                        />
-
-                        <MDBInput
-                            wrapperClass='mb-3 inputField'
-                            labelClass='text-white'
-                            label='Customer Role'
-                            id='roleInput'
-                            type='text'
-                            value={selectedCustomer.role}
-                            onChange={e => setRole(e.target.value)}
-                            required
-                        />
+            <div className='background-image-Diesntleistungen'>
+                <NavbarComponent/>
+                <div className="background-city">
+                    <div className="container-frame glassmorphism">
+                        <div className="grid-container margin-container">
+                        <Container className='search-field'>
+                            <input 
+                                type='text' 
+                                className='form-control glassmorphism' 
+                                placeholder='Suchen'
+                                onChange={e => changeSearch(e.target.value)}  
+                            />
+                        </Container>
+                    {(
+                        <>
+                        <Button onClick={handleWorkerClick}>Workers</Button>
+                        <Button onClick={handleCustomerClick}>Customers</Button>
+                        </>
+                    )}
                     </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant='secondary' onClick={closeEditConstomerDialog}>Close</Button>
-                    <Button variant='primary'>Bearbeiten</Button>
-                </Modal.Footer>
-            </Modal>}
+
+                        <Table striped hover bordered className="table" data-bs-theme="dark" variant="primary"> 
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Id</th>
+                                    <th>Delete</th>
+                                    <th>Search</th>
+                                    <th>Edit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+    {customerButtonClicked ? (
+        customerFilterData.map((customer, idx) => (
+            <tr key={idx}>
+                <td>{idx + 1}</td>
+                <td>{customer.name}</td>
+                <td>{customer.id}</td>
+                <td colSpan={1}>
+                    <Trash size={24} color='red' onClick={() => selectDeleteCustomer(customer)} />
+                </td>
+                <td colSpan={1}>
+                    <Search size={24} color='green' onClick={() => selectSearchCustomer(customer)} />
+                </td>
+                <td colSpan={1}>
+                    <Pencil size={24} color='orange' onClick={() => selectEditCustomer(customer)} />
+                </td>
+            </tr>
+        ))
+    ) : (
+        workerFilterData.map((worker, idx) => (
+            <tr key={idx}>
+                <td>{idx + 1}</td>
+                <td>{worker.name}</td>
+                <td>{worker.id}</td>
+                <td colSpan={1}>
+                    <Trash size={24} color='red' onClick={() => selectDeleteWorker(worker)} />
+                </td>
+                <td colSpan={1}>
+                    <Search size={24} color='green' onClick={() => selectSearchWorker(worker)} />
+                </td>
+                <td colSpan={1}>
+                    <Pencil size={24} color='orange' onClick={() => selectEditWorker(worker)} />
+                </td>
+            </tr>
+        ))
+    )}
+</tbody>
+
+
+                        </Table> 
+                    </div>
+                </div>
+                {selectedCustomer && <Modal show={showDeleteC}>
+                    <Modal.Header style={{ backgroundColor: '#d1e7dd' }}>
+                        <Modal.Title>Delete Customer</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Möchten sie wirklich {selectedCustomer?.name} löschen?
+                    </Modal.Body>
+                    <Modal.Footer style={{ backgroundColor: '#d1e7dd' }}>
+                        <Button variant='secondary' onClick={closeDeleteCustomerDialog}>Close</Button>
+                        <Button variant='primary' onClick={removeCustomer}>Delete</Button>
+                    </Modal.Footer >
+                </Modal>}
+                {selectedWorker && <Modal show={showDeleteW}>
+                    <Modal.Header style={{ backgroundColor: '#d1e7dd' }}>
+                        <Modal.Title>Delete Worker</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Möchten sie wirklich {selectedWorker?.name} löschen?
+                    </Modal.Body>
+                    <Modal.Footer style={{ backgroundColor: '#d1e7dd' }}>
+                        <Button variant='secondary' onClick={closeDeleteWorkerDialog}>Close</Button>
+                        <Button variant='primary' onClick={removeWorker}>Delete</Button>
+                    </Modal.Footer>
+                </Modal>}
+
+                {selectedCustomer && (
+    <Modal show={showSearchC}>
+        <Modal.Header style={{ backgroundColor: '#d1e7dd' }}>
+            <Modal.Title>{selectedCustomer.name} Daten</Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ backgroundColor: '#ffffff' }}>
+            <Container>
+                <p><strong>Id:</strong> {selectedCustomer.id}</p>
+            </Container>
+            <Container>
+                <p><strong>Name:</strong> {selectedCustomer.name}</p>
+            </Container>
+            <Container>
+                <p><strong>Email:</strong> {selectedCustomer.email}</p>
+            </Container>
+            <Container>
+                <p><strong>Role:</strong> {selectedCustomer.role}</p>
+            </Container>
+        </Modal.Body>
+        <Modal.Footer style={{ backgroundColor: '#d1e7dd' }}>
+            <Button variant='secondary' onClick={closeSearchDialog}>Close</Button>
+        </Modal.Footer>
+    </Modal>
+)}
+
+
+{selectedWorker && (
+    <Modal show={showSearchW}>
+        <Modal.Header style={{ backgroundColor: '#d1e7dd' }}>
+            <Modal.Title>{selectedWorker.name} Daten</Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ backgroundColor: '#ffffff' }}>
+            <Container>
+                <p><strong>Id:</strong> {selectedWorker.id}</p>
+            </Container>
+            <Container>
+                <p><strong>Name:</strong> {selectedWorker.name}</p>
+            </Container>
+            <Container>
+                <p><strong>Email:</strong> {selectedWorker.email}</p>
+            </Container>
+            <Container>
+                <p><strong>Location:</strong> {selectedWorker.location}</p>
+            </Container>
+        </Modal.Body>
+        <Modal.Footer style={{ backgroundColor: '#d1e7dd' }}>
+            <Button variant='secondary' onClick={closeSearchWorkerDialog}>Close</Button>
+        </Modal.Footer>
+    </Modal>
+)}
+                {selectedCustomer && <Modal show={showDialog}>
+                    <Modal.Header style={{ backgroundColor: '#d1e7dd' }}>
+                        <Modal.Title>{selectedCustomer.name} Daten</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+    <Form >
+<Form.Group>
+    <Form.Label>Name:</Form.Label>
+    <Form.Control type="text" defaultValue={selectedCustomer.name} onChange={e => setCostumerName(e.target.value)} />
+</Form.Group>
+<Form.Group>
+    <Form.Label>Email:</Form.Label>
+    <Form.Control type="email" defaultValue={selectedCustomer.email} onChange={e => setCostumerEmail(e.target.value)} />
+</Form.Group>
+<Form.Group>
+    <Form.Label>Password:</Form.Label>
+    <Form.Control type="password" defaultValue={selectedCustomer.password} onChange={e => setCostumerPassword(e.target.value)} />
+</Form.Group>
+    </Form>
+</Modal.Body>
+                    <Modal.Footer style={{ backgroundColor: '#d1e7dd' }}>
+                        <Button variant='secondary' onClick={handleSave}>Speichern</Button>
+                        <Button variant='secondary' onClick={handleClose}>Close</Button>
+                    </Modal.Footer>
+                </Modal>}
+
+                {selectedWorker && <Modal show={showDialog}>
+                    <Modal.Header style={{ backgroundColor: '#d1e7dd' }}>
+                        <Modal.Title>{selectedWorker.name} Daten</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+    <Form>
+<Form.Group>
+    <Form.Label>Name:</Form.Label>
+    <Form.Control type="text" defaultValue={selectedWorker.name} onChange={e => setWorkerName(e.target.value)} />
+</Form.Group>
+<Form.Group>
+    <Form.Label>Email:</Form.Label>
+    <Form.Control type="email" defaultValue={selectedWorker.email} onChange={e => setWorkerEmail(e.target.value)} />
+</Form.Group>
+<Form.Group>
+    <Form.Label>Password:</Form.Label>
+    <Form.Control type="password" defaultValue={selectedWorker.password} onChange={e => setWorkerPassword(e.target.value)} />
+</Form.Group>
+    </Form>
+</Modal.Body>
+                    <Modal.Footer style={{ backgroundColor: '#d1e7dd' }}>
+                        <Button variant='secondary' onClick={handleSaveWorkerUpdate}>Speichern</Button>
+                        <Button variant='secondary' onClick={handleClose}>Close</Button>
+                    </Modal.Footer>
+                </Modal>}
+            </div>
         </>
     );
 }
+
+

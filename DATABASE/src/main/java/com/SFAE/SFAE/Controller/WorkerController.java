@@ -2,6 +2,7 @@ package com.SFAE.SFAE.Controller;
 
 import java.util.Arrays;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ import com.SFAE.SFAE.Service.MailService;
 import com.SFAE.SFAE.Service.TokenMailService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import java.util.Base64;
 import io.jsonwebtoken.Claims;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.mail.MessagingException;
@@ -190,12 +191,11 @@ public class WorkerController implements WorkerEp {
         try {
             Worker found = dao.updateWorker(jsonData);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(found);
-        } catch(DataAccessException dax){
-          
+        } catch (DataAccessException dax) {
+
             System.out.println(dax);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -328,27 +328,29 @@ public class WorkerController implements WorkerEp {
 
     @Override
     public ResponseEntity<?> requestResetPassword(String email) {
-          if(email == null){
+        if (email == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
         email = email.replace("\"", "");
         Worker foundCustomer = dao.findWorkerbyEmail(email);
-        if(foundCustomer != null){
+        if (foundCustomer != null) {
             String token = mailService.createToken(1, foundCustomer.getId(), TokenType.PASSWORDRESET);
-        
-            String link = "https://localhost:3000/newPassword?token=" + token; 
+
+            String link = "https://localhost:3000/newPassword?token=" + token;
 
             try {
                 mail.sendHtmlMessage(foundCustomer.getEmail(), "Email zurücksetzen",
-                    "<html><body>" +
-                        "Hallo " + foundCustomer.getName() + ",<br>" +
-                        "Sie haben beantragt ihr Passwort zu ändern.<br>"+
-                        "Unter diesem <a href='" + link + "'>Link</a> können Sie ihr Passwort ändern. Der Link läuft nach 5 Minuten ab.<br>" +
-                        "Bei Fragen oder für weitere Informationen stehen wir Ihnen gerne zur Verfügung.<br><br>" +
-                        "Mit freundlichen Grüßen,<br>" +
-                        "Ihr SFAE-Team" +
-                        "</body></html>");  
+                        "<html><body>" +
+                                "Hallo " + foundCustomer.getName() + ",<br>" +
+                                "Sie haben beantragt ihr Passwort zu ändern.<br>" +
+                                "Unter diesem <a href='" + link
+                                + "'>Link</a> können Sie ihr Passwort ändern. Der Link läuft nach 5 Minuten ab.<br>" +
+                                "Bei Fragen oder für weitere Informationen stehen wir Ihnen gerne zur Verfügung.<br><br>"
+                                +
+                                "Mit freundlichen Grüßen,<br>" +
+                                "Ihr SFAE-Team" +
+                                "</body></html>");
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
@@ -360,23 +362,41 @@ public class WorkerController implements WorkerEp {
     }
 
     @Override
-    public ResponseEntity<?> resetPassword(PasswordResetRequest data) { //The frontend doesnt use this route. It uses instead the customer route.
-         if(data == null){
+    public ResponseEntity<?> resetPassword(PasswordResetRequest data) { // The frontend doesnt use this route. It uses
+                                                                        // instead the customer route.
+        if (data == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
         Token token = mailService.validateToken(data.getToken());
-        if(token == null){
+        if (token == null) {
             return ResponseEntity.status(HttpStatus.GONE).build();
         }
 
-        if(dao.updatePassword(data.getPassword(), token.getReceiver())){
+        if (dao.updatePassword(data.getPassword(), token.getReceiver())) {
             return ResponseEntity.status(HttpStatus.OK).build();
         }
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-   
+    @Override
+    public ResponseEntity<?> getWorkerImageAsBase64(String id) {
+        if (id.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        try {
+            byte[] imageBytes = dao.getProfileImageByworkerId(id);
+
+            if (imageBytes != null && imageBytes.length>0) {
+                String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                return ResponseEntity.status(HttpStatus.OK).body(base64Image);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
 }

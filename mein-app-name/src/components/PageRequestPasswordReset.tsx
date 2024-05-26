@@ -43,12 +43,12 @@ export function PageRequestPasswordReset(){
                         />
                         <MDBRow>
                             <MDBCol size="auto">
-                                <MDBBtn className='mb-4 w-100 gradient-custom-4 button-text-large'>
+                                <MDBBtn className='mb-4 w-100 gradient-custom-4 button-text-large' size='sm'>
                                     <Link to="/login" className="link button-text-large">Zurück zum Login</Link>
                                 </MDBBtn>
                             </MDBCol>
                             <MDBCol>
-                                <MDBBtn className='mb-4 w-100 gradient-custom-4 button-text-large' size='lg' type="submit">Passwort zurücksetzen</MDBBtn>
+                                <MDBBtn className='mb-4 w-100 gradient-custom-4 button-text-large' size='sm' type="submit">Passwort zurücksetzen</MDBBtn>
                             </MDBCol>
                         </MDBRow>
                     </form>

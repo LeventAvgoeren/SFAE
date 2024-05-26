@@ -83,6 +83,14 @@ export default function PageRegistrationWorker() {
                                 ))}
                             </select>
                             <MDBInput wrapperClass='mb-4' label='Gehaltswunsch' size='lg' type='number' value={salary} onChange={(e) => setSalary(Number(e.target.value))} required/>
+                            
+                        <MDBCheckbox
+                            name='termsCheck'
+                            id='termsCheck'
+                            label='Ich stimme den Nutzungsbedingungen zu'
+                            wrapperClass='d-flex justify-content-center mb-4 text-white'
+                            required
+                        />
                             <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type="submit">Registrieren</MDBBtn>
                         </form>
                         <MDBRow>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import { Link, useNavigate } from 'react-router-dom';
+import validator from 'validator';
 import './PageRegistration.css';
 import { registrationCustomer } from '../../backend/api';
 
@@ -11,8 +12,15 @@ export default function PageRegistration() {
     const [password, setPassword] = useState('');
     const navigate= useNavigate()
 
+
     const handleRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
+
+      if (!validator.isEmail(email)) {
+        alert('Bitte gib eine gültige E-Mail-Adresse ein.');
+        return;
+    }
+    
         try {
           const response = await registrationCustomer(name, password, email);
          

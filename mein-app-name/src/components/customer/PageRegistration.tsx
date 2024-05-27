@@ -20,6 +20,11 @@ export default function PageRegistration() {
         alert('Bitte gib eine gültige E-Mail-Adresse ein.');
         return;
     }
+
+    if (!validateAddress(address)) {
+        alert('Bitte gib eine gültige Adresse ein.');
+        return;
+    }
     
         try {
           const response = await registrationCustomer(name, password, email);
@@ -32,6 +37,12 @@ export default function PageRegistration() {
             alert('Registration failed!');
         }
     };
+
+    const validateAddress = (address: string): boolean => {
+        // Einfache Validierung: Mindestens 10 Zeichen
+        return address.length >= 10;
+    };
+    
 
     return (
         <div className="background-image" >

@@ -156,6 +156,7 @@ return (
                     className="form-control"
                     value={jobType.toString() || ""}
                     onChange={(e) => setJobType(String(e.target.value))}
+                    
                   >
                     {jobType ? null : <option value="">Bitte wählen</option>}
                     {jobTypes.map((type) => (

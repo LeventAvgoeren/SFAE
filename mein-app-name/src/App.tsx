@@ -34,6 +34,7 @@ import { PageAdminDienstleistungen } from "./components/admin/PageAdminDienstlei
 
 
 
+
 function App() {
   const [loginInfo, setLoginInfo] = useState<LoginInfo | false>();
   const [isLoading, setLoading] = useState(true);
@@ -110,7 +111,7 @@ function App() {
                   <Route path="/contract" element={<PageDeclineJob />} />
 
                   <Route path="*" element={<Navigate to="/NotFound" replace />} />
-                  <Route path="/NotFound" element={<PageError error={404}/>} />  
+                  <Route path="/NotFound" element={<PageError error={404}/>} /> 
           
 
         </Routes>

@@ -68,3 +68,51 @@
   .rating button.off svg {
     color: grey; /* Farbe für inaktive Sterne */
   }
+
+  
+.card {
+  box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+}
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background: rgba(0, 0, 0, 0.7);
+  background-clip: border-box;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 1rem;
+}
+.text-reset {
+  --bs-text-opacity: 1;
+  color: inherit!important;
+}
+a {
+  color: #5465ff;
+  text-decoration: none;
+}
+
+.Backg {
+  position: relative; /* Stelle sicher, dass der Hintergrund relative oder absolute Positionierung hat */
+}
+
+.containertest {
+  max-width: 100%; /* Begrenzt die Breite des Containers */
+  margin: 0 auto; /* Zentriert den Container horizontal */
+  padding: 20px; /* Gibt dem Inneren des Containers etwas Raum */
+}
+
+.item-details, .info-section, .details-panel {
+  overflow: auto; 
+  max-height: 400px; 
+  padding: 15px; 
+  margin-bottom: 20px; 
+}
+
+.content-area{
+  overflow: auto; 
+  max-height: 400px; 
+  padding: 15px; 
+  margin-bottom: 20px;
+}

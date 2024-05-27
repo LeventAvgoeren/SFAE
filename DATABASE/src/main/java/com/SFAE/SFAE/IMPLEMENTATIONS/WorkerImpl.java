@@ -246,9 +246,9 @@ public class WorkerImpl implements WorkerInterface {
       Double range = rs.getRange();
       String jobType = rs.getJobType();
       Double minPayment = rs.getMinPayment();
-      Double rating = 0.1;
+      Double rating = 1.0;
       ArrayList<Double> ratingAv = new ArrayList<>();
-      ratingAv.add(0.1);
+      ratingAv.add(1.0);
       Boolean verification = false;
       double latitude = rs.getLatitude();
       double longitude = rs.getLongitude();

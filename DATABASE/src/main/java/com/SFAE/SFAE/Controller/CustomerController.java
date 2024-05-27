@@ -11,6 +11,7 @@ import com.SFAE.SFAE.DTO.PasswordResetRequest;
 import com.SFAE.SFAE.DTO.Token;
 import com.SFAE.SFAE.ENDPOINTS.CustomerEP;
 import com.SFAE.SFAE.ENTITY.Customer;
+import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.Role;
 import com.SFAE.SFAE.ENUM.TokenType;
 import com.SFAE.SFAE.IMPLEMENTATIONS.CustomerImp;
@@ -392,14 +393,15 @@ class CustomerController implements CustomerEP {
 
     }
 
-    @Override
+   @Override
     public ResponseEntity<?> requestResetPassword(String email) {
         if(email == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-
+        System.out.println(email);
         email = email.replace("\"", "");
         Customer foundCustomer = cus.findEmail(email);
+        System.out.println("ADASD " + foundCustomer);
         if(foundCustomer != null){
             String token = mailService.createToken(0, foundCustomer.getId(), TokenType.PASSWORDRESET);
         
@@ -422,8 +424,36 @@ class CustomerController implements CustomerEP {
             return ResponseEntity.status(HttpStatus.OK).body(token);
         }
 
+        Worker foundWorker = wao.findWorkerbyEmail(email);
+        System.out.println("ADASD " + foundCustomer);
+        if(foundWorker != null){
+            String token = mailService.createToken(0, foundWorker.getId(), TokenType.PASSWORDRESET);
+        
+            String link = "https://localhost:3000/newPassword?token=" + token; 
+
+            try {
+                mail.sendHtmlMessage(foundWorker.getEmail(), "Email zurücksetzen",
+                    "<html><body>" +
+                        "Hallo " + foundWorker.getName() + ",<br>" +
+                        "Sie haben beantragt ihr Passwort zu ändern.<br>"+
+                        "Unter diesem <a href='" + link + "'>Link</a> können Sie ihr Passwort ändern. Der Link läuft nach 5 Minuten ab.<br>" +
+                        "Bei Fragen oder für weitere Informationen stehen wir Ihnen gerne zur Verfügung.<br><br>" +
+                        "Mit freundlichen Grüßen,<br>" +
+                        "Ihr SFAE-Team" +
+                        "</body></html>");  
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+
+            return ResponseEntity.status(HttpStatus.OK).body(token);
+        }
+
+
+
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+
+    
 
     @Override
     public ResponseEntity<?> resetPassword(PasswordResetRequest data) {

@@ -6,12 +6,7 @@
 .card-img-top:hover {
   transform: scale(1.05); /* Leichter Zoom beim Hovern */
 }
-.background-image {
-  background-image: url('/public/workerbr.jpg'); /* Pfad zum Bild im public-Verzeichnis */
-  background-size: cover; /* Stellt sicher, dass das Bild den gesamten Bereich abdeckt */
-  background-position: center; /* Zentriert das Bild */
-  height: 100vh; /* Sorgt dafür, dass der Bereich so hoch wie der Viewport ist */
-}
+
 body, html {
   margin: 0;
   padding: 0;

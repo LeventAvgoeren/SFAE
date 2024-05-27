@@ -23,7 +23,6 @@ export function PageIndex() {
   return (
     <div className="role-background">
       <div className="welcome-container">
-        <h1 className="welcome-text">Willkommen bei SfÆ!</h1>
         <h2 className="choose-role-text">Wähle zwischen eine der beiden Rollen!</h2>
       </div>
       <div className="role-selection">

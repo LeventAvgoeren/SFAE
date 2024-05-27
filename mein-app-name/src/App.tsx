@@ -29,8 +29,10 @@ import { PageDeclineJob } from "./components/worker/PageDeclineJob";
 import { PageRequestPasswordReset } from "./components/PageRequestPasswordReset";
 import PageError from "./components/Error";
 import LoadingIndicator from "./components/LoadingIndicator";
+import { PageIntroduction } from "./components/PageIntroduction";
 import { PageIndexAdmin } from "./components/admin/PageIndexAdmin";
 import { PageAdminDienstleistungen } from "./components/admin/PageAdminDienstleistungen";
+import PageChat from "./components/PageChat";
 
 
 
@@ -66,7 +68,8 @@ function App() {
         <Routes>
             
                   {/* Gemeinsame Routen */}
-                  <Route path="/" element={ loginInfo ? ( loginInfo.userId.startsWith("C") ? 
+                  <Route path ="/" element={<PageIntroduction/>}/>
+                  <Route path="/index" element={ loginInfo ? ( loginInfo.userId.startsWith("C") ? 
                         ( <Navigate to={`/customer/${loginInfo.userId}`} replace /> ) :
                          (<Navigate to={`/worker/${loginInfo.userId}`} replace />)) :
                           (<PageIndex />)
@@ -83,7 +86,7 @@ function App() {
 
                   {/* Customer */}
                   <Route path="/customer/:customerId" element={(loginInfo && loginInfo.userId.startsWith("C") )? <PageIndexCustomer />  : < Navigate to="/NotAuth" replace />} />
-                  <Route path="/customer/:customerId/faq" element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageCustomerFAQ />  : < Navigate to="/NotAuth" replace />} />
+                  <Route path="/customer/:customerId/faq" element={(loginInfo && loginInfo.userId.startsWith("C")) ? <PageCustomerFAQ /> : /* <Navigate to="/NotAuth" replace /> */ null} />
                   <Route path="/customer/:customerId/uebersicht" element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageUebersicht />  : < Navigate to="/NotAuth" replace />} />
                   <Route path="/customer/:customerId/profil" element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageProfil /> : < Navigate to="/NotAuth" replace />} />
                   {/* Order */}
@@ -91,7 +94,17 @@ function App() {
                   <Route path="/customer/:customerId/order/:orderId" element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageOrderOverview /> : < Navigate to="/NotAuth" replace />} />
                   <Route path="/customer/:customerId/orders/:orderId/completed"element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageOrderCompleted /> : < Navigate to="/NotAuth" replace />}/>
                   <Route path="/customer/:customerId/orders/:orderId/rating"element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageOrderRating /> : < Navigate to="/NotAuth" replace />}/>
-             
+{/* Chat Route */}
+<Route
+          path="/chat/:userId"
+          element={
+            loginInfo && (loginInfo.userId.startsWith("C") || loginInfo.userId.startsWith("W")) ? (
+              <PageChat />
+            ) : (
+              <Navigate to="/NotAuth" replace />
+            )
+          }
+        />             
 
                 
             

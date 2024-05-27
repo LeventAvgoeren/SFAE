@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getContractByCustomerId } from "../../backend/api";
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { ContractResource, WorkerResource } from "../../Resources";
@@ -10,9 +10,10 @@ export function PageUebersicht() {
 
   const params = useParams();
   const customerId = params.customerId!;
+  const navigate = useNavigate();
 
   const [contracts, setContracts] = useState<ContractResource[]>([]);
-  const [worker,setWorker]=useState<WorkerResource[]>([])
+  const [worker, setWorker] = useState<WorkerResource[]>([])
   const [noContracts, setNoContracts] = useState(false);
 
   useEffect(() => {
@@ -41,16 +42,25 @@ export function PageUebersicht() {
     { field: 'payment', headerName: 'Payment', width: 130 },
     { field: 'range', headerName: 'Range', width: 130 },
     { field: 'worker', headerName: 'Worker Name', width: 130, 
-     renderCell: (params) => {
-      return params.value ? params.value.name : 'N/A';
-    }}
-  ]
-
+      renderCell: (params) => {
+        return params.value ? params.value.name : 'N/A';
+      }
+    },
+    {
+      field: 'action',
+      headerName: 'Zum Auftrag',
+      width: 150,
+      renderCell: (params) => (
+        <button onClick={() => navigate(`/customer/${customerId}/order/${params.row.id}`)}>
+          Zum Auftrag
+        </button>
+      )
+    }
+  ];
 
   return (
     <>
-
-      <NavbarComponent/>
+      <NavbarComponent />
       <div style={{ height: 'calc(100vh - 100px)', width: '100%' }}>
         <DataGrid
           rows={contracts}

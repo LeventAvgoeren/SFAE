@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import { Link, useNavigate } from 'react-router-dom';
-import validator from 'validator';
 import './PageRegistration.css';
 import { registrationCustomer } from '../../backend/api';
+import validator from 'validator';
 
 export default function PageRegistration() {
     const [name, setName] = useState('');

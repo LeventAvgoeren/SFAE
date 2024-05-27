@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import './NavbarComponent.css';
 import { LinkContainer } from 'react-router-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { LoginInfo, useLoginContext } from '../LoginManager';
 import { checkLoginStatus, deleteCookie } from '../../backend/api';
@@ -22,9 +22,7 @@ export function NavbarComponent() {
   return (
       <>
           <nav className="page-background">
-              <div className="navbar-left">
-              <img src="/Sfae_Logo.png" alt="Logo" style={{height:100, width:100}}/>
-                       </div>
+    <img src="/Sfae_Logo.png" alt="Logo" style={{height: 100, width: 100}}/>
               <ul>
                   {loginInfo && (
                       <li><a href={`/customer/${loginInfo.userId}`}>Home</a></li>
@@ -43,7 +41,12 @@ export function NavbarComponent() {
                   )}
                   <li><a href="#" onClick={doLogout}>Logout</a></li>
               </ul>
-          </nav>
+              {loginInfo && (
+          <Link to={`/chat/${loginInfo.userId}`} className="notification-icon">
+            <img src="/icons8-notification-100.png" alt="Benachrichtigungen"/>
+          </Link>
+        )}
+      </nav>
       </>
   );
 }

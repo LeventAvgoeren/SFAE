@@ -1,9 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
-
-
+/* Haupt-Hintergrund und Schriftarten */
 .background-image-berlin {
   font-family: 'Nunito', sans-serif;
-  background-image: url('/public/b1.jpg'); /* Stellen Sie sicher, dass der Pfad korrekt ist */
+  background-image: url('/public/b1.jpg'); /* Überprüfe den Pfad */
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -13,70 +11,41 @@
 }
 
 .container-informationen {
-  background: rgba(0, 0, 0, 0.7); /* Dunkelgrau, semi-transparent */
+  background: rgba(0, 0, 0, 0.7); /* Semi-transparentes Schwarz */
   padding: 40px 50px;
   border-radius: 14px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: calc(100vw - 5cm); /* Berechnet die Breite: Bildschirmbreite - 3cm */
-  max-width: calc(100vw - 5cm); /* Stellen Sie sicher, dass der Container nie breiter als die Breite minus 3cm ist */
-  height: calc(100vh - 5cm); /* Berechnet die Höhe: Bildschirmhöhe - 2cm */
-  box-sizing: border-box; /* Stellt sicher, dass padding und border in der Breiten-/Höhenberechnung enthalten sind */
-  color: white; /* Setzt die Textfarbe auf Weiß */
+  max-width: calc(100vw - 5cm); /* Breite des Bildschirms minus 5cm */
+  height: calc(100vh - 5cm);
+  color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-
-.layout {
-  display: grid;
-  grid-template-areas:
-    'header header'
-    'sidebar main'
-    'workerDetails'
-    'footer footer';
-  gap: 10px;
-  grid-template-columns: 1fr 3fr; /* Sidebar kleiner als Main */
-  grid-template-rows: auto;
-  width: 100%;
-  height: 100%;
-}
-
-.order-details-container,
-.worker-details-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  height: 100%;
-}
-
-.container-informationen * {
-  color: white;
-}
-
-.container-informationen * {
-  color: white !important; /* Erzwingt die weiße Textfarbe */
-}
-
-.text-body, .text-muted, a {
-  color: white !important; /* Setzt sicher, dass alle Links und spezifische MDB-Klassen weiß sind */
-}
-
-a.text-muted {
-  color: #ccc !important; /* Setzt sicher, dass die mutierten Links eine andere Farbe haben */
-}
-
+/* Layout-Einstellungen für Grid */
 .layout {
   display: grid;
   grid-template-areas:
     'header header header'
     'orderDetails map workerDetails'
     'footer footer footer';
-  grid-template-columns: 1fr 2fr 1fr; /* Einstellung der Breite der Bereiche */
+  grid-template-columns: 1fr 2fr 1fr;
   grid-template-rows: auto 1fr auto;
   gap: 20px;
-  width: 100%;
-  height: 100%;
+}
+
+/* Card- und Inhaltsbereich-Anpassungen */
+.card {
+  box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 1rem;
+  color: white;
+}
+
+/* Textanpassungen für Links und allgemeinen Text */
+.text-reset, .text-muted, a {
+  color: white !important;
 }
 
 .btn-danger {
@@ -85,7 +54,7 @@ a.text-muted {
   color: white;
   font-weight: bold;
   border-radius: 5px;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .btn-danger:hover {
@@ -93,27 +62,79 @@ a.text-muted {
   box-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
 }
 
-.custom-btn {
-  padding: 5px 10px; /* Weniger Padding, um den Button schmaler zu machen */
-  width: auto; /* Automatische Breite basierend auf dem Inhalt */
-}
-
 .loading-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* Verschiebt den Inhalt nach oben */
+  justify-content: flex-start;
   height: 100vh;
-  padding-top: 100px; /* Reduziert den Abstand zum oberen Rand */
+  padding-top: 100px;
 }
 
 .loading-message {
   color: white;
   margin-top: 20px;
   font-size: 20px;
-  font-family: 'Arial', sans-serif;
 }
 
-.Backg{
-  background-image: url('/public/b1.jpg');
+/* Stile für modale Elemente */
+.modal-content {
+  background-color: #f8f9fa;
+}
+
+.modal-header, .modal-body, .modal-footer {
+  padding: 20px;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background: rgba(0, 0, 0, 0.7);
+  background-clip: border-box;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 1rem;
+}
+.text-reset {
+  --bs-text-opacity: 1;
+  color: inherit!important;
+}
+a {
+  color: #5465ff;
+  text-decoration: none;
+}
+
+.Backg {
+  position: relative; /* Stelle sicher, dass der Hintergrund relative oder absolute Positionierung hat */
+}
+
+.containertest {
+  max-width: 100%; /* Begrenzt die Breite des Containers */
+  margin: 0 auto; /* Zentriert den Container horizontal */
+  padding: 20px; /* Gibt dem Inneren des Containers etwas Raum */
+}
+
+.item-details, .info-section, .details-panel {
+  overflow: auto; 
+  max-height: 450px; 
+  padding: 15px; 
+  margin-bottom: 20px; 
+}
+
+.content-area{
+  overflow: auto; 
+  max-height: 600px; 
+  padding: 15px; 
+  margin-bottom: 20px;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.text-muted{
+  color: white !important;
+}
+
+.white-text {
+  color: white !important;
 }

@@ -62,6 +62,12 @@ export default function PageRegistration() {
         }
     };
 
+    const validateAddress = (address: string): boolean => {
+        // Einfache Validierung: Mindestens 10 Zeichen
+        return address.length >= 10;
+    };
+    
+
     return (
         <div className="background-image" >
             <div className="registration-container2">

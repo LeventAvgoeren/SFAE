@@ -5,7 +5,6 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +15,6 @@ import com.SFAE.SFAE.DTO.RatingDTO;
 import com.SFAE.SFAE.DTO.Token;
 import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.SFAE.SFAE.ENDPOINTS.WorkerEp;
-import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.TokenType;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;

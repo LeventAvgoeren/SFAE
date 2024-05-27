@@ -110,4 +110,6 @@ public interface WorkerInterface {
   Boolean updateStatusByWorkerId(String workerId,String status);
 
   Boolean updateOrderStatusByWorkerId(String workerId,String statusOrder);
+
+  byte[] getProfileImageByworkerId(String id);
 }

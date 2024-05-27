@@ -4,7 +4,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
 import java.sql.Array;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,10 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Component;
 
 import com.SFAE.SFAE.DTO.WorkerDTO;
@@ -28,6 +30,11 @@ import com.SFAE.SFAE.INTERFACE.WorkerRepository;
 import com.SFAE.SFAE.Service.PasswordHasher;
 
 import io.jsonwebtoken.io.IOException;
+
+import org.postgresql.largeobject.LargeObject;
+import org.postgresql.largeobject.LargeObjectManager;
+
+import org.springframework.util.StreamUtils;
 
 /**
  * Implementation of WorkerInterface for managing Worker entities.
@@ -47,6 +54,8 @@ public class WorkerImpl implements WorkerInterface {
 
   @Autowired
   private WorkerRepository workerRepository;
+
+
 
   /**
    * Counts the number of Workers in the database.
@@ -230,6 +239,7 @@ public class WorkerImpl implements WorkerInterface {
       throw new IllegalArgumentException("Some data are empty");
     }
     try {
+      byte[] defaultImage = loadDefaultProfilePicture();
       String name = rs.getName();
       String location = rs.getLocation();
       String password = encoder.hashPassword(rs.getPassword());
@@ -244,9 +254,10 @@ public class WorkerImpl implements WorkerInterface {
       double latitude = rs.getLatitude();
       double longitude = rs.getLongitude();
 
+
       Worker worker = new Worker(name, location, password, Status.valueOf("AVAILABLE"),
           StatusOrder.valueOf("UNDEFINED"), range, JobList.valueOf(jobType), minPayment, rating, verification, email,
-          latitude, longitude, ratingAv);
+          latitude, longitude, ratingAv,defaultImage);
       workerRepository.save(worker);
       return worker;
     } catch (Exception e) {
@@ -303,9 +314,10 @@ public class WorkerImpl implements WorkerInterface {
       Boolean verification = rs.getBoolean("verification");
       double latitude = rs.getDouble("latitude");
       double longitude = rs.getDouble("longitude");
+      byte[] picture = rs.getBytes("profile_picture_blob");
 
       return dataFactory.createWorker(id, name, location, password, email, status, range, jobType, statusOrder,
-          minPayment, rating, verification, latitude, longitude);
+          minPayment, rating, verification, latitude, longitude,picture);
 
     } catch (SQLException e) {
     }
@@ -460,6 +472,16 @@ public class WorkerImpl implements WorkerInterface {
       return false;
   }
 
+  private byte[] loadDefaultProfilePicture() throws java.io.IOException {
+    try {
+        ClassPathResource imgFile = new ClassPathResource("static/images/default_profile.jpeg");
+        return StreamUtils.copyToByteArray(imgFile.getInputStream());
+    } catch (IOException e) {
+      e.printStackTrace();
+      return new byte[0]; 
+  }
+}
+
   @Override
   public Boolean updateStatusByWorkerId(String workerId, String status) {
 
@@ -497,5 +519,103 @@ public class WorkerImpl implements WorkerInterface {
           return false;
         }
 
+  }
+//TODO: Umwandeln 
+@Override
+ public byte[] getProfileImageByworkerId(String id) {
+        if (id.isEmpty()) {
+            throw new IllegalArgumentException("Id not given");
+        }
+
+        // Abrufen der OID des Bildes aus der Datenbank
+        List<Integer> oids = jdbcTemplate.query(
+          "SELECT profile_picture_blob FROM Worker WHERE ID = ?",
+          ps -> {
+              ps.setString(1, id);
+          },
+          (rs, rowNum) -> rs.getInt("profile_picture_blob")
+      );
+        if (oids.isEmpty()) {
+            return null;
+        }
+
+        Integer oid = oids.get(0);
+        return readLargeObject(oid);
+    }
+
+    private byte[] readLargeObject(int oid) {
+      Connection conn = null;
+      LargeObjectManager lobjManager = null;
+      LargeObject lobj = null;
+      byte[] imageBytes = null;
+  
+      try {
+          // Verbindung holen
+          conn = DataSourceUtils.getConnection(jdbcTemplate.getDataSource());
+          System.out.println("Connection established: " + (conn != null));
+  
+          // Auto-commit deaktivieren
+          conn.setAutoCommit(false);
+  
+          // PostgreSQL LargeObject API verwenden
+          lobjManager = conn.unwrap(org.postgresql.PGConnection.class).getLargeObjectAPI();
+          System.out.println("LargeObjectManager obtained: " + (lobjManager != null));
+  
+          // LargeObject öffnen
+          if (lobjManager != null) {
+              try {
+                  lobj = lobjManager.open((long) oid, LargeObjectManager.READ);
+                  System.out.println("LargeObject opened: " + (lobj != null));
+              } catch (SQLException e) {
+                  System.err.println("SQL Exception occurred while opening large object with OID " + oid);
+                  e.printStackTrace();
+                  return null;
+              }
+  
+              // Länge des LargeObject abfragen
+              if (lobj != null) {
+                  try {
+                      int size = (int) lobj.size();
+                      imageBytes = new byte[size];
+  
+                      // LargeObject lesen
+                      int bytesRead = lobj.read(imageBytes, 0, size);
+                      System.out.println("Bytes read: " + bytesRead);
+                  } catch (SQLException e) {
+                      System.err.println("SQL Exception occurred while reading large object with OID " + oid);
+                      e.printStackTrace();
+                      return null;
+                  }
+              } else {
+                  System.out.println("No Large Object found with OID: " + oid);
+              }
+          } else {
+              System.out.println("Failed to obtain LargeObjectManager");
+          }
+      } catch (SQLException e) {
+          System.err.println("SQL Exception occurred while reading large object with OID " + oid);
+          e.printStackTrace();
+      } finally {
+          if (lobj != null) {
+              try {
+                  lobj.close();
+              } catch (SQLException e) {
+                  System.err.println("SQL Exception occurred while closing large object with OID " + oid);
+                  e.printStackTrace();
+              }
+          }
+          if (conn != null) {
+              try {
+                  // Auto-commit wieder aktivieren
+                  conn.setAutoCommit(true);
+                  conn.close();
+              } catch (SQLException e) {
+                  System.err.println("SQL Exception occurred while closing connection");
+                  e.printStackTrace();
+              }
+          }
+      }
+  
+      return imageBytes;
   }
 }

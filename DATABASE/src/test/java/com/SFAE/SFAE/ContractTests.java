@@ -136,7 +136,7 @@ public class ContractTests {
   public void testDeleteContract()throws Exception{
     TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
-    mockMvc.perform(delete("/contract/3"))
+    mockMvc.perform(delete("/contract/156"))
         .andExpect(status().isOk())
         .andReturn();
 
@@ -359,6 +359,26 @@ public void testGetContractStatusWithWrongId() throws Exception {
   String contentAsString = mvcResult.getResponse().getContentAsString();
   System.out.println("A " + contentAsString);
 }
+
+@Test
+public void testupdateContractStatus() throws Exception {
+  String json = "{ \"order_status\": \"FINISHED\"}";
+
+  TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+  MvcResult mvcResult = mockMvc.perform(put("/contract/update/241")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(json))
+            .andExpect(status().isOk())
+            .andReturn();
+
+  transactionManager.commit(status);
+
+
+  String contentAsString = mvcResult.getResponse().getContentAsString();
+  System.out.println("A " + contentAsString);
+}
+
 
 }
 

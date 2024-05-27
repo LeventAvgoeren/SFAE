@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -23,8 +25,10 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.SFAE.SFAE.DTO.WorkerDTO;
+import com.SFAE.SFAE.ENTITY.Worker;
+import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import java.util.Base64;
 import jakarta.transaction.Transactional;
 
 
@@ -46,13 +50,17 @@ public class WorkerTests{
 
      @Autowired
     private TransactionTemplate transactionTemplate;
+
+    @Autowired
+    private WorkerInterface dao;
+
     @Test
     public void testCreateWorker() throws Exception {
                 String json = "{" +
                 "\"name\": \"TestRating\"," +
                 "\"location\": \"BERLIN\"," +
                 "\"password\": \"COLORBOX\"," +
-                "\"email\": \"leventavgoren@gmail.com\"," +
+                "\"email\": \"leventavgorenssssdddsdsa@gmail.com\"," +
                 "\"range\": 1.5," +
                 "\"jobType\":\"INSTALLATEUR\"," +
                 "\"minPayment\": 35.0," +
@@ -64,6 +72,12 @@ public class WorkerTests{
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                         .andExpect(status().isCreated());
+
+                
+                 Worker worker = dao.findWorkerbyEmail("leventavgorenssssdddsdsa@gmail.com");
+                 assertNotNull(worker);
+                 assertNotNull(worker.getProfilePictureBlob()); 
+                 assertTrue(worker.getProfilePictureBlob().length > 0); 
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -160,7 +174,8 @@ public class WorkerTests{
     @Test
     public void testDeleteWorkerrByid() throws Exception {
 
-         MvcResult mvcResult = mockMvc.perform(delete("/worker/W1"))
+        //Fix foreigns 
+         MvcResult mvcResult = mockMvc.perform(delete("/worker/W22"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -413,4 +428,14 @@ MvcResult mvcResult = mockMvc.perform(put("/worker/rating")
     System.out.println("A " + contentAsString);
 }
 
+@Test
+public void testImageGetWorkerById() throws Exception {
+    MvcResult mvcResult = mockMvc.perform(get("/worker/W1/image"))
+            .andExpect(status().isOk())
+            .andReturn();
+
+    String contentAsString = mvcResult.getResponse().getContentAsString();
+    System.out.println("HAAAAAAAALLLLLLLLLLOOOOOOOO " + contentAsString);  // Debug-Output
+
+}
 }

@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getContractByCustomerId } from "../../backend/api";
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { ContractResource, WorkerResource } from "../../Resources";
 import "./PageUebersicht.css"
 import NavbarComponent from '../navbar/NavbarComponent';
+import { Button } from 'react-bootstrap';
+import { MDBBtn } from 'mdb-react-ui-kit';
 
 export function PageUebersicht() {
 
   const params = useParams();
   const customerId = params.customerId!;
+  const navigate = useNavigate();
 
   const [contracts, setContracts] = useState<ContractResource[]>([]);
-  const [worker,setWorker]=useState<WorkerResource[]>([])
+  const [worker, setWorker] = useState<WorkerResource[]>([])
   const [noContracts, setNoContracts] = useState(false);
 
   useEffect(() => {
@@ -34,24 +37,35 @@ export function PageUebersicht() {
   }, [customerId]);
 
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 130 },
+    { field: 'id', headerName: 'ID', width: 130 , },
     { field: 'adress', headerName: 'Adresse', width: 130 },
     { field: 'description', headerName: 'Beschreibung', width: 130 },
     { field: 'jobType', headerName: 'Job Typ', width: 130 },
     { field: 'payment', headerName: 'Payment', width: 130 },
     { field: 'range', headerName: 'Range', width: 130 },
     { field: 'worker', headerName: 'Worker Name', width: 130, 
-     renderCell: (params) => {
-      return params.value ? params.value.name : 'N/A';
-    }}
-  ]
-
+      renderCell: (params) => {
+        return params.value ? params.value.name : 'N/A';
+      }
+    },
+    {
+      field: 'action',
+      headerName: 'Zum Auftrag',
+      width: 150,
+      renderCell: (params) => (
+        <MDBBtn outline rounded className='mx-2' color='dark'
+        style={{marginRight:"50px", marginBottom:"auto"}}
+         onClick={() => navigate(`/customer/${customerId}/order/${params.row.id}`)}>
+          Zum Auftrag
+        </MDBBtn >
+      )
+    }
+  ];
 
   return (
     <>
-
-      <NavbarComponent/>
-      <div style={{ height: 'calc(100vh - 100px)', width: '100%' }}>
+      <NavbarComponent />
+      <div style={{ height: 'calc(120vh - 100px)', width: '100%' }}>
         <DataGrid
           rows={contracts}
           columns={columns}

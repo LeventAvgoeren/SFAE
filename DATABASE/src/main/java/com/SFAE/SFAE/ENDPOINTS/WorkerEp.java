@@ -156,5 +156,9 @@ public interface WorkerEp {
 
    @PutMapping("/updatepassword")
    ResponseEntity<?> resetPassword(@RequestBody PasswordResetRequest data);
+
+   @GetMapping("/{id}/image")
+   ResponseEntity<?> getWorkerImageAsBase64(@PathVariable("id") String id);
+   
 }
 

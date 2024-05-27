@@ -66,21 +66,21 @@ export function PageDeclineJob(){
 
   
   return (
-
     <>
-    {refresh ? ( <> 
-     <NavbarWComponent/>
-      <h1>Willkommen {worker?.name}, du hast ein Jobangebot erhalten.</h1>
-      <h2>Möchtest du diesen Job annehmen?</h2>
+    <div className="background123">
+      {refresh ? (
+        <div className="Backg">
+          <NavbarWComponent />
+            <h1>Willkommen {worker?.name}, du hast ein Jobangebot erhalten.</h1>
+            <h2>Möchtest du diesen Job annehmen?</h2>
   
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '20px' }}>
-           <Button variant="danger" onClick={() => handleResponse(false)}>Ablehnen</Button>
-
-            <Button variant="success" onClick={() => handleResponse(true)}>Annehmen</Button>
-      </div> 
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '20px' }}>
+              <Button variant="danger" onClick={() => handleResponse(false)}>Ablehnen</Button>
+              <Button variant="success" onClick={() => handleResponse(true)}>Annehmen</Button>
+            </div>
+        </div>
+      ) : null}
+      </div>
     </>
-    ) : (<PageError error={410}/>)}
-     
-      
-    </>
-  )}
+  );
+}

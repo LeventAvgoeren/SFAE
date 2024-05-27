@@ -168,6 +168,9 @@ export function PageOrderOverview() {
                       </tbody>
                     </table>
                   </div>
+                  <button onClick={toggleShow} className="btn btn-danger mb-4"
+                          style={{ width: "250px", marginLeft: "auto" }}
+                        >Auftrag beendet?</button>
                 </div>
               </div>
               <div className="col-lg-4">
@@ -201,9 +204,6 @@ export function PageOrderOverview() {
                           Email: {conData.worker.email}<br />
                           Adresse: {conData.worker.location}<br />
                         </address>
-                        <button onClick={toggleShow} className="btn btn-danger mb-4"
-                          style={{ width: "250px", marginLeft: "auto" }}
-                        >Auftrag beendet?</button>
                       </>
                     )}
                   </div>

@@ -37,7 +37,7 @@
 
 .page-background ul li a:hover {
   background-color: white;
-  color: black;
+  color: black !important;
   border-radius: 15px;
 }
 
@@ -66,4 +66,34 @@ body {
 .content { 
   position: relative;
   z-index: 1; 
+}
+
+
+.notification-icon {
+  order: 3;
+  margin-left: auto;
+  margin-right: 100px; /* Verschiebt das Icon weiter nach links */
+}
+
+.notification-icon img {
+  width: 40px;  /* Setze die gewünschte Breite */
+  height: 40px; /* Setze die gewünschte Höhe */
+}
+@keyframes wobble {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-15deg);
+  }
+  50% {
+    transform: rotate(15deg);
+  }
+  75% {
+    transform: rotate(-15deg);
+  }
+}
+
+.notification-icon:hover img {
+  animation: wobble 0.5s ease-in-out infinite;
 }

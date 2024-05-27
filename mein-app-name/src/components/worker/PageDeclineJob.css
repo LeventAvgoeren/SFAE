@@ -1,0 +1,11 @@
+.background123 {
+    background-image: url('/public/b1.jpg'); /* Überprüfen Sie den korrekten Pfad */
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    padding: 0 20px;
+    background-size: cover; /* Optional: Passt das Hintergrundbild an */
+    background-position: center; /* Optional: Zentriert das Hintergrundbild */
+}

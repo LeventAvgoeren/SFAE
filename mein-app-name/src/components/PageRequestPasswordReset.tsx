@@ -10,19 +10,17 @@ export function PageRequestPasswordReset(){
 
     const handleNewPasswordChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
-       const User = await getUserFromEmail(event.target.value)
-     
     };
 
     async function reqPaw(event: React.FormEvent<HTMLFormElement>){
-        event.preventDefault();
+        event.preventDefault();  
        await requestPassword(getEmail);
 
     }
 
     return (
         <div className="background-image">
-        <div className="login-container">
+        <div className="login-container">a
         <MDBContainer className="p-3 my-5 d-flex flex-column align-items-center justify-content-center w-50">
                 <MDBRow className="justify-content-center">
 

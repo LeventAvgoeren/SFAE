@@ -11,7 +11,6 @@ import { PageWorkerProfile } from "./components/worker/PageWorkerProfile";
 import { PageWorkerPreferences } from "./components/worker/PageWorkerPreferences";
 import { PageWorkerOrders } from "./components/worker/PageWorkerOrders";
 import { PagePasswordReset } from "./components/PagePasswordReset";
-import { MainMenu } from "./components/MainMenu";
 import { LoginContext, LoginInfo } from "./components/LoginManager";
 import { checkLoginStatus, login } from "./backend/api";
 
@@ -26,16 +25,15 @@ import { PageProfil } from "./components/customer/PageProfil";
 import { PageUebersicht } from "./components/customer/PageUebersicht";
 import { PageOrderOverview } from "./components/Order/PageOrderOverview";
 import PageRegistration from "./components/customer/PageRegistration";
-import PageRegistrationAdmin from "./components/admin/PageRegistrationAdmin";
-import { PageIndexAdmin } from "./components/admin/PageIndexAdmin";
-import { PageAdminDienstleistungen } from "./components/admin/PageAdminDienstleistungen";
 import { PageDeclineJob } from "./components/worker/PageDeclineJob";
 import { PageRequestPasswordReset } from "./components/PageRequestPasswordReset";
 import PageError from "./components/Error";
 import LoadingIndicator from "./components/LoadingIndicator";
-import PageChat from "./components/PageChat";
 import { PageIntroduction } from "./components/PageIntroduction";
- 
+import { PageIndexAdmin } from "./components/admin/PageIndexAdmin";
+import { PageAdminDienstleistungen } from "./components/admin/PageAdminDienstleistungen";
+import PageChat from "./components/PageChat";
+
 
 
 function App() {
@@ -83,7 +81,6 @@ function App() {
                   <Route path="/registration/customer" element={<PageRegistration />} />
                   <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
                   <Route path="/passwordreset" element={<PageRequestPasswordReset/>}/>
-                  <Route path="/mainmenu" element={<MainMenu/>}/> 
                   <Route path="/newPassword" element={<PagePasswordReset/>}/>
 
 

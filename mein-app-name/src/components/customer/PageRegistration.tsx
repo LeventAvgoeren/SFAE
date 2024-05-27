@@ -3,6 +3,7 @@ import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBCheckbox, MDBT
 import { Link, useNavigate } from 'react-router-dom';
 import './PageRegistration.css';
 import { registrationCustomer } from '../../backend/api';
+import validator from 'validator';
 
 export default function PageRegistration() {
     const [name, setName] = useState('');
@@ -11,8 +12,15 @@ export default function PageRegistration() {
     const [password, setPassword] = useState('');
     const navigate= useNavigate()
 
+
     const handleRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
+
+      if (!validator.isEmail(email)) {
+        alert('Bitte gib eine gültige E-Mail-Adresse ein.');
+        return;
+    }
+    
         try {
           const response = await registrationCustomer(name, password, email);
          
@@ -26,8 +34,8 @@ export default function PageRegistration() {
     };
 
     return (
-        <div className="background-image">
-            <div className="login-container">
+        <div className="background-image" >
+            <div className="registration-container2">
                 <MDBContainer className="p-3 my-5 d-flex flex-column align-items-center justify-content-center">
                     <div className="text-center mb-4">
                         <h1>Registrieren als Customer</h1>

@@ -4,7 +4,7 @@
 
 .container-completed {
   background: rgba(0, 0, 0, 0.7); /* Dunkelgrau, semi-transparent */
-  padding: 40px 50px;
+  padding: 40px 30px;
   border-radius: 14px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: calc(100vw - 4cm); /* Berechnet die Breite: Bildschirmbreite - 4cm */

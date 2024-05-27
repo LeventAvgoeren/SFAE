@@ -37,7 +37,7 @@
     color: white !important; /* Textfarbe auf Weiß setzen */
 }
 
-.form-select option {
-    color: black !important;
-    background-color: white !important; /* Optional: Hintergrundfarbe der Dropdown-Optionen ändern */
+.option-black {
+    color: black !important; /* Stellt die Schriftfarbe sicher */
 }
+

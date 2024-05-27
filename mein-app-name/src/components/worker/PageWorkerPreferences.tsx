@@ -154,8 +154,8 @@ return (
                     onChange={(e) => setMinPayment(Number(e.target.value))} />
                   <select
                     className="form-control"
-                    value={jobType || ""}
-                    onChange={(e) => setJobType(e.target.value)}
+                    value={jobType.toString() || ""}
+                    onChange={(e) => setJobType(String(e.target.value))}
                   >
                     {jobType ? null : <option value="">Bitte wählen</option>}
                     {jobTypes.map((type) => (

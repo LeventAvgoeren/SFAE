@@ -109,4 +109,6 @@ public interface ContractEP {
    @GetMapping("/status/{id}")
    ResponseEntity<?> getContractStatus(@PathVariable ("id") Long contractId);
     
+   @PutMapping("status/{id}")
+   ResponseEntity<?> updateContractStatus(@PathVariable("id") Long id, @RequestBody String orderStatus);
 }

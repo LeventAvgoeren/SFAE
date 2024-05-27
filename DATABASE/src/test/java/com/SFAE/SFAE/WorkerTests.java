@@ -435,7 +435,138 @@ public void testImageGetWorkerById() throws Exception {
             .andReturn();
 
     String contentAsString = mvcResult.getResponse().getContentAsString();
-    System.out.println("HAAAAAAAALLLLLLLLLLOOOOOOOO " + contentAsString);  // Debug-Output
+    System.out.println("HAAAAAAAALLLLLLLLLLOOOOOOOO " + contentAsString);  
 
 }
+
+@Test
+public void testUpdateWorkerStatus() throws Exception {
+
+  String json = "INAVAILABLE";
+  
+
+  MvcResult mvcResult = mockMvc.perform(put("/worker/status/W2")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(json))
+      .andExpect(status().isOk())
+      .andReturn();
+
+  String contentAsString = mvcResult.getResponse().getContentAsString();
+  System.out.println("A " + contentAsString);
+}
+@Test
+public void testUpdateWorkerStatusNotFound() throws Exception {
+
+  String json = "INAVAILABLE";
+  
+
+  MvcResult mvcResult = mockMvc.perform(put("/worker/status/W20")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(json))
+      .andExpect(status().isNotFound())
+      .andReturn();
+
+  String contentAsString = mvcResult.getResponse().getContentAsString();
+  System.out.println("A " + contentAsString);
+}
+
+
+@Test
+public void testUpdateWorkerStatusWithOutEnum() throws Exception {
+
+  String json = "IchBinKeinEnum";
+  
+
+  MvcResult mvcResult = mockMvc.perform(put("/worker/status/W2")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(json))
+      .andExpect(status().isInternalServerError())
+      .andReturn();
+
+  String contentAsString = mvcResult.getResponse().getContentAsString();
+  System.out.println("A " + contentAsString);
+}
+
+@Test
+public void testUpdateWorkerStatusWithOutInput() throws Exception {
+
+  String json = "";
+  
+
+  MvcResult mvcResult = mockMvc.perform(put("/worker/status/W2")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(json))
+      .andExpect(status().isBadRequest())
+      .andReturn();
+
+  String contentAsString = mvcResult.getResponse().getContentAsString();
+  System.out.println("A " + contentAsString);
+}
+
+@Test
+public void testUpdateWorkerStatusOrder() throws Exception {
+
+  String json = "DECLINED";
+  
+
+  MvcResult mvcResult = mockMvc.perform(put("/worker/statusOrder/W2")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(json))
+      .andExpect(status().isOk())
+      .andReturn();
+
+  String contentAsString = mvcResult.getResponse().getContentAsString();
+  System.out.println("A " + contentAsString);
+}
+
+@Test
+public void testUpdateWorkerStatusOrderWithOutEnum() throws Exception {
+
+  String json = "IchBinKeinEnum";
+  
+
+  MvcResult mvcResult = mockMvc.perform(put("/worker/statusOrder/W2")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(json))
+      .andExpect(status().isInternalServerError())
+      .andReturn();
+
+  String contentAsString = mvcResult.getResponse().getContentAsString();
+  System.out.println("A " + contentAsString);
+}
+
+@Test
+public void testUpdateWorkerStatusOrderNotFound() throws Exception {
+
+  String json = "DECLINED";
+  
+
+  MvcResult mvcResult = mockMvc.perform(put("/worker/statusOrder/W20")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(json))
+      .andExpect(status().isNotFound())
+      .andReturn();
+
+  String contentAsString = mvcResult.getResponse().getContentAsString();
+  System.out.println("A " + contentAsString);
+}
+
+@Test
+public void testUpdateWorkerStatusOrderBadReq() throws Exception {
+
+  String json = "";
+  
+
+  MvcResult mvcResult = mockMvc.perform(put("/worker/statusOrder/W2")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(json))
+      .andExpect(status().isBadRequest())
+      .andReturn();
+
+  String contentAsString = mvcResult.getResponse().getContentAsString();
+  System.out.println("A " + contentAsString);
+}
+
+
+
 }

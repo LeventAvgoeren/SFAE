@@ -39,7 +39,7 @@ import org.springframework.util.StreamUtils;
 /**
  * Implementation of WorkerInterface for managing Worker entities.
  * 
- * @author Levent
+ * @author Levent 
  */
 @Component
 public class WorkerImpl implements WorkerInterface {
@@ -520,7 +520,7 @@ public class WorkerImpl implements WorkerInterface {
         }
 
   }
-//TODO: Umwandeln 
+
 @Override
  public byte[] getProfileImageByworkerId(String id) {
         if (id.isEmpty()) {
@@ -618,4 +618,7 @@ public class WorkerImpl implements WorkerInterface {
   
       return imageBytes;
   }
+
+
+  
 }

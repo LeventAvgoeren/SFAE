@@ -272,10 +272,14 @@ public class ContractImpl implements ContractInterface {
 
   @Override
   public Boolean updateOrderStatus(Long contractId, String statusOrder) {
+    if(contractId==null || statusOrder==null){
+      throw new IllegalArgumentException("Id or Status not given");
+    }
+
     int row=jdbcTemplate.update(
-        "UPDATE Contract SET status_order = ? WHERE id = ?",
+         "UPDATE Contract SET status_order = ? WHERE id = ?",
         ps -> {
-          ps.setString(1, statusOrder);
+          ps.setString(1, StatusOrder.valueOf(statusOrder).toString());
           ps.setLong(2, contractId);
         });
 

@@ -2,7 +2,6 @@ package com.SFAE.SFAE.Controller;
 
 import java.util.Arrays;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -386,7 +385,7 @@ public class WorkerController implements WorkerEp {
         try {
             byte[] imageBytes = dao.getProfileImageByworkerId(id);
 
-            if (imageBytes != null && imageBytes.length>0) {
+            if (imageBytes != null && imageBytes.length > 0) {
                 String base64Image = Base64.getEncoder().encodeToString(imageBytes);
                 return ResponseEntity.status(HttpStatus.OK).body(base64Image);
             } else {
@@ -396,5 +395,40 @@ public class WorkerController implements WorkerEp {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @Override
+    public ResponseEntity<?> updateWorkerStatus(String id, String status) {
+        if (id == null || status == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        try {
+            boolean result = dao.updateStatusByWorkerId(id, status);
+            if (result) {
+                return ResponseEntity.status(HttpStatus.OK).body(result);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+            }
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> updateWorkerStatusOrder(String id, String orderStatus) {
+        if (id == null || orderStatus == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        try {
+            boolean result = dao.updateOrderStatusByWorkerId(id, orderStatus);
+            if (result) {
+                return ResponseEntity.status(HttpStatus.OK).body(result);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+            }
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }    }
 
 }

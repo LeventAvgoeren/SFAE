@@ -71,8 +71,9 @@ export function PageCustomerFAQ() {
 
   return (
     <>
-    <NavbarComponent />
-      <div className="background-image">
+ 
+      <div className="background-image"> 
+        <NavbarComponent />
       <section className="faq-section">
         <div className="container">
           <div className="row">

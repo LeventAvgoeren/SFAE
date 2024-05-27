@@ -513,7 +513,6 @@ export async function setRating(data:RatingRessource) :Promise <Boolean > {
   const response = await fetchWithErrorHandling(url, options);
   
   if (response.ok) {
-    console.log("HALLLLLLLLOOOOOO")
     return true;
   } else {
     return false;
@@ -549,11 +548,6 @@ export async function setRating(data:RatingRessource) :Promise <Boolean > {
     const status = await response.json(); 
     return status;
   }
-
-
-
-
-
 
   export async function getContractStatus(contractId: number): Promise<string> {
     const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/status/${contractId}`;

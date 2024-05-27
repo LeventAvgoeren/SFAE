@@ -81,8 +81,9 @@ async function deleten(){
   },[])
   return (
     <>
-      <NavbarComponent />
-      <div className="background-image">
+     
+      <div className="background-image"> 
+        <NavbarComponent />
         <form onSubmit={upCustomer}>
           <div className="mb-3">
             <label htmlFor="exampleInputName" className="form-label">Name</label>

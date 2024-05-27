@@ -97,6 +97,7 @@ p, button {
   border-radius: 8px; /* Abgerundete Ecken */
   cursor: pointer; /* Cursor-Effekt für bessere Benutzerinteraktion */
   transition: background-color 0.3s, box-shadow 0.3s; /* Weiche Übergänge */
+  width: 100%;
 }
 
 .call-to-action p {

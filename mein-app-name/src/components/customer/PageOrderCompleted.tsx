@@ -21,8 +21,9 @@ export function PageOrderCompleted() {
 
   return (
     <>
-      <NavbarComponent />
+    
       <div className="background-image-completed">
+          <NavbarComponent />
         <div className="centered-container">
           <MDBCard className="card-completed">
             <MDBCardHeader>

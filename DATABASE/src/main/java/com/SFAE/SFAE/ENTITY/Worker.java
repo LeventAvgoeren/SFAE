@@ -14,7 +14,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -94,11 +94,15 @@ public class Worker {
   @Column(name = "RatingAV")
   private ArrayList<Double> ratingAV = new ArrayList<>();
 
+  @Lob
+  @Column(name = "profile_picture_blob", nullable = true)
+  private byte[] profilePictureBlob;
+
 
   public Worker(){}
 
   public Worker(String name, String location, String password, Status status, StatusOrder statusOrder,
-      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,double latitude,double longitude, ArrayList<Double> ratingAv) {
+      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,double latitude,double longitude, ArrayList<Double> ratingAv , byte[] profilePictureBlob) {
 
     this.name = name;
     this.location = location;
@@ -115,10 +119,11 @@ public class Worker {
     this.longitude=longitude;
     this.ratingAV = new ArrayList<>();
     this.ratingAV.add(1.0);
+    this.profilePictureBlob=profilePictureBlob;
   }
 
   public Worker(String id, String name, String location, String password, Status status, StatusOrder statusOrder,
-      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,double latitude,double longitude) {
+      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,double latitude,double longitude,byte[] profilePictureBlob) {
     this.id = id;
     this.name = name;
     this.location = location;
@@ -133,6 +138,7 @@ public class Worker {
     this.email = email;
     this.latitude=latitude;
     this.longitude=longitude;
+    this.profilePictureBlob=profilePictureBlob;
   }
 
   

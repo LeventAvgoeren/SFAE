@@ -14,6 +14,7 @@ import com.SFAE.SFAE.DTO.PasswordResetRequest;
 import com.SFAE.SFAE.DTO.RatingDTO;
 import com.SFAE.SFAE.DTO.Token;
 import com.SFAE.SFAE.DTO.WorkerDTO;
+import com.SFAE.SFAE.DTO.WorkerStatus;
 import com.SFAE.SFAE.ENDPOINTS.WorkerEp;
 import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.TokenType;
@@ -430,5 +431,24 @@ public class WorkerController implements WorkerEp {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }    }
+
+    @Override
+    public ResponseEntity<?> getWorkerStatuse(String id) {
+       if(id==null){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+       }
+        try {
+           WorkerStatus status= dao.getWorkerStatus(id);
+           if(status.getStatus()!=null && status.getStatusOrder()!=null){
+            return ResponseEntity.status(HttpStatus.OK).body(status);
+           }
+           else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+           }
+            
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
 }

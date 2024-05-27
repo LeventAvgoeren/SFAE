@@ -60,7 +60,7 @@ public class WorkerTests{
                 "\"name\": \"TestRating\"," +
                 "\"location\": \"BERLIN\"," +
                 "\"password\": \"COLORBOX\"," +
-                "\"email\": \"leventavgorenssssdddsdsa@gmail.com\"," +
+                "\"email\": \"leventavgorenssssdddsdsas@gmail.com\"," +
                 "\"range\": 1.5," +
                 "\"jobType\":\"INSTALLATEUR\"," +
                 "\"minPayment\": 35.0," +
@@ -567,6 +567,39 @@ public void testUpdateWorkerStatusOrderBadReq() throws Exception {
   System.out.println("A " + contentAsString);
 }
 
+@Test
+    public void testGetWorkerStatuse() throws Exception {
+
+         MvcResult mvcResult = mockMvc.perform(get("/worker/statuse/W1"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        System.out.println("A " + contentAsString);
+    }
+
+
+    @Test
+    public void testGetWorkerStatuseServerError() throws Exception {
+
+         MvcResult mvcResult = mockMvc.perform(get("/worker/statuse/afajnf"))
+                .andExpect(status().isInternalServerError())
+                .andReturn();
+
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        System.out.println("A " + contentAsString);
+    }
+
+    @Test
+    public void testGetWorkerStatuseBadreq() throws Exception {
+
+         MvcResult mvcResult = mockMvc.perform(get("/worker/statuse"))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        System.out.println("A " + contentAsString);
+    }
 
 
 }

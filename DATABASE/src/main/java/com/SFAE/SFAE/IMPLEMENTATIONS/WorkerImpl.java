@@ -21,6 +21,7 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Component;
 
 import com.SFAE.SFAE.DTO.WorkerDTO;
+import com.SFAE.SFAE.DTO.WorkerStatus;
 import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.JobList;
 import com.SFAE.SFAE.ENUM.StatusOrder;
@@ -609,6 +610,28 @@ public class WorkerImpl implements WorkerInterface {
     }
 
     return imageBytes;
+  }
+
+  @Override
+  public WorkerStatus getWorkerStatus(String id) {
+    if(id==null){
+      throw new IllegalArgumentException("Id isnt given");
+    }
+    List<WorkerStatus> status = jdbcTemplate.query(
+        "SELECT status, status_order FROM Worker WHERE ID = ?",
+        ps -> {
+          ps.setString(1, id);
+        },
+        (rs, rowNum) -> {
+          return new WorkerStatus(rs.getString("status"), rs.getString("status_order"));
+        });
+
+        if(status.isEmpty()){
+          throw new IllegalArgumentException("Status is empty");
+        }
+        else{
+         return status.get(0);
+        }
   }
 
 }

@@ -237,5 +237,51 @@ public class CustomerTestSQL {
         System.out.println("A " + contentAsString);
    }
 
+   @Test
+public void testImageGetWorkerById() throws Exception {
+    MvcResult mvcResult = mockMvc.perform(get("/customer/C1/image"))
+            .andExpect(status().isOk())
+            .andReturn();
+
+    String contentAsString = mvcResult.getResponse().getContentAsString();
+    System.out.println("HAAAAAAAALLLLLLLLLLOOOOOOOO " + contentAsString);  
+
+}
+
+
+@Test
+public void testImageGetWorkerByIdNotFound() throws Exception {
+    MvcResult mvcResult = mockMvc.perform(get("/customer/C100/image"))
+            .andExpect(status().isNotFound())
+            .andReturn();
+
+    String contentAsString = mvcResult.getResponse().getContentAsString();
+    System.out.println("HAAAAAAAALLLLLLLLLLOOOOOOOO " + contentAsString);  
+
+}
+
+@Test
+public void testImageGetWorkerByIdBadRequest() throws Exception {
+    MvcResult mvcResult = mockMvc.perform(get("/customer//image"))
+            .andExpect(status().isBadRequest())
+            .andReturn();
+
+    String contentAsString = mvcResult.getResponse().getContentAsString();
+    System.out.println("HAAAAAAAALLLLLLLLLLOOOOOOOO " + contentAsString);  
+
+}
+
+@Test
+public void testImageGetWorkerByIdServerError() throws Exception {
+    MvcResult mvcResult = mockMvc.perform(get("/customer/HALLO/image"))
+            .andExpect(status().isInternalServerError())
+            .andReturn();
+
+    String contentAsString = mvcResult.getResponse().getContentAsString();
+    System.out.println("HAAAAAAAALLLLLLLLLLOOOOOOOO " + contentAsString);  
+
+}
+
+
 
 }

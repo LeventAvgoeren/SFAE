@@ -56,11 +56,12 @@ public class Customer {
 
     public Customer(){}
     
-    public Customer( String name, String password, String email) { 
+    public Customer( String name, String password, String email,byte[] profilePictureBlob) { 
         this.name = name;
         this.password = password;
         this.email = email;
         this.role = Role.CUSTOMER;
+        this.profilePictureBlob=profilePictureBlob;
     }
 
     

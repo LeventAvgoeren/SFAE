@@ -15,6 +15,7 @@ import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 import com.SFAE.SFAE.INTERFACE.CustomerRepository;
+import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.Service.PasswordHasher;
 
 /**
@@ -41,6 +42,9 @@ public class CustomerImp implements CustomerInterface {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    WorkerImpl worker;
 
     /**
      * Counts the total number of customers in the database.
@@ -158,7 +162,7 @@ public class CustomerImp implements CustomerInterface {
     public Customer createCustomer(CustomerDTO jsonData) { // For the Endpoint
 
         try { 
-         
+            byte[] defaultImage = worker.loadDefaultProfilePicture();
             String name = jsonData.getName();
             String password = encoder.hashPassword(jsonData.getPassword());
             String email = jsonData.getEmail();
@@ -166,7 +170,7 @@ public class CustomerImp implements CustomerInterface {
             if (password == null || name == null || email == null) {
                 return null;
             }
-            Customer customer = new Customer(name, password, email);
+            Customer customer = new Customer(name, password, email,defaultImage);
             customerRepository.save(customer);
          
             return customer;
@@ -307,6 +311,28 @@ public class CustomerImp implements CustomerInterface {
         }
 
         return false;
+    }
+
+
+    @Override
+    public byte[] getProfilePictureByCustomerId(String id) {
+        if (id.isEmpty()) {
+            throw new IllegalArgumentException("Id not given");
+          }
+      
+          
+          List<Integer> oids = jdbcTemplate.query(
+              "SELECT profile_picture_blob FROM Customer WHERE ID = ?",
+              ps -> {
+                ps.setString(1, id);
+              },
+              (rs, rowNum) -> rs.getInt("profile_picture_blob"));
+          if (oids.isEmpty()) {
+            return null;
+          }
+      
+          Integer oid = oids.get(0);
+          return worker.readLargeObject(oid);
     }
 
 }

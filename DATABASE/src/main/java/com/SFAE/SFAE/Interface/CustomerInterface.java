@@ -69,4 +69,7 @@ public interface CustomerInterface{
     Customer updateCustomer(CustomerDTO jsonData);
 
     boolean updatePassword(String password, String Id);
+
+    byte [] getProfilePictureByCustomerId(String id);
+    
 }

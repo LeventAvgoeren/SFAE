@@ -136,7 +136,7 @@ public class ContractTests {
   public void testDeleteContract()throws Exception{
     TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
-    mockMvc.perform(delete("/contract/3"))
+    mockMvc.perform(delete("/contract/156"))
         .andExpect(status().isOk())
         .andReturn();
 

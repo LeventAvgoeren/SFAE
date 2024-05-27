@@ -38,6 +38,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -449,6 +450,27 @@ class CustomerController implements CustomerEP {
         }
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    @Override
+    public ResponseEntity<?> getWorkerImageAsBase64(String id) {
+         if (id.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+         }
+         
+        try {
+            byte[] imageBytes = dao.getProfilePictureByCustomerId(id);
+
+            if (imageBytes != null && imageBytes.length > 0) {
+                String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                return ResponseEntity.status(HttpStatus.OK).body(base64Image);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 
 }

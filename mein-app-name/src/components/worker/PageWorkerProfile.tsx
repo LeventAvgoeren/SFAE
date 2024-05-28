@@ -7,6 +7,7 @@ import { Button } from "react-bootstrap";
 import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
 import "./PageWorkerProfile.css";
 import NavbarWComponent from "./NavbarWComponent";
+import axios from 'axios';
 
 export function PageWorkerProfile() {
   const [worker, setWorker] = useState<WorkerResource | null>(null);
@@ -27,8 +28,33 @@ export function PageWorkerProfile() {
   const [profileImage, setProfileImage] = useState<string | undefined>(undefined);
   const [newProfileImage, setNewProfileImage] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<string | undefined>(undefined);
+  const [addressValid, setAddressValid] = useState(true);
   const params = useParams();
   const worId = params.workerId;
+
+  const handleAddressValidation = async (inputAddress: any) => {
+    const apiKey = 'a295d6f75ae64ed5b8c6b3568b58bbf6';  // Ersetzen Sie dies mit Ihrem tatsächlichen API-Key
+    const requestUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(inputAddress)}&key=${apiKey}`;
+
+    console.log(`Requesting validation for address: ${inputAddress}`); // Log the address being validated
+
+    try {
+      const response = await axios.get(requestUrl);
+      console.log('API Response:', response);  // Log the full API response
+
+      const data = response.data;
+      if (data.results.length > 0 && data.results[0].geometry) {
+        console.log('Valid address with geometry:', data.results[0].geometry);  // Log the geometry data
+        return true;
+      } else {
+        console.log('No valid address found in the API response.');  // Log when no valid address is found
+        return false;
+      }
+    } catch (error) {
+      console.error('Error during address validation:', error);  // Log any error during the API request
+      return false;
+    }
+  };
 
   const fetchWorker = async () => {
     if (!worId) {
@@ -83,6 +109,17 @@ export function PageWorkerProfile() {
   }, []);
 
   const handleUpdate = async () => {
+    console.log('Starting update process...');  // Log the start of the update process
+
+    const isValidAddress = await handleAddressValidation(location);
+    setAddressValid(isValidAddress);
+    console.log(`Address validation result: ${isValidAddress}`);  // Log the result of the address validation
+
+    if (!isValidAddress) {
+      alert('Bitte geben Sie eine gültige Adresse ein.');
+      return;
+    }
+
     await fetchCoordinates(location);
 
     const updatedWorkerData: WorkerResource = {
@@ -201,7 +238,8 @@ export function PageWorkerProfile() {
             </div>
             <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
               <MDBInput wrapperClass="inputField1" label="Name" type="text" value={name} onChange={(e) => setName(e.target.value)} />
-              <MDBInput wrapperClass="inputField1" label="Adresse" type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
+              <MDBInput wrapperClass="inputField1" label="Adresse" type="text" value={location} onChange={(e) => setLocation(e.target.value)} onBlur={() => handleAddressValidation(location).then(valid => setAddressValid(valid))} />
+              {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
               <MDBInput wrapperClass="inputField1" label="E-Mail" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
               <MDBInput wrapperClass="inputField1" label="Passwort" type="text" onChange={(e) => setPassword(e.target.value)} />
               <div className="mb-3">

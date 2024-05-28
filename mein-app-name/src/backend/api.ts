@@ -342,7 +342,7 @@ export async function getContractByWorkerId(id: string): Promise<ContractResourc
 }
 
 
-export async function getContractByCustomerId(id: string | undefined): Promise<ContractResource[]> {
+export async function getContractByCustomerId(id: string | undefined): Promise<ContractResourceforWorker[]> {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/customer/${id}`;
   const response = await fetchWithErrorHandling(url, {
     credentials: "include" as RequestCredentials,
@@ -513,7 +513,6 @@ export async function setRating(data:RatingRessource) :Promise <Boolean > {
   const response = await fetchWithErrorHandling(url, options);
   
   if (response.ok) {
-    console.log("HALLLLLLLLOOOOOO")
     return true;
   } else {
     return false;
@@ -559,7 +558,7 @@ export async function setRating(data:RatingRessource) :Promise <Boolean > {
     const status = await response.text(); 
     return status;
   }
-
+  
   export async function getWorkerImage(workerId: string): Promise<string> {
     const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/${workerId}/image`;
     const response = await fetchWithErrorHandling(url, {

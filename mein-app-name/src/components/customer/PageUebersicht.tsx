@@ -64,13 +64,16 @@ export function PageUebersicht() {
 
   return (
     <>
-      <NavbarComponent />
-      <div style={{ height: 'calc(120vh - 100px)', width: '100%' }}>
-        <DataGrid
-          rows={contracts}
-          columns={columns}
-          style={{ backgroundColor: 'white', color: 'black' }}
-        />
+     
+      <div style={{ height: 'calc(100vh - 100px)', width: '100%' }}> 
+          <div className='Backg'>
+            <NavbarComponent />
+            <DataGrid
+              rows={contracts}
+              columns={columns}
+              style={{ backgroundColor: 'white', color: 'black' }}
+            />
+          </div>
       </div>
     </>
   );

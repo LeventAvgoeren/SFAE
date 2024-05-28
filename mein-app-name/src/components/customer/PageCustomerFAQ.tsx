@@ -72,8 +72,10 @@ export function PageCustomerFAQ() {
 
   return (
     <>
-    <NavbarComponent />
-      <div className="background-image">
+ 
+      <div className="background-image"> 
+        <NavbarComponent />
+      <section className="faq-section">
         <div className="container">
           <div className="row">
             <div className="col-md-6 offset-md-3">
@@ -142,7 +144,8 @@ export function PageCustomerFAQ() {
             <button type='button' className="text-white bg-[#007bff] hover:bg-blue-600 font-semibold rounded-md text-sm px-4 py-2.5 w-full">Send</button>
           </form>
         </div>
-      </div> */}
+      </div> */} 
+      </section>
       </div>
     </>
   );

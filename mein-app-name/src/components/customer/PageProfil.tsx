@@ -130,8 +130,8 @@ export function PageProfil() {
 
     return (
         <>
-            <NavbarComponent />
-            <div className='Backg'>
+            <div className='Backg'> 
+             <NavbarComponent />
             <div className="custom-container2">                             
             <h1>PROFILE</h1>
             <div className="mt-5 Back">

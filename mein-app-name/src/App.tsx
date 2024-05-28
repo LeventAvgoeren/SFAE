@@ -32,9 +32,9 @@ import LoadingIndicator from "./components/LoadingIndicator";
 import { PageIntroduction } from "./components/PageIntroduction";
 import { PageIndexAdmin } from "./components/admin/PageIndexAdmin";
 import { PageAdminDienstleistungen } from "./components/admin/PageAdminDienstleistungen";
-import PageChat from "./components/PageChat";
 import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
 import PageAGB from "./components/PageAGB";
+import ChatComponent from "./components/ChatComponent";
 import { ImprintPage } from "./components/ImprintPage";
 import  { DataPrivacyPage } from "./components/DataPrivacyPage";
 
@@ -50,7 +50,6 @@ function App() {
   async function fetchLoginStatus() {
     try {
        const loginStatus = await checkLoginStatus();
-        console.log("CHECK " + loginStatus)
         if (loginStatus) {
             setLoginInfo(loginStatus);
         }
@@ -110,17 +109,17 @@ function App() {
                   <Route path="/customer/:customerId/order/:orderId" element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageOrderOverview /> : < Navigate to="/NotAuth" replace />} />
                   <Route path="/customer/:customerId/orders/:orderId/completed"element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageOrderCompleted /> : < Navigate to="/NotAuth" replace />}/>
                   <Route path="/customer/:customerId/orders/:orderId/rating"element={(loginInfo && loginInfo.userId.startsWith("C") ) ? <PageOrderRating /> : < Navigate to="/NotAuth" replace />}/>
-{/* Chat Route */}
-<Route
-          path="/chat/:userId"
-          element={
-            loginInfo && (loginInfo.userId.startsWith("C") || loginInfo.userId.startsWith("W")) ? (
-              <PageChat />
-            ) : (
-              <Navigate to="/NotAuth" replace />
-            )
-          }
-        />             
+                  {/* Chat Route */}
+                  <Route
+                            path="/chat/:userId"
+                            element={
+                              loginInfo && (loginInfo.userId.startsWith("C") || loginInfo.userId.startsWith("W")) ? (
+                                <ChatComponent />
+                              ) : (
+                                <Navigate to="/NotAuth" replace />
+                              )
+                            }
+                          />             
 
                 
             

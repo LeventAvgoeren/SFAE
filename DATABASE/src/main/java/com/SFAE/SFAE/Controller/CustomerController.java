@@ -306,7 +306,6 @@ class CustomerController implements CustomerEP {
                 cookie.setHttpOnly(true);
                 cookie.setSecure(true);
                 cookie.setPath("/");
-                cookie.setMaxAge(300);
                 response.addCookie(cookie);
 
                 return ResponseEntity.status(HttpStatus.OK)

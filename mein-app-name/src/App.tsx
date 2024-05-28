@@ -34,6 +34,7 @@ import { PageIndexAdmin } from "./components/admin/PageIndexAdmin";
 import { PageAdminDienstleistungen } from "./components/admin/PageAdminDienstleistungen";
 import PageChat from "./components/PageChat";
 import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
+import PageAGB from "./components/PageAGB";
 
 
 
@@ -72,6 +73,7 @@ function App() {
         <Routes>
         
                   {/* Gemeinsame Routen */}
+                  <Route path="/agb" element={<PageAGB />} />
                   <Route path ="/" element={<PageIntroduction/>}/>
                   <Route path="/index" element={ loginInfo ? ( loginInfo.userId.startsWith("C") ? 
                         ( <Navigate to={`/customer/${loginInfo.userId}`} replace /> ) :

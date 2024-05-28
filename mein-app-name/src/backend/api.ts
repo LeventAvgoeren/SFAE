@@ -570,7 +570,7 @@ export async function setRating(data:RatingRessource) :Promise <Boolean > {
     return status;
   }
   export async function getCustomerImage(customerId: string): Promise<string> {
-    const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/${customerId}/image`;
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/customer/${customerId}/image`;
     const response = await fetchWithErrorHandling(url, {
       credentials: "include" as RequestCredentials,
     });

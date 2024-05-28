@@ -1,1 +1,220 @@
+/* Basis-Styles für HTML und Body */
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
 
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+.my-horizontal-scroll-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; /* Verhindert das Scrollen */
+}
+
+.my-horizontal-section {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column; /* Vertikale Ausrichtung */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.my-section1 {
+    background: linear-gradient(-45deg, #1e1e1e, #1e3c72, #2e2e2e, #1e3c72);
+    background-size: 400% 400%;
+    animation: my-gradient1 15s ease infinite;
+}
+
+.my-section2 {
+    background: linear-gradient(-45deg, #1e3c72, #1e3c72, #6fbdeb, #66bae0);
+    background-size: 400% 400%;
+    animation: my-gradient2 15s ease infinite;
+}
+
+.my-section3 {
+    background: linear-gradient(-45deg, #1e3c72, #1e3c72, #ffd700, #ffd700);
+    background-size: 400% 400%;
+    animation: my-gradient3 15s ease infinite;
+}
+
+.my-section4 {
+    background: linear-gradient(-45deg, #1e3c72, #1e3c72, #23d5ab, #23d5ab);
+    background-size: 400% 400%;
+    animation: my-gradient4 15s ease infinite;
+}
+
+/* Gradient-Animationen */
+@keyframes my-gradient1 {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes my-gradient2 {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes my-gradient3 {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes my-gradient4 {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.my-arrow {
+    font-size: 2rem;
+    cursor: pointer;
+    position: absolute;
+    z-index: 10;
+    background: none;
+    border: none;
+    transition: transform 0.3s ease;
+    color: black; /* Pfeile schwarz machen */
+}
+
+.my-arrow-left { top: 50%; left: 20px; transform: translateY(-50%); }
+.my-arrow-right { top: 50%; right: 20px; transform: translateY(-50%); }
+
+.my-arrow img {
+    width: 40px;
+    height: auto;
+}
+
+/* Hover-Effekt */
+.my-arrow:hover img {
+    transform: scale(1.2);
+}
+
+/* Typografie */
+.my-h1 {
+    font-size: 3rem;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.my-p {
+    font-size: 1.5rem;
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.my-img {
+    margin: 20px 0;
+    max-width: 80%;
+    border-radius: 10px;
+}
+
+/* Sichtbare Sektion */
+.my-show {
+    opacity: 1;
+    z-index: 1;
+}
+
+/* Animationen */
+@keyframes my-fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Stil für den CTA-Button */
+.my-cta-button {
+    background-color: #ff6347;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 20px;
+}
+
+.my-cta-button:hover {
+    background-color: #ff4500;
+    transform: scale(1.05);
+}
+
+.animation-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.animation-worker {
+    position: relative;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.animation-customer {
+    position: relative;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.my-p {
+    margin-top: 10px;
+}
+.animation-roboter {
+    position: relative;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

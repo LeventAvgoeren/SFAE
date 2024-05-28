@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { checkLoginStatus,deleteCookie } from '../../backend/api';
 import { useEffect, useState } from 'react';
 import { LoginInfo } from '../LoginManager';
@@ -46,6 +46,11 @@ export function NavbarWComponent() {
              
                   <li><a href="#" onClick={doLogout}>Logout</a></li>
               </ul>
+              {loginInfo && (
+          <Link to={`/chat/${loginInfo.userId}`} className="notification-icon">
+            <img src="/icons8-notification-100.png" alt="Benachrichtigungen"/>
+          </Link>
+        )}
           </nav>
       </>
   );

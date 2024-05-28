@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import Spinner from 'react-bootstrap/Spinner';
+import "./LoadingIndicator.css";
 
 
 type StyleSheet = {
@@ -34,35 +33,35 @@ const sizes: Size[] = [
 ];
 
 function LoadingIndicator() {
-  const [styleIndex, setStyleIndex] = useState(0);
-  const [iconIndex, setIconIndex] = useState(0);
-  const [currentStyle, setCurrentStyle] = useState(stylesheets[0]);
 
-  useEffect(() => {
-    // Ändert den Stil in einem zufälligen Intervall
-    const intervalId = setInterval(() => {
-      const newStyleIndex = Math.floor(Math.random() * stylesheets.length);
-      setStyleIndex(newStyleIndex);
-      setCurrentStyle(stylesheets[newStyleIndex]);
-    }, 5000);
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  useEffect(() => {
-    // Update der Icon-Konfiguration
-    const newIconIndex = Math.floor(Math.random() * icons.length);
-    setIconIndex(newIconIndex);
-  }, []);
 
   return (
-    <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <link rel="stylesheet" href={currentStyle.href} />
-      <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
-      <p>{icons[iconIndex].glyph} - {sizes[Math.floor(Math.random() * sizes.length)].title}</p>
+    <>
+    <div id="CON">
+      <div className="animation-container">
+    <div className="lightning-container">
+      <div className="lightning white"></div>
+      <div className="lightning red"></div>
     </div>
+    <div className="boom-container">
+      <div className="shape circle big white"></div>
+      <div className="shape circle white"></div>
+      <div className="shape triangle big yellow"></div>
+      <div className="shape disc white"></div>
+      <div className="shape triangle blue"></div>
+    </div>
+    <div className="boom-container second">
+      <div className="shape circle big white"></div>
+      <div className="shape circle white"></div>
+      <div className="shape disc white"></div>
+      <div className="shape triangle blue"></div>
+    </div>
+    </div>
+    <div className="L">
+         LOADING
+     </div>
+  </div>
+  </>
   );
 }
 

@@ -224,7 +224,6 @@ public class WorkerController implements WorkerEp {
             cookie.setHttpOnly(true);
             cookie.setSecure(true);
             cookie.setPath("/");
-            cookie.setMaxAge(300);
             response.addCookie(cookie);
 
             return ResponseEntity.ok().body(new LoginResponseWorker(String.valueOf(worker.getId()), token));

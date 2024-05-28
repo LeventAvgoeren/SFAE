@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Component;
@@ -34,7 +35,9 @@ import io.jsonwebtoken.io.IOException;
 
 import org.postgresql.largeobject.LargeObject;
 import org.postgresql.largeobject.LargeObjectManager;
-
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.StreamUtils;
 
 /**
@@ -152,25 +155,32 @@ public class WorkerImpl implements WorkerInterface {
   @Override
   public Boolean deleteWorkerById(String id) {
     if (!id.startsWith("W")) {
-      throw new IllegalArgumentException("Wrong Id" + id);
+      throw new IllegalArgumentException("Wrong Id: " + id);
     }
     try {
-      int deleted = jdbcTemplate.update(connection -> {
-        PreparedStatement ps = connection
-            .prepareStatement("DELETE FROM WORKER WHERE ID = ?;");
-        ps.setString(1, id);
-        return ps;
-      });
+      //Setze den contract auf null bevor ich lösche um den fehler zu 
+      //umgehen DataIntegrityViolationException 
+      jdbcTemplate.update(
+          "UPDATE Contract SET worker_id = NULL WHERE worker_id = ?",
+          ps -> ps.setString(1, id)
+      );
+  
+      //löschen des workers;
+      int deleted = jdbcTemplate.update(
+          "DELETE FROM Worker WHERE ID = ?",
+          ps -> ps.setString(1, id)
+      );
+  
+     
       if (deleted != 1) {
         return false;
       }
+  
       return true;
-    } catch (Error error) {
-      throw new IllegalArgumentException("Conflict deleting Id" + id);
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Conflict deleting Id: " + id, e);
     }
-
   }
-
   /**
    * Updates a Worker's details in the database.
    * 

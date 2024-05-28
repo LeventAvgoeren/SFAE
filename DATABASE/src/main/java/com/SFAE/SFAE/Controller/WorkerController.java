@@ -18,6 +18,8 @@ import com.SFAE.SFAE.DTO.WorkerStatus;
 import com.SFAE.SFAE.ENDPOINTS.WorkerEp;
 import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.TokenType;
+import com.SFAE.SFAE.INTERFACE.ContractInterface;
+import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.Security.JWT;
 import com.SFAE.SFAE.Service.MailService;
@@ -46,6 +48,12 @@ public class WorkerController implements WorkerEp {
 
     @Autowired
     private WorkerInterface dao;
+
+    @Autowired
+    private ContractInterface contract;
+
+    @Autowired
+    private CustomerInterface customer;
 
     @Autowired
     private JWT jwt;

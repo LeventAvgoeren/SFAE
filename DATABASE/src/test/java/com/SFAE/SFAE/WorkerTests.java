@@ -180,7 +180,7 @@ public class WorkerTests{
     public void testDeleteWorkerrByid() throws Exception {
 
         //Fix foreigns 
-         MvcResult mvcResult = mockMvc.perform(delete("/worker/W22"))
+         MvcResult mvcResult = mockMvc.perform(delete("/worker/W4"))
                 .andExpect(status().isOk())
                 .andReturn();
 

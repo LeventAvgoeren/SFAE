@@ -1,9 +1,5 @@
 package com.SFAE.SFAE.ENTITY;
 
-import java.util.Date;
-
-import com.SFAE.SFAE.ENUM.MessageType;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -17,16 +13,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Message {
-
-    @Column(name = "NAME")
-    private String name;
+    @Column(name = "SENDER_ID")
+    private String senderId;
+    
+    @Column(name = "RECEIVER_ID")
+    private String receiverId;
+    
     @Column(name = "CONTENT")
     private String content;
-    @Column(name = "TIME")
-    private Date time;
-
-    private MessageType type;
-
-    public Message(String htmlEscape, String htmlEscape2, Date date) {
-    }
 }

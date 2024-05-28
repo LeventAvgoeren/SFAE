@@ -342,7 +342,7 @@ export async function getContractByWorkerId(id: string): Promise<ContractResourc
 }
 
 
-export async function getContractByCustomerId(id: string | undefined): Promise<ContractResource[]> {
+export async function getContractByCustomerId(id: string | undefined): Promise<ContractResourceforWorker[]> {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/customer/${id}`;
   const response = await fetchWithErrorHandling(url, {
     credentials: "include" as RequestCredentials,

@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Col, Container, Nav, NavDropdown, Row } from 'react-bootstrap';
 import "./PageOrderRequest.css"
 import { Navbar } from 'react-bootstrap';
+import LoadingIndicator from './LoadingIndicator';
 
 interface PageOrderRequestProps {
     onSubmit: (data: { address: string; service: string; description: string; budget: number; range: number; verified: boolean }) => void;
 }
 
 export const PageOrderRequest: React.FC<PageOrderRequestProps> = ({ onSubmit }) => {
-    
+    const [isLoading, setIsLoading] = useState(true);
     const [address, setAddress] = useState('');
     const [service, setService] = useState('');
     const [description, setDescription] = useState('');
@@ -38,9 +39,12 @@ export const PageOrderRequest: React.FC<PageOrderRequestProps> = ({ onSubmit }) 
         "Renovierer", "Fensterreiniger", "Gartenarbeiter", "Bügeler", "Bodenleger",
         "Hundepfleger", "Autobesorger"
     ];
+    useEffect(() => {
+        setIsLoading(false);
+      }, []);
 
     return (
-
+        isLoading ? <LoadingIndicator /> :
         <>
 
         <div className='background-city'>

@@ -8,6 +8,7 @@ import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
 import "./PageWorkerProfile.css";
 import NavbarWComponent from "./NavbarWComponent";
 import axios from 'axios';
+import LoadingIndicator from '../LoadingIndicator';
 
 export function PageWorkerProfile() {
   const [worker, setWorker] = useState<WorkerResource | null>(null);
@@ -215,7 +216,7 @@ export function PageWorkerProfile() {
     }
   };
 
-  if (loading) return <p>Lädt...</p>;
+  if (loading) return <LoadingIndicator />;
   if (error) return <p>Fehler: {error}</p>;
 
   return (

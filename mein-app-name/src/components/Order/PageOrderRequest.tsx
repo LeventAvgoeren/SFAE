@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
 import "./PageOrderRequest.css";
 import { createContract } from "../../backend/api";
@@ -7,6 +7,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { ContractResource, Position } from "../../Resources";
 import MapComponent from "./MapComponent";
 import NavbarComponent from "../navbar/NavbarComponent";
+import LoadingIndicator from '../LoadingIndicator';
 
 
 export default function PageOrderRequest() {
@@ -20,6 +21,7 @@ export default function PageOrderRequest() {
   const [contract, setContract] = useState<ContractResource>();
   const [isCreatingContract, setIsCreatingContract] = useState(false);
   const [getPosition, setPosition] = useState<Position>();
+  const [isLoading, setIsLoading] = useState(true);
 
   const params = useParams();
   const cusId = params.customerId;
@@ -139,7 +141,13 @@ export default function PageOrderRequest() {
       setIsCreatingContract(false);
     }
   };
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
   return (
+    isLoading ? <LoadingIndicator /> :
     <>
     <div className={"Backg"}>
       <NavbarComponent />

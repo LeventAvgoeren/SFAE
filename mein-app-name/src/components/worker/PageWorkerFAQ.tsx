@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './PageWorkerFAQ.css';
 import NavbarWComponent from './NavbarWComponent';
+import LoadingIndicator from '../LoadingIndicator';
 
 type FAQEntry = {
   id: number;
@@ -63,13 +64,17 @@ const faqs: FAQEntry[] = [
   
 export function PageWorkerFAQ() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
+  const [loading, setLoading] = useState(true);
   const toggle = (index: number) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
   
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   return (
+    loading ? <LoadingIndicator /> :
     <>
     <NavbarWComponent />
       <div className="background-image">

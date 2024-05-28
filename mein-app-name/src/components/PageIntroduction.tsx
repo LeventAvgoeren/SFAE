@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './PageIntroduction.css'; // Stelle sicher, dass der Pfad korrekt ist
 import Lottie from 'react-lottie';
 import animationData from "./roboter.json";
 import animationData1 from "./customer.json";
 import animationData2 from "./worker.json";
-
+import LoadingIndicator from './LoadingIndicator';
 type Direction = 'left' | 'right';
 
 export function PageIntroduction() {
     const [currentSection, setCurrentSection] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
     const sections = ["my-section1", "my-section2", "my-section3", "my-section4"];
-
     const scrollToSection = (direction: Direction) => {
         setCurrentSection(prevSection => {
             let newSection = direction === 'right' ? prevSection + 1 : prevSection - 1;
@@ -20,7 +20,12 @@ export function PageIntroduction() {
         });
     };
 
+    useEffect(() => {
+        setIsLoading(false);
+    }, []);
+
     return (
+        isLoading ? <LoadingIndicator /> :
         <div className="my-horizontal-scroll-container">
             {sections.map((section, index) => (
                 <div key={section} className={`my-horizontal-section ${section} ${currentSection === index ? 'my-show' : ''}`}>

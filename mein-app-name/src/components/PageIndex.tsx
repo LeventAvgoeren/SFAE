@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Card } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './PageIndex.css';
+import LoadingIndicator from './LoadingIndicator';
 
 type Role = 'customer' | 'worker';
 
 export function PageIndex() {
   const [role, setRole] = useState<Role | ''>(''); // Initial leer, keine Rolle ausgewählt
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   // Funktion zum Verarbeiten der Rollenauswahl
@@ -20,7 +22,12 @@ export function PageIndex() {
     navigate('/login');
   };
 
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
   return (
+    isLoading ? <LoadingIndicator /> :
     <div className="role-background">
       <div className="welcome-container">
         <h2 className="choose-role-text">Wähle zwischen eine der beiden Rollen!</h2>

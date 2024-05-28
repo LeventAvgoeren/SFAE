@@ -7,6 +7,7 @@ import { Button } from "react-bootstrap";
 import { contractAcceptOrDecline, getContract, getWorkerbyID, validateToken } from "../../backend/api";
 import { LinkContainer } from "react-router-bootstrap";
 import PageError from "../Error";
+import LoadingIndicator from '../LoadingIndicator';
 
 
 export function PageDeclineJob(){
@@ -19,7 +20,7 @@ export function PageDeclineJob(){
   const [getcontract, setcontract] = useState<ContractResource>();
   const [getToken, setToken] = useState<TokenRessource>();
   const [refresh, setRefresh] = useState(false);
-  
+  const [isLoading, setIsLoading] = useState(true);
 
   async function handleResponse(accepted:boolean){
     
@@ -53,7 +54,6 @@ export function PageDeclineJob(){
 
   
   useEffect(() => {
-
     async function fetchContracts() {
       try {
         await getContractIdByToken(tokenID!) 
@@ -62,10 +62,12 @@ export function PageDeclineJob(){
       }
     }
     fetchContracts();
+    setIsLoading(false);
   }, []);
 
   
   return (
+    isLoading ? <LoadingIndicator /> :
     <>
     <div className="background123">
       {refresh ? (

@@ -5,14 +5,14 @@ import { getContractByCustomerId, getContractByWorkerId } from "../../backend/ap
 
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import NavbarWComponent from "./NavbarWComponent";
-
+import LoadingIndicator from '../LoadingIndicator';
 
 
 export function PageWorkerOrderOverview() {
     const params = useParams();
     const workerId = params.workerId!;
     console.log(workerId)
-  
+    const [isLoading, setIsLoading] = useState(true);
     const [contracts, setContracts] = useState<ContractResourceforWorker[]>([]);
     const [noContracts, setNoContracts] = useState(false);
     const [amount,setAmount]=useState(0)
@@ -33,6 +33,7 @@ export function PageWorkerOrderOverview() {
         }
       }
       fetchContracts();
+      setIsLoading(false);
     }, [workerId]);
 
     useEffect(() => {
@@ -55,6 +56,7 @@ export function PageWorkerOrderOverview() {
       ]
   
     return (
+      isLoading ? <LoadingIndicator /> :
       <>
        <NavbarWComponent/>
             <div style={{ height: 'calc(100vh - 100px)', width: '100%' }}>

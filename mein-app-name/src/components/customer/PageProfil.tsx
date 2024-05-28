@@ -7,6 +7,7 @@ import "./PageProfil.css";
 import { MDBTypography } from 'mdb-react-ui-kit';
 import { LinkContainer } from 'react-router-bootstrap';
 import NavbarComponent from '../navbar/NavbarComponent';
+import LoadingIndicator from '../LoadingIndicator';
 
 export function PageProfil() {
     const params = useParams();
@@ -25,6 +26,7 @@ export function PageProfil() {
     const [profileImage, setProfileImage] = useState<string | undefined>(undefined);
     const [newProfileImage, setNewProfileImage] = useState<File | null>(null);
     const [previewImage, setPreviewImage] = useState<string | undefined>(undefined);
+    const [isLoading, setIsLoading] = useState(true);
 
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
@@ -83,6 +85,7 @@ export function PageProfil() {
             }
         }
         getCustomer();
+        setIsLoading(false);
     }, [customerId]);
 
     const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,6 +132,7 @@ export function PageProfil() {
     };
 
     return (
+        isLoading ? <LoadingIndicator /> :
         <>
             <div className='Backg'> 
              <NavbarComponent />

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './PageCustomerFAQ.css';
 import NavbarComponent from '../navbar/NavbarComponent';
 import { Footer } from 'react-bootstrap/lib/Modal';
+import LoadingIndicator from '../LoadingIndicator';
 
 type FAQEntry = {
   id: number;
@@ -64,15 +65,19 @@ const faqs: FAQEntry[] = [
   
 export function PageCustomerFAQ() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const toggle = (index: number) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
   
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   return (
+    loading ? <LoadingIndicator /> :
     <>
- 
       <div className="background-image"> 
         <NavbarComponent />
       <section className="faq-section">

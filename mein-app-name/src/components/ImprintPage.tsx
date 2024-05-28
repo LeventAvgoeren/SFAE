@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import NavbarComponent from './navbar/NavbarComponent';
 import "./ImprintPage.css"
-
+import LoadingIndicator from './LoadingIndicator';
 
 
 export function ImprintPage(){
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
   return (
+    isLoading ? <LoadingIndicator /> :
     <>
       <NavbarComponent />
       

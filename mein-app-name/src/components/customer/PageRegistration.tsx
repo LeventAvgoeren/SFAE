@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MDBBtn, MDBContainer, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import { Link, useNavigate } from 'react-router-dom';
 import './PageRegistration.css';
 import { registrationCustomer } from '../../backend/api';
 import axios from 'axios';
 import validator from 'validator';
+import LoadingIndicator from '../LoadingIndicator';
 
 export default function PageRegistration() {
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
     const [addressValid, setAddressValid] = useState(true);
     const navigate = useNavigate();
 
@@ -67,8 +69,12 @@ export default function PageRegistration() {
         return address.length >= 10;
     };
     
+    useEffect(() => {
+        setIsLoading(false);
+    }, []);
 
     return (
+        isLoading ? <LoadingIndicator /> :
         <div className="background-image" >
             <div className="registration-container2">
                 <MDBContainer className="p-3 my-5 d-flex flex-column align-items-center justify-content-center">

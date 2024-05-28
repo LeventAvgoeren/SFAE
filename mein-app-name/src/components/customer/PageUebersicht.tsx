@@ -7,13 +7,14 @@ import "./PageUebersicht.css"
 import NavbarComponent from '../navbar/NavbarComponent';
 import { Button } from 'react-bootstrap';
 import { MDBBtn } from 'mdb-react-ui-kit';
+import LoadingIndicator from '../LoadingIndicator';
 
 export function PageUebersicht() {
 
   const params = useParams();
   const customerId = params.customerId!;
   const navigate = useNavigate();
-
+  const [isLoading, setIsLoading] = useState(true);
   const [contracts, setContracts] = useState<ContractResource[]>([]);
   const [worker, setWorker] = useState<WorkerResource[]>([])
   const [noContracts, setNoContracts] = useState(false);
@@ -34,6 +35,7 @@ export function PageUebersicht() {
       }
     }
     fetchContracts();
+    setIsLoading(false);
   }, [customerId]);
 
   const columns: GridColDef[] = [
@@ -63,8 +65,8 @@ export function PageUebersicht() {
   ];
 
   return (
+    isLoading ? <LoadingIndicator /> :
     <>
-     
       <div style={{ height: 'calc(100vh - 100px)', width: '100%' }}> 
           <div className='Backg'>
             <NavbarComponent />

@@ -8,12 +8,11 @@ import {
 } from 'mdb-react-ui-kit';
 import './PageOrderCompleted.css';
 import { Link, useParams } from 'react-router-dom';
-
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import NavbarComponent from '../navbar/NavbarComponent';
 import { getContract, setRating } from '../../backend/api';
 import { ContractResource, RatingRessource } from '../../Resources';
-
+import LoadingIndicator from '../LoadingIndicator';
 
 export function PageOrderCompleted() {
 
@@ -24,7 +23,7 @@ export function PageOrderCompleted() {
   console.log(orderId)
   const [ratting, setRatting] = useState(0);
   const [hover, setHover] = useState(0);
-
+  const [isLoading, setIsLoading] = useState(true);
   const [contract, setContract] = useState<ContractResource>();
 
 
@@ -46,6 +45,7 @@ export function PageOrderCompleted() {
       }
     }
     getOrder()
+    setIsLoading(false);
   }, [orderId]);
   
   
@@ -56,8 +56,8 @@ export function PageOrderCompleted() {
   }
 
   return (
+    isLoading ? <LoadingIndicator /> :
     <>
-
     <div className="Backg">
       <NavbarComponent />
       <div className="background-image-completed">

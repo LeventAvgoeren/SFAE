@@ -4,13 +4,13 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.nio.file.Files;
-import java.sql.Array;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -195,8 +195,19 @@ public class WorkerImpl implements WorkerInterface {
       data.setPassword(encoder.hashPassword(data.getPassword()));
     }
 
+    Long [] imageOid={null};
+
+    if(data.getProfileBase64()!=null && !data.getProfileBase64().isEmpty()){
+      try {
+        byte[] imageBytes = Base64.getDecoder().decode(data.getProfileBase64());
+            imageOid[0] = saveImageAsLargeObject(imageBytes);
+      } catch (Exception e) {
+        e.getStackTrace();
+      }
+    }
+    
     int rowsAffected = jdbcTemplate.update(
-        "UPDATE WORKER SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? , latitude = ? , longitude =? WHERE id = ?",
+        "UPDATE WORKER SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? , latitude = ? , longitude =?, profile_picture_blob = ? WHERE id = ?",
         ps -> {
           ps.setString(1, data.getName());
           ps.setString(2, data.getLocation());
@@ -211,7 +222,9 @@ public class WorkerImpl implements WorkerInterface {
           ps.setString(11, data.getEmail());
           ps.setDouble(12, data.getLatitude());
           ps.setDouble(13, data.getLongitude());
-          ps.setString(14, data.getId());
+          ps.setLong(14, imageOid[0]);
+          ps.setString(15, data.getId());
+          
         });
 
     if (rowsAffected > 0) {
@@ -634,4 +647,20 @@ public class WorkerImpl implements WorkerInterface {
         }
   }
 
+  public Long saveImageAsLargeObject(byte[] imageBytes) throws SQLException, IOException {
+    Connection conn = DataSourceUtils.getConnection(jdbcTemplate.getDataSource());
+    LargeObjectManager lobjManager = conn.unwrap(org.postgresql.PGConnection.class).getLargeObjectAPI();
+
+    long oid = lobjManager.createLO(LargeObjectManager.WRITE);
+    LargeObject lobj = lobjManager.open(oid, LargeObjectManager.WRITE);
+    lobj.write(imageBytes);
+    lobj.close();
+
+    // Verbindung nicht manuell schließen, JdbcTemplate verwaltet die Verbindung
+    // conn.close();
+
+    return oid;
 }
+}
+
+

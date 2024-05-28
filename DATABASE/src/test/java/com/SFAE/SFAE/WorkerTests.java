@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -28,6 +29,12 @@ import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.jsonwebtoken.io.IOException;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Base64;
 import jakarta.transaction.Transactional;
 
@@ -216,40 +223,49 @@ public class WorkerTests{
         System.out.println("A " + contentAsString);
    }
 
- @Test
-public void testUpdateWorker() throws Exception {
-    
-    WorkerDTO worker = new WorkerDTO();
-    worker.setId("W1");
-    worker.setEmail("XalooosSelam@gmail.com");
-    worker.setLocation("Bremen");
-    worker.setJobType("HAUSMEISTER");
-    worker.setMinPayment(0.9);
-    worker.setName("Kenno");
-    worker.setPassword("Meinhund123");
-    worker.setRange(0.8);
-    worker.setRating(0.5);
-    worker.setStatus("AVAILABLE");
-    worker.setStatusOrder("FINISHED");
-    worker.setVerification(true);
-    worker.setLatitude( 2.5347706933045);
-    worker.setLongitude( 13.35002718682623);
-    
-    TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+@Test
+    public void testUpdateWorker() throws Exception {
+        String base64Image = encodeFileToBase64Binary("static/images/GJq0xr5XIAAbKzE.jpeg");
+        
+        WorkerDTO worker = new WorkerDTO();
+        worker.setId("W3");
+        worker.setEmail("AMOadadadadadSelam@gmail.com");
+        worker.setLocation("Bremen");
+        worker.setJobType("HAUSMEISTER");
+        worker.setMinPayment(0.9);
+        worker.setName("Kenno");
+        worker.setPassword("Meinhund123");
+        worker.setRange(0.8);
+        worker.setRating(0.5);
+        worker.setStatus("AVAILABLE");
+        worker.setStatusOrder("FINISHED");
+        worker.setVerification(true);
+        worker.setLatitude(2.5347706933045);
+        worker.setLongitude(13.35002718682623);
+        worker.setProfileBase64(base64Image);
 
-   
-    ObjectMapper objectMapper = new ObjectMapper();
-    String workerJson = objectMapper.writeValueAsString(worker);
+        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
-    
-    mockMvc.perform(put("/worker") 
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(workerJson)) 
-            .andExpect(status().isAccepted());
+        ObjectMapper objectMapper = new ObjectMapper();
+        String workerJson = objectMapper.writeValueAsString(worker);
 
-    
-    transactionManager.commit(status);  
-}
+        mockMvc.perform(put("/worker")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(workerJson))
+                .andExpect(status().isAccepted());
+
+        transactionManager.commit(status);
+    }
+
+    public static String encodeFileToBase64Binary(String resourcePath) throws IOException, FileNotFoundException, java.io.IOException {
+        ClassPathResource resource = new ClassPathResource(resourcePath);
+        File file = resource.getFile();
+        try (FileInputStream fileInputStream = new FileInputStream(file)) {
+            byte[] bytes = new byte[(int) file.length()];
+            fileInputStream.read(bytes);
+            return Base64.getEncoder().encodeToString(bytes);
+        }
+    }
 
 @Test
 public void testUpdateWorkerWithNull() throws Exception {

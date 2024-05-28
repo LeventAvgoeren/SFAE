@@ -17,6 +17,7 @@ public class WorkerDTO {
     private Boolean verification;
     private Double latitude;
     private Double longitude;
+    private String profileBase64;
     
 
    
@@ -129,5 +130,13 @@ public class WorkerDTO {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getProfileBase64() {
+        return profileBase64;
+    }
+
+    public void setProfileBase64(String profileBase64) {
+        this.profileBase64 = profileBase64;
     }
 }

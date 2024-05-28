@@ -15,7 +15,7 @@ export function NavbarComponent() {
  
   async function doLogout() {
       await deleteCookie();
-      window.location.href = "/";
+      window.location.href = "/login";
   }
 
 

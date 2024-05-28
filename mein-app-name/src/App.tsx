@@ -33,6 +33,8 @@ import { PageIntroduction } from "./components/PageIntroduction";
 import { PageIndexAdmin } from "./components/admin/PageIndexAdmin";
 import { PageAdminDienstleistungen } from "./components/admin/PageAdminDienstleistungen";
 import PageChat from "./components/PageChat";
+import { ImprintPage } from "./components/ImprintPage";
+import  { DataPrivacyPage } from "./components/DataPrivacyPage";
 
 
 
@@ -59,6 +61,14 @@ function App() {
   useEffect(() => {
     fetchLoginStatus();
   }, []);
+
+  const Footer = () => (
+    <div className="footer">
+      © 2024 Ihr Unternehmen oder Ihr Name. Alle Rechte vorbehalten. 
+      <a className = "footer" href="/imprint">Impressum</a>
+      <a href="/data-privacy">Datenschutz</a>
+    </div>
+  );
 
   if(isLoading){
     return <LoadingIndicator/>
@@ -125,10 +135,11 @@ function App() {
 
                   <Route path="*" element={<Navigate to="/NotFound" replace />} />
                   <Route path="/NotFound" element={<PageError error={404}/>} /> 
-          
-
+                  <Route path="/imprint" element={<ImprintPage />}/>
+                  <Route path="/data-privacy" element={<DataPrivacyPage/>}/>
         </Routes>
       </LoginContext.Provider>
+      <Footer></Footer>
     </>
   );
 }

@@ -31,7 +31,6 @@ const ChatComponent: React.FC = () => {
     const [receiver, setReceiver] = useState<string | undefined>('');
     const params = useParams<{ userId: string }>();
     const userId = params.userId!;
-    const [socket, setSocket] = useState<WebSocket | null>(null);
     const clientRef = useRef<Client | null>(null);
 
     useEffect(() => {
@@ -125,10 +124,12 @@ const ChatComponent: React.FC = () => {
                             <h5 className="mb-0">Chat</h5>
                         </MDBCardHeader>
                         <MDBCardBody>
-                            <div>
-                                        {messages.map((msg, index) => (
+                            <div >
+                                <p className='Text'>Du schreibst mit {receiver}.</p>
+                                {
+                                messages.map((msg, index) => (
                                 <div key={index}>
-                                    {msg.senderId === userId ? 'You' : msg.senderId}: {msg.content}
+                                {msg.senderId === userId ? 'You' : msg.senderId}: {msg.content}
                                 </div>
                             ))}
                             </div>

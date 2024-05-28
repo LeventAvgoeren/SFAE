@@ -14,3 +14,7 @@
     height: 1px;
     background: #eee;
   }
+
+  .Text{
+    background-color: black !important;
+  }

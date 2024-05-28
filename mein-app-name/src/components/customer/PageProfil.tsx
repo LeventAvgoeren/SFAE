@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { CustomerResource } from '../../Resources';
-import { deleteCustomer, getCustomerbyID, updateCustomer } from '../../backend/api';
+import { deleteCustomer, getCustomerImage, getCustomerbyID, updateCustomer } from '../../backend/api';
 import "./PageProfil.css";
 import { MDBTypography } from 'mdb-react-ui-kit';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -22,6 +22,9 @@ export function PageProfil() {
     const [email, setEmail] = useState('');
     const [status, setStatus] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [profileImage, setProfileImage] = useState<string | undefined>(undefined);
+    const [newProfileImage, setNewProfileImage] = useState<File | null>(null);
+    const [previewImage, setPreviewImage] = useState<string | undefined>(undefined);
 
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
@@ -33,7 +36,6 @@ export function PageProfil() {
              setPassword(event.target.value);
         }
     };
-
 
     async function handleUpdateCustomer(){
         const updateData:CustomerResource={
@@ -47,7 +49,10 @@ export function PageProfil() {
           updateData.password=password
         }
         try{
-          await updateCustomer(updateData)
+          await updateCustomer(updateData);
+          if (newProfileImage) {
+            await uploadProfileImage(customerId, newProfileImage);
+          }
         }
         catch(error){
           console.log("Fehler:"+error)
@@ -58,12 +63,11 @@ export function PageProfil() {
         try {
             await deleteCustomer(customerId);
             console.log("Konto erfolgreich gelöscht.");
+            navigate('/');
         } catch (error) {
             console.error('Fehler beim Löschen des Kontos:', error);
         }
     };
-
-
 
     useEffect(() => {
         async function getCustomer() {
@@ -73,27 +77,54 @@ export function PageProfil() {
                 setPassword(customer.password);
                 setEmail(customer.email);
                 setCustomer(customer);
+                fetchCustomerImage(customerId);
             } catch (error) {
                 console.log('Fehler:' + error);
             }
         }
         getCustomer();
-    }, []);
+    }, [customerId]);
 
-    const handleUpdateProfile = async () => {
+    const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+          const file = e.target.files[0];
+          setNewProfileImage(file);
+          
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setPreviewImage(reader.result as string);
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+
+    const fetchCustomerImage = async (id: string) => {
         try {
-            const updateData: CustomerResource = {
-                name: name,
-                email: email,
-                role: 'CUSTOMER',
-                password: password,
-                id: customerId,
-            };
-            await updateCustomer(updateData);
-            // Erfolgsmeldung anzeigen
-            console.log("Profil erfolgreich aktualisiert!");
+            const base64Image = await getCustomerImage(id);
+            setProfileImage(`data:image/jpeg;base64,${base64Image}`);
         } catch (error) {
-            console.log("Fehler beim Aktualisieren des Profils:", error);
+            console.error("Fehler beim Laden des Profilbildes:", error);
+        }
+    };
+
+    const uploadProfileImage = async (id: string, image: File) => {
+        const formData = new FormData();
+        formData.append("image", image);
+
+        try {
+            const response = await fetch(`/customer/${id}/image`, {
+                method: "POST",
+                body: formData,
+            });
+
+            if (response.ok) {
+                alert("Profilbild erfolgreich aktualisiert");
+                fetchCustomerImage(id); // Fetch updated profile image
+            } else {
+                console.error("Fehler beim Hochladen des Profilbildes");
+            }
+        } catch (error) {
+            console.error("Fehler beim Hochladen des Profilbildes:", error);
         }
     };
 
@@ -108,16 +139,25 @@ export function PageProfil() {
                     <div className="container col-lg-4 pb-5">
                         {/* Account Sidebar */}
                             <div className="author-card-profile">
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Daniel Adams" />
-                                    <div className="author-card-details">
-                                        <h5 className="author-card-name">{name}</h5>
+                                {previewImage || profileImage ? (
+                                    <img src={previewImage || profileImage} alt="Profilbild" style={{ width: '150px', height: '150px', borderRadius: '50%' }} />
+                                ) : (
+                                    <div className="placeholder bg-secondary d-flex align-items-center justify-content-center" style={{ width: '150px', height: '150px', borderRadius: '50%', color: 'white' }}>
+                                        <span>Kein Bild</span>
                                     </div>
+                                )}
+                                <div className="author-card-details">
+                                    <h5 className="author-card-name">{name}</h5>
+                                </div>
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="profileImage" className="form-label">Profilbild hochladen</label>
+                                <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
                             </div>
                     </div>
 
                     {/* Profile Settings */}
                     <div className="container col-lg-8 pb-5">
-                    
                         <form className="row">
                             <div className="col-md-6">
                                 <div className="form-group">
@@ -132,12 +172,10 @@ export function PageProfil() {
                                 </div>
                             </div>
 
-
-                            <div className="col-md-6">
-                            </div>
+                            <div className="col-md-6"></div>
 
                             <form onSubmit={handleUpdateCustomer} className='col-md-6' style={{ width: "200%"}}>
-                                <div >
+                                <div>
                                     <div className="form-group">
                                         <label htmlFor="account-pass">New Password</label>
                                         <input className="form-control"
@@ -153,7 +191,6 @@ export function PageProfil() {
                                             type="password"
                                             id="account-confirm-pass"
                                             value={confirmPassword}
-                                            
                                         />
                                     </div>
                                     {!passwordsMatch && (
@@ -167,13 +204,11 @@ export function PageProfil() {
                             <div className="col-12">
                                 <hr className="mt-2 mb-3" />
                                 <div className="ButtonsDiv">
-
                                     <LinkContainer to={`/customer/${customerId}`}>
-                                    <Button className = "ButtonUpdate" onClick={handleUpdateCustomer}>
-                                          Update Profile
+                                        <Button className="ButtonUpdate" onClick={handleUpdateCustomer}>
+                                            Update Profile
                                         </Button>
                                     </LinkContainer>
-
                                     <Button type="button" className="btn btn-danger" onClick={handleShow}>
                                         Delete Your Account
                                     </Button>

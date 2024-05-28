@@ -1,9 +1,12 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import "./App.css";
-import { Navigate, Route, Router, Routes , useNavigate} from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+
+// Komponentenimporte
 import { PageIndex } from "./components/PageIndex";
 import { PageLogin } from "./components/PageLogin";
-import  PageRegistrationWorker  from "./components/worker/PageRegistrationWorker";
+import PageRegistrationWorker from "./components/worker/PageRegistrationWorker";
 import { PageWorkerIndex } from "./components/worker/PageWorkerIndex";
 import { PageWorkerOrderOverview } from "./components/worker/PageWorkerOrderOverview";
 import { PageWorkerFinances } from "./components/worker/PageWorkerFinances";
@@ -12,10 +15,7 @@ import { PageWorkerPreferences } from "./components/worker/PageWorkerPreferences
 import { PageWorkerOrders } from "./components/worker/PageWorkerOrders";
 import { PagePasswordReset } from "./components/PagePasswordReset";
 import { LoginContext, LoginInfo } from "./components/LoginManager";
-import { checkLoginStatus, login } from "./backend/api";
-
-
-import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
+import { checkLoginStatus } from "./backend/api";
 import PageOrderRating from "./components/Order/PageOrderRating";
 import PageOrderRequest from "./components/Order/PageOrderRequest";
 import { PageOrderCompleted } from "./components/Order/PageOrderCompleted";
@@ -33,6 +33,7 @@ import { PageIntroduction } from "./components/PageIntroduction";
 import { PageIndexAdmin } from "./components/admin/PageIndexAdmin";
 import { PageAdminDienstleistungen } from "./components/admin/PageAdminDienstleistungen";
 import PageChat from "./components/PageChat";
+import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
 
 
 
@@ -40,6 +41,8 @@ import PageChat from "./components/PageChat";
 function App() {
   const [loginInfo, setLoginInfo] = useState<LoginInfo | false>();
   const [isLoading, setLoading] = useState(true);
+  const location = useLocation(); 
+
 
   async function fetchLoginStatus() {
     try {
@@ -67,7 +70,7 @@ function App() {
 
     <><LoginContext.Provider value={{ loginInfo, setLoginInfo }}>
         <Routes>
-            
+        
                   {/* Gemeinsame Routen */}
                   <Route path ="/" element={<PageIntroduction/>}/>
                   <Route path="/index" element={ loginInfo ? ( loginInfo.userId.startsWith("C") ? 

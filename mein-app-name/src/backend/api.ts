@@ -569,3 +569,12 @@ export async function setRating(data:RatingRessource) :Promise <Boolean > {
     const status = await response.text(); 
     return status;
   }
+  export async function getCustomerImage(customerId: string): Promise<string> {
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/${customerId}/image`;
+    const response = await fetchWithErrorHandling(url, {
+      credentials: "include" as RequestCredentials,
+    });
+    
+    const status = await response.text(); 
+    return status;
+  }  

@@ -79,20 +79,25 @@ export default function PageRegistrationWorker() {
         }
       };
 
-    const handleRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
+      const handleRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log('Starting registration process...');  // Log the start of the registration process
-
-        const isValidAddress = await handleAddressValidation(address);
+        console.log('Starting registration process...');
+    
+        // Validiere die Adresse und hole Koordinaten gleichzeitig
+        const [isValidAddress] = await Promise.all([
+            handleAddressValidation(address),
+            fetchCoordinates(address)
+        ]);
+    
         setAddressValid(isValidAddress);
-        console.log(`Address validation result: ${isValidAddress}`);  // Log the result of the address validation
-
+        console.log(`Address validation result: ${isValidAddress}`);
+    
         if (!isValidAddress) {
             alert('Bitte geben Sie eine gültige Adresse ein.');
             return;
         }
+    
         try {
-            await fetchCoordinates(address);
             const response = await registrationWorker(name, address, email, password, jobType, salary, userLocation!);
             console.log('Registration successful:', response);
             alert('Registration successful!');
@@ -102,6 +107,7 @@ export default function PageRegistrationWorker() {
             alert('Registration failed!');
         }
     };
+    
 
     return (
         <div className="background-image" style={{position: "relative"}}>

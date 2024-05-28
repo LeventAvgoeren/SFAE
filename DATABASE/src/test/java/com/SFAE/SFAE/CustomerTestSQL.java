@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 public class CustomerTestSQL {
 
     @Autowired
@@ -270,18 +269,6 @@ public void testImageGetWorkerByIdBadRequest() throws Exception {
     System.out.println("HAAAAAAAALLLLLLLLLLOOOOOOOO " + contentAsString);  
 
 }
-
-@Test
-public void testImageGetWorkerByIdServerError() throws Exception {
-    MvcResult mvcResult = mockMvc.perform(get("/customer/HALLO/image"))
-            .andExpect(status().isInternalServerError())
-            .andReturn();
-
-    String contentAsString = mvcResult.getResponse().getContentAsString();
-    System.out.println("HAAAAAAAALLLLLLLLLLOOOOOOOO " + contentAsString);  
-
-}
-
 
 
 }

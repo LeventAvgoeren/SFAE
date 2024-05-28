@@ -4,6 +4,7 @@ import { MDBBtn, MDBContainer, MDBInput, MDBRow, MDBCol, MDBTypography, MDBCard,
 import { Link } from 'react-router-dom';
 import { getUserFromEmail, requestPassword } from '../backend/api';
 import { ContractResource, ContractResourceforWorker, CustomerResource, Position, TokenRessource, WorkerResource } from "../Resources";
+import LoadingIndicator from './LoadingIndicator';
 
 export function PageRequestPasswordReset(){
     const [getEmail, setEmail] = useState('');
@@ -17,7 +18,11 @@ export function PageRequestPasswordReset(){
        await requestPassword(getEmail);
 
     }
-
+    if (PageRequestPasswordReset!) {
+        return (
+            <LoadingIndicator></LoadingIndicator>
+        )
+    }
     return (
         <div className="background-image">
         <div className="login-container">a

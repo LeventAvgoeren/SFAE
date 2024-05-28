@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './PageCustomerFAQ.css';
 import NavbarComponent from '../navbar/NavbarComponent';
+import { Footer } from 'react-bootstrap/lib/Modal';
 
 type FAQEntry = {
   id: number;
@@ -73,7 +74,6 @@ export function PageCustomerFAQ() {
     <>
     <NavbarComponent />
       <div className="background-image">
-      <section className="faq-section">
         <div className="container">
           <div className="row">
             <div className="col-md-6 offset-md-3">
@@ -105,8 +105,7 @@ export function PageCustomerFAQ() {
             </div>
           </div>
         </div>
-      </section>
-      <div className="my-6">
+      {/* <div className="my-6">
         <div className="grid sm:grid-cols-2 items-center gap-16 p-8 mx-auto max-w-4xl bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md text-[#333] font-[sans-serif]">
           <div>
             <h1 className="text-3xl font-extrabold">Let's Talk</h1>
@@ -143,7 +142,7 @@ export function PageCustomerFAQ() {
             <button type='button' className="text-white bg-[#007bff] hover:bg-blue-600 font-semibold rounded-md text-sm px-4 py-2.5 w-full">Send</button>
           </form>
         </div>
-      </div>
+      </div> */}
       </div>
     </>
   );

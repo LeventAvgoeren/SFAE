@@ -93,17 +93,20 @@ body, button, input, textarea, h1, p {
   position: relative;
   z-index: 1; 
 }
-.fade-enter {
-  opacity: 0;
+
+.footer {
+  text-align: right;
+  padding: 20px 30px;
+  background-color: #f8f9fa; /* Hintergrundfarbe deines Footers */
 }
-.fade-enter-active {
-  opacity: 1;
-  transition: opacity 300ms ease-in;
+
+.impressum-link {
+  color: #007bff; /* Linkfarbe */
+  text-decoration: none; /* Keine Unterstreichung */
 }
-.fade-exit {
-  opacity: 1;
+
+.footer{
+  background-color: #001325;
+  color: white;
 }
-.fade-exit-active {
-  opacity: 0;
-  transition: opacity 300ms ease-in;
-}
+

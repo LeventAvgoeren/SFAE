@@ -34,7 +34,7 @@ import { PageIndexAdmin } from "./components/admin/PageIndexAdmin";
 import { PageAdminDienstleistungen } from "./components/admin/PageAdminDienstleistungen";
 import PageChat from "./components/PageChat";
 import { ImprintPage } from "./components/ImprintPage";
-import  { DataPrivacyPage } from "./components/DataPrivacyPage";
+import { TermsAndConditions } from "./components/TermsAndConditions";
 
 
 
@@ -66,7 +66,7 @@ function App() {
     <div className="footer">
       © 2024 Ihr Unternehmen oder Ihr Name. Alle Rechte vorbehalten. 
       <a className = "footer" href="/imprint">Impressum</a>
-      <a href="/data-privacy">Datenschutz</a>
+      <a href="/data-privacy">Allgemeine Geschäftsbedingungen</a>
     </div>
   );
 
@@ -136,7 +136,7 @@ function App() {
                   <Route path="*" element={<Navigate to="/NotFound" replace />} />
                   <Route path="/NotFound" element={<PageError error={404}/>} /> 
                   <Route path="/imprint" element={<ImprintPage />}/>
-                  <Route path="/data-privacy" element={<DataPrivacyPage/>}/>
+                  <Route path="/terms-and-conditions." element={<TermsAndConditions/>}/>
         </Routes>
       </LoginContext.Provider>
       <Footer></Footer>

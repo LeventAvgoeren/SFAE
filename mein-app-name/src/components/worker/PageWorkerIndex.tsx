@@ -103,7 +103,6 @@ export function PageWorkerIndex() {
           </Row>
         </Container>
       </div>
-      <Footer></Footer>
     </>
   );
   

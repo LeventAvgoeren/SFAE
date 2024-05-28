@@ -9,6 +9,7 @@ import {
   getCustomerbyID,
 } from "../../backend/api";
 import NavbarComponent from "../navbar/NavbarComponent";
+import ImprintPage from "../ImprintPage";
 
 
 export function PageIndexCustomer() {

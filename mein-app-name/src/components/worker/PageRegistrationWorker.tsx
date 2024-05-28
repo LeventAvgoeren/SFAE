@@ -6,6 +6,8 @@ import { registrationWorker } from '../../backend/api';
 import { Link, useNavigate } from 'react-router-dom'; // React Router für Link-Benutzung
 import './PageRegistrationWorker.css'
 import validator from 'validator';
+import axios from 'axios';
+
 interface Position {
     latitude: number;
     longitude: number;
@@ -19,7 +21,32 @@ export default function PageRegistrationWorker() {
     const [jobType, setJobType] = useState('');
     const [salary, setSalary] = useState(1);
     const [userLocation, setUserLocation] = useState<Position | null>(null);
+    const [addressValid, setAddressValid] = useState(true);
     const navigate=useNavigate()
+
+    const handleAddressValidation = async (inputAddress: any) => {
+        const apiKey = 'a295d6f75ae64ed5b8c6b3568b58bbf6';  // Ersetzen Sie dies mit Ihrem tatsächlichen API-Key
+        const requestUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(inputAddress)}&key=${apiKey}`;
+
+        console.log(`Requesting validation for address: ${inputAddress}`); // Log the address being validated
+
+        try {
+            const response = await axios.get(requestUrl);
+            console.log('API Response:', response);  // Log the full API response
+
+            const data = response.data;
+            if (data.results.length > 0 && data.results[0].geometry) {
+                console.log('Valid address with geometry:', data.results[0].geometry);  // Log the geometry data
+                return true;
+            } else {
+                console.log('No valid address found in the API response.');  // Log when no valid address is found
+                return false;
+            }
+        } catch (error) {
+            console.error('Error during address validation:', error);  // Log any error during the API request
+            return false;
+        }
+    };
 
     const jobTypes = [
         "Hausmeister", "Haushälter", "Gärtner", "Kindermädchen", "Koch", 
@@ -54,12 +81,16 @@ export default function PageRegistrationWorker() {
 
     const handleRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        //Duc Dai Validation email
-        if (!validator.isEmail(email)) {
-            alert('Bitte gib eine gültige E-Mail-Adresse ein.');
+        console.log('Starting registration process...');  // Log the start of the registration process
+
+        const isValidAddress = await handleAddressValidation(address);
+        setAddressValid(isValidAddress);
+        console.log(`Address validation result: ${isValidAddress}`);  // Log the result of the address validation
+
+        if (!isValidAddress) {
+            alert('Bitte geben Sie eine gültige Adresse ein.');
             return;
         }
-
         try {
             await fetchCoordinates(address);
             const response = await registrationWorker(name, address, email, password, jobType, salary, userLocation!);
@@ -80,7 +111,20 @@ export default function PageRegistrationWorker() {
                         <h2 className="text-uppercase text-center mb-5">Registrieren als Worker</h2>
                         <form onSubmit={handleRegistration}>
                             <MDBInput wrapperClass='mb-4' label='Dein Name' size='lg' type='text' value={name} onChange={(e) => setName(e.target.value)} required/>
-                            <MDBInput wrapperClass='mb-4' label='Adresse' size='lg' type='text' value={address} onChange={(e) => setAddress(e.target.value)} required/>
+
+                          <MDBInput
+                            wrapperClass='mb-3 inputField'
+                            labelClass='text-white'
+                            label='Adresse'
+                            id='addressInput'
+                            type='text'
+                            value={address}
+                            onChange={e => setAddress(e.target.value)}
+                            onBlur={() => handleAddressValidation(address).then(valid => setAddressValid(valid))}
+                            required
+                        />
+                        {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
+
                             <MDBInput wrapperClass='mb-4' label='Deine E-Mail' size='lg' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required/>
                             <MDBInput wrapperClass='mb-4' label='Passwort' size='lg' type='password' value={password} onChange={(e) => setPassword(e.target.value)} required/>
                             <select className="form-select mb-4 option-black" value={jobType} onChange={(e) => setJobType(e.target.value)} required

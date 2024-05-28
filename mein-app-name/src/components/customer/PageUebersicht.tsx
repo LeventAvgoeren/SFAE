@@ -5,6 +5,8 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { ContractResource, WorkerResource } from "../../Resources";
 import "./PageUebersicht.css"
 import NavbarComponent from '../navbar/NavbarComponent';
+import { Button } from 'react-bootstrap';
+import { MDBBtn } from 'mdb-react-ui-kit';
 
 export function PageUebersicht() {
 
@@ -35,7 +37,7 @@ export function PageUebersicht() {
   }, [customerId]);
 
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 130 },
+    { field: 'id', headerName: 'ID', width: 130 , },
     { field: 'adress', headerName: 'Adresse', width: 130 },
     { field: 'description', headerName: 'Beschreibung', width: 130 },
     { field: 'jobType', headerName: 'Job Typ', width: 130 },
@@ -51,9 +53,11 @@ export function PageUebersicht() {
       headerName: 'Zum Auftrag',
       width: 150,
       renderCell: (params) => (
-        <button onClick={() => navigate(`/customer/${customerId}/order/${params.row.id}`)}>
+        <MDBBtn outline rounded className='mx-2' color='dark'
+        style={{marginRight:"50px", marginBottom:"auto"}}
+         onClick={() => navigate(`/customer/${customerId}/order/${params.row.id}`)}>
           Zum Auftrag
-        </button>
+        </MDBBtn >
       )
     }
   ];

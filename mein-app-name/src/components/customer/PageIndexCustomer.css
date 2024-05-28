@@ -191,3 +191,9 @@ p, button {
   color: white;  
   width: 80%;
 }
+
+.impressum-link {
+  position: absolute;
+  right: 20px; /* Abstand vom rechten Rand */
+  bottom: 20px; /* Abstand vom unteren Rand */
+}

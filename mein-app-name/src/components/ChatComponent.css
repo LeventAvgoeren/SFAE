@@ -5,6 +5,7 @@
   #chat2 .form-control:focus {
     border-color: transparent;
     box-shadow: inset 0px 0px 0px 1px transparent;
+    background-color: white;
   }
   
   .divider:after,
@@ -16,5 +17,5 @@
   }
 
   .Text{
-    background-color: black !important;
+    color: black ;
   }

@@ -116,10 +116,10 @@ const ChatComponent: React.FC = () => {
     }
 
     return (
-        <MDBContainer fluid className="py-5" style={{ backgroundColor: "#eee" }}>
+        <MDBContainer fluid className="py-5" style={{ backgroundColor: "#eee", height: "100vh"}}>
             <MDBRow className="d-flex justify-content-center">
                 <MDBCol md="10" lg="8" xl="6">
-                    <MDBCard id="chat2" style={{ borderRadius: "15px" }}>
+                    <MDBCard id="chat2" style={{ borderRadius: "15px"}}>
                         <MDBCardHeader className="d-flex justify-content-between align-items-center p-3">
                             <h5 className="mb-0">Chat</h5>
                         </MDBCardHeader>

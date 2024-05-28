@@ -195,12 +195,18 @@ public class CustomerImp implements CustomerInterface {
     public Boolean deleteCustomerById(String id) {
 
         try {
-            int deleted = jdbcTemplate.update(connection -> {
-                PreparedStatement ps = connection
-                        .prepareStatement("DELETE FROM CUSTOMER WHERE ID = ?;");
-                ps.setString(1, id);
-                return ps;
-            });
+            
+            jdbcTemplate.update(
+                "UPDATE Contract SET customer_id = NULL WHERE customer_id = ?",
+                ps -> ps.setString(1, id)
+            );
+        
+            //löschen des customer;
+            int deleted = jdbcTemplate.update(
+                "DELETE FROM customer WHERE ID = ?",
+                ps -> ps.setString(1, id)
+            );
+            
             if (deleted != 1) {
                 throw new IllegalArgumentException("Id could not been deleted");
             }

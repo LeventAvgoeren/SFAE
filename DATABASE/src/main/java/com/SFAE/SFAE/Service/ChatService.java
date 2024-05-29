@@ -26,4 +26,9 @@ public class ChatService {
         messagesSent.sort((m1, m2) -> m1.getTimestamp().compareTo(m2.getTimestamp()));
         return messagesSent;
     }
+
+    public void deleteChatMessages(String user1, String user2) {
+        chatMessageRepository.deleteBySenderAndReceiver(user1, user2);
+        chatMessageRepository.deleteByReceiverAndSender(user1, user2);
+    }
 }

@@ -607,3 +607,14 @@ export async function updateContractStatus(contractId: string, status: string): 
   const result = await response.text();
   return result;
 }
+
+export async function deleteChat(user1: string, user2: string): Promise<void> {
+  const url = `${process.env.REACT_APP_API_SERVER_URL}/chat/history?user1=${user1}&user2=${user2}`;
+  const response = await fetchWithErrorHandling(url, {
+    method: 'DELETE',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    credentials: 'include' as RequestCredentials,
+  });
+}

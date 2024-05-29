@@ -174,7 +174,7 @@ const ChatComponent: React.FC = () => {
                             <p></p>
                             <img src={image} alt="Profilbild" style={{ width: '150px', height: '150px', borderRadius: '50%' }} />
                             <p></p>
-                            <h3>{receiver}</h3>
+                            <h3>{name}</h3>
                             {userId.startsWith("W") &&  <h6>Angabe des Customer: {maxPayment}€</h6>}
                             {userId.startsWith("C") &&  <h6>Angabe des Workers: {maxPayment}€</h6>}
                         </MDBCardHeader>

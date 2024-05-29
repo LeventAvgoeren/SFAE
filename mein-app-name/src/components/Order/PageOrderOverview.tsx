@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './PageOrderOverview.css';
 import { Link, useParams } from 'react-router-dom';
-import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus } from '../../backend/api'; // Importiere die Funktion
+import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus, deleteChat } from '../../backend/api'; // Importiere die Funktion
 import { ContractResource } from '../../Resources';
 import NavbarComponent from '../navbar/NavbarComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -101,6 +101,7 @@ export function PageOrderOverview() {
   const handleCancelConfirm = async () => {
     if (conData && conData.worker && conData.worker.id) {
       try {
+        await deleteChat(conData.worker.id, conData.customerId!);
         await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
         await updateContractStatus(contractId.toString(), 'TERMINATED');
         console.log('Worker status updated to AVAILABLE and contract status updated to TERMINATED');

@@ -242,7 +242,8 @@ export async function registrationWorker(
   password: string,
   jobType: string,
   minPayment: number,
-  LongLat: Position
+  LongLat: Position,
+  slogan: string
 ) {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/worker`;
 
@@ -264,7 +265,8 @@ export async function registrationWorker(
         jobType,
         minPayment,
         latitude,
-        longitude
+        longitude,
+        slogan
       }),
       credentials: "include",
     });

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './PageOrderOverview.css';
 import { Link, useParams } from 'react-router-dom';
-import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus, deleteChat, deleteContractById, updateWorkerOrderStatus } from '../../backend/api'; // Importiere die Funktion
+import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus, deleteChat, deleteContractById, updateWorkerOrderStatus, getCustomerImage, getWorkerImage } from '../../backend/api'; // Importiere die Funktion
 import { ContractResource } from '../../Resources';
 import NavbarComponent from '../navbar/NavbarComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -21,6 +21,8 @@ export function PageOrderOverview() {
   const [cancelModalShow, setCancelModalShow] = useState(false); // Zustand für die Anzeige des Stornierungsmodals
   const [messageIndex, setMessageIndex] = useState(0);
   const [workerAssigned, setWorkerAssigned] = useState(false);
+  const [foto, setFoto] = useState("");
+  const [workerFoto, setWorkerFoto] = useState("");
 
   //ist nur ein versuch ob es machbar ist 
   const [isPaid, setIsPaid] = useState<boolean>(false);
@@ -48,7 +50,11 @@ export function PageOrderOverview() {
         setContractData(data);
         let contract = await getContract(contractId);
         setConData(contract);
+        let result = await getCustomerImage(customerId!);
+        setFoto(`data:image/jpeg;base64,${result}`);
         if (contract && contract.worker) {
+          let result = await getWorkerImage(contract.worker.id!);
+          setWorkerFoto(`data:image/jpeg;base64,${result}`)
           setWorkerAssigned(true); // Worker ist zugewiesen
         }
       } catch (error) {
@@ -164,7 +170,7 @@ export function PageOrderOverview() {
                           <td>
                             <div className="d-flex mb-2">
                               <div className="flex-shrink-0">
-                                <img src="https://www.bootdey.com/image/280x280/87CEFA/000000" alt="" width="35" className="img-fluid" />
+                                <img src={foto}width="45"className="img-fluid"alt=""/>
                               </div>
                               <div className="flex-lg-grow-1 ms-3">
                               </div>
@@ -175,18 +181,18 @@ export function PageOrderOverview() {
                             </div>
                           </td>
                           <td>Betrag:</td>
-                          <td className="text-end">$79.99</td>
+                          <td className="text-end">{conData.maxPayment}€</td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
                   <div className="d-flex justify-content-between">
-                    <button onClick={toggleShow} className="btn btn-danger mb-4" style={{ width: "250px", marginLeft: "auto" }}>
-                      Auftrag beendet?
-                    </button>
-                    <button onClick={toggleCancelShow} className="btn btn-warning mb-4" style={{ width: "250px", marginLeft: "20px" }}>
+                  {conData.statusOrder === "ACCEPTED" &&  <button onClick={toggleShow} className="btn btn-danger mb-4" style={{ width: "250px", marginLeft: "auto" }}>
+                      Auftrag beendet
+                    </button>}
+                    {conData.statusOrder === "ACCEPTED" && <button onClick={toggleCancelShow} className="btn btn-warning mb-4" style={{ width: "250px", marginLeft: "20px" }}>
                       Auftrag stornieren
-                    </button>
+                    </button>}
                   </div>
                 </div>
               </div>
@@ -204,14 +210,21 @@ export function PageOrderOverview() {
                       Order ID: <span className="fw-bold text-body  white-text" style={{ color: "white" }}>{conData.id}</span>
                     </p>
                     <p className="text-muted" style={{ color: "white" }}>
-                      Umkreis des Workers <span className="fw-bold text-body white-text" style={{ color: "white" }}>:**{conData.range} km</span>
+                      Umkreis des Workers <span className="fw-bold text-body white-text" style={{ color: "white" }}>: {conData.range} km</span>
                     </p>
                     <p className="text-muted">Job Type: {conData.jobType}</p>
                     <p className="text-muted">Status deiner Bestellung: {conData.statusOrder}</p>
                     <hr />
                     <h3 className="h6">Worker Details</h3>
                     {conData.worker && (
-                      <>
+                      <>  <div className="Foto" >
+                                <img
+                                  src={workerFoto}
+                                  width="45"
+                                  className="img-fluid"
+                                  alt=""
+                                />
+                              </div>
                         <address>
                           <strong>Name: {conData.worker.name}</strong><br />
                           Email: {conData.worker.email}<br />
@@ -229,7 +242,7 @@ export function PageOrderOverview() {
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Auftrag beendet?</h5>
+             <h5 className="modal-title">Auftrag beendet</h5>
               </div>
               <div className="modal-body">
                 Bist du sicher, dass du diesen Auftrag als beendet markieren möchtest? Wurde alles ordnungsgemäß ausgeführt?
@@ -249,7 +262,7 @@ export function PageOrderOverview() {
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Auftrag stornieren?</h5>
+             <h5 className="modal-title">Auftrag stornieren</h5>
               </div>
               <div className="modal-body">
                 Bist du sicher, dass du diesen Auftrag stornieren möchtest?

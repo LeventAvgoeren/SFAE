@@ -29,7 +29,13 @@ const fetchMessagesForUser = async (user1: string, user2: string): Promise<Messa
     return data;
 };
 
-
+const formatTimestamp = (timestamp: number) => {
+    const date = new Date(timestamp);
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+};
 
 const ChatComponent: React.FC = () => {
     const [messages, setMessages] = useState<Message[]>([]);
@@ -43,6 +49,17 @@ const ChatComponent: React.FC = () => {
     const userId = params.userId!;
     const clientRef = useRef<Client | null>(null);
     const [load, setLoad] = useState(false);
+    const [maxPayment, setMaxPayment] = useState(0)
+    const fetchMessage = async () => {
+                const messagesFromServer = await fetchMessagesForUser(userId, receiver!);
+                setMessages(messagesFromServer);
+            }
+
+    const fetchLastMessage = async () => {
+                const messagesFromServer = await fetchMessagesForUser(userId, receiver!);
+                setMessages((prevMessages) => [...prevMessages, messagesFromServer[messagesFromServer.length - 1]])
+            }
+
 
     useEffect(() => {
       const fetchCustomer = async () => {
@@ -53,6 +70,7 @@ const ChatComponent: React.FC = () => {
                     const contract = await getContractByCustomerId(userId);    
                      
                     if(contract){
+                    setMaxPayment(contract[contract.length - 1].worker!.minPayment as number)
                     const img = await getWorkerImage(contract[contract.length - 1].worker!.id!);
                     setImage(`data:image/jpeg;base64,${img}`);
                     setContract(contract[contract.length - 1]);
@@ -66,6 +84,7 @@ const ChatComponent: React.FC = () => {
                   const contract = await getContractByWorkerId(userId);  
                   if(contract){
                     const img = await getCustomerImage(contract[contract.length - 1].customer!.id!);
+                    setMaxPayment(contract[contract.length - 1].maxPayment);
                     setImage(`data:image/jpeg;base64,${img}`);
                   setContract(contract[contract.length - 1]);
                   setReceiver(contract[contract.length - 1].customer!.id);
@@ -81,15 +100,17 @@ const ChatComponent: React.FC = () => {
       fetchCustomer();
   }, [userId]); 
   
-            const fetchMessage = async () => {
-                const messagesFromServer = await fetchMessagesForUser(userId, receiver!);
-                setMessages(messagesFromServer);
-            }
+
 
         useEffect( () => {
            fetchMessage()
-           setLoad(true)
         }, [receiver])
+
+        useEffect( () => {
+            fetchLastMessage()
+            setLoad(false)
+         }, [load])
+
 
     useEffect(() => {
         const client = new Client({
@@ -133,7 +154,7 @@ const ChatComponent: React.FC = () => {
                 content: message,
             };
             clientRef.current.publish({ destination: '/app/chat.send', body: JSON.stringify(chatMessage) });
-            setMessages((prevMessages) => [...prevMessages, chatMessage])
+            setLoad(true)
             setMessage('');
         } else {
             console.error('No connection to server.');
@@ -156,13 +177,33 @@ const ChatComponent: React.FC = () => {
                             <img src={image} alt="Profilbild" style={{ width: '150px', height: '150px', borderRadius: '50%' }} />
                             <p></p>
                             <h3>{receiver}</h3>
+                            {userId.startsWith("W") &&  <h6>Angabe des Customer: {maxPayment}€</h6>}
+                            {userId.startsWith("C") &&  <h6>Angabe des Workers: {maxPayment}€</h6>}
                         </MDBCardHeader>
                         <MDBCardBody className="CBody" style={{ overflowY: 'auto', maxHeight: '60vh' }}>
-                            <div className="message-container">
-                                <p className='Text'>Du schreibst nun mit {receiver}.</p>
+                            <div>
                                 {messages.map((msg, index) => (
-                                    <div key={index} className={msg.sender === userId ? "Right" : "Left"}>
-                                        {msg.content}
+                                    <div key={index}>
+                                       {msg.sender === userId ? (
+                                            <div className="message-container">
+                                                <div className="Right">
+                                                {msg.content}
+                                                <div className="TimeL">
+                                                          {formatTimestamp(msg.timestamp!)}
+                                                    </div>
+                                                </div>
+                                            </div>):(
+                                                <>
+                                                <div className="Left">
+                                                    {msg.content}  
+                                                    <div className="TimeL">
+                                                          {formatTimestamp(msg.timestamp!)}
+                                                    </div>
+                                                </div>
+                                                  </>
+                                            )
+                                       }
+                                          
                                     </div>
                                 ))}
                             </div>
@@ -171,7 +212,7 @@ const ChatComponent: React.FC = () => {
                             <input
                                 type="text"
                                 className="form-control form-control-lg"
-                                placeholder="Type message"
+                                placeholder="Nachricht..."
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' ? sendMessage() : null}

@@ -114,7 +114,7 @@ export default function PageOrderRequest() {
       payment: "PAYPAL",
       range: range,
       statusOrder: "PAID",
-      customerId: cus!,
+      customerId: cus!.id,
       verified: verified,
       longitude: getPosition!.longitude,
       latitude: getPosition!.latitude,

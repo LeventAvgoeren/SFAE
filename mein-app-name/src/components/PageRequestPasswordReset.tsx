@@ -21,7 +21,7 @@ export function PageRequestPasswordReset(){
     
     return (
         <div className="background-image">
-        <div className="login-container">a
+        <div className="login-container">
         <MDBContainer className="p-3 my-5 d-flex flex-column align-items-center justify-content-center w-50">
                 <MDBRow className="justify-content-center">
 

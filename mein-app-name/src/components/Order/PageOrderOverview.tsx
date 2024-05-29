@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './PageOrderOverview.css';
 import { Link, useParams } from 'react-router-dom';
-import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus, deleteChat } from '../../backend/api'; // Importiere die Funktion
+import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus, deleteChat, deleteContractById, updateWorkerOrderStatus } from '../../backend/api'; // Importiere die Funktion
 import { ContractResource } from '../../Resources';
 import NavbarComponent from '../navbar/NavbarComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -89,21 +89,24 @@ export function PageOrderOverview() {
     if (conData && conData.worker && conData.worker.id) {
       try {
         await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
-        await updateContractStatus(contractId.toString(), 'COMPLETED');
+        await updateContractStatus(contractId!, 'COMPLETED');
         console.log('Worker status updated to AVAILABLE and contract status updated to COMPLETED');
       } catch (error) {
         console.error('Error updating status:', error);
       }
     }
     toggleShow(); // Schließt das Modal
-  };
+  }; 
 
   const handleCancelConfirm = async () => {
     if (conData && conData.worker && conData.worker.id) {
+      console.log(conData)
       try {
-        await deleteChat(conData.worker.id, conData.customerId!);
+        await deleteChat(conData.worker.id, conData.customer!.id!);
         await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
-        await updateContractStatus(contractId.toString(), 'TERMINATED');
+        await updateContractStatus(contractId!, 'CANCELLED');
+        await updateWorkerOrderStatus(conData.worker.id, "UNDEFINED");
+        //await deleteContractById(conData.id!);
         console.log('Worker status updated to AVAILABLE and contract status updated to TERMINATED');
       } catch (error) {
         console.error('Error updating status:', error);

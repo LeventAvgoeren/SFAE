@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.SFAE.SFAE.ENTITY.Message;
 import com.SFAE.SFAE.INTERFACE.MessageRepository;
@@ -26,7 +27,7 @@ public class ChatService {
         messagesSent.sort((m1, m2) -> m1.getTimestamp().compareTo(m2.getTimestamp()));
         return messagesSent;
     }
-
+    @Transactional
     public void deleteChatMessages(String user1, String user2) {
         chatMessageRepository.deleteBySenderAndReceiver(user1, user2);
         chatMessageRepository.deleteByReceiverAndSender(user1, user2);

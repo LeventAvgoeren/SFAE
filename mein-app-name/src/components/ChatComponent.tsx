@@ -48,6 +48,7 @@ const ChatComponent: React.FC = () => {
     const userId = params.userId!;
     const clientRef = useRef<Client | null>(null);
     const [load, setLoad] = useState(false);
+    const [active, setActive] = useState(false);
     const [maxPayment, setMaxPayment] = useState(0)
     const fetchMessage = async () => {
                 const messagesFromServer = await fetchMessagesForUser(userId, receiver!);
@@ -67,6 +68,11 @@ const ChatComponent: React.FC = () => {
                     const contract = await getContractByCustomerId(userId);    
                      
                     if(contract){
+                        const status = contract[contract.length - 1].statusOrder;
+                        if (status === "PAID" || status === "CANCELLED" || status === "FINISHED" || status === "UNDEFINED") {
+                            return setActive(false);
+                        }
+                        setActive(true)
                     setMaxPayment(contract[contract.length - 1].worker!.minPayment as number)
                     const img = await getWorkerImage(contract[contract.length - 1].worker!.id!);
                     setImage(`data:image/jpeg;base64,${img}`);
@@ -80,6 +86,10 @@ const ChatComponent: React.FC = () => {
                   setName(wor.name);
                   const contract = await getContractByWorkerId(userId);  
                   if(contract){
+                    const status = contract[contract.length - 1].statusOrder;
+                    if (status === "PAID" || status === "CANCELLED" || status === "FINISHED" || status === "UNDEFINED") {
+                        return setActive(false);
+                    }
                     const img = await getCustomerImage(contract[contract.length - 1].customer!.id!);
                     setMaxPayment(contract[contract.length - 1].maxPayment);
                     setImage(`data:image/jpeg;base64,${img}`);
@@ -159,7 +169,9 @@ const ChatComponent: React.FC = () => {
             console.error('No connection to server.');
         }
     };
-
+    if(!active){
+        return(<>NO ACTIVE CONTRACT</>) // DESIGNEN
+    }
 
     if (!contract ) {
         return <LoadingIndicator />;

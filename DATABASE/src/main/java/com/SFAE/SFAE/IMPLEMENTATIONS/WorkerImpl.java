@@ -658,16 +658,44 @@ public class WorkerImpl implements WorkerInterface {
   }
 
   public Long saveImageAsLargeObject(byte[] imageBytes) throws SQLException, IOException {
-    Connection conn = DataSourceUtils.getConnection(jdbcTemplate.getDataSource());
-    LargeObjectManager lobjManager = conn.unwrap(org.postgresql.PGConnection.class).getLargeObjectAPI();
+    Connection conn = null;
+    Long oid = null;
 
-    long oid = lobjManager.createLO(LargeObjectManager.WRITE);
-    LargeObject lobj = lobjManager.open(oid, LargeObjectManager.WRITE);
-    lobj.write(imageBytes);
-    lobj.close();
+    try {
+        conn = DataSourceUtils.getConnection(jdbcTemplate.getDataSource());
+        // Deactivate auto-commit mode
+        conn.setAutoCommit(false);
 
-    // Verbindung nicht manuell schließen, JdbcTemplate verwaltet die Verbindung
-    // conn.close();
+        LargeObjectManager lobjManager = conn.unwrap(org.postgresql.PGConnection.class).getLargeObjectAPI();
+        oid = lobjManager.createLO(LargeObjectManager.WRITE);
+        LargeObject lobj = lobjManager.open(oid, LargeObjectManager.WRITE);
+
+        lobj.write(imageBytes);
+        lobj.close();
+
+        // Commit the transaction
+        conn.commit();
+    } catch (SQLException | IOException e) {
+        if (conn != null) {
+            try {
+                // Rollback the transaction on error
+                conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        throw e;
+    } finally {
+        if (conn != null) {
+            try {
+                // Re-enable auto-commit mode
+                conn.setAutoCommit(true);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            // Do not close the connection manually, let JdbcTemplate manage it
+        }
+    }
 
     return oid;
 }

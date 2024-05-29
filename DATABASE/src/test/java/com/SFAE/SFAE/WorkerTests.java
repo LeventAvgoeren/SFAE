@@ -227,7 +227,7 @@ public class WorkerTests{
         
         WorkerDTO worker = new WorkerDTO();
         worker.setId("W3");
-        worker.setEmail("AMOadadadadadSelam@gmail.com");
+        worker.setEmail("AMOssdadsadadadadaddddSelam@gmail.com");
         worker.setLocation("Bremen");
         worker.setJobType("HAUSMEISTER");
         worker.setMinPayment(0.9);
@@ -252,7 +252,6 @@ public class WorkerTests{
                 .content(workerJson))
                 .andExpect(status().isAccepted());
 
-        transactionManager.commit(status);
     }
 
     public static String encodeFileToBase64Binary(String resourcePath) throws IOException, FileNotFoundException, java.io.IOException {

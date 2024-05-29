@@ -195,7 +195,8 @@ public class CustomerImp implements CustomerInterface {
     public Boolean deleteCustomerById(String id) {
 
         try {
-            
+              //Setze den contract auf null bevor ich lösche um den fehler zu 
+             //umgehen DataIntegrityViolationException 
             jdbcTemplate.update(
                 "UPDATE Contract SET customer_id = NULL WHERE customer_id = ?",
                 ps -> ps.setString(1, id)

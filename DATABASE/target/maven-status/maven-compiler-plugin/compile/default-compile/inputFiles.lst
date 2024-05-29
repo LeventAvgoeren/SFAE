@@ -16,6 +16,7 @@ C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFA
 C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\DTO\PasswordResetRequest.java
 C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\ENUM\MessageType.java
 C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\INTERFACE\TokenRepository.java
+C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\INTERFACE\MessageRepository.java
 C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\ENUM\Status.java
 C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\INTERFACE\CustomerRepository.java
 C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\ENDPOINTS\CustomerEP.java
@@ -33,6 +34,7 @@ C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFA
 C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\ENTITY\Worker.java
 C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\INTERFACE\CustomerInterface.java
 C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\ENTITY\CustomIdGenerator.java
+C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\Service\ChatService.java
 C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\INTERFACE\ContractRepository.java
 C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\DTO\LoginResponseCustomer.java
 C:\Users\erayz\OneDrive\Desktop\SfAE\project-sfae\DATABASE\src\main\java\com\SFAE\SFAE\ENUM\TokenType.java

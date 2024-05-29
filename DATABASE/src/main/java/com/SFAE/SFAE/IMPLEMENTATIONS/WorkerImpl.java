@@ -543,7 +543,7 @@ public class WorkerImpl implements WorkerInterface {
         return readLargeObject(oid);
     }
 
-    private byte[] readLargeObject(int oid) {
+    byte[] readLargeObject(int oid) {
       Connection conn = null;
       LargeObjectManager lobjManager = null;
       LargeObject lobj = null;

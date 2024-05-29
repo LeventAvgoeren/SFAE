@@ -1,5 +1,6 @@
 package com.SFAE.SFAE.IMPLEMENTATIONS;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,8 +8,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.postgresql.largeobject.LargeObject;
+import org.postgresql.largeobject.LargeObjectManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Component;
 
 import com.SFAE.SFAE.DTO.CustomerDTO;
@@ -308,5 +312,102 @@ public class CustomerImp implements CustomerInterface {
 
         return false;
     }
+
+    @Override
+    public byte[] getProfilePictureByCustomerId(String id) {
+        if (id.isEmpty()) {
+            throw new IllegalArgumentException("Id not given");
+        }
+
+        List<Integer> oids = jdbcTemplate.query(
+                "SELECT profile_picture_blob FROM Customer WHERE ID = ?",
+                ps -> {
+                    ps.setString(1, id);
+                },
+                (rs, rowNum) -> rs.getInt("profile_picture_blob"));
+        if (oids.isEmpty()) {
+            return null;
+        }
+
+        Integer oid = oids.get(0);
+        return readLargeObject(oid);
+    }
+
+
+     byte[] readLargeObject(int oid) {
+      Connection conn = null;
+      LargeObjectManager lobjManager = null;
+      LargeObject lobj = null;
+      byte[] imageBytes = null;
+  
+      try {
+          // Verbindung holen
+          conn = DataSourceUtils.getConnection(jdbcTemplate.getDataSource());
+          System.out.println("Connection established: " + (conn != null));
+  
+          // Auto-commit deaktivieren
+          conn.setAutoCommit(false);
+  
+          // PostgreSQL LargeObject API verwenden
+          lobjManager = conn.unwrap(org.postgresql.PGConnection.class).getLargeObjectAPI();
+          System.out.println("LargeObjectManager obtained: " + (lobjManager != null));
+  
+          // LargeObject öffnen
+          if (lobjManager != null) {
+              try {
+                  lobj = lobjManager.open((long) oid, LargeObjectManager.READ);
+                  System.out.println("LargeObject opened: " + (lobj != null));
+              } catch (SQLException e) {
+                  System.err.println("SQL Exception occurred while opening large object with OID " + oid);
+                  e.printStackTrace();
+                  return null;
+              }
+  
+              // Länge des LargeObject abfragen
+              if (lobj != null) {
+                  try {
+                      int size = (int) lobj.size();
+                      imageBytes = new byte[size];
+  
+                      // LargeObject lesen
+                      int bytesRead = lobj.read(imageBytes, 0, size);
+                      System.out.println("Bytes read: " + bytesRead);
+                  } catch (SQLException e) {
+                      System.err.println("SQL Exception occurred while reading large object with OID " + oid);
+                      e.printStackTrace();
+                      return null;
+                  }
+              } else {
+                  System.out.println("No Large Object found with OID: " + oid);
+              }
+          } else {
+              System.out.println("Failed to obtain LargeObjectManager");
+          }
+      } catch (SQLException e) {
+          System.err.println("SQL Exception occurred while reading large object with OID " + oid);
+          e.printStackTrace();
+      } finally {
+          if (lobj != null) {
+              try {
+                  lobj.close();
+              } catch (SQLException e) {
+                  System.err.println("SQL Exception occurred while closing large object with OID " + oid);
+                  e.printStackTrace();
+              }
+          }
+          if (conn != null) {
+              try {
+                  // Auto-commit wieder aktivieren
+                  conn.setAutoCommit(true);
+                  conn.close();
+              } catch (SQLException e) {
+                  System.err.println("SQL Exception occurred while closing connection");
+                  e.printStackTrace();
+              }
+          }
+      }
+  
+      return imageBytes;
+  }
 
 }

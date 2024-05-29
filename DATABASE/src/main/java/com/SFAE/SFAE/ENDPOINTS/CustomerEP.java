@@ -1,5 +1,7 @@
 package com.SFAE.SFAE.ENDPOINTS;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -10,10 +12,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.DTO.LoginRequest;
 import com.SFAE.SFAE.DTO.PasswordResetRequest;
+import com.SFAE.SFAE.ENTITY.Message;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -144,4 +148,7 @@ public interface CustomerEP {
 
     @PutMapping("/updatepassword")
     ResponseEntity<?> resetPassword(@RequestBody PasswordResetRequest data);
+
+    @GetMapping("/{id}/image")
+    ResponseEntity<?> getWorkerImageAsBase64(@PathVariable("id") String id);
 }

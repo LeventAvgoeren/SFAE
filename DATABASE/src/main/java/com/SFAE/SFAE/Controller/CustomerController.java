@@ -11,6 +11,7 @@ import com.SFAE.SFAE.DTO.PasswordResetRequest;
 import com.SFAE.SFAE.DTO.Token;
 import com.SFAE.SFAE.ENDPOINTS.CustomerEP;
 import com.SFAE.SFAE.ENTITY.Customer;
+import com.SFAE.SFAE.ENTITY.Message;
 import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.Role;
 import com.SFAE.SFAE.ENUM.TokenType;
@@ -23,7 +24,7 @@ import com.SFAE.SFAE.Service.MailService;
 import com.SFAE.SFAE.Service.TokenMailService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import java.util.Base64;
 import io.jsonwebtoken.Claims;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -80,6 +82,9 @@ class CustomerController implements CustomerEP {
 
     @Autowired
     private TokenMailService mailService;
+
+    @Autowired
+    private ChatController chatController;
 
     /**
      * Finds a customer by their ID.
@@ -478,6 +483,28 @@ class CustomerController implements CustomerEP {
         }
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+
+    @Override
+    public ResponseEntity<?> getWorkerImageAsBase64(String id) {
+         if (id.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+         }
+
+        try {
+            byte[] imageBytes = dao.getProfilePictureByCustomerId(id);
+
+            if (imageBytes != null && imageBytes.length > 0) {
+                String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                return ResponseEntity.status(HttpStatus.OK).body(base64Image);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 
 }

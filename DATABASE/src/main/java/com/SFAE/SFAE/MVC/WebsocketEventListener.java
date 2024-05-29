@@ -32,7 +32,7 @@ public class WebsocketEventListener {
         if (username != null) {
             log.info("User disconnected: {}", username);
             var chatMessage = Message.builder()
-                .senderId(username)
+                .sender(username)
                 .build();
             messageTemplate.convertAndSend("/topic/public", chatMessage);
         }
@@ -46,5 +46,4 @@ public class WebsocketEventListener {
         String destination = headerAccessor.getDestination();
         log.info("New subscription: sessionId = {}, destination = {}", sessionId, destination);
     }
-
 }

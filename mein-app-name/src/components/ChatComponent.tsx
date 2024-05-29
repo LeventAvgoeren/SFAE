@@ -12,26 +12,36 @@ import {
     MDBCardFooter,
 } from "mdb-react-ui-kit";
 import { useParams } from 'react-router-dom';
-import { getContractByCustomerId, getContractByWorkerId, getCustomerbyID, getWorkerbyID } from '../backend/api';
+import { getContractByCustomerId, getContractByWorkerId, getCustomerImage, getCustomerbyID, getWorkerImage, getWorkerbyID } from '../backend/api';
 import LoadingIndicator from './LoadingIndicator';
 import { ContractResource } from '../Resources';
 
 interface Message {
-    senderId: string;
-    receiverId: string | undefined;
+    sender: string;
+    receiver: string | undefined;
     content: string;
+    timestamp?: number;
 }
+const fetchMessagesForUser = async (user1: string, user2: string): Promise<Message[]> => {
+    const response = await fetch(`https://localhost:8443/chat/history?user1=${user1}&user2=${user2}`);
+    const data = await response.json();
+    return data;
+};
+
+
 
 const ChatComponent: React.FC = () => {
-    const [stompClient, setStompClient] = useState<any>(null);
     const [messages, setMessages] = useState<Message[]>([]);
+    const [permessages, setPerMessages] = useState<Message[]>([]);
     const [name, setName] = useState('');
     const [message, setMessage] = useState('');
     const [contract, setContract] = useState<ContractResource | undefined>();
     const [receiver, setReceiver] = useState<string | undefined>('');
+    const [image, setImage] = useState<string>('');
     const params = useParams<{ userId: string }>();
     const userId = params.userId!;
     const clientRef = useRef<Client | null>(null);
+    const [load, setLoad] = useState(false);
 
     useEffect(() => {
       const fetchCustomer = async () => {
@@ -39,9 +49,11 @@ const ChatComponent: React.FC = () => {
               if(userId.startsWith("C")){
                     const cus = await getCustomerbyID(userId);
                     setName(cus.name);
-                    const contract = await getContractByCustomerId(userId);  
-               
+                    const contract = await getContractByCustomerId(userId);    
+                     
                     if(contract){
+                    const img = await getWorkerImage(contract[contract.length - 1].worker!.id!);
+                    setImage(`data:image/jpeg;base64,${img}`);
                     setContract(contract[contract.length - 1]);
                     setReceiver(contract[contract.length - 1].worker!.id);
                     }
@@ -52,17 +64,31 @@ const ChatComponent: React.FC = () => {
                   setName(wor.name);
                   const contract = await getContractByWorkerId(userId);  
                   if(contract){
-                  setContract(contract[0]);
-                  setReceiver(contract[contract.length - 1].customer?.id);
+                    const img = await getCustomerImage(contract[contract.length - 1].customer!.id!);
+                    setImage(`data:image/jpeg;base64,${img}`);
+                  setContract(contract[contract.length - 1]);
+                  setReceiver(contract[contract.length - 1].customer!.id);
                   }
               }
           } catch (error) {
               console.error('Error fetching customer:', error);
           }
+
+        
       };
 
       fetchCustomer();
-  }, [userId]);
+  }, [userId]); 
+  
+            const fetchMessage = async () => {
+                const messagesFromServer = await fetchMessagesForUser(userId, receiver!);
+                setMessages(messagesFromServer);
+            }
+
+        useEffect( () => {
+           fetchMessage()
+           setLoad(true)
+        }, [receiver])
 
     useEffect(() => {
         const client = new Client({
@@ -70,9 +96,10 @@ const ChatComponent: React.FC = () => {
             reconnectDelay: 5000,
             heartbeatIncoming: 4000,
             heartbeatOutgoing: 4000,
-            onConnect: () => {
-                console.log('Connected');
-                console.log(receiver)
+            onConnect: async () => {
+                console.log('Connected'); 
+                
+                fetchMessage()
                 client.subscribe(`/topic/${userId}`, (message: IMessage) => {
                     const receivedMessage: Message = JSON.parse(message.body);
                     setMessages((prevMessages) => [...prevMessages, receivedMessage]);
@@ -97,59 +124,67 @@ const ChatComponent: React.FC = () => {
         };
     }, []);
 
-    const sendMessage = () => {
-        if (clientRef.current && clientRef.current.connected) {
+    const sendMessage =  () => {
+        if (clientRef.current && clientRef.current.connected && message) {
             const chatMessage: Message = {
-                senderId: userId,
-                receiverId: receiver,
+                sender: userId,
+                receiver: receiver,
                 content: message,
             };
             clientRef.current.publish({ destination: '/app/chat.send', body: JSON.stringify(chatMessage) });
+            setMessages((prevMessages) => [...prevMessages, chatMessage])
             setMessage('');
         } else {
             console.error('No connection to server.');
         }
     };
 
-    if (!contract) {
+  
+
+    if (!contract ) {
         return <LoadingIndicator />;
     }
-
     return (
-        <MDBContainer fluid className="py-5" style={{ backgroundColor: "#eee", height: "100vh"}}>
+        <MDBContainer fluid className="py-5" style={{ backgroundColor: "#060454", height: "100vh" }}>
             <MDBRow className="d-flex justify-content-center">
                 <MDBCol md="10" lg="8" xl="6">
-                    <MDBCard id="chat2" style={{ borderRadius: "15px"}}>
-                        <MDBCardHeader className="d-flex justify-content-between align-items-center p-3">
-                            <h5 className="mb-0">Chat</h5>
+                    <MDBCard id="chat2" style={{ borderRadius: "15px", height: "90vh" }}>
+                        <MDBCardHeader className="d-flex flex-column justify-content-center align-items-center p-3">
+                            <h1 className="mb-0">Chat</h1>
+                            <p></p>
+                            <img src={image} alt="Profilbild" style={{ width: '150px', height: '150px', borderRadius: '50%' }} />
+                            <p></p>
+                            <h3>{receiver}</h3>
                         </MDBCardHeader>
-                        <MDBCardBody>
-                            <div >
-                                <p className='Text'>Du schreibst mit {receiver}.</p>
-                                {
-                                messages.map((msg, index) => (
-                                <div key={index}>
-                                {msg.senderId === userId ? 'You' : msg.senderId}: {msg.content}
-                                </div>
-                            ))}
+                        <MDBCardBody className="CBody" style={{ overflowY: 'auto', maxHeight: '60vh' }}>
+                            <div>
+                                <p className='Text'>Du schreibst nun mit {receiver}.</p>
+                                {messages.map((msg, index) => (
+                                    <div key={index}>
+                                       {msg.sender === userId ? (
+                                            <div className="Left">
+                                               Du: {msg.sender}
+                                            </div>):(
+                                                <div className="Right">
+                                                    {msg.sender}: {msg.content}
+                                                </div>
+                                            )
+                                       }
+                                          
+                                    </div>
+                                ))}
                             </div>
                         </MDBCardBody>
                         <MDBCardFooter className="text-muted d-flex justify-content-start align-items-center p-3">
-                            <img
-                                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
-                                alt="avatar 3"
-                                style={{ width: "45px", height: "100%" }}
-                            />
                             <input
                                 type="text"
                                 className="form-control form-control-lg"
-                                id="exampleFormControlInput1"
                                 placeholder="Type message"
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' ? sendMessage() : null}
                             />
-                            <MDBIcon fas style={{ color: "black" }} icon="paper-plane" onClick={sendMessage} />
+                            <MDBIcon fas style={{ color: "white", margin: "20px", cursor: "pointer" }} icon="paper-plane" onClick={sendMessage} />
                         </MDBCardFooter>
                     </MDBCard>
                 </MDBCol>

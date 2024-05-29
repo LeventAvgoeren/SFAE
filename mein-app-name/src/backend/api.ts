@@ -336,9 +336,9 @@ export async function getContractByWorkerId(id: string): Promise<ContractResourc
   const response = await fetchWithErrorHandling(url, {
     credentials: "include" as RequestCredentials,
   });
-
-  const answer = await response.json();
+     const answer = await response.json();
   return answer;
+  
 }
 
 

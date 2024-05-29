@@ -5,7 +5,7 @@
   #chat2 .form-control:focus {
     border-color: transparent;
     box-shadow: inset 0px 0px 0px 1px transparent;
-    background-color: white;
+    background-color: #060454;
   }
   
   .divider:after,
@@ -13,9 +13,19 @@
     content: "";
     flex: 1;
     height: 1px;
-    background: #eee;
+    background: #060454;
   }
 
   .Text{
     color: black ;
+  }
+
+  .CBody{
+    display: flex; 
+    flex-direction: column;
+    background-color: #060454;
+  }
+
+  .Right{
+    border:  2px  red solid; 
   }

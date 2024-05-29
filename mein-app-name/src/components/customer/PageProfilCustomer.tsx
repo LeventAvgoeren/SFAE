@@ -31,7 +31,8 @@ export function PageCustomerProfil() {
       password: password,
       email: email,
       role: "CUSTOMER",
-      id: customerId
+      id: customerId,
+      profileBase64: ""
     }
     if (password.trim() !== "") {
       updateData.password = password

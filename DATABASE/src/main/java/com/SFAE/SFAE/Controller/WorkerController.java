@@ -80,8 +80,23 @@ public class WorkerController implements WorkerEp {
         try {
             Worker builded = dao.createWorker(worker);
             if (builded != null) {
-                // mail.sendSimpleMessage(worker.getEmail(), "Wilkommen bei SFAE", "Worker
-                // erstellt");
+                mail.sendHtmlMessage(builded.getEmail(), "Willkommen bei SFAE - Verdienen Sie nebenbei Geld mit Ihren Fähigkeiten", 
+"<html><body>" +
+"<p>Lieber "+ builded.getName()+",</p>" +
+"<p>herzlich willkommen bei SFAE! Wir freuen uns, dass Sie sich für unseren Service entschieden haben.</p>" +
+"<p>SFAE ist die ideale Plattform für Fachkräfte wie Sie, die ihre Fähigkeiten nutzen möchten, um nebenbei Geld zu verdienen. Unser Service bietet Ihnen die Möglichkeit, schnell und unkompliziert mit Kunden in Ihrer Nähe in Kontakt zu treten, die genau Ihre Expertise benötigen.</p>" +
+"<p>Egal ob Sie Handwerker, IT-Spezialist, Reinigungskraft oder in einem anderen Berufsfeld tätig sind – bei SFAE finden Sie passende Aufträge, die Ihren Fähigkeiten entsprechen. Unser benutzerfreundliches System stellt sicher, dass Sie innerhalb kürzester Zeit interessante Jobangebote erhalten.</p>" +
+"<p>Mit SFAE können Sie:</p>" +
+"<ul>" +
+"<li>Ihre Fähigkeiten optimal einsetzen und zusätzliche Einnahmen erzielen</li>" +
+"<li>Flexibel arbeiten und selbst bestimmen, welche Aufträge Sie annehmen</li>" +
+"<li>Ihren Kundenstamm erweitern und wertvolle Erfahrungen sammeln</li>" +
+"</ul>" +
+"<p>Wir sind überzeugt, dass Sie mit unserem Service zufrieden sein werden und freuen uns darauf, Ihnen bei Ihrer beruflichen Weiterentwicklung zu unterstützen.</p>" +
+"<p>Bei Fragen oder Anregungen stehen wir Ihnen jederzeit zur Verfügung.</p>" +
+"<p>Mit freundlichen Grüßen,</p>" +
+"<p>Ihr SFAE-Team</p>" +
+"</body></html>");
                 return ResponseEntity.status(HttpStatus.CREATED).body(builded);
             }
         } catch (Exception e) {

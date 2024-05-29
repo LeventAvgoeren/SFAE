@@ -134,8 +134,17 @@ class CustomerController implements CustomerEP {
 
             if (customer != null) {
                 try {
-                    mail.sendHtmlMessage(customerData.getEmail(), "Wilkommen bei SFAE", "Customer erstellt");
-                } catch (MessagingException e) {
+                    mail.sendHtmlMessage(customerData.getEmail(), "Willkommen bei SFAE - Ihre Lösung für schnelle und kompetente Hilfe", 
+                    "<html><body>" +
+                    "<p>Lieber "+customerData.getName()+",</p>" +
+                    "<p>herzlich willkommen bei SFAE! Wir freuen uns, dass Sie sich für unseren Service entschieden haben.</p>" +
+                    "<p>SFAE ist Ihre zuverlässige Dienstleistungsplattform, auf der Sie schnell und einfach Hilfe für verschiedene Anliegen finden können. Unser Ziel ist es, Ihnen den besten Facharbeiter in Ihrer Nähe mit der passenden Qualifikation zur Verfügung zu stellen.</p>" +
+                    "<p>Egal ob Sie einen Handwerker, IT-Spezialisten, Reinigungskraft oder einen anderen Fachmann benötigen – bei SFAE finden Sie garantiert den richtigen Ansprechpartner. Unser benutzerfreundliches System stellt sicher, dass Sie innerhalb kürzester Zeit den passenden Experten für Ihre Bedürfnisse finden.</p>" +
+                    "<p>Wir sind überzeugt, dass Sie mit unserem Service zufrieden sein werden und freuen uns darauf, Ihnen bei Ihren Anliegen behilflich zu sein.</p>" +
+                    "<p>Bei Fragen oder Anregungen stehen wir Ihnen jederzeit zur Verfügung.</p>" +
+                    "<p>Mit freundlichen Grüßen,</p>" +
+                    "<p>Ihr SFAE-Team</p>" +
+                    "</body></html>");                } catch (MessagingException e) {
                     e.printStackTrace();
                 }
                 return ResponseEntity.status(HttpStatus.CREATED).body(customer);

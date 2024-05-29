@@ -6,7 +6,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,11 +15,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Component;
-
 import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.SFAE.SFAE.DTO.WorkerStatus;
 import com.SFAE.SFAE.ENTITY.Worker;
@@ -30,14 +27,9 @@ import com.SFAE.SFAE.ENUM.Status;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.INTERFACE.WorkerRepository;
 import com.SFAE.SFAE.Service.PasswordHasher;
-
 import io.jsonwebtoken.io.IOException;
-
 import org.postgresql.largeobject.LargeObject;
 import org.postgresql.largeobject.LargeObjectManager;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.StreamUtils;
 
 /**
@@ -217,7 +209,7 @@ public class WorkerImpl implements WorkerInterface {
     }
     
     int rowsAffected = jdbcTemplate.update(
-        "UPDATE WORKER SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? , latitude = ? , longitude =?, profile_picture_blob = ? WHERE id = ?",
+        "UPDATE WORKER SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? , latitude = ? , longitude =?, profile_picture_blob = ?,slogan=? WHERE id = ?",
         ps -> {
           ps.setString(1, data.getName());
           ps.setString(2, data.getLocation());
@@ -233,7 +225,8 @@ public class WorkerImpl implements WorkerInterface {
           ps.setDouble(12, data.getLatitude());
           ps.setDouble(13, data.getLongitude());
           ps.setLong(14, imageOid[0]);
-          ps.setString(15, data.getId());
+          ps.setString(15, data.getSlogan());
+          ps.setString(16, data.getId());
           
         });
 
@@ -275,10 +268,11 @@ public class WorkerImpl implements WorkerInterface {
       Boolean verification = false;
       double latitude = rs.getLatitude();
       double longitude = rs.getLongitude();
+      String slogan =rs.getSlogan();
 
       Worker worker = new Worker(name, location, password, Status.valueOf("AVAILABLE"),
           StatusOrder.valueOf("UNDEFINED"), range, JobList.valueOf(jobType), minPayment, rating, verification, email,
-          latitude, longitude, ratingAv, defaultImage);
+          latitude, longitude, ratingAv, defaultImage,slogan);
       workerRepository.save(worker);
       return worker;
     } catch (Exception e) {
@@ -336,9 +330,10 @@ public class WorkerImpl implements WorkerInterface {
       double latitude = rs.getDouble("latitude");
       double longitude = rs.getDouble("longitude");
       byte[] picture = rs.getBytes("profile_picture_blob");
+      String slogan =rs.getString("slogan");
 
       return dataFactory.createWorker(id, name, location, password, email, status, range, jobType, statusOrder,
-          minPayment, rating, verification, latitude, longitude, picture);
+          minPayment, rating, verification, latitude, longitude, picture,slogan);
 
     } catch (SQLException e) {
     }

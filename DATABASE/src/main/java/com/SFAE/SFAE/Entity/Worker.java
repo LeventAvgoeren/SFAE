@@ -98,11 +98,14 @@ public class Worker {
   @Column(name = "profile_picture_blob", nullable = true)
   private byte[] profilePictureBlob;
 
+  @Column(name = "slogan")
+  private String slogan;
+
 
   public Worker(){}
 
   public Worker(String name, String location, String password, Status status, StatusOrder statusOrder,
-      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,double latitude,double longitude, ArrayList<Double> ratingAv , byte[] profilePictureBlob) {
+      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,double latitude,double longitude, ArrayList<Double> ratingAv , byte[] profilePictureBlob,String slogan) {
 
     this.name = name;
     this.location = location;
@@ -120,10 +123,11 @@ public class Worker {
     this.ratingAV = new ArrayList<>();
     this.ratingAV.add(1.0);
     this.profilePictureBlob=profilePictureBlob;
+    this.slogan=slogan;
   }
 
   public Worker(String id, String name, String location, String password, Status status, StatusOrder statusOrder,
-      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,double latitude,double longitude,byte[] profilePictureBlob) {
+      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,double latitude,double longitude,byte[] profilePictureBlob,String slogan) {
     this.id = id;
     this.name = name;
     this.location = location;
@@ -139,6 +143,7 @@ public class Worker {
     this.latitude=latitude;
     this.longitude=longitude;
     this.profilePictureBlob=profilePictureBlob;
+    this.slogan=slogan;
   }
 
   

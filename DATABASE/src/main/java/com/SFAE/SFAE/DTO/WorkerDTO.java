@@ -1,5 +1,8 @@
 package com.SFAE.SFAE.DTO;
 
+import lombok.Data;
+
+@Data
 public class WorkerDTO {
  
   
@@ -18,6 +21,7 @@ public class WorkerDTO {
     private Double latitude;
     private Double longitude;
     private String profileBase64;
+    private String slogan;
     
 
    

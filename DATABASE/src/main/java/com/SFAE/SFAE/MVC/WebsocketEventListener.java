@@ -5,6 +5,7 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
 import com.SFAE.SFAE.ENTITY.Message;
 import com.SFAE.SFAE.ENUM.MessageType;
@@ -27,11 +28,18 @@ public class WebsocketEventListener{
         if(username != null){
             log.info("User disconnected: {}", username);
             var chatMessage = Message.builder()
-                              .type(MessageType.LEAVE)
-                              .name(username)
-                              .build();
+                .sender(username)
+                .build();
             messageTemplate.convertAndSend("/topic/public", chatMessage);
         }
     }
-  
+
+
+   @EventListener
+    public void handleSubscribeEvent(SessionSubscribeEvent event) {
+        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+        String sessionId = headerAccessor.getSessionId();
+        String destination = headerAccessor.getDestination();
+        log.info("New subscription: sessionId = {}, destination = {}", sessionId, destination);
+    }
 }

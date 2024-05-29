@@ -1,32 +1,29 @@
 package com.SFAE.SFAE.ENTITY;
 
-import java.util.Date;
-
-import com.SFAE.SFAE.ENUM.MessageType;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Table(name = "Chat")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    @Column(name = "NAME")
-    private String name;
-    @Column(name = "CONTENT")
+    private String sender;
+    
+    private String receiver;
+    
     private String content;
-    @Column(name = "TIME")
-    private Date time;
 
-    private MessageType type;
-
-    public Message(String htmlEscape, String htmlEscape2, Date date) {
-    }
+    private Long timestamp;
 }

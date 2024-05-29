@@ -19,13 +19,7 @@ export function PageRequestPasswordReset() {
         await requestPassword(getEmail);
 
     }
-    useEffect(() => {
-        setIsLoading(false);
-    }, []);
-
-    if (isLoading) {
-        return <LoadingIndicator />;
-    }
+    
     return (
         isLoading ? <LoadingIndicator /> :
             <>

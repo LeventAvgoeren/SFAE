@@ -1,11 +1,6 @@
-#chat2 .form-control {
-    border-color: transparent;
-  }
-  
+
   #chat2 .form-control:focus {
-    border-color: transparent;
     box-shadow: inset 0px 0px 0px 1px transparent;
-    background-color: white;
   }
   
   .divider:after,
@@ -13,9 +8,58 @@
     content: "";
     flex: 1;
     height: 1px;
-    background: #eee;
   }
 
   .Text{
     color: black ;
   }
+
+  .CBody{
+    display: flex; 
+    flex-direction: column;
+  }
+
+  .Right {
+    background-color: rgb(47, 117, 47);
+    color: white;
+    padding: 10px;
+    margin: 10px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    display: inline-block;
+    width: 50%;
+    max-width: fit-content;
+    align-self: right;
+    justify-content: center;
+    text-align: right;
+}
+
+.Left {
+    background-color: rgb(47, 47, 117);
+    color: white;
+    padding: 10px;
+    margin: 10px;
+    width: 50%;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    display: inline-block;
+    max-width: fit-content;
+    align-self: flex-start;
+    text-align: left;
+}
+
+.TimeL{
+  font-size: 9px;
+}
+
+.message-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+}
+
+.message-container .Right {
+    align-self: flex-end; 
+}

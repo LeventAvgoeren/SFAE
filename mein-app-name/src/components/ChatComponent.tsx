@@ -15,6 +15,7 @@ import { useParams } from 'react-router-dom';
 import { getContractByCustomerId, getContractByWorkerId, getCustomerImage, getCustomerbyID, getWorkerImage, getWorkerbyID } from '../backend/api';
 import LoadingIndicator from './LoadingIndicator';
 import { ContractResource } from '../Resources';
+import "./ChatComponent.css"
 
 interface Message {
     sender: string;
@@ -157,20 +158,11 @@ const ChatComponent: React.FC = () => {
                             <h3>{receiver}</h3>
                         </MDBCardHeader>
                         <MDBCardBody className="CBody" style={{ overflowY: 'auto', maxHeight: '60vh' }}>
-                            <div>
+                            <div className="message-container">
                                 <p className='Text'>Du schreibst nun mit {receiver}.</p>
                                 {messages.map((msg, index) => (
-                                    <div key={index}>
-                                       {msg.sender === userId ? (
-                                            <div className="Left">
-                                               Du: {msg.sender}
-                                            </div>):(
-                                                <div className="Right">
-                                                    {msg.sender}: {msg.content}
-                                                </div>
-                                            )
-                                       }
-                                          
+                                    <div key={index} className={msg.sender === userId ? "Right" : "Left"}>
+                                        {msg.content}
                                     </div>
                                 ))}
                             </div>

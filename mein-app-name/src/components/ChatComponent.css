@@ -1,9 +1,7 @@
 #chat2 .form-control {
-    border-color: transparent;
   }
   
   #chat2 .form-control:focus {
-    border-color: transparent;
     box-shadow: inset 0px 0px 0px 1px transparent;
     background-color: #060454;
   }
@@ -13,7 +11,6 @@
     content: "";
     flex: 1;
     height: 1px;
-    background: #060454;
   }
 
   .Text{
@@ -23,9 +20,28 @@
   .CBody{
     display: flex; 
     flex-direction: column;
-    background-color: #060454;
   }
 
-  .Right{
-    border:  2px  red solid; 
-  }
+  .Right {
+    color: green;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    max-width: 60%;
+    align-self: flex-end;
+    text-align: right;
+}
+
+.Left {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    max-width: 60%;
+    align-self: flex-start;
+    text-align: left;
+}
+
+.message-container { 
+    display: flex;
+    flex-direction: column;
+}

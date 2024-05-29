@@ -78,7 +78,7 @@ export function PageWorkerFAQ() {
           <div className="row">
             <div className="col-md-6 offset-md-3">
               <div className="faq-title text-center pb-3">
-                <h2>FAQ</h2>
+                <h2 style={{color:'black'}}>FAQ</h2>
               </div>
             </div>
             <div className="col-md-6 offset-md-3">

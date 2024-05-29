@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../backend/api";
 import { MDBBtn, MDBContainer, MDBIcon, MDBInput } from 'mdb-react-ui-kit';
 import './PageLogin.css'
 import { useLoginContext } from './LoginManager';
+import LoadingIndicator from './LoadingIndicator';
 
 
 export function PageLogin() {
@@ -11,6 +12,7 @@ export function PageLogin() {
   const [password, setPassword] = useState('');
   const [userType, setUserType] = useState('worker');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const { loginInfo, setLoginInfo } = useLoginContext();
   
@@ -42,8 +44,13 @@ export function PageLogin() {
       }
   };
 
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
 
   return (
+    isLoading ? <LoadingIndicator /> :
     <div className="background-image">
         <div className="login-container">
             <MDBContainer className="p-3 my-5 d-flex flex-column align-items-center justify-content-center w-50">

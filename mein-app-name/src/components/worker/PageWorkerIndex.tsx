@@ -68,7 +68,7 @@ export function PageWorkerIndex() {
           {worker && <h1>Willkommen, {worker.name}!</h1>}
           <Row>
             {[
-              {path: `/aufträge`, label: 'Aufträge', img: '/auftraege.jpg'},
+              {path: `/worker/${workerId}/orders/overview`, label: 'Aufträge', img: '/auftraege.jpg'},
               {path: `/worker/${workerId}/preferences`, label: 'Präferenz', img: '/praferenz.jpg'},
               {path: `/worker/${workerId}/profile`, label: 'Profile', img: '/profile.jpg'}
             ].map(({ path, label, img }, index) => (

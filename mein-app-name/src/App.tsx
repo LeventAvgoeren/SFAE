@@ -1,6 +1,9 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import "./App.css";
-import { Navigate, Route, Router, Routes, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+
+// Komponentenimporte
 import { PageIndex } from "./components/PageIndex";
 import { PageLogin } from "./components/PageLogin";
 import PageRegistrationWorker from "./components/worker/PageRegistrationWorker";
@@ -12,10 +15,7 @@ import { PageWorkerPreferences } from "./components/worker/PageWorkerPreferences
 import { PageWorkerOrders } from "./components/worker/PageWorkerOrders";
 import { PagePasswordReset } from "./components/PagePasswordReset";
 import { LoginContext, LoginInfo } from "./components/LoginManager";
-import { checkLoginStatus, login } from "./backend/api";
-
-
-import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
+import { checkLoginStatus } from "./backend/api";
 import PageOrderRating from "./components/Order/PageOrderRating";
 import PageOrderRequest from "./components/Order/PageOrderRequest";
 import { PageOrderCompleted } from "./components/Order/PageOrderCompleted";
@@ -32,10 +32,12 @@ import LoadingIndicator from "./components/LoadingIndicator";
 import { PageIntroduction } from "./components/PageIntroduction";
 import { PageIndexAdmin } from "./components/admin/PageIndexAdmin";
 import { PageAdminDienstleistungen } from "./components/admin/PageAdminDienstleistungen";
-
+import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
+import PageAGB from "./components/PageAGB";
+import ChatComponent from "./components/ChatComponent";
 import { ImprintPage } from "./components/ImprintPage";
 import { TermsAndConditions } from "./components/TermsAndConditions";
-import ChatComponent from "./components/ChatComponent";
+
 import { Toolbar, Typography } from "@mui/material";
 
 
@@ -44,6 +46,8 @@ import { Toolbar, Typography } from "@mui/material";
 function App() {
   const [loginInfo, setLoginInfo] = useState<LoginInfo | false>();
   const [isLoading, setLoading] = useState(true);
+  const location = useLocation(); 
+
 
   async function fetchLoginStatus() {
     try {
@@ -73,24 +77,23 @@ function App() {
       <LoginContext.Provider value={{ loginInfo, setLoginInfo }}>
 
         <Routes>
-
-          
-
-          {/* Gemeinsame Routen */}
-          <Route path="/" element={<PageIntroduction />} />
-          <Route path="/index" element={loginInfo ? (loginInfo.userId.startsWith("C") ?
-            (<Navigate to={`/customer/${loginInfo.userId}`} replace />) :
-            (<Navigate to={`/worker/${loginInfo.userId}`} replace />)) :
-            (<PageIndex />)
-          }
-          />
-          <Route path="/admin/:adminId" element={<PageIndexAdmin />} />
-          <Route path="/admin/:adminId/dienstleistungen" element={<PageAdminDienstleistungen />} />
-          <Route path="/login" element={<PageLogin />} />
-          <Route path="/registration/customer" element={<PageRegistration />} />
-          <Route path="/registration/worker" element={<PageRegistrationWorker />} />
-          <Route path="/passwordreset" element={<PageRequestPasswordReset />} />
-          <Route path="/newPassword" element={<PagePasswordReset />} />
+        
+                  {/* Gemeinsame Routen */}
+                  <Route path="/agb" element={<PageAGB />} />
+                  <Route path ="/" element={<PageIntroduction/>}/>
+                  <Route path="/index" element={ loginInfo ? ( loginInfo.userId.startsWith("C") ? 
+                        ( <Navigate to={`/customer/${loginInfo.userId}`} replace /> ) :
+                         (<Navigate to={`/worker/${loginInfo.userId}`} replace />)) :
+                          (<PageIndex />)
+                    }
+                  />
+                  <Route path="/admin/:adminId" element={<PageIndexAdmin />} />
+                  <Route path="/admin/:adminId/dienstleistungen" element={<PageAdminDienstleistungen />} />
+                  <Route path="/login" element={<PageLogin />} />
+                  <Route path="/registration/customer" element={<PageRegistration />} />
+                  <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
+                  <Route path="/passwordreset" element={<PageRequestPasswordReset/>}/>
+                  <Route path="/newPassword" element={<PagePasswordReset/>}/>
 
 
           {/* Customer */}
@@ -142,7 +145,7 @@ function App() {
         <Typography variant="body1" style={{ color: 'white', flex: 1 }}>
           © 2024 Ihr Unternehmen oder Ihr Name. Alle Rechte vorbehalten.
           <a href="/imprint" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Impressum</a>
-          <a href="/terms-and-conditions" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Allgemeine Geschäftsbedingungen</a>
+          <a href="/agb" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Allgemeine Geschäftsbedingungen</a>
         </Typography>
       </Toolbar>
 

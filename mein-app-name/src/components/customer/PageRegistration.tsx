@@ -122,10 +122,10 @@ export default function PageRegistration() {
                             required
                         />
 
-                        <MDBCheckbox
+<MDBCheckbox
                             name='termsCheck'
                             id='termsCheck'
-                            label='Ich stimme den Nutzungsbedingungen zu'
+                            label={<span>Ich stimme den <Link to="/agb" className="text-white">Nutzungsbedingungen</Link> zu</span>}
                             wrapperClass='d-flex justify-content-center mb-4 text-white'
                             required
                         />

@@ -39,7 +39,6 @@ const formatTimestamp = (timestamp: number) => {
 
 const ChatComponent: React.FC = () => {
     const [messages, setMessages] = useState<Message[]>([]);
-    const [permessages, setPerMessages] = useState<Message[]>([]);
     const [name, setName] = useState('');
     const [message, setMessage] = useState('');
     const [contract, setContract] = useState<ContractResource | undefined>();
@@ -66,11 +65,11 @@ const ChatComponent: React.FC = () => {
           try {
               if(userId.startsWith("C")){
                     const cus = await getCustomerbyID(userId);
-                    setName(cus.name);
                     const contract = await getContractByCustomerId(userId);    
                      
                     if(contract){
                     setMaxPayment(contract[contract.length - 1].worker!.minPayment as number)
+                    setName(contract[contract.length - 1].worker!.name);
                     const img = await getWorkerImage(contract[contract.length - 1].worker!.id!);
                     setImage(`data:image/jpeg;base64,${img}`);
                     setContract(contract[contract.length - 1]);
@@ -80,10 +79,10 @@ const ChatComponent: React.FC = () => {
               
               if(userId.startsWith("W")){
                   const wor = await getWorkerbyID(userId);
-                  setName(wor.name);
                   const contract = await getContractByWorkerId(userId);  
                   if(contract){
                     const img = await getCustomerImage(contract[contract.length - 1].customer!.id!);
+                    setName(contract[contract.length - 1].customer!.name);
                     setMaxPayment(contract[contract.length - 1].maxPayment);
                     setImage(`data:image/jpeg;base64,${img}`);
                   setContract(contract[contract.length - 1]);
@@ -176,7 +175,7 @@ const ChatComponent: React.FC = () => {
                             <p></p>
                             <img src={image} alt="Profilbild" style={{ width: '150px', height: '150px', borderRadius: '50%' }} />
                             <p></p>
-                            <h3>{receiver}</h3>
+                            <h3>{name}</h3>
                             {userId.startsWith("W") &&  <h6>Angabe des Customer: {maxPayment}€</h6>}
                             {userId.startsWith("C") &&  <h6>Angabe des Workers: {maxPayment}€</h6>}
                         </MDBCardHeader>

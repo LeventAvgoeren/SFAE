@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { CustomerResource } from '../../Resources';
-import { deleteCustomer, getCustomerImage, getCustomerbyID, updateCustomer } from '../../backend/api';
+import { deleteCookie, deleteCustomer, getCustomerImage, getCustomerbyID, updateCustomer } from '../../backend/api';
 import "./PageProfil.css";
 import { MDBTypography } from 'mdb-react-ui-kit';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -62,10 +62,12 @@ export function PageProfil() {
     const handleDeleteCustomer = async () => {
         try {
             await deleteCustomer(customerId);
-            console.log("Konto erfolgreich gelöscht.");
-            navigate('/');
+            await deleteCookie()
+            window.location.href = "/index";
+            alert("Konto erfolgreich gelöscht.");
         } catch (error) {
             console.error('Fehler beim Löschen des Kontos:', error);
+            alert('Fehler beim Löschen des Profils');
         }
     };
 
@@ -140,9 +142,14 @@ export function PageProfil() {
                         {/* Account Sidebar */}
                             <div className="author-card-profile">
                                 {previewImage || profileImage ? (
-                                    <img src={previewImage || profileImage} alt="Profilbild" style={{ width: '150px', height: '150px', borderRadius: '50%' }} />
+                                    <img src={previewImage || profileImage} alt="Profilbild" style={{ position: 'absolute', width: '150px', height: '150px', borderRadius: '50%' }} />
                                 ) : (
-                                    <div className="placeholder bg-secondary d-flex align-items-center justify-content-center" style={{ width: '150px', height: '150px', borderRadius: '50%', color: 'white' }}>
+                                    <div className="placeholder bg-secondary d-flex align-items-center justify-content-center" style={{ width: '150px', height: '150px', 
+                                    borderRadius: '50%', 
+                                    color: 'white',
+                                    marginLeft:"30.5%",
+                                    marginBottom:"20px"
+                                    }}>
                                         <span>Kein Bild</span>
                                     </div>
                                 )}
@@ -151,7 +158,7 @@ export function PageProfil() {
                                 </div>
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="profileImage" className="form-label">Profilbild hochladen</label>
+                                <label htmlFor="profileImage" className="form-label" style={{color:'white'}}>Profilbild hochladen</label>
                                 <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
                             </div>
                     </div>
@@ -161,7 +168,7 @@ export function PageProfil() {
                         <form className="row">
                             <div className="col-md-6">
                                 <div className="form-group">
-                                    <label htmlFor="account-fn">First Name</label>
+                                    <label htmlFor="account-fn">Vorname</label>
                                     <input className="form-control" type="text" id="account-fn" value={name} onChange={(e) => setName(e.target.value)} required />
                                 </div>
                             </div>
@@ -177,7 +184,7 @@ export function PageProfil() {
                             <form onSubmit={handleUpdateCustomer} className='col-md-6' style={{ width: "200%"}}>
                                 <div>
                                     <div className="form-group">
-                                        <label htmlFor="account-pass">New Password</label>
+                                        <label htmlFor="account-pass">Neues Password</label>
                                         <input className="form-control"
                                             type="password"
                                             id="account-pass"
@@ -186,7 +193,7 @@ export function PageProfil() {
                                 </div>
                                 <div>
                                     <div className="form-group">
-                                        <label htmlFor="account-confirm-pass">Confirm Password</label>
+                                        <label htmlFor="account-confirm-pass">Password bestätigen</label>
                                         <input className="form-control"
                                             type="password"
                                             id="account-confirm-pass"
@@ -206,24 +213,24 @@ export function PageProfil() {
                                 <div className="ButtonsDiv">
                                     <LinkContainer to={`/customer/${customerId}`}>
                                         <Button className="ButtonUpdate" onClick={handleUpdateCustomer}>
-                                            Update Profile
+                                            Profil aktualisieren
                                         </Button>
                                     </LinkContainer>
                                     <Button type="button" className="btn btn-danger" onClick={handleShow}>
-                                        Delete Your Account
+                                        Account Löschen
                                     </Button>
 
                                     <Modal show={showModal} onHide={handleClose}>
                                         <Modal.Header closeButton>
-                                            <Modal.Title>Delete Account</Modal.Title>
+                                            <Modal.Title>Account Löschen</Modal.Title>
                                         </Modal.Header>
-                                        <Modal.Body>Are you sure you want to delete your account? This action cannot be undone.</Modal.Body>
+                                        <Modal.Body>Sind Sie sicher, dass Sie Ihr Konto löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.</Modal.Body>
                                         <Modal.Footer>
                                             <Button variant="secondary" onClick={handleClose}>
-                                                Close
+                                                Abbrechen
                                             </Button>
                                             <Button variant="danger" onClick={handleDeleteCustomer}>
-                                                Delete Account
+                                                Account Löschen 
                                             </Button>
                                         </Modal.Footer>
                                     </Modal>

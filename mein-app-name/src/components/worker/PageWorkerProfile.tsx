@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { JobType, Position, WorkerResource } from "../../Resources";
-import { deleteWorker, getWorkerbyID, updateWorker, getWorkerImage } from "../../backend/api";
-import { useParams } from "react-router-dom";
+import { deleteWorker, getWorkerbyID, updateWorker, getWorkerImage, deleteCookie } from "../../backend/api";
+import {  Link, useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
 import "./PageWorkerProfile.css";
 import NavbarWComponent from "./NavbarWComponent";
 import axios from 'axios';
+import { Col, Row } from 'react-bootstrap';
 
 export function PageWorkerProfile() {
   const [worker, setWorker] = useState<WorkerResource | null>(null);
@@ -29,6 +30,12 @@ export function PageWorkerProfile() {
   const [newProfileImage, setNewProfileImage] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<string | undefined>(undefined);
   const [addressValid, setAddressValid] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+
+
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
+
   const params = useParams();
   const worId = params.workerId;
 
@@ -174,6 +181,8 @@ export function PageWorkerProfile() {
   const handleDelete = async () => {
     try {
       await deleteWorker(worId!);
+      await deleteCookie()
+      window.location.href = "/index";
       alert('Profil erfolgreich gelöscht.');
     } catch (error) {
       console.error('Fehler beim Löschen des Profils:', error);
@@ -247,17 +256,31 @@ export function PageWorkerProfile() {
                 <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
               </div>
               <Button className="button" variant="success" type="submit">Profil speichern</Button>
-              <LinkContainer to="/">
-                <Button className="button" variant="danger" onClick={handleDelete}>Profil löschen</Button>
-              </LinkContainer>
               <LinkContainer to={`/worker/${worId}`}>
-                <Button type="button">Zurück zur Startseite!</Button>
+                <Button className="button" type="button">Zurück zur Startseite!</Button>
               </LinkContainer>
+              <Button type="button" className="button" variant="danger" onClick={handleShow}>
+                Account Löschen
+        </Button>
             </form>
           </MDBContainer>
+
+                {/* modalShow */}
+                <Modal show={showModal} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Account Löschen</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Sind Sie sicher, dass Sie Ihr Konto löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>Close</Button>
+            <Button variant="danger" onClick={handleDelete}>Delete Account</Button>
+          </Modal.Footer>
+        </Modal>
+          
         </div>
       </div>
     </>
   );
 }
+
 export default PageWorkerProfile;

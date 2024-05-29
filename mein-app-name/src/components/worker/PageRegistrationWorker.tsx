@@ -22,6 +22,8 @@ export default function PageRegistrationWorker() {
     const [salary, setSalary] = useState(1);
     const [userLocation, setUserLocation] = useState<Position | null>(null);
     const [addressValid, setAddressValid] = useState(true);
+    const [slogan, setSlogan] = useState('');
+
     const navigate=useNavigate()
 
     const handleAddressValidation = async (inputAddress: any) => {
@@ -98,7 +100,7 @@ export default function PageRegistrationWorker() {
         }
     
         try {
-            const response = await registrationWorker(name, address, email, password, jobType, salary, userLocation!);
+            const response = await registrationWorker(name, address, email, password, jobType, salary, userLocation!, slogan);
             console.log('Registration successful:', response);
             alert('Registration successful!');
             navigate("/login")
@@ -118,38 +120,27 @@ export default function PageRegistrationWorker() {
                         <h2 className="text-uppercase text-center mb-5">Registrieren als Worker</h2>
                         <form onSubmit={handleRegistration}>
                             <MDBInput wrapperClass='mb-4' label='Dein Name' size='lg' type='text' value={name} onChange={(e) => setName(e.target.value)} required/>
-
-                          <MDBInput
-                            wrapperClass='mb-3 inputField'
-                            labelClass='text-white'
-                            label='Adresse'
-                            id='addressInput'
-                            type='text'
-                            value={address}
-                            onChange={e => setAddress(e.target.value)}
-                            onBlur={() => handleAddressValidation(address).then(valid => setAddressValid(valid))}
-                            required
-                        />
-                        {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
-
+                            <MDBInput wrapperClass='mb-3 inputField' label='Adresse' id='addressInput' type='text' value={address} onChange={e => setAddress(e.target.value)} onBlur={() => handleAddressValidation(address).then(valid => setAddressValid(valid))} required/>
+                            {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
                             <MDBInput wrapperClass='mb-4' label='Deine E-Mail' size='lg' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required/>
                             <MDBInput wrapperClass='mb-4' label='Passwort' size='lg' type='password' value={password} onChange={(e) => setPassword(e.target.value)} required/>
-                            <select className="form-select mb-4 option-black" value={jobType} onChange={(e) => setJobType(e.target.value)} required
-                            style={{backgroundColor:"black", color: "black"}}>
+                            <select className="form-select mb-4 option-black" value={jobType} onChange={(e) => setJobType(e.target.value)} required style={{backgroundColor:"black", color: "black"}}>
                                 <option value="" style={{color:'black'}}>Jobtyp wählen...</option>,
                                 {jobTypes.map((type, index) => (
                                     <option key={index} value={type} style={{color:'black'}}>{type}</option>
                                 ))}
                             </select>
                             <MDBInput wrapperClass='mb-4' label='Gehaltswunsch' size='lg' type='number' value={salary} onChange={(e) => setSalary(Number(e.target.value))} required/>
-                            
-                            <MDBCheckbox
-                            name='termsCheck'
-                            id='termsCheck'
-                            label={<span>Ich stimme den <Link to="/agb" className="text-white">Nutzungsbedingungen</Link> zu</span>}
-                            wrapperClass='d-flex justify-content-center mb-4 text-white'
-                            required
-                        />
+                            <MDBInput
+                                wrapperClass='mb-4'
+                                label='Dein Slogan/Motto'
+                                size='lg'
+                                type='text'
+                                value={slogan}
+                                onChange={(e) => setSlogan(e.target.value)}
+                                required
+                            />
+                            <MDBCheckbox name='termsCheck' id='termsCheck' label={<span>Ich stimme den <Link to="/agb" className="text-white">Nutzungsbedingungen</Link> zu</span>} wrapperClass='d-flex justify-content-center mb-4 text-white' required/>
                             <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type="submit">Registrieren</MDBBtn>
                         </form>
                         <MDBRow>

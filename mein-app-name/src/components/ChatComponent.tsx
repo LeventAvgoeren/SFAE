@@ -39,7 +39,6 @@ const formatTimestamp = (timestamp: number) => {
 
 const ChatComponent: React.FC = () => {
     const [messages, setMessages] = useState<Message[]>([]);
-    const [permessages, setPerMessages] = useState<Message[]>([]);
     const [name, setName] = useState('');
     const [message, setMessage] = useState('');
     const [contract, setContract] = useState<ContractResource | undefined>();
@@ -49,27 +48,16 @@ const ChatComponent: React.FC = () => {
     const userId = params.userId!;
     const clientRef = useRef<Client | null>(null);
     const [load, setLoad] = useState(false);
+    const [active, setActive] = useState(true);
     const [maxPayment, setMaxPayment] = useState(0)
-    const [isFetching, setIsFetching] = useState(true);
     const fetchMessage = async () => {
                 const messagesFromServer = await fetchMessagesForUser(userId, receiver!);
                 setMessages(messagesFromServer);
             }
-
-    const fetchLastMessage = async () => {
+        const fetchLastMessage = async () => {
                 const messagesFromServer = await fetchMessagesForUser(userId, receiver!);
-                setMessages((prevMessages) => [...prevMessages, messagesFromServer[messagesFromServer.length - 1]])
+                setMessages((prevMessages) => [...prevMessages, messagesFromServer[messagesFromServer.length - 1]]);
             }
-
-         
-            useEffect(() => {
-                const interval = setInterval(() => {
-                    fetchMessage();
-                }, 5000); // Polling every 5 seconds
-        
-                return () => clearInterval(interval); // Cleanup interval on component unmount
-            }, [receiver]);
-         
 
 
 
@@ -82,6 +70,11 @@ const ChatComponent: React.FC = () => {
                     const contract = await getContractByCustomerId(userId);    
                      
                     if(contract){
+                        const status = contract[contract.length - 1].statusOrder;
+                        if (status !== "ACCEPTED") {
+                            return setActive(false);
+                        }
+                        setActive(true)
                     setMaxPayment(contract[contract.length - 1].worker!.minPayment as number)
                     const img = await getWorkerImage(contract[contract.length - 1].worker!.id!);
                     setImage(`data:image/jpeg;base64,${img}`);
@@ -95,6 +88,10 @@ const ChatComponent: React.FC = () => {
                   setName(wor.name);
                   const contract = await getContractByWorkerId(userId);  
                   if(contract){
+                    const status = contract[contract.length - 1].statusOrder;
+                    if (status !== "ACCEPTED") {
+                        return setActive(false);
+                    }
                     const img = await getCustomerImage(contract[contract.length - 1].customer!.id!);
                     setMaxPayment(contract[contract.length - 1].maxPayment);
                     setImage(`data:image/jpeg;base64,${img}`);
@@ -110,7 +107,9 @@ const ChatComponent: React.FC = () => {
       };
 
       fetchCustomer();
-  }, [userId]); 
+  }, []);  
+
+  
   
 
         //Beim ersten mal laden
@@ -120,8 +119,14 @@ const ChatComponent: React.FC = () => {
 
         //Wenn eine neue Nachricht gesendet wird
         useEffect( () => {
-            fetchLastMessage()
-            setLoad(false)
+            if (load) {
+                const timeoutId = setTimeout(() => {
+                    fetchLastMessage();
+                    setLoad(false);
+                }, 500);
+    
+                return () => clearTimeout(timeoutId); // Cleanup timeout on component unmount
+            }
          }, [load])
 
 
@@ -173,7 +178,9 @@ const ChatComponent: React.FC = () => {
             console.error('No connection to server.');
         }
     };
-
+    if(!active){
+        return(<>NO ACTIVE CONTRACT</>) // DESIGNEN
+    }
 
     if (!contract ) {
         return <LoadingIndicator />;
@@ -188,18 +195,18 @@ const ChatComponent: React.FC = () => {
                             <p></p>
                             <img src={image} alt="Profilbild" style={{ width: '150px', height: '150px', borderRadius: '50%' }} />
                             <p></p>
-                            <h3>{receiver}</h3>
+                            <h3>{userId.startsWith("W") ? contract.customer?.name : contract.worker?.name}</h3>
                             {userId.startsWith("W") &&  <h6>Angabe des Customer: {maxPayment}€</h6>}
                             {userId.startsWith("C") &&  <h6>Angabe des Workers: {maxPayment}€</h6>}
                         </MDBCardHeader>
                         <MDBCardBody className="CBody" style={{ overflowY: 'auto', maxHeight: '60vh' }}>
                             <div>
-                                {messages.length === 0 && !isFetching && (
-                                    <p>No messages yet. Start the conversation!</p>
+                                {messages.length === 0  && (
+                                    <p>Noch keine Nachrichten! Schreib doch was ;)</p>
                                 )}
-                                {messages.map((msg, index) => (
+                                {messages.length >= 1 && messages.map((msg, index) => (
                                     <div key={index}>
-                                        {msg.sender === userId ? (
+                                        {msg ? (msg.sender === userId ? (
                                             <div className="message-container">
                                                 <div className="Right">
                                                     {msg.content}
@@ -215,7 +222,7 @@ const ChatComponent: React.FC = () => {
                                                     {formatTimestamp(msg.timestamp!)}
                                                 </div>
                                             </div>
-                                        )}
+                                        )):(<></>)}
                                     </div>
                                 ))}
                                    

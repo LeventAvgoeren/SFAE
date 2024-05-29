@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,5 +50,10 @@ class ChatHistoryController {
     @GetMapping("/chat/history")
     public List<Message> getChatHistory(@RequestParam String user1, @RequestParam String user2) {
         return chatService.getChatMessages(user1, user2);
+    }
+
+    @DeleteMapping("/chat/history")
+    public void deleteChatHistory(@RequestParam String user1, @RequestParam String user2) {
+        chatService.deleteChatMessages(user1, user2);
     }
 }

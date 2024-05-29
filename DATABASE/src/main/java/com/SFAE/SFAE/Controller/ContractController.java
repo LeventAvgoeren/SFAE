@@ -394,6 +394,7 @@ public class ContractController implements ContractEP {
     if (id == null || orderStatus == null) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+    orderStatus = orderStatus.replace("\"", "");
     try {
       boolean result= dao.updateOrderStatus(id, orderStatus);
       if(result){

@@ -16,6 +16,7 @@ import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.Role;
 import com.SFAE.SFAE.ENUM.TokenType;
 import com.SFAE.SFAE.IMPLEMENTATIONS.CustomerImp;
+import com.SFAE.SFAE.IMPLEMENTATIONS.WorkerImpl;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.Security.JWT;
@@ -40,7 +41,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Base64;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -84,6 +84,10 @@ class CustomerController implements CustomerEP {
 
     @Autowired
     private ChatController chatController;
+
+    
+    @Autowired
+    private WorkerImpl wor;
 
     /**
      * Finds a customer by their ID.
@@ -443,6 +447,33 @@ class CustomerController implements CustomerEP {
             return ResponseEntity.status(HttpStatus.OK).body(token);
         }
 
+        Worker worker = wor.findWorkerbyEmail(email);
+        System.out.println(email);
+        if (worker != null) {
+            String token = mailService.createToken(0, worker.getId(), TokenType.PASSWORDRESET);
+
+            String link = "https://localhost:3000/newPassword?token=" + token;
+
+            try {
+                mail.sendHtmlMessage(worker.getEmail(), "Email zurücksetzen",
+                        "<html><body>" +
+                                "Hallo " + worker.getName() + ",<br>" +
+                                "Sie haben beantragt ihr Passwort zu ändern.<br>" +
+                                "Unter diesem <a href='" + link
+                                + "'>Link</a> können Sie ihr Passwort ändern. Der Link läuft nach 5 Minuten ab.<br>" +
+                                "Bei Fragen oder für weitere Informationen stehen wir Ihnen gerne zur Verfügung.<br><br>"
+                                +
+                                "Mit freundlichen Grüßen,<br>" +
+                                "Ihr SFAE-Team" +
+                                "</body></html>");
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+
+            return ResponseEntity.status(HttpStatus.OK).body(token);
+        }
+
+
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
@@ -451,12 +482,11 @@ class CustomerController implements CustomerEP {
         if (data == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-
         Token token = mailService.validateToken(data.getToken());
         if (token == null) {
             return ResponseEntity.status(HttpStatus.GONE).build();
         }
-
+        System.out.println(token);
         if (token.getReceiver().startsWith("C")) {
             if (cus.updatePassword(data.getPassword(), token.getReceiver())) {
                 return ResponseEntity.status(HttpStatus.OK).build();

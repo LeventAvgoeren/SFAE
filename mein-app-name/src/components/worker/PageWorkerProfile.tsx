@@ -89,6 +89,7 @@ export function PageWorkerProfile() {
           latitude: workerData.latitude,
           longitude: workerData.longitude,
         });
+        setSlogan(workerData.slogan)
         fetchWorkerImage(id);
       }
       if (!workerData) {
@@ -235,6 +236,13 @@ export function PageWorkerProfile() {
               {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
               <MDBInput wrapperClass="inputField1" label="E-Mail" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
               <MDBInput wrapperClass="inputField1" label="Passwort" type="password" onChange={(e) => setPassword(e.target.value)} />
+              <MDBInput
+                wrapperClass="inputField1"
+                label="Dein Slogan/Motto"
+                type="text"
+                value={slogan}
+                onChange={(e) => setSlogan(e.target.value)}
+              />
               <div className="mb-3">
                 <label htmlFor="profileImage" className="form-label">Profilbild hochladen</label>
                 <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />

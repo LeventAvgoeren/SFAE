@@ -293,14 +293,14 @@ public class WorkerImpl implements WorkerInterface {
     if (email == null) {
       throw new IllegalArgumentException("Email is empty");
     }
-
+    System.out.println("BIN DAVOR");
     List<Optional<Worker>> result = jdbcTemplate.query(
         "SELECT * FROM WORKER WHERE email = ?",
         ps -> {
           ps.setString(1, email);
         },
         (rs, rowNum) -> createWorker(rs));
-
+        System.out.println("BIN DANACH " + result);
     if (!result.isEmpty() && result.get(0).isPresent()) {
       return result.get(0).get();
     }
@@ -474,6 +474,7 @@ public class WorkerImpl implements WorkerInterface {
 
   @Override
   public Boolean updatePassword(String password, String Id) {
+
     int result = jdbcTemplate.update(
         "UPDATE WORKER SET password = ? WHERE id = ?",
         ps -> {

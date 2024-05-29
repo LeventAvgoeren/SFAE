@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import "./PageOrderRequest.css";
-import { createContract } from "../../backend/api";
+import { createContract, getCustomerbyID } from "../../backend/api";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { ContractResource, Position } from "../../Resources";
@@ -103,6 +103,8 @@ export default function PageOrderRequest() {
   };
 
   const handleCreateContract = async () => {
+    const cus = await getCustomerbyID(cusId!)
+
     setIsCreatingContract(true);
     console.log("Creating contract...");
     const contractData = {
@@ -112,7 +114,7 @@ export default function PageOrderRequest() {
       payment: "PAYPAL",
       range: range,
       statusOrder: "PAID",
-      customerId: cusId!,
+      customerId: cus!.id,
       verified: verified,
       longitude: getPosition!.longitude,
       latitude: getPosition!.latitude,

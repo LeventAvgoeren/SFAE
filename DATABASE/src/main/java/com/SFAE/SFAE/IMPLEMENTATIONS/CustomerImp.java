@@ -315,7 +315,7 @@ public class CustomerImp implements CustomerInterface {
 
     @Override
     public boolean updatePassword(String password, String Id) {
-
+        System.out.println(password + " " +  Id);
         int result = jdbcTemplate.update(
                 "UPDATE CUSTOMER SET password = ? WHERE id = ?",
                 ps -> {

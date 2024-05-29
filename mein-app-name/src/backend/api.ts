@@ -576,4 +576,18 @@ export async function setRating(data:RatingRessource) :Promise <Boolean > {
     
     const status = await response.text(); 
     return status;
-  }  
+  }
+  export async function updateWorkerStatus(workerId: string, status: string): Promise<string> {
+    const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/status/${workerId}`;
+    const response = await fetchWithErrorHandling(url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: status }),
+        credentials: 'include' as RequestCredentials,
+    });
+
+    const result = await response.text();
+    return result;
+}

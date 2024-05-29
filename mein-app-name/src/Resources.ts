@@ -67,6 +67,8 @@ export type CustomerResource = {
     password: string;
     email: string;
     role: string; 
+    profileBase64:string;
+
 }
 
 export enum JobType {

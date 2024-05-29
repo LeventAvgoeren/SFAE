@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './PageOrderOverview.css';
 import { Link, useParams } from 'react-router-dom';
-import { getContract, getContractByCustomerId, getContractStatus } from '../../backend/api';
+import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus } from '../../backend/api';
 import { ContractResource } from '../../Resources';
 import NavbarComponent from '../navbar/NavbarComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -93,9 +93,17 @@ export function PageOrderOverview() {
     setModalShow(!modalShow);
   };
 
-  if (!contractData.length) {
-    return <div className="Backg">No contracts found</div>;
-  }
+  const handleConfirm = async () => {
+    if (conData && conData.worker && conData.worker.id) {
+      try {
+        await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
+        console.log('Worker status updated to AVAILABLE');
+      } catch (error) {
+        console.error('Error updating worker status:', error);
+      }
+    }
+    toggleShow(); // Schließt das Modal
+  };
 
   if (!conData) {
     return <div className="Backg">No contract found for ID {contractId}</div>;

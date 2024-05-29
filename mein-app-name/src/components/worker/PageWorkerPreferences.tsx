@@ -98,7 +98,7 @@ export function PageWorkerPreferences() {
         status: status,
         verification: verification,
         statusOrder: statusOrder,
-        range: 2.1,
+        range: range,
         jobType: jobType.toUpperCase(),
         minPayment: minPayment!,
         rating: rating,

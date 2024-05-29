@@ -98,12 +98,13 @@ export function PageWorkerPreferences() {
         status: status,
         verification: verification,
         statusOrder: statusOrder,
-        range: range,
+        range: 2.1,
         jobType: jobType.toUpperCase(),
         minPayment: minPayment!,
         rating: rating,
         longitude: getlongitude,
-        latitude: getlatitude
+        latitude: getlatitude,
+        profileBase64: ""///Hier ändern
       }
 
       try {

@@ -25,8 +25,7 @@ export function PageWorkerProfile() {
   const [rating, setRating] = useState<Number>(0);
   const [verification, setVerification] = useState<Boolean>(false);
   const [userLocation, setUserLocation] = useState<Position | null>(null);
-  const [profileImage, setProfileImage] = useState<string | undefined>(undefined);
-  const [newProfileImage, setNewProfileImage] = useState<File | null>(null);
+  const [profileImage, setProfileImage] = useState<string>("");
   const [previewImage, setPreviewImage] = useState<string | undefined>(undefined);
   const [addressValid, setAddressValid] = useState(true);
   const params = useParams();
@@ -109,43 +108,45 @@ export function PageWorkerProfile() {
   }, []);
 
   const handleUpdate = async () => {
-    console.log('Starting update process...');  // Log the start of the update process
-
     const isValidAddress = await handleAddressValidation(location);
     setAddressValid(isValidAddress);
-    console.log(`Address validation result: ${isValidAddress}`);  // Log the result of the address validation
-
+  
     if (!isValidAddress) {
       alert('Bitte geben Sie eine gültige Adresse ein.');
       return;
     }
-
+  
     await fetchCoordinates(location);
-
+  
+    if (!addressValid) {
+      alert('Bitte geben Sie eine gültige Adresse ein.');
+      return;
+    }
+  
     const updatedWorkerData: WorkerResource = {
-      id: (worId!),
+      id: worId!,
       name: name,
       email: email,
       password: password,
       location: location,
       status: status,
-      verification: verification,
       statusOrder: statusOrder,
-      range: range,
+      range: 2.1,
       jobType: jobType,
       minPayment: minPayment!,
       rating: rating,
+      verification: verification,
+      latitude: userLocation!.latitude,
       longitude: userLocation!.longitude,
-      latitude: userLocation!.latitude
+      profileBase64: profileImage // Ensuring profilBase64 is included
     };
-
+  
     try {
+      updatedWorkerData.profileBase64 = updatedWorkerData.profileBase64.slice(23)
+      
       const updatedWorker = await updateWorker(updatedWorkerData);
       console.log("Updated Worker:", updatedWorker);
       alert("Worker erfolgreich aktualisiert");
-      if (newProfileImage) {
-        await uploadProfileImage(worId!, newProfileImage);
-      }
     } catch (error) {
       console.error("Fehler beim Aktualisieren des Workers:", error);
       alert("Fehler beim Aktualisieren des Workers");
@@ -184,34 +185,14 @@ export function PageWorkerProfile() {
   const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      setNewProfileImage(file);
-      
+
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreviewImage(reader.result as string);
+        const base64String = reader.result as string;
+        setPreviewImage(base64String);
+        setProfileImage(base64String); // Speichert Base64-String im State
       };
       reader.readAsDataURL(file);
-    }
-  };
-
-  const uploadProfileImage = async (id: string, image: File) => {
-    const formData = new FormData();
-    formData.append("image", image);
-
-    try {
-      const response = await fetch(`/worker/${id}/image`, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        alert("Profilbild erfolgreich aktualisiert");
-        fetchWorkerImage(id);
-      } else {
-        console.error("Fehler beim Hochladen des Profilbildes");
-      }
-    } catch (error) {
-      console.error("Fehler beim Hochladen des Profilbildes:", error);
     }
   };
 
@@ -241,7 +222,7 @@ export function PageWorkerProfile() {
               <MDBInput wrapperClass="inputField1" label="Adresse" type="text" value={location} onChange={(e) => setLocation(e.target.value)} onBlur={() => handleAddressValidation(location).then(valid => setAddressValid(valid))} />
               {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
               <MDBInput wrapperClass="inputField1" label="E-Mail" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-              <MDBInput wrapperClass="inputField1" label="Passwort" type="text" onChange={(e) => setPassword(e.target.value)} />
+              <MDBInput wrapperClass="inputField1" label="Passwort" type="password" onChange={(e) => setPassword(e.target.value)} />
               <div className="mb-3">
                 <label htmlFor="profileImage" className="form-label">Profilbild hochladen</label>
                 <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
@@ -260,4 +241,5 @@ export function PageWorkerProfile() {
     </>
   );
 }
+
 export default PageWorkerProfile;

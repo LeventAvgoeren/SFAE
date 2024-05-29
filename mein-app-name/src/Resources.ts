@@ -21,6 +21,8 @@ export type WorkerResource = {
     email: string;
     latitude: number;
     longitude: number;
+    profileBase64:string;
+
 }
 export interface Position {
     latitude: number;

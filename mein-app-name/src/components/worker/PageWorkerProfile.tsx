@@ -29,6 +29,8 @@ export function PageWorkerProfile() {
   const [profileImage, setProfileImage] = useState<string>("");
   const [previewImage, setPreviewImage] = useState<string | undefined>(undefined);
   const [addressValid, setAddressValid] = useState(true);
+  const [slogan , setSlogan] = useState("");
+
   const [showModal, setShowModal] = useState(false);
 
 
@@ -145,7 +147,8 @@ export function PageWorkerProfile() {
       verification: verification,
       latitude: userLocation!.latitude,
       longitude: userLocation!.longitude,
-      profileBase64: profileImage // Ensuring profilBase64 is included
+      profileBase64: profileImage ,// Ensuring profilBase64 is included
+      slogan : slogan
     };
   
     try {

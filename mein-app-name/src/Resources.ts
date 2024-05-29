@@ -1,5 +1,7 @@
 //istanbul ignore file 
 
+import { StringKeyframeTrack } from "three";
+
 export type LoginResource = {
     id: string;
     role: 'customer' | 'worker' | 'admin'; 
@@ -22,6 +24,7 @@ export type WorkerResource = {
     latitude: number;
     longitude: number;
     profileBase64:string;
+    slogan: string;
 
 }
 export interface Position {
@@ -101,3 +104,18 @@ export type RatingRessource = {
     id: String;
     rating: number;
 }
+
+export type WorkerStatus = {
+    AVAILABLE: string,
+    INAVAILABLE : string,
+    TERMINATED: string
+}
+
+  export type ConractStatus = {
+    ACCEPTED: string,
+    DECLINED:string,
+    PAID :string,
+    FINISHED:string,
+    UNDEFINED:string
+
+  }

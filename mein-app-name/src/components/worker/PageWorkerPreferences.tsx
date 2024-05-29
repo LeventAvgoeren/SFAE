@@ -28,6 +28,8 @@ export function PageWorkerPreferences() {
   const [verification , setVerification] = useState<Boolean>(false);
   const [getlatitude , setLatitude] = useState<number>(0); 
   const [getlongitude , setLongitude] = useState<number>(0); 
+  const [slogan , setSlogan] = useState("");
+
   const params = useParams();
   const worId = params.workerId;
 
@@ -103,7 +105,8 @@ export function PageWorkerPreferences() {
         rating: rating,
         longitude: getlongitude,
         latitude: getlatitude,
-        profileBase64: ""///Hier ändern
+        profileBase64: "",
+        slogan : slogan
       }
 
       try {

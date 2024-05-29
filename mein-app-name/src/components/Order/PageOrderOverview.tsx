@@ -1,27 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './PageOrderOverview.css';
 import { Link, useParams } from 'react-router-dom';
-import { getContract, getContractByCustomerId, getContractStatus, updateContractStatus, updateWorkerStatus } from '../../backend/api';
+import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus } from '../../backend/api'; // Importiere die Funktion
 import { ContractResource } from '../../Resources';
 import NavbarComponent from '../navbar/NavbarComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Lottie from 'react-lottie';
 import animationData from "./LoadingAnimation.json";
 import { Col, Row } from 'react-bootstrap';
-// import { MapContainer, TileLayer, Marker, Polyline, Popup } from 'react-leaflet';
-// import 'leaflet/dist/leaflet.css';
-// import L from 'leaflet';
-
-// // Fix for Leaflet icons
-// import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
-// import markerIcon from 'leaflet/dist/images/marker-icon.png';
-// import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-
-// L.Icon.Default.mergeOptions({
-//   iconRetinaUrl: markerIcon2x,
-//   iconUrl: markerIcon,
-//   shadowUrl: markerShadow,
-// });
 
 export function PageOrderOverview() {
   const { customerId } = useParams();
@@ -32,6 +18,7 @@ export function PageOrderOverview() {
   let contractId = parseInt(contId!);
   const [conData, setConData] = useState<ContractResource>();
   const [modalShow, setModalShow] = useState(false); // Zustand für die Anzeige des Modals
+  const [cancelModalShow, setCancelModalShow] = useState(false); // Zustand für die Anzeige des Stornierungsmodals
   const [messageIndex, setMessageIndex] = useState(0);
   const [workerAssigned, setWorkerAssigned] = useState(false);
 
@@ -93,6 +80,11 @@ export function PageOrderOverview() {
     setModalShow(!modalShow);
   };
 
+  const toggleCancelShow = () => {
+    console.log('Toggle cancel modal');
+    setCancelModalShow(!cancelModalShow);
+  };
+
   const handleConfirm = async () => {
     if (conData && conData.worker && conData.worker.id) {
       try {
@@ -106,9 +98,27 @@ export function PageOrderOverview() {
     toggleShow(); // Schließt das Modal
   };
 
+  const handleCancelConfirm = async () => {
+    if (conData && conData.worker && conData.worker.id) {
+      try {
+        await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
+        await updateContractStatus(contractId.toString(), 'TERMINATED');
+        console.log('Worker status updated to AVAILABLE and contract status updated to TERMINATED');
+      } catch (error) {
+        console.error('Error updating status:', error);
+      }
+    }
+    toggleCancelShow(); // Schließt das Stornierungsmodal
+  };
+
+  if (!contractData.length) {
+    return <div className="Backg">No contracts found</div>;
+  }
+
   if (!conData) {
     return <div className="Backg">No contract found for ID {contractId}</div>;
   }
+
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -117,9 +127,6 @@ export function PageOrderOverview() {
       preserveAspectRatio: 'xMidYMid slice'
     }
   };
-
-
-
 
   return (
     <>
@@ -169,9 +176,14 @@ export function PageOrderOverview() {
                       </tbody>
                     </table>
                   </div>
-                  <button onClick={toggleShow} className="btn btn-danger mb-4" style={{ width: "250px", marginLeft: "auto" }}>
-                    Auftrag beendet?
-                  </button>
+                  <div className="d-flex justify-content-between">
+                    <button onClick={toggleShow} className="btn btn-danger mb-4" style={{ width: "250px", marginLeft: "auto" }}>
+                      Auftrag beendet?
+                    </button>
+                    <button onClick={toggleCancelShow} className="btn btn-warning mb-4" style={{ width: "250px", marginLeft: "20px" }}>
+                      Auftrag stornieren
+                    </button>
+                  </div>
                 </div>
               </div>
               <div className="col-lg-4">
@@ -228,6 +240,26 @@ export function PageOrderOverview() {
           </div>
         </div>
         {modalShow && <div className="modal-backdrop fade show"></div>}
+
+        <div className={`modal fade ${cancelModalShow ? 'show' : ''}`} style={{ display: cancelModalShow ? 'block' : 'none' }}>
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Auftrag stornieren?</h5>
+              </div>
+              <div className="modal-body">
+                Bist du sicher, dass du diesen Auftrag stornieren möchtest?
+              </div>
+              <div className="modal-footer">
+                <Row>
+                  <button type="button" className="btn btn-secondary" onClick={toggleCancelShow} style={{ width: "150px", marginLeft: "12px" }}>Abbrechen</button>
+                  <button type="button" className="btn btn-warning" style={{ width: "150px" }} onClick={handleCancelConfirm}>Bestätigen</button>
+                </Row>
+              </div>
+            </div>
+          </div>
+        </div>
+        {cancelModalShow && <div className="modal-backdrop fade show"></div>}
       </div>
     </>
   );

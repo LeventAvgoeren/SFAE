@@ -1,18 +1,15 @@
 package com.SFAE.SFAE.IMPLEMENTATIONS;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.postgresql.largeobject.LargeObject;
-import org.postgresql.largeobject.LargeObjectManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Component;
 
 import com.SFAE.SFAE.DTO.CustomerDTO;
@@ -45,6 +42,9 @@ public class CustomerImp implements CustomerInterface {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    WorkerImpl worker;
 
     /**
      * Counts the total number of customers in the database.
@@ -95,7 +95,7 @@ public class CustomerImp implements CustomerInterface {
         List<Optional<Customer>> result = jdbcTemplate.query(
                 "SELECT * FROM CUSTOMER WHERE ID = ?",
                 ps -> {
-                    ps.setString(1,  id);
+                    ps.setString(1, id);
                 },
                 (rs, rowNum) -> createCustomer(rs));
 
@@ -161,18 +161,18 @@ public class CustomerImp implements CustomerInterface {
     @Override
     public Customer createCustomer(CustomerDTO jsonData) { // For the Endpoint
 
-        try { 
-         
+        try {
+            byte[] defaultImage = worker.loadDefaultProfilePicture();
             String name = jsonData.getName();
             String password = encoder.hashPassword(jsonData.getPassword());
             String email = jsonData.getEmail();
-            
+
             if (password == null || name == null || email == null) {
                 return null;
             }
-            Customer customer = new Customer(name, password, email);
+            Customer customer = new Customer(name, password, email, defaultImage);
             customerRepository.save(customer);
-         
+
             return customer;
 
         } catch (Exception e) {
@@ -193,14 +193,21 @@ public class CustomerImp implements CustomerInterface {
 
     @Override
     public Boolean deleteCustomerById(String id) {
-     
+
         try {
-            int deleted = jdbcTemplate.update(connection -> {
-                PreparedStatement ps = connection
-                        .prepareStatement("DELETE FROM CUSTOMER WHERE ID = ?;");
-                ps.setString(1,  id);
-                return ps;
-            });
+              //Setze den contract auf null bevor ich lösche um den fehler zu 
+             //umgehen DataIntegrityViolationException 
+            jdbcTemplate.update(
+                "UPDATE Contract SET customer_id = NULL WHERE customer_id = ?",
+                ps -> ps.setString(1, id)
+            );
+        
+            //löschen des customer;
+            int deleted = jdbcTemplate.update(
+                "DELETE FROM customer WHERE ID = ?",
+                ps -> ps.setString(1, id)
+            );
+            
             if (deleted != 1) {
                 throw new IllegalArgumentException("Id could not been deleted");
             }
@@ -221,19 +228,31 @@ public class CustomerImp implements CustomerInterface {
      */
     @Override
     public Customer updateCustomer(CustomerDTO jsonData) {
-        
-        if(!jsonData.getPassword().startsWith("$2a$")){
-           jsonData.setPassword(encoder.hashPassword(jsonData.getPassword())); 
+
+        if (!jsonData.getPassword().startsWith("$2a$")) {
+            jsonData.setPassword(encoder.hashPassword(jsonData.getPassword()));
+        }
+
+        Long[] imageOid = { null };
+
+        if (jsonData.getProfileBase64() != null && !jsonData.getProfileBase64().isEmpty()) {
+            try {
+                byte[] imageBytes = Base64.getDecoder().decode(jsonData.getProfileBase64());
+                imageOid[0] = worker.saveImageAsLargeObject(imageBytes);
+            } catch (Exception e) {
+                e.getStackTrace();
+            }
         }
 
         int result = jdbcTemplate.update(
-                "UPDATE CUSTOMER SET name = ?, password = ?, email = ?, role = ? WHERE ID = ?",
+                "UPDATE CUSTOMER SET name = ?, password = ?, email = ?, role = ?, profile_picture_blob = ? WHERE ID = ?",
                 ps -> {
                     ps.setString(1, jsonData.getName());
                     ps.setString(2, (jsonData.getPassword()));
                     ps.setString(3, jsonData.getEmail());
                     ps.setString(4, jsonData.getRole());
-                    ps.setString(5, jsonData.getId());
+                    ps.setLong(5, imageOid[0]);
+                    ps.setString(6, jsonData.getId());
 
                 });
 
@@ -245,7 +264,6 @@ public class CustomerImp implements CustomerInterface {
         return null;
     }
 
-
     /**
      * Finds a customer by their email address.
      * This method queries the database for a customer with the specified email and
@@ -255,14 +273,13 @@ public class CustomerImp implements CustomerInterface {
      * @return the Customer object or null if not found
      */
     public Customer findEmail(String Email) {
-       
+
         List<Optional<Customer>> results = jdbcTemplate.query(
                 "SELECT * FROM customer WHERE email = ?",
                 ps -> {
                     ps.setString(1, Email);
                 },
                 (rs, rowNum) -> createCustomer(rs));
-
 
         if (!results.isEmpty() && results.get(0).isPresent()) {
             return results.get(0).get();
@@ -298,15 +315,15 @@ public class CustomerImp implements CustomerInterface {
 
     @Override
     public boolean updatePassword(String password, String Id) {
-      
+
         int result = jdbcTemplate.update(
-        "UPDATE CUSTOMER SET password = ? WHERE id = ?",
-        ps -> {
-            ps.setString(1,  encoder.hashPassword(password));
-            ps.setString(2, Id);
-        });
-        
-        if(result > 0){
+                "UPDATE CUSTOMER SET password = ? WHERE id = ?",
+                ps -> {
+                    ps.setString(1, encoder.hashPassword(password));
+                    ps.setString(2, Id);
+                });
+
+        if (result > 0) {
             return true;
         }
 
@@ -330,84 +347,7 @@ public class CustomerImp implements CustomerInterface {
         }
 
         Integer oid = oids.get(0);
-        return readLargeObject(oid);
+        return worker.readLargeObject(oid);
     }
-
-
-     byte[] readLargeObject(int oid) {
-      Connection conn = null;
-      LargeObjectManager lobjManager = null;
-      LargeObject lobj = null;
-      byte[] imageBytes = null;
-  
-      try {
-          // Verbindung holen
-          conn = DataSourceUtils.getConnection(jdbcTemplate.getDataSource());
-          System.out.println("Connection established: " + (conn != null));
-  
-          // Auto-commit deaktivieren
-          conn.setAutoCommit(false);
-  
-          // PostgreSQL LargeObject API verwenden
-          lobjManager = conn.unwrap(org.postgresql.PGConnection.class).getLargeObjectAPI();
-          System.out.println("LargeObjectManager obtained: " + (lobjManager != null));
-  
-          // LargeObject öffnen
-          if (lobjManager != null) {
-              try {
-                  lobj = lobjManager.open((long) oid, LargeObjectManager.READ);
-                  System.out.println("LargeObject opened: " + (lobj != null));
-              } catch (SQLException e) {
-                  System.err.println("SQL Exception occurred while opening large object with OID " + oid);
-                  e.printStackTrace();
-                  return null;
-              }
-  
-              // Länge des LargeObject abfragen
-              if (lobj != null) {
-                  try {
-                      int size = (int) lobj.size();
-                      imageBytes = new byte[size];
-  
-                      // LargeObject lesen
-                      int bytesRead = lobj.read(imageBytes, 0, size);
-                      System.out.println("Bytes read: " + bytesRead);
-                  } catch (SQLException e) {
-                      System.err.println("SQL Exception occurred while reading large object with OID " + oid);
-                      e.printStackTrace();
-                      return null;
-                  }
-              } else {
-                  System.out.println("No Large Object found with OID: " + oid);
-              }
-          } else {
-              System.out.println("Failed to obtain LargeObjectManager");
-          }
-      } catch (SQLException e) {
-          System.err.println("SQL Exception occurred while reading large object with OID " + oid);
-          e.printStackTrace();
-      } finally {
-          if (lobj != null) {
-              try {
-                  lobj.close();
-              } catch (SQLException e) {
-                  System.err.println("SQL Exception occurred while closing large object with OID " + oid);
-                  e.printStackTrace();
-              }
-          }
-          if (conn != null) {
-              try {
-                  // Auto-commit wieder aktivieren
-                  conn.setAutoCommit(true);
-                  conn.close();
-              } catch (SQLException e) {
-                  System.err.println("SQL Exception occurred while closing connection");
-                  e.printStackTrace();
-              }
-          }
-      }
-  
-      return imageBytes;
-  }
 
 }

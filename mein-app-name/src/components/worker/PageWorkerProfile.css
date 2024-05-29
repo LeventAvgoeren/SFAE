@@ -14,8 +14,8 @@
   padding: 40px 50px;
   border-radius: 14px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: auto;
-  max-width: 680px;
+  width: 1000px;
+  height: 1000px;
   text-align: center;
   color: white; /* Setzt die Textfarbe allgemein auf Weiß */
 }

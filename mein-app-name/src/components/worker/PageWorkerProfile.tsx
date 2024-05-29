@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { JobType, Position, WorkerResource } from "../../Resources";
-import { deleteWorker, getWorkerbyID, updateWorker, getWorkerImage } from "../../backend/api";
-import { useParams } from "react-router-dom";
+import { deleteWorker, getWorkerbyID, updateWorker, getWorkerImage, deleteCookie } from "../../backend/api";
+import {  Link, useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
 import "./PageWorkerProfile.css";
 import NavbarWComponent from "./NavbarWComponent";
 import axios from 'axios';
+import { Col, Row } from 'react-bootstrap';
 
 export function PageWorkerProfile() {
   const [worker, setWorker] = useState<WorkerResource | null>(null);
@@ -25,10 +26,17 @@ export function PageWorkerProfile() {
   const [rating, setRating] = useState<Number>(0);
   const [verification, setVerification] = useState<Boolean>(false);
   const [userLocation, setUserLocation] = useState<Position | null>(null);
-  const [profileImage, setProfileImage] = useState<string | undefined>(undefined);
-  const [newProfileImage, setNewProfileImage] = useState<File | null>(null);
+  const [profileImage, setProfileImage] = useState<string>("");
   const [previewImage, setPreviewImage] = useState<string | undefined>(undefined);
   const [addressValid, setAddressValid] = useState(true);
+  const [slogan , setSlogan] = useState("");
+
+  const [showModal, setShowModal] = useState(false);
+
+
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
+
   const params = useParams();
   const worId = params.workerId;
 
@@ -109,43 +117,46 @@ export function PageWorkerProfile() {
   }, []);
 
   const handleUpdate = async () => {
-    console.log('Starting update process...');  // Log the start of the update process
-
     const isValidAddress = await handleAddressValidation(location);
     setAddressValid(isValidAddress);
-    console.log(`Address validation result: ${isValidAddress}`);  // Log the result of the address validation
-
+  
     if (!isValidAddress) {
       alert('Bitte geben Sie eine gültige Adresse ein.');
       return;
     }
-
+  
     await fetchCoordinates(location);
-
+  
+    if (!addressValid) {
+      alert('Bitte geben Sie eine gültige Adresse ein.');
+      return;
+    }
+  
     const updatedWorkerData: WorkerResource = {
-      id: (worId!),
+      id: worId!,
       name: name,
       email: email,
       password: password,
       location: location,
       status: status,
-      verification: verification,
       statusOrder: statusOrder,
-      range: range,
+      range: 2.1,
       jobType: jobType,
       minPayment: minPayment!,
       rating: rating,
+      verification: verification,
+      latitude: userLocation!.latitude,
       longitude: userLocation!.longitude,
-      latitude: userLocation!.latitude
+      profileBase64: profileImage ,// Ensuring profilBase64 is included
+      slogan : slogan
     };
-
+  
     try {
+      updatedWorkerData.profileBase64 = updatedWorkerData.profileBase64.slice(23)
+      
       const updatedWorker = await updateWorker(updatedWorkerData);
       console.log("Updated Worker:", updatedWorker);
       alert("Worker erfolgreich aktualisiert");
-      if (newProfileImage) {
-        await uploadProfileImage(worId!, newProfileImage);
-      }
     } catch (error) {
       console.error("Fehler beim Aktualisieren des Workers:", error);
       alert("Fehler beim Aktualisieren des Workers");
@@ -174,6 +185,8 @@ export function PageWorkerProfile() {
   const handleDelete = async () => {
     try {
       await deleteWorker(worId!);
+      await deleteCookie()
+      window.location.href = "/index";
       alert('Profil erfolgreich gelöscht.');
     } catch (error) {
       console.error('Fehler beim Löschen des Profils:', error);
@@ -184,34 +197,14 @@ export function PageWorkerProfile() {
   const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      setNewProfileImage(file);
-      
+
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreviewImage(reader.result as string);
+        const base64String = reader.result as string;
+        setPreviewImage(base64String);
+        setProfileImage(base64String); // Speichert Base64-String im State
       };
       reader.readAsDataURL(file);
-    }
-  };
-
-  const uploadProfileImage = async (id: string, image: File) => {
-    const formData = new FormData();
-    formData.append("image", image);
-
-    try {
-      const response = await fetch(`/worker/${id}/image`, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        alert("Profilbild erfolgreich aktualisiert");
-        fetchWorkerImage(id);
-      } else {
-        console.error("Fehler beim Hochladen des Profilbildes");
-      }
-    } catch (error) {
-      console.error("Fehler beim Hochladen des Profilbildes:", error);
     }
   };
 
@@ -241,23 +234,37 @@ export function PageWorkerProfile() {
               <MDBInput wrapperClass="inputField1" label="Adresse" type="text" value={location} onChange={(e) => setLocation(e.target.value)} onBlur={() => handleAddressValidation(location).then(valid => setAddressValid(valid))} />
               {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
               <MDBInput wrapperClass="inputField1" label="E-Mail" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-              <MDBInput wrapperClass="inputField1" label="Passwort" type="text" onChange={(e) => setPassword(e.target.value)} />
+              <MDBInput wrapperClass="inputField1" label="Passwort" type="password" onChange={(e) => setPassword(e.target.value)} />
               <div className="mb-3">
                 <label htmlFor="profileImage" className="form-label">Profilbild hochladen</label>
                 <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
               </div>
               <Button className="button" variant="success" type="submit">Profil speichern</Button>
-              <LinkContainer to="/">
-                <Button className="button" variant="danger" onClick={handleDelete}>Profil löschen</Button>
-              </LinkContainer>
               <LinkContainer to={`/worker/${worId}`}>
-                <Button type="button">Zurück zur Startseite!</Button>
+                <Button className="button" type="button">Zurück zur Startseite!</Button>
               </LinkContainer>
+              <Button type="button" className="button" variant="danger" onClick={handleShow}>
+                Account Löschen
+        </Button>
             </form>
           </MDBContainer>
+
+                {/* modalShow */}
+                <Modal show={showModal} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Account Löschen</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Sind Sie sicher, dass Sie Ihr Konto löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>Close</Button>
+            <Button variant="danger" onClick={handleDelete}>Delete Account</Button>
+          </Modal.Footer>
+        </Modal>
+          
         </div>
       </div>
     </>
   );
 }
+
 export default PageWorkerProfile;

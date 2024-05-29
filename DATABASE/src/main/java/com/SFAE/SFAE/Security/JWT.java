@@ -7,10 +7,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -52,11 +49,8 @@ public class JWT {
     private static final String SECRET_KEY = "sehrGeheim";
 
     private String generateToken(String id, String userType) {
-        TimeZone tz = TimeZone.getTimeZone("Europe/Berlin");
-        Calendar nowCal = Calendar.getInstance(tz);
-        long nowMillis = nowCal.getTimeInMillis();
+        long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
-        System.out.println(nowMillis);
 
         // Token Ablaufzeit
         long expMillis = nowMillis + 3600000; // 1 Stunde

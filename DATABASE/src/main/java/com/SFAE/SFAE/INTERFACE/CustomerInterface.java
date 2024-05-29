@@ -70,6 +70,6 @@ public interface CustomerInterface{
 
     boolean updatePassword(String password, String Id);
 
-    byte[] getProfilePictureByCustomerId(String id);
-
+    byte [] getProfilePictureByCustomerId(String id);
+    
 }

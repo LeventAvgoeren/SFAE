@@ -4,6 +4,7 @@ import './PageAGB.css';
 
 export default function PageAGB() {
     return (
+        <>
         <div className='my-section15'>
         <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ minHeight: '100vh' }}>
             <MDBCard className='m-5'>
@@ -35,5 +36,6 @@ export default function PageAGB() {
             </MDBCard>
         </MDBContainer>
         </div>
+        </>
     );
 }

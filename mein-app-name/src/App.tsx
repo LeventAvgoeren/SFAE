@@ -143,7 +143,7 @@ function App() {
 
  <Toolbar style={{ backgroundColor: "#001325", position: "relative", marginTop:"0px"}}>
         <Typography variant="body1" style={{ color: 'white', flex: 1 }}>
-          © 2024 Ihr Unternehmen oder Ihr Name. Alle Rechte vorbehalten.
+          © 2024 SFAE von Ahmad Sfarjalani, Eray Zor, Levent Avgören, Duc Dai Nguyen, Danyal Mahrous. Alle Rechte vorbehalten.
           <a href="/imprint" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Impressum</a>
           <a href="/agb" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Allgemeine Geschäftsbedingungen</a>
         </Typography>

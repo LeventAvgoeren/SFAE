@@ -1,6 +1,7 @@
 package com.SFAE.SFAE.INTERFACE;
 
 import com.SFAE.SFAE.DTO.WorkerDTO;
+import com.SFAE.SFAE.DTO.WorkerStatus;
 import com.SFAE.SFAE.ENTITY.Worker;
 
 /**
@@ -112,4 +113,8 @@ public interface WorkerInterface {
   Boolean updateOrderStatusByWorkerId(String workerId,String statusOrder);
 
   byte[] getProfileImageByworkerId(String id);
+
+  WorkerStatus getWorkerStatus(String id);
+
+
 }

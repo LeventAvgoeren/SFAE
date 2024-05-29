@@ -1,27 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './PageOrderOverview.css';
 import { Link, useParams } from 'react-router-dom';
-import { getContract, getContractByCustomerId, getContractStatus } from '../../backend/api';
+import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus } from '../../backend/api'; // Importiere die Funktion
 import { ContractResource } from '../../Resources';
 import NavbarComponent from '../navbar/NavbarComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Lottie from 'react-lottie';
 import animationData from "./LoadingAnimation.json";
 import { Col, Row } from 'react-bootstrap';
-// import { MapContainer, TileLayer, Marker, Polyline, Popup } from 'react-leaflet';
-// import 'leaflet/dist/leaflet.css';
-// import L from 'leaflet';
-
-// // Fix for Leaflet icons
-// import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
-// import markerIcon from 'leaflet/dist/images/marker-icon.png';
-// import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-
-// L.Icon.Default.mergeOptions({
-//   iconRetinaUrl: markerIcon2x,
-//   iconUrl: markerIcon,
-//   shadowUrl: markerShadow,
-// });
 
 export function PageOrderOverview() {
   const { customerId } = useParams();
@@ -32,6 +18,7 @@ export function PageOrderOverview() {
   let contractId = parseInt(contId!);
   const [conData, setConData] = useState<ContractResource>();
   const [modalShow, setModalShow] = useState(false); // Zustand für die Anzeige des Modals
+  const [cancelModalShow, setCancelModalShow] = useState(false); // Zustand für die Anzeige des Stornierungsmodals
   const [messageIndex, setMessageIndex] = useState(0);
   const [workerAssigned, setWorkerAssigned] = useState(false);
 
@@ -93,6 +80,37 @@ export function PageOrderOverview() {
     setModalShow(!modalShow);
   };
 
+  const toggleCancelShow = () => {
+    console.log('Toggle cancel modal');
+    setCancelModalShow(!cancelModalShow);
+  };
+
+  const handleConfirm = async () => {
+    if (conData && conData.worker && conData.worker.id) {
+      try {
+        await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
+        await updateContractStatus(contractId.toString(), 'COMPLETED');
+        console.log('Worker status updated to AVAILABLE and contract status updated to COMPLETED');
+      } catch (error) {
+        console.error('Error updating status:', error);
+      }
+    }
+    toggleShow(); // Schließt das Modal
+  };
+
+  const handleCancelConfirm = async () => {
+    if (conData && conData.worker && conData.worker.id) {
+      try {
+        await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
+        await updateContractStatus(contractId.toString(), 'TERMINATED');
+        console.log('Worker status updated to AVAILABLE and contract status updated to TERMINATED');
+      } catch (error) {
+        console.error('Error updating status:', error);
+      }
+    }
+    toggleCancelShow(); // Schließt das Stornierungsmodal
+  };
+
   if (!contractData.length) {
     return <div className="Backg">No contracts found</div>;
   }
@@ -100,6 +118,7 @@ export function PageOrderOverview() {
   if (!conData) {
     return <div className="Backg">No contract found for ID {contractId}</div>;
   }
+
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -109,12 +128,8 @@ export function PageOrderOverview() {
     }
   };
 
-
-
-
   return (
     <>
-
       <div className="Backg">
         <NavbarComponent />
         {loading || !workerAssigned ? (
@@ -123,19 +138,13 @@ export function PageOrderOverview() {
             <div className="loading-message">{messages[messageIndex]}</div>
           </div>
         ) : (
-
           <div className="containertest">
-<h1 style={{marginTop: "60px"}}>Order Information</h1>
-
-            {/* Title */}
+            <h1 style={{marginTop: "60px"}}>Order Information</h1>
             <div className="d-flex justify-content-between align-items-center py-3">
               <h2 className="h5 mb-0" style={{ color: "white" }}>Order ID: <span className="fw-bold text-body white-text">{conData.id}</span></h2>
             </div>
-
-            {/* Main content */}
             <div className="row">
               <div className="col-lg-8">
-                {/* Details */}
                 <div className="card mb-4">
                   <div className="content-area">
                     <div className="mb-3 d-flex justify-content-between">
@@ -159,7 +168,6 @@ export function PageOrderOverview() {
                                 <div style={{marginRight: "90px", width: '300px', height: '300px', backgroundColor: 'gray' }}>
                                 </div>
                               </main>
-
                             </div>
                           </td>
                           <td>Betrag:</td>
@@ -168,13 +176,17 @@ export function PageOrderOverview() {
                       </tbody>
                     </table>
                   </div>
-                  <button onClick={toggleShow} className="btn btn-danger mb-4"
-                          style={{ width: "250px", marginLeft: "auto" }}
-                        >Auftrag beendet?</button>
+                  <div className="d-flex justify-content-between">
+                    <button onClick={toggleShow} className="btn btn-danger mb-4" style={{ width: "250px", marginLeft: "auto" }}>
+                      Auftrag beendet?
+                    </button>
+                    <button onClick={toggleCancelShow} className="btn btn-warning mb-4" style={{ width: "250px", marginLeft: "20px" }}>
+                      Auftrag stornieren
+                    </button>
+                  </div>
                 </div>
               </div>
               <div className="col-lg-4">
-                {/* Customer Notes */}
                 <div className="card mb-4">
                   <div className="info-section">
                     <h4>Customer Beschreibung: </h4>
@@ -182,7 +194,6 @@ export function PageOrderOverview() {
                   </div>
                 </div>
                 <div className="card mb-4">
-                  {/* Shipping information */}
                   <div className="details-panel">
                     <h4>Order Details</h4>
                     <p className="text-muted" style={{ color: "white" }}>
@@ -193,8 +204,6 @@ export function PageOrderOverview() {
                     </p>
                     <p className="text-muted">Job Type: {conData.jobType}</p>
                     <p className="text-muted">Status deiner Bestellung: {conData.statusOrder}</p>
-
-
                     <hr />
                     <h3 className="h6">Worker Details</h3>
                     {conData.worker && (
@@ -211,10 +220,7 @@ export function PageOrderOverview() {
               </div>
             </div>
           </div>
-
         )}
-
-        {/* modalShow */}
         <div className={`modal fade ${modalShow ? 'show' : ''}`} style={{ display: modalShow ? 'block' : 'none' }}>
           <div className="modal-dialog">
             <div className="modal-content">
@@ -227,9 +233,7 @@ export function PageOrderOverview() {
               <div className="modal-footer">
                 <Row>
                   <button type="button" className="btn btn-secondary" onClick={toggleShow} style={{ width: "150px", marginLeft: "12px" }}>Abbrechen</button>
-                  <Link to={`/customer/${customerId}/orders/${contractId}/completed`}>
-                    <button type="button" className="btn btn-primary" style={{ width: "150px" }}>Bestätigen</button>
-                  </Link>
+                  <button type="button" className="btn btn-primary" style={{ width: "150px" }} onClick={handleConfirm}>Bestätigen</button>
                 </Row>
               </div>
             </div>
@@ -237,6 +241,25 @@ export function PageOrderOverview() {
         </div>
         {modalShow && <div className="modal-backdrop fade show"></div>}
 
+        <div className={`modal fade ${cancelModalShow ? 'show' : ''}`} style={{ display: cancelModalShow ? 'block' : 'none' }}>
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Auftrag stornieren?</h5>
+              </div>
+              <div className="modal-body">
+                Bist du sicher, dass du diesen Auftrag stornieren möchtest?
+              </div>
+              <div className="modal-footer">
+                <Row>
+                  <button type="button" className="btn btn-secondary" onClick={toggleCancelShow} style={{ width: "150px", marginLeft: "12px" }}>Abbrechen</button>
+                  <button type="button" className="btn btn-warning" style={{ width: "150px" }} onClick={handleCancelConfirm}>Bestätigen</button>
+                </Row>
+              </div>
+            </div>
+          </div>
+        </div>
+        {cancelModalShow && <div className="modal-backdrop fade show"></div>}
       </div>
     </>
   );

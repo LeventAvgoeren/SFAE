@@ -184,7 +184,7 @@ body {
     transform: scale(1.05);
 }
 
-.animation-container {
+.animation-container-doener {
     position: relative;
     display: flex;
     justify-content: space-around;

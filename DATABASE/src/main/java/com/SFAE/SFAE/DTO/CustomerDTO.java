@@ -26,6 +26,11 @@ public class CustomerDTO {
     @NotBlank(message = "Role is required")
     private String role;
 
+    @NotEmpty
+    @NotBlank(message = "profileBase64 is required")
+    private String profileBase64;
+
+
     public String getName() {
         return name;
     }
@@ -78,5 +83,13 @@ public class CustomerDTO {
 
     public boolean hasNull(){
         return name == null || email == null || password == null || role == null;
+    }
+
+    public String getProfileBase64() {
+        return profileBase64;
+    }
+
+    public void setProfileBase64(String profileBase64) {
+        this.profileBase64 = profileBase64;
     }
 }

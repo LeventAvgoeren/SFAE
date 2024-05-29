@@ -5,25 +5,33 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Base64;
+
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.jsonwebtoken.io.IOException;
+
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 public class CustomerTestSQL {
 
     @Autowired
@@ -102,12 +110,14 @@ public class CustomerTestSQL {
 
     @Test
     public void testUpdateCustomerByID() throws Exception {
+        String base64Image = encodeFileToBase64Binary("static/images/GJq0xr5XIAAbKzE.jpeg");
         CustomerDTO customerData = new CustomerDTO();
-        customerData.setId("C3");
+        customerData.setId("C2");
         customerData.setName("Test Name");
-        customerData.setEmail("test@example.com");
+        customerData.setEmail("testdadad@example.com");
         customerData.setRole("ADMIN");
         customerData.setPassword("test123");
+        customerData.setProfileBase64(base64Image);
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         mockMvc.perform(put("/customer")
@@ -116,6 +126,15 @@ public class CustomerTestSQL {
                 .andExpect(status().isOk());
 
         transactionManager.commit(status);
+    }
+     public static String encodeFileToBase64Binary(String resourcePath) throws IOException, FileNotFoundException, java.io.IOException {
+        ClassPathResource resource = new ClassPathResource(resourcePath);
+        File file = resource.getFile();
+        try (FileInputStream fileInputStream = new FileInputStream(file)) {
+            byte[] bytes = new byte[(int) file.length()];
+            fileInputStream.read(bytes);
+            return Base64.getEncoder().encodeToString(bytes);
+        }
     }
 
     @Test
@@ -237,5 +256,50 @@ public class CustomerTestSQL {
         System.out.println("A " + contentAsString);
    }
 
+   @Test
+public void testImageGetWorkerById() throws Exception {
+    MvcResult mvcResult = mockMvc.perform(get("/customer/C1/image"))
+            .andExpect(status().isOk())
+            .andReturn();
+
+    String contentAsString = mvcResult.getResponse().getContentAsString();
+    System.out.println("HAAAAAAAALLLLLLLLLLOOOOOOOO " + contentAsString);  
+
+}
+
+
+@Test
+public void testImageGetWorkerByIdNotFound() throws Exception {
+    MvcResult mvcResult = mockMvc.perform(get("/customer/C100/image"))
+            .andExpect(status().isNotFound())
+            .andReturn();
+
+    String contentAsString = mvcResult.getResponse().getContentAsString();
+    System.out.println("HAAAAAAAALLLLLLLLLLOOOOOOOO " + contentAsString);  
+
+}
+
+@Test
+public void testImageGetWorkerByIdBadRequest() throws Exception {
+    MvcResult mvcResult = mockMvc.perform(get("/customer//image"))
+            .andExpect(status().isBadRequest())
+            .andReturn();
+
+    String contentAsString = mvcResult.getResponse().getContentAsString();
+    System.out.println("HAAAAAAAALLLLLLLLLLOOOOOOOO " + contentAsString);  
+
+}
+
+@Test
+    public void testDeleteCustomerByid() throws Exception {
+
+        //Fix foreigns 
+         MvcResult mvcResult = mockMvc.perform(delete("/customer/C4"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        System.out.println("A " + contentAsString);
+   }
 
 }

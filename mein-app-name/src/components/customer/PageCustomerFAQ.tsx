@@ -56,11 +56,6 @@ const faqs: FAQEntry[] = [
       question: "Kann ich mehrere Projekte gleichzeitig auf Ihrer Plattform veröffentlichen?",
       answer: "Ja, Sie können mehrere Projekte gleichzeitig auf unserer Plattform veröffentlichen. Sie haben die Flexibilität, mehrere Projekte zu verwalten und verschiedene Arbeiter für unterschiedliche Aufgaben einzustellen."
     },
-    {
-      id: 10,
-      question: "Was soll ich tun, wenn ich Probleme mit einem Arbeiter habe?",
-      answer: "Wenn Sie Probleme mit einem Arbeiter haben, sollten Sie zunächst versuchen, das Problem direkt mit dem Arbeiter zu lösen. Wenn dies nicht möglich ist, können Sie unseren Kundensupport kontaktieren und uns über das Problem informieren, damit wir Ihnen helfen können, eine Lösung zu finden."
-    }
   ];
   
 export function PageCustomerFAQ() {
@@ -78,14 +73,14 @@ export function PageCustomerFAQ() {
   return (
     loading ? <LoadingIndicator /> :
     <>
+  <NavbarComponent />
       <div className="background-image"> 
-        <NavbarComponent />
       <section className="faq-section">
         <div className="container">
           <div className="row">
             <div className="col-md-6 offset-md-3">
               <div className="faq-title text-center pb-3">
-                <h2>FAQ</h2>
+                <h2 style={{color:'black'}}>FAQ</h2>
               </div>
             </div>
             <div className="col-md-6 offset-md-3">

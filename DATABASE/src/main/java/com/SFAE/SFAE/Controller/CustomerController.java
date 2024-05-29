@@ -11,7 +11,6 @@ import com.SFAE.SFAE.DTO.PasswordResetRequest;
 import com.SFAE.SFAE.DTO.Token;
 import com.SFAE.SFAE.ENDPOINTS.CustomerEP;
 import com.SFAE.SFAE.ENTITY.Customer;
-import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.Role;
 import com.SFAE.SFAE.ENUM.TokenType;
 import com.SFAE.SFAE.IMPLEMENTATIONS.CustomerImp;
@@ -27,7 +26,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.server.Cookie.SameSite;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +37,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -74,7 +73,6 @@ class CustomerController implements CustomerEP {
 
     @Autowired
     private WorkerInterface wao;
- 
 
     private Logger logger;
 
@@ -135,7 +133,22 @@ class CustomerController implements CustomerEP {
 
             if (customer != null) {
                 try {
-                    mail.sendHtmlMessage(customerData.getEmail(), "Wilkommen bei SFAE", "Customer erstellt");
+                    mail.sendHtmlMessage(customerData.getEmail(),
+                            "Willkommen bei SFAE - Ihre Lösung für schnelle und kompetente Hilfe",
+                            "<html><body>" +
+                                    "<p>Lieber " + customerData.getName() + ",</p>" +
+                                    "<p>herzlich willkommen bei SFAE! Wir freuen uns, dass Sie sich für unseren Service entschieden haben.</p>"
+                                    +
+                                    "<p>SFAE ist Ihre zuverlässige Dienstleistungsplattform, auf der Sie schnell und einfach Hilfe für verschiedene Anliegen finden können. Unser Ziel ist es, Ihnen den besten Facharbeiter in Ihrer Nähe mit der passenden Qualifikation zur Verfügung zu stellen.</p>"
+                                    +
+                                    "<p>Egal ob Sie einen Handwerker, IT-Spezialisten, Reinigungskraft oder einen anderen Fachmann benötigen – bei SFAE finden Sie garantiert den richtigen Ansprechpartner. Unser benutzerfreundliches System stellt sicher, dass Sie innerhalb kürzester Zeit den passenden Experten für Ihre Bedürfnisse finden.</p>"
+                                    +
+                                    "<p>Wir sind überzeugt, dass Sie mit unserem Service zufrieden sein werden und freuen uns darauf, Ihnen bei Ihren Anliegen behilflich zu sein.</p>"
+                                    +
+                                    "<p>Bei Fragen oder Anregungen stehen wir Ihnen jederzeit zur Verfügung.</p>" +
+                                    "<p>Mit freundlichen Grüßen,</p>" +
+                                    "<p>Ihr SFAE-Team</p>" +
+                                    "</body></html>");
                 } catch (MessagingException e) {
                     e.printStackTrace();
                 }
@@ -374,11 +387,11 @@ class CustomerController implements CustomerEP {
 
     }
 
-
     /**
      * Counts all customers registered in the system.
      * 
-     * @return ResponseEntity containing the count of all Customer or an error if the
+     * @return ResponseEntity containing the count of all Customer or an error if
+     *         the
      *         operation fails.
      */
     @Override
@@ -392,92 +405,86 @@ class CustomerController implements CustomerEP {
 
     }
 
-   @Override
+    @Override
     public ResponseEntity<?> requestResetPassword(String email) {
-        if(email == null){
+        if (email == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        System.out.println(email);
+
         email = email.replace("\"", "");
         Customer foundCustomer = cus.findEmail(email);
-        System.out.println("ADASD " + foundCustomer);
-        if(foundCustomer != null){
+        if (foundCustomer != null) {
             String token = mailService.createToken(0, foundCustomer.getId(), TokenType.PASSWORDRESET);
-        
-            String link = "https://localhost:3000/newPassword?token=" + token; 
+
+            String link = "https://localhost:3000/newPassword?token=" + token;
 
             try {
                 mail.sendHtmlMessage(foundCustomer.getEmail(), "Email zurücksetzen",
-                    "<html><body>" +
-                        "Hallo " + foundCustomer.getName() + ",<br>" +
-                        "Sie haben beantragt ihr Passwort zu ändern.<br>"+
-                        "Unter diesem <a href='" + link + "'>Link</a> können Sie ihr Passwort ändern. Der Link läuft nach 5 Minuten ab.<br>" +
-                        "Bei Fragen oder für weitere Informationen stehen wir Ihnen gerne zur Verfügung.<br><br>" +
-                        "Mit freundlichen Grüßen,<br>" +
-                        "Ihr SFAE-Team" +
-                        "</body></html>");  
+                        "<html><body>" +
+                                "Hallo " + foundCustomer.getName() + ",<br>" +
+                                "Sie haben beantragt ihr Passwort zu ändern.<br>" +
+                                "Unter diesem <a href='" + link
+                                + "'>Link</a> können Sie ihr Passwort ändern. Der Link läuft nach 5 Minuten ab.<br>" +
+                                "Bei Fragen oder für weitere Informationen stehen wir Ihnen gerne zur Verfügung.<br><br>"
+                                +
+                                "Mit freundlichen Grüßen,<br>" +
+                                "Ihr SFAE-Team" +
+                                "</body></html>");
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
 
             return ResponseEntity.status(HttpStatus.OK).body(token);
         }
-
-        Worker foundWorker = wao.findWorkerbyEmail(email);
-        System.out.println("ADASD " + foundCustomer);
-        if(foundWorker != null){
-            String token = mailService.createToken(0, foundWorker.getId(), TokenType.PASSWORDRESET);
-        
-            String link = "https://localhost:3000/newPassword?token=" + token; 
-
-            try {
-                mail.sendHtmlMessage(foundWorker.getEmail(), "Email zurücksetzen",
-                    "<html><body>" +
-                        "Hallo " + foundWorker.getName() + ",<br>" +
-                        "Sie haben beantragt ihr Passwort zu ändern.<br>"+
-                        "Unter diesem <a href='" + link + "'>Link</a> können Sie ihr Passwort ändern. Der Link läuft nach 5 Minuten ab.<br>" +
-                        "Bei Fragen oder für weitere Informationen stehen wir Ihnen gerne zur Verfügung.<br><br>" +
-                        "Mit freundlichen Grüßen,<br>" +
-                        "Ihr SFAE-Team" +
-                        "</body></html>");  
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
-
-            return ResponseEntity.status(HttpStatus.OK).body(token);
-        }
-
-
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    
-
     @Override
     public ResponseEntity<?> resetPassword(PasswordResetRequest data) {
-        if(data == null){
+        if (data == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
         Token token = mailService.validateToken(data.getToken());
-        if(token == null){
+        if (token == null) {
             return ResponseEntity.status(HttpStatus.GONE).build();
         }
 
-        if(token.getReceiver().startsWith("C")){
-            if(cus.updatePassword(data.getPassword(), token.getReceiver())){
-                        return ResponseEntity.status(HttpStatus.OK).build();
+        if (token.getReceiver().startsWith("C")) {
+            if (cus.updatePassword(data.getPassword(), token.getReceiver())) {
+                return ResponseEntity.status(HttpStatus.OK).build();
             }
         }
 
-        if(token.getReceiver().startsWith("W")){
-            if(wao.updatePassword(data.getPassword(), token.getReceiver())){
+        if (token.getReceiver().startsWith("W")) {
+            if (wao.updatePassword(data.getPassword(), token.getReceiver())) {
                 return ResponseEntity.status(HttpStatus.OK).build();
             }
         }
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    @Override
+    public ResponseEntity<?> getCustomerImageAsBase64(String id) {
+        if (id.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        try {
+            byte[] imageBytes = dao.getProfilePictureByCustomerId(id);
+
+            if (imageBytes != null && imageBytes.length > 0) {
+                String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                return ResponseEntity.status(HttpStatus.OK).body(base64Image);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 
 }

@@ -25,6 +25,8 @@
     display: flex;
     width: 100%;
     justify-content: space-between;
+
+
   }
   
   .role-image {
@@ -174,4 +176,9 @@
   z-index: 1; /* Stellt sicher, dass es über dem Bild liegt */
 }.role-image:hover::before {
   background-color: rgba(0, 0, 0, 0.5); /* Halbtransparentes Schwarz bei Hover */
+}
+
+.role-background {
+  position: relative;
+  min-height: 100vh;
 }

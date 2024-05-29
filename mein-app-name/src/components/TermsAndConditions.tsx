@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import NavbarComponent from './navbar/NavbarComponent';
-import "./DataPrivacyPage.css"
 import LoadingIndicator from './LoadingIndicator';
+import "./TermsAndConditions.css"
 
-export function DataPrivacyPage() {
+export function TermsAndConditions() {
   const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
     setIsLoading(false);
   }, []);
@@ -14,8 +13,8 @@ export function DataPrivacyPage() {
     isLoading ? <LoadingIndicator /> :
       <>
         <NavbarComponent />
-
         <div className='datenschutz'>
+
           <h1 style={{ textAlign: 'left', color: "black", marginTop: "40px" }}>Datenschutzerklärung</h1>
 
           <h2>Allgemeiner Hinweis und Pflichtinformationen</h2>
@@ -92,4 +91,4 @@ export function DataPrivacyPage() {
   );
 }
 
-export default DataPrivacyPage;
+export default TermsAndConditions;

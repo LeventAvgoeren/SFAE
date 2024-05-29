@@ -159,6 +159,14 @@ public interface WorkerEp {
 
    @GetMapping("/{id}/image")
    ResponseEntity<?> getWorkerImageAsBase64(@PathVariable("id") String id);
+
+   @PutMapping("status/{id}")
+   ResponseEntity<?> updateWorkerStatus(@PathVariable("id") String id, @RequestBody String status);
+
+   @PutMapping("statusOrder/{id}")
+   ResponseEntity<?> updateWorkerStatusOrder(@PathVariable("id") String id, @RequestBody String orderStatus);
    
+   @GetMapping("statuse/{id}")
+   ResponseEntity<?> getWorkerStatuse(@PathVariable("id") String id);
 }
 

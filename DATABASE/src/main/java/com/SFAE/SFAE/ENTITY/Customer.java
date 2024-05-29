@@ -11,6 +11,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
@@ -49,13 +50,18 @@ public class Customer {
     @Column(name = "ROLE")
     private Role role;
 
+    @Lob
+    @Column(name = "profile_picture_blob", nullable = true)
+    private byte[] profilePictureBlob;
+
     public Customer(){}
     
-    public Customer( String name, String password, String email) { 
+    public Customer( String name, String password, String email,byte[] profilePictureBlob) { 
         this.name = name;
         this.password = password;
         this.email = email;
         this.role = Role.CUSTOMER;
+        this.profilePictureBlob=profilePictureBlob;
     }
 
     

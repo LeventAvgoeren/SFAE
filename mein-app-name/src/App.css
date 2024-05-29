@@ -94,19 +94,7 @@ body, button, input, textarea, h1, p {
   z-index: 1; 
 }
 
-.footer {
-  text-align: right;
-  padding: 20px 30px;
-  background-color: #f8f9fa; /* Hintergrundfarbe deines Footers */
-}
 
-.impressum-link {
-  color: #007bff; /* Linkfarbe */
-  text-decoration: none; /* Keine Unterstreichung */
-}
 
-.footer{
-  background-color: #001325;
-  color: white;
-}
+
 

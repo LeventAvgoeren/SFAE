@@ -21,7 +21,7 @@ import com.SFAE.SFAE.ENUM.TokenType;
 import com.SFAE.SFAE.IMPLEMENTATIONS.CustomerImp;
 import com.SFAE.SFAE.IMPLEMENTATIONS.SFAEAlgorithm;
 import com.SFAE.SFAE.INTERFACE.ContractInterface;
-import com.SFAE.SFAE.INTERFACE.CustomerInterface;
+
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.Service.MailService;
 import com.SFAE.SFAE.Service.TokenMailService;
@@ -60,7 +60,6 @@ public class ContractController implements ContractEP {
   @Autowired
   private TokenMailService tokenService;
 
-
   @Override
   public ResponseEntity<?> createContract(@Valid ContractDTO contract, BindingResult bindingResult) {
 
@@ -94,8 +93,8 @@ public class ContractController implements ContractEP {
         Worker found = work.findWorkersbyID(String.valueOf(lastEntry.getKey().getId()));
         Customer foundCustomer = custo.findCustomerbyID(String.valueOf(contract.getCustomerId()));
 
-        String token= tokenService.createToken(created.getId(), lastEntry.getKey().getId(), TokenType.CONTRACT);
-        String link = "https://localhost:3000/contract?token=" + token; 
+        String token = tokenService.createToken(created.getId(), lastEntry.getKey().getId(), TokenType.CONTRACT);
+        String link = "https://localhost:3000/contract?token=" + token;
 
         mail.sendHtmlMessage(found.getEmail(), "Jobangebot erhalten",
             "<html><body>" +
@@ -108,7 +107,8 @@ public class ContractController implements ContractEP {
                 "<strong>Zahlung:</strong> " + contract.getPayment() + "<br>" +
                 "<strong>Zahlung:</strong> " + contract.getMaxPayment() + "€<br>" +
                 "<strong>Entfernung:</strong> " + contract.getRange() + " km<br><br>" +
-                "Unter diesem <a href='" + link + "'>Link</a> können Sie die Anfrage bestätigen. Sie haben 5 Minuten Zeit die Anfrage anzunehmen.<br>" +
+                "Unter diesem <a href='" + link
+                + "'>Link</a> können Sie die Anfrage bestätigen. Sie haben 5 Minuten Zeit die Anfrage anzunehmen.<br>" +
                 "Bei Fragen oder für weitere Informationen stehen wir Ihnen gerne zur Verfügung.<br><br>" +
                 "Mit freundlichen Grüßen,<br>" +
                 "Ihr SFAE-Team" +
@@ -127,23 +127,39 @@ public class ContractController implements ContractEP {
   }
 
   /**
- * Deletes a contract by its unique identifier.
- *
- * @param id the unique identifier of the contract to be deleted.
- * @return ResponseEntity indicating the success or failure of the deletion process.
- *         Returns HttpStatus.OK if the contract is successfully deleted, HttpStatus.NOT_FOUND
- *         if the contract does not exist, or HttpStatus.INTERNAL_SERVER_ERROR in case of
- *         database access issues.
- */
+   * Deletes a contract by its unique identifier.
+   *
+   * @param id the unique identifier of the contract to be deleted.
+   * @return ResponseEntity indicating the success or failure of the deletion
+   *         process.
+   *         Returns HttpStatus.OK if the contract is successfully deleted,
+   *         HttpStatus.NOT_FOUND
+   *         if the contract does not exist, or HttpStatus.INTERNAL_SERVER_ERROR
+   *         in case of
+   *         database access issues.
+   * @throws MessagingException 
+   */
   @Override
   public ResponseEntity<?> deleteContactById(long id) {
     if (id < 0) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
     try {
+      Contract contract=dao.getContract(id);
+      Worker found=contract.getWorker();
       boolean result = dao.deleteContract(id);
+      
       if (result) {
-        return ResponseEntity.status(HttpStatus.OK).build();
+
+        mail.sendHtmlMessage(
+          found.getEmail(), 
+          "Jobangebot Storniert", 
+          "Wir müssen Ihnen leider mitteilen, dass Ihr Vertrag storniert wurde. "
+          + "Falls es zu Problemen kommt, schreiben Sie bitte unserem Support eine E-Mail an leventavgoren@gmail.com."
+      );       
+       return ResponseEntity.status(HttpStatus.OK).build();
+
+
       } else {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
       }
@@ -151,17 +167,22 @@ public class ContractController implements ContractEP {
     } catch (DataAccessException dax) {
       logger.error("Database access error: " + dax.getMessage(), dax);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    } catch (MessagingException e) {
+      e.printStackTrace();
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
   }
 
   /**
- * Updates the details of an existing contract.
- *
- * @param contract the contract DTO that contains the updated contract details.
- * @param bindingResult captures validation errors related to the contract DTO.
- * @return ResponseEntity containing the updated contract or an error message if the update fails.
- */
+   * Updates the details of an existing contract.
+   *
+   * @param contract      the contract DTO that contains the updated contract
+   *                      details.
+   * @param bindingResult captures validation errors related to the contract DTO.
+   * @return ResponseEntity containing the updated contract or an error message if
+   *         the update fails.
+   */
   @Override
   public ResponseEntity<?> updateContract(@Valid ContractDTO contract, BindingResult bindingResult) {
 
@@ -194,11 +215,12 @@ public class ContractController implements ContractEP {
   }
 
   /**
- * Retrieves a contract by its unique identifier.
- *
- * @param id the unique identifier of the contract to be retrieved.
- * @return ResponseEntity containing the contract if found, or an appropriate error status.
- */
+   * Retrieves a contract by its unique identifier.
+   *
+   * @param id the unique identifier of the contract to be retrieved.
+   * @return ResponseEntity containing the contract if found, or an appropriate
+   *         error status.
+   */
   @Override
   public ResponseEntity<?> findContractById(long id) {
     if (id < 0) {
@@ -219,12 +241,12 @@ public class ContractController implements ContractEP {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
   }
 
-  
-/**
- * Counts all contracts currently managed by the system.
- *
- * @return ResponseEntity containing the count of all contracts or an error if the operation fails.
- */
+  /**
+   * Counts all contracts currently managed by the system.
+   *
+   * @return ResponseEntity containing the count of all contracts or an error if
+   *         the operation fails.
+   */
   @Override
   public ResponseEntity<?> countAllCContracts() {
     try {
@@ -236,11 +258,12 @@ public class ContractController implements ContractEP {
   }
 
   /**
- * Retrieves all contracts associated with a specific customer ID.
- *
- * @param id the customer ID used to retrieve related contracts.
- * @return ResponseEntity containing a list of contracts or an error if no contracts found.
- */
+   * Retrieves all contracts associated with a specific customer ID.
+   *
+   * @param id the customer ID used to retrieve related contracts.
+   * @return ResponseEntity containing a list of contracts or an error if no
+   *         contracts found.
+   */
   @Override
   public ResponseEntity<?> findContractByCustomerId(String id) {
     try {
@@ -255,11 +278,12 @@ public class ContractController implements ContractEP {
   }
 
   /**
- * Retrieves all contracts associated with a specific worker ID.
- *
- * @param id the worker ID used to retrieve related contracts.
- * @return ResponseEntity containing a list of contracts or an error if no contracts found.
- */
+   * Retrieves all contracts associated with a specific worker ID.
+   *
+   * @param id the worker ID used to retrieve related contracts.
+   * @return ResponseEntity containing a list of contracts or an error if no
+   *         contracts found.
+   */
   @Override
   public ResponseEntity<?> findContractByWorkerId(String id) {
     try {
@@ -271,32 +295,31 @@ public class ContractController implements ContractEP {
   }
 
   /**
- * Sets or updates a contract based on the acceptance status provided.
- *
- * @param data the contract DTO containing the details to be updated.
- * @param accepted boolean value indicating if the contract update is accepted.
- * @return ResponseEntity indicating the result of the operation, either success or an appropriate error status.
- */
-@Override
+   * Sets or updates a contract based on the acceptance status provided.
+   *
+   * @param data     the contract DTO containing the details to be updated.
+   * @param accepted boolean value indicating if the contract update is accepted.
+   * @return ResponseEntity indicating the result of the operation, either success
+   *         or an appropriate error status.
+   */
+  @Override
   public ResponseEntity<?> setContract(ContractDTO data, Boolean accpeted) {
-    if(data==null){
+    if (data == null) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
-    
-    if(accpeted){
-      Boolean result =dao.updateWorkerId(data.getId(),data.getWorkerId());
-      //work.updateStatusByWorkerId(data.getWorkerId(), "INAVAILABLE");
-      //work.updateOrderStatusByWorkerId(data.getWorkerId(), "ACCEPTED");
+
+    if (accpeted) {
+      Boolean result = dao.updateWorkerId(data.getId(), data.getWorkerId());
+      work.updateStatusByWorkerId(data.getWorkerId(), "INAVAILABLE");
+      work.updateOrderStatusByWorkerId(data.getWorkerId(), "ACCEPTED");
       dao.updateOrderStatus(data.getId(), "ACCEPTED");
-      if(result){
+      if (result) {
         return ResponseEntity.status(HttpStatus.OK).build();
-      }
-      else{
+      } else {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
       }
 
-    }
-    else{
+    } else {
       work.updateStatusByWorkerId(data.getWorkerId(), "AVAILABLE");
       work.updateOrderStatusByWorkerId(data.getWorkerId(), "DECLINED");
       dao.updateOrderStatus(data.getId(), "DECLINED");
@@ -306,85 +329,84 @@ public class ContractController implements ContractEP {
   }
 
   /**
- * Validates a given token for authenticity and currency.
- *
- * @param token the token to be validated.
- * @return ResponseEntity indicating whether the token is valid (true) or not (false).
- */
+   * Validates a given token for authenticity and currency.
+   *
+   * @param token the token to be validated.
+   * @return ResponseEntity indicating whether the token is valid (true) or not
+   *         (false).
+   */
   @Override
   public ResponseEntity<?> validateToken(String token) {
-      if(token == null){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-      }
+    if (token == null) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
 
-       Token getToken = tokenService.validateToken(token);
-      if(getToken != null){
-        return ResponseEntity.status(HttpStatus.OK).body(getToken);
-      }
+    Token getToken = tokenService.validateToken(token);
+    if (getToken != null) {
+      return ResponseEntity.status(HttpStatus.OK).body(getToken);
+    }
 
-      return ResponseEntity.status(HttpStatus.GONE).body(false);
+    return ResponseEntity.status(HttpStatus.GONE).body(false);
   }
 
   @Override
   public ResponseEntity<?> getUserFromEmail(String email) {
-    if(email == null){
+    if (email == null) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
     email = email.replace("\"", "");
     System.out.println(email);
     Worker foundWorker = work.findWorkerbyEmail(email);
 
-    if(foundWorker != null){
+    if (foundWorker != null) {
       System.out.println("WORKER");
       return ResponseEntity.status(HttpStatus.FOUND).body(foundWorker);
     }
 
     Customer foundCustomer = custo.findEmail(email);
 
-    if(foundCustomer != null){
+    if (foundCustomer != null) {
       return ResponseEntity.status(HttpStatus.FOUND).body(foundCustomer);
     }
 
     return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
   }
 
-  
   @Override
   public ResponseEntity<?> getContractStatus(Long contractId) {
- System.out.println("Bin drinnneeeee in dem endpunkt");
 
     try {
-      String status=dao.getStatusFromContract(contractId);
-      if(status!=null){
-        System.out.println("Bin drinnneeeee");
+      String status = dao.getStatusFromContract(contractId);
+      if (status != null) {
         return ResponseEntity.status(HttpStatus.OK).body(status);
-      }
-      else{
+      } else {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
       }
-    
+
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
-  } 
+  }
+
 
   @Override
-  public ResponseEntity<?> updateStatusbyContractId(Long contractId, String status) {
-    if(contractId==null ||status==null) {
+  public ResponseEntity<?> updateContractStatus(Long id, String orderStatus) {
+    if (id == null || orderStatus == null) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
     try {
-    boolean updateStatus= dao.updateOrderStatus(contractId, status);
-    if(updateStatus){
-      return ResponseEntity.status(HttpStatus.OK).build();
-    } else {
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
-    
-      
+      boolean result= dao.updateOrderStatus(id, orderStatus);
+      if(result){
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+      }
+      else{
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+      }
     } catch (Exception e) {
+      e.printStackTrace();
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
+
   }
 
 }

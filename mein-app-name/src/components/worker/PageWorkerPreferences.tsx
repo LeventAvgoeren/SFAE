@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import { JobType, WorkerResource } from "../../Resources";
 import { deleteWorker, getWorkerbyID, updateWorker } from "../../backend/api";
 import { useParams } from "react-router-dom";
-import { LinkContainer } from "react-router-bootstrap";
 import { Button, Navbar } from "react-bootstrap";
 import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
-import "./PageWorkerProfile.css"
+import "./PageWorkerPreferences.css"
 import NavbarWComponent from "./NavbarWComponent";
 import LoadingIndicator from '../LoadingIndicator';
 
@@ -29,6 +28,8 @@ export function PageWorkerPreferences() {
   const [verification , setVerification] = useState<Boolean>(false);
   const [getlatitude , setLatitude] = useState<number>(0); 
   const [getlongitude , setLongitude] = useState<number>(0); 
+  const [slogan , setSlogan] = useState("");
+
   const params = useParams();
   const worId = params.workerId;
 
@@ -103,7 +104,9 @@ export function PageWorkerPreferences() {
         minPayment: minPayment!,
         rating: rating,
         longitude: getlongitude,
-        latitude: getlatitude
+        latitude: getlatitude,
+        profileBase64: "",
+        slogan : slogan
       }
 
       try {
@@ -138,7 +141,7 @@ return (
   <>
     <NavbarWComponent />
     <div className="background-image">
-      <div className="custom-container">
+      <div className="custom-container20">
         <MDBContainer>
           <div className="text-center mb-4">
             <h1>Präferenzen</h1>

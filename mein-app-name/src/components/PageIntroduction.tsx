@@ -59,7 +59,7 @@ export function PageIntroduction() {
                             <p className="my-p">Den Worker und den Customer!</p>
                             <p className="my-p">Folgendes Szenario:</p>
 
-                            <div className="animation-container">
+                            <div className="animation-container-doener">
                                 <div className="animation-worker">
                                     <Lottie options={{
                                         loop: true,

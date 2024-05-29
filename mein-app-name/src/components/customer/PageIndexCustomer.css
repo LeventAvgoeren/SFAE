@@ -97,7 +97,6 @@ p, button {
   border-radius: 8px; /* Abgerundete Ecken */
   cursor: pointer; /* Cursor-Effekt für bessere Benutzerinteraktion */
   transition: background-color 0.3s, box-shadow 0.3s; /* Weiche Übergänge */
-  width: 100%;
 }
 
 .call-to-action p {
@@ -190,10 +189,4 @@ p, button {
   text-align: center;
   color: white;  
   width: 80%;
-}
-
-.impressum-link {
-  position: absolute;
-  right: 20px; /* Abstand vom rechten Rand */
-  bottom: 20px; /* Abstand vom unteren Rand */
 }

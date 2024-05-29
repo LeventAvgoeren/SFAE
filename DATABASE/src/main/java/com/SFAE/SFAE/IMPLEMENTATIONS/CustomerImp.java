@@ -1,8 +1,8 @@
 package com.SFAE.SFAE.IMPLEMENTATIONS;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,6 +41,9 @@ public class CustomerImp implements CustomerInterface {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    WorkerImpl worker;
 
     /**
      * Counts the total number of customers in the database.
@@ -91,7 +94,7 @@ public class CustomerImp implements CustomerInterface {
         List<Optional<Customer>> result = jdbcTemplate.query(
                 "SELECT * FROM CUSTOMER WHERE ID = ?",
                 ps -> {
-                    ps.setString(1,  id);
+                    ps.setString(1, id);
                 },
                 (rs, rowNum) -> createCustomer(rs));
 
@@ -157,18 +160,18 @@ public class CustomerImp implements CustomerInterface {
     @Override
     public Customer createCustomer(CustomerDTO jsonData) { // For the Endpoint
 
-        try { 
-         
+        try {
+            byte[] defaultImage = worker.loadDefaultProfilePicture();
             String name = jsonData.getName();
             String password = encoder.hashPassword(jsonData.getPassword());
             String email = jsonData.getEmail();
-            
+
             if (password == null || name == null || email == null) {
                 return null;
             }
-            Customer customer = new Customer(name, password, email);
+            Customer customer = new Customer(name, password, email, defaultImage);
             customerRepository.save(customer);
-         
+
             return customer;
 
         } catch (Exception e) {
@@ -189,14 +192,21 @@ public class CustomerImp implements CustomerInterface {
 
     @Override
     public Boolean deleteCustomerById(String id) {
-     
+
         try {
-            int deleted = jdbcTemplate.update(connection -> {
-                PreparedStatement ps = connection
-                        .prepareStatement("DELETE FROM CUSTOMER WHERE ID = ?;");
-                ps.setString(1,  id);
-                return ps;
-            });
+              //Setze den contract auf null bevor ich lösche um den fehler zu 
+             //umgehen DataIntegrityViolationException 
+            jdbcTemplate.update(
+                "UPDATE Contract SET customer_id = NULL WHERE customer_id = ?",
+                ps -> ps.setString(1, id)
+            );
+        
+            //löschen des customer;
+            int deleted = jdbcTemplate.update(
+                "DELETE FROM customer WHERE ID = ?",
+                ps -> ps.setString(1, id)
+            );
+            
             if (deleted != 1) {
                 throw new IllegalArgumentException("Id could not been deleted");
             }
@@ -217,19 +227,31 @@ public class CustomerImp implements CustomerInterface {
      */
     @Override
     public Customer updateCustomer(CustomerDTO jsonData) {
-        
-        if(!jsonData.getPassword().startsWith("$2a$")){
-           jsonData.setPassword(encoder.hashPassword(jsonData.getPassword())); 
+
+        if (!jsonData.getPassword().startsWith("$2a$")) {
+            jsonData.setPassword(encoder.hashPassword(jsonData.getPassword()));
+        }
+
+        Long[] imageOid = { null };
+
+        if (jsonData.getProfileBase64() != null && !jsonData.getProfileBase64().isEmpty()) {
+            try {
+                byte[] imageBytes = Base64.getDecoder().decode(jsonData.getProfileBase64());
+                imageOid[0] = worker.saveImageAsLargeObject(imageBytes);
+            } catch (Exception e) {
+                e.getStackTrace();
+            }
         }
 
         int result = jdbcTemplate.update(
-                "UPDATE CUSTOMER SET name = ?, password = ?, email = ?, role = ? WHERE ID = ?",
+                "UPDATE CUSTOMER SET name = ?, password = ?, email = ?, role = ?, profile_picture_blob = ? WHERE ID = ?",
                 ps -> {
                     ps.setString(1, jsonData.getName());
                     ps.setString(2, (jsonData.getPassword()));
                     ps.setString(3, jsonData.getEmail());
                     ps.setString(4, jsonData.getRole());
-                    ps.setString(5, jsonData.getId());
+                    ps.setLong(5, imageOid[0]);
+                    ps.setString(6, jsonData.getId());
 
                 });
 
@@ -241,7 +263,6 @@ public class CustomerImp implements CustomerInterface {
         return null;
     }
 
-
     /**
      * Finds a customer by their email address.
      * This method queries the database for a customer with the specified email and
@@ -251,14 +272,13 @@ public class CustomerImp implements CustomerInterface {
      * @return the Customer object or null if not found
      */
     public Customer findEmail(String Email) {
-       
+
         List<Optional<Customer>> results = jdbcTemplate.query(
                 "SELECT * FROM customer WHERE email = ?",
                 ps -> {
                     ps.setString(1, Email);
                 },
                 (rs, rowNum) -> createCustomer(rs));
-
 
         if (!results.isEmpty() && results.get(0).isPresent()) {
             return results.get(0).get();
@@ -294,19 +314,39 @@ public class CustomerImp implements CustomerInterface {
 
     @Override
     public boolean updatePassword(String password, String Id) {
-      
+
         int result = jdbcTemplate.update(
-        "UPDATE CUSTOMER SET password = ? WHERE id = ?",
-        ps -> {
-            ps.setString(1,  encoder.hashPassword(password));
-            ps.setString(2, Id);
-        });
-        
-        if(result > 0){
+                "UPDATE CUSTOMER SET password = ? WHERE id = ?",
+                ps -> {
+                    ps.setString(1, encoder.hashPassword(password));
+                    ps.setString(2, Id);
+                });
+
+        if (result > 0) {
             return true;
         }
 
         return false;
+    }
+
+    @Override
+    public byte[] getProfilePictureByCustomerId(String id) {
+        if (id.isEmpty()) {
+            throw new IllegalArgumentException("Id not given");
+        }
+
+        List<Integer> oids = jdbcTemplate.query(
+                "SELECT profile_picture_blob FROM Customer WHERE ID = ?",
+                ps -> {
+                    ps.setString(1, id);
+                },
+                (rs, rowNum) -> rs.getInt("profile_picture_blob"));
+        if (oids.isEmpty()) {
+            return null;
+        }
+
+        Integer oid = oids.get(0);
+        return worker.readLargeObject(oid);
     }
 
 }

@@ -184,7 +184,7 @@ body {
     transform: scale(1.05);
 }
 
-.animation-container {
+.animation-container-doener {
     position: relative;
     width: 100%;
     display: flex;

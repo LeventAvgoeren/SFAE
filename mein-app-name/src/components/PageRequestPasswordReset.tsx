@@ -18,11 +18,7 @@ export function PageRequestPasswordReset(){
        await requestPassword(getEmail);
 
     }
-    if (PageRequestPasswordReset!) {
-        return (
-            <LoadingIndicator></LoadingIndicator>
-        )
-    }
+    
     return (
         <div className="background-image">
         <div className="login-container">a

@@ -39,7 +39,6 @@ const formatTimestamp = (timestamp: number) => {
 
 const ChatComponent: React.FC = () => {
     const [messages, setMessages] = useState<Message[]>([]);
-    const [permessages, setPerMessages] = useState<Message[]>([]);
     const [name, setName] = useState('');
     const [message, setMessage] = useState('');
     const [contract, setContract] = useState<ContractResource | undefined>();
@@ -50,28 +49,14 @@ const ChatComponent: React.FC = () => {
     const clientRef = useRef<Client | null>(null);
     const [load, setLoad] = useState(false);
     const [maxPayment, setMaxPayment] = useState(0)
-    const [isFetching, setIsFetching] = useState(true);
     const fetchMessage = async () => {
                 const messagesFromServer = await fetchMessagesForUser(userId, receiver!);
                 setMessages(messagesFromServer);
             }
-
     const fetchLastMessage = async () => {
                 const messagesFromServer = await fetchMessagesForUser(userId, receiver!);
-                setMessages((prevMessages) => [...prevMessages, messagesFromServer[messagesFromServer.length - 1]])
+                setMessages((prevMessages) => [...prevMessages, messagesFromServer[messagesFromServer.length - 1]]);
             }
-
-         
-            useEffect(() => {
-                const interval = setInterval(() => {
-                    fetchMessage();
-                }, 5000); // Polling every 5 seconds
-        
-                return () => clearInterval(interval); // Cleanup interval on component unmount
-            }, [receiver]);
-         
-
-
 
     useEffect(() => {
       const fetchCustomer = async () => {
@@ -110,7 +95,7 @@ const ChatComponent: React.FC = () => {
       };
 
       fetchCustomer();
-  }, [userId]); 
+  }, []); 
   
 
         //Beim ersten mal laden
@@ -122,6 +107,7 @@ const ChatComponent: React.FC = () => {
         useEffect( () => {
             fetchLastMessage()
             setLoad(false)
+            console.log("BIN HIER")
          }, [load])
 
 
@@ -194,12 +180,12 @@ const ChatComponent: React.FC = () => {
                         </MDBCardHeader>
                         <MDBCardBody className="CBody" style={{ overflowY: 'auto', maxHeight: '60vh' }}>
                             <div>
-                                {messages.length === 0 && !isFetching && (
-                                    <p>No messages yet. Start the conversation!</p>
+                                {messages.length === 0  && (
+                                    <p>Noch keine Nachrichten! Schreib doch was ;)</p>
                                 )}
-                                {messages.map((msg, index) => (
+                                {messages.length >= 1 && messages.map((msg, index) => (
                                     <div key={index}>
-                                        {msg.sender === userId ? (
+                                        {msg ? (msg.sender === userId ? (
                                             <div className="message-container">
                                                 <div className="Right">
                                                     {msg.content}
@@ -215,7 +201,7 @@ const ChatComponent: React.FC = () => {
                                                     {formatTimestamp(msg.timestamp!)}
                                                 </div>
                                             </div>
-                                        )}
+                                        )):(<></>)}
                                     </div>
                                 ))}
                                    

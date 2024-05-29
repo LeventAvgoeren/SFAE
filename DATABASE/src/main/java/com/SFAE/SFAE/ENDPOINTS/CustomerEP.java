@@ -146,5 +146,5 @@ public interface CustomerEP {
     ResponseEntity<?> resetPassword(@RequestBody PasswordResetRequest data);
 
     @GetMapping("/{id}/image")
-    ResponseEntity<?> getWorkerImageAsBase64(@PathVariable("id") String id);
+    ResponseEntity<?> getCustomerImageAsBase64(@PathVariable("id") String id);
 }

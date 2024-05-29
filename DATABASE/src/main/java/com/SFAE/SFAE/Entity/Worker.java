@@ -149,7 +149,7 @@ public class Worker {
   
   
   public Worker(String name, String location, String password, Status status, StatusOrder statusOrder,
-      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,double latitude,double longitude) {
+      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,double latitude,double longitude,String slogan) {
     this.name = name;
     this.location = location;
     this.password = password;
@@ -163,6 +163,7 @@ public class Worker {
     this.email = email;
     this.latitude=latitude;
     this.longitude=longitude;
+    this.slogan=slogan;
   }
 
 }

@@ -209,7 +209,7 @@ public class WorkerImpl implements WorkerInterface {
     }
     
     int rowsAffected = jdbcTemplate.update(
-        "UPDATE WORKER SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? , latitude = ? , longitude =?, profile_picture_blob = ?,slogan=? WHERE id = ?",
+        "UPDATE WORKER SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? , latitude = ? , longitude =?, profile_picture_blob = ?, slogan=? WHERE id = ?",
         ps -> {
           ps.setString(1, data.getName());
           ps.setString(2, data.getLocation());
@@ -225,7 +225,7 @@ public class WorkerImpl implements WorkerInterface {
           ps.setDouble(12, data.getLatitude());
           ps.setDouble(13, data.getLongitude());
           ps.setLong(14, imageOid[0]);
-          ps.setString(15, data.getSlogan());
+          ps.setString(15,data.getSlogan() );
           ps.setString(16, data.getId());
           
         });
@@ -235,7 +235,7 @@ public class WorkerImpl implements WorkerInterface {
       return new Worker(data.getName(), data.getLocation(), data.getPassword(), Status.valueOf(data.getStatus()),
           StatusOrder.valueOf(data.getStatusOrder()), data.getRange(), JobList.valueOf(data.getJobType()),
           data.getMinPayment(), data.getRating(), data.getVerification(), data.getEmail(), data.getLatitude(),
-          data.getLongitude());
+          data.getLongitude(),data.getSlogan());
     } else {
       return null;
     }

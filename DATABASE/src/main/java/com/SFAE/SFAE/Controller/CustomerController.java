@@ -451,7 +451,7 @@ class CustomerController implements CustomerEP {
     }
 
     @Override
-    public ResponseEntity<?> getWorkerImageAsBase64(String id) {
+    public ResponseEntity<?> getCustomerImageAsBase64(String id) {
          if (id.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
          }

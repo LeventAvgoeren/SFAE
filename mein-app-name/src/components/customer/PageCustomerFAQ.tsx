@@ -80,13 +80,13 @@ export function PageCustomerFAQ() {
             <div className="col-md-6 offset-md-3">
               <div className="faq" id="accordion">
                 {faqs.map((faq) => (
-                  <div className="card" key={faq.id}>
-                    <div className="card-header" id={`faqHeading-${faq.id}`}>
+                  <div className="card" key={faq.id} style={{textAlign:"center"}}>
+                    <div className="card-header" style={{textAlign:"center"}} id={`faqHeading-${faq.id}`}>
                       <div className="mb-0">
                         <h5 className="faq-title" onClick={() => toggle(faq.id)}
                             data-toggle="collapse" data-target={`#faqCollapse-${faq.id}`}
                             aria-expanded={activeIndex === faq.id} aria-controls={`faqCollapse-${faq.id}`}>
-                          <span className="badge">{faq.id}</span> {faq.question}
+                          <span className="badge"style={{textAlign:"center"}}>{faq.id}</span> {faq.question}
                         </h5>
                       </div>
                     </div>

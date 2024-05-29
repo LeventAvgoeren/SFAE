@@ -1,41 +1,56 @@
+@keyframes animated-background {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
+}
+
+.animated-background {
+  background: linear-gradient(-45deg, #162c53, #199c7e, #004a4d, #132547);
+  background-size: 400% 400%;
+  animation: animated-background 15s ease infinite;
+  position: sticky;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
 .background-image {
-  background-image: url('/public/b1.jpg'); /* Überprüfen Sie den korrekten Pfad */
   background-size: cover;
   background-position: center;
   height: 100vh;
 }
 
+
 .login-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   background: rgba(0, 0, 0, 0.7); /* Dunkelgrau, semi-transparent */
-  padding: 40px 50px;
   border-radius: 14px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: auto;
-  max-width: 680px;
-  height: auto;
-  text-align: center;
-  color: white; /* Setzt die Textfarbe allgemein auf Weiß */
+  max-width: 600px;
+  color: white; /* Textfarbe auf Weiß setzen */
+  margin: auto; /* Zentriert das Element innerhalb des Containers */
 }
 
 .inputField input, .inputField input::placeholder {
-  color: white ; /* Erzwingt die Textfarbe Weiß für Text und Platzhalter */
-  background-color: rgba(255, 255, 255, 0.1) ; /* Leicht transparenter weißer Hintergrund */
-  border: 1px solid #ccc; /* Optional: Grenze */
+  color: white ; 
+  background-color: rgba(255, 255, 255, 0.1) ; 
+  border: 1px solid #ccc; 
 }
 
 .form-check-input {
-  accent-color: white; /* Farbe der Radiobuttons für die Nutzertyp-Auswahl */
+  accent-color: white; 
 }
 
 .form-check-label {
-  color: white; /* Farbe der Labels neben den Radiobuttons */
+  color: white; 
 }
 
 .alert {
-  color: red; /* Farbe für Fehlermeldungen, wenn gewünscht */
+  color: red; 
 }
-

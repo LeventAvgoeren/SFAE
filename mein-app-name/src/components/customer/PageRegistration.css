@@ -1,26 +1,39 @@
+@keyframes animated-background {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
+}
+
+.animated-background {
+  background: linear-gradient(-45deg, #162c53, #199c7e, #004a4d, #132547);
+  background-size: 400% 400%;
+  animation: animated-background 15s ease infinite;
+  position: sticky;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
 .background-image {
-  background-size: cover; /* Deckt den gesamten Bereich ab */
-  background-position: center; /* Zentriert das Bild */
-  background-attachment: fixed; /* Fixiert das Bild beim Scrollen */
-  position: relative; /* Relative Positionierung, falls andere Stilelemente darauf aufbauen */
+  background-size: cover;
+  background-position: center;
   height: 100vh;
 }
   
-  .registration-container2 {
-    position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.7); /* Dunkelgrau, semi-transparent */
-  padding: 40px 50px;
+  .customer-registration-container {
+    background: rgba(0, 0, 0, 0.7); /* Dunkelgrau, semi-transparent */
   border-radius: 14px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: auto;
   max-width: 600px;
-  max-height: 590px;
-  height: auto;
-  text-align: center;
-  color: white; /* Setzt die Textfarbe allgemein auf Weiß */
+  color: white; /* Textfarbe auf Weiß setzen */
+  margin: auto; /* Zentriert das Element innerhalb des Containers */
   }
   
   .inputField {

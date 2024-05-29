@@ -67,58 +67,11 @@
     border-top: 1px solid #F3F8FF;
 }
 
-.my-6 {
-    margin-top: 3rem;
-    margin-bottom: 3rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 16px;
-    padding: 40px;
-    max-width: 1024px;
-    margin: auto;
-    background-color: white;
-    box-shadow: 0 2px 10px -3px rgba(6, 81, 237, 0.3);
-    border-radius: 10px;
-    font-family: sans-serif;
-    color: #333;
-}
 
-.my-6 h1, .my-6 h2 {
-    font-weight: bold;
-    color: #333;
-}
-
-.my-6 p {
-    color: #666;
-    font-size: 0.875rem;
-}
-
-.my-6 form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.my-6 input, .my-6 textarea {
-    padding: 10px 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    outline-color: #007bff;
-}
-
-.my-6 button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
-
-.my-6 button:hover {
-    background-color: #0056b3;
-}
 
 .faq-section{
     background-color: #001324;
+}
+.faq-title{
+    text-align: center;
 }

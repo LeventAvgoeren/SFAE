@@ -9,3 +9,11 @@
     background-size: cover; /* Optional: Passt das Hintergrundbild an */
     background-position: center; /* Optional: Zentriert das Hintergrundbild */
 }
+
+.animation-roboter {
+    position: center;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

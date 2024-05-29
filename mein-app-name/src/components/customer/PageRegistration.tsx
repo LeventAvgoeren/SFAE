@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MDBBtn, MDBContainer, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol } from 'mdb-react-ui-kit';
+import { MDBBtn, MDBContainer, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol, MDBCard, MDBCardBody } from 'mdb-react-ui-kit';
 import { Link, useNavigate } from 'react-router-dom';
 import './PageRegistration.css';
 import { registrationCustomer } from '../../backend/api';
@@ -69,12 +69,12 @@ export default function PageRegistration() {
     
 
     return (
-        <div className="background-image" >
-            <div className="registration-container2">
-                <MDBContainer className="p-3 my-5 d-flex flex-column align-items-center justify-content-center">
-                    <div className="text-center mb-4">
-                        <h1>Registrieren als Customer</h1>
-                    </div>
+        <div className="animated-background">
+                <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundSize: 'cover', height: '100vh' }}>
+                <MDBCard className='customer-registration-container m-5'>
+                <MDBCardBody className='px-5'>
+                <h2 className="text-uppercase text-center mb-5">Registrieren als Customer</h2>
+                    
                     <form onSubmit={handleRegistration} style={{ width: '100%' }}>
                         <MDBInput
                             wrapperClass='mb-3 inputField'
@@ -140,8 +140,9 @@ export default function PageRegistration() {
                             </MDBCol>
                         </MDBRow>
                     </form>
+                    </MDBCardBody>
+                    </MDBCard>
                 </MDBContainer>
-            </div>
         </div>
     );
 }

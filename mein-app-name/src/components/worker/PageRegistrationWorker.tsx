@@ -110,8 +110,9 @@ export default function PageRegistrationWorker() {
     
 
     return (
-        <div className="background-image" style={{position: "relative"}}>
-            <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundImage: `url('/background.jpg')`, backgroundSize: 'cover' }}>
+        <>
+        <div className="animated-background">
+            <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundSize: 'cover', height: '100vh' }}>
                 <MDBCard className='worker-registration-container m-5'>
                     <MDBCardBody className='px-5'>
                         <h2 className="text-uppercase text-center mb-5">Registrieren als Worker</h2>
@@ -161,6 +162,8 @@ export default function PageRegistrationWorker() {
                     </MDBCardBody>
                 </MDBCard>
             </MDBContainer>
-        </div>
+            </div>
+
+        </>
     );
 }

@@ -10,8 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -21,11 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import com.SFAE.SFAE.DTO.WorkerDTO;
-import com.SFAE.SFAE.ENTITY.Worker;
-import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.io.IOException;
@@ -34,7 +30,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Base64;
-import jakarta.transaction.Transactional;
+
 
 
 
@@ -52,12 +48,6 @@ public class WorkerTests{
 
     @Autowired
     private PlatformTransactionManager transactionManager;
-
-     @Autowired
-    private TransactionTemplate transactionTemplate;
-
-    @Autowired
-    private WorkerInterface dao;
 
     @Test
     public void testCreateWorker() throws Exception {
@@ -238,7 +228,7 @@ public class WorkerTests{
         worker.setProfileBase64(base64Image);
         worker.setSlogan("Lebens lang grün weissdads");
 
-        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         ObjectMapper objectMapper = new ObjectMapper();
         String workerJson = objectMapper.writeValueAsString(worker);

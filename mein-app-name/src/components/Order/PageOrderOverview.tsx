@@ -94,8 +94,9 @@ export function PageOrderOverview() {
   const handleConfirm = async () => {
     if (conData && conData.worker && conData.worker.id) {
       try {
+        await updateWorkerOrderStatus(conData.worker.id, "UNDEFINED")
         await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
-        await updateContractStatus(contractId!, 'COMPLETED');
+        await updateContractStatus(contractId!, 'FINISHED');
         console.log('Worker status updated to AVAILABLE and contract status updated to COMPLETED');
       } catch (error) {
         console.error('Error updating status:', error);

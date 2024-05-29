@@ -48,16 +48,18 @@ const ChatComponent: React.FC = () => {
     const userId = params.userId!;
     const clientRef = useRef<Client | null>(null);
     const [load, setLoad] = useState(false);
-    const [active, setActive] = useState(false);
+    const [active, setActive] = useState(true);
     const [maxPayment, setMaxPayment] = useState(0)
     const fetchMessage = async () => {
                 const messagesFromServer = await fetchMessagesForUser(userId, receiver!);
                 setMessages(messagesFromServer);
             }
-    const fetchLastMessage = async () => {
+        const fetchLastMessage = async () => {
                 const messagesFromServer = await fetchMessagesForUser(userId, receiver!);
                 setMessages((prevMessages) => [...prevMessages, messagesFromServer[messagesFromServer.length - 1]]);
             }
+
+
 
     useEffect(() => {
       const fetchCustomer = async () => {
@@ -69,7 +71,7 @@ const ChatComponent: React.FC = () => {
                      
                     if(contract){
                         const status = contract[contract.length - 1].statusOrder;
-                        if (status === "PAID" || status === "CANCELLED" || status === "FINISHED" || status === "UNDEFINED") {
+                        if (status !== "ACCEPTED") {
                             return setActive(false);
                         }
                         setActive(true)
@@ -87,7 +89,7 @@ const ChatComponent: React.FC = () => {
                   const contract = await getContractByWorkerId(userId);  
                   if(contract){
                     const status = contract[contract.length - 1].statusOrder;
-                    if (status === "PAID" || status === "CANCELLED" || status === "FINISHED" || status === "UNDEFINED") {
+                    if (status !== "ACCEPTED") {
                         return setActive(false);
                     }
                     const img = await getCustomerImage(contract[contract.length - 1].customer!.id!);
@@ -105,7 +107,9 @@ const ChatComponent: React.FC = () => {
       };
 
       fetchCustomer();
-  }, []); 
+  }, []);  
+
+  
   
 
         //Beim ersten mal laden
@@ -115,9 +119,14 @@ const ChatComponent: React.FC = () => {
 
         //Wenn eine neue Nachricht gesendet wird
         useEffect( () => {
-            fetchLastMessage()
-            setLoad(false)
-            console.log("BIN HIER")
+            if (load) {
+                const timeoutId = setTimeout(() => {
+                    fetchLastMessage();
+                    setLoad(false);
+                }, 500);
+    
+                return () => clearTimeout(timeoutId); // Cleanup timeout on component unmount
+            }
          }, [load])
 
 
@@ -186,7 +195,7 @@ const ChatComponent: React.FC = () => {
                             <p></p>
                             <img src={image} alt="Profilbild" style={{ width: '150px', height: '150px', borderRadius: '50%' }} />
                             <p></p>
-                            <h3>{name}</h3>
+                            <h3>{userId.startsWith("W") ? contract.customer?.name : contract.worker?.name}</h3>
                             {userId.startsWith("W") &&  <h6>Angabe des Customer: {maxPayment}€</h6>}
                             {userId.startsWith("C") &&  <h6>Angabe des Workers: {maxPayment}€</h6>}
                         </MDBCardHeader>

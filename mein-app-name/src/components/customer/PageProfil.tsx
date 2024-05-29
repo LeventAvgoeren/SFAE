@@ -2,20 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { CustomerResource } from '../../Resources';
-import { deleteCookie, deleteCustomer, getCustomerImage, getCustomerbyID, updateCustomer } from '../../backend/api';
+import { deleteCustomer, getCustomerImage, getCustomerbyID, updateCustomer } from '../../backend/api';
 import "./PageProfil.css";
 import { MDBTypography } from 'mdb-react-ui-kit';
 import { LinkContainer } from 'react-router-bootstrap';
 import NavbarComponent from '../navbar/NavbarComponent';
-import axios from 'axios';
 
 export function PageProfil() {
-    const params = useParams();
+    const params = useParams<{ customerId: string }>();
     const customerId = params.customerId!;
     const navigate = useNavigate();
 
     const [customer, setCustomer] = useState<CustomerResource | null>(null);
     const [loading, setLoading] = useState(true);
+    const [imageLoading, setImageLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
@@ -54,8 +54,7 @@ export function PageProfil() {
                 setEmail(customerData.email);
                 setCustomer(customerData);
                 fetchCustomerImage(id);
-            }
-            if (!customerData) {
+            } else {
                 setCustomer(null);
                 throw new Error("Keine Daten für diesen Kunden gefunden");
             }
@@ -71,8 +70,10 @@ export function PageProfil() {
         try {
             const base64Image = await getCustomerImage(id);
             setProfileImage(`data:image/jpeg;base64,${base64Image}`);
+            setImageLoading(false); // Bild ist geladen
         } catch (error) {
             console.error("Fehler beim Laden des Profilbildes:", error);
+            setImageLoading(false); // Fehler beim Laden des Bildes
         }
     };
 
@@ -87,7 +88,7 @@ export function PageProfil() {
             email: email,
             password: password,
             role: "CUSTOMER",
-            profileBase64: profileImage // Ensuring profileBase64 is included
+            profileBase64: profileImage
         };
 
         try {
@@ -121,13 +122,14 @@ export function PageProfil() {
             reader.onloadend = () => {
                 const base64String = reader.result as string;
                 setPreviewImage(base64String);
-                setProfileImage(base64String); // Speichert Base64-String im State
+                setProfileImage(base64String);
+                setImageLoading(false); // Bild ist geladen
             };
             reader.readAsDataURL(file);
         }
     };
 
-    if (loading) return <p>Lädt...</p>;
+    if (loading) return <div className="loading-screen"><p>Lädt...</p></div>;
     if (error) return <p>Fehler: {error}</p>;
 
     return (
@@ -140,12 +142,18 @@ export function PageProfil() {
                         <div className="row">
                             <div className="container col-lg-4 pb-5">
                                 <div className="author-card-profile">
-                                    {previewImage || profileImage ? (
-                                        <img src={previewImage || profileImage} alt="Profilbild" style={{ width: '150px', height: '150px', borderRadius: '50%' }} />
-                                    ) : (
-                                        <div className="placeholder bg-secondary d-flex align-items-center justify-content-center" style={{ width: '150px', height: '150px', borderRadius: '50%', color: 'white' }}>
-                                            <span>Kein Bild</span>
+                                    {imageLoading ? (
+                                        <div className="loading-screen">
+                                            <p>Lädt...</p>
                                         </div>
+                                    ) : (
+                                        (previewImage || profileImage) ? (
+                                            <img src={previewImage || profileImage} alt="Profilbild" style={{ width: '150px', height: '150px', borderRadius: '50%' }} />
+                                        ) : (
+                                            <div className="placeholder bg-secondary d-flex align-items-center justify-content-center" style={{ width: '150px', height: '150px', borderRadius: '50%', color: 'white' }}>
+                                                <span>Kein Bild</span>
+                                            </div>
+                                        )
                                     )}
                                     <div className="author-card-details">
                                         <h5 className="author-card-name">{name}</h5>

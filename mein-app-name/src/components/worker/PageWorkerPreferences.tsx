@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import { JobType, WorkerResource } from "../../Resources";
 import { deleteWorker, getWorkerbyID, updateWorker } from "../../backend/api";
 import { useParams } from "react-router-dom";
-import { LinkContainer } from "react-router-bootstrap";
 import { Button, Navbar } from "react-bootstrap";
 import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
-import "./PageWorkerProfile.css"
+import "./PageWorkerPreferences.css"
 import NavbarWComponent from "./NavbarWComponent";
 
 
@@ -139,7 +138,7 @@ return (
   <>
     <NavbarWComponent />
     <div className="background-image">
-      <div className="custom-container">
+      <div className="custom-container20">
         <MDBContainer>
           <div className="text-center mb-4">
             <h1>Präferenzen</h1>

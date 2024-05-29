@@ -1,8 +1,8 @@
 import React from 'react';
 import NavbarComponent from './navbar/NavbarComponent';
-import "./DataPrivacyPage.css"
+import "./TermsAndConditions.css"
 
-export function DataPrivacyPage() {
+export function TermsAndConditions() {
   return (
     <>
     <NavbarComponent />
@@ -84,4 +84,4 @@ export function DataPrivacyPage() {
   );
 }
 
-export default DataPrivacyPage;
+export default TermsAndConditions;

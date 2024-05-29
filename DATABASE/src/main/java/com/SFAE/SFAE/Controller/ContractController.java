@@ -137,6 +137,7 @@ public class ContractController implements ContractEP {
    *         if the contract does not exist, or HttpStatus.INTERNAL_SERVER_ERROR
    *         in case of
    *         database access issues.
+   * @throws MessagingException 
    */
   @Override
   public ResponseEntity<?> deleteContactById(long id) {
@@ -144,15 +145,30 @@ public class ContractController implements ContractEP {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
     try {
+      Contract contract=dao.getContract(id);
+      Worker found=contract.getWorker();
       boolean result = dao.deleteContract(id);
+      
       if (result) {
-        return ResponseEntity.status(HttpStatus.OK).build();
+
+        mail.sendHtmlMessage(
+          found.getEmail(), 
+          "Jobangebot Storniert", 
+          "Wir müssen Ihnen leider mitteilen, dass Ihr Vertrag storniert wurde. "
+          + "Falls es zu Problemen kommt, schreiben Sie bitte unserem Support eine E-Mail an leventavgoren@gmail.com."
+      );       
+       return ResponseEntity.status(HttpStatus.OK).build();
+
+
       } else {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
       }
 
     } catch (DataAccessException dax) {
       logger.error("Database access error: " + dax.getMessage(), dax);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    } catch (MessagingException e) {
+      e.printStackTrace();
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 

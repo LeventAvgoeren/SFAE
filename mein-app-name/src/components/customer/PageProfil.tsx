@@ -7,7 +7,7 @@ import "./PageProfil.css";
 import { MDBTypography } from 'mdb-react-ui-kit';
 import { LinkContainer } from 'react-router-bootstrap';
 import NavbarComponent from '../navbar/NavbarComponent';
-import LoadingIndicator from '../LoadingIndicator';
+/*import LoadingIndicator from '../LoadingIndicator'; */
 
 export function PageProfil() {
     const params = useParams<{ customerId: string }>();
@@ -15,7 +15,7 @@ export function PageProfil() {
     const navigate = useNavigate();
 
     const [customer, setCustomer] = useState<CustomerResource | null>(null);
-    const [loading, setLoading] = useState(true);
+    /*const [loading, setLoading] = useState(true); */
     const [imageLoading, setImageLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [name, setName] = useState('');
@@ -44,7 +44,7 @@ export function PageProfil() {
     const fetchCustomer = async () => {
         if (!customerId) {
             setError("Keine Customer ID in der URL gefunden");
-            setLoading(false);
+            /* setLoading(false); */
             return;
         }
         try {
@@ -60,11 +60,11 @@ export function PageProfil() {
                 setCustomer(null);
                 throw new Error("Keine Daten für diesen Kunden gefunden");
             }
-            setLoading(false);
+            /*   setLoading(false); */
         } catch (error) {
             console.error("Fehler beim Laden der Kundendaten:", error);
             setError("Fehler beim Laden der Daten");
-            setLoading(false);
+            /* setLoading(false); */
         }
     };
 
@@ -131,14 +131,15 @@ export function PageProfil() {
         }
     };
 
-    if (loading) return <div className="loading-screen"><p>Lädt...</p></div>;
+    /* if (loading) return <div className="loading-screen"><p>Lädt...</p></div>; */
     if (error) return <p>Fehler: {error}</p>;
 
     return (
-        isLoading ? <LoadingIndicator /> :
+        /*  isLoading ? <LoadingIndicator /> : */
         <>
             <NavbarComponent />
             <div className='Backg'>
+
                 <div className="custom-container2">
                     <h1>PROFILE</h1>
                     <div className="mt-5 Back">
@@ -162,43 +163,46 @@ export function PageProfil() {
                                         <h5 className="author-card-name">{name}</h5>
                                     </div>
                                 </div>
-                                <div className="mb-3">
+                                {/* <div className="mb-3">
+                    <label htmlFor="profileImage" className="form-label">Profilbild hochladen</label>
+                    <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
+                </div> */}
+
+                                <div className="profile-upload-container">
                                     <label htmlFor="profileImage" className="form-label">Profilbild hochladen</label>
                                     <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
                                 </div>
+
                             </div>
 
                             <div className="container col-lg-8 pb-5">
                                 <form className="row">
-                                    <div className="col-md-6">
+                                    <div className="col-12">
                                         <div className="form-group">
                                             <label htmlFor="account-fn">First Name</label>
-                                            <input className="form-control" type="text" id="account-fn" value={name} onChange={(e) => setName(e.target.value)} required />
+                                            <input className="form-control" type="text" placeholder='firstname' id="account-fn" value={name} onChange={(e) => setName(e.target.value)} required />
                                         </div>
                                     </div>
-                                    <div className="col-md-6">
-                                        <div className="form-group">
+                                    <div className="col-12">
+                                        <div className="form-group Margins" >
                                             <label htmlFor="account-email">E-mail Address</label>
                                             <input className="form-control" type="email" id="account-email" value={email} onChange={(e) => setEmail(e.target.value)} disabled />
                                         </div>
                                     </div>
-
-                                    <div className="col-md-6"></div>
-
-                                    <div className="col-md-6">
-                                        <div className="form-group">
+                                    <div className="col-12">
+                                        <div className="form-group Margins">
                                             <label htmlFor="account-pass">New Password</label>
                                             <input className="form-control"
-                                                type="password"
+                                                type="password" placeholder='password'
                                                 id="account-pass"
                                                 onChange={handleNewPasswordChange} />
                                         </div>
                                     </div>
-                                    <div className="col-md-6">
-                                        <div className="form-group">
+                                    <div className="col-12">
+                                        <div className="form-group Margins">
                                             <label htmlFor="account-confirm-pass">Confirm Password</label>
                                             <input className="form-control"
-                                                type="password"
+                                                type="password" placeholder='confirm password'
                                                 id="account-confirm-pass"
                                                 value={confirmPassword}
                                             />
@@ -243,6 +247,8 @@ export function PageProfil() {
                         </div>
                     </div>
                 </div>
+
+
             </div>
         </>
     );

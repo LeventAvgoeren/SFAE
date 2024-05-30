@@ -6,13 +6,13 @@ import { Button, Modal } from "react-bootstrap"
 import { LinkContainer } from "react-router-bootstrap"
 import { LoginInfo } from "../LoginManager"
 import NavbarComponent from "../navbar/NavbarComponent"
-import LoadingIndicator from '../LoadingIndicator';
+/*import LoadingIndicator from '../LoadingIndicator'; */
 
 export function PageCustomerProfil() {
 
   const params = useParams()
   let customerId = params.customerId!
-  const [isLoading, setIsLoading] = useState(true);
+  /*const [isLoading, setIsLoading] = useState(true); */
   const [customer, setCustomer] = useState<CustomerResource>();
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -73,11 +73,11 @@ export function PageCustomerProfil() {
       }
     }
     getCustomer();
-    setIsLoading(false);
+    /*setIsLoading(false); */
   }, [])
 
   return (
-    isLoading ? <LoadingIndicator /> :
+    /* isLoading ? <LoadingIndicator /> : */
       <>
         <div className="background-image">
           <NavbarComponent />

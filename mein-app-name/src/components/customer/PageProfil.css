@@ -75,7 +75,7 @@
   border: 1px solid rgba(255, 255, 255, 0.3); /* Leicht sichtbarer Rand für den Button */
 }
 
-/* Fügen Sie Hover- und Fokuseffekte hinzu, um die Interaktivität zu verbessern */
+
 .profile-upload-container .form-control[type="file"]:hover::file-selector-button,
 .profile-upload-container .form-control[type="file"]:focus::file-selector-button {
   border-color: rgba(255, 255, 255, 0.5); /* Hellerer Rand bei Hover/Fokus */

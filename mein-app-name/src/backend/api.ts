@@ -295,13 +295,11 @@ export async function createContract(contract: ContractResource): Promise<Contra
       credentials: "include" as RequestCredentials,
     },
     body: JSON.stringify(contract)
-
   });
   if (!response.ok) {
     throw new Error('levent mag sucki .');
   }
   return response.json();
-
 }
 
 

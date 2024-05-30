@@ -141,8 +141,8 @@ export function PageOrderOverview() {
 
   return (
     <>
+     <NavbarComponent />
       <div className="Backg">
-        <NavbarComponent />
         {loading || !workerAssigned ? (
           <div className="loading-container">
             <Lottie options={defaultOptions} height={400} width={400} />

@@ -20,13 +20,10 @@ export function PageRequestPasswordReset(){
     }
     
     return (
-        <div className="background-image">
-        <div className="login-container">
-        <MDBContainer className="p-3 my-5 d-flex flex-column align-items-center justify-content-center w-50">
-                <MDBRow className="justify-content-center">
-
-                </MDBRow>
-
+        <>
+        <div className="animated-background">
+        <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundSize: 'cover', height: '100vh' }}>
+        <MDBCard className='worker-registration-container m-5'>
                 <MDBCardBody>
                 <h2 className="text-uppercase text-center mb-5" style={{color:"white"}}>Passwort zurücksetzen</h2>
                
@@ -37,7 +34,6 @@ export function PageRequestPasswordReset(){
                         id='email' 
                         type='string'
                         required
-                        style={{ width: '280px' }}
                         onChange ={handleNewPasswordChange}
                         />
                         <MDBRow>
@@ -52,9 +48,10 @@ export function PageRequestPasswordReset(){
                         </MDBRow>
                     </form>
                 </MDBCardBody>
+                </MDBCard>
         </MDBContainer>
         </div>
-        </div>
+        </>
 
     );
 }

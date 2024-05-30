@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import für Navigation
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './DesignVorlage.css';
@@ -6,18 +6,11 @@ import './PageIndexAdmin.css';
 import { Link } from 'react-router-dom';
 import { Col, Container, Nav, NavDropdown, Navbar, Row } from 'react-bootstrap';
 import { LoginInfo } from '../LoginManager';
-import LoadingIndicator from '../LoadingIndicator';
 
 export function PageIndexAdmin() {
     const [loginInfo, setLoginInfo] = useState<LoginInfo | false | undefined>(undefined);
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        setIsLoading(false);
-    }, []);
-
     return (
-        isLoading ? <LoadingIndicator /> :
+
         <>
             <Navbar      variant="dark" expand="lg">
                 <Container>

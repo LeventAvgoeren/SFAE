@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './PageWorkerFAQ.css';
 import NavbarWComponent from './NavbarWComponent';
-import LoadingIndicator from '../LoadingIndicator';
 
 type FAQEntry = {
   id: number;
@@ -64,29 +63,19 @@ const faqs: FAQEntry[] = [
   
 export function PageWorkerFAQ() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
+
   const toggle = (index: number) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
   
-  useEffect(() => {
-    setLoading(false);
-  }, []);
 
   return (
-    loading ? <LoadingIndicator /> :
     <>
     <NavbarWComponent />
-      <div className="background-image">
       <section className="faq-section">
-        <div className="container">
-          <div className="row">
             <div className="col-md-6 offset-md-3">
-              <div className="faq-title text-center pb-3">
-                <h2 style={{color:'black'}}>FAQ</h2>
-              </div>
             </div>
-            <div className="col-md-6 offset-md-3">
+            <h2 style={{color:'black'}}>FAQ</h2>
               <div className="faq" id="accordion">
                 {faqs.map((faq) => (
                   <div className="card" key={faq.id}>
@@ -107,9 +96,6 @@ export function PageWorkerFAQ() {
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-        </div>
       </section>
       {/*<div className="my-6">
         <div className="grid sm:grid-cols-2 items-center gap-16 p-8 mx-auto max-w-4xl bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md text-[#333] font-[sans-serif]">
@@ -144,7 +130,6 @@ export function PageWorkerFAQ() {
           </form>
         </div>
               </div>*/}
-      </div>
     </>
   );
 }

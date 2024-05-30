@@ -4,19 +4,14 @@ import { MDBContainer, MDBCard, MDBCardBody, MDBTypography } from 'mdb-react-ui-
 import './PageAGB.css';
 import NavbarWComponent from './worker/NavbarWComponent';
 import { LoginContext, LoginInfo } from './LoginManager';
-import LoadingIndicator from './LoadingIndicator';
+
 
 
 export function ImprintPage() {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
-
   return (
-    isLoading ? <LoadingIndicator /> :
-      <>
+    <>
+
+
         <div className='my-section15'>
           <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ minHeight: '100vh' }}>
             <MDBCard className='m-5'>
@@ -73,7 +68,7 @@ export function ImprintPage() {
             </MDBCard>
           </MDBContainer>
         </div>
-      </>
+    </>
   );
 };
 

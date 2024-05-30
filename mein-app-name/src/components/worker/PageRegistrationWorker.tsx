@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import './DesignVorlage.css'; // Eigene Stilvorlagen
@@ -7,13 +7,12 @@ import { Link, useNavigate } from 'react-router-dom'; // React Router für Link-
 import './PageRegistrationWorker.css'
 import validator from 'validator';
 import axios from 'axios';
-import LoadingIndicator from '../LoadingIndicator';
 
 interface Position {
     latitude: number;
     longitude: number;
-}
-
+  }
+  
 export default function PageRegistrationWorker() {
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
@@ -23,8 +22,9 @@ export default function PageRegistrationWorker() {
     const [salary, setSalary] = useState(1);
     const [userLocation, setUserLocation] = useState<Position | null>(null);
     const [addressValid, setAddressValid] = useState(true);
-    const [isLoading, setIsLoading] = useState(true);
-    const navigate = useNavigate()
+    const [slogan, setSlogan] = useState('');
+
+    const navigate=useNavigate()
 
     const handleAddressValidation = async (inputAddress: any) => {
         const apiKey = 'a295d6f75ae64ed5b8c6b3568b58bbf6';  // Ersetzen Sie dies mit Ihrem tatsächlichen API-Key
@@ -51,7 +51,7 @@ export default function PageRegistrationWorker() {
     };
 
     const jobTypes = [
-        "Hausmeister", "Haushälter", "Gärtner", "Kindermädchen", "Koch",
+        "Hausmeister", "Haushälter", "Gärtner", "Kindermädchen", "Koch", 
         "Putzkraft", "Handwerker", "Elektriker", "Installateur", "Klempner",
         "Maler", "Schädlingsbekämpfer", "Tierpfleger", "Hausbetreuer", "Gassigeher",
         "Wäscher", "Einkäufer", "Caterer", "Personal Trainer", "Ernährungsberater",
@@ -65,42 +65,42 @@ export default function PageRegistrationWorker() {
     const fetchCoordinates = async (address: string) => {
         const url = `https://nominatim.openstreetmap.org/search?format=json&q=${address}`;
         try {
-            const response = await fetch(url);
-            const data = await response.json();
-            if (data.length > 0) {
-                const { lat, lon } = data[0];
-                setUserLocation({
-                    latitude: parseFloat(lat),
-                    longitude: parseFloat(lon),
-                });
-            } else {
-                console.error("Address not found");
-            }
+          const response = await fetch(url);
+          const data = await response.json();
+          if (data.length > 0) {
+            const { lat, lon } = data[0];
+            setUserLocation({
+              latitude: parseFloat(lat),
+              longitude: parseFloat(lon),
+            });
+          } else {
+            console.error("Address not found");
+          }
         } catch (error) {
-            console.error("Failed to fetch coordinates:", error);
+          console.error("Failed to fetch coordinates:", error);
         }
-    };
+      };
 
-    const handleRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
+      const handleRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log('Starting registration process...');
-
+    
         // Validiere die Adresse und hole Koordinaten gleichzeitig
         const [isValidAddress] = await Promise.all([
             handleAddressValidation(address),
             fetchCoordinates(address)
         ]);
-
+    
         setAddressValid(isValidAddress);
         console.log(`Address validation result: ${isValidAddress}`);
-
+    
         if (!isValidAddress) {
             alert('Bitte geben Sie eine gültige Adresse ein.');
             return;
         }
-
+    
         try {
-            const response = await registrationWorker(name, address, email, password, jobType, salary, userLocation!);
+            const response = await registrationWorker(name, address, email, password, jobType, salary, userLocation!, slogan);
             console.log('Registration successful:', response);
             alert('Registration successful!');
             navigate("/login")
@@ -109,64 +109,52 @@ export default function PageRegistrationWorker() {
             alert('Registration failed!');
         }
     };
-
-    useEffect(() => {
-        setIsLoading(false);
-    }, []);
+    
 
     return (
-        isLoading ? <LoadingIndicator /> :
-            <div className="background-image" style={{ position: "relative" }}>
-                <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundImage: `url('/background.jpg')`, backgroundSize: 'cover' }}>
-                    <MDBCard className='worker-registration-container m-5'>
-                        <MDBCardBody className='px-5'>
-                            <h2 className="text-uppercase text-center mb-5">Registrieren als Worker</h2>
-                            <form onSubmit={handleRegistration}>
-                                <MDBInput wrapperClass='mb-4' label='Dein Name' size='lg' type='text' value={name} onChange={(e) => setName(e.target.value)} required />
-
-                                <MDBInput
-                                    wrapperClass='mb-3 inputField'
-                                    labelClass='text-white'
-                                    label='Adresse'
-                                    id='addressInput'
-                                    type='text'
-                                    value={address}
-                                    onChange={e => setAddress(e.target.value)}
-                                    onBlur={() => handleAddressValidation(address).then(valid => setAddressValid(valid))}
-                                    required
-                                />
-                                {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
-
-                                <MDBInput wrapperClass='mb-4' label='Deine E-Mail' size='lg' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
-                                <MDBInput wrapperClass='mb-4' label='Passwort' size='lg' type='password' value={password} onChange={(e) => setPassword(e.target.value)} required />
-                                <select className="form-select mb-4 option-black" value={jobType} onChange={(e) => setJobType(e.target.value)} required
-                                    style={{ backgroundColor: "black", color: "black" }}>
-                                    <option value="" style={{ color: 'black' }}>Jobtyp wählen...</option>,
-                                    {jobTypes.map((type, index) => (
-                                        <option key={index} value={type} style={{ color: 'black' }}>{type}</option>
-                                    ))}
-                                </select>
-                                <MDBInput wrapperClass='mb-4' label='Gehaltswunsch' size='lg' type='number' value={salary} onChange={(e) => setSalary(Number(e.target.value))} required />
-
-                                <MDBCheckbox
-                                    name='termsCheck'
-                                    id='termsCheck'
-                                    label={<span>Ich stimme den <Link to="/agb" className="text-white">Nutzungsbedingungen</Link> zu</span>}
-                                    wrapperClass='d-flex justify-content-center mb-4 text-white'
-                                    required
-                                />
-                                <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type="submit">Registrieren</MDBBtn>
-                            </form>
-                            <MDBRow>
-                                <MDBCol size='12' className='text-center'>
-                                    <MDBTypography tag='div' className='mb-4'>
-                                        Du hast bereits ein Konto? <Link to="/login" className="link">Melde dich hier an</Link>
-                                    </MDBTypography>
-                                </MDBCol>
-                            </MDBRow>
-                        </MDBCardBody>
-                    </MDBCard>
-                </MDBContainer>
+        <>
+        <div className="animated-background">
+            <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundSize: 'cover', height: '100vh' }}>
+                <MDBCard className='worker-registration-container m-5'>
+                    <MDBCardBody className='px-5'>
+                        <h2 className="text-uppercase text-center mb-5">Registrieren als Worker</h2>
+                        <form onSubmit={handleRegistration}>
+                            <MDBInput wrapperClass='mb-4' label='Dein Name' size='lg' type='text' value={name} onChange={(e) => setName(e.target.value)} required/>
+                            <MDBInput wrapperClass='mb-3 inputField' label='Adresse' id='addressInput' type='text' value={address} onChange={e => setAddress(e.target.value)} onBlur={() => handleAddressValidation(address).then(valid => setAddressValid(valid))} required/>
+                            {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
+                            <MDBInput wrapperClass='mb-4' label='Deine E-Mail' size='lg' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required/>
+                            <MDBInput wrapperClass='mb-4' label='Passwort' size='lg' type='password' value={password} onChange={(e) => setPassword(e.target.value)} required/>
+                            <select className="form-select mb-4 option-black" value={jobType} onChange={(e) => setJobType(e.target.value)} required style={{backgroundColor:"black", color: "black"}}>
+                                <option value="" style={{color:'black'}}>Jobtyp wählen...</option>,
+                                {jobTypes.map((type, index) => (
+                                    <option key={index} value={type} style={{color:'black'}}>{type}</option>
+                                ))}
+                            </select>
+                            <MDBInput wrapperClass='mb-4' label='Gehaltswunsch' size='lg' type='number' value={salary} onChange={(e) => setSalary(Number(e.target.value))} required/>
+                            <MDBInput
+                                wrapperClass='mb-4'
+                                label='Dein Slogan/Motto'
+                                size='lg'
+                                type='text'
+                                value={slogan}
+                                onChange={(e) => setSlogan(e.target.value)}
+                                required
+                            />
+                            <MDBCheckbox name='termsCheck' id='termsCheck' label={<span>Ich stimme den <Link to="/agb" className="text-white">Nutzungsbedingungen</Link> zu</span>} wrapperClass='d-flex justify-content-center mb-4 text-white' required/>
+                            <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type="submit">Registrieren</MDBBtn>
+                        </form>
+                        <MDBRow>
+                            <MDBCol size='12' className='text-center'>
+                                <MDBTypography tag='div' className='mb-4'>
+                                    Du hast bereits ein Konto? <Link to="/login" className="link">Melde dich hier an</Link>
+                                </MDBTypography>
+                            </MDBCol>
+                        </MDBRow>
+                    </MDBCardBody>
+                </MDBCard>
+            </MDBContainer>
             </div>
+
+        </>
     );
 }

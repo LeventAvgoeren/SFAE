@@ -242,7 +242,8 @@ export async function registrationWorker(
   password: string,
   jobType: string,
   minPayment: number,
-  LongLat: Position
+  LongLat: Position,
+  slogan: string
 ) {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/worker`;
 
@@ -264,7 +265,8 @@ export async function registrationWorker(
         jobType,
         minPayment,
         latitude,
-        longitude
+        longitude,
+        slogan
       }),
       credentials: "include",
     });
@@ -293,13 +295,11 @@ export async function createContract(contract: ContractResource): Promise<Contra
       credentials: "include" as RequestCredentials,
     },
     body: JSON.stringify(contract)
-
   });
   if (!response.ok) {
     throw new Error('levent mag sucki .');
   }
   return response.json();
-
 }
 
 
@@ -530,7 +530,7 @@ export async function setRating(data:RatingRessource) :Promise <Boolean > {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({ id: contractData.id,   adress: contractData.adress,description: contractData.description, jobType: contractData.jobType, payment: contractData.payment,range: contractData.range, statusOrder: contractData.statusOrder, customerId: contractData.customerId,  workerId: contractData.worker!.id}),
+      body: JSON.stringify({ id: contractData.id,   adress: contractData.adress,description: contractData.description, jobType: contractData.jobType, payment: contractData.payment,range: contractData.range, statusOrder: contractData.statusOrder, customerId: contractData.customer!.id,  workerId: contractData.worker!.id}),
       credentials: "include" as RequestCredentials,
     };
   
@@ -585,7 +585,7 @@ export async function setRating(data:RatingRessource) :Promise <Boolean > {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ status: status }),
+        body: JSON.stringify(  status ),
         credentials: 'include' as RequestCredentials,
     });
 
@@ -593,14 +593,14 @@ export async function setRating(data:RatingRessource) :Promise <Boolean > {
     return result;
 }
 
-export async function updateContractStatus(contractId: string, status: string): Promise<string> {
+export async function updateContractStatus(contractId: number, status: string): Promise<string> {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/status/${contractId}`;
   const response = await fetchWithErrorHandling(url, {
     method: 'PUT',
     headers: {
         'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ status: status }),
+    body: JSON.stringify(status),
     credentials: 'include' as RequestCredentials,
   });
 
@@ -609,6 +609,7 @@ export async function updateContractStatus(contractId: string, status: string): 
 }
 
 export async function deleteChat(user1: string, user2: string): Promise<void> {
+  console.log("WERDE AUS")
   const url = `${process.env.REACT_APP_API_SERVER_URL}/chat/history?user1=${user1}&user2=${user2}`;
   const response = await fetchWithErrorHandling(url, {
     method: 'DELETE',
@@ -617,4 +618,19 @@ export async function deleteChat(user1: string, user2: string): Promise<void> {
     },
     credentials: 'include' as RequestCredentials,
   });
+}
+
+export async function updateWorkerOrderStatus(workerId: string, status: string): Promise<string> {
+  const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/statusOrder/${workerId}`;
+  const response = await fetchWithErrorHandling(url, {
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify( status),
+      credentials: 'include' as RequestCredentials,
+  });
+
+  const result = await response.text();
+  return result;
 }

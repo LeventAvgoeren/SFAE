@@ -31,16 +31,12 @@ export function PagePasswordReset() {
     };
 
     return (
-        <div className="background-image">
-        <div className="login-container">
-        <MDBContainer className="p-3 my-5 d-flex flex-column align-items-center justify-content-center w-50" 
-        // style={{ backgroundImage: `url('/background.jpg')`, backgroundSize: 'cover' }}
-        >
-                <MDBRow className="justify-content-center">
+        <>
+        <div className="animated-background">
+        <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundSize: 'cover', height: '100vh' }}>
+        <MDBCard className='worker-registration-container m-5'>
 
-                </MDBRow>
-
-                <MDBCardBody>
+        <MDBCardBody className='px-5'>
                 <h2 className="text-uppercase text-center mb-5" style={{color:"white"}}>Passwort zurücksetzen</h2>
                 {/* <MDBCol size="12" className="text-center">
                         <img src={'/SFAE_Logo.png'} alt="SFAE Logo" className="img-fluid mb-2" />
@@ -56,7 +52,6 @@ export function PagePasswordReset() {
                         required
                         value={newPassword}
                         onChange={handleNewPasswordChange}
-                        style={{ width: '280px' }}
                         />
 
                         <MDBInput
@@ -88,9 +83,9 @@ export function PagePasswordReset() {
                         </MDBRow>
                     </form>
                 </MDBCardBody>
+                </MDBCard>
         </MDBContainer>
         </div>
-        </div>
-
+        </>
     );
 }

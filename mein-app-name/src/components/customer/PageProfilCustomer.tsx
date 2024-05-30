@@ -77,7 +77,7 @@ export function PageCustomerProfil() {
   }, [])
 
   return (
-    /* isLoading ? <LoadingIndicator /> : */
+   
       <>
         <div className="background-image">
           <NavbarComponent />
@@ -114,4 +114,3 @@ export function PageCustomerProfil() {
       </>
   );
 }
-export { }

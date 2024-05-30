@@ -6,7 +6,7 @@ import { Button, Navbar } from "react-bootstrap";
 import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
 import "./PageWorkerPreferences.css"
 import NavbarWComponent from "./NavbarWComponent";
-import LoadingIndicator from '../LoadingIndicator';
+
 
 
 export function PageWorkerPreferences() {
@@ -134,7 +134,7 @@ export function PageWorkerPreferences() {
 
   
 
-if (loading) return <LoadingIndicator />;
+if (loading) return <p>Lädt...</p>;
 if (error) return <p>Fehler: {error}</p>;
 
 return (

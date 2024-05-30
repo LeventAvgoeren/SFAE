@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   MDBCard,
   MDBCardBody,
@@ -10,22 +10,18 @@ import './PageOrderCompleted.css';
 import { Link, useParams } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import NavbarComponent from '../navbar/NavbarComponent';
-import LoadingIndicator from '../LoadingIndicator';
+
+
 
 export function PageOrderCompleted() {
   const { orderId } = useParams();
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const { customerId } = useParams();
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
 
   return (
-    isLoading ? <LoadingIndicator /> :
     <>
+    
       <div className="background-image-completed">
           <NavbarComponent />
         <div className="centered-container">

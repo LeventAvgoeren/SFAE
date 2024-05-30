@@ -10,7 +10,7 @@ import {
 } from "../../backend/api";
 import NavbarComponent from "../navbar/NavbarComponent";
 import ImprintPage from "../ImprintPage";
-import LoadingIndicator from '../LoadingIndicator';
+
 
 export function PageIndexCustomer() {
   const params = useParams();
@@ -24,7 +24,6 @@ export function PageIndexCustomer() {
   const [customerCounter, setCustomerCounter] = useState(0);
   const [workerCounter, setWorkerCounter] = useState(0);
   const [contractCounter, setContractCounter] = useState(0);
-  const [loading, setLoading] = useState(true);
 
   const quotes = [
     `"Dank SFAE konnte ich schnell und sicher meinen Wohnungsputz organisieren!" - Anna B.`,
@@ -72,18 +71,16 @@ export function PageIndexCustomer() {
       setQuoteIndex((prevIndex) => (prevIndex + 1) % quotes.length);
       setFactIndex((prevIndex) => (prevIndex + 1) % facts.length);
     }, 4000);
-    setLoading(false);
+
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
     setQuote(quotes[quoteIndex]);
     setFact(facts[factIndex]);
-    setLoading(false);
   }, [quoteIndex, factIndex]);
 
   return (
-    loading ? <LoadingIndicator /> :
     <>
     <div className="background-image"> 
       <NavbarComponent/>

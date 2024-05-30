@@ -8,7 +8,7 @@ import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
 import "./PageWorkerProfile.css";
 import NavbarWComponent from "./NavbarWComponent";
 import axios from 'axios';
-import LoadingIndicator from '../LoadingIndicator';
+import { Col, Row } from 'react-bootstrap';
 
 export function PageWorkerProfile() {
   const [worker, setWorker] = useState<WorkerResource | null>(null);
@@ -89,6 +89,7 @@ export function PageWorkerProfile() {
           latitude: workerData.latitude,
           longitude: workerData.longitude,
         });
+        setSlogan(workerData.slogan)
         fetchWorkerImage(id);
       }
       if (!workerData) {
@@ -208,28 +209,7 @@ export function PageWorkerProfile() {
     }
   };
 
-  const uploadProfileImage = async (id: string, image: File) => {
-    const formData = new FormData();
-    formData.append("image", image);
-
-    try {
-      const response = await fetch(`/worker/${id}/image`, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        alert("Profilbild erfolgreich aktualisiert");
-        fetchWorkerImage(id);
-      } else {
-        console.error("Fehler beim Hochladen des Profilbildes");
-      }
-    } catch (error) {
-      console.error("Fehler beim Hochladen des Profilbildes:", error);
-    }
-  };
-
-  if (loading) return <LoadingIndicator />;
+  if (loading) return <p>Lädt...</p>;
   if (error) return <p>Fehler: {error}</p>;
 
   return (
@@ -256,6 +236,13 @@ export function PageWorkerProfile() {
               {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
               <MDBInput wrapperClass="inputField1" label="E-Mail" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
               <MDBInput wrapperClass="inputField1" label="Passwort" type="password" onChange={(e) => setPassword(e.target.value)} />
+              <MDBInput
+                wrapperClass="inputField1"
+                label="Dein Slogan/Motto"
+                type="text"
+                value={slogan}
+                onChange={(e) => setSlogan(e.target.value)}
+              />
               <div className="mb-3">
                 <label htmlFor="profileImage" className="form-label">Profilbild hochladen</label>
                 <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />

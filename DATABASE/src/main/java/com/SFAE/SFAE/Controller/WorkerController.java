@@ -421,6 +421,7 @@ public class WorkerController implements WorkerEp {
         if (id == null || status == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+        status = status.replace("\"", "");
         try {
             boolean result = dao.updateStatusByWorkerId(id, status);
             if (result) {
@@ -439,6 +440,8 @@ public class WorkerController implements WorkerEp {
         if (id == null || orderStatus == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+
+        orderStatus = orderStatus.replace("\"", "");
         try {
             boolean result = dao.updateOrderStatusByWorkerId(id, orderStatus);
             if (result) {

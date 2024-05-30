@@ -7,13 +7,12 @@ import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import "./PageUebersicht.css";
 import NavbarComponent from '../navbar/NavbarComponent';
 import { MDBBtn } from 'mdb-react-ui-kit';
-import LoadingIndicator from '../LoadingIndicator';
 
 export function PageUebersicht() {
   const params = useParams<{ customerId: string }>();
   const customerId = params.customerId!;
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
+
   const [contracts, setContracts] = useState<ContractResource[]>([]);
   const [noContracts, setNoContracts] = useState(false);
 
@@ -31,7 +30,6 @@ export function PageUebersicht() {
       }
     }
     fetchContracts();
-    setIsLoading(false);
   }, [customerId]);
 
   const renderRatingStars = (rating: number) => {
@@ -88,7 +86,6 @@ export function PageUebersicht() {
   ];
 
   return (
-    isLoading ? <LoadingIndicator /> :
     <>
       <NavbarComponent />
       <div style={{ height: 'calc(100vh - 100px)', width: '100%' }}>

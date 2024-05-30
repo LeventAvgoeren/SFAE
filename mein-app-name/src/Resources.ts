@@ -40,7 +40,7 @@ export type ContractResource = {
     payment?: string;
     range?: number;
     statusOrder?: string;  
-    customerId?: string;
+    customer?: CustomerResource;
     worker?: WorkerResource;
     longitude?: number;
     latitude?: number;
@@ -117,5 +117,4 @@ export type WorkerStatus = {
     PAID :string,
     FINISHED:string,
     UNDEFINED:string
-
   }

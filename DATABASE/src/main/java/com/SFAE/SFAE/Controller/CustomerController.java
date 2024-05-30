@@ -482,12 +482,11 @@ class CustomerController implements CustomerEP {
         if (data == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-
         Token token = mailService.validateToken(data.getToken());
         if (token == null) {
             return ResponseEntity.status(HttpStatus.GONE).build();
         }
-
+        System.out.println(token);
         if (token.getReceiver().startsWith("C")) {
             if (cus.updatePassword(data.getPassword(), token.getReceiver())) {
                 return ResponseEntity.status(HttpStatus.OK).build();

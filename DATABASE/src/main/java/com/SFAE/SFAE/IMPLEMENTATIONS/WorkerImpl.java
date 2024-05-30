@@ -474,6 +474,7 @@ public class WorkerImpl implements WorkerInterface {
 
   @Override
   public Boolean updatePassword(String password, String Id) {
+
     int result = jdbcTemplate.update(
         "UPDATE WORKER SET password = ? WHERE id = ?",
         ps -> {

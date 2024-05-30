@@ -1,17 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import { MDBContainer, MDBCard, MDBCardBody, MDBTypography } from 'mdb-react-ui-kit';
 import './PageAGB.css';
-import LoadingIndicator from './LoadingIndicator';
 
 export default function PageAGB() {
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        setIsLoading(false);
-    }, []);
-
     return (
-        isLoading ? <LoadingIndicator /> :
         <>
         <div className='my-section15'>
         <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ minHeight: '100vh' }}>

@@ -10,7 +10,6 @@ import { CustomerResource, WorkerResource } from '../../Resources';
 import { deleteCustomer, deleteWorker, getAllCustomers, getAllWorker, updateCustomer } from '../../backend/api';
 import { LoginInfo } from '../LoginManager';
 import NavbarComponent from '../navbar/NavbarComponent';
-import LoadingIndicator from '../LoadingIndicator';
 
 interface PageAdminComponentProps {
     isAdminPage?: boolean;
@@ -30,7 +29,7 @@ export function PageAdminDienstleistungen({ isAdminPage }: PageAdminComponentPro
     const [selectedWorker, setSelectedWorker] = useState<WorkerResource | null>(null);
     const [customerButtonClicked, setCustomerButtonClicked] = useState<boolean>(false);
     const [showDialog, setShowDialog] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+
 
     const [costumerName, setCostumerName] = useState("");
     const [costumerEmail, setCostumerEmail] = useState("");
@@ -187,7 +186,6 @@ const handleSaveWorkerUpdate = () => {
             }
         }
         fetchCustomerData();
-        setIsLoading(false);
     }, []);
 
     useEffect(() => {
@@ -201,11 +199,9 @@ const handleSaveWorkerUpdate = () => {
             }
         }
         fetchWorkerData();
-        setIsLoading(false);
     }, []);
 
     return (
-        isLoading ? <LoadingIndicator /> :
         <>
             <div className='background-image-Diesntleistungen'>
                 <NavbarComponent/>

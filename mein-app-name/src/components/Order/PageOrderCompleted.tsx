@@ -61,8 +61,8 @@ export function PageOrderCompleted() {
     <div className="Backg">
       <NavbarComponent />
       <div className="background-image-completed">
-        <div className="centered-container">
-          <MDBCard className="card-completed">
+        <div className="centered-container" >
+          <MDBCard className="card-completed glassmorphism">
             <MDBCardHeader>
               <h3>Bestellung abgeschlossen</h3>
             </MDBCardHeader>
@@ -90,10 +90,10 @@ export function PageOrderCompleted() {
               <form>
                 <div className="form-group">
                   <label htmlFor="comments">Kommentare:</label>
-                  <textarea id="comments" className="form-control" rows={3}></textarea>
+                  <textarea id="comments" className="form-control textarea-glassmorphism" rows={3}></textarea>
                 </div>
-                <button type="submit" className="btn btn-primary" onClick={updateRating} style={{width:"300px"}}>Bewertung absenden</button>
                 </form>
+                <button type="submit" className="btn btn-primary" onClick={updateRating} style={{width:"300px"}}>Bewertung absenden</button>
                 <Link to={`/customer/${customerId}`}>
                   <button className="btn btn-primary" style={{width:"300px", marginLeft:"5%"}}>Zurück zur Startseite</button>
                 </Link>

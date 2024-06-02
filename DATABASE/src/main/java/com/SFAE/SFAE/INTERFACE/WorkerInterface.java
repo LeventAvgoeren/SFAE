@@ -1,6 +1,8 @@
 package com.SFAE.SFAE.INTERFACE;
 
 import com.SFAE.SFAE.DTO.WorkerDTO;
+import com.SFAE.SFAE.DTO.WorkerPrefrencesDTO;
+import com.SFAE.SFAE.DTO.WorkerProfileDTO;
 import com.SFAE.SFAE.DTO.WorkerStatus;
 import com.SFAE.SFAE.ENTITY.Worker;
 
@@ -116,5 +118,8 @@ public interface WorkerInterface {
 
   WorkerStatus getWorkerStatus(String id);
 
+  Worker updateWorkerProfile(WorkerProfileDTO data);
+
+  Worker updateWorkerPreferences(WorkerPrefrencesDTO data);
 
 }

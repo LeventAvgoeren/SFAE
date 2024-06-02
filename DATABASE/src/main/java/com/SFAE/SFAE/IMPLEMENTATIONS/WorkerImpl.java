@@ -19,6 +19,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Component;
 import com.SFAE.SFAE.DTO.WorkerDTO;
+import com.SFAE.SFAE.DTO.WorkerPrefrencesDTO;
+import com.SFAE.SFAE.DTO.WorkerProfileDTO;
 import com.SFAE.SFAE.DTO.WorkerStatus;
 import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.JobList;
@@ -27,6 +29,8 @@ import com.SFAE.SFAE.ENUM.Status;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.INTERFACE.WorkerRepository;
 import com.SFAE.SFAE.Service.PasswordHasher;
+import com.SFAE.SFAE.Service.PictureService;
+
 import io.jsonwebtoken.io.IOException;
 import org.postgresql.largeobject.LargeObject;
 import org.postgresql.largeobject.LargeObjectManager;
@@ -36,6 +40,13 @@ import org.springframework.util.StreamUtils;
  * Implementation of WorkerInterface for managing Worker entities.
  * 
  * @author Levent
+ * TODO: Ein updateProfil machen eigenen konstruktor machen
+ * TODO: Ein updatePreferenzen machen eigenen Konstruktor 
+ * TODO: Chat fragen was für lücken man hat was zu problemen führen kann 
+ * TODO: Gucken wieso Backend Abstürzt bei Admin
+ * TODO: Gucken wieso Worker registrieren so lange dauert 
+ * TODO: Passwort auf stärke brüfen lassen 
+ * TODO: Validieren von DTO / ENTITY
  */
 @Component
 public class WorkerImpl implements WorkerInterface {
@@ -50,6 +61,9 @@ public class WorkerImpl implements WorkerInterface {
 
   @Autowired
   private WorkerRepository workerRepository;
+
+  @Autowired
+  private PictureService pictureService;
 
   /**
    * Counts the number of Workers in the database.
@@ -202,7 +216,7 @@ public class WorkerImpl implements WorkerInterface {
     if(data.getProfileBase64()!=null && !data.getProfileBase64().isEmpty()){
       try {
         byte[] imageBytes = Base64.getDecoder().decode(data.getProfileBase64());
-            imageOid[0] = saveImageAsLargeObject(imageBytes);
+            imageOid[0] = pictureService.saveImageAsLargeObject(imageBytes);
       } catch (Exception e) {
         e.getStackTrace();
       }
@@ -552,83 +566,7 @@ public class WorkerImpl implements WorkerInterface {
     }
 
     Integer oid = oids.get(0);
-    return readLargeObject(oid);
-  }
-
-  public byte[] readLargeObject(int oid) {
-    Connection conn = null;
-    LargeObjectManager lobjManager = null;
-    LargeObject lobj = null;
-    byte[] imageBytes = null;
-
-    try {
-      // Verbindung holen
-      conn = DataSourceUtils.getConnection(jdbcTemplate.getDataSource());
-      System.out.println("Connection established: " + (conn != null));
-
-      // Auto-commit deaktivieren
-      conn.setAutoCommit(false);
-
-      // PostgreSQL LargeObject API verwenden
-      lobjManager = conn.unwrap(org.postgresql.PGConnection.class).getLargeObjectAPI();
-      System.out.println("LargeObjectManager obtained: " + (lobjManager != null));
-
-      // LargeObject öffnen
-      if (lobjManager != null) {
-        try {
-          lobj = lobjManager.open((long) oid, LargeObjectManager.READ);
-          System.out.println("LargeObject opened: " + (lobj != null));
-        } catch (SQLException e) {
-          System.err.println("SQL Exception occurred while opening large object with OID " + oid);
-          e.printStackTrace();
-          return null;
-        }
-
-        // Länge des LargeObject abfragen
-        if (lobj != null) {
-          try {
-            int size = (int) lobj.size();
-            imageBytes = new byte[size];
-
-            // LargeObject lesen
-            int bytesRead = lobj.read(imageBytes, 0, size);
-            System.out.println("Bytes read: " + bytesRead);
-          } catch (SQLException e) {
-            System.err.println("SQL Exception occurred while reading large object with OID " + oid);
-            e.printStackTrace();
-            return null;
-          }
-        } else {
-          System.out.println("No Large Object found with OID: " + oid);
-        }
-      } else {
-        System.out.println("Failed to obtain LargeObjectManager");
-      }
-    } catch (SQLException e) {
-      System.err.println("SQL Exception occurred while reading large object with OID " + oid);
-      e.printStackTrace();
-    } finally {
-      if (lobj != null) {
-        try {
-          lobj.close();
-        } catch (SQLException e) {
-          System.err.println("SQL Exception occurred while closing large object with OID " + oid);
-          e.printStackTrace();
-        }
-      }
-      if (conn != null) {
-        try {
-          // Auto-commit wieder aktivieren
-          conn.setAutoCommit(true);
-          conn.close();
-        } catch (SQLException e) {
-          System.err.println("SQL Exception occurred while closing connection");
-          e.printStackTrace();
-        }
-      }
-    }
-
-    return imageBytes;
+    return pictureService.readLargeObject(oid);
   }
 
   @Override
@@ -653,48 +591,92 @@ public class WorkerImpl implements WorkerInterface {
         }
   }
 
-  public Long saveImageAsLargeObject(byte[] imageBytes) throws SQLException, IOException {
-    Connection conn = null;
-    Long oid = null;
 
+  //bild name adresse,email,password,slogan
+  @Override
+  public Worker updateWorkerProfile(WorkerProfileDTO data) {
+    if (data == null) {
+      throw new IllegalArgumentException("data is null" + data);
+    }
     try {
-        conn = DataSourceUtils.getConnection(jdbcTemplate.getDataSource());
-        // Deactivate auto-commit mode
-        conn.setAutoCommit(false);
-
-        LargeObjectManager lobjManager = conn.unwrap(org.postgresql.PGConnection.class).getLargeObjectAPI();
-        oid = lobjManager.createLO(LargeObjectManager.WRITE);
-        LargeObject lobj = lobjManager.open(oid, LargeObjectManager.WRITE);
-
-        lobj.write(imageBytes);
-        lobj.close();
-
-        // Commit the transaction
-        conn.commit();
-    } catch (SQLException | IOException e) {
-        if (conn != null) {
-            try {
-                // Rollback the transaction on error
-                conn.rollback();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-        throw e;
-    } finally {
-        if (conn != null) {
-            try {
-                // Re-enable auto-commit mode
-                conn.setAutoCommit(true);
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-            // Do not close the connection manually, let JdbcTemplate manage it
-        }
+      Worker found = findWorkersbyID(data.getId());
+      if (found == null) {
+        throw new IllegalArgumentException("id is null");
+      }
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Id dos not exist");
     }
 
-    return oid;
-}
+    if (!data.getPassword().startsWith("$2a$")) {
+      data.setPassword(encoder.hashPassword(data.getPassword()));
+    }
+
+    Long [] imageOid={null};
+
+    if(data.getProfileBase64()!=null && !data.getProfileBase64().isEmpty()){
+      try {
+        byte[] imageBytes = Base64.getDecoder().decode(data.getProfileBase64());
+            imageOid[0] = pictureService.saveImageAsLargeObject(imageBytes);
+      } catch (Exception e) {
+        e.getStackTrace();
+      }
+    }
+    try {
+      int rowsAffected = jdbcTemplate.update(
+        "UPDATE WORKER SET name = ?, location = ?, password = ?, email = ? , latitude = ? , longitude =?, profile_picture_blob = ?, slogan=? WHERE id = ?",
+        ps -> {
+          ps.setString(1, data.getName());
+          ps.setString(2, data.getLocation());
+          ps.setString(3, data.getPassword());
+          ps.setString(4, data.getEmail());
+          ps.setDouble(5, data.getLatitude());
+          ps.setDouble(6, data.getLongitude());
+          ps.setLong(7, imageOid[0]);
+          ps.setString(8,data.getSlogan() );
+          ps.setString(9, data.getId());
+        });
+
+        if(rowsAffected>0){
+          return new Worker(data.getName(),data.getLocation(),data.getPassword(),data.getEmail(),data.getLatitude(),data.getLongitude(),data.getSlogan());
+        }
+        else{
+          return null;
+        }
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Updated failed");
+    }
+   
+
+  }
+
+  @Override
+  public Worker updateWorkerPreferences(WorkerPrefrencesDTO data) {
+    if(data==null){
+      throw new IllegalArgumentException("No Data "+data);
+    }
+
+    try {
+      int rowsAffected = jdbcTemplate.update(
+        "UPDATE WORKER SET range = ?, job_type = ?, min_payment = ? WHERE id = ?",
+        ps -> {
+          ps.setDouble(1, data.getRange());
+          ps.setString(2, data.getJobType());
+          ps.setDouble(3, data.getMinPayment());
+          ps.setString(4, data.getId());
+        });
+
+        if(rowsAffected>0){
+          return new Worker(data.getRange(),JobList.valueOf(data.getJobType()),data.getMinPayment());
+        }
+        else{
+          return null;
+        }
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new IllegalArgumentException("Updated failed");
+    }
+
+  }
 }
 
 

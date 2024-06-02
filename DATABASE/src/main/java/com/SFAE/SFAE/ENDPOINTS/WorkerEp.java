@@ -16,7 +16,8 @@ import com.SFAE.SFAE.DTO.LoginRequest;
 import com.SFAE.SFAE.DTO.PasswordResetRequest;
 import com.SFAE.SFAE.DTO.RatingDTO;
 import com.SFAE.SFAE.DTO.WorkerDTO;
-
+import com.SFAE.SFAE.DTO.WorkerPrefrencesDTO;
+import com.SFAE.SFAE.DTO.WorkerProfileDTO;
 import com.SFAE.SFAE.ENTITY.Worker;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -168,5 +169,11 @@ public interface WorkerEp {
    
    @GetMapping("statuse/{id}")
    ResponseEntity<?> getWorkerStatuse(@PathVariable("id") String id);
+
+   @PutMapping("profil")
+   ResponseEntity<?> updateWorkerProfil(@RequestBody WorkerProfileDTO data);
+   
+   @PutMapping("preferences")
+   ResponseEntity<?> updateWorkerPreferences(@RequestBody WorkerPrefrencesDTO data);
 }
 

@@ -17,6 +17,7 @@ import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 import com.SFAE.SFAE.INTERFACE.CustomerRepository;
 import com.SFAE.SFAE.Service.PasswordHasher;
+import com.SFAE.SFAE.Service.PictureService;
 
 /**
  * Implements the customer management operations defined in the
@@ -42,6 +43,10 @@ public class CustomerImp implements CustomerInterface {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private PictureService pictureService;
+
 
     @Autowired
     WorkerImpl worker;
@@ -238,7 +243,7 @@ public class CustomerImp implements CustomerInterface {
         if (jsonData.getProfileBase64() != null && !jsonData.getProfileBase64().isEmpty()) {
             try {
                 byte[] imageBytes = Base64.getDecoder().decode(jsonData.getProfileBase64());
-                imageOid[0] = worker.saveImageAsLargeObject(imageBytes);
+                imageOid[0] = pictureService.saveImageAsLargeObject(imageBytes);
             } catch (Exception e) {
                 e.getStackTrace();
             }
@@ -347,7 +352,7 @@ public class CustomerImp implements CustomerInterface {
         }
 
         Integer oid = oids.get(0);
-        return worker.readLargeObject(oid);
+        return pictureService.readLargeObject(oid);
     }
 
 }

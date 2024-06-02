@@ -52,16 +52,16 @@ public class Customer {
 
     @Lob
     @Column(name = "profile_picture_blob", nullable = true)
-    private byte[] profilePictureBlob;
+    private Long profilePictureOid;
 
     public Customer(){}
     
-    public Customer( String name, String password, String email,byte[] profilePictureBlob) { 
+    public Customer( String name, String password, String email,Long profilePictureOid) { 
         this.name = name;
         this.password = password;
         this.email = email;
         this.role = Role.CUSTOMER;
-        this.profilePictureBlob=profilePictureBlob;
+        this.profilePictureOid = profilePictureOid;
     }
 
     

@@ -83,3 +83,13 @@
   margin: 0 10px;
   white-space: nowrap;
 }
+
+.typing-indicator {
+  padding: 10px;
+  color: #ffffff;
+  font-style: italic;
+  text-align: center;
+  display: inline-block;
+  max-width: fit-content;
+  align-self: flex-start;
+}

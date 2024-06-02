@@ -1,12 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { CustomerResource } from '../../Resources';
 import { deleteCustomer, getCustomerImage, getCustomerbyID, updateCustomer } from '../../backend/api';
 import "./PageProfil.css";
-import { MDBTypography } from 'mdb-react-ui-kit';
+import { MDBTypography, MDBProgress, MDBProgressBar } from 'mdb-react-ui-kit';
 import { LinkContainer } from 'react-router-bootstrap';
 import NavbarComponent from '../navbar/NavbarComponent';
+
+function validatePassword(password: string) {
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    return hasUpperCase && hasNumber && hasSpecialChar;
+}
+
+function getPasswordStrength(password: string) {
+    let strength = 0;
+    if (/[A-Z]/.test(password)) strength += 1;
+    if (/\d/.test(password)) strength += 1;
+    if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength += 1;
+    if (password.length >= 8) strength += 1;
+    return strength;
+}
 
 export function PageProfil() {
     const params = useParams<{ customerId: string }>();
@@ -14,13 +30,14 @@ export function PageProfil() {
     const navigate = useNavigate();
 
     const [customer, setCustomer] = useState<CustomerResource | null>(null);
-    const [loading, setLoading] = useState(true);
     const [imageLoading, setImageLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [newPassword, setNewPassword] = useState(password);
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [passwordStrength, setPasswordStrength] = useState(0);
     const [passwordsMatch, setPasswordsMatch] = useState(true);
     const [email, setEmail] = useState('');
     const [status, setStatus] = useState(false);
@@ -31,18 +48,21 @@ export function PageProfil() {
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
 
-    const handleNewPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.value == null) {
-            setPassword(password)
-        } else {
-            setPassword(event.target.value);
-        }
+    const handleNewPasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const newPassword = event.target.value;
+        setNewPassword(newPassword);
+        setPasswordStrength(getPasswordStrength(newPassword));
+        setPasswordsMatch(newPassword === confirmPassword);
+    };
+
+    const handleConfirmPasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setConfirmPassword(event.target.value);
+        setPasswordsMatch(event.target.value === newPassword);
     };
 
     const fetchCustomer = async () => {
         if (!customerId) {
             setError("Keine Customer ID in der URL gefunden");
-            setLoading(false);
             return;
         }
         try {
@@ -58,11 +78,9 @@ export function PageProfil() {
                 setCustomer(null);
                 throw new Error("Keine Daten für diesen Kunden gefunden");
             }
-            setLoading(false);
         } catch (error) {
             console.error("Fehler beim Laden der Kundendaten:", error);
             setError("Fehler beim Laden der Daten");
-            setLoading(false);
         }
     };
 
@@ -70,10 +88,10 @@ export function PageProfil() {
         try {
             const base64Image = await getCustomerImage(id);
             setProfileImage(`data:image/jpeg;base64,${base64Image}`);
-            setImageLoading(false); // Bild ist geladen
+            setImageLoading(false);
         } catch (error) {
             console.error("Fehler beim Laden des Profilbildes:", error);
-            setImageLoading(false); // Fehler beim Laden des Bildes
+            setImageLoading(false);
         }
     };
 
@@ -81,19 +99,32 @@ export function PageProfil() {
         fetchCustomer();
     }, [customerId]);
 
-    const handleUpdateCustomer = async () => {
+    const handleUpdateCustomer = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        if (!validatePassword(newPassword)) {
+            setPasswordError('Das Passwort muss mindestens einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten.');
+            return;
+        }
+
+        if (!passwordsMatch) {
+            setPasswordError('Passwörter sind nicht identisch.');
+            return;
+        }
+
+        setPasswordError('');
+
         const updatedCustomerData: CustomerResource = {
             id: customerId!,
             name: name,
             email: email,
-            password: password,
+            password: newPassword,
             role: "CUSTOMER",
             profileBase64: profileImage
         };
 
         try {
             updatedCustomerData.profileBase64 = updatedCustomerData.profileBase64.slice(23);
-
             const updatedCustomer = await updateCustomer(updatedCustomerData);
             console.log("Updated Customer:", updatedCustomer);
             alert("Kunde erfolgreich aktualisiert");
@@ -117,19 +148,17 @@ export function PageProfil() {
     const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
-
             const reader = new FileReader();
             reader.onloadend = () => {
                 const base64String = reader.result as string;
                 setPreviewImage(base64String);
                 setProfileImage(base64String);
-                setImageLoading(false); // Bild ist geladen
+                setImageLoading(false);
             };
             reader.readAsDataURL(file);
         }
     };
 
-    if (loading) return <div className="loading-screen"><p>Lädt...</p></div>;
     if (error) return <p>Fehler: {error}</p>;
 
     return (
@@ -137,7 +166,7 @@ export function PageProfil() {
             <NavbarComponent />
             <div className='Backg'>
                 <div className="custom-container2">
-                    <h1>PROFILE</h1>
+                    <h1>PROFIL</h1>
                     <div className="mt-5 Back">
                         <div className="row">
                             <div className="container col-lg-4 pb-5">
@@ -159,45 +188,43 @@ export function PageProfil() {
                                         <h5 className="author-card-name">{name}</h5>
                                     </div>
                                 </div>
-                                <div className="mb-3">
+                                <div className="profile-upload-container">
                                     <label htmlFor="profileImage" className="form-label">Profilbild hochladen</label>
                                     <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
                                 </div>
                             </div>
 
                             <div className="container col-lg-8 pb-5">
-                                <form className="row">
-                                    <div className="col-md-6">
+                                <form className="row" onSubmit={handleUpdateCustomer}>
+                                    <div className="col-12">
                                         <div className="form-group">
-                                            <label htmlFor="account-fn">First Name</label>
-                                            <input className="form-control" type="text" id="account-fn" value={name} onChange={(e) => setName(e.target.value)} required />
+                                            <label htmlFor="account-fn">Vorname</label>
+                                            <input className="form-control" type="text" placeholder='Vorname' id="account-fn" value={name} onChange={(e) => setName(e.target.value)} required />
                                         </div>
                                     </div>
-                                    <div className="col-md-6">
-                                        <div className="form-group">
-                                            <label htmlFor="account-email">E-mail Address</label>
+                                    <div className="col-12">
+                                        <div className="form-group Margins">
+                                            <label htmlFor="account-email">E-Mail Adresse</label>
                                             <input className="form-control" type="email" id="account-email" value={email} onChange={(e) => setEmail(e.target.value)} disabled />
                                         </div>
                                     </div>
-
-                                    <div className="col-md-6"></div>
-
-                                    <div className="col-md-6">
-                                        <div className="form-group">
-                                            <label htmlFor="account-pass">New Password</label>
+                                    <div className="col-12">
+                                        <div className="form-group Margins">
+                                            <label htmlFor="account-pass">Neues Passwort</label>
                                             <input className="form-control"
-                                                type="password"
+                                                type="password" placeholder='Passwort'
                                                 id="account-pass"
                                                 onChange={handleNewPasswordChange} />
                                         </div>
                                     </div>
-                                    <div className="col-md-6">
-                                        <div className="form-group">
-                                            <label htmlFor="account-confirm-pass">Confirm Password</label>
+                                    <div className="col-12">
+                                        <div className="form-group Margins">
+                                            <label htmlFor="account-confirm-pass">Passwort bestätigen</label>
                                             <input className="form-control"
-                                                type="password"
+                                                type="password" placeholder='Passwort bestätigen'
                                                 id="account-confirm-pass"
                                                 value={confirmPassword}
+                                                onChange={handleConfirmPasswordChange}
                                             />
                                         </div>
                                         {!passwordsMatch && (
@@ -205,31 +232,34 @@ export function PageProfil() {
                                                 Die Passwörter stimmen nicht überein. Bitte überprüfen Sie Ihre Eingabe.
                                             </MDBTypography>
                                         )}
+                                        {passwordError && (
+                                            <MDBTypography tag='p' className='text-danger'>
+                                                {passwordError}
+                                            </MDBTypography>
+                                        )}
                                     </div>
 
                                     <div className="col-12">
                                         <hr className="mt-2 mb-3" />
                                         <div className="ButtonsDiv">
-                                            <LinkContainer to={`/customer/${customerId}`}>
-                                                <Button className="ButtonUpdate" onClick={handleUpdateCustomer}>
-                                                    Update Profile
-                                                </Button>
-                                            </LinkContainer>
+                                            <Button type="submit" className="ButtonUpdate">
+                                                Profil aktualisieren
+                                            </Button>
                                             <Button type="button" className="btn btn-danger" onClick={handleShow}>
-                                                Delete Your Account
+                                                Account löschen
                                             </Button>
 
                                             <Modal show={showModal} onHide={handleClose}>
                                                 <Modal.Header closeButton>
-                                                    <Modal.Title>Delete Account</Modal.Title>
+                                                    <Modal.Title>Account löschen</Modal.Title>
                                                 </Modal.Header>
-                                                <Modal.Body>Are you sure you want to delete your account? This action cannot be undone.</Modal.Body>
+                                                <Modal.Body>Sind Sie sicher, dass Sie Ihren Account löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.</Modal.Body>
                                                 <Modal.Footer>
                                                     <Button variant="secondary" onClick={handleClose}>
-                                                        Close
+                                                        Schließen
                                                     </Button>
                                                     <Button variant="danger" onClick={handleDeleteCustomer}>
-                                                        Delete Account
+                                                        Account löschen
                                                     </Button>
                                                 </Modal.Footer>
                                             </Modal>

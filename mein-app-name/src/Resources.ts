@@ -117,5 +117,4 @@ export type WorkerStatus = {
     PAID :string,
     FINISHED:string,
     UNDEFINED:string
-
   }

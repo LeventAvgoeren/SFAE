@@ -63,3 +63,23 @@
 .message-container .Right {
     align-self: flex-end; 
 }
+
+.date-header {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  text-align: center;
+  color: #e4dddd;
+}
+
+.date-header .line {
+  flex: 1;
+  height: 1px;
+  border-radius: 30px;
+  background-color: #797474;
+}
+
+.date-header .date-text {
+  margin: 0 10px;
+  white-space: nowrap;
+}

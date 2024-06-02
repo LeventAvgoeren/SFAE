@@ -11,7 +11,6 @@ import com.SFAE.SFAE.DTO.PasswordResetRequest;
 import com.SFAE.SFAE.DTO.Token;
 import com.SFAE.SFAE.ENDPOINTS.CustomerEP;
 import com.SFAE.SFAE.ENTITY.Customer;
-import com.SFAE.SFAE.ENTITY.Message;
 import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.Role;
 import com.SFAE.SFAE.ENUM.TokenType;
@@ -41,7 +40,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -84,8 +82,6 @@ class CustomerController implements CustomerEP {
     @Autowired
     private TokenMailService mailService;
 
-    @Autowired
-    private ChatController chatController;
 
     
     @Autowired

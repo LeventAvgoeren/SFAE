@@ -29,12 +29,19 @@ const fetchMessagesForUser = async (user1: string, user2: string): Promise<Messa
     return data;
 };
 
-const formatTimestamp = (timestamp: number) => {
+const formatTimestamp = (timestamp: number, time?: boolean) => {
     const date = new Date(timestamp);
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    const seconds = date.getSeconds().toString().padStart(2, '0');
-    return `${hours}:${minutes}`;
+    if(!time){
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    } else{
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
+    }
+  
 };
 
 const ChatComponent: React.FC = () => {
@@ -178,6 +185,29 @@ const ChatComponent: React.FC = () => {
             console.error('No connection to server.');
         }
     };
+
+
+
+    const groupMessagesByDate = (messages: Message[]) => {
+        const groupedMessages: { [key: string]: Message[] } = {};
+
+        messages.forEach((msg) => {
+            const dateKey = formatTimestamp(msg.timestamp!);
+            if (!groupedMessages[dateKey]) {
+                groupedMessages[dateKey] = [];
+            }
+            groupedMessages[dateKey].push(msg);
+        });
+
+        return groupedMessages;
+    };
+
+    const groupedMessages = groupMessagesByDate(messages);
+
+
+
+
+
     if(!active){
         return(<>NO ACTIVE CONTRACT</>) // DESIGNEN
     }
@@ -204,25 +234,24 @@ const ChatComponent: React.FC = () => {
                                 {messages.length === 0  && (
                                     <p>Noch keine Nachrichten! Schreib doch was ;)</p>
                                 )}
-                                {messages.length >= 1 && messages.map((msg, index) => (
+
+                                {Object.entries(groupedMessages).map(([date, messages], index) => (
                                     <div key={index}>
-                                        {msg ? (msg.sender === userId ? (
+                                        <div className="date-header">
+                                        <span className="line"></span>
+                                            {date === formatTimestamp(Date.now()) ? `${date}` : `Heute`}
+                                            <span className="line"></span>
+                                        </div>
+                                        {messages.map((msg, msgIndex) => (  
                                             <div className="message-container">
-                                                <div className="Right">
+                                                <div key={msgIndex} className={msg.sender === userId ? "Right" : "Left"}>
                                                     {msg.content}
-                                                    <div className="TimeL">
-                                                        {formatTimestamp(msg.timestamp!)}
-                                                    </div>
+                                                        <div className="TimeL">
+                                                            {formatTimestamp(msg.timestamp!, true)}
+                                                        </div>
                                                 </div>
                                             </div>
-                                        ) : (
-                                            <div className="Left">
-                                                {msg.content}
-                                                <div className="TimeL">
-                                                    {formatTimestamp(msg.timestamp!)}
-                                                </div>
-                                            </div>
-                                        )):(<></>)}
+                                        ))}
                                     </div>
                                 ))}
                                    

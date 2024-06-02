@@ -8,7 +8,7 @@ import { contractAcceptOrDecline, getContract, getWorkerbyID, validateToken } fr
 import { LinkContainer } from "react-router-bootstrap";
 import PageError from "../Error";
 import Lottie from "react-lottie";
-import animationData from "../roboter.json";
+import animationData from "../Worker_2.json";
 
 
 export function PageDeclineJob() {
@@ -79,7 +79,7 @@ export function PageDeclineJob() {
               <h1>Hey {worker?.name}, du hast ein Jobangebot erhalten.</h1>
               <h2>Möchtest du diesen Job annehmen?</h2>
 
-              <div className="animation-roboter">
+              <div className="animation-Worker_2">
 
                 <Lottie options={{
                   loop: true,
@@ -92,8 +92,10 @@ export function PageDeclineJob() {
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '20px' }}>
-                <Button variant="danger" onClick={() => handleResponse(false)}>Ablehnen</Button>
-                <Button variant="success" onClick={() => handleResponse(true)}>Annehmen</Button>
+                <Button variant="danger" onClick={() => handleResponse(false)}
+                style={{width:"30%"}}>Ablehnen</Button>
+                <Button variant="success" onClick={() => handleResponse(true)}
+                style={{width:"30%"}}>Annehmen</Button>
               </div>
             </div>
           </div>

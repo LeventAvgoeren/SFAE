@@ -9,7 +9,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -45%);
   background: rgba(0, 0, 0, 0.7); /* Dunkelgrau, semi-transparent */
   padding: 40px 50px;
   border-radius: 14px;

@@ -146,7 +146,7 @@ export default function PageOrderRequest() {
     <div className={"Backg"}>
       <NavbarComponent />
 
-      <div className="container-frame3">
+      <div className="container-frame3 glassmorphism">
         <Form onSubmit={handleSubmit} className="form-content">
           <Button onClick={handleClickMap1} variant="info">
             {showMap ? "Karte verbergen" : "Karte anzeigen"}

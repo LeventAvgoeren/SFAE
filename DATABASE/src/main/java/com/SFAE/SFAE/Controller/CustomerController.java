@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.validation.BindingResult;
 
 import jakarta.mail.MessagingException;
@@ -41,6 +42,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -118,6 +120,28 @@ class CustomerController implements CustomerEP {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
+
+        @Async
+        public void sendWelcomeEmail(CustomerDTO customerData) {
+            try {
+                mail.sendHtmlMessage(customerData.getEmail(),
+                    "Willkommen bei SFAE - Ihre Lösung für schnelle und kompetente Hilfe",
+                    "<html><body>" +
+                        "<p>Lieber " + customerData.getName() + ",</p>" +
+                        "<p>herzlich willkommen bei SFAE! Wir freuen uns, dass Sie sich für unseren Service entschieden haben.</p>" +
+                        "<p>SFAE ist Ihre zuverlässige Dienstleistungsplattform, auf der Sie schnell und einfach Hilfe für verschiedene Anliegen finden können. Unser Ziel ist es, Ihnen den besten Facharbeiter in Ihrer Nähe mit der passenden Qualifikation zur Verfügung zu stellen.</p>" +
+                        "<p>Egal ob Sie einen Handwerker, IT-Spezialisten, Reinigungskraft oder einen anderen Fachmann benötigen – bei SFAE finden Sie garantiert den richtigen Ansprechpartner. Unser benutzerfreundliches System stellt sicher, dass Sie innerhalb kürzester Zeit den passenden Experten für Ihre Bedürfnisse finden.</p>" +
+                        "<p>Wir sind überzeugt, dass Sie mit unserem Service zufrieden sein werden und freuen uns darauf, Ihnen bei Ihren Anliegen behilflich zu sein.</p>" +
+                        "<p>Bei Fragen oder Anregungen stehen wir Ihnen jederzeit zur Verfügung.</p>" +
+                        "<p>Mit freundlichen Grüßen,</p>" +
+                        "<p>Ihr SFAE-Team</p>" +
+                        "</body></html>");
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        }
+
+
     /**
      * Creates a new customer from the provided CustomerDTO object.
      * Validates the customer data before saving. If the validation fails, or the
@@ -137,31 +161,20 @@ class CustomerController implements CustomerEP {
                     .map(fieldError -> fieldError.getDefaultMessage())
                     .collect(Collectors.toList()));
         }
+        //8 Zeichen, 1 Sonderzeichen, 1 Großbuchtsaben und eine Zahl
+        String passwordTest = customerData.getPassword();
+        String regex = "^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?\":{}|<>])(?=.*\\d).{8,}$";
+        Pattern pattern = Pattern.compile(regex);
+
+        if(!pattern.matcher(passwordTest).matches()){
+            return ResponseEntity.status(400).build();
+        }
 
         try {
             Customer customer = dao.createCustomer(customerData);
-
+            sendWelcomeEmail(customerData);
             if (customer != null) {
-                try {
-                    mail.sendHtmlMessage(customerData.getEmail(),
-                            "Willkommen bei SFAE - Ihre Lösung für schnelle und kompetente Hilfe",
-                            "<html><body>" +
-                                    "<p>Lieber " + customerData.getName() + ",</p>" +
-                                    "<p>herzlich willkommen bei SFAE! Wir freuen uns, dass Sie sich für unseren Service entschieden haben.</p>"
-                                    +
-                                    "<p>SFAE ist Ihre zuverlässige Dienstleistungsplattform, auf der Sie schnell und einfach Hilfe für verschiedene Anliegen finden können. Unser Ziel ist es, Ihnen den besten Facharbeiter in Ihrer Nähe mit der passenden Qualifikation zur Verfügung zu stellen.</p>"
-                                    +
-                                    "<p>Egal ob Sie einen Handwerker, IT-Spezialisten, Reinigungskraft oder einen anderen Fachmann benötigen – bei SFAE finden Sie garantiert den richtigen Ansprechpartner. Unser benutzerfreundliches System stellt sicher, dass Sie innerhalb kürzester Zeit den passenden Experten für Ihre Bedürfnisse finden.</p>"
-                                    +
-                                    "<p>Wir sind überzeugt, dass Sie mit unserem Service zufrieden sein werden und freuen uns darauf, Ihnen bei Ihren Anliegen behilflich zu sein.</p>"
-                                    +
-                                    "<p>Bei Fragen oder Anregungen stehen wir Ihnen jederzeit zur Verfügung.</p>" +
-                                    "<p>Mit freundlichen Grüßen,</p>" +
-                                    "<p>Ihr SFAE-Team</p>" +
-                                    "</body></html>");
-                } catch (MessagingException e) {
-                    e.printStackTrace();
-                }
+           
                 return ResponseEntity.status(HttpStatus.CREATED).body(customer);
             }
 
@@ -275,6 +288,15 @@ class CustomerController implements CustomerEP {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getFieldErrors().stream()
                     .map(fieldError -> fieldError.getDefaultMessage())
                     .collect(Collectors.toList()));
+        }
+
+        
+        String passwordTest = jsonData.getPassword();
+        String regex = "^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?\":{}|<>])(?=.*\\d).{8,}$";
+        Pattern pattern = Pattern.compile(regex);
+
+        if(!pattern.matcher(passwordTest).matches()){
+            return ResponseEntity.status(400).build();
         }
 
         if (jsonData.getId() == null || jsonData.hasNull()) {
@@ -481,6 +503,15 @@ class CustomerController implements CustomerEP {
     public ResponseEntity<?> resetPassword(PasswordResetRequest data) {
         if (data == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        
+        String passwordTest = data.getPassword();
+        String regex = "^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?\":{}|<>])(?=.*\\d).{8,}$";
+        Pattern pattern = Pattern.compile(regex);
+
+        if(!pattern.matcher(passwordTest).matches()){
+            return ResponseEntity.status(400).build();
         }
         Token token = mailService.validateToken(data.getToken());
         if (token == null) {

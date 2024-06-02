@@ -1,5 +1,6 @@
 package com.SFAE.SFAE.IMPLEMENTATIONS;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Base64;
@@ -7,10 +8,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
+import org.postgresql.largeobject.LargeObject;
+import org.postgresql.largeobject.LargeObjectManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.ENTITY.Customer;
@@ -159,27 +162,34 @@ public class CustomerImp implements CustomerInterface {
      * @return the newly created Customer object or null if creation fails
      */
     @Override
+    @Transactional
     public Customer createCustomer(CustomerDTO jsonData) { // For the Endpoint
-
+        long startTime = System.currentTimeMillis();
         try {
-            byte[] defaultImage = worker.loadDefaultProfilePicture();
+          
             String name = jsonData.getName();
             String password = encoder.hashPassword(jsonData.getPassword());
             String email = jsonData.getEmail();
 
-            if (password == null || name == null || email == null) {
+            if (password == null  || name == null ||  email == null) {
                 return null;
             }
-            Customer customer = new Customer(name, password, email, defaultImage);
+            Customer customer = new Customer(name, password, email);
+            long beforeSaveTime = System.currentTimeMillis();
             customerRepository.save(customer);
+            long afterSaveTime = System.currentTimeMillis();
+
+            System.out.println("Time to hash password and create customer object: " + (beforeSaveTime - startTime) + "ms");
+            System.out.println("Time to save customer: " + (afterSaveTime - beforeSaveTime) + "ms");
 
             return customer;
-
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
+
+
 
     /**
      * Deletes a customer from the database by their ID.

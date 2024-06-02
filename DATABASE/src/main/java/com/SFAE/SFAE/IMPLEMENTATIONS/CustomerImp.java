@@ -47,9 +47,9 @@ public class CustomerImp implements CustomerInterface {
     @Autowired
     private PictureService pictureService;
 
-
     @Autowired
     WorkerImpl worker;
+
 
     /**
      * Counts the total number of customers in the database.
@@ -164,22 +164,23 @@ public class CustomerImp implements CustomerInterface {
      * @return the newly created Customer object or null if creation fails
      */
     @Override
-    public Customer createCustomer(CustomerDTO jsonData) { // For the Endpoint
-
+    public Customer createCustomer(CustomerDTO jsonData) {
+        System.out.println("ICH BIN IN DER CREATECUSTOMER IMPL");
         try {
             byte[] defaultImage = worker.loadDefaultProfilePicture();
+            var pic=pictureService.saveImageAsLargeObject(defaultImage);
             String name = jsonData.getName();
             String password = encoder.hashPassword(jsonData.getPassword());
             String email = jsonData.getEmail();
-
+    
             if (password == null || name == null || email == null) {
                 return null;
             }
-            Customer customer = new Customer(name, password, email, defaultImage);
+            Customer customer = new Customer(name, password, email, pic);
             customerRepository.save(customer);
-
+            System.out.println("CUSTOMER WURDE GESAFED");
             return customer;
-
+    
         } catch (Exception e) {
             e.printStackTrace();
             return null;

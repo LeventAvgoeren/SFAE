@@ -32,8 +32,6 @@ import com.SFAE.SFAE.Service.PasswordHasher;
 import com.SFAE.SFAE.Service.PictureService;
 
 import io.jsonwebtoken.io.IOException;
-import org.postgresql.largeobject.LargeObject;
-import org.postgresql.largeobject.LargeObjectManager;
 import org.springframework.util.StreamUtils;
 
 /**
@@ -64,6 +62,9 @@ public class WorkerImpl implements WorkerInterface {
 
   @Autowired
   private PictureService pictureService;
+
+  private static byte[] cachedImage;
+
 
   /**
    * Counts the number of Workers in the database.
@@ -269,6 +270,7 @@ public class WorkerImpl implements WorkerInterface {
     }
     try {
       byte[] defaultImage = loadDefaultProfilePicture();
+      var pic=pictureService.saveImageAsLargeObject(defaultImage);
       String name = rs.getName();
       String location = rs.getLocation();
       String password = encoder.hashPassword(rs.getPassword());
@@ -286,7 +288,7 @@ public class WorkerImpl implements WorkerInterface {
 
       Worker worker = new Worker(name, location, password, Status.valueOf("AVAILABLE"),
           StatusOrder.valueOf("UNDEFINED"), range, JobList.valueOf(jobType), minPayment, rating, verification, email,
-          latitude, longitude, ratingAv, defaultImage,slogan);
+          latitude, longitude, ratingAv, pic,slogan);
       workerRepository.save(worker);
       return worker;
     } catch (Exception e) {
@@ -504,8 +506,10 @@ public class WorkerImpl implements WorkerInterface {
   }
 
   public byte[] loadDefaultProfilePicture() throws java.io.IOException {
+    System.out.println("DEFAULT BILD ERSTELLEN ");
     try {
       ClassPathResource imgFile = new ClassPathResource("static/images/default_profile.jpeg");
+      System.out.println("ICH BIN FERTIG MIT BILD LADEN ");
       return StreamUtils.copyToByteArray(imgFile.getInputStream());
     } catch (IOException e) {
       e.printStackTrace();

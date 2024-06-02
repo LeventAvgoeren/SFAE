@@ -29,9 +29,11 @@ import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.io.IOException;
+import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class CustomerTestSQL {
 
     @Autowired
@@ -42,7 +44,7 @@ public class CustomerTestSQL {
 
     @Test
     public void testCreateCustomer() throws Exception {
-        String json = "{ \"name\": \"MaxMuster\", \"password\": \"passwort123\", \"email\": \"M@gmail.com\"}";
+        String json = "{ \"name\": \"MaxMuster\", \"password\": \"passwort123\", \"email\": \"Mdadaadad@gmail.com\"}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         mockMvc.perform(post("/customer")

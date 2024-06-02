@@ -1,20 +1,44 @@
-import React, { useState } from 'react';
-import { MDBBtn, MDBContainer, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol, MDBCard, MDBCardBody } from 'mdb-react-ui-kit';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { MDBBtn, MDBContainer, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBProgress, MDBProgressBar } from 'mdb-react-ui-kit';
 import { Link, useNavigate } from 'react-router-dom';
 import './PageRegistration.css';
 import { registrationCustomer } from '../../backend/api';
 import axios from 'axios';
 import validator from 'validator';
 
+interface Position {
+    latitude: number;
+    longitude: number;
+}
+
+function validatePassword(password: string) {
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    return hasUpperCase && hasNumber && hasSpecialChar;
+}
+
+function getPasswordStrength(password: string) {
+    let strength = 0;
+    if (/[A-Z]/.test(password)) strength += 1;
+    if (/\d/.test(password)) strength += 1;
+    if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength += 1;
+    if (password.length >= 8) strength += 1;
+    return strength;
+}
+
 export default function PageRegistration() {
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [addressValid, setAddressValid] = useState(true);
+    const [passwordError, setPasswordError] = useState('');
+    const [passwordStrength, setPasswordStrength] = useState(0);
     const navigate = useNavigate();
 
-    const handleAddressValidation = async (inputAddress: any) => {
+    const handleAddressValidation = async (inputAddress: string) => {
         const apiKey = 'a295d6f75ae64ed5b8c6b3568b58bbf6';  // Ersetzen Sie dies mit Ihrem tatsächlichen API-Key
         const requestUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(inputAddress)}&key=${apiKey}`;
 
@@ -38,7 +62,13 @@ export default function PageRegistration() {
         }
     };
 
-    const handleRegistration = async (event: any) => {
+    const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const newPassword = e.target.value;
+        setPassword(newPassword);
+        setPasswordStrength(getPasswordStrength(newPassword));
+    };
+
+    const handleRegistration = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log('Starting registration process...');  // Log the start of the registration process
 
@@ -51,6 +81,18 @@ export default function PageRegistration() {
             return;
         }
 
+        if (!validatePassword(password)) {
+            setPasswordError('Das Passwort muss mindestens einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten.');
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            setPasswordError('Passwörter sind nicht identisch.');
+            return;
+        }
+
+        setPasswordError('');
+
         try {
             const response = await registrationCustomer(name, password, email);
             console.log('Registration successful:', response);  // Log the response from the registration attempt
@@ -62,87 +104,90 @@ export default function PageRegistration() {
         }
     };
 
-    const validateAddress = (address: string): boolean => {
-        // Einfache Validierung: Mindestens 10 Zeichen
-        return address.length >= 10;
-    };
-    
-
     return (
         <div className="animated-background">
-                <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundSize: 'cover', height: '100vh' }}>
+            <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundSize: 'cover', height: '100vh' }}>
                 <MDBCard className='customer-registration-container m-5'>
-                <MDBCardBody className='px-5'>
-                <h2 className="text-uppercase text-center mb-5">Registrieren als Customer</h2>
-                    
-                    <form onSubmit={handleRegistration} style={{ width: '100%' }}>
-                        <MDBInput
-                            wrapperClass='mb-3 inputField'
-                            labelClass='text-white'
-                            label='Dein Name'
-                            id='nameInput'
-                            type='text'
-                            value={name}
-                            onChange={e => setName(e.target.value)}
-                            required
-                        />
-
-                        <MDBInput
-                            wrapperClass='mb-3 inputField'
-                            labelClass='text-white'
-                            label='Adresse'
-                            id='addressInput'
-                            type='text'
-                            value={address}
-                            onChange={e => setAddress(e.target.value)}
-                            onBlur={() => handleAddressValidation(address).then(valid => setAddressValid(valid))}
-                            required
-                        />
-                        {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
-
-                        <MDBInput
-                            wrapperClass='mb-3 inputField'
-                            labelClass='text-white'
-                            label='E-Mail Adresse'
-                            id='emailInput'
-                            type='email'
-                            value={email}
-                            onChange={e => setEmail(e.target.value)}
-                            required
-                        />
-
-                        <MDBInput
-                            wrapperClass='mb-3 inputField'
-                            labelClass='text-white'
-                            label='Passwort'
-                            id='passwordInput'
-                            type='password'
-                            value={password}
-                            onChange={e => setPassword(e.target.value)}
-                            required
-                        />
-
-<MDBCheckbox
-                            name='termsCheck'
-                            id='termsCheck'
-                            label={<span>Ich stimme den <Link to="/agb" className="text-white">Nutzungsbedingungen</Link> zu</span>}
-                            wrapperClass='d-flex justify-content-center mb-4 text-white'
-                            required
-                        />
-
-                        <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type="submit">Registrieren</MDBBtn>
-
-                        <MDBRow>
-                            <MDBCol size='12' className='text-center'>
-                                <MDBTypography tag='div' className='mb-4'>
-                                    Du hast bereits ein Konto? <Link to="/login" className="text-white">Melde dich hier an</Link>
-                                </MDBTypography>
-                            </MDBCol>
-                        </MDBRow>
-                    </form>
+                    <MDBCardBody className='px-5'>
+                        <h2 className="text-uppercase text-center mb-5">Registrieren als Customer</h2>
+                        <form onSubmit={handleRegistration} style={{ width: '100%' }}>
+                            <MDBInput
+                                wrapperClass='mb-3 inputField'
+                                labelClass='text-white'
+                                label='Dein Name'
+                                id='nameInput'
+                                type='text'
+                                value={name}
+                                onChange={e => setName(e.target.value)}
+                                required
+                            />
+                            <MDBInput
+                                wrapperClass='mb-3 inputField'
+                                labelClass='text-white'
+                                label='Adresse'
+                                id='addressInput'
+                                type='text'
+                                value={address}
+                                onChange={e => setAddress(e.target.value)}
+                                onBlur={() => handleAddressValidation(address).then(valid => setAddressValid(valid))}
+                                required
+                            />
+                            {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
+                            <MDBInput
+                                wrapperClass='mb-3 inputField'
+                                labelClass='text-white'
+                                label='E-Mail Adresse'
+                                id='emailInput'
+                                type='email'
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
+                                required
+                            />
+                            <MDBInput
+                                wrapperClass='mb-3 inputField'
+                                labelClass='text-white'
+                                label='Passwort'
+                                id='passwordInput'
+                                type='password'
+                                value={password}
+                                onChange={handlePasswordChange}
+                                required
+                            />
+                            <MDBInput
+                                wrapperClass='mb-3 inputField'
+                                labelClass='text-white'
+                                label='Passwort erneut eingeben'
+                                id='confirmPasswordInput'
+                                type='password'
+                                value={confirmPassword}
+                                onChange={e => setConfirmPassword(e.target.value)}
+                                required
+                            />
+                            {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>}
+                            <MDBProgress className='mb-4'>
+                                <MDBProgressBar width={passwordStrength * 25} valuemin={0} valuemax={100}>
+                                    {passwordStrength * 25}%
+                                </MDBProgressBar>
+                            </MDBProgress>
+                            <MDBCheckbox
+                                name='termsCheck'
+                                id='termsCheck'
+                                label={<span>Ich stimme den <Link to="/agb" className="text-white">Nutzungsbedingungen</Link> zu</span>}
+                                wrapperClass='d-flex justify-content-center mb-4 text-white'
+                                required
+                            />
+                            <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type="submit">Registrieren</MDBBtn>
+                            <MDBRow>
+                                <MDBCol size='12' className='text-center'>
+                                    <MDBTypography tag='div' className='mb-4'>
+                                        Du hast bereits ein Konto? <Link to="/login" className="text-white">Melde dich hier an</Link>
+                                    </MDBTypography>
+                                </MDBCol>
+                            </MDBRow>
+                        </form>
                     </MDBCardBody>
-                    </MDBCard>
-                </MDBContainer>
+                </MDBCard>
+            </MDBContainer>
         </div>
     );
 }

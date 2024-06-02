@@ -1,32 +1,50 @@
-import React, { useState } from 'react';
-import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol } from 'mdb-react-ui-kit';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol, MDBProgress, MDBProgressBar } from 'mdb-react-ui-kit';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import './DesignVorlage.css'; // Eigene Stilvorlagen
 import { registrationWorker } from '../../backend/api';
 import { Link, useNavigate } from 'react-router-dom'; // React Router für Link-Benutzung
-import './PageRegistrationWorker.css'
-import validator from 'validator';
+import './PageRegistrationWorker.css';
 import axios from 'axios';
 
 interface Position {
     latitude: number;
     longitude: number;
-  }
-  
+}
+
+function validatePassword(password: string) {
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    return hasUpperCase && hasNumber && hasSpecialChar;
+}
+
+function getPasswordStrength(password: string) {
+    let strength = 0;
+    if (/[A-Z]/.test(password)) strength += 1;
+    if (/\d/.test(password)) strength += 1;
+    if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength += 1;
+    if (password.length >= 8) strength += 1;
+    return strength;
+}
+
 export default function PageRegistrationWorker() {
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [jobType, setJobType] = useState('');
     const [salary, setSalary] = useState(1);
     const [userLocation, setUserLocation] = useState<Position | null>(null);
     const [addressValid, setAddressValid] = useState(true);
     const [slogan, setSlogan] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [passwordStrength, setPasswordStrength] = useState(0);
 
-    const navigate=useNavigate()
+    const navigate = useNavigate();
 
-    const handleAddressValidation = async (inputAddress: any) => {
+    const handleAddressValidation = async (inputAddress: string) => {
         const apiKey = 'a295d6f75ae64ed5b8c6b3568b58bbf6';  // Ersetzen Sie dies mit Ihrem tatsächlichen API-Key
         const requestUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(inputAddress)}&key=${apiKey}`;
 
@@ -79,37 +97,53 @@ export default function PageRegistrationWorker() {
         } catch (error) {
           console.error("Failed to fetch coordinates:", error);
         }
-      };
+    };
 
-      const handleRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
+    const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const newPassword = e.target.value;
+        setPassword(newPassword);
+        setPasswordStrength(getPasswordStrength(newPassword));
+    };
+
+    const handleRegistration = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log('Starting registration process...');
     
-        // Validiere die Adresse und hole Koordinaten gleichzeitig
-        const [isValidAddress] = await Promise.all([
-            handleAddressValidation(address),
-            fetchCoordinates(address)
-        ]);
-    
+        // Zuerst Adresse validieren
+        const isValidAddress = await handleAddressValidation(address);
         setAddressValid(isValidAddress);
-        console.log(`Address validation result: ${isValidAddress}`);
     
         if (!isValidAddress) {
             alert('Bitte geben Sie eine gültige Adresse ein.');
             return;
         }
     
+        // Koordinaten abrufen, wenn die Adresse gültig ist
+        await fetchCoordinates(address);
+    
+        if (!validatePassword(password)) {
+            setPasswordError('Das Passwort muss mindestens einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten.');
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            setPasswordError('Passwörter sind nicht identisch.');
+            return;
+        }
+    
+        setPasswordError('');
+    
+        // Fortfahren, wenn alles erfolgreich war
         try {
             const response = await registrationWorker(name, address, email, password, jobType, salary, userLocation!, slogan);
             console.log('Registration successful:', response);
             alert('Registration successful!');
-            navigate("/login")
+            navigate("/login");
         } catch (error) {
             console.error('Registration failed:', error);
             alert('Registration failed!');
         }
     };
-    
 
     return (
         <>
@@ -123,7 +157,14 @@ export default function PageRegistrationWorker() {
                             <MDBInput wrapperClass='mb-3 inputField' label='Adresse' id='addressInput' type='text' value={address} onChange={e => setAddress(e.target.value)} onBlur={() => handleAddressValidation(address).then(valid => setAddressValid(valid))} required/>
                             {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
                             <MDBInput wrapperClass='mb-4' label='Deine E-Mail' size='lg' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required/>
-                            <MDBInput wrapperClass='mb-4' label='Passwort' size='lg' type='password' value={password} onChange={(e) => setPassword(e.target.value)} required/>
+                            <MDBInput wrapperClass='mb-4' label='Passwort' size='lg' type='password' value={password} onChange={handlePasswordChange} required/>
+                            <MDBInput wrapperClass='mb-4' label='Passwort erneut eingeben' size='lg' type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+                            {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>}
+                            <MDBProgress className='mb-4'>
+                                <MDBProgressBar width={passwordStrength * 25} valuemin={0} valuemax={100}>
+                                    {passwordStrength * 25}%
+                                </MDBProgressBar>
+                            </MDBProgress>
                             <select className="form-select mb-4 option-black" value={jobType} onChange={(e) => setJobType(e.target.value)} required style={{backgroundColor:"black", color: "black"}}>
                                 <option value="" style={{color:'black'}}>Jobtyp wählen...</option>,
                                 {jobTypes.map((type, index) => (
@@ -154,7 +195,6 @@ export default function PageRegistrationWorker() {
                 </MDBCard>
             </MDBContainer>
             </div>
-
         </>
     );
 }

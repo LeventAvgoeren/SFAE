@@ -346,10 +346,12 @@ public class WorkerImpl implements WorkerInterface {
       double latitude = rs.getDouble("latitude");
       double longitude = rs.getDouble("longitude");
       byte[] picture = rs.getBytes("profile_picture_blob");
+      var pic=pictureService.saveImageAsLargeObject(picture);
+
       String slogan =rs.getString("slogan");
 
       return dataFactory.createWorker(id, name, location, password, email, status, range, jobType, statusOrder,
-          minPayment, rating, verification, latitude, longitude, picture,slogan);
+          minPayment, rating, verification, latitude, longitude, pic,slogan);
 
     } catch (SQLException e) {
     }

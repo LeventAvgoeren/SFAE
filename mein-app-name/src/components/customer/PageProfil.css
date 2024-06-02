@@ -1,3 +1,30 @@
+.custom-container2 {
+  background: rgba(255, 255, 255, 0.1); 
+  backdrop-filter: blur(10px); 
+  -webkit-backdrop-filter: blur(10px); 
+  border-radius: 16px; 
+  border: 1px solid rgba(255, 255, 255, 0.25); 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+
+.custom-container2 .row {
+  margin-top: 20px;
+}
+
+.custom-container2 .col-lg-4, .custom-container2 .col-lg-8 {
+  padding: 10px;
+}
+
+.custom-container2 .form-group {
+  margin-bottom: 15px; 
+}
+
+.Margins{
+  margin-top: 20px;
+}
+
+.custom-container2 input, .custom-container2 button {
+  border-radius: 8px; 
+}
 .ButtonsDiv{
   width: 100%;
 }
@@ -9,6 +36,56 @@
   width: 100%;
 }
 
-.col-md-6{
-  width: 100%;
+}
+
+/* Stil für das Hochladefeld */
+.profile-upload-container {
+  background: rgba(255, 255, 255, 0.1); /* Weißer Hintergrund mit Transparenz */
+  backdrop-filter: blur(10px); /* Weichzeichnung des Hintergrundes hinter dem Element */
+  -webkit-backdrop-filter: blur(10px); /* Für Safari-Browser */
+  border-radius: 12px; /* Abgerundete Ecken */
+  border: 1px solid rgba(255, 255, 255, 0.25); /* Leicht sichtbarer Rand */
+  padding: 15px; /* Innenabstand */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Schatten für einen schwebenden Effekt */
+  margin-bottom: 20px; /* Abstand nach unten, um Elemente nicht zu überlappen */
+}
+
+/* Stile für das Label */
+.profile-upload-container .form-label {
+  color: #fff; /* Weiße Textfarbe für das Label */
+  font-weight: bold; /* Fettgedruckte Schrift für das Label */
+  display: block; /* Blockanzeige, um sicherzustellen, dass es sich über dem Feld befindet */
+  margin-bottom: 5px; /* Abstand zwischen Label und Eingabefeld */
+}
+
+/* Stile für das Eingabefeld selbst */
+.profile-upload-container .form-control[type="file"] {
+  background: rgba(255, 255, 255, 0.05); /* Leicht transparenter Hintergrund für das Eingabefeld */
+  border: none; /* Kein Rand, um die Glasästhetik zu bewahren */
+  color: #fff; /* Weiße Textfarbe für Kontrast */
+  padding: 8px 12px; /* Polsterung im Feld */
+}
+
+.profile-upload-container .form-control[type="file"]::file-selector-button {
+  background: rgba(255, 255, 255, 0.1); /* Stilisierung des Button-Teils des Eingabefelds */
+  border-radius: 5px; /* Leicht abgerundete Ecken für den Button */
+  padding: 5px 10px; /* Polsterung für den Button */
+  margin-right: 5px; /* Abstand zwischen Button und Text */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Leicht sichtbarer Rand für den Button */
+}
+
+
+.profile-upload-container .form-control[type="file"]:hover::file-selector-button,
+.profile-upload-container .form-control[type="file"]:focus::file-selector-button {
+  border-color: rgba(255, 255, 255, 0.5); /* Hellerer Rand bei Hover/Fokus */
+  background: rgba(255, 255, 255, 0.15); /* Leicht intensiverer Hintergrund bei Hover/Fokus */
+}
+.text-danger {
+  color: #ff0000; /* Helles Rot */
+  font-weight: bold; /* Fettgedruckt */
+  background-color: #ffe5e5; /* Heller roter Hintergrund */
+  padding: 10px; /* Innenabstand */
+  border: 1px solid #ff0000; /* Rote Umrandung */
+  border-radius: 5px; /* Abgerundete Ecken */
+  margin-top: 10px; /* Abstand nach oben */
 }

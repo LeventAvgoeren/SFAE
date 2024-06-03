@@ -107,16 +107,7 @@ function App() {
           <Route path="/customer/:customerId/orders/:orderId/completed" element={(loginInfo && loginInfo.userId.startsWith("C")) ? <PageOrderCompleted /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/customer/:customerId/orders/:orderId/rating" element={(loginInfo && loginInfo.userId.startsWith("C")) ? <PageOrderRating /> : < Navigate to="/NotAuth" replace />} />
           {/* Chat Route */}
-          <Route
-            path="/chat/:userId"
-            element={
-              loginInfo && (loginInfo.userId.startsWith("C") || loginInfo.userId.startsWith("W")) ? (
-                <ChatComponent />
-              ) : (
-                <Navigate to="/NotAuth" replace />
-              )
-            }
-          />
+       
 
 
 
@@ -138,21 +129,18 @@ function App() {
           <Route path="/NotFound" element={<PageError error={404} />} />
           <Route path="/imprint" element={<ImprintPage />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-        </Routes>
+         </Routes>
 
 
- <Toolbar style={{ backgroundColor: "#001325", position: "sticky", marginTop:"0px"}}>
-        <Typography variant="body1" style={{ color: 'white', flex: 1 }}>
-          © 2024 SFAE von Ahmad Sfarjalani, Eray Zor, Levent Avgören, Duc Dai Nguyen, Danyal Mahrous. Alle Rechte vorbehalten.
-          <a href="/imprint" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Impressum</a>
-          <a href="/agb" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Allgemeine Geschäftsbedingungen</a>
-        </Typography>
-      </Toolbar>
+        <Toolbar style={{ bottom: 0, backgroundColor: "#001325", position: "sticky", marginTop:"0px", textAlign: 'center' }}>
+            <Typography variant="body1" style={{ color: 'white', flex: 1 }}>
+              © 2024 SFAE von Ahmad Sfarjalani, Eray Zor, Levent Avgören, Duc Dai Nguyen, Danyal Mahrous. Alle Rechte vorbehalten.
+              <a href="/imprint" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Impressum</a>
+              <a href="/agb" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Allgemeine Geschäftsbedingungen</a>
+            </Typography>
+          </Toolbar>
 
       </LoginContext.Provider>
-
-
-
     </>
   );
 }

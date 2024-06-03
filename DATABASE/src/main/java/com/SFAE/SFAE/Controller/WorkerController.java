@@ -14,6 +14,8 @@ import com.SFAE.SFAE.DTO.PasswordResetRequest;
 import com.SFAE.SFAE.DTO.RatingDTO;
 import com.SFAE.SFAE.DTO.Token;
 import com.SFAE.SFAE.DTO.WorkerDTO;
+import com.SFAE.SFAE.DTO.WorkerPrefrencesDTO;
+import com.SFAE.SFAE.DTO.WorkerProfileDTO;
 import com.SFAE.SFAE.DTO.WorkerStatus;
 import com.SFAE.SFAE.ENDPOINTS.WorkerEp;
 import com.SFAE.SFAE.ENTITY.Worker;
@@ -25,6 +27,8 @@ import com.SFAE.SFAE.Service.TokenMailService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Base64;
+import java.util.regex.Pattern;
+
 import io.jsonwebtoken.Claims;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.mail.MessagingException;
@@ -67,8 +71,17 @@ public class WorkerController implements WorkerEp {
     public ResponseEntity<Worker> createWorker(@RequestBody WorkerDTO worker) {
         if (worker == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-
         }
+
+        String passwordTest = worker.getPassword();
+        String regex = "^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?\":{}|<>])(?=.*\\d).{8,}$";
+        Pattern pattern = Pattern.compile(regex);
+
+        if(!pattern.matcher(passwordTest).matches()){
+            return ResponseEntity.status(400).build();
+        }
+
+
         try {
             Worker builded = dao.createWorker(worker);
             if (builded != null) {
@@ -205,6 +218,14 @@ public class WorkerController implements WorkerEp {
     public ResponseEntity<Worker> updateWorker(@RequestBody WorkerDTO jsonData) {
         if (jsonData == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        String passwordTest = jsonData.getPassword();
+        String regex = "^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?\":{}|<>])(?=.*\\d).{8,}$";
+        Pattern pattern = Pattern.compile(regex);
+
+        if(!pattern.matcher(passwordTest).matches()){
+            return ResponseEntity.status(400).build();
         }
         try {
             Worker found = dao.updateWorker(jsonData);
@@ -412,6 +433,7 @@ public class WorkerController implements WorkerEp {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -431,6 +453,7 @@ public class WorkerController implements WorkerEp {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -451,6 +474,7 @@ public class WorkerController implements WorkerEp {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -469,6 +493,50 @@ public class WorkerController implements WorkerEp {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> updateWorkerProfil(WorkerProfileDTO data) {
+        if(data==null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        try {
+            Worker worker=dao.updateWorkerProfile(data);
+            if(worker!=null){
+                return ResponseEntity.status(HttpStatus.ACCEPTED).body(worker);
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> updateWorkerPreferences(WorkerPrefrencesDTO data) {
+       
+        if(data==null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        try {
+            Worker worker=dao.updateWorkerPreferences(data);
+            if(worker!=null){
+                return ResponseEntity.status(HttpStatus.ACCEPTED).body(worker);
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

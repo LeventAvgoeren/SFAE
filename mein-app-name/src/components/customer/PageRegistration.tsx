@@ -72,7 +72,7 @@ export default function PageRegistration() {
         event.preventDefault();
         console.log('Starting registration process...');  // Log the start of the registration process
 
-        const isValidAddress = await handleAddressValidation(address);
+        const isValidAddress = true
         setAddressValid(isValidAddress);
         console.log(`Address validation result: ${isValidAddress}`);  // Log the result of the address validation
 

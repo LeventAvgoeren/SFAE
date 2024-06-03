@@ -82,7 +82,7 @@ export function PageIndexCustomer() {
 
   return (
     <>
-    <div className="background-image"> 
+      <div className="background-image"> 
       <NavbarComponent/>
       <div className="call-to-action">
         <h1>{name}, starte jetzt deinen ersten Auftrag!</h1>

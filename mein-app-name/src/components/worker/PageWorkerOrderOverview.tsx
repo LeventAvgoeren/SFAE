@@ -55,8 +55,9 @@ export function PageWorkerOrderOverview() {
       ]
   
     return (
-      <>
-       <NavbarWComponent/>
+      <>    <div className="Backg"> 
+             <NavbarWComponent />
+   
             <div style={{ height: 'calc(100vh - 100px)', width: '100%' }}>
             <DataGrid
               rows={contracts}
@@ -67,7 +68,7 @@ export function PageWorkerOrderOverview() {
           <div style={{ padding: 10, backgroundColor: '#f0f0f0', textAlign: 'right' }}>
                 <strong>Gesamtumsatz:</strong> {amount} €
               </div>
-          
+           </div>
       </>
            
     );

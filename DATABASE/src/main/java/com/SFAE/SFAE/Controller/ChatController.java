@@ -38,6 +38,13 @@ public class ChatController {
         messagingTemplate.convertAndSend(destination, chatMessage);
     }
 
+    @MessageMapping("/chat.typing")
+    public void typing(Message typingMessage) {
+        String destination = "/topic/" + typingMessage.getReceiver();
+        typingMessage.setContent("");
+        messagingTemplate.convertAndSend(destination, typingMessage);
+    }
+
 }
 
 

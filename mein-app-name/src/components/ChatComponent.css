@@ -14,10 +14,6 @@
     color: black ;
   }
 
-  .CBody{
-    display: flex; 
-    flex-direction: column;
-  }
 
   .Right {
     background-color: rgb(47, 117, 47);
@@ -63,3 +59,44 @@
 .message-container .Right {
     align-self: flex-end; 
 }
+
+.date-header {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #e4dddd;
+}
+
+.date-header .line {
+  flex: 1;
+  height: 1px;
+  border-radius: 30px;
+  background-color: #797474;
+}
+
+.date-header .date-text {
+  margin: 0 10px;
+  white-space: nowrap;
+}
+
+.typing-indicator {
+  padding: 10px;
+  color: #ffffff;
+  font-style: italic;
+  text-align: center;
+  display: inline-block;
+  max-width: fit-content;
+  align-self: flex-start;
+}
+
+.chat-container-content {
+  padding-top: 0 !important;
+  height: 100vh;
+  background-color: #060454;
+}
+
+#chat2 {
+  height: 100vh !important;
+  width: 100%;
+}
+

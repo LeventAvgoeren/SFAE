@@ -26,4 +26,6 @@ public class Message {
     private String content;
 
     private Long timestamp;
+
+    private String type;
 }

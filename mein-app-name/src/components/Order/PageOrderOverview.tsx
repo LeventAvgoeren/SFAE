@@ -184,8 +184,9 @@ export function PageOrderOverview() {
 
   return (
     <>
-      <NavbarComponent />
-      <div className="Backg">
+   
+      <div className="Backg">  
+       <NavbarComponent />
         {loading || !workerAssigned ? (
           <div className="loading-container">
             <Lottie options={defaultOptions} height={400} width={400} />
@@ -198,20 +199,17 @@ export function PageOrderOverview() {
               <h2 className="h5 mb-0" style={{ color: "white" }}>Order ID: <span className="fw-bold text-body white-text">{conData.id}</span></h2>
             </div>
             <div className="row">
-              <div className="col-lg-8">
-                <div className="card mb-4">
-                  <div className="content-area">
+              <div className="col-lg-8 glassmorphism">           
                     <div className="mb-3 d-flex justify-content-between">
                       <div>
-                        <span className="badge rounded-pill bg-info">DIENSTLEISTUNG: {conData.jobType}</span>
+                        <span className="badge rounded-pill bg-info" style={{marginTop:"10%"}}>DIENSTLEISTUNG: {conData.jobType}</span>
                       </div>
                       <div className="d-flex"></div>
                     </div>
-                    <table className="table table-borderless">
                       <tbody>
                         <tr>
                           <td>
-                            <div className="d-flex mb-2">
+                            <div className="d-flex align-items-center mb-2">
                               <div className="flex-shrink-0">
                                 <img src={foto} width="45" className="img-fluid" alt="" />
                               </div>
@@ -219,14 +217,13 @@ export function PageOrderOverview() {
                               <main style={{ gridArea: 'map' }}>
                                 <div id="map" className="map-container" style={{ width: '100%', height: '400px', marginBottom: '20px' }}></div>
                               </main>
+                              <td style={{marginLeft:"80%", color:"white"}}>Betrag:</td>
+                              <td style={{color:"white"}}> {conData.maxPayment}€</td>
                             </div>
                           </td>
-                          <td>Betrag:</td>
-                          <td className="text-end">{conData.maxPayment}€</td>
                         </tr>
                       </tbody>
-                    </table>
-                  </div>
+               
                   <div className="d-flex justify-content-between">
                     {conData.statusOrder === "ACCEPTED" && (
                       <button onClick={toggleShow} className="btn btn-danger mb-4" style={{ width: "250px", marginLeft: "auto" }}>
@@ -239,16 +236,17 @@ export function PageOrderOverview() {
                       </button>
                     )}
                   </div>
-                </div>
               </div>
+
+
               <div className="col-lg-4">
-                <div className="card mb-4">
+                <div className="card mb-4 glassmorphism">
                   <div className="info-section">
                     <h4>Customer Beschreibung: </h4>
                     <p>{conData.description}</p>
                   </div>
                 </div>
-                <div className="card mb-4">
+                <div className="card mb-4 glassmorphism">
                   <div className="details-panel">
                     <h4>Order Details</h4>
                     <p className="text-muted" style={{ color: "white" }}>
@@ -294,9 +292,9 @@ export function PageOrderOverview() {
                 Bist du sicher, dass du diesen Auftrag als beendet markieren möchtest? Wurde alles ordnungsgemäß ausgeführt?
               </div>
               <div className="modal-footer">
-                <Row>
-                  <button type="button" className="btn btn-secondary" onClick={toggleShow} style={{ width: "150px", marginLeft: "12px" }}>Abbrechen</button>
-                  <button type="button" className="btn btn-primary" style={{ width: "150px" }} onClick={handleConfirm}>Bestätigen</button>
+                <Row style={{gap:"12px"}}>
+                  <button type="button" className="btn btn-secondary" onClick={toggleShow} style={{ width: "150px"}}>Abbrechen</button>
+                  <button type="button" className="btn btn-primary" style={{ width: "150px", gap:"12" }} onClick={handleConfirm}>Bestätigen</button>
                 </Row>
               </div>
             </div>
@@ -310,13 +308,13 @@ export function PageOrderOverview() {
               <div className="modal-header">
                 <h5 className="modal-title">Auftrag stornieren</h5>
               </div>
-              <div className="modal-body">
+              <div className="modal-body" style={{gap:"12px"}}>
                 Bist du sicher, dass du diesen Auftrag stornieren möchtest?
               </div>
               <div className="modal-footer">
                 <Row>
-                  <button type="button" className="btn btn-secondary" onClick={toggleCancelShow} style={{ width: "150px", marginLeft: "12px" }}>Abbrechen</button>
-                  <button type="button" className="btn btn-warning" style={{ width: "150px" }} onClick={handleCancelConfirm}>Bestätigen</button>
+                  <button type="button" className="btn btn-secondary" onClick={toggleCancelShow} style={{ width: "150px", gap: "12px" }}>Abbrechen</button>
+                  <button type="button" className="btn btn-warning" style={{ width: "150px", gap:"12px" }} onClick={handleCancelConfirm}>Bestätigen</button>
                 </Row>
               </div>
             </div>

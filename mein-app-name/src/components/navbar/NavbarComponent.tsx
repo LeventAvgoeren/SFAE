@@ -6,18 +6,77 @@ import Navbar from 'react-bootstrap/Navbar';
 import './NavbarComponent.css';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { LoginInfo, useLoginContext } from '../LoginManager';
 import { checkLoginStatus, deleteCookie } from '../../backend/api';
+import ChatComponent from '../ChatComponent';
+import { Client, IMessage, Frame } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
+
+interface Message {
+    sender: string;
+    receiver: string | undefined;
+    content: string;
+    timestamp?: number;
+    type?: string; 
+}
+
 
 export function NavbarComponent() {
   const {loginInfo} = useLoginContext();
- 
+  const [showChat, setShowChat] = useState(false);
+  const params = useParams<{ customerId: string, workerId: string}>();
+  const userId = params.customerId? params.customerId! : params.workerId!;
+  const clientRef = useRef<Client | null>(null);
+  const [newMessage, setNewMessage] = useState(false);
   async function doLogout() {
       await deleteCookie();
       window.location.href = "/login";
   }
 
+  useEffect(() => {
+    const client = new Client({
+        webSocketFactory: () => new SockJS('https://localhost:8443/chat'),
+        reconnectDelay: 5000,
+        heartbeatIncoming: 4000,
+        heartbeatOutgoing: 4000,
+        onConnect: async () => {
+            console.log('Connected');
+            client.subscribe(`/topic/${userId}`, (message: IMessage) => {
+                const receivedMessage: Message = JSON.parse(message.body);
+                if(receivedMessage.content.length > 1){
+                     setNewMessage(true);
+                }
+            });
+        },
+        onStompError: (frame) => {
+            console.error('Broker reported error: ' + frame.headers['message']);
+            console.error('Additional details: ' + frame.body);
+        },
+        onWebSocketClose: (event) => {
+            console.error('WebSocket closed, event:', event);
+        },
+    });
+
+    client.activate();
+    clientRef.current = client;
+
+    return () => {
+        if (clientRef.current) {
+            clientRef.current.deactivate();
+        }
+    };
+}, []);
+
+
+  const toggleChat = () => {
+    setShowChat(!showChat);
+  }
+
+  const handleNotificationClick = () => {
+    toggleChat();
+    setNewMessage(false);
+  }
 
   return (
       <>
@@ -39,14 +98,19 @@ export function NavbarComponent() {
                    {loginInfo && loginInfo.admin ==="ADMIN" && (
                       <li><a href={`/admin/${loginInfo.userId}/dienstleistungen`}>Admin</a></li>
                   )}
-                  <li><a href="#" onClick={doLogout}>Logout</a></li>
+                  <li><a onClick={doLogout}>Logout</a></li>
               </ul>
               {loginInfo && (
-          <Link to={`/chat/${loginInfo.userId}`} className="notification-icon">
-            <img src="/icons8-notification-100.png" alt="Benachrichtigungen"/>
-          </Link>
+                <div className="notification-icon" onClick={handleNotificationClick}>
+                    {newMessage && <div className="notification-badge"></div>}
+                    <img src="/icons8-notification-100.png" alt="Benachrichtigungen"/>
+                </div>
         )}
-      </nav>
+      </nav>  
+
+        <div className={`chat-container ${showChat ? 'show' : ''}`}>
+              <ChatComponent onClose={toggleChat} />
+          </div>
       </>
   );
 }

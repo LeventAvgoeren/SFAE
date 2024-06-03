@@ -84,10 +84,9 @@ public class Worker {
   @Column(name = "verification")
   private Boolean verification;
 
-  
   @Column(name = "latitude")
   private Double latitude;
-  
+
   @Column(name = "longitude")
   private Double longitude;
 
@@ -96,16 +95,36 @@ public class Worker {
 
   @Lob
   @Column(name = "profile_picture_blob", nullable = true)
-  private byte[] profilePictureBlob;
+  private Long profilePictureOid;
 
   @Column(name = "slogan")
   private String slogan;
 
 
-  public Worker(){}
+  public Worker(String id, String name, String location, String password, String email, Status status, StatusOrder statusOrder, Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, Double latitude, Double longitude, String slogan){
+    this.id = id;
+    this.name = name;
+    this.location = location;
+    this.password = password;
+    this.email = email;
+    this.status = status;
+    this.statusOrder = statusOrder;
+    this.range = range;
+    this.jobType = jobType;
+    this.minPayment = minPayment;
+    this.rating = rating;
+    this.verification = verification;
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.slogan = slogan;
+}
+
+  public Worker() {
+  }
 
   public Worker(String name, String location, String password, Status status, StatusOrder statusOrder,
-      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,double latitude,double longitude, ArrayList<Double> ratingAv , byte[] profilePictureBlob,String slogan) {
+      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,
+      double latitude, double longitude, ArrayList<Double> ratingAv,Long profilePictureOid, String slogan) {
 
     this.name = name;
     this.location = location;
@@ -118,16 +137,17 @@ public class Worker {
     this.rating = rating;
     this.verification = verification;
     this.email = email;
-    this.latitude=latitude;
-    this.longitude=longitude;
+    this.latitude = latitude;
+    this.longitude = longitude;
     this.ratingAV = new ArrayList<>();
     this.ratingAV.add(1.0);
-    this.profilePictureBlob=profilePictureBlob;
-    this.slogan=slogan;
+    this.profilePictureOid = profilePictureOid;
+    this.slogan = slogan;
   }
 
   public Worker(String id, String name, String location, String password, Status status, StatusOrder statusOrder,
-      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,double latitude,double longitude,byte[] profilePictureBlob,String slogan) {
+      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,
+      double latitude, double longitude,Long profilePictureOid, String slogan) {
     this.id = id;
     this.name = name;
     this.location = location;
@@ -140,16 +160,15 @@ public class Worker {
     this.rating = rating;
     this.verification = verification;
     this.email = email;
-    this.latitude=latitude;
-    this.longitude=longitude;
-    this.profilePictureBlob=profilePictureBlob;
-    this.slogan=slogan;
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.profilePictureOid = profilePictureOid;
+    this.slogan = slogan;
   }
 
-  
-  
   public Worker(String name, String location, String password, Status status, StatusOrder statusOrder,
-      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,double latitude,double longitude,String slogan) {
+      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,
+      double latitude, double longitude, String slogan) {
     this.name = name;
     this.location = location;
     this.password = password;
@@ -161,9 +180,25 @@ public class Worker {
     this.rating = rating;
     this.verification = verification;
     this.email = email;
-    this.latitude=latitude;
-    this.longitude=longitude;
-    this.slogan=slogan;
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.slogan = slogan;
+  }
+
+  public Worker(String name, String location, String password, @Email String email, Double latitude, Double longitude, String slogan) {
+    this.name = name;
+    this.location = location;
+    this.password = password;
+    this.email = email;
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.slogan = slogan;
+  }
+
+  public Worker(Double range, JobList jobType,Double minPayment) {
+    this.range = range;
+    this.jobType = jobType;
+    this.minPayment = minPayment;
   }
 
 }

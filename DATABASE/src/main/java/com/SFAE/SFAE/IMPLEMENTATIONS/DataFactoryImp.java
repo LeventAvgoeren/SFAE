@@ -40,17 +40,16 @@ final class DataFactoryImp implements DataFactoryInterface{
     }
 
     @Override
-    public Optional<Worker> createWorker(String id,String name, String location, String password, String email,
-            String status, Double range, String jobType, String Statusorder, Double minPayment, Double rating, Boolean verification,double latitude,double longitude,byte [] picture,String slogan) {
-      try{
-        return Optional.of(
-            new Worker(id,name,location, password, Status.valueOf(status),  StatusOrder.valueOf(Statusorder),  range, JobList.valueOf(jobType), minPayment, rating, verification, email,latitude,longitude,picture,slogan)
-        );
-      }catch(IllegalArgumentException iax){
-
-      }
-
-      return Optional.empty();
+    public Optional<Worker> createWorker(String id, String name, String location, String password, String email,
+            String status, Double range, String jobType, String Statusorder, Double minPayment, Double rating, Boolean verification, Double latitude, Double longitude, String slogan) {
+        try {
+            return Optional.of(
+                new Worker(id, name, location, password, email, Status.valueOf(status), StatusOrder.valueOf(Statusorder), range, JobList.valueOf(jobType), minPayment, rating, verification, latitude, longitude, slogan)
+            );
+        } catch (IllegalArgumentException iax) {
+        }
+    
+        return Optional.empty();
     }
     
     }

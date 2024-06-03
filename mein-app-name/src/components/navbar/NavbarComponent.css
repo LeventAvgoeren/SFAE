@@ -1,5 +1,6 @@
 .page-background { 
-  background-color: #001325;
+  background: transparent;
+  background-color: transparent;
   display: flex;
   justify-content: flex-start; 
   align-items: center;
@@ -98,10 +99,6 @@ body {
   animation: wobble 0.5s ease-in-out infinite;
 }
 
-
-.page-background {
-  position: relative;
-}
 
 .notification-icon {
   cursor: pointer;

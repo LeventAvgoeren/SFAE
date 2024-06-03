@@ -1,64 +1,114 @@
+
+import { NavDropdown } from 'react-bootstrap';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import './NavbarWComponent.css';
+import { LinkContainer } from 'react-router-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { checkLoginStatus,deleteCookie } from '../../backend/api';
-import { useEffect, useState } from 'react';
-import { LoginInfo } from '../LoginManager';
+import { useEffect, useRef, useState } from 'react';
+import { LoginInfo, useLoginContext } from '../LoginManager';
+import { checkLoginStatus, deleteCookie } from '../../backend/api';
 import ChatComponent from '../ChatComponent';
+import { Client, IMessage, Frame } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
+
+interface Message {
+    sender: string;
+    receiver: string | undefined;
+    content: string;
+    timestamp?: number;
+    type?: string; 
+}
+
 
 export function NavbarWComponent() {
-  const [loginInfo, setLoginInfo] = useState<LoginInfo | false | undefined>(undefined);
-  const { workerId } = useParams<{ workerId?: string }>();
-
+  const {loginInfo} = useLoginContext();
   const [showChat, setShowChat] = useState(false);
+  const params = useParams<{ customerId: string, workerId: string}>();
+  const userId = params.customerId? params.customerId! : params.workerId!;
+  const clientRef = useRef<Client | null>(null);
+  const [newMessage, setNewMessage] = useState(false);
   async function doLogout() {
       await deleteCookie();
       window.location.href = "/login";
   }
 
-  async function fetchLoginStatus() {
-      try {
-          const loginStatus = await checkLoginStatus();
-          console.log(loginStatus);
-          if (loginStatus) {
-              setLoginInfo(loginStatus);
-          }
-      } catch (e) {
-          console.log(e);
-      }
-  }
+  useEffect(() => {
+    const client = new Client({
+        webSocketFactory: () => new SockJS('https://localhost:8443/chat'),
+        reconnectDelay: 5000,
+        heartbeatIncoming: 4000,
+        heartbeatOutgoing: 4000,
+        onConnect: async () => {
+            console.log('Connected');
+            client.subscribe(`/topic/${userId}`, (message: IMessage) => {
+                const receivedMessage: Message = JSON.parse(message.body);
+                if(receivedMessage.content.length > 1){
+                     setNewMessage(true);
+                }
+            });
+        },
+        onStompError: (frame) => {
+            console.error('Broker reported error: ' + frame.headers['message']);
+            console.error('Additional details: ' + frame.body);
+        },
+        onWebSocketClose: (event) => {
+            console.error('WebSocket closed, event:', event);
+        },
+    });
+
+    client.activate();
+    clientRef.current = client;
+
+    return () => {
+        if (clientRef.current) {
+            clientRef.current.deactivate();
+        }
+    };
+}, []);
+
 
   const toggleChat = () => {
     setShowChat(!showChat);
   }
 
-  useEffect(() => {
-      fetchLoginStatus();
-  }, []);
+  const handleNotificationClick = () => {
+    toggleChat();
+    setNewMessage(false);
+  }
 
   return (
       <>
           <nav className="page-background">
-              <div className="navbar-left">
-                  <img src="/Sfae_Logo.png" alt="Logo" style={{height: 80, width:80}}/>
-              </div>
+    <img src="/Sfae_Logo.png" alt="Logo" style={{height: 100, width: 100}}/>
               <ul>
-
-                      <li><a  href={ `/worker/${workerId} `} >Home</a></li>
-                      <li><a href={ `/worker/${workerId}/profile `}>Profil</a></li>
-                      <li><a href={ `/worker/${workerId}/preferences `}>Präferenzen</a></li>
-                      <li><a href={ `/worker/${workerId}/faq `}>FAQ</a></li>
-                      <li><a href={ `/worker/${workerId}/orders/overview `}>Overview</a></li>
-
-
-                  <li><a href="#" onClick={doLogout}>Logout</a></li>
+                  {loginInfo && (
+                      <li><a href={`/worker/${loginInfo.userId}`}>Home</a></li>
+                  )}
+                  {loginInfo && (
+                      <li><a href={`/worker/${loginInfo.userId}/profile`}>Profil</a></li>
+                  )}
+                  {loginInfo && (
+                      <li><a href={`/worker/${loginInfo.userId}/preferences`}>Präferenzen</a></li>
+                  )}
+                  {loginInfo && (
+                      <li><a href={`/worker/${loginInfo.userId}/faq`}>Faq</a></li>
+                  )}
+                   {loginInfo  && (
+                      <li><a href={`/worker/${loginInfo.userId}/orders/overview `}>Overview</a></li>
+                  )}
+                  <li><a  onClick={doLogout}>Logout</a></li>
               </ul>
               {loginInfo && (
-                 <div className="notification-icon" onClick={toggleChat}>
+                <div className="notification-icon" onClick={handleNotificationClick}>
+                    {newMessage && <div className="notification-badge"></div>}
                     <img src="/icons8-notification-100.png" alt="Benachrichtigungen"/>
-                  </div>
+                </div>
         )}
-          </nav>
+      </nav>  
 
-          <div className={`chat-container ${showChat ? 'show' : ''}`}>
+        <div className={`chat-container ${showChat ? 'show' : ''}`}>
               <ChatComponent onClose={toggleChat} />
           </div>
       </>

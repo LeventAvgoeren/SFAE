@@ -98,7 +98,7 @@ export function NavbarComponent() {
                    {loginInfo && loginInfo.admin ==="ADMIN" && (
                       <li><a href={`/admin/${loginInfo.userId}/dienstleistungen`}>Admin</a></li>
                   )}
-                  <li><a href="#" onClick={doLogout}>Logout</a></li>
+                  <li><a onClick={doLogout}>Logout</a></li>
               </ul>
               {loginInfo && (
                 <div className="notification-icon" onClick={handleNotificationClick}>

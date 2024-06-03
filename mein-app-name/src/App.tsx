@@ -107,16 +107,7 @@ function App() {
           <Route path="/customer/:customerId/orders/:orderId/completed" element={(loginInfo && loginInfo.userId.startsWith("C")) ? <PageOrderCompleted /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/customer/:customerId/orders/:orderId/rating" element={(loginInfo && loginInfo.userId.startsWith("C")) ? <PageOrderRating /> : < Navigate to="/NotAuth" replace />} />
           {/* Chat Route */}
-          <Route
-            path="/chat/:userId"
-            element={
-              loginInfo && (loginInfo.userId.startsWith("C") || loginInfo.userId.startsWith("W")) ? (
-                <ChatComponent />
-              ) : (
-                <Navigate to="/NotAuth" replace />
-              )
-            }
-          />
+       
 
 
 

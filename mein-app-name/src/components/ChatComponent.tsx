@@ -10,6 +10,7 @@ import {
     MDBIcon,
     MDBCardHeader,
     MDBCardFooter,
+    MDBBtn,
 } from "mdb-react-ui-kit";
 import { useParams } from 'react-router-dom';
 import { getContractByCustomerId, getContractByWorkerId, getCustomerImage, getCustomerbyID, getWorkerImage, getWorkerbyID } from '../backend/api';
@@ -22,7 +23,7 @@ interface Message {
     receiver: string | undefined;
     content: string;
     timestamp?: number;
-    type?: string; // Added type for typing indicator
+    type?: string; 
 }
 
 const fetchMessagesForUser = async (user1: string, user2: string): Promise<Message[]> => {
@@ -45,7 +46,11 @@ const formatTimestamp = (timestamp: number, time?: boolean) => {
     }
 };
 
-const ChatComponent: React.FC = () => {
+interface ChatComponentProps {
+    onClose: () => void;
+}
+
+const ChatComponent: React.FC<ChatComponentProps> = ({ onClose }) => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [name, setName] = useState('');
     const [message, setMessage] = useState('');
@@ -54,8 +59,8 @@ const ChatComponent: React.FC = () => {
     const [contract, setContract] = useState<ContractResource | undefined>();
     const [receiver, setReceiver] = useState<string | undefined>('');
     const [image, setImage] = useState<string>('');
-    const params = useParams<{ userId: string }>();
-    const userId = params.userId!;
+    const params = useParams<{ customerId: string, workerId: string}>();
+    const userId = params.customerId? params.customerId! : params.workerId!;
     const clientRef = useRef<Client | null>(null);
     const [load, setLoad] = useState(false);
     const [active, setActive] = useState(true);
@@ -206,15 +211,13 @@ const ChatComponent: React.FC = () => {
                 type: 'typing'
             };
             clientRef.current?.publish({ destination: '/app/chat.typing', body: JSON.stringify(typingMessage) });
-            setTimeout(() => setTyping(false), 5000); // Stop typing after 5 seconds of inactivity
+            setTimeout(() => setTyping(false), 5000); 
         }
     };
 
     const groupMessagesByDate = (messages: Message[]) => {
         const groupedMessages: { [key: string]: Message[] } = {};
 
-        const reversedMessages = messages.slice().reverse();
-        
         messages.forEach((msg) => {
             const dateKey = formatTimestamp(msg.timestamp!);
             if (!groupedMessages[dateKey]) {
@@ -230,19 +233,20 @@ const ChatComponent: React.FC = () => {
     const groupedMessages = groupMessagesByDate(messages);
 
     if (!active) {
-        return (<>NO ACTIVE CONTRACT</>) // DESIGNEN
+        return (<>NO ACTIVE CONTRACT</>) 
     }
 
     if (!contract) {
         return <LoadingIndicator />;
     }
 
-    return (
-        <MDBContainer fluid className="py-5" style={{ backgroundColor: "#060454", height: "100vh" }}>
+    return (  
+    <>
+        <MDBContainer fluid className="py-5 chat-container-content" style={{ height: "100vh" }}>
             <MDBRow className="d-flex justify-content-center">
-                <MDBCol md="10" lg="8" xl="6">
-                    <MDBCard id="chat2" style={{ borderRadius: "15px", height: "90vh" }}>
-                        <MDBCardHeader className="d-flex flex-column justify-content-center align-items-center p-3">
+                    <MDBCard id="chat2" style={{ borderRadius: "0px", height: "90vh" }}> 
+                     <MDBBtn style={{height:"50px", width:"50px", overflow:"inherit", margin:"0px", padding:"0px", backgroundColor:"white"}} onClick={onClose}><img src="/Kreuz.png" alt="" style={{height:"30px", width:"30px", margin:"0px",color:"white"}}/></MDBBtn>
+                        <MDBCardHeader className="d-flex flex-column justify-content-center align-items-center p-3">    
                             <h1 className="mb-0">Chat</h1>
                             <p></p>
                             <img src={image} alt="Profilbild" style={{ width: '150px', height: '150px', borderRadius: '50%' }} />
@@ -264,8 +268,8 @@ const ChatComponent: React.FC = () => {
                                             <span className="line"></span>
                                         </div>
                                         {messages.map((msg, msgIndex) => (
-                                            <div className="message-container">
-                                                <div key={msgIndex} className={msg.sender === userId ? "Right" : "Left"}>
+                                            <div className="message-container" key={msgIndex}>
+                                                <div className={msg.sender === userId ? "Right" : "Left"}>
                                                     {msg.content}
                                                     <div className="TimeL">
                                                         {formatTimestamp(msg.timestamp!, true)}
@@ -280,7 +284,7 @@ const ChatComponent: React.FC = () => {
                                         <span>schreibt...</span>
                                     </div>
                                 )}
-                                 <div ref={messagesEndRef} /> 
+                                <div ref={messagesEndRef} /> 
                             </div>
                         </MDBCardBody>
                         <MDBCardFooter className="text-muted d-flex justify-content-start align-items-center p-3">
@@ -301,9 +305,8 @@ const ChatComponent: React.FC = () => {
                             <MDBIcon fas style={{ color: "white", margin: "20px", cursor: "pointer" }} icon="paper-plane" onClick={sendMessage} />
                         </MDBCardFooter>
                     </MDBCard>
-                </MDBCol>
             </MDBRow>
-        </MDBContainer>
+        </MDBContainer></>
     );
 };
 

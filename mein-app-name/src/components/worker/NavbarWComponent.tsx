@@ -2,12 +2,13 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { checkLoginStatus,deleteCookie } from '../../backend/api';
 import { useEffect, useState } from 'react';
 import { LoginInfo } from '../LoginManager';
+import ChatComponent from '../ChatComponent';
 
 export function NavbarWComponent() {
   const [loginInfo, setLoginInfo] = useState<LoginInfo | false | undefined>(undefined);
   const { workerId } = useParams<{ workerId?: string }>();
 
-
+  const [showChat, setShowChat] = useState(false);
   async function doLogout() {
       await deleteCookie();
       window.location.href = "/login";
@@ -23,6 +24,10 @@ export function NavbarWComponent() {
       } catch (e) {
           console.log(e);
       }
+  }
+
+  const toggleChat = () => {
+    setShowChat(!showChat);
   }
 
   useEffect(() => {
@@ -47,11 +52,15 @@ export function NavbarWComponent() {
                   <li><a href="#" onClick={doLogout}>Logout</a></li>
               </ul>
               {loginInfo && (
-          <Link to={`/chat/${loginInfo.userId}`} className="notification-icon">
-            <img src="/icons8-notification-100.png" alt="Benachrichtigungen"/>
-          </Link>
+                 <div className="notification-icon" onClick={toggleChat}>
+                    <img src="/icons8-notification-100.png" alt="Benachrichtigungen"/>
+                  </div>
         )}
           </nav>
+
+          <div className={`chat-container ${showChat ? 'show' : ''}`}>
+              <ChatComponent onClose={toggleChat} />
+          </div>
       </>
   );
 }

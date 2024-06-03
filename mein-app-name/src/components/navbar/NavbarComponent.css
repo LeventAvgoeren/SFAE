@@ -97,3 +97,44 @@ body {
 .notification-icon:hover img {
   animation: wobble 0.5s ease-in-out infinite;
 }
+
+
+.page-background {
+  position: relative;
+}
+
+.notification-icon {
+  cursor: pointer;
+}
+
+.chat-container {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 400px;
+  height: 100%;
+  background-color: white;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  transition: right 0.5s ease;
+  z-index: 1000; 
+  border-left: white solid;
+}
+
+.chat-container.show {
+  right: 0;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 20px;
+  right: 6.3%;
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+}

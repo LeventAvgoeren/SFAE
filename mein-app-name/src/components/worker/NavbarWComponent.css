@@ -45,13 +45,7 @@
 body, button, input, textarea, h1, p {
   font-family: 'Roboto', sans-serif; 
 }
-body {
-  background-size: cover;
-  background-position: center; 
-  background-repeat: no-repeat;
-  position: relative; 
-  z-index: 0; 
-}
+
 
 .page-background {
   display: flex;

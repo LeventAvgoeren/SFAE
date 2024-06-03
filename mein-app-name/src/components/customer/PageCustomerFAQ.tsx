@@ -67,8 +67,8 @@ export function PageCustomerFAQ() {
 
   return (
     <>
-  <NavbarComponent />
-      <section className="faq-section">
+    <div className='Backg'>  <NavbarComponent />
+       <section className="faq-section"> 
           <div className="row">
             <div className="col-md-6 offset-md-3">
             </div>
@@ -96,7 +96,10 @@ export function PageCustomerFAQ() {
 
         </div>
       </section>
- 
+    
+    </div>
+   
+   
     </>
   );
 }

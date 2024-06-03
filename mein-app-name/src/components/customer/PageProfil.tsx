@@ -1,11 +1,10 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { CustomerResource } from '../../Resources';
 import { deleteCustomer, getCustomerImage, getCustomerbyID, updateCustomer } from '../../backend/api';
 import "./PageProfil.css";
-import { MDBTypography, MDBProgress, MDBProgressBar } from 'mdb-react-ui-kit';
-import { LinkContainer } from 'react-router-bootstrap';
+import { MDBTypography } from 'mdb-react-ui-kit';
 import NavbarComponent from '../navbar/NavbarComponent';
 
 function validatePassword(password: string) {
@@ -34,7 +33,7 @@ export function PageProfil() {
     const [error, setError] = useState<string | null>(null);
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
-    const [newPassword, setNewPassword] = useState(password);
+    const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [passwordStrength, setPasswordStrength] = useState(0);
@@ -42,11 +41,13 @@ export function PageProfil() {
     const [email, setEmail] = useState('');
     const [status, setStatus] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [profileImage, setProfileImage] = useState<string>('');
     const [previewImage, setPreviewImage] = useState<string | undefined>(undefined);
 
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
+    const handleSuccessClose = () => setShowSuccessModal(false);
 
     const handleNewPasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
         const newPassword = event.target.value;
@@ -102,32 +103,36 @@ export function PageProfil() {
     const handleUpdateCustomer = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (!validatePassword(newPassword)) {
-            setPasswordError('Das Passwort muss mindestens einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten.');
-            return;
-        }
-
-        if (!passwordsMatch) {
-            setPasswordError('Passwörter sind nicht identisch.');
-            return;
-        }
-
-        setPasswordError('');
-
+        // Initialisiere das aktualisierte Kundendaten-Objekt
         const updatedCustomerData: CustomerResource = {
             id: customerId!,
             name: name,
             email: email,
-            password: newPassword,
+            password: password, // Verwende das bestehende Passwort standardmäßig
             role: "CUSTOMER",
             profileBase64: profileImage
         };
+
+        if (newPassword) { // Wenn ein neues Passwort gesetzt ist, führe die Validierung durch
+            if (!validatePassword(newPassword)) {
+                setPasswordError('Das Passwort muss mindestens einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten.');
+                return;
+            }
+
+            if (!passwordsMatch) {
+                setPasswordError('Passwörter sind nicht identisch.');
+                return;
+            }
+
+            setPasswordError('');
+            updatedCustomerData.password = newPassword; // Setze das neue Passwort, wenn validiert
+        }
 
         try {
             updatedCustomerData.profileBase64 = updatedCustomerData.profileBase64.slice(23);
             const updatedCustomer = await updateCustomer(updatedCustomerData);
             console.log("Updated Customer:", updatedCustomer);
-            alert("Kunde erfolgreich aktualisiert");
+            setShowSuccessModal(true);  // Zeige das Erfolgs-Popup
         } catch (error) {
             console.error("Fehler beim Aktualisieren des Kunden:", error);
             alert("Fehler beim Aktualisieren des Kunden");
@@ -260,6 +265,18 @@ export function PageProfil() {
                                                     </Button>
                                                     <Button variant="danger" onClick={handleDeleteCustomer}>
                                                         Account löschen
+                                                    </Button>
+                                                </Modal.Footer>
+                                            </Modal>
+
+                                            <Modal show={showSuccessModal} onHide={handleSuccessClose}>
+                                                <Modal.Header closeButton>
+                                                    <Modal.Title>Erfolgreich</Modal.Title>
+                                                </Modal.Header>
+                                                <Modal.Body>Ihr Profil wurde erfolgreich aktualisiert!</Modal.Body>
+                                                <Modal.Footer>
+                                                    <Button variant="success" onClick={handleSuccessClose}>
+                                                        Schließen
                                                     </Button>
                                                 </Modal.Footer>
                                             </Modal>

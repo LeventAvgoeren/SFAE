@@ -1,13 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import './PageOrderOverview.css';
-import { Link, useParams } from 'react-router-dom';
-import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus, deleteChat, deleteContractById, updateWorkerOrderStatus, getCustomerImage, getWorkerImage } from '../../backend/api'; // Importiere die Funktion
+import { useParams } from 'react-router-dom';
+import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus, deleteChat, updateWorkerOrderStatus, getCustomerImage, getWorkerImage } from '../../backend/api';
 import { ContractResource } from '../../Resources';
 import NavbarComponent from '../navbar/NavbarComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Lottie from 'react-lottie';
 import animationData from "./LoadingAnimation.json";
-import { Col, Row } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import 'leaflet-routing-machine';
+import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
+import { Routing } from 'leaflet-routing-machine';
+
+const fetchCoordinates = async (address: string): Promise<{ lat: number; lon: number }> => {
+  const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${address}`);
+  const data = await response.json();
+  if (data.length > 0) {
+    return {
+      lat: parseFloat(data[0].lat),
+      lon: parseFloat(data[0].lon)
+    };
+  } else {
+    throw new Error('Address not found');
+  }
+};
 
 export function PageOrderOverview() {
   const { customerId } = useParams();
@@ -16,15 +34,16 @@ export function PageOrderOverview() {
   const params = useParams();
   const contId = params.orderId;
   let contractId = parseInt(contId!);
-  const [conData, setConData] = useState<ContractResource>();
-  const [modalShow, setModalShow] = useState(false); // Zustand für die Anzeige des Modals
-  const [cancelModalShow, setCancelModalShow] = useState(false); // Zustand für die Anzeige des Stornierungsmodals
+  const [conData, setConData] = useState<ContractResource | null>(null);
+  const [modalShow, setModalShow] = useState(false);
+  const [cancelModalShow, setCancelModalShow] = useState(false);
   const [messageIndex, setMessageIndex] = useState(0);
   const [workerAssigned, setWorkerAssigned] = useState(false);
   const [foto, setFoto] = useState("");
   const [workerFoto, setWorkerFoto] = useState("");
+  const [customerCoords, setCustomerCoords] = useState<{ lat: number; lon: number } | null>(null);
+  const [workerCoords, setWorkerCoords] = useState<{ lat: number; lon: number } | null>(null);
 
-  //ist nur ein versuch ob es machbar ist 
   const [isPaid, setIsPaid] = useState<boolean>(false);
   const handlePayment = () => setIsPaid(true);
 
@@ -38,7 +57,7 @@ export function PageOrderOverview() {
   useEffect(() => {
     const interval = setInterval(() => {
       setMessageIndex((prevIndex) => (prevIndex + 1) % messages.length);
-    }, 3000); // Wechsel alle 3 Sekunden
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
@@ -54,8 +73,16 @@ export function PageOrderOverview() {
         setFoto(`data:image/jpeg;base64,${result}`);
         if (contract && contract.worker) {
           let result = await getWorkerImage(contract.worker.id!);
-          setWorkerFoto(`data:image/jpeg;base64,${result}`)
-          setWorkerAssigned(true); // Worker ist zugewiesen
+          setWorkerFoto(`data:image/jpeg;base64,${result}`);
+          setWorkerAssigned(true);
+        }
+        if (contract.adress) {
+          const customerCoords = await fetchCoordinates(contract.adress);
+          setCustomerCoords(customerCoords);
+        }
+        if (contract.worker && contract.worker.location) {
+          const workerCoords = await fetchCoordinates(contract.worker.location);
+          setWorkerCoords(workerCoords);
         }
       } catch (error) {
         console.error('Error fetching contract data:', error);
@@ -81,45 +108,61 @@ export function PageOrderOverview() {
     return () => clearInterval(statusInterval);
   }, [customerId, contractId]);
 
+  useEffect(() => {
+    if (customerCoords && workerCoords) {
+      const map = L.map('map').setView([customerCoords.lat, customerCoords.lon], 13);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      Routing.control({
+        waypoints: [
+          L.latLng(customerCoords.lat, customerCoords.lon),
+          L.latLng(workerCoords.lat, workerCoords.lon)
+        ],
+        routeWhileDragging: true
+      }).addTo(map);
+
+      console.log("Map initialized with waypoints:", customerCoords, workerCoords);
+    } else {
+      console.log("Map or coordinates not available:", customerCoords, workerCoords);
+    }
+  }, [customerCoords, workerCoords]);
+
   const toggleShow = () => {
-    console.log('Toggle modal');
     setModalShow(!modalShow);
   };
 
   const toggleCancelShow = () => {
-    console.log('Toggle cancel modal');
     setCancelModalShow(!cancelModalShow);
   };
 
   const handleConfirm = async () => {
     if (conData && conData.worker && conData.worker.id) {
       try {
-        await updateWorkerOrderStatus(conData.worker.id, "UNDEFINED")
+        await updateWorkerOrderStatus(conData.worker.id, "UNDEFINED");
         await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
         await updateContractStatus(contractId!, 'FINISHED');
-        console.log('Worker status updated to AVAILABLE and contract status updated to COMPLETED');
       } catch (error) {
         console.error('Error updating status:', error);
       }
     }
-    toggleShow(); // Schließt das Modal
-  }; 
+    toggleShow();
+  };
 
   const handleCancelConfirm = async () => {
     if (conData && conData.worker && conData.worker.id) {
-      console.log(conData)
       try {
         await deleteChat(conData.worker.id, conData.customer!.id!);
         await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
         await updateContractStatus(contractId!, 'CANCELLED');
         await updateWorkerOrderStatus(conData.worker.id, "UNDEFINED");
-        //await deleteContractById(conData.id!);
-        console.log('Worker status updated to AVAILABLE and contract status updated to TERMINATED');
       } catch (error) {
         console.error('Error updating status:', error);
       }
     }
-    toggleCancelShow(); // Schließt das Stornierungsmodal
+    toggleCancelShow();
   };
 
   if (!contractData.length) {
@@ -141,7 +184,7 @@ export function PageOrderOverview() {
 
   return (
     <>
-     <NavbarComponent />
+      <NavbarComponent />
       <div className="Backg">
         {loading || !workerAssigned ? (
           <div className="loading-container">
@@ -150,7 +193,7 @@ export function PageOrderOverview() {
           </div>
         ) : (
           <div className="containertest">
-            <h1 style={{marginTop: "60px"}}>Order Information</h1>
+            <h1 style={{ marginTop: "60px" }}>Order Information</h1>
             <div className="d-flex justify-content-between align-items-center py-3">
               <h2 className="h5 mb-0" style={{ color: "white" }}>Order ID: <span className="fw-bold text-body white-text">{conData.id}</span></h2>
             </div>
@@ -162,8 +205,7 @@ export function PageOrderOverview() {
                       <div>
                         <span className="badge rounded-pill bg-info">DIENSTLEISTUNG: {conData.jobType}</span>
                       </div>
-                      <div className="d-flex">
-                      </div>
+                      <div className="d-flex"></div>
                     </div>
                     <table className="table table-borderless">
                       <tbody>
@@ -171,13 +213,11 @@ export function PageOrderOverview() {
                           <td>
                             <div className="d-flex mb-2">
                               <div className="flex-shrink-0">
-                                <img src={foto}width="45"className="img-fluid"alt=""/>
+                                <img src={foto} width="45" className="img-fluid" alt="" />
                               </div>
-                              <div className="flex-lg-grow-1 ms-3">
-                              </div>
+                              <div className="flex-lg-grow-1 ms-3"></div>
                               <main style={{ gridArea: 'map' }}>
-                                <div style={{marginRight: "90px", width: '300px', height: '300px', backgroundColor: 'gray' }}>
-                                </div>
+                                <div id="map" className="map-container" style={{ width: '100%', height: '400px', marginBottom: '20px' }}></div>
                               </main>
                             </div>
                           </td>
@@ -188,12 +228,16 @@ export function PageOrderOverview() {
                     </table>
                   </div>
                   <div className="d-flex justify-content-between">
-                  {conData.statusOrder === "ACCEPTED" &&  <button onClick={toggleShow} className="btn btn-danger mb-4" style={{ width: "250px", marginLeft: "auto" }}>
-                      Auftrag beendet
-                    </button>}
-                    {conData.statusOrder === "ACCEPTED" && <button onClick={toggleCancelShow} className="btn btn-warning mb-4" style={{ width: "250px", marginLeft: "20px" }}>
-                      Auftrag stornieren
-                    </button>}
+                    {conData.statusOrder === "ACCEPTED" && (
+                      <button onClick={toggleShow} className="btn btn-danger mb-4" style={{ width: "250px", marginLeft: "auto" }}>
+                        Auftrag beendet
+                      </button>
+                    )}
+                    {conData.statusOrder === "ACCEPTED" && (
+                      <button onClick={toggleCancelShow} className="btn btn-warning mb-4" style={{ width: "250px", marginLeft: "20px" }}>
+                        Auftrag stornieren
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -208,7 +252,7 @@ export function PageOrderOverview() {
                   <div className="details-panel">
                     <h4>Order Details</h4>
                     <p className="text-muted" style={{ color: "white" }}>
-                      Order ID: <span className="fw-bold text-body  white-text" style={{ color: "white" }}>{conData.id}</span>
+                      Order ID: <span className="fw-bold text-body white-text" style={{ color: "white" }}>{conData.id}</span>
                     </p>
                     <p className="text-muted" style={{ color: "white" }}>
                       Umkreis des Workers <span className="fw-bold text-body white-text" style={{ color: "white" }}>: {conData.range} km</span>
@@ -218,14 +262,15 @@ export function PageOrderOverview() {
                     <hr />
                     <h3 className="h6">Worker Details</h3>
                     {conData.worker && (
-                      <>  <div className="Foto" >
-                                <img
-                                  src={workerFoto}
-                                  width="45"
-                                  className="img-fluid"
-                                  alt=""
-                                />
-                              </div>
+                      <>
+                        <div className="Foto">
+                          <img
+                            src={workerFoto}
+                            width="45"
+                            className="img-fluid"
+                            alt=""
+                          />
+                        </div>
                         <address>
                           <strong>Name: {conData.worker.name}</strong><br />
                           Email: {conData.worker.email}<br />
@@ -243,7 +288,7 @@ export function PageOrderOverview() {
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-             <h5 className="modal-title">Auftrag beendet</h5>
+                <h5 className="modal-title">Auftrag beendet</h5>
               </div>
               <div className="modal-body">
                 Bist du sicher, dass du diesen Auftrag als beendet markieren möchtest? Wurde alles ordnungsgemäß ausgeführt?
@@ -263,7 +308,7 @@ export function PageOrderOverview() {
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-             <h5 className="modal-title">Auftrag stornieren</h5>
+                <h5 className="modal-title">Auftrag stornieren</h5>
               </div>
               <div className="modal-body">
                 Bist du sicher, dass du diesen Auftrag stornieren möchtest?

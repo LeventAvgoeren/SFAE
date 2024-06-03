@@ -264,8 +264,8 @@ export function PageWorkerProfile() {
           </Modal.Header>
           <Modal.Body>Sind Sie sicher, dass Sie Ihr Konto löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.</Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>Close</Button>
-            <Button variant="danger" onClick={handleDelete}>Delete Account</Button>
+            <Button variant="secondary" onClick={handleClose}>Schließen</Button>
+            <Button variant="danger" onClick={handleDelete}>Account löschen</Button>
           </Modal.Footer>
         </Modal>
           

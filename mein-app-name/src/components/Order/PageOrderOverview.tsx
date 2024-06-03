@@ -141,8 +141,9 @@ export function PageOrderOverview() {
 
   return (
     <>
-     <NavbarComponent />
-      <div className="Backg">
+   
+      <div className="Backg">  
+      <NavbarComponent />
         {loading || !workerAssigned ? (
           <div className="loading-container">
             <Lottie options={defaultOptions} height={400} width={400} />
@@ -150,61 +151,55 @@ export function PageOrderOverview() {
           </div>
         ) : (
           <div className="containertest">
-            <h1 style={{marginTop: "60px"}}>Order Information</h1>
+            <h1>Order Information</h1>
             <div className="d-flex justify-content-between align-items-center py-3">
               <h2 className="h5 mb-0" style={{ color: "white" }}>Order ID: <span className="fw-bold text-body white-text">{conData.id}</span></h2>
             </div>
             <div className="row">
-              <div className="col-lg-8">
-                <div className="card mb-4">
-                  <div className="content-area">
+              <div className="col-lg-8 glassmorphism">           
                     <div className="mb-3 d-flex justify-content-between">
                       <div>
-                        <span className="badge rounded-pill bg-info">DIENSTLEISTUNG: {conData.jobType}</span>
+                        <span className="badge rounded-pill bg-info" style={{marginTop:"10%"}}>DIENSTLEISTUNG: {conData.jobType}</span>
                       </div>
                       <div className="d-flex">
                       </div>
                     </div>
-                    <table className="table table-borderless">
                       <tbody>
                         <tr>
                           <td>
-                            <div className="d-flex mb-2">
+                            <div className="d-flex align-items-center mb-2">
                               <div className="flex-shrink-0">
-                                <img src={foto}width="45"className="img-fluid"alt=""/>
+                                <img src={foto}width="45"className="img-fluid"alt="" style={{borderRadius:"20%"}}/>
                               </div>
                               <div className="flex-lg-grow-1 ms-3">
                               </div>
                               <main style={{ gridArea: 'map' }}>
-                                <div style={{marginRight: "90px", width: '300px', height: '300px', backgroundColor: 'gray' }}>
+                                <div style={{marginLeft: "80%", width: '300px', height: '300px', backgroundColor: 'gray' }}>
                                 </div>
                               </main>
+                              <td style={{marginLeft:"80%", color:"white"}}>Betrag:</td>
+                              <td style={{color:"white"}}> {conData.maxPayment}€</td>
                             </div>
                           </td>
-                          <td>Betrag:</td>
-                          <td className="text-end">{conData.maxPayment}€</td>
                         </tr>
                       </tbody>
-                    </table>
-                  </div>
+               
                   <div className="d-flex justify-content-between">
-                  {conData.statusOrder === "ACCEPTED" &&  <button onClick={toggleShow} className="btn btn-danger mb-4" style={{ width: "250px", marginLeft: "auto" }}>
+                  {conData.statusOrder === "ACCEPTED" &&  <button onClick={toggleShow} className="btn btn-danger mb-4" style={{ width: "250px", marginLeft:"5%" , marginTop: "20%"}}>
                       Auftrag beendet
                     </button>}
-                    {conData.statusOrder === "ACCEPTED" && <button onClick={toggleCancelShow} className="btn btn-warning mb-4" style={{ width: "250px", marginLeft: "20px" }}>
-                      Auftrag stornieren
-                    </button>}
                   </div>
-                </div>
               </div>
+
+
               <div className="col-lg-4">
-                <div className="card mb-4">
+                <div className="card mb-4 glassmorphism">
                   <div className="info-section">
                     <h4>Customer Beschreibung: </h4>
                     <p>{conData.description}</p>
                   </div>
                 </div>
-                <div className="card mb-4">
+                <div className="card mb-4 glassmorphism">
                   <div className="details-panel">
                     <h4>Order Details</h4>
                     <p className="text-muted" style={{ color: "white" }}>
@@ -224,6 +219,7 @@ export function PageOrderOverview() {
                                   width="45"
                                   className="img-fluid"
                                   alt=""
+                                  style={{borderRadius:"20%"}}
                                 />
                               </div>
                         <address>
@@ -249,9 +245,9 @@ export function PageOrderOverview() {
                 Bist du sicher, dass du diesen Auftrag als beendet markieren möchtest? Wurde alles ordnungsgemäß ausgeführt?
               </div>
               <div className="modal-footer">
-                <Row>
-                  <button type="button" className="btn btn-secondary" onClick={toggleShow} style={{ width: "150px", marginLeft: "12px" }}>Abbrechen</button>
-                  <button type="button" className="btn btn-primary" style={{ width: "150px" }} onClick={handleConfirm}>Bestätigen</button>
+                <Row style={{gap:"12px"}}>
+                  <button type="button" className="btn btn-secondary" onClick={toggleShow} style={{ width: "150px"}}>Abbrechen</button>
+                  <button type="button" className="btn btn-primary" style={{ width: "150px", gap:"12" }} onClick={handleConfirm}>Bestätigen</button>
                 </Row>
               </div>
             </div>
@@ -265,13 +261,13 @@ export function PageOrderOverview() {
               <div className="modal-header">
              <h5 className="modal-title">Auftrag stornieren</h5>
               </div>
-              <div className="modal-body">
+              <div className="modal-body" style={{gap:"12px"}}>
                 Bist du sicher, dass du diesen Auftrag stornieren möchtest?
               </div>
               <div className="modal-footer">
                 <Row>
-                  <button type="button" className="btn btn-secondary" onClick={toggleCancelShow} style={{ width: "150px", marginLeft: "12px" }}>Abbrechen</button>
-                  <button type="button" className="btn btn-warning" style={{ width: "150px" }} onClick={handleCancelConfirm}>Bestätigen</button>
+                  <button type="button" className="btn btn-secondary" onClick={toggleCancelShow} style={{ width: "150px", gap: "12px" }}>Abbrechen</button>
+                  <button type="button" className="btn btn-warning" style={{ width: "150px", gap:"12px" }} onClick={handleCancelConfirm}>Bestätigen</button>
                 </Row>
               </div>
             </div>

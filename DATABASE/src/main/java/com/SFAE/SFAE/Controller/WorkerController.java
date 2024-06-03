@@ -14,6 +14,8 @@ import com.SFAE.SFAE.DTO.PasswordResetRequest;
 import com.SFAE.SFAE.DTO.RatingDTO;
 import com.SFAE.SFAE.DTO.Token;
 import com.SFAE.SFAE.DTO.WorkerDTO;
+import com.SFAE.SFAE.DTO.WorkerPrefrencesDTO;
+import com.SFAE.SFAE.DTO.WorkerProfileDTO;
 import com.SFAE.SFAE.DTO.WorkerStatus;
 import com.SFAE.SFAE.ENDPOINTS.WorkerEp;
 import com.SFAE.SFAE.ENTITY.Worker;
@@ -431,6 +433,7 @@ public class WorkerController implements WorkerEp {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -450,6 +453,7 @@ public class WorkerController implements WorkerEp {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -470,6 +474,7 @@ public class WorkerController implements WorkerEp {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -488,6 +493,50 @@ public class WorkerController implements WorkerEp {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> updateWorkerProfil(WorkerProfileDTO data) {
+        if(data==null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        try {
+            Worker worker=dao.updateWorkerProfile(data);
+            if(worker!=null){
+                return ResponseEntity.status(HttpStatus.ACCEPTED).body(worker);
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> updateWorkerPreferences(WorkerPrefrencesDTO data) {
+       
+        if(data==null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        try {
+            Worker worker=dao.updateWorkerPreferences(data);
+            if(worker!=null){
+                return ResponseEntity.status(HttpStatus.ACCEPTED).body(worker);
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

@@ -20,6 +20,7 @@ import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 import com.SFAE.SFAE.INTERFACE.CustomerRepository;
 import com.SFAE.SFAE.Service.PasswordHasher;
+import com.SFAE.SFAE.Service.PictureService;
 
 /**
  * Implements the customer management operations defined in the
@@ -47,7 +48,11 @@ public class CustomerImp implements CustomerInterface {
     private CustomerRepository customerRepository;
 
     @Autowired
+    private PictureService pictureService;
+
+    @Autowired
     WorkerImpl worker;
+
 
     /**
      * Counts the total number of customers in the database.
@@ -162,27 +167,23 @@ public class CustomerImp implements CustomerInterface {
      * @return the newly created Customer object or null if creation fails
      */
     @Override
-    @Transactional
-    public Customer createCustomer(CustomerDTO jsonData) { // For the Endpoint
-        long startTime = System.currentTimeMillis();
+    public Customer createCustomer(CustomerDTO jsonData) {
+        System.out.println("ICH BIN IN DER CREATECUSTOMER IMPL");
         try {
-          
+            byte[] defaultImage = worker.loadDefaultProfilePicture();
+            var pic=pictureService.saveImageAsLargeObject(defaultImage);
             String name = jsonData.getName();
             String password = encoder.hashPassword(jsonData.getPassword());
             String email = jsonData.getEmail();
-
-            if (password == null  || name == null ||  email == null) {
+    
+            if (password == null || name == null || email == null) {
                 return null;
             }
-            Customer customer = new Customer(name, password, email);
-            long beforeSaveTime = System.currentTimeMillis();
+            Customer customer = new Customer(name, password, email, pic);
             customerRepository.save(customer);
-            long afterSaveTime = System.currentTimeMillis();
-
-            System.out.println("Time to hash password and create customer object: " + (beforeSaveTime - startTime) + "ms");
-            System.out.println("Time to save customer: " + (afterSaveTime - beforeSaveTime) + "ms");
-
+            System.out.println("CUSTOMER WURDE GESAFED");
             return customer;
+    
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -248,7 +249,7 @@ public class CustomerImp implements CustomerInterface {
         if (jsonData.getProfileBase64() != null && !jsonData.getProfileBase64().isEmpty()) {
             try {
                 byte[] imageBytes = Base64.getDecoder().decode(jsonData.getProfileBase64());
-                imageOid[0] = worker.saveImageAsLargeObject(imageBytes);
+                imageOid[0] = pictureService.saveImageAsLargeObject(imageBytes);
             } catch (Exception e) {
                 e.getStackTrace();
             }
@@ -357,7 +358,7 @@ public class CustomerImp implements CustomerInterface {
         }
 
         Integer oid = oids.get(0);
-        return worker.readLargeObject(oid);
+        return pictureService.readLargeObject(oid);
     }
 
 }

@@ -55,15 +55,16 @@ public class Customer {
     @Lob
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "profile_picture_blob", nullable = true)
-    private byte[] profilePictureBlob;
+    private Long profilePictureOid;
 
     public Customer(){}
     
-    public Customer( String name, String password, String email) { 
+    public Customer( String name, String password, String email,Long profilePictureOid) { 
         this.name = name;
         this.password = password;
         this.email = email;
         this.role = Role.CUSTOMER;
+        this.profilePictureOid = profilePictureOid;
     }
 
     

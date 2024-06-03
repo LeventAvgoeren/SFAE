@@ -5,6 +5,7 @@
   border-radius: 16px; 
   border: 1px solid rgba(255, 255, 255, 0.25); 
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
 
 .custom-container2 .row {
   margin-top: 20px;
@@ -36,7 +37,7 @@
   width: 100%;
 }
 
-}
+
 
 /* Stil für das Hochladefeld */
 .profile-upload-container {
@@ -79,4 +80,13 @@
 .profile-upload-container .form-control[type="file"]:focus::file-selector-button {
   border-color: rgba(255, 255, 255, 0.5); /* Hellerer Rand bei Hover/Fokus */
   background: rgba(255, 255, 255, 0.15); /* Leicht intensiverer Hintergrund bei Hover/Fokus */
+}
+.text-danger {
+  color: #ff0000; /* Helles Rot */
+  font-weight: bold; /* Fettgedruckt */
+  background-color: #ffe5e5; /* Heller roter Hintergrund */
+  padding: 10px; /* Innenabstand */
+  border: 1px solid #ff0000; /* Rote Umrandung */
+  border-radius: 5px; /* Abgerundete Ecken */
+  margin-top: 10px; /* Abstand nach oben */
 }

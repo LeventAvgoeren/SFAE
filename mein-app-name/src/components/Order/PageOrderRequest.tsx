@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import "./PageOrderRequest.css";
 import { createContract, getCustomerbyID } from "../../backend/api";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { ContractResource, Position } from "../../Resources";
 import MapComponent from "./MapComponent";
 import NavbarComponent from "../navbar/NavbarComponent";
-
 
 export default function PageOrderRequest() {
   const [address, setAddress] = useState("Eingeben...");
@@ -20,6 +19,8 @@ export default function PageOrderRequest() {
   const [contract, setContract] = useState<ContractResource>();
   const [isCreatingContract, setIsCreatingContract] = useState(false);
   const [getPosition, setPosition] = useState<Position>();
+  const [budgetError, setBudgetError] = useState("");
+  const [rangeError, setRangeError] = useState("");
 
   const params = useParams();
   const cusId = params.customerId;
@@ -27,6 +28,21 @@ export default function PageOrderRequest() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (budget <= 0) {
+      setBudgetError("Das Budget muss größer als 0 sein.");
+      return;
+    } else {
+      setBudgetError("");
+    }
+
+    if (range <= 0) {
+      setRangeError("Die Reichweite muss größer als 0 sein.");
+      return;
+    } else {
+      setRangeError("");
+    }
+
     console.log("Form submitted");
     await handleCreateContract();
   };
@@ -119,7 +135,6 @@ export default function PageOrderRequest() {
       longitude: getPosition!.longitude,
       latitude: getPosition!.latitude,
       maxPayment: budget,
-
     };
   
     console.log("Contract data:", contractData);
@@ -141,12 +156,13 @@ export default function PageOrderRequest() {
       setIsCreatingContract(false);
     }
   };
+
   return (
     <>
-    <div className={"Backg"}>
-      <NavbarComponent />
+     <NavbarComponent />
+    <div className="Backg">
 
-      <div className="container-frame3">
+      <div className="container-frame3 glassmorphism">  
         <Form onSubmit={handleSubmit} className="form-content">
           <Button onClick={handleClickMap1} variant="info">
             {showMap ? "Karte verbergen" : "Karte anzeigen"}
@@ -195,7 +211,9 @@ export default function PageOrderRequest() {
               type="number"
               value={budget}
               onChange={(e) => setBudget(parseInt(e.target.value))}
+              isInvalid={budget <= 0}
             />
+            {budgetError && <div className="text-danger">{budgetError}</div>}
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Reichweite (km)</Form.Label>
@@ -203,7 +221,9 @@ export default function PageOrderRequest() {
               type="number"
               value={range}
               onChange={(e) => setRange(parseInt(e.target.value))}
+              isInvalid={range <= 0}
             />
+            {rangeError && <div className="text-danger">{rangeError}</div>}
           </Form.Group>
               <Button
               className="myButton"

@@ -129,10 +129,10 @@ function App() {
           <Route path="/NotFound" element={<PageError error={404} />} />
           <Route path="/imprint" element={<ImprintPage />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-        </Routes>
+         </Routes>
 
 
-    <Toolbar style={{ bottom: 0, backgroundColor: "#001325", position: "sticky", marginTop:"0px", textAlign: 'center' }}>
+        <Toolbar style={{ bottom: 0, backgroundColor: "#001325", position: "sticky", marginTop:"0px", textAlign: 'center' }}>
             <Typography variant="body1" style={{ color: 'white', flex: 1 }}>
               © 2024 SFAE von Ahmad Sfarjalani, Eray Zor, Levent Avgören, Duc Dai Nguyen, Danyal Mahrous. Alle Rechte vorbehalten.
               <a href="/imprint" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Impressum</a>
@@ -141,9 +141,6 @@ function App() {
           </Toolbar>
 
       </LoginContext.Provider>
-
-
-
     </>
   );
 }

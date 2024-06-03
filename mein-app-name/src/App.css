@@ -85,9 +85,7 @@
   border-radius: 15px;     
 }
 
-body, button, input, textarea, h1, p {
-  font-family: 'Roboto', sans-serif; 
-}
+
 /* Überprüfen Sie, ob weitere Anpassungen bei anderen Elementen nötig sind */
 .content { 
   position: relative;

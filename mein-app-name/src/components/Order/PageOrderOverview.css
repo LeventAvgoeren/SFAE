@@ -142,3 +142,7 @@ a {
 .table{
   background: rgba(0, 0, 0, 0.7);
 }
+
+.leaflet-routing-container .leaflet-routing-alt {
+ display: none; /* Schriftgröße anpassen */
+}

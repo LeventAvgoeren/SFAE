@@ -82,9 +82,9 @@ export function PageIndexCustomer() {
 
   return (
     <>
-    <div className="background-image"> 
+      <div className="background-image"> 
       <NavbarComponent/>
-      <div className="call-to-action glassmorphism">
+      <div className="call-to-action">
         <h1>{name}, starte jetzt deinen ersten Auftrag!</h1>
         <p>
           Schnell, einfach und zuverlässig – finde jetzt den richtigen

@@ -150,9 +150,6 @@ function App() {
       </Toolbar>
 
       </LoginContext.Provider>
-
-
-
     </>
   );
 }

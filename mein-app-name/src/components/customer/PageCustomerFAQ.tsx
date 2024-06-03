@@ -67,6 +67,7 @@ export function PageCustomerFAQ() {
 
   return (
     <>
+    <div className='Backg'>
   <NavbarComponent />
       <section className="faq-section">
           <div className="row">
@@ -96,7 +97,7 @@ export function PageCustomerFAQ() {
 
         </div>
       </section>
- 
+      </div>
     </>
   );
 }

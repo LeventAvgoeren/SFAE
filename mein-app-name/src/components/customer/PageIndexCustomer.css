@@ -53,9 +53,6 @@ button {
   margin-top: 10px; /* Besseres Spacing */
 }
 
-body, button, input, textarea, h1, p {
-  font-family: 'Roboto', sans-serif; /* Stellt die Schriftart ein */
-}
 
 /* Optional: Spezifische Gewichte für verschiedene Elemente */
 h1 {

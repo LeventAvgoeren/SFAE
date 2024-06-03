@@ -214,8 +214,8 @@ export function PageWorkerProfile() {
 
   return (
     <>
-      <NavbarWComponent />
       <div className="background-image">
+      <NavbarWComponent />
         <div className="custom-container glassmorphism ">
           <MDBContainer className="p-3 my-5 d-flex flex-column align-items-center justify-content-center w-50">
             <div className="text-center mb-4">

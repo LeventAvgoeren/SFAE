@@ -7,11 +7,7 @@
   transform: scale(1.05); /* Leichter Zoom beim Hovern */
 }
 
-body, html {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden; /* Verhindert horizontales Scrollen */
-}
+
 
 .page-background {
   margin-bottom: 0 !important; /* Entfernt Margin unter der Navbar */

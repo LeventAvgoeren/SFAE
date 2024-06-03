@@ -132,7 +132,7 @@ function App() {
         </Routes>
 
 
-    <Toolbar style={{ bottom: 0, backgroundColor: "#001325", position: "sticky", marginTop:"0px"}}>
+    <Toolbar style={{ bottom: 0, backgroundColor: "#001325", position: "sticky", marginTop:"0px", textAlign: 'center' }}>
             <Typography variant="body1" style={{ color: 'white', flex: 1 }}>
               © 2024 SFAE von Ahmad Sfarjalani, Eray Zor, Levent Avgören, Duc Dai Nguyen, Danyal Mahrous. Alle Rechte vorbehalten.
               <a href="/imprint" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Impressum</a>

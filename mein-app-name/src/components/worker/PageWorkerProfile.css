@@ -2,59 +2,49 @@
   background-image: url('/public/b1.jpg'); /* Überprüfen Sie den korrekten Pfad */
   background-size: cover;
   background-position: center;
-  height: 100vh;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  position: relative;
 }
 
 .custom-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translate(-50%, -40%);
+  background: rgba(0, 0, 0, 0.7);
+  padding: 20px 30px;
+  border-radius: 14px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  color: white;
   position: absolute;
   top: 50%;
   left: 50%;
+  height: 80%;
+  width: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.7); /* Dunkelgrau, semi-transparent */
-  padding: 40px 50px;
-  border-radius: 14px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 1000px;
-  height: 1000px;
-  text-align: center;
-  color: white; /* Setzt die Textfarbe allgemein auf Weiß */
+  margin-bottom: 100px; /* Fügen Sie hier genügend Platz ein */
 }
 
-.inputField1 input, .inputField1 input::placeholder {
-  color: white !important; /* Erzwingt die Textfarbe Weiß für Text und Platzhalter */
-  background-color: rgba(255, 255, 255, 0.1) !important; /* Leicht transparenter weißer Hintergrund */
-  border: 1px solid #ccc !important; /* Optional: Grenze */
-}
-
-.alert {
-  color: red; /* Farbe für Fehlermeldungen, wenn gewünscht */
-}
-
-.inputField1 label {
-  color: white !important; /* Setzt die Textfarbe der Labels auf Weiß */
-}
-
-.form-check-input {
-  accent-color: white !important; /* Farbe der Radiobuttons für die Nutzertyp-Auswahl */
-}
-
-.form-check-label {
-  color: white !important; /* Farbe der Labels neben den Radiobuttons */
-}
-
-.alert {
-  color: red; /* Farbe für Fehlermeldungen, wenn gewünscht */
-}
 .inputField1 {
-  margin-bottom: 20px; /* Fügt unten einen Abstand von 20px hinzu */
-}
-
-.inputField1  {
+  margin-bottom: 10px; /* Verringern Sie den unteren Rand */
   width: 100% !important; /* Setzt die Breite auf 100% des umgebenden Containers */
-  max-width: 600px; /* Optional: Maximale Breite */
+  max-width: 400px; /* Optional: Maximale Breite verringern */
 }
 
-.button{
+.button {
   width: 100%;
   margin-bottom: 10px;
+}
+
+.sticky-toolbar {
+  position: sticky;
+  bottom: 0;
+  background-color: #001325;
+  width: 100%;
+  text-align: center;
+  color: white;
+  padding: 10px 0;
 }

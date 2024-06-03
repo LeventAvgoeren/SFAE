@@ -9,6 +9,7 @@ import "./PageWorkerProfile.css";
 import NavbarWComponent from "./NavbarWComponent";
 import axios from 'axios';
 import { Col, Row } from 'react-bootstrap';
+import { Toolbar, Typography } from "@mui/material";
 
 export function PageWorkerProfile() {
   const [worker, setWorker] = useState<WorkerResource | null>(null);
@@ -212,17 +213,18 @@ export function PageWorkerProfile() {
   if (loading) return <p>Lädt...</p>;
   if (error) return <p>Fehler: {error}</p>;
 
+
   return (
     <>
-      <NavbarWComponent />
       <div className="background-image">
-        <div className="custom-container">
+        <NavbarWComponent />
+        <div className="custom-container glassmorphism">
           <MDBContainer className="p-3 my-5 d-flex flex-column align-items-center justify-content-center w-50">
             <div className="text-center mb-4">
               <h1>Profileinstellungen</h1>
               {previewImage || profileImage ? (
                 <div>
-                  <img src={previewImage || profileImage} alt="Profilbild" style={{ width: '150px', height: '150px', borderRadius: '50%' }} />
+                  <img src={previewImage || profileImage} alt="Profilbild" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
                 </div>
               ) : (
                 <div className="placeholder bg-secondary d-flex align-items-center justify-content-center" style={{ width: '150px', height: '150px', borderRadius: '50%', color: 'white' }}>
@@ -244,7 +246,7 @@ export function PageWorkerProfile() {
                 onChange={(e) => setSlogan(e.target.value)}
               />
               <div className="mb-3">
-                <label htmlFor="profileImage" className="form-label">Profilbild hochladen</label>
+                <label htmlFor="profileImage" className="form-label" style={{color:"white"}}>Profilbild hochladen</label>
                 <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
               </div>
               <Button className="button" variant="success" type="submit">Profil speichern</Button>
@@ -253,24 +255,31 @@ export function PageWorkerProfile() {
               </LinkContainer>
               <Button type="button" className="button" variant="danger" onClick={handleShow}>
                 Account Löschen
-        </Button>
+             </Button>
             </form>
           </MDBContainer>
 
-                {/* modalShow */}
-                <Modal show={showModal} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Account Löschen</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Sind Sie sicher, dass Sie Ihr Konto löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>Close</Button>
-            <Button variant="danger" onClick={handleDelete}>Delete Account</Button>
-          </Modal.Footer>
-        </Modal>
-          
+          {/* modalShow */}
+          <Modal show={showModal} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Account Löschen</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Sind Sie sicher, dass Sie Ihr Konto löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>Close</Button>
+              <Button variant="danger" onClick={handleDelete}>Delete Account</Button>
+            </Modal.Footer>
+          </Modal>
         </div>
       </div>
+
+      <Toolbar className="sticky-toolbar">
+        <Typography variant="body1" style={{ color: 'white', flex: 1, textAlign: 'center' }}>
+          © 2024 SFAE von Ahmad Sfarjalani, Eray Zor, Levent Avgören, Duc Dai Nguyen, Danyal Mahrous. Alle Rechte vorbehalten.
+          <a href="/imprint" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Impressum</a>
+          <a href="/agb" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Allgemeine Geschäftsbedingungen</a>
+        </Typography>
+      </Toolbar>
     </>
   );
 }

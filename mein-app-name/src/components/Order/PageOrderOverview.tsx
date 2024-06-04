@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './PageOrderOverview.css';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus, deleteChat, deleteContractById, updateWorkerOrderStatus, getCustomerImage, getWorkerImage } from '../../backend/api'; // Importiere die Funktion
 import { ContractResource } from '../../Resources';
 import NavbarComponent from '../navbar/NavbarComponent';
@@ -28,12 +28,13 @@ export function PageOrderOverview() {
   const [workerFoto, setWorkerFoto] = useState("");
   const [routeTime, setRouteTime] = useState<string>('');
   const [routeDistance, setRouteDistance] = useState<string>('');
-
-
+  const navigate = useNavigate();
+  const { orderId } = useParams();
   //ist nur ein versuch ob es machbar ist 
   const [isPaid, setIsPaid] = useState<boolean>(false);
   const handlePayment = () => setIsPaid(true);
-
+  console.log("customerId : "+customerId)
+  console.log("orderId : "+orderId)
   const messages = [
     "Passender Worker wird gesucht...",
     "Bitte warten, wir ordnen Ihnen den besten verfügbaren Worker zu...",
@@ -96,13 +97,13 @@ export function PageOrderOverview() {
     console.log('Toggle cancel modal');
     setCancelModalShow(!cancelModalShow);
   };
-
   const handleConfirm = async () => {
     if (conData && conData.worker && conData.worker.id) {
       try {
         await updateWorkerOrderStatus(conData.worker.id, "UNDEFINED")
         await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
         await updateContractStatus(contractId!, 'FINISHED');
+        navigate(`/customer/${customerId}/orders/${orderId}/completed`)
         console.log('Worker status updated to AVAILABLE and contract status updated to COMPLETED');
       } catch (error) {
         console.error('Error updating status:', error);

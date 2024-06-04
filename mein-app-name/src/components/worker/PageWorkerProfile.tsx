@@ -272,14 +272,6 @@ export function PageWorkerProfile() {
           </Modal>
         </div>
       </div>
-
-      <Toolbar className="sticky-toolbar">
-        <Typography variant="body1" style={{ color: 'white', flex: 1, textAlign: 'center' }}>
-          © 2024 SFAE von Ahmad Sfarjalani, Eray Zor, Levent Avgören, Duc Dai Nguyen, Danyal Mahrous. Alle Rechte vorbehalten.
-          <a href="/imprint" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Impressum</a>
-          <a href="/agb" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Allgemeine Geschäftsbedingungen</a>
-        </Typography>
-      </Toolbar>
     </>
   );
 }

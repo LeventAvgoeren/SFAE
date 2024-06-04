@@ -7,7 +7,7 @@ import {
   MDBIcon,
 } from 'mdb-react-ui-kit';
 import './PageOrderCompleted.css';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import NavbarComponent from '../navbar/NavbarComponent';
@@ -26,7 +26,7 @@ export function PageOrderCompleted() {
   const [hover, setHover] = useState(0);
 
   const [contract, setContract] = useState<ContractResource>();
-
+  const naviagte = useNavigate()
 
   const rat :RatingRessource={
     id:contract?.worker?.id!,
@@ -51,8 +51,9 @@ export function PageOrderCompleted() {
   
   async function updateRating() {
    
-  console.log("DAS IST MEINE BEWERTUNG   "+ratting);
+  console.log("DAS IST MEINE BEWERTUNG"+ratting);
     await setRating(rat);
+    naviagte(`/customer/${customerId}/uebersicht`)
   }
 
   return (

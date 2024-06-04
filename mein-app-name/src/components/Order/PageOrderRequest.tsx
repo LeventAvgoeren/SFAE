@@ -159,9 +159,8 @@ export default function PageOrderRequest() {
 
   return (
     <>
-     <NavbarComponent />
     <div className="Backg">
-
+    <NavbarComponent />
       <div className="container-frame3 glassmorphism">  
         <Form onSubmit={handleSubmit} className="form-content">
           <Button onClick={handleClickMap1} variant="info">

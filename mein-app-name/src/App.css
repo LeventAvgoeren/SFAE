@@ -76,7 +76,6 @@
   text-decoration: none;
   color: white;
   font-size: 18px;
-  padding: 10px;
 }
 
 .page-background ul li a:hover {
@@ -85,12 +84,12 @@
   border-radius: 15px;     
 }
 
-
-/* Überprüfen Sie, ob weitere Anpassungen bei anderen Elementen nötig sind */
-.content { 
-  position: relative;
-  z-index: 1; 
+.Toolbar > * {
+  padding: 5px 10px; /* Geringfügig angepasst, um den kleineren Bereich zu berücksichtigen */
+  color: white;
 }
+
+
 
 
 

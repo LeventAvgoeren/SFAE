@@ -55,6 +55,7 @@ export function PageIntroduction() {
     };
 
     return (
+        <>
         <div className="my-horizontal-scroll-container">
             {sections.map((section, index) => (
                 <div key={section} className={`my-horizontal-section ${section} ${currentSection === index ? 'my-show' : ''}`}>
@@ -241,5 +242,6 @@ export function PageIntroduction() {
                 </div>
             ))}
         </div>
+        </>
     );
 }

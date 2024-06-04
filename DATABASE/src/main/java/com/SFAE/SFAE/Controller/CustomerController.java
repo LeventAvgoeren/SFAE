@@ -33,7 +33,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.validation.BindingResult;
-import org.springframework.cache.annotation.Cacheable;
 
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.Cookie;
@@ -228,16 +227,14 @@ class CustomerController implements CustomerEP {
      */
     @Override
     public ResponseEntity<Iterable<?>> findAllCustomers() {
-
         try {
             Iterable<Customer> customer = dao.findAllCustomer();
-
+            System.out.println(customer);
             return ResponseEntity.status(HttpStatus.OK).body(customer);
         } catch (DataAccessException dax) {
             logger.error("Database access error: " + dax.getMessage(), dax);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
     }
 
     /**

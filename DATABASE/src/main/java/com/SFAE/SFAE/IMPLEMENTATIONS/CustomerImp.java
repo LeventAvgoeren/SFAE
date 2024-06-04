@@ -1,21 +1,14 @@
 package com.SFAE.SFAE.IMPLEMENTATIONS;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import org.postgresql.largeobject.LargeObject;
-import org.postgresql.largeobject.LargeObjectManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
@@ -79,16 +72,17 @@ public class CustomerImp implements CustomerInterface {
      *
      * @return an iterable collection of Customer objects
      */
-    @Override
-    public Iterable<Customer> findAllCustomer() {
 
-        return jdbcTemplate.queryForStream(
-                "SELECT * FROM CUSTOMER",
-                (rs, rowNum) -> createCustomer(rs))
-                .filter(opt -> opt.isPresent())
-                .map(opt -> opt.get())
-                .collect(Collectors.toList());
-    }
+     @Override
+     public Iterable<Customer> findAllCustomer() {
+ 
+         return jdbcTemplate.queryForStream(
+                 "SELECT * FROM CUSTOMER",
+                 (rs, rowNum) -> createCustomer(rs))
+                 .filter(opt -> opt.isPresent())
+                 .map(opt -> opt.get())
+                 .collect(Collectors.toList());
+     }
 
     /**
      * Finds and returns a customer by their ID.
@@ -142,7 +136,7 @@ public class CustomerImp implements CustomerInterface {
         return null;
     }
 
-    private Optional<Customer> createCustomer(ResultSet rs) { // For the class
+    private Optional<Customer> createCustomer(ResultSet rs) {
         try {
             String id = rs.getString("ID");
             String name = rs.getString("NAME");

@@ -48,7 +48,7 @@ function TeamMemberCard({ name, role, imgSrc, frontContent, backContent }: TeamM
 
 export function PageIntroduction() {
     const [currentSection, setCurrentSection] = useState(1); // Starten bei der Welcome-Sektion
-    const sections = ["left-section", "my-section1", "my-section2", "my-section3", "my-section4"];
+    const sections = ["left-section", "my-section1", "my-section2", "my-section3", "my-section4", "my-section5"];
 
     const scrollToSection = (direction: Direction) => {
         setCurrentSection(prevSection => {

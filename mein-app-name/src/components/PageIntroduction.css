@@ -49,6 +49,12 @@ body {
     animation: my-gradient4 15s ease infinite;
 }
 
+.my-section5 {
+    background: linear-gradient(-45deg, #1e3c72, #1e3c72, #23d5ab, #23d5ab);
+    background-size: 400% 400%;
+    animation: my-gradient4 15s ease infinite;
+}
+
 .left-section {
     background: linear-gradient(-45deg, #1e3c72, #1e3c72, #23d5ab, #23d5ab);
     background-size: 400% 400%;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { JobType, Position, WorkerResource } from "../../Resources";
-import { deleteWorker, getWorkerbyID, updateWorker, getWorkerImage, deleteCookie } from "../../backend/api";
+import { deleteWorker, getWorkerbyID, updateWorker, getWorkerImage, deleteCookie, updateWorkerProfile } from "../../backend/api";
 import {  Link, useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { Button, Modal } from "react-bootstrap";
@@ -156,7 +156,7 @@ export function PageWorkerProfile() {
     try {
       updatedWorkerData.profileBase64 = updatedWorkerData.profileBase64.slice(23)
       
-      const updatedWorker = await updateWorker(updatedWorkerData);
+      const updatedWorker = await updateWorkerProfile(updatedWorkerData);
       console.log("Updated Worker:", updatedWorker);
       alert("Worker erfolgreich aktualisiert");
     } catch (error) {

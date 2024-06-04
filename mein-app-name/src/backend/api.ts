@@ -634,3 +634,43 @@ export async function updateWorkerOrderStatus(workerId: string, status: string):
   const result = await response.text();
   return result;
 }
+
+export async function updateWorkerPreferences(workerData: WorkerResource): Promise<WorkerResource> {
+
+  const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/preferences`;
+  const options = {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify(workerData),
+    credentials: "include" as RequestCredentials,
+  };
+  try {
+    const response = await fetchWithErrorHandling(url, options);
+    const updatedWorker = await response.json();
+    console.log("ASD" + updatedWorker)
+    return updatedWorker;
+  } catch (error) {
+    console.error("Failed to update worker:", error);
+    throw error;
+  }
+}
+
+export async function updateWorkerProfile(workerData: WorkerResource): Promise<WorkerResource> {
+
+  const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/profil`;
+  const options = {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify(workerData),
+    credentials: "include" as RequestCredentials,
+  };
+  try {
+    const response = await fetchWithErrorHandling(url, options);
+    const updatedWorker = await response.json();
+    console.log("ASD" + updatedWorker)
+    return updatedWorker;
+  } catch (error) {
+    console.error("Failed to update worker:", error);
+    throw error;
+  }
+}

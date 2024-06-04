@@ -67,8 +67,8 @@ export function PageLogin() {
             <MDBBtn type="submit" className="mb-4">Anmelden</MDBBtn>
             {error && <div className="alert alert-danger" role="alert">{error}</div>}
             <div className="text-center">
-              <p>Doch kein Konto? Registriere dich hier als <Link to="/registration/worker" className="text-white">Worker</Link> oder als <Link to="/registration/customer" className="text-white">Customer</Link></p>
-              <Link to="/passwordreset" className="text-white">Passwort vergessen?</Link>
+              <p>Doch kein Konto? Registriere dich hier als <Link to="/registration/worker" className="text-white"><u>Worker</u></Link> oder als <Link to="/registration/customer" className="text-white"><u>Customer</u></Link></p>
+              <Link to="/passwordreset" className="text-white"><u>Passwort vergessen?</u></Link>
             </div>
           </form>
           </MDBCard>

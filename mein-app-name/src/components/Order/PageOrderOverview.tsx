@@ -18,13 +18,11 @@ import NavbarComponent from '../navbar/NavbarComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Lottie from 'react-lottie';
 import animationData from "./LoadingAnimation.json";
-import { Row } from 'react-bootstrap';
-import MapComponentTwo from './MapComponentTwo';
-
-interface Position {
-  latitude: number;
-  longitude: number;
-}
+import { Col, Row } from 'react-bootstrap';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import 'leaflet-routing-machine';
+import { Routing } from 'leaflet-routing-machine';
 
 export function PageOrderOverview() {
   const { customerId } = useParams<{ customerId: string }>();
@@ -40,7 +38,11 @@ export function PageOrderOverview() {
   const [workerAssigned, setWorkerAssigned] = useState(false);
   const [foto, setFoto] = useState("");
   const [workerFoto, setWorkerFoto] = useState("");
-  const [userLocation, setUserLocation] = useState<Position>();
+  const [routeTime, setRouteTime] = useState<string>('');
+  const [routeDistance, setRouteDistance] = useState<string>('');
+
+
+  //ist nur ein versuch ob es machbar ist 
   const [isPaid, setIsPaid] = useState<boolean>(false);
   const handlePayment = () => setIsPaid(true);
 
@@ -134,6 +136,91 @@ export function PageOrderOverview() {
     toggleCancelShow();
   };
 
+  async function getCoordinates(address: string) {
+    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
+    const data = await response.json();
+    if (data && data.length > 0) {
+      return {
+        latitude: parseFloat(data[0].lat),
+        longitude: parseFloat(data[0].lon),
+      };
+    }
+    throw new Error('Address not found');
+  }
+
+  const customIconCustomer = L.icon({
+    iconUrl: "/MarkerIcon.png",
+    iconSize: [50, 50],
+    iconAnchor: [25, 50],
+  });
+
+  const customIconWorker = L.icon({
+    iconUrl: "/MarkerMen.png",
+    iconSize: [50, 50],
+    iconAnchor: [25, 50],
+  });
+
+
+  useEffect(() => {
+    if (conData && conData.worker && conData.worker.location) {
+      const createMap = async () => {
+        try {
+          const customerCoords = await getCoordinates(conData.adress!);
+          const workerCoords = await getCoordinates(conData.worker!.location!);
+          const map = L.map('map', {
+            dragging: false,
+            touchZoom: false,
+            scrollWheelZoom: false,
+            doubleClickZoom: false,
+            boxZoom: false,
+            zoomControl: true,
+            keyboard: false,
+          }).setView([customerCoords.latitude, customerCoords.longitude], 0);
+
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: ''
+          }).addTo(map);
+
+          map.attributionControl.setPrefix(false);
+          map.attributionControl.remove();
+          map.on('click', function(e) {
+            e.originalEvent.preventDefault();
+            e.originalEvent.stopPropagation();
+          });
+
+
+          const control = L.Routing.control({
+            waypoints: [
+              L.latLng(customerCoords.latitude, customerCoords.longitude),
+              L.latLng(workerCoords.latitude, workerCoords.longitude)
+            ],
+            routeWhileDragging: false,
+            createMarker: function() { return null; } 
+          } as any).addTo(map); 
+
+          // Füge benutzerdefinierte Icons hinzu
+          L.marker([customerCoords.latitude, customerCoords.longitude], { icon: customIconCustomer }).addTo(map);
+          L.marker([workerCoords.latitude, workerCoords.longitude], { icon: customIconWorker }).addTo(map);
+
+          control.on('routesfound', function(e) {
+            const routes = e.routes;
+            const summary = routes[0].summary;
+            const totalTimeMinutes = Math.round(summary.totalTime / 60); // Sekunden in Minuten umrechnen
+            const totalDistanceKm = (summary.totalDistance / 1000).toFixed(2); // Meter in Kilometer umrechnen und auf 2 Dezimalstellen runden
+            setRouteTime(`${totalTimeMinutes} Minuten`);
+            setRouteDistance(`${totalDistanceKm} Km`);
+          });
+        } catch (error) {
+          console.error('Error creating map:', error);
+        }
+      };
+
+      createMap();
+    }
+  }, [conData]);
+
+  
+
   if (!contractData.length) {
     return <div className="Backg">No contracts found</div>;
   }
@@ -162,8 +249,9 @@ console.log("startPosition : "+startPosition)
 console.log("endPosition : "+endPosition?.latitude, endPosition?.longitude)
   return (
     <>
-      <NavbarComponent />
+    
       <div className="Backg">
+        <NavbarComponent />
         {loading || !workerAssigned ? (
           <div className="loading-container">
             <Lottie options={defaultOptions} height={400} width={400} />
@@ -171,47 +259,48 @@ console.log("endPosition : "+endPosition?.latitude, endPosition?.longitude)
           </div>
         ) : (
           <div className="containertest">
-             <h1>Order Information</h1>
+            <h1>Order Information</h1> 
+         
             <div className="d-flex justify-content-between align-items-center py-3">
               <h2 className="h5 mb-0" style={{ color: "white" }}>Order ID: <span className="fw-bold text-body white-text">{conData.id}</span></h2>
             </div>
             <div className="row">
-              <div className="col-lg-8 glassmorphism">
-                    <div className="mb-3 d-flex justify-content-between">
-                      <div>
-                        <span className="badge rounded-pill bg-info">DIENSTLEISTUNG: {conData.jobType}</span>
-                      </div>
-                      <div className="d-flex"></div>
-                    </div>
-
-                      <tbody>
-                        <tr>
-                          <td>
-                            <div className="d-flex mb-2">
-                              <div className="flex-shrink-0">
-                                <img src={foto} width="45" className="img-fluid" alt="" />
-                              </div>
-                              <div className="flex-lg-grow-1 ms-3"></div>
-                              <main style={{ gridArea: 'map' }}>
-                                {startPosition && endPosition && (
-                                  <MapComponentTwo startPosition={startPosition} endPosition={endPosition} />
-                                )}
-                              </main>
-                            </div>
-                          </td>
-                          <td>Betrag:</td>
-                          <td className="text-end">{conData.maxPayment}€</td>
-                        </tr>
-                      </tbody>
-                    
-               
-                  <div className="d-flex justify-content-between">
-                    {conData.statusOrder === "ACCEPTED" && (
-                      <button onClick={toggleShow} className="btn btn-danger mb-4" style={{ width: "250px", marginLeft: "auto" }}>
-                        Auftrag beendet
-                      </button>
-                    )}
+              <div className="col-lg-8 glassmorphism">   
+            
+                <div className="mb-3 d-flex justify-content-between"> 
+                    <span className="badge rounded-pill bg-info" style={{ marginTop: "10%" }}>DIENSTLEISTUNG: {conData.jobType}</span>
+                  <div className="d-flex">
                   </div>
+                </div> 
+                <div style={{ justifyItems:"center", alignContent:"center"}}>
+                <main style={{ gridArea: 'map', display: 'flex', alignItems: 'center', width: '100%', height: '100%', borderRadius: "50%" }} draggable="false">
+                  <div id="map" style={{ width: '100%', height: '200px' }}></div>
+                </main>
+
+                <p style={{color:"white"}}>Dauer: {routeTime}</p>
+                <p style={{color:"white"}}>Distanz: {routeDistance}</p>
+                </div>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div className="d-flex align-items-center mb-2">
+                        <div className="flex-shrink-0">
+                          <img src={foto} width="45" className="img-fluid" alt="" style={{ borderRadius: "20%" }} />
+                        </div>
+                        <div className="flex-lg-grow-1 ms-3">
+                        </div>
+                       
+                        <td style={{ marginLeft: "80%", color: "white" }}>Betrag:</td>
+                        <td style={{ color: "white" }}>{conData.maxPayment}€</td>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+                <div className="d-flex justify-content-between">
+                  {conData.statusOrder === "ACCEPTED" && <button onClick={toggleShow} className="btn btn-danger mb-4" style={{ width: "250px", marginLeft: "5%", marginTop: "20%" }}>
+                    Auftrag beendet
+                  </button>}
+                </div>
               </div>
 
               <div className="col-lg-4">
@@ -235,15 +324,15 @@ console.log("endPosition : "+endPosition?.latitude, endPosition?.longitude)
                     <hr />
                     <h3 className="h6">Worker Details</h3>
                     {conData.worker && (
-                      <>
-                        <div className="Foto">
-                          <img
-                            src={workerFoto}
-                            width="45"
-                            className="img-fluid"
-                            alt=""
-                          />
-                        </div>
+                      <>  <div className="Foto">
+                            <img
+                              src={workerFoto}
+                              width="45"
+                              className="img-fluid"
+                              alt=""
+                              style={{ borderRadius: "20%" }}
+                            />
+                          </div>
                         <address>
                           <strong>Name: {conData.worker.name}</strong><br />
                           Email: {conData.worker.email}<br />
@@ -267,9 +356,9 @@ console.log("endPosition : "+endPosition?.latitude, endPosition?.longitude)
                 Bist du sicher, dass du diesen Auftrag als beendet markieren möchtest? Wurde alles ordnungsgemäß ausgeführt?
               </div>
               <div className="modal-footer">
-                <Row>
-                  <button type="button" className="btn btn-secondary" onClick={toggleShow} style={{ width: "150px", marginLeft: "12px" }}>Abbrechen</button>
-                  <button type="button" className="btn btn-primary" style={{ width: "150px" }} onClick={handleConfirm}>Bestätigen</button>
+                <Row style={{ gap: "12px" }}>
+                  <button type="button" className="btn btn-secondary" onClick={toggleShow} style={{ width: "150px" }}>Abbrechen</button>
+                  <button type="button" className="btn btn-primary" style={{ width: "150px", gap: "12" }} onClick={handleConfirm}>Bestätigen</button>
                 </Row>
               </div>
             </div>
@@ -283,13 +372,13 @@ console.log("endPosition : "+endPosition?.latitude, endPosition?.longitude)
               <div className="modal-header">
                 <h5 className="modal-title">Auftrag stornieren</h5>
               </div>
-              <div className="modal-body">
+              <div className="modal-body" style={{ gap: "12px" }}>
                 Bist du sicher, dass du diesen Auftrag stornieren möchtest?
               </div>
               <div className="modal-footer">
                 <Row>
-                  <button type="button" className="btn btn-secondary" onClick={toggleCancelShow} style={{ width: "150px", marginLeft: "12px" }}>Abbrechen</button>
-                  <button type="button" className="btn btn-warning" style={{ width: "150px" }} onClick={handleCancelConfirm}>Bestätigen</button>
+                  <button type="button" className="btn btn-secondary" onClick={toggleCancelShow} style={{ width: "150px", gap: "12px" }}>Abbrechen</button>
+                  <button type="button" className="btn btn-warning" style={{ width: "150px", gap: "12px" }} onClick={handleCancelConfirm}>Bestätigen</button>
                 </Row>
               </div>
             </div>

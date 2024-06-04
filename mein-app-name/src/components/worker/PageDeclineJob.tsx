@@ -9,13 +9,15 @@ import { LinkContainer } from "react-router-bootstrap";
 import PageError from "../Error";
 import Lottie from "react-lottie";
 import animationData from "../Worker_2.json";
+import { useLoginContext } from "../LoginManager";
+import { Prev } from "react-bootstrap/lib/Pagination";
 
 
 export function PageDeclineJob() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const tokenID = searchParams.get("token");
-
+  const {loginInfo, setLoginInfo} = useLoginContext();
   const navigate = useNavigate();
   const [worker, setWorker] = useState<WorkerResource>();
   const [getcontract, setcontract] = useState<ContractResource>();
@@ -31,17 +33,22 @@ export function PageDeclineJob() {
     } else {
       navigate(`/worker/${getToken?.receiver}`)
     }
-
   }
+
+
+
   //Beim ersten Mal Laden der Seite kommt undefined bzw die fkae WorkerID
   async function getContractIdByToken(token: string) {
 
     let res = await validateToken(token);
-    console.log(res);
     if (res) {
       setToken(res)
       let res2 = await getContract(res.id);
       setcontract(res2);
+      setLoginInfo({
+                  userId:res.receiver,
+                  admin: ""
+                });
       let workerFound = await getWorkerbyID(res.receiver);
       setcontract(prevContract => ({
         ...prevContract,

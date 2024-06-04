@@ -203,9 +203,9 @@ const handleSaveWorkerUpdate = () => {
 
     return (
         <>
-         <NavbarComponent/>
+     
             <div className='background-image-Diesntleistungen'>
-               
+                   <NavbarComponent/>
                 <div className="background-city">
                     <div className="container-frame glassmorphism">
                         <div className="grid-container margin-container">

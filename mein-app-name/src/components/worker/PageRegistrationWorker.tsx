@@ -6,6 +6,8 @@ import { registrationWorker } from '../../backend/api';
 import { Link, useNavigate } from 'react-router-dom'; // React Router für Link-Benutzung
 import './PageRegistrationWorker.css';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Position {
     latitude: number;
@@ -136,18 +138,29 @@ export default function PageRegistrationWorker() {
         // Fortfahren, wenn alles erfolgreich war
         try {
             const response = await registrationWorker(name, address, email, password, jobType, salary, userLocation!, slogan);
-            console.log('Registration successful:', response);
-            alert('Registration successful!');
-            navigate("/login");
+            toast.success("Account wurde erfolgreich erstellt", {
+                onClose: () => navigate("/login")
+            });
         } catch (error) {
             console.error('Registration failed:', error);
-            alert('Registration failed!');
+            toast.error("Email Addresse schon vorhanden")
         }
     };
 
     return (
-        <>
+        
         <div className="animated-background">
+             <ToastContainer 
+            position="top-center" 
+            autoClose={1000} 
+            hideProgressBar={false} 
+            newestOnTop={false} 
+            closeOnClick 
+            rtl={false} 
+            pauseOnFocusLoss 
+            draggable 
+            pauseOnHover 
+        />
             <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundSize: 'cover', height: '100vh' }}>
                 <MDBCard className='worker-registration-container m-5'>
                     <MDBCardBody className='px-5'>
@@ -195,6 +208,6 @@ export default function PageRegistrationWorker() {
                 </MDBCard>
             </MDBContainer>
             </div>
-        </>
+        
     );
 }

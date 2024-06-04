@@ -1,4 +1,7 @@
+
 import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { MDBBtn, MDBContainer, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBProgress, MDBProgressBar } from 'mdb-react-ui-kit';
 import { Link, useNavigate } from 'react-router-dom';
 import './PageRegistration.css';
@@ -95,17 +98,33 @@ export default function PageRegistration() {
 
         try {
             const response = await registrationCustomer(name, password, email);
+            if(response){
+            
+            }
             console.log('Registration successful:', response);  // Log the response from the registration attempt
-            alert('Registration successful!');
-            navigate("/login");
+            toast.success("Registrierung war erfolgreich", {
+                onClose: () => navigate("/login")
+            });
         } catch (error) {
             console.error('Registration failed:', error);  // Log any error that occurs during registration
-            alert('Registration failed!');
+            toast.error("Fehler beim Erstellen des Accounts")
         }
     };
 
     return (
+        
         <div className="animated-background">
+            <ToastContainer 
+            position="top-center" 
+            autoClose={3000} 
+            hideProgressBar={false} 
+            newestOnTop={false} 
+            closeOnClick 
+            rtl={false} 
+            pauseOnFocusLoss 
+            draggable 
+            pauseOnHover 
+        />
             <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundSize: 'cover', height: '100vh' }}>
                 <MDBCard className='customer-registration-container m-5'>
                     <MDBCardBody className='px-5'>

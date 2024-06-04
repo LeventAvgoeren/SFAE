@@ -78,16 +78,17 @@ public class CustomerImp implements CustomerInterface {
      *
      * @return an iterable collection of Customer objects
      */
-    @Override
-    public Iterable<Customer> findAllCustomer() {
 
-        return jdbcTemplate.queryForStream(
-                "SELECT * FROM CUSTOMER",
-                (rs, rowNum) -> createCustomer(rs))
-                .filter(opt -> opt.isPresent())
-                .map(opt -> opt.get())
-                .collect(Collectors.toList());
-    }
+     @Override
+     public Iterable<Customer> findAllCustomer() {
+ 
+         return jdbcTemplate.queryForStream(
+                 "SELECT * FROM CUSTOMER",
+                 (rs, rowNum) -> createCustomer(rs))
+                 .filter(opt -> opt.isPresent())
+                 .map(opt -> opt.get())
+                 .collect(Collectors.toList());
+     }
 
     /**
      * Finds and returns a customer by their ID.
@@ -141,7 +142,7 @@ public class CustomerImp implements CustomerInterface {
         return null;
     }
 
-    private Optional<Customer> createCustomer(ResultSet rs) { // For the class
+    private Optional<Customer> createCustomer(ResultSet rs) {
         try {
             String id = rs.getString("ID");
             String name = rs.getString("NAME");

@@ -7,7 +7,8 @@ import { LinkContainer } from "react-router-bootstrap";
 import { ContractResource, Position } from "../../Resources";
 import MapComponent from "./MapComponent";
 import NavbarComponent from "../navbar/NavbarComponent";
-//import Alert from "./Alert";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function PageOrderRequest() {
@@ -144,6 +145,7 @@ export default function PageOrderRequest() {
   
     try {
       const contract = await createContract(contractData);
+      toast.success('Auftrags erfolgreich erstellt.');
       console.log("Response from createContract:", contract);
       if (contract) {
         setContract(contract);
@@ -153,13 +155,7 @@ export default function PageOrderRequest() {
         console.error("Fehler: Keine ContractID erhalten, Response:", contract);
       }
     } catch (error) {
-      console.log(error)
-      setError(true)
-      const timer = setTimeout(() => {
-        setError(false)
-    }, 5000); 
-
-    return () => clearTimeout(timer); 
+      toast.error('Fehler beim erstellen des Auftrags');
     } finally {
       setIsCreatingContract(false);
     }
@@ -167,12 +163,17 @@ export default function PageOrderRequest() {
   return (
     <>
     <div className="Backg">
-    {error && (
-     <div className="alert alert-danger" role="alert">
-      Es scheint so als wäre kein Idealer worker in der nähe passe deine angaben an 
-    </div>
-      
-      )}
+    <ToastContainer 
+            position="top-center" 
+            autoClose={5000} 
+            hideProgressBar={false} 
+            newestOnTop={false} 
+            closeOnClick 
+            rtl={false} 
+            pauseOnFocusLoss 
+            draggable 
+            pauseOnHover 
+        />
     <NavbarComponent />
       <div className="container-frame3 glassmorphism">  
         <Form onSubmit={handleSubmit} className="form-content">

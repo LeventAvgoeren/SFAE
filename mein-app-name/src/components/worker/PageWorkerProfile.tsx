@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { JobType, Position, WorkerResource } from "../../Resources";
-import { deleteWorker, getWorkerbyID, updateWorker, getWorkerImage, deleteCookie, updateWorkerProfile } from "../../backend/api";
+import { deleteWorker, getWorkerbyID, getWorkerImage, deleteCookie } from "../../backend/api";
 import {  Link, useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { Button, Modal } from "react-bootstrap";
@@ -10,6 +10,7 @@ import NavbarWComponent from "./NavbarWComponent";
 import axios from 'axios';
 import { Col, Row } from 'react-bootstrap';
 import { Toolbar, Typography } from "@mui/material";
+
 
 export function PageWorkerProfile() {
   const [worker, setWorker] = useState<WorkerResource | null>(null);
@@ -272,14 +273,6 @@ export function PageWorkerProfile() {
           </Modal>
         </div>
       </div>
-
-      <Toolbar className="sticky-toolbar">
-        <Typography variant="body1" style={{ color: 'white', flex: 1, textAlign: 'center' }}>
-          © 2024 SFAE von Ahmad Sfarjalani, Eray Zor, Levent Avgören, Duc Dai Nguyen, Danyal Mahrous. Alle Rechte vorbehalten.
-          <a href="/imprint" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Impressum</a>
-          <a href="/agb" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Allgemeine Geschäftsbedingungen</a>
-        </Typography>
-      </Toolbar>
     </>
   );
 }

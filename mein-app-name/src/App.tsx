@@ -131,16 +131,15 @@ function App() {
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
          </Routes>
 
-
-        <Toolbar style={{ bottom: 0, backgroundColor: "#001325", position: "sticky", marginTop:"0px", textAlign: 'center' }}>
-            <Typography variant="body1" style={{ color: 'white', flex: 1 }}>
+      </LoginContext.Provider>
+       <footer style={{ bottom:0, backgroundColor: "#001325", position: "fixed",textAlign: 'center',  width:"100%", height: "25px"}}>
+            <Typography variant="body1" style={{ color: 'white', flex: 1,fontSize:"14px" }}>
               © 2024 SFAE von Ahmad Sfarjalani, Eray Zor, Levent Avgören, Duc Dai Nguyen, Danyal Mahrous. Alle Rechte vorbehalten.
               <a href="/imprint" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Impressum</a>
-              <a href="/agb" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Allgemeine Geschäftsbedingungen</a>
-            </Typography>
-          </Toolbar>
-
-      </LoginContext.Provider>
+              <span style={{ margin: "10px" }}>|</span>
+                <a href="/agb" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Allgemeine Geschäftsbedingungen</a>
+              </Typography>
+          </footer>
     </>
   );
 }

@@ -1,18 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './PageOrderOverview.css';
-import { useParams } from 'react-router-dom';
-import {
-  getContract,
-  getContractByCustomerId,
-  getContractStatus,
-  updateWorkerStatus,
-  updateContractStatus,
-  deleteChat,
-  deleteContractById,
-  updateWorkerOrderStatus,
-  getCustomerImage,
-  getWorkerImage
-} from '../../backend/api';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus, deleteChat, deleteContractById, updateWorkerOrderStatus, getCustomerImage, getWorkerImage } from '../../backend/api'; // Importiere die Funktion
 import { ContractResource } from '../../Resources';
 import NavbarComponent from '../navbar/NavbarComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -40,10 +29,11 @@ export function PageOrderOverview() {
   const [workerFoto, setWorkerFoto] = useState("");
   const [routeTime, setRouteTime] = useState<string>('');
   const [routeDistance, setRouteDistance] = useState<string>('');
-
-
+  const navigate = useNavigate();
+  const { orderId } = useParams();
   //ist nur ein versuch ob es machbar ist 
   const [isPaid, setIsPaid] = useState<boolean>(false);
+  const[mapLoading,setMapLoading]=useState(false)
   const handlePayment = () => setIsPaid(true);
 
   const messages = [
@@ -108,13 +98,14 @@ export function PageOrderOverview() {
   const toggleCancelShow = () => {
     setCancelModalShow(!cancelModalShow);
   };
-
   const handleConfirm = async () => {
     if (conData && conData.worker && conData.worker.id) {
       try {
         await updateWorkerOrderStatus(conData.worker.id, "UNDEFINED");
         await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
         await updateContractStatus(contractId!, 'FINISHED');
+        navigate(`/customer/${customerId}/orders/${orderId}/completed`)
+        console.log('Worker status updated to AVAILABLE and contract status updated to COMPLETED');
       } catch (error) {
         console.error('Error updating status:', error);
       }
@@ -164,6 +155,7 @@ export function PageOrderOverview() {
   useEffect(() => {
     if (conData && conData.worker && conData.worker.location) {
       const createMap = async () => {
+        setMapLoading(true);
         try {
           const customerCoords = await getCoordinates(conData.adress!);
           const workerCoords = await getCoordinates(conData.worker!.location!);
@@ -176,7 +168,7 @@ export function PageOrderOverview() {
             zoomControl: true,
             keyboard: false,
           }).setView([customerCoords.latitude, customerCoords.longitude], 0);
-
+  
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: ''
           }).addTo(map);
@@ -212,6 +204,9 @@ export function PageOrderOverview() {
           });
         } catch (error) {
           console.error('Error creating map:', error);
+        }
+        finally {
+          setMapLoading(false);
         }
       };
 
@@ -249,7 +244,6 @@ console.log("startPosition : "+startPosition)
 console.log("endPosition : "+endPosition?.latitude, endPosition?.longitude)
   return (
     <>
-    
       <div className="Backg">
         <NavbarComponent />
         {loading || !workerAssigned ? (
@@ -260,49 +254,62 @@ console.log("endPosition : "+endPosition?.latitude, endPosition?.longitude)
         ) : (
           <div className="containertest">
             <h1>Order Information</h1> 
-         
+  
             <div className="d-flex justify-content-between align-items-center py-3">
               <h2 className="h5 mb-0" style={{ color: "white" }}>Order ID: <span className="fw-bold text-body white-text">{conData.id}</span></h2>
             </div>
             <div className="row">
               <div className="col-lg-8 glassmorphism">   
-            
+  
                 <div className="mb-3 d-flex justify-content-between"> 
                     <span className="badge rounded-pill bg-info" style={{ marginTop: "10%" }}>DIENSTLEISTUNG: {conData.jobType}</span>
-                  <div className="d-flex">
-                  </div>
                 </div> 
-                <div style={{ justifyItems:"center", alignContent:"center"}}>
-                <main style={{ gridArea: 'map', display: 'flex', alignItems: 'center', width: '100%', height: '100%', borderRadius: "50%" }} draggable="false">
-                  <div id="map" style={{ width: '100%', height: '200px' }}></div>
-                </main>
-
-                <p style={{color:"white"}}>Dauer: {routeTime}</p>
-                <p style={{color:"white"}}>Distanz: {routeDistance}</p>
+                {mapLoading ?(
+                  <div className="spinner-border" role="status">
+                  <span className="sr-only">Loading...</span>
                 </div>
-                <tbody>
-                  <tr>
-                    <td>
-                      <div className="d-flex align-items-center mb-2">
-                        <div className="flex-shrink-0">
-                          <img src={foto} width="45" className="img-fluid" alt="" style={{ borderRadius: "20%" }} />
-                        </div>
-                        <div className="flex-lg-grow-1 ms-3">
-                        </div>
-                       
-                        <td style={{ marginLeft: "80%", color: "white" }}>Betrag:</td>
-                        <td style={{ color: "white" }}>{conData.maxPayment}€</td>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
+                ):
+
+                (<div style={{ justifyItems:"center", alignContent:"center"}}>
+
+                  <main style={{ gridArea: 'map', display: 'flex', alignItems: 'center', width: '100%', height: '100%', borderRadius: "50%" }} draggable="false">
+                    <div id="map" style={{ width: '100%', height: '200px' }}></div>
+                  </main>
+
+                  <p style={{color:"white"}}>Dauer: {routeTime}</p>
+                  <p style={{color:"white"}}>Distanz: {routeDistance}</p>
+                  </div>)
+
+                }
+  
+                <div className="table-responsive">
+                  <table className="table">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div className="d-flex align-items-center mb-2">
+                            <div className="flex-shrink-0">
+                              <img src={foto} width="45" className="img-fluid" alt="" style={{ borderRadius: "20%" }} />
+                            </div>
+                            <div className="flex-lg-grow-1 ms-3">
+                              Betrag: {conData.maxPayment}€
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+  
                 <div className="d-flex justify-content-between">
-                  {conData.statusOrder === "ACCEPTED" && <button onClick={toggleShow} className="btn btn-danger mb-4" style={{ width: "250px", marginLeft: "5%", marginTop: "20%" }}>
-                    Auftrag beendet
-                  </button>}
+                  {conData.statusOrder === "ACCEPTED" && (
+                    <button onClick={toggleShow} className="btn btn-danger mb-4" style={{ width: "250px", marginLeft: "5%", marginTop: "20%" }}>
+                      Auftrag beendet
+                    </button>
+                  )}
                 </div>
               </div>
-
+  
               <div className="col-lg-4">
                 <div className="card mb-4 glassmorphism">
                   <div className="info-section">
@@ -314,31 +321,24 @@ console.log("endPosition : "+endPosition?.latitude, endPosition?.longitude)
                   <div className="details-panel">
                     <h4>Order Details</h4>
                     <p className="text-muted" style={{ color: "white" }}>
-                      Order ID: <span className="fw-bold text-body white-text" style={{ color: "white" }}>{conData.id}</span>
+                      Order ID: <span className="fw-bold text-body white-text">{conData.id}</span>
                     </p>
                     <p className="text-muted" style={{ color: "white" }}>
-                      Umkreis des Workers <span className="fw-bold text-body white-text" style={{ color: "white" }}>: {conData.range} km</span>
+                      Umkreis des Workers: {conData.range} km
                     </p>
                     <p className="text-muted">Job Type: {conData.jobType}</p>
                     <p className="text-muted">Status deiner Bestellung: {conData.statusOrder}</p>
                     <hr />
                     <h3 className="h6">Worker Details</h3>
                     {conData.worker && (
-                      <>  <div className="Foto">
-                            <img
-                              src={workerFoto}
-                              width="45"
-                              className="img-fluid"
-                              alt=""
-                              style={{ borderRadius: "20%" }}
-                            />
-                          </div>
+                      <div>
+                        <img src={workerFoto} width="45" className="img-fluid" alt="" style={{ borderRadius: "20%" }} />
                         <address>
                           <strong>Name: {conData.worker.name}</strong><br />
                           Email: {conData.worker.email}<br />
                           Adresse: {conData.worker.location}<br />
                         </address>
-                      </>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -346,6 +346,7 @@ console.log("endPosition : "+endPosition?.latitude, endPosition?.longitude)
             </div>
           </div>
         )}
+  
         <div className={`modal fade ${modalShow ? 'show' : ''}`} style={{ display: modalShow ? 'block' : 'none' }}>
           <div className="modal-dialog">
             <div className="modal-content">
@@ -358,27 +359,28 @@ console.log("endPosition : "+endPosition?.latitude, endPosition?.longitude)
               <div className="modal-footer">
                 <Row style={{ gap: "12px" }}>
                   <button type="button" className="btn btn-secondary" onClick={toggleShow} style={{ width: "150px" }}>Abbrechen</button>
-                  <button type="button" className="btn btn-primary" style={{ width: "150px", gap: "12" }} onClick={handleConfirm}>Bestätigen</button>
+                  <button type="button" className="btn btn-primary" onClick={handleConfirm} style={{ width: "150px" }}>Bestätigen</button>
                 </Row>
               </div>
             </div>
           </div>
         </div>
+  
         {modalShow && <div className="modal-backdrop fade show"></div>}
-
+  
         <div className={`modal fade ${cancelModalShow ? 'show' : ''}`} style={{ display: cancelModalShow ? 'block' : 'none' }}>
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Auftrag stornieren</h5>
               </div>
-              <div className="modal-body" style={{ gap: "12px" }}>
+              <div className="modal-body">
                 Bist du sicher, dass du diesen Auftrag stornieren möchtest?
               </div>
               <div className="modal-footer">
                 <Row>
-                  <button type="button" className="btn btn-secondary" onClick={toggleCancelShow} style={{ width: "150px", gap: "12px" }}>Abbrechen</button>
-                  <button type="button" className="btn btn-warning" style={{ width: "150px", gap: "12px" }} onClick={handleCancelConfirm}>Bestätigen</button>
+                  <button type="button" className="btn btn-secondary" onClick={toggleCancelShow} style={{ width: "150px" }}>Abbrechen</button>
+                  <button type="button" className="btn btn-warning" onClick={handleCancelConfirm} style={{ width: "150px" }}>Bestätigen</button>
                 </Row>
               </div>
             </div>
@@ -388,4 +390,5 @@ console.log("endPosition : "+endPosition?.latitude, endPosition?.longitude)
       </div>
     </>
   );
+  
 }

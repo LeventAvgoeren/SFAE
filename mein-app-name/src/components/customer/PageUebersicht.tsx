@@ -7,6 +7,7 @@ import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import "./PageUebersicht.css";
 import NavbarComponent from '../navbar/NavbarComponent';
 import { MDBBtn } from 'mdb-react-ui-kit';
+import { Toolbar, Typography } from '@mui/material';
 
 export function PageUebersicht() {
   const params = useParams<{ customerId: string }>();

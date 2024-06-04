@@ -67,7 +67,8 @@ export function PageCustomerFAQ() {
 
   return (
     <>
-    <div className='Backg'>  <NavbarComponent />
+    <div className='Backg'>  
+    <NavbarComponent />
        <section className="faq-section"> 
           <div className="row">
             <div className="col-md-6 offset-md-3">

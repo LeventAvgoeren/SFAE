@@ -49,6 +49,12 @@ body {
     animation: my-gradient4 15s ease infinite;
 }
 
+.my-section5 {
+    background: linear-gradient(-45deg, #1e3c72, #1e3c72, #23d5ab, #23d5ab);
+    background-size: 400% 400%;
+    animation: my-gradient4 15s ease infinite;
+}
+
 .left-section {
     background: linear-gradient(-45deg, #1e3c72, #1e3c72, #23d5ab, #23d5ab);
     background-size: 400% 400%;
@@ -327,4 +333,45 @@ body {
     color: #666;
     text-align: left;
     margin-top: 10px;
+}
+
+.animation-rating {
+    position: relative;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-price {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.animation-map {
+    position: relative;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.animation-distance {
+    position: relative;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.animation-details {
+    position: relative;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

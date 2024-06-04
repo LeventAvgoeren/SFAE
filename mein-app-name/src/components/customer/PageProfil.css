@@ -7,35 +7,6 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
 }
 
-.custom-container2 .row {
-  margin-top: 20px;
-}
-
-.custom-container2 .col-lg-4, .custom-container2 .col-lg-8 {
-  padding: 10px;
-}
-
-.custom-container2 .form-group {
-  margin-bottom: 15px; 
-}
-
-.Margins{
-  margin-top: 20px;
-}
-
-.custom-container2 input, .custom-container2 button {
-  border-radius: 8px; 
-}
-.ButtonsDiv{
-  width: 100%;
-}
-.ButtonUpdate{
-  width: 100%;
-}
-
-#profileImage{
-  width: 100%;
-}
 
 
 

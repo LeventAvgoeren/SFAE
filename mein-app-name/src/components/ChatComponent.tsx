@@ -17,7 +17,8 @@ import { getContractByCustomerId, getContractByWorkerId, getCustomerImage, getCu
 import LoadingIndicator from './LoadingIndicator';
 import { ContractResource } from '../Resources';
 import "./ChatComponent.css";
-
+import animationData from "./Sorry.json";
+import Lottie from 'react-lottie';
 interface Message {
     sender: string;
     receiver: string | undefined;
@@ -68,13 +69,18 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ onClose }) => {
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const fetchMessage = async () => {
-        const messagesFromServer = await fetchMessagesForUser(userId, receiver!);
+        if(receiver){
+              const messagesFromServer = await fetchMessagesForUser(userId, receiver);
         setMessages(messagesFromServer);
+        }
+      
     };
 
     const fetchLastMessage = async () => {
-        const messagesFromServer = await fetchMessagesForUser(userId, receiver!);
+        if(receiver){
+        const messagesFromServer = await fetchMessagesForUser(userId, receiver);
         setMessages((prevMessages) => [...prevMessages, messagesFromServer[messagesFromServer.length - 1]]);
+        }
     };
 
     useEffect(() => {
@@ -140,7 +146,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ onClose }) => {
 
     useEffect(() => {
         const client = new Client({
-            webSocketFactory: () => new SockJS('https://localhost:8443/chat'),
+            webSocketFactory: () => new SockJS(`${process.env.REACT_APP_API_SERVER_URL}/chat`),
             reconnectDelay: 5000,
             heartbeatIncoming: 4000,
             heartbeatOutgoing: 4000,
@@ -233,7 +239,25 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ onClose }) => {
     const groupedMessages = groupMessagesByDate(messages);
 
     if (!active) {
-        return (<>NO ACTIVE CONTRACT</>) 
+        return (
+        <div style={{display:"flex", width:"100%", background:"#060454"}}>
+            <MDBBtn style={{height:"50px", width:"50px", overflow:"inherit", margin:"0px", padding:"0px", backgroundColor:"white"}} onClick={onClose}><img src="/Kreuz.png" alt="" style={{height:"30px", width:"30px", margin:"0px",color:"white"}}/></MDBBtn>
+
+            <div style={{ justifyContent:"center",  height:"100vh", alignContent:"center"}}>
+                <Lottie 
+                options={{
+                        loop: true,
+                        autoplay: true,
+                        animationData: animationData,
+                        rendererSettings: {
+                                    preserveAspectRatio: 'xMidYMid slice'
+                            }
+                }} height={300} width={300} />
+
+                <h4 style={{color:"white", fontSize:"22px"}}>Anscheinend hast du kein aktiven Auftrag ):</h4>
+            </div> 
+                
+            </div>) 
     }
 
     if (!contract) {

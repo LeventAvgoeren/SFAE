@@ -46,6 +46,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Controller for handling customer-related operations.
@@ -77,7 +78,8 @@ class CustomerController implements CustomerEP {
     @Autowired
     private WorkerInterface wao;
 
-    private Logger logger;
+    
+    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
     @Autowired
     private TokenMailService mailService;
@@ -225,16 +227,14 @@ class CustomerController implements CustomerEP {
      */
     @Override
     public ResponseEntity<Iterable<?>> findAllCustomers() {
-
         try {
             Iterable<Customer> customer = dao.findAllCustomer();
-
+            System.out.println(customer);
             return ResponseEntity.status(HttpStatus.OK).body(customer);
         } catch (DataAccessException dax) {
             logger.error("Database access error: " + dax.getMessage(), dax);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
     }
 
     /**

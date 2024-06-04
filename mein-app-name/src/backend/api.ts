@@ -674,3 +674,22 @@ export async function updateWorkerProfile(workerData: WorkerResource): Promise<W
     throw error;
   }
 }
+export async function getTokenContent(token: string): Promise<TokenRessource | false> {
+
+  const url = `${process.env.REACT_APP_API_SERVER_URL}/token/${token}`;
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    credentials: "include" as RequestCredentials,
+  };
+
+  const response = await fetchWithErrorHandling(url, options);
+  const jsonData = await response.json();
+
+  return jsonData;
+}
+
+

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import { Button, Modal, Navbar } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { CustomerResource } from '../../Resources';
 import { deleteCustomer, getCustomerImage, getCustomerbyID, updateCustomer } from '../../backend/api';
@@ -169,7 +169,7 @@ export function PageProfil() {
     return (
         <>
             <div className='Backg'>
-                <NavbarComponent/>
+                <NavbarComponent />
                 <div className="custom-container2">
                     <h1>PROFIL</h1>
                     <div className="mt-5 Back">

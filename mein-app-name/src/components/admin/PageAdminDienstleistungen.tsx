@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import für Navigation
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './DesignVorlage.css';
@@ -29,7 +29,7 @@ export function PageAdminDienstleistungen({ isAdminPage }: PageAdminComponentPro
     const [selectedWorker, setSelectedWorker] = useState<WorkerResource | null>(null);
     const [customerButtonClicked, setCustomerButtonClicked] = useState<boolean>(false);
     const [showDialog, setShowDialog] = useState(false);
-
+    const [loading, setLoading] = useState(true);
 
     const [costumerName, setCostumerName] = useState("");
     const [costumerEmail, setCostumerEmail] = useState("");
@@ -37,6 +37,7 @@ export function PageAdminDienstleistungen({ isAdminPage }: PageAdminComponentPro
     const [WorkerName, setWorkerName] = useState("");
     const [WorkerEmail, setWorkerEmail] = useState("");
     const [WorkerPassword, setWorkerPassword] = useState("");
+
 
     const navigate = useNavigate();
 
@@ -174,38 +175,34 @@ const handleSaveWorkerUpdate = () => {
             setWorkerFilterData(newWorkers)
         }
     }
-
-    useEffect(() => {
-        async function fetchCustomerData() {
-            try {
-                const data = await getAllCustomers();
-                setCustomerData(data);
-                setCustomerFilterData(data);
-            } catch (error) {
-                console.error("Error fetching customers data:", error);
-            }
+    
+    
+   
+    const fetchData = useCallback(async () => {
+        try {
+            const [customerData, workerData] = await Promise.all([getAllCustomers(), getAllWorker()]);
+            setCustomerData(customerData);
+            setCustomerFilterData(customerData);
+            setWorkerData(workerData);
+            setWorkerFilterData(workerData);
+        } catch (error) {
+            console.error("Error fetching data:", error);
         }
-        fetchCustomerData();
     }, []);
 
     useEffect(() => {
-        async function fetchWorkerData() {
-            try {
-                const data = await getAllWorker();
-                setWorkerData(data);
-                setWorkerFilterData(data);
-            } catch (error) {
-                console.error("Error fetching customers data:", error);
-            }
-        }
-        fetchWorkerData();
+        const timer = setTimeout(() => {
+            fetchData();
+        }, 100); 
+
+        return () => clearTimeout(timer); 
     }, []);
 
     return (
         <>
-         
+     
             <div className='background-image-Diesntleistungen'>
-            <NavbarComponent/>
+                   <NavbarComponent/>
                 <div className="background-city">
                     <div className="container-frame glassmorphism">
                         <div className="grid-container margin-container">

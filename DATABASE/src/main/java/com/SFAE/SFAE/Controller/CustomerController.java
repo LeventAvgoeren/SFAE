@@ -46,6 +46,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Controller for handling customer-related operations.
@@ -77,7 +78,8 @@ class CustomerController implements CustomerEP {
     @Autowired
     private WorkerInterface wao;
 
-    private Logger logger;
+    
+    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
     @Autowired
     private TokenMailService mailService;

@@ -10,6 +10,7 @@ import PageError from "../Error";
 import Lottie from "react-lottie";
 import animationData from "../Worker_2.json";
 import './PageDeclineJob.css';
+import { useLoginContext } from "../LoginManager";
 
 export function PageDeclineJob() {
   const location = useLocation();

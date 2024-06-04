@@ -7,6 +7,8 @@ import { LinkContainer } from "react-router-bootstrap";
 import { ContractResource, Position } from "../../Resources";
 import MapComponent from "./MapComponent";
 import NavbarComponent from "../navbar/NavbarComponent";
+//import Alert from "./Alert";
+
 
 export default function PageOrderRequest() {
   const [address, setAddress] = useState("Eingeben...");
@@ -21,6 +23,7 @@ export default function PageOrderRequest() {
   const [getPosition, setPosition] = useState<Position>();
   const [budgetError, setBudgetError] = useState("");
   const [rangeError, setRangeError] = useState("");
+  const [error,setError]=useState(false)
 
   const params = useParams();
   const cusId = params.customerId;
@@ -141,7 +144,6 @@ export default function PageOrderRequest() {
   
     try {
       const contract = await createContract(contractData);
-  
       console.log("Response from createContract:", contract);
       if (contract) {
         setContract(contract);
@@ -151,15 +153,26 @@ export default function PageOrderRequest() {
         console.error("Fehler: Keine ContractID erhalten, Response:", contract);
       }
     } catch (error) {
-      console.error("Fehler beim Erstellen des Vertrags:", error);
+      console.log(error)
+      setError(true)
+      const timer = setTimeout(() => {
+        setError(false)
+    }, 5000); 
+
+    return () => clearTimeout(timer); 
     } finally {
       setIsCreatingContract(false);
     }
   };
-
   return (
     <>
     <div className="Backg">
+    {error && (
+     <div className="alert alert-danger" role="alert">
+      Es scheint so als wäre kein Idealer worker in der nähe passe deine angaben an 
+    </div>
+      
+      )}
     <NavbarComponent />
       <div className="container-frame3 glassmorphism">  
         <Form onSubmit={handleSubmit} className="form-content">

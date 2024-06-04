@@ -68,13 +68,18 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ onClose }) => {
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const fetchMessage = async () => {
-        const messagesFromServer = await fetchMessagesForUser(userId, receiver!);
+        if(receiver){
+              const messagesFromServer = await fetchMessagesForUser(userId, receiver);
         setMessages(messagesFromServer);
+        }
+      
     };
 
     const fetchLastMessage = async () => {
-        const messagesFromServer = await fetchMessagesForUser(userId, receiver!);
+        if(receiver){
+        const messagesFromServer = await fetchMessagesForUser(userId, receiver);
         setMessages((prevMessages) => [...prevMessages, messagesFromServer[messagesFromServer.length - 1]]);
+        }
     };
 
     useEffect(() => {
@@ -140,7 +145,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ onClose }) => {
 
     useEffect(() => {
         const client = new Client({
-            webSocketFactory: () => new SockJS('https://localhost:8443/chat'),
+            webSocketFactory: () => new SockJS(`${process.env.REACT_APP_API_SERVER_URL}/chat`),
             reconnectDelay: 5000,
             heartbeatIncoming: 4000,
             heartbeatOutgoing: 4000,

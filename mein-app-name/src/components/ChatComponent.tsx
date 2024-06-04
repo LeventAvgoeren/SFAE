@@ -17,7 +17,8 @@ import { getContractByCustomerId, getContractByWorkerId, getCustomerImage, getCu
 import LoadingIndicator from './LoadingIndicator';
 import { ContractResource } from '../Resources';
 import "./ChatComponent.css";
-
+import animationData from "./Sorry.json";
+import Lottie from 'react-lottie';
 interface Message {
     sender: string;
     receiver: string | undefined;
@@ -238,7 +239,25 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ onClose }) => {
     const groupedMessages = groupMessagesByDate(messages);
 
     if (!active) {
-        return (<>NO ACTIVE CONTRACT</>) 
+        return (
+        <div style={{display:"flex", width:"100%", background:"#060454"}}>
+            <MDBBtn style={{height:"50px", width:"50px", overflow:"inherit", margin:"0px", padding:"0px", backgroundColor:"white"}} onClick={onClose}><img src="/Kreuz.png" alt="" style={{height:"30px", width:"30px", margin:"0px",color:"white"}}/></MDBBtn>
+
+            <div style={{ justifyContent:"center",  height:"100vh", alignContent:"center"}}>
+                <Lottie 
+                options={{
+                        loop: true,
+                        autoplay: true,
+                        animationData: animationData,
+                        rendererSettings: {
+                                    preserveAspectRatio: 'xMidYMid slice'
+                            }
+                }} height={300} width={300} />
+
+                <h4 style={{color:"white", fontSize:"22px"}}>Anscheinend hast du kein aktiven Auftrag ):</h4>
+            </div> 
+                
+            </div>) 
     }
 
     if (!contract) {

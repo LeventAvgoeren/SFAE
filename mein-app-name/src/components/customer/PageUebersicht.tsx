@@ -7,6 +7,7 @@ import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import "./PageUebersicht.css";
 import NavbarComponent from '../navbar/NavbarComponent';
 import { MDBBtn } from 'mdb-react-ui-kit';
+import { Toolbar, Typography } from '@mui/material';
 
 export function PageUebersicht() {
   const params = useParams<{ customerId: string }>();
@@ -76,11 +77,12 @@ export function PageUebersicht() {
       headerName: 'Zum Auftrag',
       width: 150,
       renderCell: (params: GridRenderCellParams) => (
-        <MDBBtn outline rounded className='mx-2' color='dark'
-          style={{ marginRight: "50px", marginBottom: "auto" }}
-          onClick={() => navigate(`/customer/${customerId}/order/${params.row.id}`)}>
-          Zum Auftrag
-        </MDBBtn >
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height:35, width: '100%' }}>
+          <MDBBtn outline rounded color='dark'
+            onClick={() => navigate(`/customer/${customerId}/order/${params.row.id}`)}>
+            Zum Auftrag
+          </MDBBtn >
+        </div>
       )
     }
   ];

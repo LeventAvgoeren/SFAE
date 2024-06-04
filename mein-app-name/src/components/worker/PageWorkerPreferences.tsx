@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { JobType, WorkerResource } from "../../Resources";
-import { deleteWorker, getWorkerbyID, updateWorker } from "../../backend/api";
+import { deleteWorker, getWorkerbyID, updateWorker, updateWorkerPreferences } from "../../backend/api";
 import { useParams } from "react-router-dom";
 import { Button, Navbar } from "react-bootstrap";
 import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
@@ -110,7 +110,7 @@ export function PageWorkerPreferences() {
       }
 
       try {
-        const updatedWorker = await updateWorker(updatedWorkerData);
+        const updatedWorker = await updateWorkerPreferences(updatedWorkerData);
         console.log("Updated Worker:", updatedWorker);
         alert("Worker erfolgreich aktualisiert");
       } catch (error) {

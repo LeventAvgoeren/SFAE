@@ -76,7 +76,6 @@
   text-decoration: none;
   color: white;
   font-size: 18px;
-  padding: 10px;
 }
 
 .page-background ul li a:hover {
@@ -86,11 +85,7 @@
 }
 
 
-/* Überprüfen Sie, ob weitere Anpassungen bei anderen Elementen nötig sind */
-.content { 
-  position: relative;
-  z-index: 1; 
-}
+
 
 
 

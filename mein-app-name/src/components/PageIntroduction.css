@@ -49,6 +49,12 @@ body {
     animation: my-gradient4 15s ease infinite;
 }
 
+.my-section5 {
+    background: linear-gradient(-45deg, #1e3c72, #1e3c72, #23d5ab, #23d5ab);
+    background-size: 400% 400%;
+    animation: my-gradient4 15s ease infinite;
+}
+
 .left-section {
     background: linear-gradient(-45deg, #1e3c72, #1e3c72, #23d5ab, #23d5ab);
     background-size: 400% 400%;
@@ -179,6 +185,10 @@ body {
 
 /* Stil für den CTA-Button */
 .my-cta-button {
+    display: block; /* Zentriert den Button */
+    width: 200px; /* Vergrößert den Button */
+    height: 60px; /* Vergrößert den Button */
+    margin: 0 auto; /* Zentriert den Button */
     background-color: #ff6347;
     color: white;
     border: none;
@@ -188,11 +198,13 @@ body {
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
     margin-top: 20px;
+    font-weight: bold; /* Macht den Text fett */
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1); /* Fügt einen Schatten hinzu */
 }
 
 .my-cta-button:hover {
     background-color: #ff4500;
-    transform: scale(1.05);
+    transform: scale(1.1); /* Vergrößert den Button beim Überfahren mit der Maus */
 }
 
 .animation-container-doener {
@@ -321,4 +333,45 @@ body {
     color: #666;
     text-align: left;
     margin-top: 10px;
+}
+
+.animation-rating {
+    position: relative;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-price {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.animation-map {
+    position: relative;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.animation-distance {
+    position: relative;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.animation-details {
+    position: relative;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { JobType, Position, WorkerResource } from "../../Resources";
-import { deleteWorker, getWorkerbyID, updateWorker, getWorkerImage, deleteCookie } from "../../backend/api";
+import { deleteWorker, getWorkerbyID, getWorkerImage, deleteCookie } from "../../backend/api";
 import {  Link, useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { Button, Modal } from "react-bootstrap";
@@ -10,6 +10,7 @@ import NavbarWComponent from "./NavbarWComponent";
 import axios from 'axios';
 import { Col, Row } from 'react-bootstrap';
 import { Toolbar, Typography } from "@mui/material";
+
 
 export function PageWorkerProfile() {
   const [worker, setWorker] = useState<WorkerResource | null>(null);
@@ -156,7 +157,7 @@ export function PageWorkerProfile() {
     try {
       updatedWorkerData.profileBase64 = updatedWorkerData.profileBase64.slice(23)
       
-      const updatedWorker = await updateWorker(updatedWorkerData);
+      const updatedWorker = await updateWorkerProfile(updatedWorkerData);
       console.log("Updated Worker:", updatedWorker);
       alert("Worker erfolgreich aktualisiert");
     } catch (error) {
@@ -266,20 +267,12 @@ export function PageWorkerProfile() {
             </Modal.Header>
             <Modal.Body>Sind Sie sicher, dass Sie Ihr Konto löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.</Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>Close</Button>
-              <Button variant="danger" onClick={handleDelete}>Delete Account</Button>
+              <Button variant="secondary" onClick={handleClose}>Schließen</Button>
+              <Button variant="danger" onClick={handleDelete}>Account löschen</Button>
             </Modal.Footer>
           </Modal>
         </div>
       </div>
-
-      <Toolbar className="sticky-toolbar">
-        <Typography variant="body1" style={{ color: 'white', flex: 1, textAlign: 'center' }}>
-          © 2024 SFAE von Ahmad Sfarjalani, Eray Zor, Levent Avgören, Duc Dai Nguyen, Danyal Mahrous. Alle Rechte vorbehalten.
-          <a href="/imprint" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Impressum</a>
-          <a href="/agb" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Allgemeine Geschäftsbedingungen</a>
-        </Typography>
-      </Toolbar>
     </>
   );
 }

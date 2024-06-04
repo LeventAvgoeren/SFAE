@@ -93,10 +93,6 @@ a {
   text-decoration: none;
 }
 
-.Backg {
-  position: relative; /* Stelle sicher, dass der Hintergrund relative oder absolute Positionierung hat */
-}
-
 .containertest {
   max-width: 100%; /* Begrenzt die Breite des Containers */
   margin: 0 auto; /* Zentriert den Container horizontal */

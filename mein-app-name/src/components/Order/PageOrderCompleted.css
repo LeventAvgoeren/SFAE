@@ -150,7 +150,7 @@ a {
   color: gold; /* Farbe beim Hover oder Fokus */
 }
 
-/* Damit bereits bewertete Sterne gold bleiben */
+/* Damit bereits bewertete Sterne gold bleiben */RyR
 .rating button.rated {
   color: gold;
 }

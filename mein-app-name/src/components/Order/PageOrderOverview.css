@@ -41,7 +41,16 @@
   background: rgba(0, 0, 0, 0.7);
   border-radius: 1rem;
   color: white;
+  overflow-x: hidden; /* Versteckt den horizontalen Überlauf */
+  
 }
+
+/* Versteckt Scrollbars in Webkit-basierten Browsern */
+::-webkit-scrollbar {
+  display: none;
+}
+
+
 
 /* Textanpassungen für Links und allgemeinen Text */
 .text-reset, .text-muted, a {
@@ -145,4 +154,45 @@ a {
 
 .leaflet-routing-container .leaflet-routing-alt {
  display: none; /* Schriftgröße anpassen */
+}
+
+
+/* Hauptcontainer für das Badge und die Informationen */
+.badge-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #17a2b8; /* Hellblaue Farbe entsprechend der Bootstrap .bg-info Klasse */
+  color: white;
+  padding: 10px;
+  border-radius: 20px; /* Abgerundete Ecken für das Badge */
+  width: 100%; /* Nimmt die volle verfügbare Breite ein */
+  box-sizing: border-box; /* Stellt sicher, dass Padding und Border in der Breite inkludiert sind */
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* Stile für die Informationen innerhalb des Badges */
+.info-item {
+  margin: 5px 0; /* Fügt oben und unten einen kleinen Abstand hinzu */
+  flex: 1; /* Lässt die Elemente den verfügbaren Platz ausfüllen */
+}
+
+/* Spezifischer Stil für die Betragsanzeige */
+.payment-info {
+  display: flex;
+  justify-content: space-between; /* Setzt den Betrag an das Ende des Containers */
+  width: 100%; /* Nimmt die volle Breite des Containers ein */
+}
+
+.info-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Zwei gleich große Spalten */
+  gap: 20px; /* Abstand zwischen den Spalten */
+  align-items: start; /* Start-Ausrichtung für die Elemente in den Spalten */
+}
+
+.img-fluid {
+  border-radius: 10%; /* Runde Ecken */
+  width: 10%; /* Bild nimmt die ganze Zellenbreite ein */
 }

@@ -67,6 +67,8 @@ export function PageWorkerProfile() {
       const data = response.data;
       if (data.results.length > 0 && data.results[0].geometry) {
         console.log('Valid address with geometry:', data.results[0].geometry);  // Log the geometry data
+        const { lat, lng } = data.results[0].geometry;
+        setUserLocation({ latitude: lat, longitude: lng });
         return true;
       } else {
         console.log('No valid address found in the API response.');  // Log when no valid address is found
@@ -138,41 +140,11 @@ export function PageWorkerProfile() {
     setPasswordStrength(getPasswordStrength(newPassword));
   };
 
-  const fetchCoordinates = async (address: string) => {
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${address}`;
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      if (data.length > 0) {
-        const { lat, lon } = data[0];
-        setUserLocation({
-          latitude: parseFloat(lat),
-          longitude: parseFloat(lon),
-        });
-        return { latitude: parseFloat(lat), longitude: parseFloat(lon) };
-      } else {
-        console.error("Adresse nicht gefunden");
-        return null;
-      }
-    } catch (error) {
-      console.error("Fehler beim Abrufen der Koordinaten:", error);
-      return null;
-    }
-  };
-
   const handleUpdate = async () => {
     const isValidAddress = await handleAddressValidation(location);
     setAddressValid(isValidAddress);
   
-    if (!isValidAddress) {
-      toast.error('Bitte geben Sie eine gültige Adresse ein.');
-      return;
-    }
-  
-    const coordinates = await fetchCoordinates(location);
-    if (coordinates) {
-      setUserLocation(coordinates);
-    } else {
+    if (!isValidAddress || !userLocation) {
       toast.error('Bitte geben Sie eine gültige Adresse ein.');
       return;
     }
@@ -195,15 +167,15 @@ export function PageWorkerProfile() {
       email: email,
       password: password,
       location: location,
-      latitude: coordinates.latitude,
-      longitude: coordinates.longitude,
-      profileBase64: profileImage,
+      latitude: userLocation.latitude,
+      longitude: userLocation.longitude,
+      profileBase64: profileImage, // Ensuring profilBase64 is included
       slogan: slogan
     };
-  
+
     try {
       updatedWorkerData.profileBase64 = updatedWorkerData.profileBase64.slice(23);
-      
+
       const updatedWorker = await updateWorkerProfile(updatedWorkerData);
       console.log("Updated Worker:", updatedWorker);
       toast.success("Profil erfolgreich aktualisiert");
@@ -262,7 +234,7 @@ export function PageWorkerProfile() {
             </div>
             <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
               <MDBInput wrapperClass="inputField1" label="Name" type="text" value={name} onChange={(e) => setName(e.target.value)} />
-              <MDBInput wrapperClass="inputField1" label="Adresse" type="text" value={location} onChange={(e) => setLocation(e.target.value)} onBlur={() => handleAddressValidation(location).then(valid => setAddressValid(valid))} />
+              <MDBInput wrapperClass="inputField1" label="Adresse" type="text" value={location} onChange={(e) => setLocation(e.target.value)} onBlur={() => handleAddressValidation(location)} />
               {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
               <MDBInput wrapperClass="inputField1" label="E-Mail" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
               <MDBInput wrapperClass="inputField1" label="Passwort" type="password" onChange={handlePasswordChange} />

@@ -46,6 +46,7 @@
     "react-scroll": "^1.9.0",
     "react-select": "^5.8.0",
     "react-simple-typewriter": "^5.0.1",
+    "react-toastify": "^10.0.5",
     "react-transition-group": "^4.4.5",
     "react-ts-typewriter": "^0.1.8-b",
     "rebass": "^4.0.7",

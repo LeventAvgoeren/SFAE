@@ -33,7 +33,7 @@ export function PageOrderOverview() {
   const { orderId } = useParams();
   //ist nur ein versuch ob es machbar ist 
   const [isPaid, setIsPaid] = useState<boolean>(false);
-  const[mapLoading,setMapLoading]=useState(false)
+  const [mapLoading, setMapLoading] = useState(false)
   const handlePayment = () => setIsPaid(true);
 
   const messages = [
@@ -43,7 +43,7 @@ export function PageOrderOverview() {
     "Der Mensch muss essen und trinken... Wie das Pferd"
   ];
 
-  
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -168,7 +168,7 @@ export function PageOrderOverview() {
             zoomControl: true,
             keyboard: false,
           }).setView([customerCoords.latitude, customerCoords.longitude], 0);
-  
+
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: ''
           }).addTo(map);
@@ -240,8 +240,8 @@ export function PageOrderOverview() {
   const endPosition = conData && conData.worker && conData.worker.latitude !== undefined && conData.worker.longitude !== undefined
     ? { latitude: conData.worker.latitude, longitude: conData.worker.longitude }
     : null;
-console.log("startPosition : "+startPosition)
-console.log("endPosition : "+endPosition?.latitude, endPosition?.longitude)
+  console.log("startPosition : " + startPosition)
+  console.log("endPosition : " + endPosition?.latitude, endPosition?.longitude)
   return (
     <>
       <div className="Backg">
@@ -253,140 +253,144 @@ console.log("endPosition : "+endPosition?.latitude, endPosition?.longitude)
           </div>
         ) : (
           <div className="containertest">
-            <h1>Order Information</h1> 
-  
-            <div className="d-flex justify-content-between align-items-center py-3">
-              <h2 className="h5 mb-0" style={{ color: "white" }}>Order ID: <span className="fw-bold text-body white-text">{conData.id}</span></h2>
-            </div>
+            <h1>Order Information</h1>
+            <br />
+            <br />
+
             <div className="row">
-              <div className="col-lg-8 glassmorphism">
-
-                <div className="badge-container glassmorphism">
-                  <div>
-                    <div>Dienstleistung: {conData.jobType}</div>
-                    <div className="info-item">Distanz: {routeDistance}</div>
-                    <div className="payment-info">
-                      <span>Betrag:</span>
-                      <span className="info-item">{conData.maxPayment}€</span>
-                    </div>
-                    <div className="info-item">Dauer: {routeTime}</div>
-                  </div>
-                <div className="d-flex">
+              <div className="danyal col-lg-3 p-2">
+                <div className='text-light'>
+                  <div className='h4 mb-3'>Dienstleistung: {conData.jobType}</div>
+                  <div className='info-item h4 mb-3'>Beschreibung: {conData.description}</div>
+                  <div className="info-item h4 mb-3">Distanz: {routeDistance}</div>
+                  <div className="info-item h4 mb-3">Dauer: {routeTime}</div>
+                  <div className='info-item h4 mb-3'>Betrag: {conData.maxPayment}€</div>
+                  <div className='info-item h4 mb-3'>Payment Method: {conData.payment}</div>
+                  <div className="info-item h4 mb-3">StatusOrder: {conData.statusOrder}</div>
+                  <div className="info-item h4 mb-3">Adresse: {conData.adress}</div>
+                  <div className="info-item h4 mb-3">Customer Name: {conData.customer?.name}</div>
+                  <div className="info-item h4 mb-3">Worker Name: {conData.worker?.name}</div>
                 </div>
-              </div>
-              <div style={{ justifyItems: "center", alignContent: "center" }}>
-                <main style={{ gridArea: 'map', display: 'flex', alignItems: 'center', width: '100%', height: '100%', borderRadius: "50%" }} draggable="false">
-                  <div id="map" style={{ borderRadius: "28px", width: '100%', height: '450px' }}></div>
-                </main>
-
-              </div>
-              <tbody>
-                <tr>
-                  <td>
-                   
-                  </td>
-                </tr>
-              </tbody>
-              <div className="d-flex justify-content-between">
-                {conData.statusOrder === "ACCEPTED" && <button onClick={toggleShow} className="btn btn-danger mb-4" style={{ width: "250px", marginLeft: "5%", marginTop: "20%" }}>
+                {conData.statusOrder === "ACCEPTED" && <button onClick={toggleShow} className="btn btn-danger" style={{ width: "80%", marginInline: "5%", marginTop: "35%" }}>
                   Auftrag beendet
                 </button>}
               </div>
-            </div>
+              <div style={{ justifyItems: "center", alignContent: "center" }} className='col-lg-5'>
+                <main style={{ gridArea: 'map', display: 'flex', alignItems: 'center', width: '100%', height: '100%', borderRadius: "50%" }} draggable="false">
+                  <div id="map" style={{ borderRadius: "28px", width: '100%', height: '650px' }}></div>
 
-            <div className="col-lg-4">
-              <div className="card mb-4 glassmorphism" style={{ overflowX: 'hidden' }}>
-                <div className="info-section">
-                  <h4>Customer Beschreibung: </h4>
-                  <h4>{conData.description}</h4>
-                  
-                  <div className="d-flex align-items-center mb-2">
-                      <div className="flex-shrink-0">
-                        <img src={foto} width="25" className="img-fluid" alt="" style={{ borderRadius: "20%" }} />
+                </main>
+
+
+              </div>
+
+
+
+
+
+              <div className="col-lg-4">
+                <div className="card danyal  p-2">
+                  <div className="info-section">
+                    <h3>Customer Details</h3>
+                    {conData.customer && (
+                      <>  <div className="Foto">
+                        <img
+                          src={foto}
+                          width="250"
+                          className="img-fluid"
+                          alt=""
+                          style={{ borderRadius: "20%" }}
+                        />
                       </div>
-                      <div className="flex-lg-grow-1 ms-3">
-                      </div>
-                    </div>
+                        <address>
+                          <strong>Name: {conData.customer.name}</strong><br />
+                          Email: {conData.customer.email}<br />
+                          Adresse: {conData.adress}<br />
+                        </address>
+                      </>
+                    )}
+                  </div>
 
                 </div>
-              </div>
-              <div className="card mb-4 glassmorphism">
-                <div className="details-panel">
-                  <h4>Order Details</h4>
-                  <p className="text-muted" style={{ color: "white" }}>
-                    Order ID: <span className="fw-bold text-body  white-text" style={{ color: "white" }}>{conData.id}</span>
-                  </p>
-                  <p className="text-muted" style={{ color: "white" }}>
-                    Umkreis des Workers <span className="fw-bold text-body white-text" style={{ color: "white" }}>: {conData.range} km</span>
-                  </p>
-                  <p className="text-muted">Job Type: {conData.jobType}</p>
-                  <p className="text-muted">Status deiner Bestellung: {conData.statusOrder}</p>
-                  <hr />
-                  <h3 className="h6">Worker Details</h3>
-                  {conData.worker && (
-                    <>  <div className="Foto">
-                      <img
-                        src={workerFoto}
-                        width="45"
-                        className="img-fluid"
-                        alt=""
-                        style={{ borderRadius: "20%" }}
-                      />
-                    </div>
-                      <address>
-                        <strong>Name: {conData.worker.name}</strong><br />
-                        Email: {conData.worker.email}<br />
-                        Adresse: {conData.worker.location}<br />
-                      </address>
-                    </>
-                  )}
+                <br />
+                <div className="card danyal p-2">
+                  <div className="info-section">
+
+
+                    <h3>Worker Details</h3>
+                    {conData.worker && (
+                      <>  <div className="Foto">
+                        <img
+                          src={workerFoto}
+                          width="250"
+                          className="img-fluid"
+                          alt=""
+                          style={{ borderRadius: "20%" }}
+                        />
+                      </div>
+                        <address>
+                          <strong>Name: {conData.worker.name}</strong><br />
+                          Email: {conData.worker.email}<br />
+                          Adresse: {conData.worker.location}<br />
+
+                        </address>
+                        Min Payment: {conData.worker.minPayment}€<br />
+
+                        Rating: {conData.worker.rating}<br />
+
+                      </>
+                    )}
+
+                  </div>
                 </div>
+
+
+
               </div>
             </div>
-          </div>
           </div>
         )}
-      <div className={`modal fade ${modalShow ? 'show' : ''}`} style={{ display: modalShow ? 'block' : 'none' }}>
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Auftrag beendet</h5>
-            </div>
-            <div className="modal-body">
-              Bist du sicher, dass du diesen Auftrag als beendet markieren möchtest? Wurde alles ordnungsgemäß ausgeführt?
-            </div>
-            <div className="modal-footer">
-              <Row style={{ gap: "12px" }}>
-                <button type="button" className="btn btn-secondary" onClick={toggleShow} style={{ width: "150px" }}>Abbrechen</button>
-                <button type="button" className="btn btn-primary" style={{ width: "150px", gap: "12" }} onClick={handleConfirm}>Bestätigen</button>
-              </Row>
+        <div className={`modal fade ${modalShow ? 'show' : ''}`} style={{ display: modalShow ? 'block' : 'none' }}>
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Auftrag beendet</h5>
+              </div>
+              <div className="modal-body">
+                Bist du sicher, dass du diesen Auftrag als beendet markieren möchtest? Wurde alles ordnungsgemäß ausgeführt?
+              </div>
+              <div className="modal-footer">
+                <Row style={{ gap: "12px" }}>
+                  <button type="button" className="btn btn-secondary" onClick={toggleShow} style={{ width: "150px" }}>Abbrechen</button>
+                  <button type="button" className="btn btn-primary" style={{ width: "150px", gap: "12" }} onClick={handleConfirm}>Bestätigen</button>
+                </Row>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      {modalShow && <div className="modal-backdrop fade show"></div>}
+        {modalShow && <div className="modal-backdrop fade show"></div>}
 
-      <div className={`modal fade ${cancelModalShow ? 'show' : ''}`} style={{ display: cancelModalShow ? 'block' : 'none' }}>
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Auftrag stornieren</h5>
-            </div>
-            <div className="modal-body" style={{ gap: "12px" }}>
-              Bist du sicher, dass du diesen Auftrag stornieren möchtest?
-            </div>
-            <div className="modal-footer">
-              <Row>
-                <button type="button" className="btn btn-secondary" onClick={toggleCancelShow} style={{ width: "150px", gap: "12px" }}>Abbrechen</button>
-                <button type="button" className="btn btn-warning" style={{ width: "150px", gap: "12px" }} onClick={handleCancelConfirm}>Bestätigen</button>
-              </Row>
+        <div className={`modal fade ${cancelModalShow ? 'show' : ''}`} style={{ display: cancelModalShow ? 'block' : 'none' }}>
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Auftrag stornieren</h5>
+              </div>
+              <div className="modal-body" style={{ gap: "12px" }}>
+                Bist du sicher, dass du diesen Auftrag stornieren möchtest?
+              </div>
+              <div className="modal-footer">
+                <Row>
+                  <button type="button" className="btn btn-secondary" onClick={toggleCancelShow} style={{ width: "150px", gap: "12px" }}>Abbrechen</button>
+                  <button type="button" className="btn btn-warning" style={{ width: "150px", gap: "12px" }} onClick={handleCancelConfirm}>Bestätigen</button>
+                </Row>
+              </div>
             </div>
           </div>
         </div>
+        {cancelModalShow && <div className="modal-backdrop fade show"></div>}
       </div>
-      {cancelModalShow && <div className="modal-backdrop fade show"></div>}
-    </div>
     </>
   );
-  
+
 }

@@ -152,18 +152,23 @@ a {
 .leaflet-routing-container .leaflet-routing-alt {
  display: none; /* Schriftgröße anpassen */
 }
-
+.danyal{
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
 /* Hauptcontainer für das Badge und die Informationen */
 .badge-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  background-color: #17a2b8; /* Hellblaue Farbe entsprechend der Bootstrap .bg-info Klasse */
   color: white;
+  background-color: #5465ff;
   padding: 10px;
   border-radius: 20px; /* Abgerundete Ecken für das Badge */
-  width: 100%; /* Nimmt die volle verfügbare Breite ein */
   box-sizing: border-box; /* Stellt sicher, dass Padding und Border in der Breite inkludiert sind */
   margin-top: 10px;
   margin-bottom: 10px;
@@ -191,5 +196,6 @@ a {
 
 .img-fluid {
   border-radius: 10%; /* Runde Ecken */
-  width: 10%; /* Bild nimmt die ganze Zellenbreite ein */
+  width: 40%; /* Bild nimmt die ganze Zellenbreite ein */
+
 }

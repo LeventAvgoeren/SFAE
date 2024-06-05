@@ -52,8 +52,8 @@ export function PageUebersicht() {
     { field: 'adress', headerName: 'Adresse', width: 130 },
     { field: 'description', headerName: 'Beschreibung', width: 130 },
     { field: 'jobType', headerName: 'Job Typ', width: 130 },
-    { field: 'payment', headerName: 'Payment', width: 130 },
-    { field: 'range', headerName: 'Range', width: 130 },
+    { field: 'payment', headerName: 'Bezahlung', width: 130 },
+    { field: 'range', headerName: 'Reichweite', width: 130 },
     {
       field: 'worker',
       headerName: 'Worker Name',
@@ -65,7 +65,7 @@ export function PageUebersicht() {
     },
     {
       field: 'workerRating',
-      headerName: 'Worker Rating',
+      headerName: 'Worker Bewertung',
       width: 130,
       renderCell: (params: GridRenderCellParams) => {
         const worker = params.row.worker as WorkerResource;

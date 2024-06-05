@@ -5,7 +5,7 @@ import './DesignVorlage.css';
 import './PageAdminDienstleistungen.css';
 import { Link } from 'react-router-dom';
 import { Table, Button, Container, Nav, NavDropdown, Navbar, Modal, Form, Badge } from 'react-bootstrap';
-import { Trash, Search, Pencil, Modem } from 'react-bootstrap-icons';
+import { Trash, Search, Pencil } from 'react-bootstrap-icons';
 import { CustomerResource, WorkerResource } from '../../Resources';
 import { deleteCustomer, deleteWorker, getAllCustomers, getAllWorker, updateCustomer } from '../../backend/api';
 import { LoginInfo } from '../LoginManager';

@@ -1,4 +1,4 @@
-import { ContractResource, ContractResourceforWorker, CustomerResource, Position, RatingRessource, TokenRessource, WorkerResource } from "../Resources";
+import { ContractResource, ContractResourceforWorker, CustomerResource, Position, RatingRessource, TokenRessource, WorkerResource, WorkerResourcePreferences, WorkerResourceProfil } from "../Resources";
 import { LoginInfo } from "../components/LoginManager";
 import { fetchWithErrorHandling } from "./fetchWithErrorHandling";
 
@@ -635,7 +635,7 @@ export async function updateWorkerOrderStatus(workerId: string, status: string):
   return result;
 }
 
-export async function updateWorkerPreferences(workerData: WorkerResource): Promise<WorkerResource> {
+export async function updateWorkerPreferences(workerData: WorkerResourcePreferences): Promise<WorkerResourcePreferences> {
 
   const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/preferences`;
   const options = {
@@ -655,7 +655,7 @@ export async function updateWorkerPreferences(workerData: WorkerResource): Promi
   }
 }
 
-export async function updateWorkerProfile(workerData: WorkerResource): Promise<WorkerResource> {
+export async function updateWorkerProfile(workerData: WorkerResourceProfil): Promise<WorkerResource> {
 
   const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/profil`;
   const options = {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, ChangeEvent } from "react";
-import { JobType, Position, WorkerResource } from "../../Resources";
+import { JobType, Position, WorkerResource, WorkerResourceProfil } from "../../Resources";
 import { deleteWorker, getWorkerbyID, getWorkerImage, deleteCookie, updateWorkerProfile } from "../../backend/api";
 import { Link, useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
@@ -165,38 +165,13 @@ export function PageWorkerProfile() {
     }
 
     setPasswordError('');
-      /*export type WorkerResource = {
-    id?: string;
-    name: string;
-    password:string;
-    location: string;
-    status: string;
-    statusOrder: string;
-    range: Number;
-    jobType: string;
-    minPayment: Number;
-    rating: Number;
-    verification: Boolean;
-    email: string;
-    latitude: number;
-    longitude: number;
-    profileBase64:string;
-    slogan: string;
-
-}*/ 
-    const updatedWorkerData: WorkerResource = {
+      /**/ 
+    const updatedWorkerData: WorkerResourceProfil = {
       id: worId!,
       name: name,
       email: email,
       password: password,
       location: location,
-      status: status,
-      statusOrder: statusOrder,
-      range: 2.1,
-      jobType: jobType,
-      minPayment: minPayment!,
-      rating: rating,
-      verification: verification,
       latitude: userLocation!.latitude,
       longitude: userLocation!.longitude,
       profileBase64: profileImage, // Ensuring profilBase64 is included

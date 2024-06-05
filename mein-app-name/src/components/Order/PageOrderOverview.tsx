@@ -12,6 +12,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine';
 import { Routing } from 'leaflet-routing-machine';
+import { Typewriter } from 'react-simple-typewriter';
 
 export function PageOrderOverview() {
   const { customerId } = useParams<{ customerId: string }>();
@@ -236,10 +237,13 @@ export function PageOrderOverview() {
       <div className="Backg">
         <NavbarComponent />
         {loading || !workerAssigned ? (
-          <div className="loading-container">
-            <Lottie options={defaultOptions} height={400} width={400} />
-            <div className="loading-message">{messages[messageIndex]}</div>
-          </div>
+             
+            <div style={{ paddingBottom:"20%", height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: 'center'  }}>
+              <Lottie options={defaultOptions} height={400} width={400} />
+              <div style={{background:"black", color:"white", width:"30%", alignSelf:"center"}}> 
+              <Typewriter  words={messages}  loop={0} cursor cursorStyle="/" cursorColor='red' cursorBlinking={true} typeSpeed={70}   deleteSpeed={50}  delaySpeed={1000}/>
+              </div>
+            </div>
         ) : (
           <div className="containertest">
             <h1>Order Information</h1>
@@ -249,16 +253,14 @@ export function PageOrderOverview() {
             <div className="row">
               <div className="danyal col-lg-3 p-2">
                 <div className='text-light'>
-                  <div className='h4 mb-3'>Dienstleistung: {conData.jobType}</div>
-                  <div className='info-item h4 mb-3'>Beschreibung: {conData.description}</div>
-                  <div className="info-item h4 mb-3">Distanz: {routeDistance}</div>
-                  <div className="info-item h4 mb-3">Dauer: {routeTime}</div>
-                  <div className='info-item h4 mb-3'>Betrag: {conData.maxPayment}€</div>
-                  <div className='info-item h4 mb-3'>Payment Method: {conData.payment}</div>
-                  <div className="info-item h4 mb-3">StatusOrder: {conData.statusOrder}</div>
-                  <div className="info-item h4 mb-3">Adresse: {conData.adress}</div>
-                  <div className="info-item h4 mb-3">Customer Name: {conData.customer?.name}</div>
-                  <div className="info-item h4 mb-3">Worker Name: {conData.worker?.name}</div>
+                  <div className='h4 mb-3'><strong>Dienstleistung:</strong> {conData.jobType}</div>
+                  <div className='info-item h4 mb-3'><strong>Beschreibung:</strong>  {conData.description}</div>
+                  <div className="info-item h4 mb-3"><strong>Distanz: </strong> {routeDistance}</div>
+                  <div className="info-item h4 mb-3"><strong>Dauer: </strong> {routeTime}</div>
+                  <div className='info-item h4 mb-3'><strong>Betrag:</strong>  {conData.maxPayment}€</div>
+                  <div className='info-item h4 mb-3'><strong>Payment Method: </strong> {conData.payment}</div>
+                  <div className="info-item h4 mb-3"><strong>StatusOrder:</strong>  {conData.statusOrder}</div>
+                  <div className="info-item h4 mb-3"><strong>Adresse: </strong> {conData.adress}</div>
                 </div>
                 {conData.statusOrder === "ACCEPTED" && <button onClick={toggleShow} className="btn btn-danger" style={{ width: "80%", marginInline: "5%", marginTop: "35%" }}>
                   Auftrag beendet

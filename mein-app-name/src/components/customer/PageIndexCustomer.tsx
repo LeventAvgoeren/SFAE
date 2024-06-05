@@ -101,7 +101,7 @@ export function PageIndexCustomer() {
           </div>
         </div>
         <NavLink to={`/customer/${customerId}/order/new`}>
-        <button>Jetzt starten</button>
+        <button style={{width:"100%"}}>Jetzt starten</button>
         </NavLink>
         <CSSTransition in={true} timeout={500} classNames="fade" key={quote}>
           <p className="testimonial">{quote}</p>

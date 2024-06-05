@@ -1,15 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, ChangeEvent } from "react";
 import { JobType, Position, WorkerResource } from "../../Resources";
-import { deleteWorker, getWorkerbyID, updateWorker, getWorkerImage, deleteCookie } from "../../backend/api";
-import {  Link, useParams } from "react-router-dom";
+import { deleteWorker, getWorkerbyID, getWorkerImage, deleteCookie, updateWorkerProfile } from "../../backend/api";
+import { Link, useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import { Button, Modal } from "react-bootstrap";
-import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
+import { Button } from "react-bootstrap";
+import { MDBContainer, MDBInput, MDBProgress, MDBProgressBar } from "mdb-react-ui-kit";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "./PageWorkerProfile.css";
 import NavbarWComponent from "./NavbarWComponent";
 import axios from 'axios';
-import { Col, Row } from 'react-bootstrap';
-import { Toolbar, Typography } from "@mui/material";
+
+function validatePassword(password: string) {
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasNumber = /\d/.test(password);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  return hasUpperCase && hasNumber && hasSpecialChar;
+}
+
+function getPasswordStrength(password: string) {
+  let strength = 0;
+  if (/[A-Z]/.test(password)) strength += 1;
+  if (/\d/.test(password)) strength += 1;
+  if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength += 1;
+  if (password.length >= 8) strength += 1;
+  return strength;
+}
 
 export function PageWorkerProfile() {
   const [worker, setWorker] = useState<WorkerResource | null>(null);
@@ -17,6 +33,9 @@ export function PageWorkerProfile() {
   const [error, setError] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordStrength, setPasswordStrength] = useState(0);
   const [location, setLocation] = useState("");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
@@ -30,13 +49,7 @@ export function PageWorkerProfile() {
   const [profileImage, setProfileImage] = useState<string>("");
   const [previewImage, setPreviewImage] = useState<string | undefined>(undefined);
   const [addressValid, setAddressValid] = useState(true);
-  const [slogan , setSlogan] = useState("");
-
-  const [showModal, setShowModal] = useState(false);
-
-
-  const handleClose = () => setShowModal(false);
-  const handleShow = () => setShowModal(true);
+  const [slogan, setSlogan] = useState("");
 
   const params = useParams();
   const worId = params.workerId;
@@ -86,6 +99,7 @@ export function PageWorkerProfile() {
         setLocation(workerData.location);
         setEmail(workerData.email);
         setPassword(workerData.password);
+        setConfirmPassword(workerData.password);
         setUserLocation({
           latitude: workerData.latitude,
           longitude: workerData.longitude,
@@ -118,22 +132,40 @@ export function PageWorkerProfile() {
     fetchWorker();
   }, []);
 
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    setPasswordStrength(getPasswordStrength(newPassword));
+  };
+
   const handleUpdate = async () => {
     const isValidAddress = await handleAddressValidation(location);
     setAddressValid(isValidAddress);
   
     if (!isValidAddress) {
-      alert('Bitte geben Sie eine gültige Adresse ein.');
+      toast.error('Bitte geben Sie eine gültige Adresse ein.');
       return;
     }
   
     await fetchCoordinates(location);
   
     if (!addressValid) {
-      alert('Bitte geben Sie eine gültige Adresse ein.');
+      toast.error('Bitte geben Sie eine gültige Adresse ein.');
       return;
     }
   
+    if (!validatePassword(password)) {
+      toast.error('Das Passwort muss mindestens einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten.');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setPasswordError('Passwörter sind nicht identisch.');
+      return;
+    }
+
+    setPasswordError('');
+
     const updatedWorkerData: WorkerResource = {
       id: worId!,
       name: name,
@@ -149,19 +181,19 @@ export function PageWorkerProfile() {
       verification: verification,
       latitude: userLocation!.latitude,
       longitude: userLocation!.longitude,
-      profileBase64: profileImage ,// Ensuring profilBase64 is included
-      slogan : slogan
+      profileBase64: profileImage, // Ensuring profilBase64 is included
+      slogan: slogan
     };
   
     try {
-      updatedWorkerData.profileBase64 = updatedWorkerData.profileBase64.slice(23)
+      updatedWorkerData.profileBase64 = updatedWorkerData.profileBase64.slice(23);
       
-      const updatedWorker = await updateWorker(updatedWorkerData);
+      const updatedWorker = await updateWorkerProfile(updatedWorkerData);
       console.log("Updated Worker:", updatedWorker);
-      alert("Worker erfolgreich aktualisiert");
+      toast.success("Profil erfolgreich aktualisiert");
     } catch (error) {
       console.error("Fehler beim Aktualisieren des Workers:", error);
-      alert("Fehler beim Aktualisieren des Workers");
+      toast.error("Fehler beim Aktualisieren des Profils");
     }
   };
 
@@ -188,11 +220,11 @@ export function PageWorkerProfile() {
     try {
       await deleteWorker(worId!);
       await deleteCookie()
+      toast.success('Profil erfolgreich gelöscht.');
       window.location.href = "/index";
-      alert('Profil erfolgreich gelöscht.');
     } catch (error) {
       console.error('Fehler beim Löschen des Profils:', error);
-      alert('Fehler beim Löschen des Profils');
+      toast.error('Fehler beim Löschen des Profils');
     }
   };
 
@@ -212,7 +244,6 @@ export function PageWorkerProfile() {
 
   if (loading) return <p>Lädt...</p>;
   if (error) return <p>Fehler: {error}</p>;
-
 
   return (
     <>
@@ -237,7 +268,14 @@ export function PageWorkerProfile() {
               <MDBInput wrapperClass="inputField1" label="Adresse" type="text" value={location} onChange={(e) => setLocation(e.target.value)} onBlur={() => handleAddressValidation(location).then(valid => setAddressValid(valid))} />
               {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
               <MDBInput wrapperClass="inputField1" label="E-Mail" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-              <MDBInput wrapperClass="inputField1" label="Passwort" type="password" onChange={(e) => setPassword(e.target.value)} />
+              <MDBInput wrapperClass="inputField1" label="Passwort" type="password" onChange={handlePasswordChange} />
+              <MDBInput wrapperClass="inputField1" label="Passwort erneut eingeben" type="password"  onChange={(e) => setConfirmPassword(e.target.value)} />
+              {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>}
+              <MDBProgress className='mb-4'>
+                <MDBProgressBar width={passwordStrength * 25} valuemin={0} valuemax={100}>
+                  {passwordStrength * 25}%
+                </MDBProgressBar>
+              </MDBProgress>
               <MDBInput
                 wrapperClass="inputField1"
                 label="Dein Slogan/Motto"
@@ -246,32 +284,31 @@ export function PageWorkerProfile() {
                 onChange={(e) => setSlogan(e.target.value)}
               />
               <div className="mb-3">
-                <label htmlFor="profileImage" className="form-label" style={{color:"white"}}>Profilbild hochladen</label>
+                <label htmlFor="profileImage" className="form-label" style={{ color: "white" }}>Profilbild hochladen</label>
                 <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
               </div>
               <Button className="button" variant="success" type="submit">Profil speichern</Button>
               <LinkContainer to={`/worker/${worId}`}>
                 <Button className="button" type="button">Zurück zur Startseite!</Button>
               </LinkContainer>
-              <Button type="button" className="button" variant="danger" onClick={handleShow}>
+              <Button type="button" className="button" variant="danger" onClick={handleDelete}>
                 Account Löschen
-             </Button>
+              </Button>
             </form>
           </MDBContainer>
-
-          {/* modalShow */}
-          <Modal show={showModal} onHide={handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>Account Löschen</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>Sind Sie sicher, dass Sie Ihr Konto löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.</Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>Close</Button>
-              <Button variant="danger" onClick={handleDelete}>Delete Account</Button>
-            </Modal.Footer>
-          </Modal>
         </div>
       </div>
+      <ToastContainer 
+        position="top-center" 
+        autoClose={5000} 
+        hideProgressBar={false} 
+        newestOnTop={false} 
+        closeOnClick 
+        rtl={false} 
+        pauseOnFocusLoss 
+        draggable 
+        pauseOnHover 
+      />
     </>
   );
 }

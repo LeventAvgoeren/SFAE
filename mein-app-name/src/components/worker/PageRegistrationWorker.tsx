@@ -35,6 +35,9 @@ export default function PageRegistrationWorker() {
     const [address, setAddress] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [city, setCity] = useState('');
+    const [postcode, setPostcode] = useState('');
+
     const [confirmPassword, setConfirmPassword] = useState('');
     const [jobType, setJobType] = useState('');
     const [salary, setSalary] = useState(1);
@@ -148,6 +151,7 @@ export default function PageRegistrationWorker() {
     };
 
     return (
+<<<<<<< HEAD
         
         <div className="animated-background">
              <ToastContainer 
@@ -210,4 +214,57 @@ export default function PageRegistrationWorker() {
             </div>
         
     );
+=======
+        <div className="animated-background">
+          <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundSize: 'cover', height: '100vh' }}>
+            <MDBCard className='worker-registration-container m-5'>
+              <MDBCardBody className='px-5'>
+                <h2 className="text-uppercase text-center mb-5">Registrieren als Worker</h2>
+                <form onSubmit={handleRegistration}>
+                  <MDBInput wrapperClass='mb-4' label='Dein Name' size='lg' type='text' value={name} onChange={(e) => setName(e.target.value)} required/>
+                  <MDBInput wrapperClass='mb-3 inputField' label='Straße und Hausnummer' id='addressInput' type='text' value={address} onChange={e => setAddress(e.target.value)} onBlur={() => handleAddressValidation(`${address}, ${postcode} ${city}`).then(valid => setAddressValid(valid))} required/>
+                  <MDBInput wrapperClass='mb-3 inputField' label='Postleitzahl' id='postcodeInput' type='text' value={postcode} onChange={e => setPostcode(e.target.value)} required/>
+                  <MDBInput wrapperClass='mb-3 inputField' label='Stadt' id='cityInput' type='text' value={city} onChange={e => setCity(e.target.value)} required/>
+                  {!addressValid && <div style={{ color: '#e4a11b' }}>Ungültige Adresse.</div>}
+                  <MDBInput wrapperClass='mb-4' label='Deine E-Mail' size='lg' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required/>
+                  <MDBInput wrapperClass='mb-4' label='Passwort' size='lg' type='password' value={password} onChange={handlePasswordChange} required/>
+                  <MDBInput wrapperClass='mb-4' label='Passwort erneut eingeben' size='lg' type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+                  {passwordError && <div style={{ color: 'ed' }}>{passwordError}</div>}
+                  <MDBProgress className='mb-4'>
+                    <MDBProgressBar width={passwordStrength * 25} valuemin={0} valuemax={100}>
+                      {passwordStrength * 25}%
+                    </MDBProgressBar>
+                  </MDBProgress>
+                  <select className="form-select mb-4 option-black" value={jobType} onChange={(e) => setJobType(e.target.value)} required style={{backgroundColor:"black", color: "black"}}>
+                    <option value="" style={{color:'black'}}>Jobtyp wählen...</option>
+                    {jobTypes.map((type, index) => (
+                      <option key={index} value={type} style={{color:'black'}}>{type}</option>
+                    ))}
+                  </select>
+                  <MDBInput wrapperClass='mb-4' label='Gehaltswunsch' size='lg' type='number' value={salary} onChange={(e) => setSalary(Number(e.target.value))} required/>
+                  <MDBInput
+                    wrapperClass='mb-4'
+                    label='Dein Slogan/Motto'
+                    size='lg'
+                    type='text'
+                    value={slogan}
+                    onChange={(e) => setSlogan(e.target.value)}
+                    required
+                  />
+                  <MDBCheckbox name='termsCheck' id='termsCheck' label={<span>Ich stimme den <Link to="/agb" className="text-white">Nutzungsbedingungen</Link> zu</span>} wrapperClass='d-flex justify-content-center mb-4 text-white' required/>
+                  <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type="submit">Registrieren</MDBBtn>
+                </form>
+                <MDBRow>
+                  <MDBCol size='12' className='text-center'>
+                    <MDBTypography tag='div' className='mb-4'>
+                      Du hast bereits ein Konto? <Link to="/login" className="link">Melde dich hier an</Link>
+                    </MDBTypography>
+                  </MDBCol>
+                </MDBRow>
+              </MDBCardBody>
+            </MDBCard>
+          </MDBContainer>
+        </div>
+      );
+>>>>>>> 207b309e22a9cdcc8a3d37bb494d02978217bbcf
 }

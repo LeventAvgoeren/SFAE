@@ -11,17 +11,18 @@ import { Col, Row } from 'react-bootstrap';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine';
+import { Routing } from 'leaflet-routing-machine';
 
 export function PageOrderOverview() {
-  const { customerId } = useParams();
+  const { customerId } = useParams<{ customerId: string }>();
   const [contractData, setContractData] = useState<ContractResource[]>([]);
   const [loading, setLoading] = useState(true);
-  const params = useParams();
+  const params = useParams<{ orderId: string }>();
   const contId = params.orderId;
   let contractId = parseInt(contId!);
   const [conData, setConData] = useState<ContractResource>();
-  const [modalShow, setModalShow] = useState(false); // Zustand für die Anzeige des Modals
-  const [cancelModalShow, setCancelModalShow] = useState(false); // Zustand für die Anzeige des Stornierungsmodals
+  const [modalShow, setModalShow] = useState(false);
+  const [cancelModalShow, setCancelModalShow] = useState(false);
   const [messageIndex, setMessageIndex] = useState(0);
   const [workerAssigned, setWorkerAssigned] = useState(false);
   const [foto, setFoto] = useState("");
@@ -42,10 +43,12 @@ export function PageOrderOverview() {
     "Der Mensch muss essen und trinken... Wie das Pferd"
   ];
 
+  
+
   useEffect(() => {
     const interval = setInterval(() => {
       setMessageIndex((prevIndex) => (prevIndex + 1) % messages.length);
-    }, 3000); // Wechsel alle 3 Sekunden
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
@@ -53,16 +56,16 @@ export function PageOrderOverview() {
     async function fetchContractData() {
       setLoading(true);
       try {
-        const data = await getContractByCustomerId(customerId);
+        const data = await getContractByCustomerId(customerId!);
         setContractData(data);
         let contract = await getContract(contractId);
         setConData(contract);
         let result = await getCustomerImage(customerId!);
         setFoto(`data:image/jpeg;base64,${result}`);
         if (contract && contract.worker) {
-          let result = await getWorkerImage(contract.worker.id!);
-          setWorkerFoto(`data:image/jpeg;base64,${result}`)
-          setWorkerAssigned(true); // Worker ist zugewiesen
+          let workerResult = await getWorkerImage(contract.worker.id!);
+          setWorkerFoto(`data:image/jpeg;base64,${workerResult}`);
+          setWorkerAssigned(true);
         }
       } catch (error) {
         console.error('Error fetching contract data:', error);
@@ -89,18 +92,16 @@ export function PageOrderOverview() {
   }, [customerId, contractId]);
 
   const toggleShow = () => {
-    console.log('Toggle modal');
     setModalShow(!modalShow);
   };
 
   const toggleCancelShow = () => {
-    console.log('Toggle cancel modal');
     setCancelModalShow(!cancelModalShow);
   };
   const handleConfirm = async () => {
     if (conData && conData.worker && conData.worker.id) {
       try {
-        await updateWorkerOrderStatus(conData.worker.id, "UNDEFINED")
+        await updateWorkerOrderStatus(conData.worker.id, "UNDEFINED");
         await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
         await updateContractStatus(contractId!, 'FINISHED');
         navigate(`/customer/${customerId}/orders/${orderId}/completed`)
@@ -109,24 +110,21 @@ export function PageOrderOverview() {
         console.error('Error updating status:', error);
       }
     }
-    toggleShow(); // Schließt das Modal
-  }; 
+    toggleShow();
+  };
 
   const handleCancelConfirm = async () => {
     if (conData && conData.worker && conData.worker.id) {
-      console.log(conData)
       try {
         await deleteChat(conData.worker.id, conData.customer!.id!);
         await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
         await updateContractStatus(contractId!, 'CANCELLED');
         await updateWorkerOrderStatus(conData.worker.id, "UNDEFINED");
-        //await deleteContractById(conData.id!);
-        console.log('Worker status updated to AVAILABLE and contract status updated to TERMINATED');
       } catch (error) {
         console.error('Error updating status:', error);
       }
     }
-    toggleCancelShow(); // Schließt das Stornierungsmodal
+    toggleCancelShow();
   };
 
   async function getCoordinates(address: string) {
@@ -235,6 +233,15 @@ export function PageOrderOverview() {
     }
   };
 
+  const startPosition = conData && conData.latitude !== undefined && conData.longitude !== undefined
+    ? { latitude: conData.latitude, longitude: conData.longitude }
+    : null;
+
+  const endPosition = conData && conData.worker && conData.worker.latitude !== undefined && conData.worker.longitude !== undefined
+    ? { latitude: conData.worker.latitude, longitude: conData.worker.longitude }
+    : null;
+console.log("startPosition : "+startPosition)
+console.log("endPosition : "+endPosition?.latitude, endPosition?.longitude)
   return (
     <>
       <div className="Backg">

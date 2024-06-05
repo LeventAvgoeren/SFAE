@@ -54,28 +54,28 @@ export function PageWorkerProfile() {
   const params = useParams();
   const worId = params.workerId;
 
-  const handleAddressValidation = async (inputAddress: any) => {
-    const apiKey = 'a295d6f75ae64ed5b8c6b3568b58bbf6';  // Ersetzen Sie dies mit Ihrem tatsächlichen API-Key
-    const requestUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(inputAddress)}&key=${apiKey}`;
+  const handleAddressValidation = async (inputAddress: string) => {
+    const isValid = await fetchCoordinates(inputAddress);
+    setAddressValid(isValid);
+    return isValid;
+  };
 
-    console.log(`Requesting validation for address: ${inputAddress}`); // Log the address being validated
+  const fetchCoordinates = async (address: string) => {
+    const apiKey = 'a295d6f75ae64ed5b8c6b3568b58bbf6';
+    const requestUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(address)}&key=${apiKey}`;
 
     try {
       const response = await axios.get(requestUrl);
-      console.log('API Response:', response);  // Log the full API response
-
       const data = response.data;
       if (data.results.length > 0 && data.results[0].geometry) {
-        console.log('Valid address with geometry:', data.results[0].geometry);  // Log the geometry data
         const { lat, lng } = data.results[0].geometry;
         setUserLocation({ latitude: lat, longitude: lng });
         return true;
       } else {
-        console.log('No valid address found in the API response.');  // Log when no valid address is found
         return false;
       }
     } catch (error) {
-      console.error('Error during address validation:', error);  // Log any error during the API request
+      console.error('Error during address validation:', error);
       return false;
     }
   };
@@ -106,7 +106,7 @@ export function PageWorkerProfile() {
           latitude: workerData.latitude,
           longitude: workerData.longitude,
         });
-        setSlogan(workerData.slogan)
+        setSlogan(workerData.slogan);
         fetchWorkerImage(id);
       }
       if (!workerData) {
@@ -142,13 +142,12 @@ export function PageWorkerProfile() {
 
   const handleUpdate = async () => {
     const isValidAddress = await handleAddressValidation(location);
-    setAddressValid(isValidAddress);
   
     if (!isValidAddress || !userLocation) {
       toast.error('Bitte geben Sie eine gültige Adresse ein.');
       return;
     }
-  
+
     if (!validatePassword(password)) {
       toast.error('Das Passwort muss mindestens einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten.');
       return;

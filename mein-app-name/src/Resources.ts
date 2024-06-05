@@ -15,10 +15,10 @@ export type WorkerResource = {
     location: string;
     status: string;
     statusOrder: string;
-    range: Number;
+    range: number;
     jobType: string;
-    minPayment: Number;
-    rating: Number;
+    minPayment: number;
+    rating: number;
     verification: Boolean;
     email: string;
     latitude: number;

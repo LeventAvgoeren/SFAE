@@ -29,6 +29,8 @@ import com.SFAE.SFAE.Service.TokenMailService;
 import jakarta.mail.MessagingException;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -40,7 +42,7 @@ import javax.validation.Valid;
 
 @RestController
 public class ContractController implements ContractEP {
-  private Logger logger;
+  private Logger logger= LoggerFactory.getLogger(ContractController.class);;
 
   @Autowired
   private ContractInterface dao;

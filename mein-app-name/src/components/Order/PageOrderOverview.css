@@ -179,6 +179,7 @@ a {
 .info-item {
   margin: 5px 0; /* Fügt oben und unten einen kleinen Abstand hinzu */
   flex: 1; /* Lässt die Elemente den verfügbaren Platz ausfüllen */
+ 
 }
 
 /* Spezifischer Stil für die Betragsanzeige */

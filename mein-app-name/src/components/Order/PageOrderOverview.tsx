@@ -253,16 +253,14 @@ export function PageOrderOverview() {
             <div className="row">
               <div className="danyal col-lg-3 p-2">
                 <div className='text-light'>
-                  <div className='h4 mb-3'>Dienstleistung: {conData.jobType}</div>
-                  <div className='info-item h4 mb-3'>Beschreibung: {conData.description}</div>
-                  <div className="info-item h4 mb-3">Distanz: {routeDistance}</div>
-                  <div className="info-item h4 mb-3">Dauer: {routeTime}</div>
-                  <div className='info-item h4 mb-3'>Betrag: {conData.maxPayment}€</div>
-                  <div className='info-item h4 mb-3'>Payment Method: {conData.payment}</div>
-                  <div className="info-item h4 mb-3">StatusOrder: {conData.statusOrder}</div>
-                  <div className="info-item h4 mb-3">Adresse: {conData.adress}</div>
-                  <div className="info-item h4 mb-3">Customer Name: {conData.customer?.name}</div>
-                  <div className="info-item h4 mb-3">Worker Name: {conData.worker?.name}</div>
+                  <div className='h4 mb-3'><strong>Dienstleistung:</strong> {conData.jobType}</div>
+                  <div className='info-item h4 mb-3'><strong>Beschreibung:</strong>  {conData.description}</div>
+                  <div className="info-item h4 mb-3"><strong>Distanz: </strong> {routeDistance}</div>
+                  <div className="info-item h4 mb-3"><strong>Dauer: </strong> {routeTime}</div>
+                  <div className='info-item h4 mb-3'><strong>Betrag:</strong>  {conData.maxPayment}€</div>
+                  <div className='info-item h4 mb-3'><strong>Payment Method: </strong> {conData.payment}</div>
+                  <div className="info-item h4 mb-3"><strong>StatusOrder:</strong>  {conData.statusOrder}</div>
+                  <div className="info-item h4 mb-3"><strong>Adresse: </strong> {conData.adress}</div>
                 </div>
                 {conData.statusOrder === "ACCEPTED" && <button onClick={toggleShow} className="btn btn-danger" style={{ width: "80%", marginInline: "5%", marginTop: "35%" }}>
                   Auftrag beendet

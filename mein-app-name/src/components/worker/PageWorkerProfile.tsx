@@ -138,6 +138,28 @@ export function PageWorkerProfile() {
     setPasswordStrength(getPasswordStrength(newPassword));
   };
 
+  const fetchCoordinates = async (address: string) => {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${address}`;
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data.length > 0) {
+        const { lat, lon } = data[0];
+        setUserLocation({
+          latitude: parseFloat(lat),
+          longitude: parseFloat(lon),
+        });
+        return { latitude: parseFloat(lat), longitude: parseFloat(lon) };
+      } else {
+        console.error("Adresse nicht gefunden");
+        return null;
+      }
+    } catch (error) {
+      console.error("Fehler beim Abrufen der Koordinaten:", error);
+      return null;
+    }
+  };
+
   const handleUpdate = async () => {
     const isValidAddress = await handleAddressValidation(location);
     setAddressValid(isValidAddress);
@@ -147,9 +169,10 @@ export function PageWorkerProfile() {
       return;
     }
   
-    await fetchCoordinates(location);
-  
-    if (!addressValid) {
+    const coordinates = await fetchCoordinates(location);
+    if (coordinates) {
+      setUserLocation(coordinates);
+    } else {
       toast.error('Bitte geben Sie eine gültige Adresse ein.');
       return;
     }
@@ -165,16 +188,16 @@ export function PageWorkerProfile() {
     }
 
     setPasswordError('');
-      /**/ 
+
     const updatedWorkerData: WorkerResourceProfil = {
       id: worId!,
       name: name,
       email: email,
       password: password,
       location: location,
-      latitude: userLocation!.latitude,
-      longitude: userLocation!.longitude,
-      profileBase64: profileImage, // Ensuring profilBase64 is included
+      latitude: coordinates.latitude,
+      longitude: coordinates.longitude,
+      profileBase64: profileImage,
       slogan: slogan
     };
   
@@ -187,25 +210,6 @@ export function PageWorkerProfile() {
     } catch (error) {
       console.error("Fehler beim Aktualisieren des Workers:", error);
       toast.error("Fehler beim Aktualisieren des Profils");
-    }
-  };
-
-  const fetchCoordinates = async (address: string) => {
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${address}`;
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      if (data.length > 0) {
-        const { lat, lon } = data[0];
-        setUserLocation({
-          latitude: parseFloat(lat),
-          longitude: parseFloat(lon),
-        });
-      } else {
-        console.error("Adresse nicht gefunden");
-      }
-    } catch (error) {
-      console.error("Fehler beim Abrufen der Koordinaten:", error);
     }
   };
 

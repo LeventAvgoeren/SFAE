@@ -131,7 +131,7 @@ export default function PageOrderRequest() {
       adress: address,
       jobType: service.toUpperCase(),
       description: description,
-      payment: "PAYPAL",
+      payment: "Barzahlung",
       range: range,
       statusOrder: "PAID",
       customerId: cus!.id,

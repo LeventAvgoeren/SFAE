@@ -261,6 +261,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ onClose }) => {
     }
 
     if (!contract) {
+        setTimeout(() => setActive(false), 5000); 
         return <LoadingIndicator />;
     }
 

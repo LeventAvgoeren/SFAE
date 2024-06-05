@@ -117,6 +117,7 @@ const handleSaveWorkerUpdate = () => {
             try {
                 deleteCustomer(selectedCustomer.id)
                 setSelectedCustomer(null);
+                window.location.reload()
             } catch {
                 console.log("error")
             }
@@ -129,6 +130,7 @@ const handleSaveWorkerUpdate = () => {
             try {
                 deleteWorker(selectedWorker.id)
                 setSelectedWorker(null);
+                window.location.reload()
             } catch {
                 console.log("error")
             }

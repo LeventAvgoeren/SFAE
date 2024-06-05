@@ -27,6 +27,13 @@ export type WorkerResource = {
     slogan: string;
 
 }
+export type WorkerResourcePreferences = {
+    id?:string;
+    range : Number;
+    minPayment: Number;
+    jobType: string;
+}
+
 export type WorkerResourceProfil = {
     id?: string;
     name: string;

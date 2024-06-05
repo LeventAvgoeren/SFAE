@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { JobType, WorkerResource } from "../../Resources";
+import { JobType, WorkerResource, WorkerResourcePreferences, WorkerResourceProfil } from "../../Resources";
 import { deleteWorker, getWorkerbyID, updateWorker, updateWorkerPreferences } from "../../backend/api";
 import { useParams } from "react-router-dom";
 import { Button, Navbar } from "react-bootstrap";
@@ -90,23 +90,11 @@ export function PageWorkerPreferences() {
 
   //Update Funkti
    const handleUpdate = async () => {
-      const updatedWorkerData :WorkerResource= {
+      const updatedWorkerData :WorkerResourcePreferences= {
         id: (worId!),
-        name: name,
-        email: email,
-        password: password,
-        location: location,
-        status: status,
-        verification: verification,
-        statusOrder: statusOrder,
         range: range,
         jobType: jobType.toUpperCase(),
         minPayment: minPayment!,
-        rating: rating,
-        longitude: getlongitude,
-        latitude: getlatitude,
-        profileBase64: "",
-        slogan : slogan
       }
 
       try {

@@ -135,11 +135,7 @@ export function PageProfil() {
             updatedCustomerData.profileBase64 = updatedCustomerData.profileBase64.slice(23);
             const updatedCustomer = await updateCustomer(updatedCustomerData);
             console.log("Updated Customer:", updatedCustomer);
-<<<<<<< HEAD
             toast.success("Kunde erfolgreich aktualisiert");
-=======
-            setShowSuccessModal(true);  // Zeige das Erfolgs-Popup
->>>>>>> 207b309e22a9cdcc8a3d37bb494d02978217bbcf
         } catch (error) {
             console.error("Fehler beim Aktualisieren des Kunden:", error);
             toast.error("Fehler beim Aktualisieren des Kunden");
@@ -271,36 +267,6 @@ export function PageProfil() {
                                             <Button type="button" className="btn btn-danger" onClick={handleShow}>
                                                 Account löschen
                                             </Button>
-<<<<<<< HEAD
-=======
-
-                                            <Modal show={showModal} onHide={handleClose}>
-                                                <Modal.Header closeButton>
-                                                    <Modal.Title>Account löschen</Modal.Title>
-                                                </Modal.Header>
-                                                <Modal.Body>Sind Sie sicher, dass Sie Ihren Account löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.</Modal.Body>
-                                                <Modal.Footer>
-                                                    <Button variant="secondary" onClick={handleClose}>
-                                                        Schließen
-                                                    </Button>
-                                                    <Button variant="danger" onClick={handleDeleteCustomer}>
-                                                        Account löschen
-                                                    </Button>
-                                                </Modal.Footer>
-                                            </Modal>
-
-                                            <Modal show={showSuccessModal} onHide={handleSuccessClose}>
-                                                <Modal.Header closeButton>
-                                                    <Modal.Title>Erfolgreich</Modal.Title>
-                                                </Modal.Header>
-                                                <Modal.Body>Ihr Profil wurde erfolgreich aktualisiert!</Modal.Body>
-                                                <Modal.Footer>
-                                                    <Button variant="success" onClick={handleSuccessClose}>
-                                                        Schließen
-                                                    </Button>
-                                                </Modal.Footer>
-                                            </Modal>
->>>>>>> 207b309e22a9cdcc8a3d37bb494d02978217bbcf
                                         </div>
                                     </div>
                                 </form>

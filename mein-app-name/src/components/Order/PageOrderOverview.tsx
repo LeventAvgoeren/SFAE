@@ -11,6 +11,7 @@ import { Col, Row } from 'react-bootstrap';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine';
+import { Routing } from 'leaflet-routing-machine';
 
 export function PageOrderOverview() {
   const { customerId } = useParams<{ customerId: string }>();
@@ -41,8 +42,6 @@ export function PageOrderOverview() {
     "Der Vorgang wird gleich abgeschlossen, danke für Ihre Geduld...",
     "Der Mensch muss essen und trinken... Wie das Pferd"
   ];
-
-
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -232,15 +231,6 @@ export function PageOrderOverview() {
     }
   };
 
-  const startPosition = conData && conData.latitude !== undefined && conData.longitude !== undefined
-    ? { latitude: conData.latitude, longitude: conData.longitude }
-    : null;
-
-  const endPosition = conData && conData.worker && conData.worker.latitude !== undefined && conData.worker.longitude !== undefined
-    ? { latitude: conData.worker.latitude, longitude: conData.worker.longitude }
-    : null;
-  console.log("startPosition : " + startPosition)
-  console.log("endPosition : " + endPosition?.latitude, endPosition?.longitude)
   return (
     <>
       <div className="Backg">

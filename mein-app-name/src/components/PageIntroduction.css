@@ -185,6 +185,10 @@ body {
 
 /* Stil für den CTA-Button */
 .my-cta-button {
+    display: block; /* Zentriert den Button */
+    width: 200px; /* Vergrößert den Button */
+    height: 60px; /* Vergrößert den Button */
+    margin: 0 auto; /* Zentriert den Button */
     background-color: #ff6347;
     color: white;
     border: none;
@@ -194,11 +198,13 @@ body {
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
     margin-top: 20px;
+    font-weight: bold; /* Macht den Text fett */
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1); /* Fügt einen Schatten hinzu */
 }
 
 .my-cta-button:hover {
     background-color: #ff4500;
-    transform: scale(1.05);
+    transform: scale(1.1); /* Vergrößert den Button beim Überfahren mit der Maus */
 }
 
 .animation-container-doener {

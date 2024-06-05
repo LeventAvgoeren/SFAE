@@ -447,7 +447,7 @@ class CustomerController implements CustomerEP {
             String link = "https://localhost:3000/newPassword?token=" + token;
 
             try {
-                mail.sendHtmlMessage(foundCustomer.getEmail(), "Email zurücksetzen",
+                mail.sendHtmlMessage(foundCustomer.getEmail(), "Passwort zurücksetzen",
                         "<html><body>" +
                                 "Hallo " + foundCustomer.getName() + ",<br>" +
                                 "Sie haben beantragt ihr Passwort zu ändern.<br>" +
@@ -473,7 +473,7 @@ class CustomerController implements CustomerEP {
             String link = "https://localhost:3000/newPassword?token=" + token;
 
             try {
-                mail.sendHtmlMessage(worker.getEmail(), "Email zurücksetzen",
+                mail.sendHtmlMessage(worker.getEmail(), "Passwort zurücksetzen",
                         "<html><body>" +
                                 "Hallo " + worker.getName() + ",<br>" +
                                 "Sie haben beantragt ihr Passwort zu ändern.<br>" +

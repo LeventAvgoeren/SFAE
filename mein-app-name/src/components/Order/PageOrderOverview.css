@@ -159,6 +159,7 @@ a {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
 }
 
 /* Hauptcontainer für das Badge und die Informationen */
@@ -199,3 +200,4 @@ a {
   width: 40%; /* Bild nimmt die ganze Zellenbreite ein */
 
 }
+

@@ -6,7 +6,9 @@ import { ContractResource, WorkerResource } from "../../Resources";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import "./PageUebersicht.css";
 import NavbarComponent from '../navbar/NavbarComponent';
+import { deDE } from '@mui/x-data-grid/locales';
 import { MDBBtn } from 'mdb-react-ui-kit';
+
 import { Toolbar, Typography } from '@mui/material';
 
 export function PageUebersicht() {
@@ -96,6 +98,7 @@ export function PageUebersicht() {
             rows={contracts}
             columns={columns}
             style={{ backgroundColor: 'white', color: 'black' }}
+            localeText={deDE.components.MuiDataGrid.defaultProps.localeText}
           />
         </div>
     </div>

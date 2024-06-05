@@ -4,6 +4,7 @@ import { ContractResource, ContractResourceforWorker, WorkerResource } from "../
 import { getContractByCustomerId, getContractByWorkerId } from "../../backend/api";
 
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { deDE } from '@mui/x-data-grid/locales';
 import NavbarWComponent from "./NavbarWComponent";
 
 
@@ -46,8 +47,8 @@ export function PageWorkerOrderOverview() {
         { field: 'adress', headerName: 'Adresse', width: 290 },
         { field: 'description', headerName: 'Beschreibung', width: 400 },
         { field: 'jobType', headerName: 'Job Typ', width: 290 },
-        { field: 'payment', headerName: 'Payment', width: 290 },
-        { field: 'maxPayment', headerName: 'maxPayment', width: 290 },
+        { field: 'payment', headerName: 'Bezahlung', width: 290 },
+        { field: 'maxPayment', headerName: 'Maximale Zahlung', width: 290 },
         { field: 'customer', headerName: 'Customer Name', width: 290, 
          renderCell: (params) => {
           return params.value ? params.value.name : 'N/A';
@@ -63,6 +64,7 @@ export function PageWorkerOrderOverview() {
               rows={contracts}
               columns={columns}
               style={{ backgroundColor: 'white', color: 'black' }}
+              localeText={deDE.components.MuiDataGrid.defaultProps.localeText}
             />
           </div>
           <div style={{ padding: 10, backgroundColor: '#f0f0f0', textAlign: 'right' }}>

@@ -165,7 +165,25 @@ export function PageWorkerProfile() {
     }
 
     setPasswordError('');
+      /*export type WorkerResource = {
+    id?: string;
+    name: string;
+    password:string;
+    location: string;
+    status: string;
+    statusOrder: string;
+    range: Number;
+    jobType: string;
+    minPayment: Number;
+    rating: Number;
+    verification: Boolean;
+    email: string;
+    latitude: number;
+    longitude: number;
+    profileBase64:string;
+    slogan: string;
 
+}*/ 
     const updatedWorkerData: WorkerResource = {
       id: worId!,
       name: name,

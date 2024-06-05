@@ -329,7 +329,7 @@ export function PageOrderOverview() {
                         </address>
                         Min Payment: {conData.worker.minPayment}€<br />
 
-                        Rating: {conData.worker.rating}<br />
+                        Rating: {conData.worker.rating.toFixed(1)}<br />
 
                       </>
                     )}

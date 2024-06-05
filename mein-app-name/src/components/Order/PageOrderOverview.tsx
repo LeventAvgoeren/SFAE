@@ -12,6 +12,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine';
 import { Routing } from 'leaflet-routing-machine';
+import { Typewriter } from 'react-simple-typewriter';
 
 export function PageOrderOverview() {
   const { customerId } = useParams<{ customerId: string }>();
@@ -236,10 +237,13 @@ export function PageOrderOverview() {
       <div className="Backg">
         <NavbarComponent />
         {loading || !workerAssigned ? (
-          <div className="loading-container">
-            <Lottie options={defaultOptions} height={400} width={400} />
-            <div className="loading-message">{messages[messageIndex]}</div>
-          </div>
+             
+            <div style={{ paddingBottom:"20%", height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: 'center'  }}>
+              <Lottie options={defaultOptions} height={400} width={400} />
+              <div style={{background:"black", color:"white", width:"30%", alignSelf:"center"}}> 
+              <Typewriter  words={messages}  loop={0} cursor cursorStyle="/" cursorColor='red' cursorBlinking={true} typeSpeed={70}   deleteSpeed={50}  delaySpeed={1000}/>
+              </div>
+            </div>
         ) : (
           <div className="containertest">
             <h1>Order Information</h1>

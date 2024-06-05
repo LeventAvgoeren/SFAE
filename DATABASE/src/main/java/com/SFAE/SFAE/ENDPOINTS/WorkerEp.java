@@ -170,7 +170,7 @@ public interface WorkerEp {
    @GetMapping("statuse/{id}")
    ResponseEntity<?> getWorkerStatuse(@PathVariable("id") String id);
 
-   @PutMapping("profil")
+   @PutMapping("/profil")
    ResponseEntity<?> updateWorkerProfil(@RequestBody WorkerProfileDTO data);
    
    @PutMapping("preferences")

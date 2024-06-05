@@ -27,6 +27,17 @@ export type WorkerResource = {
     slogan: string;
 
 }
+export type WorkerResourceProfil = {
+    id?: string;
+    name: string;
+    password:string;
+    location: string;
+    email: string;
+    latitude: number;
+    longitude: number;
+    profileBase64:string;
+    slogan: string;
+}
 export interface Position {
     latitude: number;
     longitude: number;

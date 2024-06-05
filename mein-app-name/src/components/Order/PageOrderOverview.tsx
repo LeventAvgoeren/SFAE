@@ -53,8 +53,9 @@ export function PageOrderOverview() {
 
   useEffect(() => {
     async function fetchContractData() {
-      setLoading(true);
+     setLoading(true)
       try {
+        
         const data = await getContractByCustomerId(customerId!);
         setContractData(data);
         let contract = await getContract(contractId);
@@ -66,11 +67,11 @@ export function PageOrderOverview() {
           setWorkerFoto(`data:image/jpeg;base64,${workerResult}`);
           setWorkerAssigned(true);
         }
+        
+       
       } catch (error) {
         console.error('Error fetching contract data:', error);
-      } finally {
-        setLoading(false);
-      }
+      } 
     }
     fetchContractData();
 
@@ -78,6 +79,7 @@ export function PageOrderOverview() {
       try {
         const status = await getContractStatus(contractId);
         if (status === 'ACCEPTED') {
+          fetchContractData()
           clearInterval(statusInterval);
           setLoading(false);
           setWorkerAssigned(true);

@@ -8,12 +8,12 @@ export function Err404({ code }: { code: string }) {
       <div className="terminal">
         <h1>Error <span className="errorcode">${code}$</span></h1>
         <p className="output">
-          The page you are looking for might have been removed, had its name changed, you don´t have access, or is temporarily unavailable.
+        Die Seite, die Sie suchen, wurde möglicherweise entfernt oder ihr Name wurde geändert, Sie haben keinen Zugang oder sie ist vorübergehend nicht verfügbar.
         </p>
         <p className="output">
-          Please try to <a className="Link" href="/">go back</a>.
+        Bitte gehen Sie  <a className="Link" href="/">zurück</a>.
         </p>
-        <p className="output">Good luck.</p>
+        <p className="output">Viel Glück.</p>
       </div>
     </div>
   );

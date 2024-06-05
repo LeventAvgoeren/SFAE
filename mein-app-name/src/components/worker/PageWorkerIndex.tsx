@@ -70,7 +70,7 @@ export function PageWorkerIndex() {
             {[
               {path: `/worker/${workerId}/orders/overview`, label: 'Aufträge', img: '/auftraege.jpg'},
               {path: `/worker/${workerId}/preferences`, label: 'Präferenz', img: '/praferenz.jpg'},
-              {path: `/worker/${workerId}/profile`, label: 'Profile', img: '/profile.jpg'}
+              {path: `/worker/${workerId}/profile`, label: 'Profil', img: '/profile.jpg'}
             ].map(({ path, label, img }, index) => (
               <Col key={index} md={4} className="mb-4">
                 <Card>

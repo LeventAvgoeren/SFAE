@@ -205,7 +205,6 @@ public class WorkerController implements WorkerEp {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
-
     /**
      * Endpoint for updating a Worker.
      * 
@@ -375,10 +374,10 @@ public class WorkerController implements WorkerEp {
         if (foundCustomer != null) {
             String token = mailService.createToken(1, foundCustomer.getId(), TokenType.PASSWORDRESET);
 
-            String link = "https://localhost:3000/newPassword?token=" + token;
+            String link = "https://erayzor.de/newPassword?token=" + token;
 
             try {
-                mail.sendHtmlMessage(foundCustomer.getEmail(), "Email zurücksetzen",
+                mail.sendHtmlMessage(foundCustomer.getEmail(), "Passwort zurücksetzen",
                         "<html><body>" +
                                 "Hallo " + foundCustomer.getName() + ",<br>" +
                                 "Sie haben beantragt ihr Passwort zu ändern.<br>" +

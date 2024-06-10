@@ -96,7 +96,7 @@ public class ContractController implements ContractEP {
         Customer foundCustomer = custo.findCustomerbyID(String.valueOf(contract.getCustomerId()));
 
         String token = tokenService.createToken(created.getId(), lastEntry.getKey().getId(), TokenType.CONTRACT);
-        String link = "https://localhost:3000/contract?token=" + token;
+        String link = "https://erayzor.de/contract?token=" + token;
 
         mail.sendHtmlMessage(found.getEmail(), "Jobangebot erhalten",
             "<html><body>" +

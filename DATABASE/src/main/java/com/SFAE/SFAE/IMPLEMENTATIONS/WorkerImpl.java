@@ -4,10 +4,12 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
+import java.sql.Array;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -212,17 +214,23 @@ public class WorkerImpl implements WorkerInterface {
         e.getStackTrace();
       }
     }
+
+ 
     
     int rowsAffected = jdbcTemplate.update(
-        "UPDATE WORKER SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? , latitude = ? , longitude =?, profile_picture_blob = ?, slogan=? WHERE id = ?",
+        "UPDATE WORKERTEST SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? , latitude = ? , longitude =?, profile_picture_blob = ?, slogan=? WHERE id = ?",
         ps -> {
+          Connection connection = ps.getConnection(); 
+
+            Array jobTypeArray = connection.createArrayOf("VARCHAR", Arrays.stream(data.getJobType())
+                                    .toArray(String[]::new));
           ps.setString(1, data.getName());
           ps.setString(2, data.getLocation());
           ps.setString(3, data.getPassword());
           ps.setString(4, data.getStatus());
           ps.setString(5, data.getStatusOrder());
           ps.setDouble(6, data.getRange());
-          ps.setString(7, data.getJobType());
+          ps.setArray(7, jobTypeArray);
           ps.setDouble(8, data.getMinPayment());
           ps.setDouble(9, data.getRating());
           ps.setBoolean(10, data.getVerification());
@@ -236,9 +244,13 @@ public class WorkerImpl implements WorkerInterface {
         });
 
     if (rowsAffected > 0) {
+      JobList[] list = new JobList[data.getJobType().length];
+      for(int i = 0; i < data.getJobType().length; i++){
+        list[i] = JobList.valueOf(data.getJobType()[i]);
+      }
 
       return new Worker(data.getName(), data.getLocation(), data.getPassword(), Status.valueOf(data.getStatus()),
-          StatusOrder.valueOf(data.getStatusOrder()), data.getRange(), JobList.valueOf(data.getJobType()),
+          StatusOrder.valueOf(data.getStatusOrder()), data.getRange(), list,
           data.getMinPayment(), data.getRating(), data.getVerification(), data.getEmail(), data.getLatitude(),
           data.getLongitude(),data.getSlogan());
     } else {
@@ -266,7 +278,7 @@ public class WorkerImpl implements WorkerInterface {
       String password = encoder.hashPassword(rs.getPassword());
       String email = rs.getEmail();
       Double range = rs.getRange();
-      String jobType = rs.getJobType();
+      String[] jobType = rs.getJobType();
       Double minPayment = rs.getMinPayment();
       Double rating = 1.0;
       ArrayList<Double> ratingAv = new ArrayList<>();
@@ -276,8 +288,13 @@ public class WorkerImpl implements WorkerInterface {
       double longitude = rs.getLongitude();
       String slogan =rs.getSlogan();
 
+      JobList[] list = new JobList[jobType.length];
+      for(int i = 0; i < jobType.length; i++){
+        list[i] = JobList.valueOf(jobType[i]);
+      }
+
       Worker worker = new Worker(name, location, password, Status.valueOf("AVAILABLE"),
-          StatusOrder.valueOf("UNDEFINED"), range, JobList.valueOf(jobType), minPayment, rating, verification, email,
+          StatusOrder.valueOf("UNDEFINED"), range, list, minPayment, rating, verification, email,
           latitude, longitude, ratingAv, pic,slogan);
       workerRepository.save(worker);
       return worker;
@@ -329,7 +346,8 @@ public class WorkerImpl implements WorkerInterface {
       String status = rs.getString("status");
       String statusOrder = rs.getString("status_order");
       Double range = rs.getDouble("range");
-      String jobType = rs.getString("job_type");
+      String jobTypeString = rs.getString("job_type");
+      String[] jobType = jobTypeString.split(",");
       Double minPayment = rs.getDouble("min_payment");
       Double rating = rs.getDouble("rating");
       Boolean verification = rs.getBoolean("verification");
@@ -651,18 +669,25 @@ public class WorkerImpl implements WorkerInterface {
       throw new IllegalArgumentException("No Data "+data);
     }
 
+    String jobTypesString = String.join(",", data.getJobType());
+
     try {
       int rowsAffected = jdbcTemplate.update(
         "UPDATE WORKER SET range = ?, job_type = ?, min_payment = ? WHERE id = ?",
         ps -> {
           ps.setDouble(1, data.getRange());
-          ps.setString(2, data.getJobType());
+          ps.setString(2, jobTypesString);
           ps.setDouble(3, data.getMinPayment());
           ps.setString(4, data.getId());
         });
 
         if(rowsAffected>0){
-          return new Worker(data.getRange(),JobList.valueOf(data.getJobType()),data.getMinPayment());
+          JobList[] list = new JobList[data.getJobType().length];
+          for( int i= 0; i < data.getJobType().length; i ++) {
+              list[i] = JobList.valueOf(data.getJobType()[i]);
+          }
+
+          return new Worker(data.getRange(),list,data.getMinPayment());
         }
         else{
           return null;

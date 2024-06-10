@@ -36,7 +36,7 @@ export function NavbarWComponent() {
 
   useEffect(() => {
     const client = new Client({
-        webSocketFactory: () => new SockJS('https://localhost:8443/chat'),
+        webSocketFactory: () => new SockJS( `${process.env.REACT_APP_API_SERVER_URL}/chat `),
         reconnectDelay: 5000,
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000,

@@ -78,12 +78,13 @@ export function PageOrderOverview() {
     const statusInterval = setInterval(async () => {
       try {
         const status = await getContractStatus(contractId);
-        if (status === 'ACCEPTED') {
+        console.log(status)
+        if (status !== 'UNDEFINED' || !status) {
           fetchContractData()
           clearInterval(statusInterval);
           setLoading(false);
           setWorkerAssigned(true);
-        }
+        } 
       } catch (error) {
         console.error('Error fetching contract status:', error);
       }
@@ -102,6 +103,7 @@ export function PageOrderOverview() {
   const handleConfirm = async () => {
     if (conData && conData.worker && conData.worker.id) {
       try {
+        await deleteChat(conData.worker.id, conData.customer!.id!);
         await updateWorkerOrderStatus(conData.worker.id, "UNDEFINED");
         await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
         await updateContractStatus(contractId!, 'FINISHED');

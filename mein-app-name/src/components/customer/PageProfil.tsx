@@ -135,7 +135,7 @@ export function PageProfil() {
             updatedCustomerData.profileBase64 = updatedCustomerData.profileBase64.slice(23);
             const updatedCustomer = await updateCustomer(updatedCustomerData);
             console.log("Updated Customer:", updatedCustomer);
-            toast.success("Kunde erfolgreich aktualisiert");
+            toast.success("Information wurde erfolgreich aktualisiert");
         } catch (error) {
             console.error("Fehler beim Aktualisieren des Kunden:", error);
             toast.error("Fehler beim Aktualisieren des Kunden");

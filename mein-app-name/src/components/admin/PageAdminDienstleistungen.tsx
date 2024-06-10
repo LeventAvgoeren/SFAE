@@ -84,6 +84,7 @@ export function PageAdminDienstleistungen({ isAdminPage }: PageAdminComponentPro
 const handleUpdateCustomer = async (updatedCustomer: CustomerResource) => {
     try {
         await updateCustomer(updatedCustomer);
+        window.location.reload()
         handleClose();
     } catch (error) {
         console.error('Fehler beim Aktualisieren des Kunden:', error);
@@ -93,6 +94,7 @@ const handleUpdateCustomer = async (updatedCustomer: CustomerResource) => {
 const handleUpdateWorker = async (updatedWorker: WorkerResourceProfil) => {
     try {
         await updateWorkerProfile(updatedWorker);
+        window.location.reload()
         handleClose();
     } catch (error) {
         console.error('Fehler beim Aktualisieren des Kunden:', error);

@@ -39,6 +39,8 @@ import { ImprintPage } from "./components/ImprintPage";
 import { TermsAndConditions } from "./components/TermsAndConditions";
 
 import { Toolbar, Typography } from "@mui/material";
+import { PageVerifyEmail } from "./components/customer/PageVerifyEmail";
+import { PageVerifyWorkerEmail } from "./components/customer/PageVerfyWorkerEmail";
 
 
 
@@ -124,7 +126,8 @@ function App() {
 
           <Route path="/NotAuth" element={<PageError error={401} />} />
           <Route path="/contract" element={<PageDeclineJob />} />
-
+          <Route path="/verifyEmail" element={<PageVerifyEmail />} />
+          <Route path="/verifyEmailWorker" element={<PageVerifyWorkerEmail />} />
           <Route path="*" element={<Navigate to="/NotFound" replace />} />
           <Route path="/NotFound" element={<PageError error={404} />} />
           <Route path="/imprint" element={<ImprintPage />} />

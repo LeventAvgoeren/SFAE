@@ -23,10 +23,10 @@ import com.SFAE.SFAE.INTERFACE.DataFactoryInterface;
 final class DataFactoryImp implements DataFactoryInterface{
 
     @Override
-    public Optional<Customer> createCustomer(String id, String name, String password, String email, String role) {
+    public Optional<Customer> createCustomer(String id, String name, String password, String email, String role, Boolean confirm) {
        try{
       Optional<Customer> customer = Optional.of(
-            new Customer( id, name, password, email, String.valueOf(role))
+            new Customer( id, name, password, email, String.valueOf(role),confirm)
         );
 
         if(customer.isPresent()){
@@ -41,10 +41,10 @@ final class DataFactoryImp implements DataFactoryInterface{
 
     @Override
     public Optional<Worker> createWorker(String id, String name, String location, String password, String email,
-            String status, Double range, String jobType, String Statusorder, Double minPayment, Double rating, Boolean verification, Double latitude, Double longitude, String slogan) {
+            String status, Double range, String jobType, String Statusorder, Double minPayment, Double rating, Boolean verification, Double latitude, Double longitude, String slogan,Boolean confirm) {
         try {
             return Optional.of(
-                new Worker(id, name, location, password, email, Status.valueOf(status), StatusOrder.valueOf(Statusorder), range, JobList.valueOf(jobType), minPayment, rating, verification, latitude, longitude, slogan)
+                new Worker(id, name, location, password, email, Status.valueOf(status), StatusOrder.valueOf(Statusorder), range, JobList.valueOf(jobType), minPayment, rating, verification, latitude, longitude, slogan,confirm)
             );
         } catch (IllegalArgumentException iax) {
         }

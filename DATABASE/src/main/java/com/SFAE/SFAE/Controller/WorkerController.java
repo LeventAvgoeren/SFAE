@@ -84,35 +84,34 @@ public class WorkerController implements WorkerEp {
 
         try {
             Worker builded = dao.createWorker(worker);
-            if (builded != null) {
-                mail.sendHtmlMessage(builded.getEmail(),
-                        "Willkommen bei SFAE - Verdienen Sie nebenbei Geld mit Ihren Fähigkeiten",
-                        "<html><body>" +
-                                "<p>Lieber " + builded.getName() + ",</p>" +
-                                "<p>herzlich willkommen bei SFAE! Wir freuen uns, dass Sie sich für unseren Service entschieden haben.</p>"
-                                +
-                                "<p>SFAE ist die ideale Plattform für Fachkräfte wie Sie, die ihre Fähigkeiten nutzen möchten, um nebenbei Geld zu verdienen. Unser Service bietet Ihnen die Möglichkeit, schnell und unkompliziert mit Kunden in Ihrer Nähe in Kontakt zu treten, die genau Ihre Expertise benötigen.</p>"
-                                +
-                                "<p>Egal ob Sie Handwerker, IT-Spezialist, Reinigungskraft oder in einem anderen Berufsfeld tätig sind – bei SFAE finden Sie passende Aufträge, die Ihren Fähigkeiten entsprechen. Unser benutzerfreundliches System stellt sicher, dass Sie innerhalb kürzester Zeit interessante Jobangebote erhalten.</p>"
-                                +
-                                "<p>Mit SFAE können Sie:</p>" +
-                                "<ul>" +
-                                "<li>Ihre Fähigkeiten optimal einsetzen und zusätzliche Einnahmen erzielen</li>" +
-                                "<li>Flexibel arbeiten und selbst bestimmen, welche Aufträge Sie annehmen</li>" +
-                                "<li>Ihren Kundenstamm erweitern und wertvolle Erfahrungen sammeln</li>" +
-                                "</ul>" +
-                                "<p>Wir sind überzeugt, dass Sie mit unserem Service zufrieden sein werden und freuen uns darauf, Ihnen bei Ihrer beruflichen Weiterentwicklung zu unterstützen.</p>"
-                                +
-                                "<p>Bei Fragen oder Anregungen stehen wir Ihnen jederzeit zur Verfügung.</p>" +
-                                "<p>Mit freundlichen Grüßen,</p>" +
-                                "<p>Ihr SFAE-Team</p>" +
-                                "</body></html>");
-                return ResponseEntity.status(HttpStatus.CREATED).body(builded);
+            if(builded!=null){
+                String token = mailService.createToken(0, builded.getId(), TokenType.VERIFYWORKER);
+            String link = "https://localhost:3000/verifyEmailWorker?token=" + token;
+
+            mail.sendHtmlMessage(builded.getEmail(), "Bestätigung Ihrer E-Mail-Adresse",
+                            "<html><body>" +
+                                    "Hallo " + builded.getName() + ",<br>" +
+                                    "Vielen Dank für die Registrierung bei unserem Service.<br>" +
+                                    "Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf den folgenden <a href='" + link
+                                    + "'><button style='background-color: #4CAF50; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;'>Bestätigungs-Button</button></a> klicken. Dieser Link ist nur für kurze Zeit gültig.<br>" +
+                                    "Wenn Sie die Registrierung nicht angefordert haben, können Sie diese E-Mail einfach ignorieren.<br><br>"
+                                    +
+                                    "Bei Fragen oder Problemen wenden Sie sich bitte an unseren Support.<br><br>"
+                                    +
+                                    "Mit freundlichen Grüßen,<br>" +
+                                    "Ihr Unternehmen-Team" +
+                                    "</body></html>");
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(builded);
             }
+            else{
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+          
+        
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
     }
 
@@ -540,5 +539,31 @@ public class WorkerController implements WorkerEp {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @Override
+    public ResponseEntity<?> verifyEmail(String token) {
+        if (token == null) {
+            throw new IllegalArgumentException("No Token given");
+        }
+        
+       //Token data = tokenRepository.findByToken(token);
+       Token data = mailService.validateToken(token);
+
+        try {
+            boolean result = dao.verifyEmail(data.getReceiver());
+            System.out.println("result------"+result);
+            if (result) {
+                return ResponseEntity.status(HttpStatus.OK).build();
+
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        } catch (Exception e) {
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+        }
+    }
+
 
 }

@@ -122,4 +122,6 @@ public interface WorkerInterface {
 
   Worker updateWorkerPreferences(WorkerPrefrencesDTO data);
 
+  boolean verifyEmail(String id);
+
 }

@@ -3,10 +3,12 @@ package com.SFAE.SFAE.DTO;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
+import lombok.Data;
+
 /**
  * @author erayzor
  */
-
+@Data
 public class CustomerDTO {
     private String id;
 

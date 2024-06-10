@@ -208,7 +208,7 @@ export async function registrationAdmin(
 export async function registrationCustomer(
   name: string,
   password: string,
-  email: string
+  email: string,
 ) {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/customer`;
 
@@ -219,7 +219,7 @@ export async function registrationCustomer(
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password, name }), // Ensure field names match your backend
+      body: JSON.stringify({ email, password, name}), // Ensure field names match your backend
       credentials: "include" as RequestCredentials,
     });
 
@@ -690,6 +690,40 @@ export async function getTokenContent(token: string): Promise<TokenRessource | f
   const jsonData = await response.json();
 
   return jsonData;
+}
+
+
+export async function verifyEmail(token: string): Promise<void> {
+
+  let url = `${process.env.REACT_APP_API_SERVER_URL}/customer/verifyEmail/${token}`;
+
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    credentials: "include" as RequestCredentials,
+  };
+
+  await fetchWithErrorHandling(url, options);
+}
+
+
+export async function verifyEmailWorker(token: string): Promise<void> {
+
+  let url = `${process.env.REACT_APP_API_SERVER_URL}/worker/verifyEmailWorker/${token}`;
+
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    credentials: "include" as RequestCredentials,
+  };
+
+  await fetchWithErrorHandling(url, options);
 }
 
 

@@ -304,4 +304,5 @@ public void testImageGetWorkerByIdBadRequest() throws Exception {
         System.out.println("A " + contentAsString);
    }
 
+
 }

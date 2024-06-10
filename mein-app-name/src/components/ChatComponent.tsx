@@ -29,7 +29,7 @@ interface Message {
 }
 
 const fetchMessagesForUser = async (user1: string, user2: string): Promise<Message[]> => {
-    const response = await fetch(`https://localhost:8443/chat/history?user1=${user1}&user2=${user2}`);
+    const response = await fetch( `${process.env.REACT_APP_API_SERVER_URL}/chat/history?user1=${user1}&user2=${user2}`);
     const data = await response.json();
     return data;
 };

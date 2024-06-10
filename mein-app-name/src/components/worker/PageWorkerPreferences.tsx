@@ -6,6 +6,7 @@ import { Button, Navbar } from "react-bootstrap";
 import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
 import "./PageWorkerPreferences.css"
 import NavbarWComponent from "./NavbarWComponent";
+import { ToastContainer, toast } from "react-toastify";
 
 
 
@@ -100,24 +101,13 @@ export function PageWorkerPreferences() {
       try {
         const updatedWorker = await updateWorkerPreferences(updatedWorkerData);
         console.log("Updated Worker:", updatedWorker);
+        toast.success("Präferenzen erfolgreich aktualisiert");
         alert("Worker erfolgreich aktualisiert");
       } catch (error) {
         console.error("Fehler beim Aktualisieren des Workers:", error);
-        alert("Fehler beim Aktualisieren des Workers");
+        toast.error("Fehler beim Aktualisieren der Präferenzen");
       }
   };
-
-
-  const handleDelete = async () => {
-    try {
-      await deleteWorker(worId!);
-      alert('Profil erfolgreich gelöscht.');
-    } catch (error) {
-      console.error('Fehler beim Löschen des Profils:', error);
-      alert('Fehler beim Löschen des Profils');
-    }
-  };
-
   
 
   
@@ -162,6 +152,17 @@ return (
         </MDBContainer>
       </div>
     </div>
+    <ToastContainer 
+        position="top-center" 
+        autoClose={5000} 
+        hideProgressBar={false} 
+        newestOnTop={false} 
+        closeOnClick 
+        rtl={false} 
+        pauseOnFocusLoss 
+        draggable 
+        pauseOnHover 
+      />
   </>
 );
 };

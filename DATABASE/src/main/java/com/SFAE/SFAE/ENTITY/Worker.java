@@ -30,7 +30,7 @@ import lombok.Data;
  */
 @Data
 @Entity
-@Table(name = "WORKERTEST")
+@Table(name = "WORKER")
 public class Worker {
 
   @Id

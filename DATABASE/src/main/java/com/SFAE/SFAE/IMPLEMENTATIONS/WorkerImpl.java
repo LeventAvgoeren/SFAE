@@ -218,7 +218,7 @@ public class WorkerImpl implements WorkerInterface {
  
     
     int rowsAffected = jdbcTemplate.update(
-        "UPDATE WORKERTEST SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? , latitude = ? , longitude =?, profile_picture_blob = ?, slogan=? WHERE id = ?",
+        "UPDATE WORKER SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? , latitude = ? , longitude =?, profile_picture_blob = ?, slogan=? WHERE id = ?",
         ps -> {
           Connection connection = ps.getConnection(); 
 

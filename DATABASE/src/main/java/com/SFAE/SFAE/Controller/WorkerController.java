@@ -205,7 +205,6 @@ public class WorkerController implements WorkerEp {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
-
     /**
      * Endpoint for updating a Worker.
      * 

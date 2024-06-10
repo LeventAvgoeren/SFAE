@@ -30,7 +30,7 @@ import lombok.Data;
  */
 @Data
 @Entity
-@Table(name = "WORKER")
+@Table(name = "WORKERTEST")
 public class Worker {
 
   @Id
@@ -70,7 +70,7 @@ public class Worker {
 
   @Column(name = "jobType")
   @Enumerated(EnumType.STRING)
-  private JobList jobType;
+  private JobList[] jobType;
 
   @Column(name = "minPayment")
   @DecimalMin(value = "0.0", inclusive = false)
@@ -101,7 +101,7 @@ public class Worker {
   private String slogan;
 
 
-  public Worker(String id, String name, String location, String password, String email, Status status, StatusOrder statusOrder, Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, Double latitude, Double longitude, String slogan){
+  public Worker(String id, String name, String location, String password, String email, Status status, StatusOrder statusOrder, Double range, JobList[] jobType, Double minPayment, Double rating, Boolean verification, Double latitude, Double longitude, String slogan){
     this.id = id;
     this.name = name;
     this.location = location;
@@ -123,7 +123,7 @@ public class Worker {
   }
 
   public Worker(String name, String location, String password, Status status, StatusOrder statusOrder,
-      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,
+      Double range, JobList[] jobType, Double minPayment, Double rating, Boolean verification, String email,
       double latitude, double longitude, ArrayList<Double> ratingAv,Long profilePictureOid, String slogan) {
 
     this.name = name;
@@ -146,7 +146,7 @@ public class Worker {
   }
 
   public Worker(String id, String name, String location, String password, Status status, StatusOrder statusOrder,
-      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,
+      Double range, JobList[] jobType, Double minPayment, Double rating, Boolean verification, String email,
       double latitude, double longitude,Long profilePictureOid, String slogan) {
     this.id = id;
     this.name = name;
@@ -167,7 +167,7 @@ public class Worker {
   }
 
   public Worker(String name, String location, String password, Status status, StatusOrder statusOrder,
-      Double range, JobList jobType, Double minPayment, Double rating, Boolean verification, String email,
+      Double range, JobList[] jobType, Double minPayment, Double rating, Boolean verification, String email,
       double latitude, double longitude, String slogan) {
     this.name = name;
     this.location = location;
@@ -195,7 +195,7 @@ public class Worker {
     this.slogan = slogan;
   }
 
-  public Worker(Double range, JobList jobType,Double minPayment) {
+  public Worker(Double range, JobList[] jobType,Double minPayment) {
     this.range = range;
     this.jobType = jobType;
     this.minPayment = minPayment;

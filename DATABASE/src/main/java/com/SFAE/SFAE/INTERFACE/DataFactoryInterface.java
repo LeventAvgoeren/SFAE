@@ -44,7 +44,7 @@ public interface DataFactoryInterface {
      */
     
      Optional<Worker> createWorker(String id, String name, String location, String password,
-     String email, String status, Double range, String jobType, 
+     String email, String status, Double range, String[] jobType, 
      String StatusOrder, Double minPayment, Double rating, Boolean verification,Double latitude,Double longitude,String slogan);
 
     

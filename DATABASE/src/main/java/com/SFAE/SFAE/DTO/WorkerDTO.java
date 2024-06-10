@@ -1,5 +1,7 @@
 package com.SFAE.SFAE.DTO;
 
+import com.SFAE.SFAE.ENUM.JobList;
+
 import lombok.Data;
 
 @Data
@@ -14,7 +16,7 @@ public class WorkerDTO {
     private String status;
     private String statusOrder;
     private Double range;
-    private String jobType;
+    private String[] jobType;
     private Double minPayment;
     private Double rating;
     private Boolean verification;
@@ -88,11 +90,11 @@ public class WorkerDTO {
         this.range = range;
     }
 
-    public String getJobType() {
+    public String[] getJobType() {
         return jobType;
     }
 
-    public void setJobType(String jobType) {
+    public void setJobType(String[] jobType) {
         this.jobType = jobType;
     }
 

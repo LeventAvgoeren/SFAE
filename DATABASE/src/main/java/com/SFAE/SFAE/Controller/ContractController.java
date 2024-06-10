@@ -79,6 +79,10 @@ public class ContractController implements ContractEP {
 
       Map<Worker, Double> best = sfae.getBestWorkersforTheJob(contract);
 
+      if(best == null){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Es gibt kein passenden Worker in der Nähe.");
+      }
+
       List<Map.Entry<Worker, Double>> entries = new ArrayList<>(best.entrySet());
       entries.sort(Map.Entry.comparingByValue());
 

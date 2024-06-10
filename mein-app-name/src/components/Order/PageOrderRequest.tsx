@@ -9,6 +9,7 @@ import MapComponent from "./MapComponent";
 import NavbarComponent from "../navbar/NavbarComponent";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AxiosError } from "axios";
 
 
 export default function PageOrderRequest() {
@@ -155,6 +156,13 @@ export default function PageOrderRequest() {
         console.error("Fehler: Keine ContractID erhalten, Response:", contract);
       }
     } catch (error) {
+          if(error instanceof Error){
+            const axiosError = error as AxiosError;
+            if (axiosError.response?.status === 404) {
+              toast.error('Kein passenden Worker in der Nähe gefunden.');
+            }
+          }
+
       toast.error('Fehler beim erstellen des Auftrags');
     } finally {
       setIsCreatingContract(false);

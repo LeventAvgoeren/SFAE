@@ -116,7 +116,7 @@ export default function PageRegistrationWorker() {
         "Tierpfleger",
         "Tischler",
         "Wäscher"
-      ];
+    ];
 
     const fetchCoordinates = async (address: string) => {
         const url = `https://nominatim.openstreetmap.org/search?format=json&q=${address}`;
@@ -184,19 +184,18 @@ export default function PageRegistrationWorker() {
     };
 
     return (
-        
         <div className="animated-background">
-             <ToastContainer 
-            position="top-center" 
-            autoClose={1000} 
-            hideProgressBar={false} 
-            newestOnTop={false} 
-            closeOnClick 
-            rtl={false} 
-            pauseOnFocusLoss 
-            draggable 
-            pauseOnHover 
-        />
+            <ToastContainer 
+                position="top-center" 
+                autoClose={1000} 
+                hideProgressBar={false} 
+                newestOnTop={false} 
+                closeOnClick 
+                rtl={false} 
+                pauseOnFocusLoss 
+                draggable 
+                pauseOnHover 
+            />
             <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundSize: 'cover', height: '100vh' }}>
                 <MDBCard className='worker-registration-container m-5'>
                     <MDBCardBody className='px-5'>
@@ -208,6 +207,7 @@ export default function PageRegistrationWorker() {
                             <MDBInput wrapperClass='mb-4' label='Deine E-Mail' size='lg' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required/>
                             <MDBInput wrapperClass='mb-4' label='Passwort' size='lg' type='password' value={password} onChange={handlePasswordChange} required/>
                             <MDBInput wrapperClass='mb-4' label='Passwort erneut eingeben' size='lg' type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+                            <div style={{ color: 'white', marginBottom: '10px' }}>Das Passwort muss mindestens einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten.</div>
                             {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>}
                             <MDBProgress className='mb-4'>
                                 <MDBProgressBar width={passwordStrength * 25} valuemin={0} valuemax={100}>
@@ -243,7 +243,6 @@ export default function PageRegistrationWorker() {
                     </MDBCardBody>
                 </MDBCard>
             </MDBContainer>
-            </div>
-        
+        </div>
     );
 }

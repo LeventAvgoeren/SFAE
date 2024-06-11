@@ -240,14 +240,14 @@ export async function registrationWorker(
   location: string,
   email: string,
   password: string,
-  jobType: string,
+  jobTypes: string[], // Changed to array
   minPayment: number,
   LongLat: Position,
   slogan: string
 ) {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/worker`;
 
-  jobType = jobType.toUpperCase();
+  const upperJobTypes = jobTypes.map(type => type.toUpperCase());
   let latitude = LongLat.latitude;
   let longitude = LongLat.longitude;
   try {
@@ -262,7 +262,7 @@ export async function registrationWorker(
         location,
         email,
         password,
-        jobType,
+        jobTypes: upperJobTypes,
         minPayment,
         latitude,
         longitude,

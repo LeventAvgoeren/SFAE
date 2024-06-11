@@ -16,7 +16,7 @@ export type WorkerResource = {
     status: string;
     statusOrder: string;
     range: number;
-    jobType: string;
+    jobType: string[];
     minPayment: number;
     rating: number;
     verification: Boolean;

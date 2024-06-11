@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol, MDBProgress, MDBProgressBar } from 'mdb-react-ui-kit';
+import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol, MDBProgress, MDBProgressBar, MDBTooltip, MDBIcon } from 'mdb-react-ui-kit';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import './DesignVorlage.css'; // Eigene Stilvorlagen
 import { registrationWorker } from '../../backend/api';
@@ -35,11 +35,9 @@ export default function PageRegistrationWorker() {
     const [address, setAddress] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [city, setCity] = useState('');
-    const [postcode, setPostcode] = useState('');
-
     const [confirmPassword, setConfirmPassword] = useState('');
     const [jobType, setJobType] = useState('');
+    const [jobList, setJobList] = useState<string[]>([]);
     const [salary, setSalary] = useState(1);
     const [userLocation, setUserLocation] = useState<Position | null>(null);
     const [addressValid, setAddressValid] = useState(true);
@@ -143,6 +141,10 @@ export default function PageRegistrationWorker() {
         setPasswordStrength(getPasswordStrength(newPassword));
     };
 
+    const handleSalaryChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setSalary(Number(e.target.value));
+    };
+
     const handleRegistration = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log('Starting registration process...');
@@ -173,7 +175,7 @@ export default function PageRegistrationWorker() {
     
         // Fortfahren, wenn alles erfolgreich war
         try {
-            const response = await registrationWorker(name, address, email, password, jobType, salary, userLocation!, slogan);
+            const response = await registrationWorker(name, address, email, password, jobList, salary, userLocation!, slogan);
             toast.success("Account wurde erfolgreich erstellt", {
                 onClose: () => navigate("/login")
             });
@@ -181,6 +183,17 @@ export default function PageRegistrationWorker() {
             console.error('Registration failed:', error);
             toast.error("Email Addresse schon vorhanden")
         }
+    };
+
+    const handleJobTypeAdd = () => {
+        if (jobType && !jobList.includes(jobType)) {
+            setJobList([...jobList, jobType]);
+            setJobType('');
+        }
+    };
+
+    const handleJobTypeRemove = (job: string) => {
+        setJobList(jobList.filter(j => j !== job));
     };
 
     return (
@@ -214,13 +227,28 @@ export default function PageRegistrationWorker() {
                                     {passwordStrength * 25}%
                                 </MDBProgressBar>
                             </MDBProgress>
-                            <select className="form-select mb-4 option-black" value={jobType} onChange={(e) => setJobType(e.target.value)} required style={{backgroundColor:"black", color: "black"}}>
+                            <select className="form-select mb-4 option-black" value={jobType} onChange={(e) => setJobType(e.target.value)} style={{backgroundColor:"black", color: "black"}}>
                                 <option value="" style={{color:'black'}}>Jobtyp wählen...</option>,
                                 {jobTypes.map((type, index) => (
                                     <option key={index} value={type} style={{color:'black'}}>{type}</option>
                                 ))}
                             </select>
-                            <MDBInput wrapperClass='mb-4' label='Gehaltswunsch' size='lg' type='number' value={salary} onChange={(e) => setSalary(Number(e.target.value))} required/>
+                            <MDBBtn type="button" onClick={handleJobTypeAdd} className='mb-4 w-100 gradient-custom-4' size='lg'>Job hinzufügen</MDBBtn>
+                            <ul>
+                                {jobList.map((job, index) => (
+                                    <li key={index} style={{ color: 'white' }}>
+                                        {job}
+                                        <MDBIcon fas icon="times" style={{ marginLeft: '10px', cursor: 'pointer', color: 'red' }} onClick={() => handleJobTypeRemove(job)} />
+                                    </li>
+                                ))}
+                            </ul>
+                            <label className="form-label" style={{ color: 'white' }}>Gehaltswunsch (Ab welchem Gehalt sollen wir dir Aufträge zusenden?)</label>
+                            <div className="salary-slider">
+                                <MDBTooltip tag="div" title={`€${salary}`}>
+                                    <input type="range" min="0" max="1000" value={salary} onChange={handleSalaryChange} className="custom-range" />
+                                </MDBTooltip>
+                                <div className="salary-label">€{salary}</div>
+                            </div>
                             <MDBInput
                                 wrapperClass='mb-4'
                                 label='Dein Slogan/Motto'

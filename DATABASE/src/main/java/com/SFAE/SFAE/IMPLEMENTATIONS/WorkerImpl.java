@@ -298,8 +298,10 @@ public class WorkerImpl implements WorkerInterface {
           StatusOrder.valueOf("UNDEFINED"), range, list, minPayment, rating, verification, email,
           latitude, longitude, ratingAv, pic,slogan,confirm);
       workerRepository.save(worker);
+      System.out.println(worker);
       return worker;
     } catch (Exception e) {
+      System.out.println(e);
       e.printStackTrace();
       return null;
     }

@@ -246,8 +246,10 @@ export async function registrationWorker(
   slogan: string
 ) {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/worker`;
-
+  console.log(jobTypes)
   const upperJobTypes = jobTypes.map(type => type.toUpperCase());
+
+  console.log(upperJobTypes)
   let latitude = LongLat.latitude;
   let longitude = LongLat.longitude;
   try {
@@ -262,7 +264,7 @@ export async function registrationWorker(
         location,
         email,
         password,
-        jobTypes: upperJobTypes,
+        jobType: upperJobTypes,
         minPayment,
         latitude,
         longitude,

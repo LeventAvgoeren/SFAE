@@ -72,7 +72,7 @@ public class WorkerController implements WorkerEp {
         if (worker == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-
+        System.out.println(worker);
         String passwordTest = worker.getPassword();
         String regex = "^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?\":{}|<>])(?=.*\\d).{8,}$";
         Pattern pattern = Pattern.compile(regex);
@@ -81,13 +81,12 @@ public class WorkerController implements WorkerEp {
             return ResponseEntity.status(400).build();
         }
 
-
         try {
             Worker builded = dao.createWorker(worker);
+            System.out.println(builded);
             if(builded!=null){
                 String token = mailService.createToken(0, builded.getId(), TokenType.VERIFYWORKER);
             String link = "https://localhost:3000/verifyEmailWorker?token=" + token;
-
             mail.sendHtmlMessage(builded.getEmail(), "Bestätigung Ihrer E-Mail-Adresse",
                             "<html><body>" +
                                     "Hallo " + builded.getName() + ",<br>" +
@@ -101,7 +100,6 @@ public class WorkerController implements WorkerEp {
                                     "Mit freundlichen Grüßen,<br>" +
                                     "Ihr Unternehmen-Team" +
                                     "</body></html>");
-
             return ResponseEntity.status(HttpStatus.CREATED).body(builded);
             }
             else{

@@ -40,6 +40,8 @@ export function PageWorkerProfile() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
   const [statusOrder, setStatusOrder] = useState("");
+  
+  const [jobList, setJobList] = useState<string[]>([]);
   const [range, setRange] = useState<Number>(0);
   const [jobType, setJobType] = useState("");
   const [minPayment, setMinPayment] = useState<Number>(0);
@@ -93,7 +95,7 @@ export function PageWorkerProfile() {
         setStatus(workerData.status);
         setStatusOrder(workerData.statusOrder);
         setRange(workerData.range);
-        setJobType(workerData.jobType);
+        setJobList(workerData.jobType);
         setMinPayment(workerData.minPayment);
         setRating(workerData.rating);
         setVerification(workerData.verification);

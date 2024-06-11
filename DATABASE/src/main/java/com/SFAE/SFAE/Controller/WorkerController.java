@@ -82,6 +82,7 @@ public class WorkerController implements WorkerEp {
         }
 
         try {
+            System.out.println("ASDA " + worker);
             Worker builded = dao.createWorker(worker);
             System.out.println(builded);
             if(builded!=null){

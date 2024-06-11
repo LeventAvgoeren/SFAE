@@ -270,6 +270,7 @@ public class WorkerImpl implements WorkerInterface {
         rs.getJobType() == null || rs.getMinPayment() == null || rs.getEmail() == null) {
       throw new IllegalArgumentException("Some data are empty");
     }
+    System.out.println("Impl: " + rs);
     try {
       byte[] defaultImage = pictureService.loadDefaultProfilePicture();
       var pic=pictureService.saveImageAsLargeObject(defaultImage);
@@ -290,13 +291,16 @@ public class WorkerImpl implements WorkerInterface {
       Boolean confirm = false;
 
       JobList[] list = new JobList[jobType.length];
+      System.out.println("Vor Liste: " + list);
       for(int i = 0; i < jobType.length; i++){
         list[i] = JobList.valueOf(jobType[i]);
       }
+      System.out.println("Nach Liste: " + list);
 
       Worker worker = new Worker(name, location, password, Status.valueOf("AVAILABLE"),
           StatusOrder.valueOf("UNDEFINED"), range, list, minPayment, rating, verification, email,
           latitude, longitude, ratingAv, pic,slogan,confirm);
+          System.out.println("Nach worker erstelling: "+ worker);
       workerRepository.save(worker);
       System.out.println(worker);
       return worker;

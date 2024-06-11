@@ -36,7 +36,7 @@ export function NavbarComponent() {
 
   useEffect(() => {
     const client = new Client({
-        webSocketFactory: () => new SockJS('https://localhost:8443/chat'),
+        webSocketFactory: () => new SockJS( `${process.env.REACT_APP_API_SERVER_URL}/chat `),
         reconnectDelay: 5000,
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000,
@@ -98,7 +98,7 @@ export function NavbarComponent() {
                    {loginInfo && loginInfo.admin ==="ADMIN" && (
                       <li><a href={`/admin/${loginInfo.userId}/dienstleistungen`}>Admin</a></li>
                   )}
-                  <li><a onClick={doLogout}>Logout</a></li>
+                  <li><a onClick={doLogout}>Abmelden</a></li>
               </ul>
               {loginInfo && (
                 <div className="notification-icon" onClick={handleNotificationClick}>

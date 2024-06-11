@@ -1,5 +1,5 @@
 import React, { useEffect, useState, ChangeEvent } from "react";
-import { JobType, Position, WorkerResource } from "../../Resources";
+import { JobType, Position, WorkerResource, WorkerResourceProfil } from "../../Resources";
 import { deleteWorker, getWorkerbyID, getWorkerImage, deleteCookie, updateWorkerProfile } from "../../backend/api";
 import { Link, useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
@@ -54,26 +54,28 @@ export function PageWorkerProfile() {
   const params = useParams();
   const worId = params.workerId;
 
-  const handleAddressValidation = async (inputAddress: any) => {
-    const apiKey = 'a295d6f75ae64ed5b8c6b3568b58bbf6';  // Ersetzen Sie dies mit Ihrem tatsächlichen API-Key
-    const requestUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(inputAddress)}&key=${apiKey}`;
+  const handleAddressValidation = async (inputAddress: string) => {
+    const isValid = await fetchCoordinates(inputAddress);
+    setAddressValid(isValid);
+    return isValid;
+  };
 
-    console.log(`Requesting validation for address: ${inputAddress}`); // Log the address being validated
+  const fetchCoordinates = async (address: string) => {
+    const apiKey = 'a295d6f75ae64ed5b8c6b3568b58bbf6';
+    const requestUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(address)}&key=${apiKey}`;
 
     try {
       const response = await axios.get(requestUrl);
-      console.log('API Response:', response);  // Log the full API response
-
       const data = response.data;
       if (data.results.length > 0 && data.results[0].geometry) {
-        console.log('Valid address with geometry:', data.results[0].geometry);  // Log the geometry data
+        const { lat, lng } = data.results[0].geometry;
+        setUserLocation({ latitude: lat, longitude: lng });
         return true;
       } else {
-        console.log('No valid address found in the API response.');  // Log when no valid address is found
         return false;
       }
     } catch (error) {
-      console.error('Error during address validation:', error);  // Log any error during the API request
+      console.error('Error during address validation:', error);
       return false;
     }
   };
@@ -104,7 +106,7 @@ export function PageWorkerProfile() {
           latitude: workerData.latitude,
           longitude: workerData.longitude,
         });
-        setSlogan(workerData.slogan)
+        setSlogan(workerData.slogan);
         fetchWorkerImage(id);
       }
       if (!workerData) {
@@ -140,20 +142,12 @@ export function PageWorkerProfile() {
 
   const handleUpdate = async () => {
     const isValidAddress = await handleAddressValidation(location);
-    setAddressValid(isValidAddress);
   
-    if (!isValidAddress) {
+    if (!isValidAddress || !userLocation) {
       toast.error('Bitte geben Sie eine gültige Adresse ein.');
       return;
     }
-  
-    await fetchCoordinates(location);
-  
-    if (!addressValid) {
-      toast.error('Bitte geben Sie eine gültige Adresse ein.');
-      return;
-    }
-  
+
     if (!validatePassword(password)) {
       toast.error('Das Passwort muss mindestens einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten.');
       return;
@@ -166,53 +160,27 @@ export function PageWorkerProfile() {
 
     setPasswordError('');
 
-    const updatedWorkerData: WorkerResource = {
+    const updatedWorkerData: WorkerResourceProfil = {
       id: worId!,
       name: name,
       email: email,
       password: password,
       location: location,
-      status: status,
-      statusOrder: statusOrder,
-      range: 2.1,
-      jobType: jobType,
-      minPayment: minPayment!,
-      rating: rating,
-      verification: verification,
-      latitude: userLocation!.latitude,
-      longitude: userLocation!.longitude,
+      latitude: userLocation.latitude,
+      longitude: userLocation.longitude,
       profileBase64: profileImage, // Ensuring profilBase64 is included
       slogan: slogan
     };
-  
+
     try {
       updatedWorkerData.profileBase64 = updatedWorkerData.profileBase64.slice(23);
-      
+
       const updatedWorker = await updateWorkerProfile(updatedWorkerData);
       console.log("Updated Worker:", updatedWorker);
       toast.success("Profil erfolgreich aktualisiert");
     } catch (error) {
       console.error("Fehler beim Aktualisieren des Workers:", error);
       toast.error("Fehler beim Aktualisieren des Profils");
-    }
-  };
-
-  const fetchCoordinates = async (address: string) => {
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${address}`;
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      if (data.length > 0) {
-        const { lat, lon } = data[0];
-        setUserLocation({
-          latitude: parseFloat(lat),
-          longitude: parseFloat(lon),
-        });
-      } else {
-        console.error("Adresse nicht gefunden");
-      }
-    } catch (error) {
-      console.error("Fehler beim Abrufen der Koordinaten:", error);
     }
   };
 
@@ -265,7 +233,7 @@ export function PageWorkerProfile() {
             </div>
             <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
               <MDBInput wrapperClass="inputField1" label="Name" type="text" value={name} onChange={(e) => setName(e.target.value)} />
-              <MDBInput wrapperClass="inputField1" label="Adresse" type="text" value={location} onChange={(e) => setLocation(e.target.value)} onBlur={() => handleAddressValidation(location).then(valid => setAddressValid(valid))} />
+              <MDBInput wrapperClass="inputField1" label="Adresse" type="text" value={location} onChange={(e) => setLocation(e.target.value)} onBlur={() => handleAddressValidation(location)} />
               {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
               <MDBInput wrapperClass="inputField1" label="E-Mail" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
               <MDBInput wrapperClass="inputField1" label="Passwort" type="password" onChange={handlePasswordChange} />

@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { JobType, WorkerResource } from "../../Resources";
+import { JobType, WorkerResource, WorkerResourcePreferences, WorkerResourceProfil } from "../../Resources";
 import { deleteWorker, getWorkerbyID, updateWorker, updateWorkerPreferences } from "../../backend/api";
 import { useParams } from "react-router-dom";
 import { Button, Navbar } from "react-bootstrap";
 import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
 import "./PageWorkerPreferences.css"
 import NavbarWComponent from "./NavbarWComponent";
+import { ToastContainer, toast } from "react-toastify";
 
 
 
@@ -90,46 +91,23 @@ export function PageWorkerPreferences() {
 
   //Update Funkti
    const handleUpdate = async () => {
-      const updatedWorkerData :WorkerResource= {
+      const updatedWorkerData :WorkerResourcePreferences= {
         id: (worId!),
-        name: name,
-        email: email,
-        password: password,
-        location: location,
-        status: status,
-        verification: verification,
-        statusOrder: statusOrder,
         range: range,
         jobType: jobType.toUpperCase(),
         minPayment: minPayment!,
-        rating: rating,
-        longitude: getlongitude,
-        latitude: getlatitude,
-        profileBase64: "",
-        slogan : slogan
       }
 
       try {
         const updatedWorker = await updateWorkerPreferences(updatedWorkerData);
         console.log("Updated Worker:", updatedWorker);
+        toast.success("Präferenzen erfolgreich aktualisiert");
         alert("Worker erfolgreich aktualisiert");
       } catch (error) {
         console.error("Fehler beim Aktualisieren des Workers:", error);
-        alert("Fehler beim Aktualisieren des Workers");
+        toast.error("Fehler beim Aktualisieren der Präferenzen");
       }
   };
-
-
-  const handleDelete = async () => {
-    try {
-      await deleteWorker(worId!);
-      alert('Profil erfolgreich gelöscht.');
-    } catch (error) {
-      console.error('Fehler beim Löschen des Profils:', error);
-      alert('Fehler beim Löschen des Profils');
-    }
-  };
-
   
 
   
@@ -174,6 +152,17 @@ return (
         </MDBContainer>
       </div>
     </div>
+    <ToastContainer 
+        position="top-center" 
+        autoClose={5000} 
+        hideProgressBar={false} 
+        newestOnTop={false} 
+        closeOnClick 
+        rtl={false} 
+        pauseOnFocusLoss 
+        draggable 
+        pauseOnHover 
+      />
   </>
 );
 };

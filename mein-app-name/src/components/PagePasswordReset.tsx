@@ -1,8 +1,10 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import './PagePasswordReset.css';
 import { MDBBtn, MDBContainer, MDBInput, MDBRow, MDBCol, MDBTypography, MDBCard, MDBCardBody, MDBProgress, MDBProgressBar } from 'mdb-react-ui-kit';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { updatePassword } from '../backend/api';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function validatePassword(password: string) {
     const hasUpperCase = /[A-Z]/.test(password);
@@ -22,6 +24,7 @@ function getPasswordStrength(password: string) {
 
 export function PagePasswordReset() {
     const location = useLocation();
+    const navigate = useNavigate();
     const searchParams = new URLSearchParams(location.search);
     const tokenID = searchParams.get("token");
     
@@ -59,10 +62,12 @@ export function PagePasswordReset() {
 
         try {
             await updatePassword(tokenID!, newPassword);
-            alert('Passwort erfolgreich zurückgesetzt!');
+            toast.success('Passwort erfolgreich zurückgesetzt!', {
+                onClose: () => navigate('/login')
+            });
         } catch (error) {
             console.error('Error updating password:', error);
-            alert('Passwort zurücksetzen fehlgeschlagen.');
+            toast.error('Passwort zurücksetzen fehlgeschlagen.');
         }
     };
 
@@ -124,6 +129,17 @@ export function PagePasswordReset() {
                 </MDBCard>
             </MDBContainer>
         </div>
+        <ToastContainer 
+            position="top-center" 
+            autoClose={5000} 
+            hideProgressBar={false} 
+            newestOnTop={false} 
+            closeOnClick 
+            rtl={false} 
+            pauseOnFocusLoss 
+            draggable 
+            pauseOnHover 
+        />
         </>
     );
 }

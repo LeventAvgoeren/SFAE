@@ -39,6 +39,8 @@ import { ImprintPage } from "./components/ImprintPage";
 import { TermsAndConditions } from "./components/TermsAndConditions";
 
 import { Toolbar, Typography } from "@mui/material";
+import { PageVerifyEmail } from "./components/customer/PageVerifyEmail";
+import { PageVerifyWorkerEmail } from "./components/customer/PageVerfyWorkerEmail";
 
 
 
@@ -124,7 +126,8 @@ function App() {
 
           <Route path="/NotAuth" element={<PageError error={401} />} />
           <Route path="/contract" element={<PageDeclineJob />} />
-
+          <Route path="/verifyEmail" element={<PageVerifyEmail />} />
+          <Route path="/verifyEmailWorker" element={<PageVerifyWorkerEmail />} />
           <Route path="*" element={<Navigate to="/NotFound" replace />} />
           <Route path="/NotFound" element={<PageError error={404} />} />
           <Route path="/imprint" element={<ImprintPage />} />
@@ -132,14 +135,14 @@ function App() {
          </Routes>
 
       </LoginContext.Provider>
-       <footer style={{ bottom:0, backgroundColor: "#001325", position: "fixed",textAlign: 'center',  width:"100%", height: "25px"}}>
-            <Typography variant="body1" style={{ color: 'white', flex: 1,fontSize:"14px" }}>
+       <Toolbar style={{ bottom:0, backgroundColor: "#001325", position: "fixed",textAlign: 'center',  width:"100%", height:"4%"}}>
+            <Typography variant="body1" style={{ color: 'white', flex: 1,fontSize:"15px" }}>
               © 2024 SFAE von Ahmad Sfarjalani, Eray Zor, Levent Avgören, Duc Dai Nguyen, Danyal Mahrous. Alle Rechte vorbehalten.
               <a href="/imprint" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Impressum</a>
               <span style={{ margin: "10px" }}>|</span>
                 <a href="/agb" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Allgemeine Geschäftsbedingungen</a>
               </Typography>
-          </footer>
+          </Toolbar>
     </>
   );
 }

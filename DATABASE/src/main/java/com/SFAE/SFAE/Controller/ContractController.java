@@ -29,6 +29,8 @@ import com.SFAE.SFAE.Service.TokenMailService;
 import jakarta.mail.MessagingException;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -40,7 +42,7 @@ import javax.validation.Valid;
 
 @RestController
 public class ContractController implements ContractEP {
-  private Logger logger;
+  private Logger logger= LoggerFactory.getLogger(ContractController.class);;
 
   @Autowired
   private ContractInterface dao;
@@ -77,6 +79,10 @@ public class ContractController implements ContractEP {
 
       Map<Worker, Double> best = sfae.getBestWorkersforTheJob(contract);
 
+      if(best == null){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Es gibt kein passenden Worker in der Nähe.");
+      }
+
       List<Map.Entry<Worker, Double>> entries = new ArrayList<>(best.entrySet());
       entries.sort(Map.Entry.comparingByValue());
 
@@ -94,7 +100,7 @@ public class ContractController implements ContractEP {
         Customer foundCustomer = custo.findCustomerbyID(String.valueOf(contract.getCustomerId()));
 
         String token = tokenService.createToken(created.getId(), lastEntry.getKey().getId(), TokenType.CONTRACT);
-        String link = "https://localhost:3000/contract?token=" + token;
+        String link = "https://erayzor.de/contract?token=" + token;
 
         mail.sendHtmlMessage(found.getEmail(), "Jobangebot erhalten",
             "<html><body>" +

@@ -8,7 +8,6 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
 import com.SFAE.SFAE.ENTITY.Message;
-import com.SFAE.SFAE.ENUM.MessageType;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

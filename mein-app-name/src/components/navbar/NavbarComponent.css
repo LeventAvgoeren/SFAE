@@ -117,7 +117,7 @@ body, button, input, textarea, h1, p {
 
 .notification-badge {
   position: absolute;
-  top: 20px;
+  top: 20%;
   right: 6.3%;
   width: 20px;
   height: 20px;

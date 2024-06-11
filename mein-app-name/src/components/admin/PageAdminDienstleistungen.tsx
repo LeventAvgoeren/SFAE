@@ -6,8 +6,8 @@ import './PageAdminDienstleistungen.css';
 import { Link } from 'react-router-dom';
 import { Table, Button, Container, Nav, NavDropdown, Navbar, Modal, Form, Badge } from 'react-bootstrap';
 import { Trash, Search, Pencil, Modem } from 'react-bootstrap-icons';
-import { CustomerResource, WorkerResource } from '../../Resources';
-import { deleteCustomer, deleteWorker, getAllCustomers, getAllWorker, updateCustomer } from '../../backend/api';
+import { CustomerResource, WorkerResource, WorkerResourceProfil } from '../../Resources';
+import { deleteCustomer, deleteWorker, getAllCustomers, getAllWorker, getCustomerImage, getWorkerImage, updateCustomer, updateWorker, updateWorkerProfile } from '../../backend/api';
 import { LoginInfo } from '../LoginManager';
 import NavbarComponent from '../navbar/NavbarComponent';
 
@@ -84,6 +84,17 @@ export function PageAdminDienstleistungen({ isAdminPage }: PageAdminComponentPro
 const handleUpdateCustomer = async (updatedCustomer: CustomerResource) => {
     try {
         await updateCustomer(updatedCustomer);
+        window.location.reload()
+        handleClose();
+    } catch (error) {
+        console.error('Fehler beim Aktualisieren des Kunden:', error);
+    }
+}
+
+const handleUpdateWorker = async (updatedWorker: WorkerResourceProfil) => {
+    try {
+        await updateWorkerProfile(updatedWorker);
+        window.location.reload()
         handleClose();
     } catch (error) {
         console.error('Fehler beim Aktualisieren des Kunden:', error);
@@ -91,25 +102,38 @@ const handleUpdateCustomer = async (updatedCustomer: CustomerResource) => {
 }
 
 
-const handleSave = () => {
+const handleSave = async  () => {
+        let pic = await getCustomerImage(selectedCustomer!.id!)
+    
     const updatedCustomer: CustomerResource = {
-        ...selectedCustomer!,
-        name: costumerName,
-        email: costumerEmail,
-        password: costumerPassword
+        id: selectedCustomer?.id,
+        name: costumerName || selectedCustomer!.name,
+        email: costumerEmail || selectedCustomer!.email,
+        password: costumerPassword || selectedCustomer!.password,
+        profileBase64:pic,
+        role:selectedCustomer!.role
     };
     handleUpdateCustomer(updatedCustomer);
+    console.log("HALLLLO "+updatedCustomer.password,updatedCustomer.email,updatedCustomer.id)
 };
 
-const handleSaveWorkerUpdate = () => {
-    const updatedWorker: any  = {
-        ...selectedCustomer!,
-        name: WorkerName,
-        email: WorkerEmail,
-        password: WorkerPassword,
+const handleSaveWorkerUpdate = async () => {
+    let pic = await getWorkerImage(selectedWorker!.id!)
+    const updatedWorker: WorkerResourceProfil = {
+        id: selectedWorker!.id,
+        name: WorkerName|| selectedWorker!.name!,
+        email: WorkerEmail || selectedWorker?.email!,
+        password: WorkerPassword || selectedWorker!.password!,
+        location: selectedWorker!.location!,
+        profileBase64:pic,
+        slogan:selectedWorker!.slogan!,
+        latitude:selectedWorker!.latitude,
+        longitude: selectedWorker!.longitude,
     };
-    handleUpdateCustomer(updatedWorker);
+    handleUpdateWorker(updatedWorker);
+
 };
+
 
 
     const removeCustomer = () => {
@@ -117,6 +141,7 @@ const handleSaveWorkerUpdate = () => {
             try {
                 deleteCustomer(selectedCustomer.id)
                 setSelectedCustomer(null);
+                window.location.reload()
             } catch {
                 console.log("error")
             }
@@ -129,6 +154,7 @@ const handleSaveWorkerUpdate = () => {
             try {
                 deleteWorker(selectedWorker.id)
                 setSelectedWorker(null);
+                window.location.reload()
             } catch {
                 console.log("error")
             }
@@ -362,7 +388,7 @@ const handleSaveWorkerUpdate = () => {
 </Form.Group>
 <Form.Group>
     <Form.Label>Email:</Form.Label>
-    <Form.Control type="email" defaultValue={selectedCustomer.email} onChange={e => setCostumerEmail(e.target.value)} />
+    <Form.Control type="email" defaultValue={selectedCustomer.email} onChange={(e) => setCostumerEmail(e.target.value)} />
 </Form.Group>
 <Form.Group>
     <Form.Label>Password:</Form.Label>

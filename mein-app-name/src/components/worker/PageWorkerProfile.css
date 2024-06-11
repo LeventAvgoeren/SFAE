@@ -6,13 +6,14 @@
   height: 100%;
   width: 100%;
   position: relative;
+  
 }
 
 .custom-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  transform: translate(-50%, -40%);
   background: rgba(0, 0, 0, 0.7);
   padding: 20px 30px;
   border-radius: 14px;
@@ -22,16 +23,17 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  height: 80%;
-  width: 50%;
   transform: translate(-50%, -50%);
-  margin-bottom: 100px; /* Fügen Sie hier genügend Platz ein */
+  width: 80vw; /* Viewport width */
+  max-width: 800px; /* Maximalbreite */
+  height: auto; /* Höhe automatisch anpassen */
+  margin-bottom: 100px; /* Genügend Platz */
 }
 
 .inputField1 {
-  margin-bottom: 10px; /* Verringern Sie den unteren Rand */
-  width: 100% !important; /* Setzt die Breite auf 100% des umgebenden Containers */
-  max-width: 400px; /* Optional: Maximale Breite verringern */
+  margin-bottom: 10px;
+  width: 100%;
+  max-width: 400px;
 }
 
 .button {

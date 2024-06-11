@@ -15,10 +15,10 @@ export type WorkerResource = {
     location: string;
     status: string;
     statusOrder: string;
-    range: Number;
+    range: number;
     jobType: string;
-    minPayment: Number;
-    rating: Number;
+    minPayment: number;
+    rating: number;
     verification: Boolean;
     email: string;
     latitude: number;
@@ -26,6 +26,24 @@ export type WorkerResource = {
     profileBase64:string;
     slogan: string;
 
+}
+export type WorkerResourcePreferences = {
+    id?:string;
+    range : Number;
+    minPayment: Number;
+    jobType: string;
+}
+
+export type WorkerResourceProfil = {
+    id?: string;
+    name: string;
+    password:string;
+    location: string;
+    email: string;
+    latitude: number;
+    longitude: number;
+    profileBase64:string;
+    slogan: string;
 }
 export interface Position {
     latitude: number;
@@ -71,7 +89,6 @@ export type CustomerResource = {
     email: string;
     role: string; 
     profileBase64:string;
-
 }
 
 export enum JobType {

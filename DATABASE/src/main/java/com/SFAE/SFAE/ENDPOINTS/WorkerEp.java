@@ -175,5 +175,9 @@ public interface WorkerEp {
    
    @PutMapping("/preferences")
    ResponseEntity<?> updateWorkerPreferences(@RequestBody WorkerPrefrencesDTO data);
+
+   @PutMapping("/verifyEmailWorker/{token}")
+   ResponseEntity<?> verifyEmail(@PathVariable("token") String token);
+
 }
 

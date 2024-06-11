@@ -13,12 +13,13 @@ import {
     MDBBtn,
 } from "mdb-react-ui-kit";
 import { useParams } from 'react-router-dom';
-import { getContractByCustomerId, getContractByWorkerId, getCustomerImage, getCustomerbyID, getWorkerImage, getWorkerbyID } from '../backend/api';
+import { getContractByCustomerId, getContractByWorkerId, getContractStatus, getCustomerImage, getCustomerbyID, getWorkerImage, getWorkerbyID } from '../backend/api';
 import LoadingIndicator from './LoadingIndicator';
-import { ContractResource } from '../Resources';
+import { ContractResource, ContractResourceforWorker } from '../Resources';
 import "./ChatComponent.css";
 import animationData from "./Sorry.json";
 import Lottie from 'react-lottie';
+import { idID } from '@mui/material/locale';
 interface Message {
     sender: string;
     receiver: string | undefined;
@@ -28,7 +29,7 @@ interface Message {
 }
 
 const fetchMessagesForUser = async (user1: string, user2: string): Promise<Message[]> => {
-    const response = await fetch(`https://localhost:8443/chat/history?user1=${user1}&user2=${user2}`);
+    const response = await fetch( `${process.env.REACT_APP_API_SERVER_URL}/chat/history?user1=${user1}&user2=${user2}`);
     const data = await response.json();
     return data;
 };
@@ -67,6 +68,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ onClose }) => {
     const [active, setActive] = useState(true);
     const [maxPayment, setMaxPayment] = useState(0);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const [isID, setID] = useState("");
 
     const fetchMessage = async () => {
         if(receiver){
@@ -90,9 +92,10 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ onClose }) => {
                     const cus = await getCustomerbyID(userId);
                     setName(cus.name);
                     const contract = await getContractByCustomerId(userId);
-
+                    contract.sort((a, b) => a.id! - b.id!);
                     if (contract) {
                         const status = contract[contract.length - 1].statusOrder;
+                        console.log(contract[contract.length - 1])
                         if (status !== "ACCEPTED") {
                             return setActive(false);
                         }
@@ -109,6 +112,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ onClose }) => {
                     const wor = await getWorkerbyID(userId);
                     setName(wor.name);
                     const contract = await getContractByWorkerId(userId);
+                    contract.sort((a, b) => a.id! - b.id!);
                     if (contract) {
                         const status = contract[contract.length - 1].statusOrder;
                         if (status !== "ACCEPTED") {
@@ -121,13 +125,42 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ onClose }) => {
                         setReceiver(contract[contract.length - 1].customer!.id);
                     }
                 }
+
+
+              setID(await getContractStatus(contract!.id!)) 
             } catch (error) {
                 console.error('Error fetching customer:', error);
             }
+
         };
 
         fetchCustomer();
-    }, []);
+
+
+           
+    const statusInterval = setInterval(async () => {
+      
+        if(active){
+              try {
+              
+                const status = await getContractStatus(contract!.id!);
+                clearInterval(statusInterval);
+                if (status !== 'ACCEPTED') {
+                    setActive(false)
+                } else {
+                    console.log("AS")
+                    setActive(true)
+                    fetchMessage()  
+                    window.location.reload()
+                }
+                } catch (error) {
+                console.error('Error fetching contract status:', error);
+                }
+            }
+        }, 5000);
+
+        return () => clearInterval(statusInterval);
+    }, [isID, userId]);
 
     useEffect(() => {
         fetchMessage()
@@ -207,6 +240,9 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ onClose }) => {
         }
     };
 
+
+    
+
     const handleTyping = () => {
         if (!typing) {
             setTyping(true);
@@ -238,10 +274,20 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ onClose }) => {
 
     const groupedMessages = groupMessagesByDate(messages);
 
+    useEffect(() => {
+        if (!contract && active) {
+            const timeoutId = setTimeout(() => {
+                setActive(false);
+            }, 5000);
+
+            return () => clearTimeout(timeoutId); // Cleanup timeout on component unmount
+        }
+    }, [contract, active]);
+
+
     if (!active) {
         return (
         <div style={{display:"flex", width:"100%", background:"#060454"}}>
-            <MDBBtn style={{height:"50px", width:"50px", overflow:"inherit", margin:"0px", padding:"0px", backgroundColor:"white"}} onClick={onClose}><img src="/Kreuz.png" alt="" style={{height:"30px", width:"30px", margin:"0px",color:"white"}}/></MDBBtn>
 
             <div style={{ justifyContent:"center",  height:"100vh", alignContent:"center"}}>
                 <Lottie 
@@ -254,7 +300,10 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ onClose }) => {
                             }
                 }} height={300} width={300} />
 
-                <h4 style={{color:"white", fontSize:"22px"}}>Anscheinend hast du kein aktiven Auftrag ):</h4>
+                <h4 style={{color:"white", fontSize:"22px"}}>Anscheinend hast du keinen aktiven Auftrag oder es gibt Internetprobleme.</h4>
+
+            <MDBBtn style={{height:"50px", width:"100%", overflow:"inherit", margin:"0px", padding:"0px", backgroundColor:"white"}} onClick={onClose}><img src="/Kreuz.png" alt="" style={{height:"30px", width:"30px", margin:"0px",color:"white"}}/></MDBBtn>
+
             </div> 
                 
             </div>) 

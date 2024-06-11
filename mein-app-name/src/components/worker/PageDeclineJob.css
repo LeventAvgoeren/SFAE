@@ -8,7 +8,7 @@
     backdrop-filter: blur(10px); 
     -webkit-backdrop-filter: blur(10px); 
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 40%; /* Oder einen spezifischen Wert in px */
+    max-width: 40%; 
     max-height: 70%;
     margin: 20px auto
 }
@@ -31,18 +31,6 @@
     margin-bottom: 10px; /* Fügt Abstand zwischen den Blöcken hinzu */
 }
 
-button {
-    width: 200px; /* Feste Breite für alle Buttons */
-    height: 50px; /* Höhere Buttons */
-    font-size: 16px; /* Größere Schrift */
-    border-radius: 8px; /* Abgerundete Ecken */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Schatten für 3D-Effekt */
-    transition: all 0.3s ease; 
-}
-
-button:hover {
-    filter: brightness(1.1); /* Leichter Effekt beim Hover */
-}
 
 
 @media (max-width: 768px) {

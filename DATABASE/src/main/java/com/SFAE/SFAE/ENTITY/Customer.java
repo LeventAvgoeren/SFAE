@@ -57,14 +57,18 @@ public class Customer {
     @Column(name = "profile_picture_blob", nullable = true)
     private Long profilePictureOid;
 
+    @Column(name = "CONFIRM")
+    private Boolean confirm =false;
+
     public Customer(){}
     
-    public Customer( String name, String password, String email,Long profilePictureOid) { 
+    public Customer( String name, String password, String email,Long profilePictureOid,Boolean confirm) { 
         this.name = name;
         this.password = password;
         this.email = email;
         this.role = Role.CUSTOMER;
         this.profilePictureOid = profilePictureOid;
+        this.confirm= confirm;
     }
 
     
@@ -76,12 +80,13 @@ public class Customer {
     }
 
     
-    public Customer( String id, String name, String password, String email, String role) {
+    public Customer( String id, String name, String password, String email, String role,Boolean confirm) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.email = email;
         this.role = Role.valueOf(role);
+        this.confirm= confirm;
     }
 
     public String getId() {
@@ -114,6 +119,14 @@ public class Customer {
 
     public Role getRole(){
         return role;
+    }
+
+    public boolean isConfirm() {
+        return confirm;
+    }
+
+    public void setConfirm(boolean confirm) {
+        this.confirm = confirm;
     }
 
     @Override

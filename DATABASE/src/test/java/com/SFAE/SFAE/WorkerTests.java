@@ -24,6 +24,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.SFAE.SFAE.DTO.WorkerPrefrencesDTO;
 import com.SFAE.SFAE.DTO.WorkerProfileDTO;
+import com.SFAE.SFAE.ENUM.JobList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.io.IOException;
@@ -44,6 +45,7 @@ import java.util.Base64;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class WorkerTests{
 
     @Autowired
@@ -59,13 +61,13 @@ public class WorkerTests{
         String json = "{" +
         "\"name\": \"TestRating\"," +
         "\"location\": \"BERLIN\"," +
-        "\"password\": \"COLORBOX\"," +
+        "\"password\": \"COLORBOASDASDX12!aDSA\"," +
         "\"email\": \"KEnadada@gmail.com\"," +
         "\"range\": 1.5," +
-        "\"jobType\": \"INSTALLATEUR\"," +
+        "\"jobType\": [\"INSTALLATEUR\",\"WÄSCHER\"]," +
         "\"minPayment\": 35.0," +
-        "\"latitude\": 54.5164521479732," +
-        "\"longitude\": 13.350172988628778," +
+        "\"latitude\": 54.5134521479732," +
+        "\"longitude\": 13.354172988628778," +
         "\"slogan\": \"Ich stehe auf ahmad und ducs vateradadadada\"" +
     "}";
             try {
@@ -213,16 +215,16 @@ public class WorkerTests{
 
 @Test
     public void testUpdateWorker() throws Exception {
-        String base64Image = encodeFileToBase64Binary("static/images/GJq0xr5XIAAbKzE.jpeg");
+        String base64Image = encodeFileToBase64Binary("static/images/default_profile.jpeg");
         
         WorkerDTO worker = new WorkerDTO();
-        worker.setId("W4");
+        worker.setId("W1");
         worker.setEmail("Selam@gmail.com");
         worker.setLocation("Bremen");
-        worker.setJobType("HAUSMEISTER");
         worker.setMinPayment(0.9);
+        worker.setJobType(new String[]{"INSTALLATEUR", "AUTOBESORGER"});
         worker.setName("Kenno");
-        worker.setPassword("Meinhund123");
+        worker.setPassword("Meinhund123!ASDSA");
         worker.setRange(0.8);
         worker.setRating(0.5);
         worker.setStatus("AVAILABLE");
@@ -628,7 +630,7 @@ public void testUpdateWorkerStatusOrderBadReq() throws Exception {
     public void testGetWorkerPreferences() throws Exception {        
         WorkerPrefrencesDTO worker = new WorkerPrefrencesDTO();
         worker.setId("W12");
-        worker.setJobType("BÜGELER");
+        worker.setJobType(new String[]{"INSTALLATEUR", "AUTOBESORGER"});
         worker.setMinPayment(20.0);
         worker.setRange(5.0);
 

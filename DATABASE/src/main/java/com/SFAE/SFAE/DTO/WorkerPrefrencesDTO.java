@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class WorkerPrefrencesDTO {
   String id;
   Double range;
-  String jobType;
+  String[] jobType;
   Double minPayment;
 
 }

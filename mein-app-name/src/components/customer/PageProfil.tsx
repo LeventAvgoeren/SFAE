@@ -6,6 +6,9 @@ import { deleteCustomer, getCustomerImage, getCustomerbyID, updateCustomer } fro
 import "./PageProfil.css";
 import { MDBTypography } from 'mdb-react-ui-kit';
 import NavbarComponent from '../navbar/NavbarComponent';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function validatePassword(password: string) {
     const hasUpperCase = /[A-Z]/.test(password);
@@ -132,10 +135,10 @@ export function PageProfil() {
             updatedCustomerData.profileBase64 = updatedCustomerData.profileBase64.slice(23);
             const updatedCustomer = await updateCustomer(updatedCustomerData);
             console.log("Updated Customer:", updatedCustomer);
-            setShowSuccessModal(true);  // Zeige das Erfolgs-Popup
+            toast.success("Information wurde erfolgreich aktualisiert");
         } catch (error) {
             console.error("Fehler beim Aktualisieren des Kunden:", error);
-            alert("Fehler beim Aktualisieren des Kunden");
+            toast.error("Fehler beim Aktualisieren des Kunden");
         }
     };
 
@@ -168,6 +171,17 @@ export function PageProfil() {
 
     return (
         <>
+            <ToastContainer 
+            position="top-center" 
+            autoClose={5000} 
+            hideProgressBar={false} 
+            newestOnTop={false} 
+            closeOnClick 
+            rtl={false} 
+            pauseOnFocusLoss 
+            draggable 
+            pauseOnHover 
+            />
             <div className='Backg'>
                 <NavbarComponent />
                 <div className="custom-container2">
@@ -253,33 +267,6 @@ export function PageProfil() {
                                             <Button type="button" className="btn btn-danger" onClick={handleShow}>
                                                 Account löschen
                                             </Button>
-
-                                            <Modal show={showModal} onHide={handleClose}>
-                                                <Modal.Header closeButton>
-                                                    <Modal.Title>Account löschen</Modal.Title>
-                                                </Modal.Header>
-                                                <Modal.Body>Sind Sie sicher, dass Sie Ihren Account löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.</Modal.Body>
-                                                <Modal.Footer>
-                                                    <Button variant="secondary" onClick={handleClose}>
-                                                        Schließen
-                                                    </Button>
-                                                    <Button variant="danger" onClick={handleDeleteCustomer}>
-                                                        Account löschen
-                                                    </Button>
-                                                </Modal.Footer>
-                                            </Modal>
-
-                                            <Modal show={showSuccessModal} onHide={handleSuccessClose}>
-                                                <Modal.Header closeButton>
-                                                    <Modal.Title>Erfolgreich</Modal.Title>
-                                                </Modal.Header>
-                                                <Modal.Body>Ihr Profil wurde erfolgreich aktualisiert!</Modal.Body>
-                                                <Modal.Footer>
-                                                    <Button variant="success" onClick={handleSuccessClose}>
-                                                        Schließen
-                                                    </Button>
-                                                </Modal.Footer>
-                                            </Modal>
                                         </div>
                                     </div>
                                 </form>

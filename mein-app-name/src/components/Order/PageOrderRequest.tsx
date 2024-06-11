@@ -7,6 +7,10 @@ import { LinkContainer } from "react-router-bootstrap";
 import { ContractResource, Position } from "../../Resources";
 import MapComponent from "./MapComponent";
 import NavbarComponent from "../navbar/NavbarComponent";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { AxiosError } from "axios";
+
 
 export default function PageOrderRequest() {
   const [address, setAddress] = useState("Eingeben...");
@@ -21,6 +25,7 @@ export default function PageOrderRequest() {
   const [getPosition, setPosition] = useState<Position>();
   const [budgetError, setBudgetError] = useState("");
   const [rangeError, setRangeError] = useState("");
+  const [error,setError]=useState(false)
 
   const params = useParams();
   const cusId = params.customerId;
@@ -56,48 +61,48 @@ export default function PageOrderRequest() {
   };
 
   const jobTypes = [
-    "Hausmeister",
-    "Haushälter",
-    "Gärtner",
-    "Kindermädchen",
-    "Koch",
-    "Putzkraft",
-    "Handwerker",
-    "Elektriker",
-    "Installateur",
-    "Klempner",
-    "Maler",
-    "Schädlingsbekämpfer",
-    "Tierpfleger",
-    "Hausbetreuer",
-    "Gassigeher",
-    "Wäscher",
-    "Einkäufer",
-    "Caterer",
-    "Personal Trainer",
-    "Ernährungsberater",
-    "Musiklehrer",
+    "Autobesorger",
     "Babysitter",
-    "Hauslehrer",
-    "Chauffeur",
-    "Reinigungskraft",
-    "Schneider",
-    "Organisator",
-    "Tischler",
-    "Möbelträger",
-    "Hundetrainer",
-    "Kammerjäger",
-    "Fensterputzer",
-    "Kammerzofen",
-    "Hausdoktor",
     "Blumenpfleger",
-    "Renovierer",
+    "Bodenleger",
+    "Bügeler",
+    "Caterer",
+    "Chauffeur",
+    "Einkäufer",
+    "Elektriker",
+    "Ernährungsberater",
+    "Fensterputzer",
     "Fensterreiniger",
     "Gartenarbeiter",
-    "Bügeler",
-    "Bodenleger",
+    "Gassigeher",
+    "Gärtner",
+    "Handwerker",
+    "Hausbetreuer",
+    "Hausdoktor",
+    "Hauslehrer",
+    "Hausmeister",
+    "Haushälter",
     "Hundepfleger",
-    "Autobesorger",
+    "Hundetrainer",
+    "Installateur",
+    "Kammerjäger",
+    "Kammerzofen",
+    "Klempner",
+    "Koch",
+    "Kindermädchen",
+    "Maler",
+    "Möbelträger",
+    "Musiklehrer",
+    "Organisator",
+    "Personal Trainer",
+    "Putzkraft",
+    "Reinigungskraft",
+    "Renovierer",
+    "Schädlingsbekämpfer",
+    "Schneider",
+    "Tierpfleger",
+    "Tischler",
+    "Wäscher"
   ];
 
   const handleClick = () => {
@@ -127,9 +132,9 @@ export default function PageOrderRequest() {
       adress: address,
       jobType: service.toUpperCase(),
       description: description,
-      payment: "PAYPAL",
+      payment: "CASH",
       range: range,
-      statusOrder: "PAID",
+      statusOrder: "UNDEFINED",
       customerId: cus!.id,
       verified: verified,
       longitude: getPosition!.longitude,
@@ -141,7 +146,7 @@ export default function PageOrderRequest() {
   
     try {
       const contract = await createContract(contractData);
-  
+      toast.success('Auftrags erfolgreich erstellt.');
       console.log("Response from createContract:", contract);
       if (contract) {
         setContract(contract);
@@ -151,15 +156,32 @@ export default function PageOrderRequest() {
         console.error("Fehler: Keine ContractID erhalten, Response:", contract);
       }
     } catch (error) {
-      console.error("Fehler beim Erstellen des Vertrags:", error);
+          if(error instanceof Error){
+            const axiosError = error as AxiosError;
+            if (axiosError.response?.status === 404) {
+              toast.error('Kein passenden Worker in der Nähe gefunden.');
+            }
+          }
+
+      toast.error('Fehler beim erstellen des Auftrags');
     } finally {
       setIsCreatingContract(false);
     }
   };
-
   return (
     <>
     <div className="Backg">
+    <ToastContainer 
+            position="top-center" 
+            autoClose={5000} 
+            hideProgressBar={false} 
+            newestOnTop={false} 
+            closeOnClick 
+            rtl={false} 
+            pauseOnFocusLoss 
+            draggable 
+            pauseOnHover 
+        />
     <NavbarComponent />
       <div className="container-frame3 glassmorphism">  
         <Form onSubmit={handleSubmit} className="form-content">

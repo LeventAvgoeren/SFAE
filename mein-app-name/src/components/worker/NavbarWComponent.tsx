@@ -36,7 +36,7 @@ export function NavbarWComponent() {
 
   useEffect(() => {
     const client = new Client({
-        webSocketFactory: () => new SockJS('https://localhost:8443/chat'),
+        webSocketFactory: () => new SockJS( `${process.env.REACT_APP_API_SERVER_URL}/chat `),
         reconnectDelay: 5000,
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000,
@@ -92,13 +92,13 @@ export function NavbarWComponent() {
                   {loginInfo && (
                       <li><a href={`/worker/${loginInfo.userId}/preferences`}>Präferenzen</a></li>
                   )}
+                  {loginInfo  && (
+                      <li><a href={`/worker/${loginInfo.userId}/orders/overview `}>Übersicht</a></li>
+                  )}
                   {loginInfo && (
                       <li><a href={`/worker/${loginInfo.userId}/faq`}>Faq</a></li>
                   )}
-                   {loginInfo  && (
-                      <li><a href={`/worker/${loginInfo.userId}/orders/overview `}>Overview</a></li>
-                  )}
-                  <li><a  onClick={doLogout}>Logout</a></li>
+                  <li><a  onClick={doLogout}>Abmelden</a></li>
               </ul>
               {loginInfo && (
                 <div className="notification-icon" onClick={handleNotificationClick}>

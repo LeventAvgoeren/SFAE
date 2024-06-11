@@ -6,6 +6,8 @@ import { registrationWorker } from '../../backend/api';
 import { Link, useNavigate } from 'react-router-dom'; // React Router für Link-Benutzung
 import './PageRegistrationWorker.css';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Position {
     latitude: number;
@@ -72,16 +74,49 @@ export default function PageRegistrationWorker() {
     };
 
     const jobTypes = [
-        "Hausmeister", "Haushälter", "Gärtner", "Kindermädchen", "Koch", 
-        "Putzkraft", "Handwerker", "Elektriker", "Installateur", "Klempner",
-        "Maler", "Schädlingsbekämpfer", "Tierpfleger", "Hausbetreuer", "Gassigeher",
-        "Wäscher", "Einkäufer", "Caterer", "Personal Trainer", "Ernährungsberater",
-        "Musiklehrer", "Babysitter", "Hauslehrer", "Chauffeur", "Reinigungskraft",
-        "Schneider", "Organisator", "Tischler", "Möbelträger", "Hundetrainer",
-        "Kammerjäger", "Fensterputzer", "Kammerzofen", "Hausdoktor", "Blumenpfleger",
-        "Renovierer", "Fensterreiniger", "Gartenarbeiter", "Bügeler", "Bodenleger",
-        "Hundepfleger", "Autobesorger"
-    ];
+        "Autobesorger",
+        "Babysitter",
+        "Blumenpfleger",
+        "Bodenleger",
+        "Bügeler",
+        "Caterer",
+        "Chauffeur",
+        "Einkäufer",
+        "Elektriker",
+        "Ernährungsberater",
+        "Fensterputzer",
+        "Fensterreiniger",
+        "Gartenarbeiter",
+        "Gassigeher",
+        "Gärtner",
+        "Handwerker",
+        "Hausbetreuer",
+        "Hausdoktor",
+        "Hauslehrer",
+        "Hausmeister",
+        "Haushälter",
+        "Hundepfleger",
+        "Hundetrainer",
+        "Installateur",
+        "Kammerjäger",
+        "Kammerzofen",
+        "Klempner",
+        "Koch",
+        "Kindermädchen",
+        "Maler",
+        "Möbelträger",
+        "Musiklehrer",
+        "Organisator",
+        "Personal Trainer",
+        "Putzkraft",
+        "Reinigungskraft",
+        "Renovierer",
+        "Schädlingsbekämpfer",
+        "Schneider",
+        "Tierpfleger",
+        "Tischler",
+        "Wäscher"
+      ];
 
     const fetchCoordinates = async (address: string) => {
         const url = `https://nominatim.openstreetmap.org/search?format=json&q=${address}`;
@@ -139,65 +174,76 @@ export default function PageRegistrationWorker() {
         // Fortfahren, wenn alles erfolgreich war
         try {
             const response = await registrationWorker(name, address, email, password, jobType, salary, userLocation!, slogan);
-            console.log('Registration successful:', response);
-            alert('Registration successful!');
-            navigate("/login");
+            toast.success("Account wurde erfolgreich erstellt", {
+                onClose: () => navigate("/login")
+            });
         } catch (error) {
             console.error('Registration failed:', error);
-            alert('Registration failed!');
+            toast.error("Email Addresse schon vorhanden")
         }
     };
 
     return (
+        
         <div className="animated-background">
-          <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundSize: 'cover', height: '100vh' }}>
-            <MDBCard className='worker-registration-container m-5'>
-              <MDBCardBody className='px-5'>
-                <h2 className="text-uppercase text-center mb-5">Registrieren als Worker</h2>
-                <form onSubmit={handleRegistration}>
-                  <MDBInput wrapperClass='mb-4' label='Dein Name' size='lg' type='text' value={name} onChange={(e) => setName(e.target.value)} required/>
-                  <MDBInput wrapperClass='mb-3 inputField' label='Straße und Hausnummer' id='addressInput' type='text' value={address} onChange={e => setAddress(e.target.value)} onBlur={() => handleAddressValidation(`${address}, ${postcode} ${city}`).then(valid => setAddressValid(valid))} required/>
-                  <MDBInput wrapperClass='mb-3 inputField' label='Postleitzahl' id='postcodeInput' type='text' value={postcode} onChange={e => setPostcode(e.target.value)} required/>
-                  <MDBInput wrapperClass='mb-3 inputField' label='Stadt' id='cityInput' type='text' value={city} onChange={e => setCity(e.target.value)} required/>
-                  {!addressValid && <div style={{ color: '#e4a11b' }}>Ungültige Adresse.</div>}
-                  <MDBInput wrapperClass='mb-4' label='Deine E-Mail' size='lg' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required/>
-                  <MDBInput wrapperClass='mb-4' label='Passwort' size='lg' type='password' value={password} onChange={handlePasswordChange} required/>
-                  <MDBInput wrapperClass='mb-4' label='Passwort erneut eingeben' size='lg' type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
-                  {passwordError && <div style={{ color: 'ed' }}>{passwordError}</div>}
-                  <MDBProgress className='mb-4'>
-                    <MDBProgressBar width={passwordStrength * 25} valuemin={0} valuemax={100}>
-                      {passwordStrength * 25}%
-                    </MDBProgressBar>
-                  </MDBProgress>
-                  <select className="form-select mb-4 option-black" value={jobType} onChange={(e) => setJobType(e.target.value)} required style={{backgroundColor:"black", color: "black"}}>
-                    <option value="" style={{color:'black'}}>Jobtyp wählen...</option>
-                    {jobTypes.map((type, index) => (
-                      <option key={index} value={type} style={{color:'black'}}>{type}</option>
-                    ))}
-                  </select>
-                  <MDBInput wrapperClass='mb-4' label='Gehaltswunsch' size='lg' type='number' value={salary} onChange={(e) => setSalary(Number(e.target.value))} required/>
-                  <MDBInput
-                    wrapperClass='mb-4'
-                    label='Dein Slogan/Motto'
-                    size='lg'
-                    type='text'
-                    value={slogan}
-                    onChange={(e) => setSlogan(e.target.value)}
-                    required
-                  />
-                  <MDBCheckbox name='termsCheck' id='termsCheck' label={<span>Ich stimme den <Link to="/agb" className="text-white">Nutzungsbedingungen</Link> zu</span>} wrapperClass='d-flex justify-content-center mb-4 text-white' required/>
-                  <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type="submit">Registrieren</MDBBtn>
-                </form>
-                <MDBRow>
-                  <MDBCol size='12' className='text-center'>
-                    <MDBTypography tag='div' className='mb-4'>
-                      Du hast bereits ein Konto? <Link to="/login" className="link">Melde dich hier an</Link>
-                    </MDBTypography>
-                  </MDBCol>
-                </MDBRow>
-              </MDBCardBody>
-            </MDBCard>
-          </MDBContainer>
-        </div>
-      );
+             <ToastContainer 
+            position="top-center" 
+            autoClose={1000} 
+            hideProgressBar={false} 
+            newestOnTop={false} 
+            closeOnClick 
+            rtl={false} 
+            pauseOnFocusLoss 
+            draggable 
+            pauseOnHover 
+        />
+            <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundSize: 'cover', height: '100vh' }}>
+                <MDBCard className='worker-registration-container m-5'>
+                    <MDBCardBody className='px-5'>
+                        <h2 className="text-uppercase text-center mb-5">Registrieren als Worker</h2>
+                        <form onSubmit={handleRegistration}>
+                            <MDBInput wrapperClass='mb-4' label='Dein Name' size='lg' type='text' value={name} onChange={(e) => setName(e.target.value)} required/>
+                            <MDBInput wrapperClass='mb-3 inputField' label='Adresse' id='addressInput' type='text' value={address} onChange={e => setAddress(e.target.value)} onBlur={() => handleAddressValidation(address).then(valid => setAddressValid(valid))} required/>
+                            {!addressValid && <div style={{ color: '#e4a11b' }}>Ungültige Adresse.</div>}
+                            <MDBInput wrapperClass='mb-4' label='Deine E-Mail' size='lg' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required/>
+                            <MDBInput wrapperClass='mb-4' label='Passwort' size='lg' type='password' value={password} onChange={handlePasswordChange} required/>
+                            <MDBInput wrapperClass='mb-4' label='Passwort erneut eingeben' size='lg' type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+                            {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>}
+                            <MDBProgress className='mb-4'>
+                                <MDBProgressBar width={passwordStrength * 25} valuemin={0} valuemax={100}>
+                                    {passwordStrength * 25}%
+                                </MDBProgressBar>
+                            </MDBProgress>
+                            <select className="form-select mb-4 option-black" value={jobType} onChange={(e) => setJobType(e.target.value)} required style={{backgroundColor:"black", color: "black"}}>
+                                <option value="" style={{color:'black'}}>Jobtyp wählen...</option>,
+                                {jobTypes.map((type, index) => (
+                                    <option key={index} value={type} style={{color:'black'}}>{type}</option>
+                                ))}
+                            </select>
+                            <MDBInput wrapperClass='mb-4' label='Gehaltswunsch' size='lg' type='number' value={salary} onChange={(e) => setSalary(Number(e.target.value))} required/>
+                            <MDBInput
+                                wrapperClass='mb-4'
+                                label='Dein Slogan/Motto'
+                                size='lg'
+                                type='text'
+                                value={slogan}
+                                onChange={(e) => setSlogan(e.target.value)}
+                                required
+                            />
+                            <MDBCheckbox name='termsCheck' id='termsCheck' label={<span>Ich stimme den <Link to="/agb" className="text-white">Nutzungsbedingungen</Link> zu</span>} wrapperClass='d-flex justify-content-center mb-4 text-white' required/>
+                            <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type="submit">Registrieren</MDBBtn>
+                        </form>
+                        <MDBRow>
+                            <MDBCol size='12' className='text-center'>
+                                <MDBTypography tag='div' className='mb-4'>
+                                    Du hast bereits ein Konto? <Link to="/login" className="link">Melde dich hier an</Link>
+                                </MDBTypography>
+                            </MDBCol>
+                        </MDBRow>
+                    </MDBCardBody>
+                </MDBCard>
+            </MDBContainer>
+            </div>
+        
+    );
 }

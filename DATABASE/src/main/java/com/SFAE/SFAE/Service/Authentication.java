@@ -32,14 +32,19 @@ public class Authentication {
      * @return a JWT as a String if authentication is successful, null otherwise
      */
     public String loginCustomer(String EMail, String Password, HttpServletResponse response) {
-        try {
-            Customer foundCustomer = cus.findEmail(EMail);
-            if (foundCustomer instanceof Customer) {
-                String token = jwt.verifyPasswordAndCreateJWT(EMail, Password);
-                return token;
+        Customer foundCustomer = cus.findEmail(EMail);
+        System.out.println(foundCustomer.getId()+" GEFUNDEN ID");
+        System.out.println(foundCustomer+" GEFUNDEN");
+        System.out.println(foundCustomer.isConfirm()+" CONFIRM");
+        if(foundCustomer.getConfirm()){
+            try {
+                if (foundCustomer instanceof Customer) {
+                    String token = jwt.verifyPasswordAndCreateJWT(EMail, Password);
+                    return token;
+                }
+            } catch (Exception e) {
+                System.out.println(e);
             }
-        } catch (Exception e) {
-            System.out.println(e);
         }
 
         return null;

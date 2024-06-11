@@ -17,6 +17,7 @@ import com.SFAE.SFAE.ENUM.TokenType;
 import com.SFAE.SFAE.IMPLEMENTATIONS.CustomerImp;
 import com.SFAE.SFAE.IMPLEMENTATIONS.WorkerImpl;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
+import com.SFAE.SFAE.INTERFACE.TokenRepository;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.Security.JWT;
 import com.SFAE.SFAE.Service.Authentication;
@@ -78,14 +79,12 @@ class CustomerController implements CustomerEP {
     @Autowired
     private WorkerInterface wao;
 
-    
     private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
     @Autowired
     private TokenMailService mailService;
 
 
-    
     @Autowired
     private WorkerImpl wor;
 
@@ -118,27 +117,29 @@ class CustomerController implements CustomerEP {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-
-        @Async
-        public void sendWelcomeEmail(CustomerDTO customerData) {
-            try {
-                mail.sendHtmlMessage(customerData.getEmail(),
+    @Async
+    public void sendWelcomeEmail(CustomerDTO customerData) {
+        try {
+            mail.sendHtmlMessage(customerData.getEmail(),
                     "Willkommen bei SFAE - Ihre Lösung für schnelle und kompetente Hilfe",
                     "<html><body>" +
-                        "<p>Lieber " + customerData.getName() + ",</p>" +
-                        "<p>herzlich willkommen bei SFAE! Wir freuen uns, dass Sie sich für unseren Service entschieden haben.</p>" +
-                        "<p>SFAE ist Ihre zuverlässige Dienstleistungsplattform, auf der Sie schnell und einfach Hilfe für verschiedene Anliegen finden können. Unser Ziel ist es, Ihnen den besten Facharbeiter in Ihrer Nähe mit der passenden Qualifikation zur Verfügung zu stellen.</p>" +
-                        "<p>Egal ob Sie einen Handwerker, IT-Spezialisten, Reinigungskraft oder einen anderen Fachmann benötigen – bei SFAE finden Sie garantiert den richtigen Ansprechpartner. Unser benutzerfreundliches System stellt sicher, dass Sie innerhalb kürzester Zeit den passenden Experten für Ihre Bedürfnisse finden.</p>" +
-                        "<p>Wir sind überzeugt, dass Sie mit unserem Service zufrieden sein werden und freuen uns darauf, Ihnen bei Ihren Anliegen behilflich zu sein.</p>" +
-                        "<p>Bei Fragen oder Anregungen stehen wir Ihnen jederzeit zur Verfügung.</p>" +
-                        "<p>Mit freundlichen Grüßen,</p>" +
-                        "<p>Ihr SFAE-Team</p>" +
-                        "</body></html>");
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
+                            "<p>Lieber " + customerData.getName() + ",</p>" +
+                            "<p>herzlich willkommen bei SFAE! Wir freuen uns, dass Sie sich für unseren Service entschieden haben.</p>"
+                            +
+                            "<p>SFAE ist Ihre zuverlässige Dienstleistungsplattform, auf der Sie schnell und einfach Hilfe für verschiedene Anliegen finden können. Unser Ziel ist es, Ihnen den besten Facharbeiter in Ihrer Nähe mit der passenden Qualifikation zur Verfügung zu stellen.</p>"
+                            +
+                            "<p>Egal ob Sie einen Handwerker, IT-Spezialisten, Reinigungskraft oder einen anderen Fachmann benötigen – bei SFAE finden Sie garantiert den richtigen Ansprechpartner. Unser benutzerfreundliches System stellt sicher, dass Sie innerhalb kürzester Zeit den passenden Experten für Ihre Bedürfnisse finden.</p>"
+                            +
+                            "<p>Wir sind überzeugt, dass Sie mit unserem Service zufrieden sein werden und freuen uns darauf, Ihnen bei Ihren Anliegen behilflich zu sein.</p>"
+                            +
+                            "<p>Bei Fragen oder Anregungen stehen wir Ihnen jederzeit zur Verfügung.</p>" +
+                            "<p>Mit freundlichen Grüßen,</p>" +
+                            "<p>Ihr SFAE-Team</p>" +
+                            "</body></html>");
+        } catch (MessagingException e) {
+            e.printStackTrace();
         }
-
+    }
 
     /**
      * Creates a new customer from the provided CustomerDTO object.
@@ -153,35 +154,66 @@ class CustomerController implements CustomerEP {
      */
     @Override
     public ResponseEntity<?> createCustomer(@Valid @RequestBody CustomerDTO customerData, BindingResult bindingResult) {
-        System.out.println(customerData.getPassword());
+
+        //Abfrage ob alles vorhanden ist 
         if (bindingResult.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getFieldErrors().stream()
                     .map(fieldError -> fieldError.getDefaultMessage())
                     .collect(Collectors.toList()));
         }
-        //8 Zeichen, 1 Sonderzeichen, 1 Großbuchtsaben und eine Zahl
+
+
+
+        // 8 Zeichen, 1 Sonderzeichen, 1 Großbuchtsaben und eine Zahl
         String passwordTest = customerData.getPassword();
         String regex = "^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?\":{}|<>])(?=.*\\d).{8,}$";
         Pattern pattern = Pattern.compile(regex);
 
-        if(!pattern.matcher(passwordTest).matches()){
+
+        //guckem ob passwort passt von der sicherheit
+        if (!pattern.matcher(passwordTest).matches()) {
             return ResponseEntity.status(400).build();
         }
 
+        
         try {
+            //erstellen 
             Customer customer = dao.createCustomer(customerData);
-            sendWelcomeEmail(customerData);
             if (customer != null) {
-           
-                return ResponseEntity.status(HttpStatus.CREATED).body(customer);
+            //token erstellen
+            String token = mailService.createToken(0, customer.getId(), TokenType.VERIFYCUSTOMER);
+
+            String link = "https://localhost:3000/verifyEmail?token=" + token;
+      
+
+            //Email senden zum verifizieren
+            mail.sendHtmlMessage(customerData.getEmail(), "Bestätigung Ihrer E-Mail-Adresse",
+                            "<html><body>" +
+                                    "Hallo " + customerData.getName() + ",<br>" +
+                                    "Vielen Dank für die Registrierung bei unserem Service.<br>" +
+                                    "Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf den folgenden <a href='" + link
+                                    + "'><button style='background-color: #4CAF50; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;'>Bestätigungs-Button</button></a> klicken. Dieser Link ist nur für kurze Zeit gültig.<br>" +
+                                    "Wenn Sie die Registrierung nicht angefordert haben, können Sie diese E-Mail einfach ignorieren.<br><br>"
+                                    +
+                                    "Bei Fragen oder Problemen wenden Sie sich bitte an unseren Support.<br><br>"
+                                    +
+                                    "Mit freundlichen Grüßen,<br>" +
+                                    "Ihr Unternehmen-Team" +
+                                    "</body></html>");
+
+            sendWelcomeEmail(customerData);
+            return ResponseEntity.status(HttpStatus.CREATED).body(customer);
+            }
+            else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
             }
 
-        } catch (DataAccessException dax) {
+        } catch (DataAccessException | MessagingException dax) {
             logger.error("Database access error: " + dax.getMessage(), dax);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     /**
@@ -286,12 +318,11 @@ class CustomerController implements CustomerEP {
                     .collect(Collectors.toList()));
         }
 
-        
         String passwordTest = jsonData.getPassword();
         String regex = "^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?\":{}|<>])(?=.*\\d).{8,}$";
         Pattern pattern = Pattern.compile(regex);
 
-        if(!pattern.matcher(passwordTest).matches()){
+        if (!pattern.matcher(passwordTest).matches()) {
             return ResponseEntity.status(400).build();
         }
 
@@ -339,7 +370,6 @@ class CustomerController implements CustomerEP {
 
         try {
             String token = auth.loginCustomer(loginRequest.getEmail(), loginRequest.getPassword(), response);
-
             if (token != null) {
                 Customer customer = cus.findEmail(loginRequest.getEmail());
 
@@ -444,10 +474,10 @@ class CustomerController implements CustomerEP {
         if (foundCustomer != null) {
             String token = mailService.createToken(0, foundCustomer.getId(), TokenType.PASSWORDRESET);
 
-            String link = "https://localhost:3000/newPassword?token=" + token;
+            String link = "https://erayzor.de/newPassword?token=" + token;
 
             try {
-                mail.sendHtmlMessage(foundCustomer.getEmail(), "Email zurücksetzen",
+                mail.sendHtmlMessage(foundCustomer.getEmail(), "Passwort zurücksetzen",
                         "<html><body>" +
                                 "Hallo " + foundCustomer.getName() + ",<br>" +
                                 "Sie haben beantragt ihr Passwort zu ändern.<br>" +
@@ -470,10 +500,10 @@ class CustomerController implements CustomerEP {
         if (worker != null) {
             String token = mailService.createToken(0, worker.getId(), TokenType.PASSWORDRESET);
 
-            String link = "https://localhost:3000/newPassword?token=" + token;
+            String link = "https://erayzor.de/newPassword?token=" + token;
 
             try {
-                mail.sendHtmlMessage(worker.getEmail(), "Email zurücksetzen",
+                mail.sendHtmlMessage(worker.getEmail(), "Passwort zurücksetzen",
                         "<html><body>" +
                                 "Hallo " + worker.getName() + ",<br>" +
                                 "Sie haben beantragt ihr Passwort zu ändern.<br>" +
@@ -491,7 +521,6 @@ class CustomerController implements CustomerEP {
             return ResponseEntity.status(HttpStatus.OK).body(token);
         }
 
-
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
@@ -501,12 +530,11 @@ class CustomerController implements CustomerEP {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        
         String passwordTest = data.getPassword();
         String regex = "^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?\":{}|<>])(?=.*\\d).{8,}$";
         Pattern pattern = Pattern.compile(regex);
 
-        if(!pattern.matcher(passwordTest).matches()){
+        if (!pattern.matcher(passwordTest).matches()) {
             return ResponseEntity.status(400).build();
         }
         Token token = mailService.validateToken(data.getToken());
@@ -548,6 +576,34 @@ class CustomerController implements CustomerEP {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 
+    }
+
+    @Override
+    public ResponseEntity<?> verifyEmail(String token) {
+        System.out.println("Bin AUCH DABEI --------------");
+        System.out.println(token);
+       //Token data = tokenRepository.findByToken(token);
+       Token data = mailService.validateToken(token);
+
+        System.out.println(data+ "  HALLO");
+        if (token == null) {
+            System.out.println("HAAAAALLLLLo");
+            throw new IllegalArgumentException("No Token given");
+        }
+        try {
+            boolean result = dao.verifyEmail(data.getReceiver());
+            System.out.println("result------"+result);
+            if (result) {
+                return ResponseEntity.status(HttpStatus.OK).build();
+
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        } catch (Exception e) {
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+        }
     }
 
 }

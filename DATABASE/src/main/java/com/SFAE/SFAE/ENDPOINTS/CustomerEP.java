@@ -148,4 +148,8 @@ public interface CustomerEP {
 
     @GetMapping("/{id}/image")
     ResponseEntity<?> getCustomerImageAsBase64(@PathVariable("id") String id);
+
+    @PutMapping("/verifyEmail/{token}")
+    ResponseEntity<?> verifyEmail(@PathVariable("token") String token);
+
 }

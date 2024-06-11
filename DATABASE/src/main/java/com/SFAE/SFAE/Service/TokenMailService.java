@@ -26,7 +26,7 @@ public class TokenMailService {
      */
     public String createToken(long id, String receiver, TokenType type) {
         String token = UUID.randomUUID().toString();
-        LocalDateTime expiryDate = LocalDateTime.now().plusMinutes(60); // Setzt die Gültigkeit auf 5 Minuten
+        LocalDateTime expiryDate = LocalDateTime.now().plusMinutes(60); // Setzt die Gültigkeit auf 60 Minuten
 
         Token newToken = new Token(); 
         newToken.setToken(token);
@@ -38,6 +38,14 @@ public class TokenMailService {
         } else if(TokenType.PASSWORDRESET == type){
             newToken.setId(id);                 // ID for the validation checking if the User requesting is a Customer = 0, Admin = 1 and Worker = 2.
             newToken.setReceiver(receiver);     //ID of the Person, who is requesting a password reset
+        }
+        else if(TokenType.VERIFYCUSTOMER== type){
+            newToken.setId(id);
+            newToken.setReceiver(receiver); 
+        }
+        else if(TokenType.VERIFYWORKER== type){
+            newToken.setId(id);
+            newToken.setReceiver(receiver); 
         }
 
         tokenRepository.save(newToken);

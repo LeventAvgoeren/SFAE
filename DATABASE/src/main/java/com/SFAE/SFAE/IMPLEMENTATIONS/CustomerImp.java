@@ -143,8 +143,8 @@ public class CustomerImp implements CustomerInterface {
             String password = rs.getString("PASSWORD");
             String email = rs.getString("EMAIL");
             String role = rs.getString("ROLE");
-
-            return dataFactory.createCustomer(id, name, password, email, role);
+            Boolean confirm = rs.getBoolean("CONFIRM");
+            return dataFactory.createCustomer(id, name, password, email, role,confirm);
 
         } catch (SQLException e) {
         }
@@ -170,11 +170,12 @@ public class CustomerImp implements CustomerInterface {
             String name = jsonData.getName();
             String password = encoder.hashPassword(jsonData.getPassword());
             String email = jsonData.getEmail();
+            Boolean confirm = false;
     
             if (password == null || name == null || email == null) {
                 return null;
             }
-            Customer customer = new Customer(name, password, email, pic);
+            Customer customer = new Customer(name, password, email, pic,confirm);
             customerRepository.save(customer);
             System.out.println("CUSTOMER WURDE GESAFED");
             return customer;
@@ -354,6 +355,23 @@ public class CustomerImp implements CustomerInterface {
 
         Integer oid = oids.get(0);
         return pictureService.readLargeObject(oid);
+    }
+
+    @Override
+    public boolean verifyEmail(String id) {
+       if(id==null || !id.startsWith("C")){
+        throw new IllegalArgumentException("Id isnt given or not customer id "+id);
+       }
+       int result = jdbcTemplate.update(
+        "UPDATE CUSTOMER SET confirm = TRUE WHERE id = ?",
+        ps -> ps.setString(1, id)
+);
+
+        if (result > 0) {
+            return true;
+        }
+
+        return false;
     }
 
 }

@@ -287,6 +287,7 @@ public class WorkerImpl implements WorkerInterface {
       double latitude = rs.getLatitude();
       double longitude = rs.getLongitude();
       String slogan =rs.getSlogan();
+      Boolean confirm = false;
 
       JobList[] list = new JobList[jobType.length];
       for(int i = 0; i < jobType.length; i++){
@@ -295,7 +296,7 @@ public class WorkerImpl implements WorkerInterface {
 
       Worker worker = new Worker(name, location, password, Status.valueOf("AVAILABLE"),
           StatusOrder.valueOf("UNDEFINED"), range, list, minPayment, rating, verification, email,
-          latitude, longitude, ratingAv, pic,slogan);
+          latitude, longitude, ratingAv, pic,slogan,confirm);
       workerRepository.save(worker);
       return worker;
     } catch (Exception e) {
@@ -353,13 +354,14 @@ public class WorkerImpl implements WorkerInterface {
       Boolean verification = rs.getBoolean("verification");
       double latitude = rs.getDouble("latitude");
       double longitude = rs.getDouble("longitude");
+      Boolean confirm= rs.getBoolean("confirm");
       //byte[] picture = rs.getBytes("profile_picture_blob");
      // var pic=pictureService.saveImageAsLargeObject(picture);
 
       String slogan =rs.getString("slogan");
 
       return dataFactory.createWorker(id, name, location, password, email, status, range, jobType, statusOrder,
-          minPayment, rating, verification, latitude, longitude,slogan);
+          minPayment, rating, verification, latitude, longitude,slogan,confirm);
 
     } catch (SQLException e) {
     }
@@ -697,6 +699,23 @@ public class WorkerImpl implements WorkerInterface {
       throw new IllegalArgumentException("Updated failed");
     }
 
+  }
+
+  @Override
+  public boolean verifyEmail(String id) {
+     if(id==null || !id.startsWith("W")){
+      throw new IllegalArgumentException("Id isnt given or not customer id "+id);
+     }
+     int result = jdbcTemplate.update(
+      "UPDATE WORKER SET confirm = TRUE WHERE id = ?",
+      ps -> ps.setString(1, id)
+);
+
+      if (result > 0) {
+          return true;
+      }
+
+      return false;
   }
 }
 

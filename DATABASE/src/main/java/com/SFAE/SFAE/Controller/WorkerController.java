@@ -172,6 +172,7 @@ public class WorkerController implements WorkerEp {
                 return ResponseEntity.status(HttpStatus.OK).body(found);
             }
         } catch (Exception e) {
+            System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 
         }

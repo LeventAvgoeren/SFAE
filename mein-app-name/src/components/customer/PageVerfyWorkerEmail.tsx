@@ -10,6 +10,7 @@ export function PageVerifyWorkerEmail(){
 
 async function verify() {
   await verifyEmailWorker(tokenID!)
+  navigate("/login")
 }
   return(
     <>

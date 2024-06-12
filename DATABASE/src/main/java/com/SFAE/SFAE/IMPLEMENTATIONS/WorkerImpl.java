@@ -270,6 +270,7 @@ public class WorkerImpl implements WorkerInterface {
         rs.getJobType() == null || rs.getMinPayment() == null || rs.getEmail() == null) {
       throw new IllegalArgumentException("Some data are empty");
     }
+    System.out.println(rs);
     try {
       byte[] defaultImage = pictureService.loadDefaultProfilePicture();
       var pic=pictureService.saveImageAsLargeObject(defaultImage);

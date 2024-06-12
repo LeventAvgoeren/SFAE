@@ -21,7 +21,6 @@ async function verify() {
       <button onClick={verify}>Bestätigen</button>
     </div>
     </div>
-    
     </>
   )
 }

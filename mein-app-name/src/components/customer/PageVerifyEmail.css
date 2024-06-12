@@ -13,20 +13,30 @@
     gap: 10px; /* Abstand zwischen den Elementen im Container */
 }
 
-.animated-background {
-    background: linear-gradient(-45deg, #162c53, #199c7e, #004a4d, #132547);
-    background-size: cover;
-    animation: animated-background 15s ease infinite;
-    position: sticky;
-    width: 100vh;
-    height: 100%;
-    top: 0;
-    left: 0;
+.animated-background2 {
+        background: linear-gradient(-45deg, #1e1e1e, #1e3c72, #2e2e2e, #1e3c72);
+        background-size: 400% 400%;
+        animation: my-gradient1 15s ease infinite;
   }
+
+
+  @keyframes my-gradient1 {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
 
 .confirmation-page-container {
     background-size: cover;
-    background: linear-gradient(-45deg, #162c53, #199c7e, #004a4d, #132547);
+    background: linear-gradient(-45deg, #1e1e1e, #1e3c72, #2e2e2e, #1e3c72);
+    background-size: 400% 400%;
+    animation: my-gradient1 15s ease infinite;
     background-position: center;
     animation: animated-background 15s ease infinite;
     background-repeat: no-repeat;

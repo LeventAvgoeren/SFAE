@@ -156,7 +156,7 @@ export default function PageOrderRequest() {
       } else {
         console.error("Fehler: Keine ContractID erhalten, Response:", contract);
       }
-    } catch (error) {
+    }  catch (error) {
       if (error instanceof HttpError) {
         const status = error.response.status;
         const errorMessage = await error.response.text(); // Um die genaue Fehlermeldung zu bekommen

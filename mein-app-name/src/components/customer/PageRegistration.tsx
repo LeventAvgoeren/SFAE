@@ -101,7 +101,7 @@ export default function PageRegistration() {
             
             }
             console.log('Registration successful:', response);  // Log the response from the registration attempt
-            toast.success("Registrierung war erfolgreich", {
+            toast.success("Bestätigen sie nun ihre email", {
                 onClose: () => navigate("/login")
             });
         } catch (error) {

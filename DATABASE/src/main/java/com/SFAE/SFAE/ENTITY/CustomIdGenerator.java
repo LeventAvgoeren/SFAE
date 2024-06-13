@@ -11,8 +11,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author erayzor
- */
+ 
+@author erayzor*/
 
 public class CustomIdGenerator implements IdentifierGenerator, ApplicationContextAware {
     private static ApplicationContext context;
@@ -25,10 +25,10 @@ public class CustomIdGenerator implements IdentifierGenerator, ApplicationContex
     @Override
     public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
         CustomerRepository customerRepository = context.getBean(CustomerRepository.class);
-   
+
         List<Customer> cus = customerRepository.findAllOrderedById();
 
-        long count = 1 + customerRepository.count();  
+        long count = 1 + customerRepository.count();
 
         int lastID = 0;
         for (Customer customer : cus) {

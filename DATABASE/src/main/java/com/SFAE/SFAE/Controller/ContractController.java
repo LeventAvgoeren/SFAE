@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import java.util.Arrays;
 
 import javax.validation.Valid;
 
@@ -76,11 +77,17 @@ public class ContractController implements ContractEP {
     }
 
     try {
+      //job is not found
+      Worker result=work.findWorkerByJob(contract.getJobType());
+      System.out.println("JOBS "+result);
+      if (result==null) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("NO_WORKER_FOUND");
+    }
 
       Map<Worker, Double> best = sfae.getBestWorkersforTheJob(contract);
 
       if(best == null){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Es gibt kein passenden Worker in der Nähe.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("NO_WORKER_NEARBY");
       }
 
       List<Map.Entry<Worker, Double>> entries = new ArrayList<>(best.entrySet());
@@ -278,6 +285,7 @@ public class ContractController implements ContractEP {
 
       return ResponseEntity.status(HttpStatus.OK).body(contract);
     } catch (Exception e) {
+      System.out.println(e);
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 

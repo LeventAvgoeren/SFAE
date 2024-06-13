@@ -270,6 +270,7 @@ public class WorkerImpl implements WorkerInterface {
         rs.getJobType() == null || rs.getMinPayment() == null || rs.getEmail() == null) {
       throw new IllegalArgumentException("Some data are empty");
     }
+    System.out.println(rs);
     try {
       byte[] defaultImage = pictureService.loadDefaultProfilePicture();
       var pic=pictureService.saveImageAsLargeObject(defaultImage);
@@ -290,13 +291,16 @@ public class WorkerImpl implements WorkerInterface {
       Boolean confirm = false;
 
       JobList[] list = new JobList[jobType.length];
+      System.out.println("Vor Liste: " + list);
       for(int i = 0; i < jobType.length; i++){
         list[i] = JobList.valueOf(jobType[i]);
       }
+      System.out.println("Nach Liste: " + list);
 
       Worker worker = new Worker(name, location, password, Status.valueOf("AVAILABLE"),
           StatusOrder.valueOf("UNDEFINED"), range, list, minPayment, rating, verification, email,
           latitude, longitude, ratingAv, pic,slogan,confirm);
+          System.out.println("Nach worker erstelling: "+ worker);
       workerRepository.save(worker);
       System.out.println(worker);
       return worker;
@@ -350,7 +354,18 @@ public class WorkerImpl implements WorkerInterface {
       String statusOrder = rs.getString("status_order");
       Double range = rs.getDouble("range");
       String jobTypeString = rs.getString("job_type");
-      String[] jobType = jobTypeString.split(",");
+      String[] jobType = new String[10];
+      jobTypeString = jobTypeString.replace("{", "");
+      jobTypeString = jobTypeString.replace("}", "");
+      jobTypeString = jobTypeString.replace("\"", "");
+
+      if(jobTypeString.contains(",")){
+          jobType = jobTypeString.split(",");
+
+      } else {
+          jobType[0] = jobTypeString;
+      }
+    
       Double minPayment = rs.getDouble("min_payment");
       Double rating = rs.getDouble("rating");
       Boolean verification = rs.getBoolean("verification");
@@ -366,6 +381,7 @@ public class WorkerImpl implements WorkerInterface {
           minPayment, rating, verification, latitude, longitude,slogan,confirm);
 
     } catch (SQLException e) {
+      System.out.println("ASDASD_" + e);
     }
 
     return Optional.empty();
@@ -384,7 +400,7 @@ public class WorkerImpl implements WorkerInterface {
   @Override
   public Worker findWorkerByJob(String jobType) {
     List<Optional<Worker>> result = jdbcTemplate.query(
-        "SELECT * FROM WORKER WHERE job_type = ?",
+        "SELECT * FROM WORKER WHERE ? = ANY(job_type)",
         ps -> {
           ps.setString(1, jobType);
         },
@@ -719,6 +735,7 @@ public class WorkerImpl implements WorkerInterface {
 
       return false;
   }
+
 }
 
 

@@ -4,10 +4,10 @@ import Lottie from 'react-lottie';
 import animationData from "./roboter.json";
 import animationData1 from "./customer.json";
 import animationData2 from "./worker.json";
-import animationData3 from "./Rating.json"
-import animationData4 from "./Price.json"
-import animationData5 from "./Map.json"
-import animationData6 from "./Distance.json"
+import animationData3 from "./Rating.json";
+import animationData4 from "./Price.json";
+import animationData5 from "./Map.json";
+import animationData6 from "./Distance.json";
 import animationData7 from "./Worker_2.json";
 
 type Direction = 'left' | 'right';
@@ -67,7 +67,7 @@ export function PageIntroduction() {
                         {index === 1 && (
                             <>
                                 <h1 className="my-h1">Welcome to SfÆ</h1>
-                                <p className="my-p">Study fast and efficient!</p>
+                                <p className="my-p">Service fast and efficient!</p>
                                 <p className="my-p">Ein Projekt erstellt von Ahmad Sfarjalani, Eray Zor, Levent Avgören, Duc Dai Nguyen und Danyal Mahrous!</p>
                                 <div className="animation-roboter">
                                     <Lottie options={{
@@ -85,6 +85,8 @@ export function PageIntroduction() {
                                 <button onClick={() => scrollToSection('left')} className="my-arrow my-arrow-left" style={{color:"white"}}>
                                     <img src="/left.svg" alt="Previous" /> Über uns
                                 </button>
+                                <button className="skip-tutorial-button" onClick={() => window.location.href = '/index'}>Tutorial überspringen</button>
+
                             </>
                         )}
                         {index === 0 && (
@@ -101,7 +103,6 @@ export function PageIntroduction() {
                                         frontContent={(
                                             <>
                                                 <p className="team-role"><strong>Frontend Master</strong></p>
-
                                                 <p className="team-role">Number 1 Telekom Hater</p>
                                                 <p className="team-role">Fixed Duc's Bugs</p>
                                             </>

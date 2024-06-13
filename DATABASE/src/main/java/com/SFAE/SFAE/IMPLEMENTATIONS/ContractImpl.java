@@ -234,6 +234,7 @@ public class ContractImpl implements ContractInterface {
         },
         (rs, rowNum) -> createContract(rs));
 
+        System.out.println("ICH BIn contract "+result);
     if (!result.isEmpty()) {
       return result;
     }

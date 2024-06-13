@@ -82,8 +82,9 @@ public class WorkerController implements WorkerEp {
         }
 
         try {
+            System.out.println("ASDA " + worker);
             Worker builded = dao.createWorker(worker);
-            System.out.println(builded);
+            System.out.println("wurde rstellt "+builded);
             if(builded!=null){
                 String token = mailService.createToken(0, builded.getId(), TokenType.VERIFYWORKER);
             String link = "https://localhost:3000/verifyEmailWorker?token=" + token;
@@ -172,6 +173,7 @@ public class WorkerController implements WorkerEp {
                 return ResponseEntity.status(HttpStatus.OK).body(found);
             }
         } catch (Exception e) {
+            System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 
         }
@@ -249,8 +251,13 @@ public class WorkerController implements WorkerEp {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
+
         try {
             String token = jwt.loginWorkerJWT(login.getEmail(), login.getPassword());
+            System.out.println("AÖLLLO"+token);
+            if(token == "a"){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
             if (token == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }

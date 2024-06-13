@@ -29,11 +29,11 @@ import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.io.IOException;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 public class CustomerTestSQL {
 
     @Autowired
@@ -44,7 +44,7 @@ public class CustomerTestSQL {
 
     @Test
     public void testCreateCustomer() throws Exception {
-        String json = "{ \"name\": \"MaxMuster\", \"password\": \"passwort123\", \"email\": \"Mdadaadad@gmail.com\"}";
+        String json = "{ \"name\": \"MaxMusterdsadsda\", \"password\": \"Passwort123!\", \"email\": \"leventavgoren@gmail.com\"}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         mockMvc.perform(post("/customer")
@@ -88,7 +88,7 @@ public class CustomerTestSQL {
     @Test
     public void testGetCustomerBySecName() throws Exception {
 
-        mockMvc.perform(get("/customer/usr/Admin"))
+        mockMvc.perform(get("/customer/usr/DucDai"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -109,16 +109,15 @@ public class CustomerTestSQL {
                 .andExpect(status().isBadRequest())
                 .andReturn();
     }
-
     @Test
     public void testUpdateCustomerByID() throws Exception {
-        String base64Image = encodeFileToBase64Binary("static/images/GJq0xr5XIAAbKzE.jpeg");
+        String base64Image = encodeFileToBase64Binary("static/images/koestliche-donuts-wurden-automatisch-generiert.jpg");
         CustomerDTO customerData = new CustomerDTO();
         customerData.setId("C2");
         customerData.setName("Test Name");
         customerData.setEmail("testdadad@example.com");
         customerData.setRole("ADMIN");
-        customerData.setPassword("test123");
+        customerData.setPassword("tTest123!");
         customerData.setProfileBase64(base64Image);
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
@@ -193,13 +192,27 @@ public class CustomerTestSQL {
 
     @Test
     public void testLoginCustomer() throws Exception {
-        String json = "{ \"password\": \"admin\", \"email\": \"admin@gmail.com\"}";
+        String json = "{ \"password\": \"Passwort123!\", \"email\": \"leventavgoren@gmail.com\"}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         mockMvc.perform(post("/customer/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isOk())
+                .andReturn();
+
+        transactionManager.commit(status);
+    }
+
+    @Test
+    public void testLoginCustomerWithOutAuth() throws Exception {
+        String json = "{ \"password\": \"Passwort123!\", \"email\": \"leventavgoren@gmail.com\"}";
+        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+        mockMvc.perform(post("/customer/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isForbidden())
                 .andReturn();
 
         transactionManager.commit(status);

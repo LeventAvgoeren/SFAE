@@ -9,7 +9,6 @@
   padding: 0 20px;
 }
 
-
 .navbar-links {
   display: flex;
   justify-content: center; 
@@ -46,34 +45,49 @@ body, button, input, textarea, h1, p {
   font-family: 'Roboto', sans-serif; 
 }
 
-
-.page-background {
+.icons-container {
   display: flex;
-  justify-content: flex-start; 
   align-items: center;
-  height: 10vh;
-  width: 100%;
-  padding: 0 20px;
-  position: relative; 
-  z-index: 1; 
+  margin-left: auto;
 }
 
-.content { 
-  position: relative;
-  z-index: 1; 
+.icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 50px; /* Abstand zwischen den Icons */
 }
 
+.logout-icon {
+  width: 50px;  /* Gleiche Breite wie das Notification-Icon */
+  height: 50px; /* Gleiche Höhe wie das Notification-Icon */
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.logout-icon:hover {
+  transform: scale(1.1);
+}
 
 .notification-icon {
-  order: 3;
-  margin-left: auto;
-  margin-right: 100px; /* Verschiebt das Icon weiter nach links */
+  cursor: pointer;
 }
 
 .notification-icon img {
-  width: 40px;  /* Setze die gewünschte Breite */
-  height: 40px; /* Setze die gewünschte Höhe */
+  width: 50px;  /* Gleiche Breite wie das Logout-Icon */
+  height: 50px; /* Gleiche Höhe wie das Logout-Icon */
 }
+
+.notification-icon:hover img {
+  animation: wobble 0.5s ease-in-out infinite;
+}
+
+.icon-label {
+  font-size: 12px;  /* Kleine Schriftgröße für die Labels */
+  color: white;
+  margin-top: 5px;  /* Abstand zwischen dem Icon und dem Label */
+}
+
 @keyframes wobble {
   0%, 100% {
     transform: rotate(0deg);
@@ -87,15 +101,6 @@ body, button, input, textarea, h1, p {
   75% {
     transform: rotate(-15deg);
   }
-}
-
-.notification-icon:hover img {
-  animation: wobble 0.5s ease-in-out infinite;
-}
-
-
-.notification-icon {
-  cursor: pointer;
 }
 
 .chat-container {
@@ -119,8 +124,8 @@ body, button, input, textarea, h1, p {
   position: absolute;
   top: 20%;
   right: 6.3%;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   background-color: red;
   border-radius: 50%;
   display: flex;

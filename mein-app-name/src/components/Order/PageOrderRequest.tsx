@@ -10,6 +10,7 @@ import NavbarComponent from "../navbar/NavbarComponent";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AxiosError } from "axios";
+import { HttpError } from "./HTTPError";
 
 
 export default function PageOrderRequest() {
@@ -155,15 +156,28 @@ export default function PageOrderRequest() {
       } else {
         console.error("Fehler: Keine ContractID erhalten, Response:", contract);
       }
-    } catch (error) {
-          if(error instanceof Error){
-            const axiosError = error as AxiosError;
-            if (axiosError.response?.status === 404) {
-              toast.error('Kein passenden Worker in der Nähe gefunden.');
-            }
+    }  catch (error) {
+      if (error instanceof HttpError) {
+        const status = error.response.status;
+        const errorMessage = await error.response.text(); // Um die genaue Fehlermeldung zu bekommen
+        if (status === 400) {
+          toast.error('Ungültige Eingabe. Bitte überprüfen Sie Ihre Daten.');
+        } else if (status === 404) {
+          if (errorMessage === "NO_WORKER_FOUND") {
+            toast.error('Kein Worker mit dem angegebenen Job-Typ gefunden.');
+          } else if (errorMessage === "NO_WORKER_NEARBY") {
+            toast.error('Kein passender Worker in der Nähe gefunden.');
+          } else {
+            toast.error('Ressource nicht gefunden.');
           }
-
-      toast.error('Fehler beim erstellen des Auftrags');
+        } else if (status === 500) {
+          toast.error('Serverfehler. Bitte versuchen Sie es später erneut.');
+        } else {
+          toast.error('Fehler beim Erstellen des Auftrags.');
+        }
+      } else {
+        toast.error('Fehler beim Erstellen des Auftrags.');
+      }
     } finally {
       setIsCreatingContract(false);
     }

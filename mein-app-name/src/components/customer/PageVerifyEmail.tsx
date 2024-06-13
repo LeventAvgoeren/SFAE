@@ -10,7 +10,7 @@ export function PageVerifyEmail(){
 
 async function verify() {
   await verifyEmail(tokenID!)
-  //navigate("/login")
+  navigate("/login")
 }
   return(
     <>
@@ -21,7 +21,6 @@ async function verify() {
       <button onClick={verify}>Bestätigen</button>
     </div>
     </div>
-    
     </>
   )
 }

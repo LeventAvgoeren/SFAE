@@ -43,7 +43,6 @@ public class SFAEAlgorithm {
    * The final output is a sorted list of the top three workers, though the method can be adjusted to return more or fewer results.
    */
   public Map<Worker, Double> getBestWorkersforTheJob(ContractDTO contract) {
-    System.out.println(contract);
     String sql = "SELECT " +
     "name, email, latitude, longitude, min_payment, rating, id," +
     "(6371 * acos( " +

@@ -359,7 +359,7 @@ export async function login(
   email: string,
   password: string,
   userType: string
-): Promise<LoginInfo | false> {
+): Promise<{result: LoginInfo | false, status?: number}> {
   const requestOptions = {
     method: "POST",
     headers: { Accept: "application/json", "Content-Type": "application/json" },
@@ -374,19 +374,19 @@ export async function login(
       requestOptions
     );
     if (!response.ok) {
-      throw new Error("Login failed: " + response.status);
+      return { result: false, status: response.status };
     }
 
     const token = await response.json(); // oder response.json(), falls der Server JSON zurückgibt
     if (token.id) {
-      return { userId: token.id, admin: token.role };
+      return { result: { userId: token.id, admin: token.role } };
     }
   } catch (error) {
     console.error("Login error:", error);
-    return false; // Oder geeignete Fehlerbehandlung
+    return { result: false }; // Oder geeignete Fehlerbehandlung
   }
 
-  return false;
+  return { result: false };
 }
 
 export async function checkLoginStatus(): Promise<LoginInfo | false> {

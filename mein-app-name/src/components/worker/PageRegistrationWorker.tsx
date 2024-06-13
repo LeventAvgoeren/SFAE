@@ -176,12 +176,12 @@ export default function PageRegistrationWorker() {
         // Fortfahren, wenn alles erfolgreich war
         try {
             const response = await registrationWorker(name, address, email, password, jobList, salary, userLocation!, slogan);
-            toast.success("Account wurde erfolgreich erstellt", {
+            toast.success("Bitte bestätigen sie ihre email", {
                 onClose: () => navigate("/login")
             });
         } catch (error) {
             console.error('Registration failed:', error);
-            toast.error("Email Addresse schon vorhanden")
+            toast.error("Ein fehler ist aufgetreten")
         }
     };
 

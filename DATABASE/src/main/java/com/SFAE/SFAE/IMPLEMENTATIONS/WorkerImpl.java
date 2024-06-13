@@ -358,7 +358,7 @@ public class WorkerImpl implements WorkerInterface {
       jobTypeString = jobTypeString.replace("{", "");
       jobTypeString = jobTypeString.replace("}", "");
       jobTypeString = jobTypeString.replace("\"", "");
-      
+
       if(jobTypeString.contains(",")){
           jobType = jobTypeString.split(",");
 
@@ -381,6 +381,7 @@ public class WorkerImpl implements WorkerInterface {
           minPayment, rating, verification, latitude, longitude,slogan,confirm);
 
     } catch (SQLException e) {
+      System.out.println("ASDASD_" + e);
     }
 
     return Optional.empty();

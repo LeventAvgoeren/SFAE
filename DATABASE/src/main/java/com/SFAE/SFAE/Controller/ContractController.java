@@ -278,6 +278,7 @@ public class ContractController implements ContractEP {
 
       return ResponseEntity.status(HttpStatus.OK).body(contract);
     } catch (Exception e) {
+      System.out.println(e);
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 

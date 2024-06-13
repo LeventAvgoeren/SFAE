@@ -42,12 +42,16 @@ final class DataFactoryImp implements DataFactoryInterface{
     @Override
     public Optional<Worker> createWorker(String id, String name, String location, String password, String email,
             String status, Double range, String[] jobType, String Statusorder, Double minPayment, Double rating, Boolean verification, Double latitude, Double longitude, String slogan,Boolean confirm) {
+                
                 JobList[] list = new JobList[jobType.length];
-          
-                for( int i= 0; i < jobType.length; i ++) {
-                    System.out.println(jobType[i]);
-                    list[i] = JobList.valueOf(jobType[i]);
+                if(jobType.length < 2){
+                    for(int i= 0; i < jobType.length; i ++) {
+                        list[i] = JobList.valueOf(jobType[i]);
+                    }
+                } else{
+                    list[0] = JobList.valueOf(jobType[0]);
                 }
+             
         try {
             return Optional.of(
                 new Worker(id, name, location, password, email, Status.valueOf(status), StatusOrder.valueOf(Statusorder), range, list, minPayment, rating, verification, latitude, longitude, slogan,confirm)

@@ -156,9 +156,12 @@ public class JWT {
         Worker worker = dao.findWorkerbyEmail(email);
         if (worker != null) {
             if(worker.getConfirm()){
-            if (encoder.comparePassword(worker.getPassword(), password)) {
+                if (encoder.comparePassword(worker.getPassword(), password)) {
                 return generateTokenForWorker(String.valueOf(worker.getId()));
 
+                }
+            else{
+                return "a";
             }
         }
     }

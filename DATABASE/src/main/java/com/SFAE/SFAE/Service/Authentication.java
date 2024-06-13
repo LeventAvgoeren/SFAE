@@ -33,9 +33,10 @@ public class Authentication {
      */
     public String loginCustomer(String EMail, String Password, HttpServletResponse response) {
         Customer foundCustomer = cus.findEmail(EMail);
-        System.out.println(foundCustomer.getId()+" GEFUNDEN ID");
-        System.out.println(foundCustomer+" GEFUNDEN");
-        System.out.println(foundCustomer.isConfirm()+" CONFIRM");
+        if(foundCustomer== null){
+            return null;
+        }
+
         if(foundCustomer.getConfirm()){
             try {
                 if (foundCustomer instanceof Customer) {
@@ -46,8 +47,13 @@ public class Authentication {
                 System.out.println(e);
             }
         }
+        else{
+            return "a";
+        }
 
         return null;
+
+        
     }
 
 }

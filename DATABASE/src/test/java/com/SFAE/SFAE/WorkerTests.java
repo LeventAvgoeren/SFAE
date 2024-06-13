@@ -61,8 +61,8 @@ public class WorkerTests{
         String json = "{" +
         "\"name\": \"TestRating\"," +
         "\"location\": \"BERLIN\"," +
-        "\"password\": \"COLORBOASDASDX12!aDSA\"," +
-        "\"email\": \"KEnadada@gmail.com\"," +
+        "\"password\": \"Levent123!\"," +
+        "\"email\": \"leventavgoren@gmail.com\"," +
         "\"range\": 1.5," +
         "\"jobType\": [\"INSTALLATEUR\",\"WÄSCHER\"]," +
         "\"minPayment\": 35.0," +
@@ -333,6 +333,25 @@ public void testUpdateWorkerWithNotExistingId() throws Exception {
 
 @Test
 public void loginWorker() throws Exception{
+
+        String json = "{ \"password\": \"COLORBOX\", \"email\": \"COLORBOX@gmail.com\"}";
+        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+        MvcResult mvcResult = mockMvc.perform(post("/worker/login")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(json))
+        .andExpect(status().isOk())
+        .andReturn();
+            
+
+        transactionManager.commit(status);  
+
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        System.out.println("A " + contentAsString);
+
+}
+@Test
+public void loginWorkerWithoutAuth() throws Exception{
 
         String json = "{ \"password\": \"COLORBOX\", \"email\": \"COLORBOX@gmail.com\"}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());

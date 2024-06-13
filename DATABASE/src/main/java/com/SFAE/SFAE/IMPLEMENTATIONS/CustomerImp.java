@@ -102,8 +102,10 @@ public class CustomerImp implements CustomerInterface {
                 },
                 (rs, rowNum) -> createCustomer(rs));
 
+                System.out.println("result "+result);
         // Verifyin if the List is empty
         if (!result.isEmpty() && result.get(0).isPresent()) {
+            System.out.println("HALLLLO");
             return result.get(0).get();
         }
 

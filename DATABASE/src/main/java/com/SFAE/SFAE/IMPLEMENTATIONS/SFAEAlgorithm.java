@@ -8,6 +8,7 @@ import java.util.TreeMap;
 
 import com.SFAE.SFAE.DTO.ContractDTO;
 import com.SFAE.SFAE.ENTITY.Worker;
+import com.SFAE.SFAE.ENUM.JobList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -42,6 +43,7 @@ public class SFAEAlgorithm {
    * The final output is a sorted list of the top three workers, though the method can be adjusted to return more or fewer results.
    */
   public Map<Worker, Double> getBestWorkersforTheJob(ContractDTO contract) {
+    System.out.println(contract);
     String sql = "SELECT " +
     "name, email, latitude, longitude, min_payment, rating, id," +
     "(6371 * acos( " +
@@ -57,8 +59,8 @@ public class SFAEAlgorithm {
     "cos(radians(latitude)) * " +
     "cos(radians(longitude) - radians(?)) + " +
     "sin(radians(?)) * " +
-    "sin(radians(latitude)) " +
-    ")) < ? AND job_type = ? " +
+    "sin(radians(latitude)))) < ? " +
+    "AND job_type @> ARRAY[?]::varchar[]" +
     "AND status = 'AVAILABLE' " +
     "ORDER BY rating;";
         try {
@@ -76,14 +78,15 @@ public class SFAEAlgorithm {
             },
             (rs, rowNum) -> {
                 Worker worker = new Worker();
-            worker.setId(rs.getString("id"));
-            worker.setName(rs.getString("name"));
-            worker.setEmail(rs.getString("email"));
-            worker.setLatitude(rs.getDouble("latitude"));
-            worker.setLongitude(rs.getDouble("longitude"));
-            worker.setMinPayment(rs.getDouble("min_payment"));
-            worker.setRating(rs.getDouble("rating"));
-            return worker;
+                worker.setId(rs.getString("id"));
+                worker.setName(rs.getString("name"));
+                worker.setEmail(rs.getString("email"));
+                worker.setLatitude(rs.getDouble("latitude"));
+                worker.setLongitude(rs.getDouble("longitude"));
+                worker.setMinPayment(rs.getDouble("min_payment"));
+                worker.setJobType(new JobList[1]);
+                worker.setRating(rs.getDouble("rating"));
+                return worker;
             });
 
         Map<Worker, Double> bestWorkers = new HashMap<>();

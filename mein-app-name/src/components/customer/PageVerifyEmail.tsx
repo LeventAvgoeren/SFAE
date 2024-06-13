@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { verifyEmail } from "../../backend/api"
+import './PageVerifyEmail.css';
 
 export function PageVerifyEmail(){
   const location = useLocation();
@@ -9,12 +10,17 @@ export function PageVerifyEmail(){
 
 async function verify() {
   await verifyEmail(tokenID!)
-  //navigate("/login")
+  navigate("/login")
 }
   return(
     <>
-    <p>HALLLLLLLLLLLLLLOOOOOOOO</p>
-    <button onClick={verify}>Bestätigen</button>
+    
+    <div className="confirmation-page-container">
+    <div className="card">
+      <p>Fast geschafft! Klicke auf bestätigen, um fortzufahren.</p>
+      <button onClick={verify}>Bestätigen</button>
+    </div>
+    </div>
     </>
   )
 }

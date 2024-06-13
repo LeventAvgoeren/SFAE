@@ -1,5 +1,6 @@
 import { ContractResource, ContractResourceforWorker, CustomerResource, Position, RatingRessource, TokenRessource, WorkerResource, WorkerResourcePreferences, WorkerResourceProfil } from "../Resources";
 import { LoginInfo } from "../components/LoginManager";
+import { HttpError } from "../components/Order/HTTPError";
 import { fetchWithErrorHandling } from "./fetchWithErrorHandling";
 
 // get/delete/update Customer
@@ -294,13 +295,15 @@ export async function createContract(contract: ContractResource): Promise<Contra
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      credentials: "include" as RequestCredentials,
+      credentials: 'include'
     },
     body: JSON.stringify(contract)
   });
+
   if (!response.ok) {
-    throw new Error('levent mag sucki .');
+    throw new HttpError(response);
   }
+
   return response.json();
 }
 

@@ -270,6 +270,7 @@ public class WorkerImpl implements WorkerInterface {
         rs.getJobType() == null || rs.getMinPayment() == null || rs.getEmail() == null) {
       throw new IllegalArgumentException("Some data are empty");
     }
+    System.out.println(rs);
     try {
       byte[] defaultImage = pictureService.loadDefaultProfilePicture();
       var pic=pictureService.saveImageAsLargeObject(defaultImage);
@@ -298,8 +299,10 @@ public class WorkerImpl implements WorkerInterface {
           StatusOrder.valueOf("UNDEFINED"), range, list, minPayment, rating, verification, email,
           latitude, longitude, ratingAv, pic,slogan,confirm);
       workerRepository.save(worker);
+      System.out.println(worker);
       return worker;
     } catch (Exception e) {
+      System.out.println(e);
       e.printStackTrace();
       return null;
     }
@@ -348,7 +351,18 @@ public class WorkerImpl implements WorkerInterface {
       String statusOrder = rs.getString("status_order");
       Double range = rs.getDouble("range");
       String jobTypeString = rs.getString("job_type");
-      String[] jobType = jobTypeString.split(",");
+      String[] jobType = new String[10];
+      jobTypeString = jobTypeString.replace("{", "");
+      jobTypeString = jobTypeString.replace("}", "");
+      jobTypeString = jobTypeString.replace("\"", "");
+
+      if(jobTypeString.contains(",")){
+          jobType = jobTypeString.split(",");
+
+      } else {
+          jobType[0] = jobTypeString;
+      }
+    
       Double minPayment = rs.getDouble("min_payment");
       Double rating = rs.getDouble("rating");
       Boolean verification = rs.getBoolean("verification");
@@ -364,6 +378,7 @@ public class WorkerImpl implements WorkerInterface {
           minPayment, rating, verification, latitude, longitude,slogan,confirm);
 
     } catch (SQLException e) {
+      System.out.println("ASDASD_" + e);
     }
 
     return Optional.empty();

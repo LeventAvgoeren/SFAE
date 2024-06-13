@@ -45,7 +45,6 @@ import java.util.Base64;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 public class WorkerTests{
 
     @Autowired
@@ -218,20 +217,18 @@ public class WorkerTests{
         String base64Image = encodeFileToBase64Binary("static/images/default_profile.jpeg");
         
         WorkerDTO worker = new WorkerDTO();
-        worker.setId("W1");
-        worker.setEmail("Selam@gmail.com");
-        worker.setLocation("Bremen");
+        worker.setId("W6");
+        worker.setEmail("playerahmad@gmail.com");
+        worker.setLocation("Berlin");
         worker.setMinPayment(0.9);
         worker.setJobType(new String[]{"INSTALLATEUR", "AUTOBESORGER"});
         worker.setName("Kenno");
         worker.setPassword("Meinhund123!ASDSA");
-        worker.setRange(0.8);
-        worker.setRating(0.5);
+        worker.setRange(2.0);
+        worker.setRating(2.0);
         worker.setStatus("AVAILABLE");
         worker.setStatusOrder("FINISHED");
         worker.setVerification(true);
-        worker.setLatitude(2.5347706933045);
-        worker.setLongitude(13.35002718682623);
         worker.setProfileBase64(base64Image);
         worker.setSlogan("Lebens lang grün weissdads");
 
@@ -275,7 +272,7 @@ public void testUpdateWorkerWithNull() throws Exception {
 @Test
 public void testUpdateWorkerWithNotAllAttributes() throws Exception {
         WorkerDTO worker = new WorkerDTO();
-        worker.setId("W2");
+        worker.setId("W6");
         worker.setEmail("XalooosSelam@gmail.com");
         worker.setMinPayment(0.9);
         worker.setName("Kenno");

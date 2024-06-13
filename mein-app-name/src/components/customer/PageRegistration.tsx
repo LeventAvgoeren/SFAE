@@ -1,4 +1,3 @@
-
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -182,6 +181,7 @@ export default function PageRegistration() {
                                 onChange={e => setConfirmPassword(e.target.value)}
                                 required
                             />
+                            <div style={{ color: 'white', marginBottom: '10px' }}>Das Passwort muss mindestens einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten.</div>
                             {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>}
                             <MDBProgress className='mb-4'>
                                 <MDBProgressBar width={passwordStrength * 25} valuemin={0} valuemax={100}>

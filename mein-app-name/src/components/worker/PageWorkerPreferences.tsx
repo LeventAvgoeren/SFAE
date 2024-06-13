@@ -23,7 +23,8 @@ export function PageWorkerPreferences() {
   const [status , setStatus] = useState("");
   const [statusOrder , setStatusOrder] = useState(""); 
   const [range , setRange] = useState<Number>(0); 
-  const [jobType , setJobType] = useState(""); 
+  const [jobType, setJobType] = useState<string>("");
+  const [jobList, setJobList] = useState<string[]>([]);
   const [minPayment , setMinPayment] = useState<Number>(0); 
   const [rating , setRating] = useState<Number>(0); 
   const [verification , setVerification] = useState<Boolean>(false);
@@ -51,7 +52,7 @@ export function PageWorkerPreferences() {
       setStatus(workerData.status)
       setStatusOrder(workerData.statusOrder)
       setRange(workerData.range)
-      setJobType(workerData.jobType);
+      setJobList(workerData.jobType);
       setMinPayment(workerData.minPayment)
       setRating(workerData.rating)
       setVerification(workerData.verification)

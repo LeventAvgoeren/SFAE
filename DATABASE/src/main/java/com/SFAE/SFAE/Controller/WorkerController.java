@@ -254,6 +254,7 @@ public class WorkerController implements WorkerEp {
 
         try {
             String token = jwt.loginWorkerJWT(login.getEmail(), login.getPassword());
+            System.out.println("AÖLLLO"+token);
             if(token == "a"){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }

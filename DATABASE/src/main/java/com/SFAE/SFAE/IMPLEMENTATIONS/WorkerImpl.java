@@ -397,7 +397,7 @@ public class WorkerImpl implements WorkerInterface {
   @Override
   public Worker findWorkerByJob(String jobType) {
     List<Optional<Worker>> result = jdbcTemplate.query(
-        "SELECT * FROM WORKER WHERE job_type = ?",
+        "SELECT * FROM WORKER WHERE ? = ANY(job_type)",
         ps -> {
           ps.setString(1, jobType);
         },
@@ -732,6 +732,7 @@ public class WorkerImpl implements WorkerInterface {
 
       return false;
   }
+
 }
 
 

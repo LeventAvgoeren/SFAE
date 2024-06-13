@@ -1,5 +1,7 @@
 package com.SFAE.SFAE.INTERFACE;
 
+import java.util.List;
+
 import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.SFAE.SFAE.DTO.WorkerPrefrencesDTO;
 import com.SFAE.SFAE.DTO.WorkerProfileDTO;
@@ -123,5 +125,6 @@ public interface WorkerInterface {
   Worker updateWorkerPreferences(WorkerPrefrencesDTO data);
 
   boolean verifyEmail(String id);
+
 
 }

@@ -76,6 +76,9 @@ public class ContractController implements ContractEP {
     }
 
     try {
+      if(work.findWorkerByJob(contract.getJobType())==null){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not worker found with job type"+contract.getJobType());
+      }
 
       Map<Worker, Double> best = sfae.getBestWorkersforTheJob(contract);
 

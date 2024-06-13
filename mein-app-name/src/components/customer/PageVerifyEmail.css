@@ -1,5 +1,5 @@
 
-.card {
+.card2 {
     background-color: rgba(0, 0, 0, 0.7); /* Schwarze Farbe mit leichter Transparenz */
     border-radius: 15px; /* Abgerundete Ecken */
     padding: 20px; /* Innenabstand */
@@ -13,18 +13,8 @@
     gap: 10px; /* Abstand zwischen den Elementen im Container */
 }
 
-.animated-background {
-    background: linear-gradient(-45deg, #162c53, #199c7e, #004a4d, #132547);
-    background-size: cover;
-    animation: animated-background 15s ease infinite;
-    position: sticky;
-    width: 100vh;
-    height: 100%;
-    top: 0;
-    left: 0;
-  }
 
-.confirmation-page-container {
+.confirmation-page-container2 {
     background-size: cover;
     background: linear-gradient(-45deg, #162c53, #199c7e, #004a4d, #132547);
     background-position: center;
@@ -38,7 +28,7 @@
 }
 
 /* Stil für den Paragraphen */
-p {
+.card2 p {
     color: #f0e6e6; /* Textfarbe */
     font-size: 24px; /* Schriftgröße */
     text-align: center; /* Zentriert den Text */
@@ -46,7 +36,7 @@ p {
 }
 
 /* Stil für den Button */
-button {
+.card2 button  {
     background-color: #4CAF50; /* Hintergrundfarbe */
     color: white; /* Textfarbe */
     border: none; /* Kein Rahmen */
@@ -61,6 +51,6 @@ button {
     transition: background-color 0.3s ease; /* Übergangseffekt für die Hintergrundfarbe */
 }
 
-button:hover {
+.card2 button:hover  {
     background-color: #45a049; /* Hintergrundfarbe beim Hover */
 }

@@ -4,13 +4,14 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import './NavbarWComponent.css';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { LoginInfo, useLoginContext } from '../LoginManager';
-import { checkLoginStatus, deleteCookie } from '../../backend/api';
+import { checkLoginStatus, deleteCookie, getContractByWorkerId, getWorkerbyID, validateToken } from '../../backend/api';
 import ChatComponent from '../ChatComponent';
 import { Client, IMessage, Frame } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
+import { ContractResource } from '../../Resources';
 
 interface Message {
     sender: string;
@@ -24,15 +25,42 @@ export function NavbarWComponent() {
   const { loginInfo } = useLoginContext();
   const [showChat, setShowChat] = useState(false);
   const params = useParams<{ customerId: string, workerId: string }>();
-  const userId = params.customerId ? params.customerId! : params.workerId!;
   const clientRef = useRef<Client | null>(null);
   const [newMessage, setNewMessage] = useState(false);
+  const [userId, setUserId] = useState("");
+  const [contractDatalast, setContractDatalast] = useState<ContractResource>();
+  const userIds = params.customerId ? params.customerId! : params.workerId!;
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const tokenID = searchParams.get("token");
 
   async function doLogout() {
     await deleteCookie();
     window.location.href = "/login";
   }
 
+  async function getWorkerId(){
+    if(userIds !== undefined || null){
+      setUserId(userId)
+      let result =await getContractByWorkerId(userId)
+        const lastContract = result[result.length - 1];
+        setContractDatalast(lastContract)
+    }
+    else{
+      let res = await validateToken(tokenID!);
+      if(res){
+        setUserId(res.receiver)
+        console.log(userId)
+
+        let result =await getContractByWorkerId(userId)
+        const lastContract = result[result.length - 1];
+        setContractDatalast(lastContract)
+
+      }
+    }
+
+  }
   useEffect(() => {
     const client = new Client({
       webSocketFactory: () => new SockJS(`${process.env.REACT_APP_API_SERVER_URL}/chat`),
@@ -65,6 +93,7 @@ export function NavbarWComponent() {
         clientRef.current.deactivate();
       }
     };
+    getWorkerId()
   }, []);
 
   const toggleChat = () => {
@@ -75,6 +104,7 @@ export function NavbarWComponent() {
     toggleChat();
     setNewMessage(false);
   }
+  console.log("dadhaoiulda "+contractDatalast?.statusOrder)
 
   return (
     <>
@@ -96,6 +126,7 @@ export function NavbarWComponent() {
           {loginInfo && (
             <li><a href={`/worker/${loginInfo.userId}/faq`}>Faq</a></li>
           )}
+
         </ul>
         {loginInfo && (
           <div className="icons-container">

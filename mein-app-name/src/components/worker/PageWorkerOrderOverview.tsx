@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ContractResource, ContractResourceforWorker, WorkerResource } from "../../Resources";
 import { getContractByCustomerId, getContractByWorkerId } from "../../backend/api";
 
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { deDE } from '@mui/x-data-grid/locales';
 import NavbarWComponent from "./NavbarWComponent";
+import { MDBBtn } from "mdb-react-ui-kit";
 
 
 
@@ -13,7 +14,8 @@ export function PageWorkerOrderOverview() {
     const params = useParams();
     const workerId = params.workerId!;
     console.log(workerId)
-  
+    const navigate = useNavigate();
+
     const [contracts, setContracts] = useState<ContractResourceforWorker[]>([]);
     const [noContracts, setNoContracts] = useState(false);
     const [amount,setAmount]=useState(0)
@@ -52,7 +54,20 @@ export function PageWorkerOrderOverview() {
         { field: 'customer', headerName: 'Customer Name', width: 290, 
          renderCell: (params) => {
           return params.value ? params.value.name : 'N/A';
-        }}
+        }},
+        {
+          field: 'action',
+          headerName: 'Zum Auftrag',
+          width: 150,
+          renderCell: (params: GridRenderCellParams) => (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height:35, width: '100%' }}>
+              <MDBBtn outline rounded color='dark'
+                onClick={() => navigate(`/worker/${workerId}/order/${params.row.id}`)}>
+                Zum Auftrag
+              </MDBBtn >
+            </div>
+          )
+        }
       ]
   
     return (

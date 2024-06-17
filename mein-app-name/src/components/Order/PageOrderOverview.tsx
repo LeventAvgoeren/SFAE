@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './PageOrderOverview.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus, deleteChat, deleteContractById, updateWorkerOrderStatus, getCustomerImage, getWorkerImage } from '../../backend/api'; // Importiere die Funktion
+import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus, deleteChat, deleteContractById, updateWorkerOrderStatus, getCustomerImage, getWorkerImage, checkLoginStatus } from '../../backend/api'; // Importiere die Funktion
 import { ContractResource } from '../../Resources';
 import NavbarComponent from '../navbar/NavbarComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,6 +13,8 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine';
 import { Routing } from 'leaflet-routing-machine';
 import { Typewriter } from 'react-simple-typewriter';
+import NavbarWComponent from '../worker/NavbarWComponent';
+import { LoginInfo } from '../LoginManager';
 
 export function PageOrderOverview() {
   const { customerId } = useParams<{ customerId: string }>();
@@ -36,6 +38,8 @@ export function PageOrderOverview() {
   const [isPaid, setIsPaid] = useState<boolean>(false);
   const [mapLoading, setMapLoading] = useState(false)
   const handlePayment = () => setIsPaid(true);
+  const [loginInfo, setLoginInfo] = useState<LoginInfo | false>();
+
 
   const messages = [
     "Passender Worker wird gesucht...",
@@ -43,6 +47,7 @@ export function PageOrderOverview() {
     "Der Vorgang wird gleich abgeschlossen, danke für Ihre Geduld...",
     "Der Mensch muss essen und trinken... Wie das Pferd"
   ];
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -239,9 +244,8 @@ export function PageOrderOverview() {
   return (
     <>
       <div className="Backg">
-        <NavbarComponent />
+      <NavbarComponent />
         {loading || !workerAssigned ? (
-             
             <div style={{ paddingBottom:"20%", height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: 'center'  }}>
               <Lottie options={defaultOptions} height={400} width={400} />
               <div style={{background:"black", color:"white", width:"30%", alignSelf:"center"}}> 

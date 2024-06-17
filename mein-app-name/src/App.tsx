@@ -41,6 +41,7 @@ import { TermsAndConditions } from "./components/TermsAndConditions";
 import { Toolbar, Typography } from "@mui/material";
 import { PageVerifyEmail } from "./components/customer/PageVerifyEmail";
 import { PageVerifyWorkerEmail } from "./components/customer/PageVerfyWorkerEmail";
+import { PageWorkerOrder } from "./components/worker/PageWorkerOrder";
 
 
 
@@ -116,11 +117,11 @@ function App() {
           {/* Worker */}
           <Route path="/worker/:workerId" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerIndex /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/orders/overview" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerOrderOverview /> : < Navigate to="/NotAuth" replace />} />
-          <Route path="/worker/:workerId/finances" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerFinances /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/profile" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerProfile /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/preferences" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerPreferences /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/faq" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerFAQ /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/orders" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerOrders /> : < Navigate to="/NotAuth" replace />} />
+          <Route path="/worker/:workerId/order/:orderId" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerOrder /> : < Navigate to="/NotAuth" replace />} />
 
 
 

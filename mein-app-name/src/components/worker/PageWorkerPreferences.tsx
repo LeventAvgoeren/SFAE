@@ -121,7 +121,7 @@ return (
  
     <div className="background-image">   
     <NavbarWComponent />
-      <div className="custom-container20 glassmorphism">
+      <div className="custom-container20">
         <MDBContainer>
           <div className="text-center mb-4">
             <h1>Präferenzen</h1>

@@ -184,7 +184,7 @@ export function PageProfil() {
             />
             <div className='Backg'>
                 <NavbarComponent />
-                <div className="custom-container2">
+                <div className="custom-container2" style={{marginTop:"50px"}}>
                     <h1>PROFIL</h1>
                     <div className="mt-5 Back">
                         <div className="row">
@@ -209,7 +209,7 @@ export function PageProfil() {
                                 </div>
                                 <div className="profile-upload-container">
                                     <label htmlFor="profileImage" className="form-label">Profilbild hochladen</label>
-                                    <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
+                                    <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} style={{color:'white'}}/>
                                 </div>
                             </div>
 

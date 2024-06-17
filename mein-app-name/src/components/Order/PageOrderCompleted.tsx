@@ -63,7 +63,7 @@ export function PageOrderCompleted() {
       <NavbarComponent />
       <div className="background-image-completed">
         <div className="centered-container" >
-          <MDBCard className="card-completed glassmorphism">
+          <MDBCard className="card-completed">
             <MDBCardHeader>
               <h3>Bestellung abgeschlossen</h3>
             </MDBCardHeader>

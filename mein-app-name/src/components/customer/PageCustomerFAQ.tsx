@@ -69,6 +69,7 @@ export function PageCustomerFAQ() {
     <>
     <div className='Backg'>  
     <NavbarComponent />
+    <div style={{ height: 'calc(100vh - 100px)', width: '100%', marginTop:"1%"}}>
        <section className="faq-section"> 
           <div className="row">
             <div className="col-md-6 offset-md-3">
@@ -99,7 +100,7 @@ export function PageCustomerFAQ() {
       </section>
     
     </div>
-   
+    </div>
    
     </>
   );

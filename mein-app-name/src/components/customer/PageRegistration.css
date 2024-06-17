@@ -34,6 +34,7 @@
   max-width: 600px;
   color: white; /* Textfarbe auf Weiß setzen */
   margin: auto; /* Zentriert das Element innerhalb des Containers */
+  max-height: 95vh;
   }
   
   .inputField {

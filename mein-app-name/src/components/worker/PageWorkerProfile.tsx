@@ -219,7 +219,7 @@ export function PageWorkerProfile() {
     <>
       <div className="background-image">
         <NavbarWComponent />
-        <div className="custom-container glassmorphism">
+        <div className="custom-container">
           <MDBContainer className="p-3 my-5 d-flex flex-column align-items-center justify-content-center w-50">
             <div className="text-center mb-4">
               <h1>Profileinstellungen</h1>
@@ -253,7 +253,7 @@ export function PageWorkerProfile() {
                 value={slogan}
                 onChange={(e) => setSlogan(e.target.value)}
               />
-              <div className="mb-3">
+              <div className="profile-upload-container">
                 <label htmlFor="profileImage" className="form-label" style={{ color: "white" }}>Profilbild hochladen</label>
                 <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
               </div>

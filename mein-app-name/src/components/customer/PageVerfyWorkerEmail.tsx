@@ -15,8 +15,8 @@ async function verify() {
   return(
     <>
    
-   <div className="confirmation-page-container">
-    <div className="card">
+   <div className="confirmation-page-container2">
+    <div className="card2">
       <p>Fast geschafft! Klicke auf bestätigen, um fortzufahren.</p>
       <button onClick={verify}>Bestätigen</button>
     </div>

@@ -184,7 +184,7 @@ export function PageProfil() {
             />
             <div className='Backg'>
                 <NavbarComponent />
-                <div className="custom-container2" style={{marginTop:"50px"}}>
+                <div className="custom-container2">
                     <h1>PROFIL</h1>
                     <div className="mt-5 Back">
                         <div className="row">
@@ -196,9 +196,9 @@ export function PageProfil() {
                                         </div>
                                     ) : (
                                         (previewImage || profileImage) ? (
-                                            <img src={previewImage || profileImage} alt="Profilbild" style={{ width: '150px', height: '150px', borderRadius: '50%' }} />
+                                            <img src={previewImage || profileImage} alt="Profilbild" className="profileImageCustomer"/>
                                         ) : (
-                                            <div className="placeholder bg-secondary d-flex align-items-center justify-content-center" style={{ width: '150px', height: '150px', borderRadius: '50%', color: 'white' }}>
+                                            <div className="" style={{ width: '150px', height: '150px', borderRadius: '50%', color: 'white' }}>
                                                 <span>Kein Bild</span>
                                             </div>
                                         )

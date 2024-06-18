@@ -38,6 +38,9 @@
   padding: 20px;
   box-sizing: border-box;
   max-height: 95vh; /* Max height set to 90% of viewport height */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); 
 }
 
 .inputField input, .inputField input::placeholder {

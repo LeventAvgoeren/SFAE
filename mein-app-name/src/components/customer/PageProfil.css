@@ -4,15 +4,19 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   color: white; /* Textfarbe auf Weiß setzen */
   margin: auto; /* Zentriert das Element innerhalb des Containers */
-  padding: 20px;
   box-sizing: border-box;
-  max-height: 95vh; /* Max height set to 90% of viewport height */
+  max-height: 80vh; /* Max height set to 90% of viewport height */
   border: 1px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px); 
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); 
+  overflow: scroll;
 }
 
-
+.profileImageCustomer{
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
 
 
 /* Stil für das Hochladefeld */
@@ -71,29 +75,102 @@ input[type="file"]::file-selector-button {
   color: white;
 }
 
-@media only screen and (max-width: 768px) {
+
+/* responsive design */
+@media only screen and (max-width: 980px) {
   .custom-container2{
-    max-width: 90%;
-    padding: 10px;
+    max-width: 60%;
+    font-size: 8px;
+    overflow-y: auto;
+    max-height: 70vh;
+  }
+
+  .custom-container2 h1{
+    font-size: 16px;
   }
 
   .inputField input {
     padding: 8px;
+    max-height: 20px;
   }
+
+.author-card-name{
+  font-size: 12px;
 }
 
-@media only screen and (max-width: 480px) {
-  .custom-container2{
-    max-width: 100%;
-    padding: 10px;  
+.profileImageCustomer{
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+}
+
+  /* Stil für das Hochladefeld */
+  .profile-upload-container {
+    background: rgba(255, 255, 255, 0.1); /* Weißer Hintergrund mit Transparenz */
+    backdrop-filter: blur(10px); /* Weichzeichnung des Hintergrundes hinter dem Element */
+    -webkit-backdrop-filter: blur(10px); /* Für Safari-Browser */
+    border-radius: 12px; /* Abgerundete Ecken */
+    border: 1px solid rgba(255, 255, 255, 0.25); /* Leicht sichtbarer Rand */
+    padding: 2px; /* Innenabstand */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Schatten für einen schwebenden Effekt */
+    margin-bottom: 20px; /* Abstand nach unten, um Elemente nicht zu überlappen */
+  }
+  
+  /* Stile für das Label */
+  .profile-upload-container .form-label {
+    color: #fff; /* Weiße Textfarbe für das Label */
+    font-weight: bold; /* Fettgedruckte Schrift für das Label */
+    display: block; /* Blockanzeige, um sicherzustellen, dass es sich über dem Feld befindet */
+    margin-bottom: 5px; /* Abstand zwischen Label und Eingabefeld */
+    
+  }
+  
+  /* Stile für das Eingabefeld selbst */
+  .profile-upload-container .form-control[type="file"] {
+    background: rgba(255, 255, 255, 0.05); /* Leicht transparenter Hintergrund für das Eingabefeld */
+    border: none; /* Kein Rand, um die Glasästhetik zu bewahren */
+    color: #fff; /* Weiße Textfarbe für Kontrast */
+    font-size: 6px; /*WICHTIG ZUM ÄNDERN DES BUTTONS BEIM HOCHLADEN*/
+  }
+  
+  .profile-upload-container .form-control[type="file"]::file-selector-button {
+    background: rgba(255, 255, 255, 0.1); /* Stilisierung des Button-Teils des Eingabefelds */
+    border-radius: 5px; /* Leicht abgerundete Ecken für den Button */
+    margin-right: 5px; /* Abstand zwischen Button und Text */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Leicht sichtbarer Rand für den Button */
+  }
+  
+  
+  .profile-upload-container .form-control[type="file"]:hover::file-selector-button,
+  .profile-upload-container .form-control[type="file"]:focus::file-selector-button {
+    border-color: rgba(255, 255, 255, 0.5); /* Hellerer Rand bei Hover/Fokus */
+    background: rgba(255, 255, 255, 0.15); /* Leicht intensiverer Hintergrund bei Hover/Fokus */
+  }
+  .text-danger {
+    color: #ff0000; /* Helles Rot */
+    font-weight: bold; /* Fettgedruckt */
+    background-color: #ffe5e5; /* Heller roter Hintergrund */
+    border: 1px solid #ff0000; /* Rote Umrandung */
+    border-radius: 5px; /* Abgerundete Ecken */
+    margin-top: 10px; /* Abstand nach oben */
+  }
+  
+  input[type="file"]::file-selector-button {
+    color: white;
   }
 
-  .inputField input {
-    padding: 6px;
+  .form-control{
+    font-size: 6px;
+    padding: 1px;
+    }
+
+  .ButtonUpdate{
+    height: 20px;
+    font-size: 6px;
   }
-  .img-fluid-mb-2{
-    height: 50px;
-    width: 50px;
+  .btn-danger{
+    height: 20px;
+    font-size: 6px;
   }
 }
 

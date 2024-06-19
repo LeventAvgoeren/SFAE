@@ -29,7 +29,7 @@
   background-image: url('/public/b1.jpg');
     background-size: cover;
     background-position: center;
-    height: 100vh; /* Vollbildhöhe */
+    height: 100%; /* Vollbildhöhe */
 }
 
 

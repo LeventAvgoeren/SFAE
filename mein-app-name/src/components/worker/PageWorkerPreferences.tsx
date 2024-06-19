@@ -119,15 +119,15 @@ if (error) return <p>Fehler: {error}</p>;
 return (
   <>
  
-    <div className="background-image">   
+    <div className="background-images">   
     <NavbarWComponent />
-      <div className="custom-container20">
-        <MDBContainer>
+      <div className="custom-container20 d-flex justify-content-center">
+        <MDBContainer className="col-12 col-lg-5 col-md-5 justify-content-center" style={{background: "rgba(0, 0, 0, 0.7)"}}>
           <div className="text-center mb-4">
             <h1>Präferenzen</h1>
           </div>
-          <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
-            <MDBInput wrapperClass="inputField1" label="Örtliche Präferenzen" type="text"
+          <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }} className="w-100  m-auto text-center">
+            <MDBInput  wrapperClass="inputField1" label="Örtliche Präferenzen" type="text"
                     className="form-control"
                     value={range.toString()}
        onChange={(e) => setRange(Number(e.target.value))} />

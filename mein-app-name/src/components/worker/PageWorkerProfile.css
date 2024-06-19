@@ -3,19 +3,21 @@
   background-size: cover;
   background-position: center;
   display: flex;
-  height: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  height: 100% !important;
   width: 100%;
-  position: relative;
+  
   
 }
-
+.bg{
+  backdrop-filter: blur(10px);
+}
 .custom-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.7);
-  padding: 20px 30px;
+
+
+ 
+
   border-radius: 14px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
@@ -24,14 +26,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90vw; /* Viewport width */
-  max-width: 800px; /* Maximalbreite */
-  max-height: 95vh;
-  overflow-y: auto; /*rausnehmen wenn es auf desktop kacke aussieht  */
-  margin-top: 3%; /*rausnehmen wenn es auf desktop kacke aussieht  */
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-   -webkit-backdrop-filter: blur(10px); 
+
+
 }
 
 .inputField1 {
@@ -53,8 +49,4 @@
   text-align: center;
   color: white;
   padding: 10px 0;
-}
-
-input[type="file"]::file-selector-button {
-  color: white;
 }

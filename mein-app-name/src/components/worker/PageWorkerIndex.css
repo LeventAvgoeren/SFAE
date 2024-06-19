@@ -14,8 +14,55 @@
 
 .background-image {
   margin-top: 0; /* Entfernt Margin oben, der durch vorherige Elemente verursacht sein könnte */
+  background-size: cover;
+  background-position: center; 
+  height: 100vh;
 }
 
 .navbar {
   margin-bottom: 0 !important; /* Entfernt unerwünschten Abstand unter der Navbar */
+}
+
+.backg{
+  background-size: cover;
+  background-position: center; 
+  height: 100vh;
+}
+
+
+/* Mobile layout (max-width: 768px) */
+.card {
+  flex-direction: column; /* Stack cards vertically on small screens */
+  margin-bottom: 20px;
+}
+
+.card-img-top {
+  width: 100%; /* Make image full-width on small screens */
+  height: auto;
+}
+
+/* Tablet layout (min-width: 769px) and (max-width: 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+ .card {
+    flex-direction: row; /* Display cards side-by-side on medium screens */
+    margin-bottom: 40px;
+  }
+
+ .card-img-top {
+    width: 50%; /* Make image half-width on medium screens */
+    height: auto;
+  }
+}
+
+/* Desktop layout (min-width: 1025px) */
+@media (min-width: 1025px) {
+ .card {
+    flex-direction: row; /* Display cards side-by-side on large screens */
+    margin-bottom: 60px;
+  }
+
+ .card-img-top {
+    width: 30%; /* Make image one-third width on large screens */
+    height: auto;
+  }
 }

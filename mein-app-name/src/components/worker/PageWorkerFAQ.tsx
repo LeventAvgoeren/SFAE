@@ -75,7 +75,7 @@ export function PageWorkerFAQ() {
 
  
     <NavbarWComponent />
-      <section className="faq-section" style={{marginTop:"1%"}}>
+      <section className="faq-section">
             <div className="col-md-6 offset-md-3">
             </div>
             <h2 style={{color:'black'}}>FAQ</h2>

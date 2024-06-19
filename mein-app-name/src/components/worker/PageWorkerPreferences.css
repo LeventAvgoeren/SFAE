@@ -1,8 +1,8 @@
-.background-image {
+.background-images {
   background-image: url('/public/b1.jpg'); /* Überprüfen Sie den korrekten Pfad */
   background-size: cover;
   background-position: center;
-  height: 100vh;
+  height: 100vh !important;
 }
 
 .custom-container20 {
@@ -10,19 +10,14 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.7); /* Dunkelgrau, semi-transparent */
-  padding: 40px 50px;
+   /* Dunkelgrau, semi-transparent */
+  padding: 15px 15px;
   border-radius: 14px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 500px;
-  height: 500px;
+  width: 100%;
+  
   text-align: center;
   color: white; /* Setzt die Textfarbe allgemein auf Weiß */
-  margin: 2% auto;
-  max-height: 70%;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px); 
 }
 
 .inputField1 input, .inputField1 input::placeholder {
@@ -36,6 +31,7 @@
 }
 
 .inputField1 label {
+  margin: -7.5px !important;
   color: white !important; /* Setzt die Textfarbe der Labels auf Weiß */
 }
 

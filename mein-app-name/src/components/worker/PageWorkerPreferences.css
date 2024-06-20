@@ -3,21 +3,38 @@
   background-size: cover;
   background-position: center;
   height: 100vh;
+  overflow: hidden; /* Verhindert Scrollen des Hintergrunds */
 }
 
-.custom-container20 {
+.custom-containerrr25 {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.7); /* Dunkelgrau, semi-transparent */
+  background: rgba(0, 0, 0, 0.5); /* Schwarz und durchsichtig */
   padding: 40px 50px;
   border-radius: 14px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 500px;
-  height: 500px;
+  max-width: calc(100% - 4cm); /* 4cm Abstand auf jeder Seite */
+  max-height: calc(100% - 4cm); /* 4cm Abstand auf jeder Seite */
+  width: calc(100% - 5cm);
+  height: calc(100% - 5cm);
   text-align: center;
   color: white; /* Setzt die Textfarbe allgemein auf Weiß */
+  overflow-y: auto; /* Ermöglicht das Scrollen des Containers */
+  display: flex; /* Flexbox */
+  flex-direction: column; /* Vertikale Anordnung der Kinder */
+  justify-content: center; /* Zentrieren entlang der vertikalen Achse */
+  align-items: center; /* Zentrieren entlang der horizontalen Achse */
+}
+
+.content-container {
+  width: 100%;
+  max-width: 600px; /* Maximale Breite für den Inhalt */
+  display: flex; /* Flexbox */
+  flex-direction: column; /* Vertikale Anordnung der Kinder */
+  justify-content: center; /* Zentrieren entlang der vertikalen Achse */
+  align-items: center; /* Zentrieren entlang der horizontalen Achse */
 }
 
 .inputField1 input, .inputField1 input::placeholder {
@@ -45,6 +62,7 @@
 .alert {
   color: red; /* Farbe für Fehlermeldungen, wenn gewünscht */
 }
+
 .inputField1 {
   margin-bottom: 20px; /* Fügt unten einen Abstand von 20px hinzu */
 }
@@ -52,9 +70,33 @@
 .inputField1  {
   width: 100% !important; /* Setzt die Breite auf 100% des umgebenden Containers */
   max-width: 600px; /* Optional: Maximale Breite */
+  display: flex; /* Flexbox */
+  flex-direction: column; /* Vertikale Anordnung der Kinder */
+  justify-content: center; /* Zentrieren entlang der vertikalen Achse */
+  align-items: center; /* Zentrieren entlang der horizontalen Achse */
 }
 
-.button{
+.button {
   width: 100%;
   margin-bottom: 10px;
+}
+
+.job-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.job-item {
+  display: flex;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.remove-job {
+  cursor: pointer;
+  color: red;
+  margin-left: 10px;
 }

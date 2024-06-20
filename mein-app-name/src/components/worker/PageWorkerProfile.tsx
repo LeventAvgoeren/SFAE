@@ -259,10 +259,10 @@ export function PageWorkerProfile() {
               <LinkContainer to={`/worker/${worId}`}>
                 <Button className="button" type="button">Zurück zur Startseite!</Button>
               </LinkContainer>
-            </form>
-            <Button type="button" className="buttondanger" variant="danger" onClick={handleDelete} style={{width:"62.5%"}}>
+              <Button type="button" className="button" variant="danger" onClick={handleDelete} >
                 Account Löschen
               </Button>
+            </form>
         </div>
       </div>
       <ToastContainer 

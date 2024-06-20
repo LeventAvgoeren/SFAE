@@ -13,6 +13,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import NavbarComponent from '../navbar/NavbarComponent';
 import { getContract, setRating } from '../../backend/api';
 import { ContractResource, RatingRessource } from '../../Resources';
+import { Button, Col, Row } from 'react-bootstrap';
 
 
 export function PageOrderCompleted() {
@@ -94,10 +95,13 @@ export function PageOrderCompleted() {
                   <textarea id="comments" className="form-control textarea-glassmorphism" rows={3}></textarea>
                 </div>
                 </form>
-                <button type="submit" className="btn btn-primary" onClick={updateRating} style={{width:"300px"}}>Bewertung absenden</button>
+                
+                <Button type="submit" className="button" onClick={updateRating} >Bewertung absenden</Button>
+                
                 <Link to={`/customer/${customerId}`}>
-                  <button className="btn btn-primary" style={{width:"300px", marginLeft:"5%"}}>Zurück zur Startseite</button>
+                  <Button className="button" >Zurück zur Startseite</Button>
                 </Link>
+
             </MDBCardBody>
             <MDBCardFooter>
             </MDBCardFooter>

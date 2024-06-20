@@ -14,17 +14,31 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 90vw; /* Viewport width */
+    width: 50%;
     max-width: 800px; /* Maximalbreite */
-    max-height: 95vh;
+    height: 85vh;
+    max-height: 750px;
     overflow-y: auto; /*rausnehmen wenn es auf desktop kacke aussieht  */
     margin-top: 2%; /*rausnehmen wenn es auf desktop kacke aussieht  */
     border: 1px solid rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px); 
+    overflow-y: auto;
 }
 
-  
+.button10 {
+    border-color: red;
+    background-color: red;
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 2.5vh;
+  }
+
+  .button10:hover {
+    border-color: #ff6666;
+    background-color: #ff6666;
+    color: white; /* Ensure text color also stays the same */
+  }
 
   .bold-label {
     font-weight: bold;
@@ -43,13 +57,19 @@
 }
 
 
-
-@media (max-width: 768px) {
-    .container-frame {
-        width: 90%; /* Breiter auf kleineren Bildschirmen */
+@media only screen and (max-width: 980px) {
+    .container-frame20{
+      max-width: 60%;
+      font-size: 8px;
+      overflow-y: auto;
+      max-height: 80vh;
     }
 
-    .animation-Worker_2 {
-        display: none; /* Animationsbereich auf kleinen Geräten ausblenden */
+    .container-frame20 h1{
+        font-size: 5vh;
     }
-}
+    .container-frame20 h2{
+        font-size: 4vh;
+    }
+  }
+  

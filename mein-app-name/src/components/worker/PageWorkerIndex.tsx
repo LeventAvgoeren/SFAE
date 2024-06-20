@@ -62,7 +62,8 @@ export function PageWorkerIndex() {
 
   return (
     <>
-    <div className="Backg">   <NavbarWComponent />
+    <div className="Backg">   
+      <NavbarWComponent />
      
         <Container className="mt-0"> {/* Stelle sicher, dass mt-0 oder eine ähnliche Klasse den oberen Margin auf 0 setzt */} 
           {worker && <h1>Willkommen, {worker.name}!</h1>}

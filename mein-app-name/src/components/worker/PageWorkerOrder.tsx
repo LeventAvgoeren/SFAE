@@ -15,6 +15,7 @@ import { Typewriter } from 'react-simple-typewriter';
 import NavbarWComponent from '../worker/NavbarWComponent';
 import { LoginInfo } from '../LoginManager';
 import { useEffect, useState } from 'react';
+import "./PageWorkerOrder.css";
 export function PageWorkerOrder(){
 
   const { workerId, orderId } = useParams<{ workerId: string, orderId: string }>();
@@ -174,12 +175,12 @@ export function PageWorkerOrder(){
     <>
       <div className="Backg">
         <NavbarWComponent />
+
+
         <div className="containertest">
-          <h1>Order Information</h1>
-          <br />
-          <br />
+          <h2>Order Information</h2>
           <div className="row">
-            <div className="danyal col-lg-3 p-2">
+            <div className="left-column">
               <div className='text-light'>
                 {contractData ? (
                   <>
@@ -198,13 +199,13 @@ export function PageWorkerOrder(){
                 )}
               </div>
             </div>
-            <div style={{ justifyItems: "center", alignContent: "center" }} className='col-lg-5'>
-              <main style={{ gridArea: 'map', display: 'flex', alignItems: 'center', width: '100%', height: '100%', borderRadius: "50%" }} draggable="false">
-                <div id="map" style={{ borderRadius: "28px", width: '100%', height: '650px' }}></div>
+            <div style={{ justifyItems: "center", alignContent: "center" }} className='middle-column'>
+              <main style={{ gridArea: 'map10', display: 'flex', alignItems: 'center', width: '100%', height: '100%', borderRadius: "50%" }} draggable="false">
+                <div id="map" style={{ borderRadius: "28px", width: '100%', height: '100%' }}></div>
               </main>
             </div>
             <div className="col-lg-4">
-              <div className="card danyal p-2">
+              <div className="right-column1">
                 <div className="info-section">
                   <h3>Customer Details</h3>
                   {contractData?.customer && (
@@ -228,7 +229,7 @@ export function PageWorkerOrder(){
                 </div>
               </div>
               <br />
-              <div className="card danyal p-2">
+              <div className="right-column2">
                 <div className="info-section">
                   <h3>Worker Details</h3>
                   {contractData?.worker && (

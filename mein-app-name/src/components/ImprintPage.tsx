@@ -1,13 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
 import NavbarComponent from './navbar/NavbarComponent';
-import { MDBContainer, MDBCard, MDBCardBody, MDBTypography } from 'mdb-react-ui-kit';
+import { MDBContainer, MDBCard, MDBCardBody, MDBTypography, MDBBtn } from 'mdb-react-ui-kit';
 import './PageAGB.css';
 import NavbarWComponent from './worker/NavbarWComponent';
 import { LoginContext, LoginInfo } from './LoginManager';
+import { useNavigate } from 'react-router-dom';
 
 
 
 export function ImprintPage() {
+  const navigate = useNavigate();
+
+  const handleGoBack = () => {
+    navigate(-1); // This will navigate to the previous page in the history stack
+  };
   return (
     <>
 
@@ -64,6 +70,9 @@ export function ImprintPage() {
                     </p>
                   </div>
                 </MDBTypography>
+                <div className="text-center">
+                <MDBBtn onClick={handleGoBack} style={{width:"20%" }}>Zurück</MDBBtn>
+              </div>
               </MDBCardBody>
             </MDBCard>
           </MDBContainer>

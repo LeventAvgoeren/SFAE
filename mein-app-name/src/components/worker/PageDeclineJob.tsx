@@ -125,13 +125,13 @@ export function PageDeclineJob() {
                   rendererSettings: {
                     preserveAspectRatio: 'xMidYMid slice'
                   }
-                }} height={200} width={200} />
+                }} height={"35vh"} width={"35vh"} />
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'center', gap: '10px'}}>
-                <Button variant="danger" onClick={() => handleResponse(false)}
+                <Button className="button10" onClick={() => handleResponse(false)}
                 style={{width:"30%"}}>Ablehnen</Button>
-                <Button variant="success" onClick={() => handleResponse(true)}
+                <Button  className="button" variant="success" onClick={() => handleResponse(true)}
                 style={{width:"30%"}}>Annehmen</Button>
               </div>
             </div>

@@ -1,8 +1,14 @@
 import React from 'react';
-import { MDBContainer, MDBCard, MDBCardBody, MDBTypography } from 'mdb-react-ui-kit';
+import { MDBContainer, MDBCard, MDBCardBody, MDBTypography, MDBBtn } from 'mdb-react-ui-kit';
 import './PageAGB.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function PageAGB() {
+    const navigate = useNavigate();
+
+  const handleGoBack = () => {
+    navigate(-1); // This will navigate to the previous page in the history stack
+  };
     return (
         <>
         <div className='my-section15'>
@@ -32,6 +38,9 @@ export default function PageAGB() {
                         <h4>7. Kontakt</h4>
                         <p>Wenn Sie Fragen zu diesen AGBs haben, kontaktieren Sie uns bitte unter [Kontaktinformationen].</p>
                     </MDBTypography>
+                    <div className="text-center">
+                <MDBBtn onClick={handleGoBack} style={{width:"20%" }}>Zurück</MDBBtn>
+              </div>
                 </MDBCardBody>
             </MDBCard>
         </MDBContainer>

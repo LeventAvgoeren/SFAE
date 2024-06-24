@@ -1,23 +1,11 @@
-.background-image {
-  background-image: url('/public/b1.jpg'); /* Überprüfen Sie den korrekten Pfad */
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  height: 100% ;
-  width: 100%;
-  
-  
-}
-.bg{
-  backdrop-filter: blur(10px);
-}
+
+
 .custom-container {
-
-
- 
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 20px 30px;
   border-radius: 14px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
@@ -26,27 +14,20 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
-
+  width: 90vw; /* Viewport width */
+  max-width: 800px; /* Maximalbreite */
+  height: 85vh;
+  max-height: 1000px;
+  overflow-y: auto; /*rausnehmen wenn es auf desktop kacke aussieht  */
+  margin-top: 1%; /*rausnehmen wenn es auf desktop kacke aussieht  */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+   -webkit-backdrop-filter: blur(10px); 
 }
 
-.inputField1 {
-  margin-bottom: 10px;
-  width: 100%;
-  max-width: 400px;
-}
 
-.button {
-  width: 100%;
-  margin-bottom: 10px;
-}
 
-.sticky-toolbar {
-  position: sticky;
-  bottom: 0;
-  background-color: #001325;
-  width: 100%;
-  text-align: center;
+input[type="file"]::file-selector-button {
   color: white;
-  padding: 10px 0;
 }
+

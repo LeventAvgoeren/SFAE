@@ -1,31 +1,15 @@
 import React, { useEffect, useState, ChangeEvent } from "react";
-import {
-  JobType,
-  Position,
-  WorkerResource,
-  WorkerResourceProfil,
-} from "../../Resources";
-import {
-  deleteWorker,
-  getWorkerbyID,
-  getWorkerImage,
-  deleteCookie,
-  updateWorkerProfile,
-} from "../../backend/api";
+import { JobType, Position, WorkerResource, WorkerResourceProfil } from "../../Resources";
+import { deleteWorker, getWorkerbyID, getWorkerImage, deleteCookie, updateWorkerProfile } from "../../backend/api";
 import { Link, useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { Button } from "react-bootstrap";
-import {
-  MDBContainer,
-  MDBInput,
-  MDBProgress,
-  MDBProgressBar,
-} from "mdb-react-ui-kit";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { MDBContainer, MDBInput, MDBProgress, MDBProgressBar } from "mdb-react-ui-kit";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "./PageWorkerProfile.css";
 import NavbarWComponent from "./NavbarWComponent";
-import axios from "axios";
+import axios from 'axios';
 
 function validatePassword(password: string) {
   const hasUpperCase = /[A-Z]/.test(password);
@@ -56,7 +40,7 @@ export function PageWorkerProfile() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
   const [statusOrder, setStatusOrder] = useState("");
-
+  
   const [jobList, setJobList] = useState<string[]>([]);
   const [range, setRange] = useState<Number>(0);
   const [jobType, setJobType] = useState("");
@@ -65,9 +49,7 @@ export function PageWorkerProfile() {
   const [verification, setVerification] = useState<Boolean>(false);
   const [userLocation, setUserLocation] = useState<Position | null>(null);
   const [profileImage, setProfileImage] = useState<string>("");
-  const [previewImage, setPreviewImage] = useState<string | undefined>(
-    undefined
-  );
+  const [previewImage, setPreviewImage] = useState<string | undefined>(undefined);
   const [addressValid, setAddressValid] = useState(true);
   const [slogan, setSlogan] = useState("");
 
@@ -81,10 +63,8 @@ export function PageWorkerProfile() {
   };
 
   const fetchCoordinates = async (address: string) => {
-    const apiKey = "a295d6f75ae64ed5b8c6b3568b58bbf6";
-    const requestUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
-      address
-    )}&key=${apiKey}`;
+    const apiKey = 'a295d6f75ae64ed5b8c6b3568b58bbf6';
+    const requestUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(address)}&key=${apiKey}`;
 
     try {
       const response = await axios.get(requestUrl);
@@ -97,7 +77,7 @@ export function PageWorkerProfile() {
         return false;
       }
     } catch (error) {
-      console.error("Error during address validation:", error);
+      console.error('Error during address validation:', error);
       return false;
     }
   };
@@ -164,25 +144,23 @@ export function PageWorkerProfile() {
 
   const handleUpdate = async () => {
     const isValidAddress = await handleAddressValidation(location);
-
+  
     if (!isValidAddress || !userLocation) {
-      toast.error("Bitte geben Sie eine gültige Adresse ein.");
+      toast.error('Bitte geben Sie eine gültige Adresse ein.');
       return;
     }
 
     if (!validatePassword(password)) {
-      toast.error(
-        "Das Passwort muss mindestens einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten."
-      );
+      toast.error('Das Passwort muss mindestens einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten.');
       return;
     }
 
     if (password !== confirmPassword) {
-      setPasswordError("Passwörter sind nicht identisch.");
+      setPasswordError('Passwörter sind nicht identisch.');
       return;
     }
 
-    setPasswordError("");
+    setPasswordError('');
 
     const updatedWorkerData: WorkerResourceProfil = {
       id: worId!,
@@ -193,12 +171,11 @@ export function PageWorkerProfile() {
       latitude: userLocation.latitude,
       longitude: userLocation.longitude,
       profileBase64: profileImage, // Ensuring profilBase64 is included
-      slogan: slogan,
+      slogan: slogan
     };
 
     try {
-      updatedWorkerData.profileBase64 =
-        updatedWorkerData.profileBase64.slice(23);
+      updatedWorkerData.profileBase64 = updatedWorkerData.profileBase64.slice(23);
 
       const updatedWorker = await updateWorkerProfile(updatedWorkerData);
       console.log("Updated Worker:", updatedWorker);
@@ -212,12 +189,12 @@ export function PageWorkerProfile() {
   const handleDelete = async () => {
     try {
       await deleteWorker(worId!);
-      await deleteCookie();
-      toast.success("Profil erfolgreich gelöscht.");
+      await deleteCookie()
+      toast.success('Profil erfolgreich gelöscht.');
       window.location.href = "/index";
     } catch (error) {
-      console.error("Fehler beim Löschen des Profils:", error);
-      toast.error("Fehler beim Löschen des Profils");
+      console.error('Fehler beim Löschen des Profils:', error);
+      toast.error('Fehler beim Löschen des Profils');
     }
   };
 
@@ -240,92 +217,30 @@ export function PageWorkerProfile() {
 
   return (
     <>
-      <div className="background-image">
+      <div className="Backg">
         <NavbarWComponent />
-        <div className="bg">
-          <div className="w-100  d-flex flex-column align-items-center justify-content-center ">
-            <div className="text-center mb-2 ">
-              <h4 className="text-light">Profileinstellungen</h4>
+        <div className="custom-container">
+              <h1>Profileinstellungen</h1>
               {previewImage || profileImage ? (
                 <div>
-                  <img
-                    src={previewImage || profileImage}
-                    alt="Profilbild"
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      borderRadius: "50%",
-                    }}
-                  />
+                  <img src={previewImage || profileImage} alt="Profilbild" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
                 </div>
               ) : (
-                <div
-                  className="placeholder bg-secondary d-flex align-items-center justify-content-center"
-                  style={{
-                    width: "150px",
-                    height: "150px",
-                    borderRadius: "50%",
-                    color: "white",
-                  }}
-                >
+                <div className="placeholder bg-secondary d-flex align-items-center justify-content-center" style={{ width: '150px', height: '150px', borderRadius: '50%', color: 'white' }}>
                   <span>Kein Bild</span>
                 </div>
               )}
-            </div>
-            <form
-            className=" d-flex flex-wrap"
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleUpdate();
-              }}
-            >
-              <MDBInput
-                wrapperClass="inputField1"
-                className="col-6"
-                label="Name"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <MDBInput
-                wrapperClass="inputField1"
-                label="Adresse"
-                type="text"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                onBlur={() => handleAddressValidation(location)}
-              />
-              {!addressValid && (
-                <div style={{ color: "red" }}>Ungültige Adresse.</div>
-              )}
-              <MDBInput
-                wrapperClass="inputField1"
-                label="E-Mail"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <MDBInput
-                wrapperClass="inputField1"
-                label="Passwort"
-                type="password"
-                onChange={handlePasswordChange}
-              />
-              <MDBInput
-                wrapperClass="inputField1"
-                label="Passwort erneut eingeben"
-                type="password"
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-              {passwordError && (
-                <div style={{ color: "red" }}>{passwordError}</div>
-              )}
-              <MDBProgress className="mb-4">
-                <MDBProgressBar
-                  width={passwordStrength * 25}
-                  valuemin={0}
-                  valuemax={100}
-                >
+        
+            <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
+              <MDBInput wrapperClass="inputField1" label="Name" type="text" value={name} onChange={(e) => setName(e.target.value)} />
+              <MDBInput wrapperClass="inputField1" label="Adresse" type="text" value={location} onChange={(e) => setLocation(e.target.value)} onBlur={() => handleAddressValidation(location)} />
+              {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
+              <MDBInput wrapperClass="inputField1" label="E-Mail" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <MDBInput wrapperClass="inputField1" label="Passwort" type="password" onChange={handlePasswordChange} />
+              <MDBInput wrapperClass="inputField1" label="Passwort erneut eingeben" type="password"  onChange={(e) => setConfirmPassword(e.target.value)} />
+              {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>}
+              <MDBProgress className='mb-4'>
+                <MDBProgressBar width={passwordStrength * 25} valuemin={0} valuemax={100}>
                   {passwordStrength * 25}%
                 </MDBProgressBar>
               </MDBProgress>
@@ -336,51 +251,30 @@ export function PageWorkerProfile() {
                 value={slogan}
                 onChange={(e) => setSlogan(e.target.value)}
               />
-              <div className="mb-3">
-                <label
-                  htmlFor="profileImage"
-                  className="form-label"
-                  style={{ color: "white" }}
-                >
-                  Profilbild hochladen
-                </label>
-                <input
-                  className="form-control"
-                  type="file"
-                  id="profileImage"
-                  onChange={handleProfileImageChange}
-                />
+              <div className="profile-upload-container">
+                <label htmlFor="profileImage" className="form-label" style={{ color: "white" }}>Profilbild hochladen</label>
+                <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
               </div>
-              <Button className="button" variant="success" type="submit">
-                Profil speichern
-              </Button>
+              <Button className="button" variant="success" type="button">Profil speichern</Button>
               <LinkContainer to={`/worker/${worId}`}>
-                <Button className="button" type="button">
-                  Zurück zur Startseite!
-                </Button>
+                <Button className="button" type="button">Zurück zur Startseite!</Button>
               </LinkContainer>
-              <Button
-                type="button"
-                className="button"
-                variant="danger"
-                onClick={handleDelete}
-              >
+              <Button type="button" className="button" variant="danger" onClick={handleDelete} >
                 Account Löschen
               </Button>
             </form>
-          </div>
         </div>
       </div>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
+      <ToastContainer 
+        position="top-center" 
+        autoClose={5000} 
+        hideProgressBar={false} 
+        newestOnTop={false} 
+        closeOnClick 
+        rtl={false} 
+        pauseOnFocusLoss 
+        draggable 
+        pauseOnHover 
       />
     </>
   );

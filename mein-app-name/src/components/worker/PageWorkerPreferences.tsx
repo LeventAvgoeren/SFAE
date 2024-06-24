@@ -122,53 +122,60 @@ export function PageWorkerPreferences() {
   if (loading) return <p>Lädt...</p>;
   if (error) return <p>Fehler: {error}</p>;
 
-return (
-  <>
- 
-    <div className="background-image">   
-    <NavbarWComponent />
-      <div className="custom-container20 glassmorphism">
-        <MDBContainer>
-          <div className="text-center mb-4">
-            <h1>Präferenzen</h1>
-          </div>
-          <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
-            <MDBInput wrapperClass="inputField1" label="Örtliche Präferenzen" type="text"
-                    className="form-control"
-                    value={range.toString()}
-       onChange={(e) => setRange(Number(e.target.value))} />
-            <MDBInput wrapperClass="inputField1" label="Mindestbertrag" type="text"
-                    className="form-control"
-                    value={minPayment.toString()}
-                    onChange={(e) => setMinPayment(Number(e.target.value))} />
-                  <select
-                    className="form-control"
-                    value={jobType.toString() || ""}
-                    onChange={(e) => setJobType(String(e.target.value))}
-                    
-                  >
-                    {jobType ? null : <option value="">Bitte wählen</option>}
-                    {jobTypes.map((type) => (
-                      <option key={type} value={type}>
-                        {type}
-                      </option>
-                    ))}
-                  </select>            
-                  <Button className="button" variant="success" type="submit">Profil speichern</Button>
-          </form>
-        </MDBContainer>
+  return (
+    <>
+      <div className="background-image">
+        <NavbarWComponent />
+        <div className="custom-containerrr25">
+          <MDBContainer className="content-container">
+            <div className="text-center mb-4">
+              <h1>Präferenzen</h1>
+            </div>
+            <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
+              <MDBInput wrapperClass="inputField1" label="Örtliche Präferenzen" type="text"
+                className="form-control"
+                value={range.toString()}
+                onChange={(e) => setRange(Number(e.target.value))} />
+              <MDBInput wrapperClass="inputField1" label="Mindestbertrag" type="text"
+                className="form-control"
+                value={minPayment.toString()}
+                onChange={(e) => setMinPayment(Number(e.target.value))} />
+              <select
+                className="form-control"
+                value={jobType}
+                onChange={(e) => setJobType(e.target.value)}
+              >
+                <option value="">Bitte wählen</option>
+                {jobTypes.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+              <Button className="button" type="button" onClick={handleJobTypeAdd}>Job hinzufügen</Button>
+              <ul className="job-list">
+                {jobList.map((job, index) => (
+                  <li key={index} className="job-item">
+                    {job}
+                    <span className="remove-job" onClick={() => handleJobTypeRemove(job)}>X</span>
+                  </li>
+                ))}
+              </ul>
+              <Button className="button" variant="success" type="submit">Profil speichern</Button>
+            </form>
+          </MDBContainer>
+        </div>
       </div>
-    </div>
-    <ToastContainer 
-        position="top-center" 
-        autoClose={5000} 
-        hideProgressBar={false} 
-        newestOnTop={false} 
-        closeOnClick 
-        rtl={false} 
-        pauseOnFocusLoss 
-        draggable 
-        pauseOnHover 
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
       />
     </>
   );

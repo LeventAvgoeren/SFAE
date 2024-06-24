@@ -63,11 +63,11 @@ export function PageLogin() {
     <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundSize: 'cover', height: '100vh' }}>
         <MDBCard className='login-registration-container m-5'>
             <div className="text-center mb-4">
-                <img src={'/SFAE_Logo.png'} alt="SFAE Logo" className="img-fluid mb-2" style={{maxHeight:"150px", maxWidth:"150px"}}/>
+                <img src={'/SFAE_Logo.png'} alt="SFAE Logo" className="img-fluid mb-2" style={{maxHeight:"125px", maxWidth:"125px"}}/>
                 <h1 className='AnmeldenLogin'>Anmelden</h1>
             </div>
             <form onSubmit={handleLogin} style={{ width: '100%' }}>
-                <MDBInput wrapperClass='mb-3 inputField' labelClass='text-white' label='E-Mail Adresse' id='emailInput' type='email' value={email} onChange={e => setEmail(e.target.value)} />
+                <MDBInput className="inputField-fluid" wrapperClass='mb-3 inputField' labelClass='text-white' label='E-Mail Adresse' id='emailInput' type='email' value={email} onChange={e => setEmail(e.target.value)} />
                 <MDBInput wrapperClass='mb-4 inputField' labelClass='text-white' label='Passwort' id='passwordInput' type='password' value={password} onChange={e => setPassword(e.target.value)} />
                 <div className="d-flex justify-content-around w-100 mb-3">
                     <div className="form-check">

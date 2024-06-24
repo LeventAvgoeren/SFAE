@@ -81,12 +81,12 @@ export function PageDeclineJob() {
 
   return (
     <>
-      <div className="background123">
+      
         {refresh ? (
 
           <div className="Backg">
             <NavbarWComponent />
-            <div className="container-frame glassmorphism">
+            <div className="container-frame20">
 
               <h1>Hey {worker?.name}, du hast ein Jobangebot erhalten.</h1>
               <h2>Möchtest du diesen Job annehmen?</h2>
@@ -125,19 +125,19 @@ export function PageDeclineJob() {
                   rendererSettings: {
                     preserveAspectRatio: 'xMidYMid slice'
                   }
-                }} height={350} width={350} />
+                }} height={"35vh"} width={"35vh"} />
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '20px' }}>
-                <Button variant="danger" onClick={() => handleResponse(false)}
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '10px'}}>
+                <Button className="button10" onClick={() => handleResponse(false)}
                 style={{width:"30%"}}>Ablehnen</Button>
-                <Button variant="success" onClick={() => handleResponse(true)}
+                <Button  className="button" variant="success" onClick={() => handleResponse(true)}
                 style={{width:"30%"}}>Annehmen</Button>
               </div>
             </div>
           </div>
         ) : null}
-      </div>
+   
     </>
   );
 }

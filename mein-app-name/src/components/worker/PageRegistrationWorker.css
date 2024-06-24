@@ -1,3 +1,5 @@
+
+
 /* new code !!!!!!!!!! */
 
 @keyframes animated-background {
@@ -16,10 +18,11 @@
     background: linear-gradient(-45deg, #1e3c72, #23d5ab, #006064, #1e3c72);
     background-size: 400% 400%;
     animation: animated-background 15s ease infinite;
-   
+    position: sticky;
     width: 100%;
-    
- 
+    height: 100%;
+    top: 0;
+    left: 0;
 }
 
 .background-image {
@@ -35,6 +38,10 @@
     max-width: 600px;
     color: white; /* Textfarbe auf Weiß setzen */
     margin: auto; /* Zentriert das Element innerhalb des Containers */
+    max-height: 95vh;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); 
 }
 
 /* Textfarbe für Inputfelder und Textarea erzwingen */
@@ -108,4 +115,9 @@
     font-size: 18px;
     color: white;
     margin-top: 15px; /* Abstand nach oben vergrößern */
+  }
+
+  @media only screen and (max-width: 1400px) {
+
+    
   }

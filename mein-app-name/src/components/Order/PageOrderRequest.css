@@ -8,71 +8,64 @@
   height: 100vh;          
 }
 
-.container-frame3 {
+.container-frame30 {
+  display: grid;
   background: rgba(0, 0, 0, 0.7);
-  padding: 14px;
+  padding: 10px;
   border-radius: 12px;
   width: 50%;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   color: white;
   margin:auto;
-  box-sizing: border-box ;
-  display: flex ;
-  flex-direction: column ;
-  align-items: center ;
+  box-sizing: border-box;
   border: 1px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px); 
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); 
+  height: 85vh;
+  max-height: 650px;
+  max-width: 600px;
+  overflow-y: scroll;
 }
 
 .Backg{
   background-image: url('/public/b1.jpg');
     background-size: cover;
     background-position: center;
-    height: 100%; /* Vollbildhöhe */
+    height: 100vh; /* Vollbildhöhe */
 }
 
 
 .myButton {
-  width: 100%;
   background-color: #007bff;
   color: white;
-  padding: 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
+
+
 
 .myButton:hover {
   background-color: #0056b3;
   color: black;
 }
 
-@media (max-width: 768px) {
-  .navbar-nav {
-    flex-direction: column;
-    position: sticky;
-  }
-
-  .nav-dropdown, #collapsible-nav-dropdown {
-    position: sticky;
-  }
-}
-
 .form-content .form-label {
   color: white;
 }
 
-.nav-dropdown, #collapsible-nav-dropdown {
-  position: sticky;
-}
-.background-image-berlin {
-  font-family: 'Nunito', sans-serif;
-  background-image: url('/public/b1.jpg'); /* Stellen Sie sicher, dass der Pfad korrekt ist */
-  background-size: cover;
-  background-position: center;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+
+
+@media only screen and (max-width: 1000px) {
+
+  .myButton{
+    font-size: 5vh;
+  }
+
+  .form-content .form-label {
+    color: white;
+  }
 }

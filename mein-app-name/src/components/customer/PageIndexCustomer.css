@@ -1,13 +1,4 @@
 
-.call-to-action {
-  position: absolute;
-  top: 50%; /* Zentriert den Block vertikal */
-  left: 50%;
-  transform: translate(-50%, -50%); /* Feinabstimmung für exakte Zentrierung */
-  color: white; /* Stellt die Textfarbe ein */
-}
-
-
 @keyframes pulse {
   0% {
     transform: scale(1);
@@ -32,15 +23,21 @@
   background: rgba(0, 0, 0, 0.7); /* Dunkler, semi-transparenter Hintergrund */
   padding: 30px;
   border-radius: 15px;
-  width: fit-content;
   max-width: 90%;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
   text-align: center;
   margin-top: 3%;
-  max-height: 95vh;
+  height: 75vh;
+  max-height: 600px;
   border: 1px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px); 
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); 
+  overflow-y: auto;
+  position: absolute;
+  top: 50%; /* Zentriert den Block vertikal */
+  left: 50%;
+  transform: translate(-50%, -50%); /* Feinabstimmung für exakte Zentrierung */
+  color: white; /* Stellt die Textfarbe ein */
 }
 
 .features div {
@@ -66,16 +63,6 @@ h1 {
 
 p, button {
   font-weight: 400; /* Normal für Text und Buttons */
-}
-
-.call-to-action {
-  background: rgba(0, 0, 0, 0.6); /* Dunkler, aber weniger intensiver Hintergrund */
-  padding: 30px 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  width: auto;
-  max-width: 600px; /* Beschränkung der maximalen Breite für bessere Lesbarkeit */
-  text-align: left;
 }
 
 .features img {
@@ -135,6 +122,7 @@ p, button {
   padding: 12px 24px;
   border-radius: 8px;
   transition: background-color 0.3s, box-shadow 0.3s;
+  width: 100%;
 }
 
 .call-to-action button:hover {
@@ -150,6 +138,7 @@ p, button {
   border-radius: 8px;
   transition: background-color 0.3s, box-shadow 0.3s; /* Weiche Übergänge */
   cursor: pointer;
+  width: 100%;
 }
 
 .fade-enter {
@@ -191,4 +180,25 @@ p, button {
   text-align: center;
   color: white;  
   width: 80%;
+}
+
+@media only screen and (max-width: 1400px) {
+  .call-to-action{
+    width: 100%;
+  }
+
+  .call-to-action h1{
+    font-size: 30px;
+  }
+
+  .call-to-action p{
+    font-size: 15px;
+  }
+
+  .features img {
+    width: 35px;  /* Feste Breite */
+    height: 35px; /* Feste Höhe, stellt sicher, dass die Icons nicht verzerrt werden */
+    object-fit: contain; /* Stellt sicher, dass der Inhalt des Bildes vollständig im Rahmen sichtbar ist */
+    margin-right: 10px; /* Abstand rechts vom Icon */
+  }
 }

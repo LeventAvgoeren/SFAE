@@ -1,20 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import LoadingIndicator from "../LoadingIndicator";
-import {
-  Container,
-  Navbar,
-  Nav,
-  NavDropdown,
-  Row,
-  Col,
-  Card,
-} from "react-bootstrap";
-import "./DesignVorlage.css";
-import { WorkerResource } from "../../Resources";
-import { getWorkerByName, getWorkerbyID } from "../../backend/api";
-import "./PageWorkerIndex.css";
-import NavbarWComponent from "./NavbarWComponent";
+import React, { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import LoadingIndicator from '../LoadingIndicator';
+import { Container, Navbar, Nav, NavDropdown, Row, Col, Card } from 'react-bootstrap';
+import './DesignVorlage.css';
+import { WorkerResource } from '../../Resources';
+import { getWorkerByName, getWorkerbyID } from '../../backend/api';
+import './PageWorkerIndex.css'
+import NavbarWComponent from './NavbarWComponent';
 
 export function PageWorkerIndex() {
   const { workerId } = useParams<{ workerId?: string }>();
@@ -23,30 +15,31 @@ export function PageWorkerIndex() {
   const [error, setError] = useState<string | null>(null);
   const [zoom, setZoom] = useState<string | null>(null);
 
-  useEffect(() => {
-    console.log("useEffect ausgeführt", workerId); // Überprüfen, ob useEffect mit der korrekten workerId aufgerufen wird
 
+  useEffect(() => {
+    console.log('useEffect ausgeführt', workerId); // Überprüfen, ob useEffect mit der korrekten workerId aufgerufen wird
+  
     if (!workerId) {
-      setError("Keine Worker ID in der URL gefunden");
+      setError('Keine Worker ID in der URL gefunden');
       setLoading(false);
       return;
     }
     const fetchWorker = async () => {
-      console.log("fetchWorker wird gestartet", workerId); // Überprüfen, ob diese Zeile erreicht wird
+      console.log('fetchWorker wird gestartet', workerId); // Überprüfen, ob diese Zeile erreicht wird
       try {
-        const id = workerId;
-        console.log("parsed ID:", id); // Überprüfen, ob die ID korrekt geparsed wird
+        const id = workerId
+        console.log('parsed ID:', id); // Überprüfen, ob die ID korrekt geparsed wird
         const workerData = await getWorkerbyID(id);
-        console.log("Daten empfangen:", workerData); // Was wird hier ausgegeben?
+        console.log('Daten empfangen:', workerData); // Was wird hier ausgegeben?
         setWorker(workerData);
         setLoading(false);
       } catch (error) {
-        console.error("Fehler beim Laden der Worker-Daten:", error);
-        setError("Fehler beim Laden der Daten");
+        console.error('Fehler beim Laden der Worker-Daten:', error);
+        setError('Fehler beim Laden der Daten');
         setLoading(false);
       }
     };
-
+  
     fetchWorker();
   }, [workerId]);
 
@@ -65,56 +58,38 @@ export function PageWorkerIndex() {
       setZoom(image); // Andernfalls das Bild vergrößern
     }
   };
+  
 
   return (
-
-      <div className="Backg">
-        {" "}
-        <NavbarWComponent />
-        <Container className="mt-4 ">
-          {" "}
-          {/* Stelle sicher, dass mt-0 oder eine ähnliche Klasse den oberen Margin auf 0 setzt */}
+    <>
+    <div className="Backg">   
+      <NavbarWComponent />
+     
+        <Container className="mt-0"> {/* Stelle sicher, dass mt-0 oder eine ähnliche Klasse den oberen Margin auf 0 setzt */} 
           {worker && <h1>Willkommen, {worker.name}!</h1>}
           <Row>
             {[
-              {
-                path: `/worker/${workerId}/orders/overview`,
-                label: "Aufträge",
-                img: "/auftraege.jpg",
-              },
-              {
-                path: `/worker/${workerId}/preferences`,
-                label: "Präferenz",
-                img: "/praferenz.jpg",
-              },
-              {
-                path: `/worker/${workerId}/profile`,
-                label: "Profil",
-                img: "/profile.jpg",
-              },
+              {path: `/worker/${workerId}/orders/overview`, label: 'Aufträge', img: '/auftraege.jpg'},
+              {path: `/worker/${workerId}/preferences`, label: 'Präferenz', img: '/praferenz.jpg'},
+              {path: `/worker/${workerId}/profile`, label: 'Profil', img: '/profile.jpg'}
             ].map(({ path, label, img }, index) => (
-              <Col key={index} md={4} >
-                <Card className="mb-0">
+              <Col key={index} md={4} className="mb-4">
+                <Card>
                   <Link to={path}>
                     <Card.Img
                       variant="top"
                       src={zoom === img ? `${img}-zoom.jpg` : img}
                       onClick={() => toggleZoom(img)}
-                      style={
-                        label === "Präferenz"
-                          ? { width: "100%", height: "auto" }
-                          : { width: "100%", height: "auto" }
-                      }
+                      style={label === 'Präferenz' ? { width: '100%', height: 'auto' } : { width: '100%', height: 'auto' }}
                     />
+
                   </Link>
                   <Card.Body>
                     <Card.Title>{label}</Card.Title>
                     <Card.Text>
-                      {label === "Aufträge"
-                        ? "Verwalten Sie Ihre Aufträge effizient und behalten Sie den Überblick über laufende Prozesse."
-                        : label === "Präferenz"
-                        ? "Passen Sie Ihre Einstellungen an, um eine personalisierte Erfahrung zu erhalten."
-                        : "Verwalten Sie Ihr Profil und aktualisieren Sie Ihre persönlichen Informationen."}
+                      {label === 'Aufträge' ? 'Verwalten Sie Ihre Aufträge effizient und behalten Sie den Überblick über laufende Prozesse.' : 
+                      label === 'Präferenz' ? 'Passen Sie Ihre Einstellungen an, um eine personalisierte Erfahrung zu erhalten.' : 
+                      'Verwalten Sie Ihr Profil und aktualisieren Sie Ihre persönlichen Informationen.'}
                     </Card.Text>
                   </Card.Body>
                 </Card>
@@ -123,8 +98,9 @@ export function PageWorkerIndex() {
           </Row>
         </Container>
       </div>
-   
+    </>
   );
+  
 }
 
-export {};
+export{};

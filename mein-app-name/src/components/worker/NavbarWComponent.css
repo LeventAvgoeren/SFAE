@@ -1,18 +1,16 @@
-.page-background { 
+.page-background {
   background: transparent;
   display: flex;
-  justify-content: flex-start; 
+  justify-content: flex-start; /* Links ausrichten */
   align-items: center;
   height: 10vh;
   width: 100%;
   padding: 0 20px;
 }
-.navbar{
-  backdrop-filter: blur(10px);
-}
+
 .navbar-links {
   display: flex;
-  justify-content: center; 
+  justify-content: flex-start; /* Links ausrichten */
   align-items: center;
   flex-grow: 1;
 }
@@ -22,7 +20,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  justify-content: center;
+  justify-content: flex-start; /* Links ausrichten */
 }
 
 .page-background ul li {
@@ -43,7 +41,7 @@
 }
 
 body, button, input, textarea, h1, p {
-  font-family: 'Roboto', sans-serif; 
+  font-family: 'Roboto', sans-serif;
 }
 
 .icons-container {
@@ -56,12 +54,12 @@ body, button, input, textarea, h1, p {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 50px; /* Abstand zwischen den Icons */
+  margin-left: 10px;
 }
 
 .icon-img {
-  width: 50px;  /* Gleiche Breite für beide Icons */
-  height: 50px; /* Gleiche Höhe für beide Icons */
+  width: 40px;
+  height: 40px;
   cursor: pointer;
   transition: transform 0.3s;
 }
@@ -75,9 +73,9 @@ body, button, input, textarea, h1, p {
 }
 
 .icon-label {
-  font-size: 12px;  /* Kleine Schriftgröße für die Labels */
+  font-size: 12px;
   color: white;
-  margin-top: 5px;  /* Abstand zwischen dem Icon und dem Label */
+  margin-top: 5px;
 }
 
 @keyframes wobble {
@@ -98,54 +96,18 @@ body, button, input, textarea, h1, p {
 .chat-container {
   position: fixed;
   top: 0;
-  right: -120% !important;
+  right: -100%;
   width: 400px;
   height: 100%;
   background-color: white;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
   transition: right 0.5s ease;
-  z-index: 1000; 
+  z-index: 1000;
   border-left: white solid;
 }
 
 .chat-container.show {
   right: 0;
-}
-
-.notification-badge {
-  position: absolute;
-  top: 20px;
-  right: 6.3%;
-  width: 20px;
-  height: 20px;
-  background-color: red;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 12px;
-}
-
-.logo{
-  width: 75px;
-  height:75px
-}
-.icon-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-left: 10px;
-}
-
-.icon-img {
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-}
-
-.icon-label {
-  font-size: 12px;
 }
 
 .notification-badge {
@@ -166,4 +128,9 @@ body, button, input, textarea, h1, p {
   50% {
     opacity: 0;
   }
+}
+
+.logo {
+  width: 75px;
+  height: 75px;
 }

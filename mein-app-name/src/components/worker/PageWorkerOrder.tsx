@@ -179,7 +179,7 @@ export function PageWorkerOrder(){
           <br />
           <br />
           <div className="row">
-            <div className="danyal col-lg-3 p-2">
+            <div className="left-column">
               <div className='text-light'>
                 {contractData ? (
                   <>

@@ -95,17 +95,7 @@
   padding: 20px;
 }
 
-.card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  word-wrap: break-word;
-  background: rgba(0, 0, 0, 0.7);
-  background-clip: border-box;
-  background: rgba(0, 0, 0, 0.7);
-  border-radius: 1rem;
-}
+
 .text-reset {
   --bs-text-opacity: 1;
   color: inherit!important;
@@ -117,9 +107,16 @@ a {
 
 
 .containertest {
+ 
+ 
+ 
   max-width: 100%; /* Begrenzt die Breite des Containers */
   margin: 0 auto; /* Zentriert den Container horizontal */
   padding: 20px; /* Gibt dem Inneren des Containers etwas Raum */
+}
+
+.containertest h1{
+  align-items: center;
 }
 
 .item-details, .info-section, .details-panel {
@@ -152,14 +149,61 @@ a {
 .leaflet-routing-container .leaflet-routing-alt {
  display: none; /* Schriftgröße anpassen */
 }
-.danyal{
-  background: rgba(255, 255, 255, 0.2);
+
+.left-column{
+  background:rgba(0, 0, 0, 0.7); /*rgba(255, 255, 255, 0.2)*/
   border-radius: 25px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+  padding: 20px; /* Padding für Innenabstand */
+  margin: 0 auto; /* Zentrieren des Containers */
+  flex-basis: 25%; /* adjust the width of each column */
+  max-height: 70vh;
+}
+
+.right-column1{
+  background:rgba(0, 0, 0, 0.7); /*rgba(255, 255, 255, 0.2)*/
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+  padding: 5px; /* Padding für Innenabstand */
+  flex-basis: 30%; /* adjust the width of each column */
+  max-height: 37.5vh;
+  color: white;
+  font-size: 14px;
+  max-width: 90%;
+}
+
+.right-column2{
+  background:rgba(0, 0, 0, 0.7); /*rgba(255, 255, 255, 0.2)*/
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+  padding: 5px; /* Padding für Innenabstand */
+  flex-basis: 30%; /* adjust the width of each column */
+  max-height: 37.5vh;
+  color: white;
+  font-size: 14px;
+  max-width: 90%;
+}
+
+.middle-column{ 
+  flex-basis: 35%; /* adjust the width of each column */
+  height: 70vh;
+
+}
+
+.map10{/* bild*/
+  height: 70vh
 }
 
 /* Hauptcontainer für das Badge und die Informationen */
@@ -199,6 +243,94 @@ a {
 .img-fluid {
   border-radius: 10%; /* Runde Ecken */
   width: 40%; /* Bild nimmt die ganze Zellenbreite ein */
-
 }
 
+.info-item{
+  font-size: 18px;
+}
+
+.info-item{
+  font-size: 18px;
+}
+
+
+@media only screen and (max-width: 1200px) {
+  .containertest h2{
+    font-size: 20px;
+  }
+
+  .info-item{
+    font-size: 10px;
+  }
+
+  .row{
+    font-size: 10px;
+  }
+
+  .info-section{
+    font-size: 10px;
+  }
+
+  .info-section h5{
+    font-size: 15px;
+  }
+}
+
+
+@media only screen and (max-width: 990px) {
+  .containertest{
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .containertest h2{
+    font-size: 20px;
+  }
+
+  .info-item{
+    font-size: 8px;
+  }
+
+  .row{
+    font-size: 8px;
+  }
+
+  .info-section{
+    font-size: 8px;
+  }
+
+  .info-section h5{
+    font-size: 15px;
+  }
+
+  .left-column{
+    margin-left: 2%;
+  }
+
+  .middle-column{
+  
+    margin-right: 35%;
+  }
+
+  .right-column1{
+    
+    display: flex;
+  
+    width: 30%;
+    height: 50vh;
+    grid-column: 3;
+    margin-left: 70%;
+    margin-top: -35%;
+  }
+
+  .right-column2{
+    
+    display: flex;
+  
+    width: 30%;
+    height: 50vh;
+    grid-column: 3;
+    margin-left: 70%;
+
+  }
+}

@@ -1,9 +1,8 @@
-.background-image {
+.background-images {
   background-image: url('/public/b1.jpg'); /* Überprüfen Sie den korrekten Pfad */
   background-size: cover;
   background-position: center;
   height: 100vh;
-  overflow: hidden; /* Verhindert Scrollen des Hintergrunds */
 }
 
 .custom-containerrr25 {
@@ -11,14 +10,12 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.5); /* Schwarz und durchsichtig */
+  background: rgba(0, 0, 0, 0.7); /* Dunkelgrau, semi-transparent */
   padding: 40px 50px;
   border-radius: 14px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-width: calc(100% - 4cm); /* 4cm Abstand auf jeder Seite */
-  max-height: calc(100% - 4cm); /* 4cm Abstand auf jeder Seite */
-  width: calc(100% - 5cm);
-  height: calc(100% - 5cm);
+  width: 500px;
+  height: 500px;
   text-align: center;
   color: white; /* Setzt die Textfarbe allgemein auf Weiß */
   overflow-y: auto; /* Ermöglicht das Scrollen des Containers */
@@ -48,6 +45,7 @@
 }
 
 .inputField1 label {
+  margin: -7.5px !important;
   color: white !important; /* Setzt die Textfarbe der Labels auf Weiß */
 }
 

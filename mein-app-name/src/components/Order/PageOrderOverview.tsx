@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './PageOrderOverview.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus, deleteChat, deleteContractById, updateWorkerOrderStatus, getCustomerImage, getWorkerImage } from '../../backend/api'; // Importiere die Funktion
+import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus, deleteChat, deleteContractById, updateWorkerOrderStatus, getCustomerImage, getWorkerImage, checkLoginStatus } from '../../backend/api'; // Importiere die Funktion
 import { ContractResource } from '../../Resources';
 import NavbarComponent from '../navbar/NavbarComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,6 +13,8 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine';
 import { Routing } from 'leaflet-routing-machine';
 import { Typewriter } from 'react-simple-typewriter';
+import NavbarWComponent from '../worker/NavbarWComponent';
+import { LoginInfo } from '../LoginManager';
 
 export function PageOrderOverview() {
   const { customerId } = useParams<{ customerId: string }>();
@@ -36,6 +38,8 @@ export function PageOrderOverview() {
   const [isPaid, setIsPaid] = useState<boolean>(false);
   const [mapLoading, setMapLoading] = useState(false)
   const handlePayment = () => setIsPaid(true);
+  const [loginInfo, setLoginInfo] = useState<LoginInfo | false>();
+
 
   const messages = [
     "Passender Worker wird gesucht...",
@@ -43,6 +47,7 @@ export function PageOrderOverview() {
     "Der Vorgang wird gleich abgeschlossen, danke für Ihre Geduld...",
     "Der Mensch muss essen und trinken... Wie das Pferd"
   ];
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -239,9 +244,10 @@ export function PageOrderOverview() {
   return (
     <>
       <div className="Backg">
-        <NavbarComponent />
+        
+      <NavbarComponent />
+     
         {loading || !workerAssigned ? (
-             
             <div style={{ paddingBottom:"20%", height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: 'center'  }}>
               <Lottie options={defaultOptions} height={400} width={400} />
               <div style={{background:"black", color:"white", width:"30%", alignSelf:"center"}}> 
@@ -249,15 +255,14 @@ export function PageOrderOverview() {
               </div>
             </div>
         ) : (
-          <div className="containertest">
-            <h1>Order Information</h1>
-            <br />
-            <br />
+          <div className='containertest'>
+            <h2>Order Information</h2>
+
 
             <div className="row">
-              <div className="danyal col-lg-3 p-2">
+              <div className="left-column">
                 <div className='text-light'>
-                  <div className='h4 mb-3'><strong>Dienstleistung:</strong> {conData.jobType}</div>
+                  <div className='info-item h4 mb-3'><strong>Dienstleistung:</strong> {conData.jobType}</div>
                   <div className='info-item h4 mb-3'><strong>Beschreibung:</strong>  {conData.description}</div>
                   <div className="info-item h4 mb-3"><strong>Distanz: </strong> {routeDistance}</div>
                   <div className="info-item h4 mb-3"><strong>Dauer: </strong> {routeTime}</div>
@@ -270,9 +275,9 @@ export function PageOrderOverview() {
                   Auftrag beendet
                 </button>}
               </div>
-              <div style={{ justifyItems: "center", alignContent: "center" }} className='col-lg-5'>
-                <main style={{ gridArea: 'map', display: 'flex', alignItems: 'center', width: '100%', height: '100%', borderRadius: "50%" }} draggable="false">
-                  <div id="map" style={{ borderRadius: "28px", width: '100%', height: '650px' }}></div>
+              <div style={{ justifyItems: "center", alignContent: "center" }} className='middle-column'>
+                <main className="map10" style={{ gridArea: 'map', display: 'flex', alignItems: 'center', width: '100%', height: '100%', borderRadius: "50%" }} draggable="false">
+                  <div className="map10"id="map" style={{ borderRadius: "28px", width: '100%'}}></div>
 
                 </main>
 
@@ -284,14 +289,13 @@ export function PageOrderOverview() {
 
 
               <div className="col-lg-4">
-                <div className="card danyal  p-2">
+                <div className="right-column1">
                   <div className="info-section">
-                    <h3>Customer Details</h3>
+                    <h5>Customer Details</h5>
                     {conData.customer && (
                       <>  <div className="Foto">
                         <img
                           src={foto}
-                          width="250"
                           className="img-fluid"
                           alt=""
                           style={{ borderRadius: "20%" }}
@@ -308,16 +312,15 @@ export function PageOrderOverview() {
 
                 </div>
                 <br />
-                <div className="card danyal p-2">
+                <div className="right-column2">
                   <div className="info-section">
 
 
-                    <h3>Worker Details</h3>
+                    <h5>Worker Details</h5>
                     {conData.worker && (
                       <>  <div className="Foto">
                         <img
                           src={workerFoto}
-                          width="250"
                           className="img-fluid"
                           alt=""
                           style={{ borderRadius: "20%" }}
@@ -343,6 +346,7 @@ export function PageOrderOverview() {
 
               </div>
             </div>
+         
           </div>
         )}
         <div className={`modal fade ${modalShow ? 'show' : ''}`} style={{ display: modalShow ? 'block' : 'none' }}>

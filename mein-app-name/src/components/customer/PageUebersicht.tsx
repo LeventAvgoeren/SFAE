@@ -93,7 +93,7 @@ export function PageUebersicht() {
     <>
     <div className="Backg">
       <NavbarComponent />
-        <div style={{ height: 'calc(100vh - 100px)', width: '100%' }}>
+        <div style={{ height: 'calc(100vh - 100px)', width: '100%', marginTop:"1%"}}>
           <DataGrid
             rows={contracts}
             columns={columns}

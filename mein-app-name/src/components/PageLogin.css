@@ -28,13 +28,19 @@
 }
 
 
-.login-container {
+.login-registration-container {
   background: rgba(0, 0, 0, 0.7); /* Dunkelgrau, semi-transparent */
   border-radius: 14px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   max-width: 600px;
   color: white; /* Textfarbe auf Weiß setzen */
   margin: auto; /* Zentriert das Element innerhalb des Containers */
+  padding: 20px;
+  box-sizing: border-box;
+  max-height: 95vh; /* Max height set to 90% of viewport height */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); 
 }
 
 .inputField input, .inputField input::placeholder {
@@ -53,4 +59,30 @@
 
 .alert {
   color: red; 
+}
+
+@media only screen and (max-width: 768px) {
+  .login-registration-container h1{
+    max-width: 90%;
+    padding: 10px;
+  }
+
+  .inputField input {
+    padding: 8px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .login-registration-container h1{
+    max-width: 100%;
+    padding: 10px;  
+  }
+
+  .inputField input {
+    padding: 6px;
+  }
+  .img-fluid-mb-2{
+    height: 50px;
+    width: 50px;
+  }
 }

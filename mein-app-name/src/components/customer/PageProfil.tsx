@@ -196,9 +196,9 @@ export function PageProfil() {
                                         </div>
                                     ) : (
                                         (previewImage || profileImage) ? (
-                                            <img src={previewImage || profileImage} alt="Profilbild" style={{ width: '150px', height: '150px', borderRadius: '50%' }} />
+                                            <img src={previewImage || profileImage} alt="Profilbild" className="profileImageCustomer"/>
                                         ) : (
-                                            <div className="placeholder bg-secondary d-flex align-items-center justify-content-center" style={{ width: '150px', height: '150px', borderRadius: '50%', color: 'white' }}>
+                                            <div className="" style={{ width: '150px', height: '150px', borderRadius: '50%', color: 'white' }}>
                                                 <span>Kein Bild</span>
                                             </div>
                                         )
@@ -209,7 +209,7 @@ export function PageProfil() {
                                 </div>
                                 <div className="profile-upload-container">
                                     <label htmlFor="profileImage" className="form-label">Profilbild hochladen</label>
-                                    <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
+                                    <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} style={{color:'white'}}/>
                                 </div>
                             </div>
 

@@ -45,6 +45,7 @@ import { PageVerifyWorkerEmail } from "./components/customer/PageVerfyWorkerEmai
 
 
 
+
 function App() {
   const [loginInfo, setLoginInfo] = useState<LoginInfo | false>();
   const [isLoading, setLoading] = useState(true);
@@ -116,7 +117,6 @@ function App() {
           {/* Worker */}
           <Route path="/worker/:workerId" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerIndex /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/orders/overview" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerOrderOverview /> : < Navigate to="/NotAuth" replace />} />
-          <Route path="/worker/:workerId/finances" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerFinances /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/profile" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerProfile /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/preferences" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerPreferences /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/faq" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerFAQ /> : < Navigate to="/NotAuth" replace />} />
@@ -135,9 +135,17 @@ function App() {
          </Routes>
 
       </LoginContext.Provider>
+      <footer style={{ bottom:0, backgroundColor: "#001325", position: "fixed",textAlign: 'center',  width:"100%",height:"3.3vh"}}>
+            <Typography variant="body1" style={{ color: 'white', flex: 1,fontSize:"15px" }}>
+              © 2024 SFAE von Ahmad Sfarjalani, Eray Zor, Levent Avgören, Duc Dai Nguyen, Danyal Mahrous. Alle Rechte vorbehalten.
+              <a href="/imprint" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Impressum</a>
+              <span style={{ margin: "10px" }}>|</span>
+                <a href="/agb" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Allgemeine Geschäftsbedingungen</a>
+              </Typography>
+          </footer>
       
     </>
   );
 }
 
-export default App;
+export default App; 

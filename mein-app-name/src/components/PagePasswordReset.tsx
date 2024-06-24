@@ -115,13 +115,13 @@ export function PagePasswordReset() {
                                 </MDBProgressBar>
                             </MDBProgress>
                             <MDBRow>
-                                <MDBCol size="auto">
-                                    <MDBBtn className='mb-4 w-100 gradient-custom-4 button-text-large'>
+                                <MDBCol>
+                                    <MDBBtn className='mb-4 w-100 gradient-custom-4 button-text-large' style={{backgroundColor: "gray", color: 'white', border: 'none', boxShadow: 'none' }}>
                                         <Link to="/login" className="link button-text-large">Zurück zum Login</Link>
                                     </MDBBtn>
                                 </MDBCol>
                                 <MDBCol>
-                                    <MDBBtn className='mb-4 w-100 gradient-custom-4 button-text-large' size='lg' type="submit">Passwort zurücksetzen</MDBBtn>
+                                    <MDBBtn className='mb-4 w-100 gradient-custom-4 button-text-large' type="submit">Passwort zurücksetzen</MDBBtn>
                                 </MDBCol>
                             </MDBRow>
                         </form>

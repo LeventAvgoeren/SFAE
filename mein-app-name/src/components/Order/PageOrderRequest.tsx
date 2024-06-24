@@ -197,7 +197,7 @@ export default function PageOrderRequest() {
             pauseOnHover 
         />
     <NavbarComponent />
-      <div className="container-frame3 glassmorphism">  
+      <div className="container-frame3">  
         <Form onSubmit={handleSubmit} className="form-content">
           <Button onClick={handleClickMap1} variant="info">
             {showMap ? "Karte verbergen" : "Karte anzeigen"}
@@ -223,7 +223,7 @@ export default function PageOrderRequest() {
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Dienstleistung</Form.Label>
-            <Form.Select value={service} onChange={handleSelectChange} required>
+            <Form.Select value={service} onChange={handleSelectChange} required >
               <option value="">ServiceTyp wählen...</option>
               {jobTypes.map((type) => (
                 <option key={type} value={type}>
@@ -268,8 +268,8 @@ export default function PageOrderRequest() {
               {isCreatingContract ? 'Erstellt...' : 'Vertrag erstellen und suchen'}
             </Button>
           </>}
-       
         </Form>
+
       </div>
       </div>
     </>

@@ -26,14 +26,14 @@
   height: 85vh;
   max-height: 700px;
   max-width: 700px;
-  overflow-x: hidden;
   overflow-y: auto;
 }
 
 .map-container{
-  width:65vh;
+  position: relative;
+  width: 300%;
+  margin-right: 20px !important;
   overflow: hidden;
-  max-width: 450px;
 }
 
 .Backg{

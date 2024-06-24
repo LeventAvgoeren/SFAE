@@ -9,7 +9,7 @@
 }
 
 .container-frame30 {
-  display: grid;
+  display: flex;
   background: rgba(0, 0, 0, 0.7);
   padding: 10px;
   border-radius: 12px;
@@ -26,14 +26,7 @@
   height: 85vh;
   max-height: 700px;
   max-width: 700px;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-.map-container{
-  width:65vh;
-  overflow: hidden;
-  max-width: 450px;
+  overflow-x: ;
 }
 
 .Backg{

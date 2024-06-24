@@ -26,15 +26,9 @@
   height: 85vh;
   max-height: 700px;
   max-width: 700px;
-  overflow-x: hidden;
   overflow-y: auto;
 }
 
-.map-container{
-  width:65vh;
-  overflow: hidden;
-  max-width: 450px;
-}
 
 .Backg{
   background-image: url('/public/b1.jpg');

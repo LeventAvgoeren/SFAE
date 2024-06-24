@@ -221,8 +221,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-   
-
 }
 
 .animation-customer {
@@ -268,7 +266,6 @@ body {
     flex-wrap: wrap;
     overflow-y: auto;
 }
-
 
 .team-member {
     background-color: white;

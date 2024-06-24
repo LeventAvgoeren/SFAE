@@ -221,8 +221,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-   
-
 }
 
 .animation-customer {
@@ -269,6 +267,15 @@ body {
     overflow-y: auto;
 }
 
+.containerframe300{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    overflow-y: auto;
+}
 
 .team-member {
     background-color: white;

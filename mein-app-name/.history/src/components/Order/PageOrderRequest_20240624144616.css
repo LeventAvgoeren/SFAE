@@ -9,7 +9,7 @@
 }
 
 .container-frame30 {
-  display: grid;
+  display: flex;
   background: rgba(0, 0, 0, 0.7);
   padding: 10px;
   border-radius: 12px;
@@ -19,21 +19,14 @@
   text-align: center;
   color: white;
   margin:auto;
-  box-sizing: border-box;
+ 
   border: 1px solid rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px); 
   height: 85vh;
   max-height: 700px;
   max-width: 700px;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-.map-container{
-  width:65vh;
-  overflow: hidden;
-  max-width: 450px;
+  overflow: auto;
 }
 
 .Backg{

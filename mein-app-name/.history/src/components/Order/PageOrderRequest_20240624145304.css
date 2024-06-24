@@ -31,9 +31,11 @@
 }
 
 .map-container{
-  width:65vh;
+  display: grid;
+  position: relative;
+  width: 300%;
+ padding-right: 20%;
   overflow: hidden;
-  max-width: 450px;
 }
 
 .Backg{

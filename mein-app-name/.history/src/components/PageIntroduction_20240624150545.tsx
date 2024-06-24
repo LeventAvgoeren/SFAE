@@ -203,7 +203,7 @@ export function PageIntroduction() {
                                 <button onClick={() => scrollToSection('left')} className="my-arrow my-arrow-left">
                                     <img src="/left.svg" alt="Previous" />
                                 </button>
-                                <div className='containerframe100'>
+                                <div>
                                 <h1 className="my-h1">SfÆ ist eine Dienstleistungswebsite, wo es zwei Rollen gibt:</h1>
                                 <p className="my-p">Den Worker und den Customer!</p>
                                 <p className="my-p">Als Worker bist du in der Lage Dienstleistungen zu verrichten. Als Customer kannst du nach Dienstleistungen anfragen wenn du Hilfe bei einer Sache brauchst.</p>
@@ -217,7 +217,7 @@ export function PageIntroduction() {
                                             rendererSettings: {
                                                 preserveAspectRatio: 'xMidYMid slice'
                                             }
-                                        }} height={"50vh"} width={"50vh"} />
+                                        }} height={400} width={400} />
                                         <p className="my-p">Das hier ist Eray, der am nächsten Tag Freunde erwartet und unbedingt seine Wand streichen muss, bevor sie kommen. Er kennt niemanden, der ihm helfen kann und findet SfÆ.</p>
                                     </div>
                                     <div className="animation-customer">
@@ -228,7 +228,7 @@ export function PageIntroduction() {
                                             rendererSettings: {
                                                 preserveAspectRatio: 'xMidYMid slice'
                                             }
-                                        }} height={"50vh"} width={"50vh"} />
+                                        }} height={400} width={400} />
                                         <p className="my-p">Levent ist knapp bei Kasse! Er besucht SfÆ, um neben seiner eigentlichen Arbeit als Maler etwas Geld zu verdienen und hilft Eray bei seiner Wand! Duc Dai ist dabei.</p>
                                     </div>
                                 </div>
@@ -243,7 +243,7 @@ export function PageIntroduction() {
                                 <button onClick={() => scrollToSection('left')} className="my-arrow my-arrow-left">
                                     <img src="/left.svg" alt="Previous" />
                                 </button>
-                                <div className='containerframe200'>
+                                <div>
                                     <h1 className="my-h1">Als Customer musst du lediglich den Preis festlegen. SFAE übernimmt dann die Suche nach dem passenden Worker basierend auf drei Kriterien:</h1>
                                     {/* Bewertung */}
                                     <div className="animation-container-doener">
@@ -255,7 +255,7 @@ export function PageIntroduction() {
                                                 rendererSettings: {
                                                     preserveAspectRatio: 'xMidYMid slice'
                                                 }
-                                            }} height={"50vh"} width={"50vh"} />
+                                            }} height={300} width={300} />
                                             <p className="my-p">Die Sternebewertung, die der Dienstleister von früheren Kunden erhalten hat.</p>
                                         </div>
                                         {/* Preis */}
@@ -267,7 +267,7 @@ export function PageIntroduction() {
                                                 rendererSettings: {
                                                     preserveAspectRatio: 'xMidYMid slice'
                                                 }
-                                            }} height={"50vh"} width={"50vh"} />
+                                            }} height={300} width={300} />
                                             <p className="my-p">Den Preis, der deinem Budget am nächsten kommt.</p>
                                         </div>
                                         {/* Standort */}
@@ -279,7 +279,7 @@ export function PageIntroduction() {
                                                 rendererSettings: {
                                                     preserveAspectRatio: 'xMidYMid slice'
                                                 }
-                                            }} height={"50vh"} width={"50vh"} />
+                                            }} height={300} width={300} />
                                             <p className="my-p">Und die geografische Nähe zu deinem Standort.</p>
                                         </div>
                                     </div>
@@ -306,7 +306,7 @@ export function PageIntroduction() {
                                                 rendererSettings: {
                                                     preserveAspectRatio: 'xMidYMid slice'
                                                 }
-                                            }} height={"50vh"} width={"50vh"} />
+                                            }} height={300} width={300} />
                                             <p className="my-p">Leg fest, in welchem Umkreis du Jobs erhalten möchtest.</p>
                                         </div>
                                         {/* Preis */}
@@ -318,7 +318,7 @@ export function PageIntroduction() {
                                                 rendererSettings: {
                                                     preserveAspectRatio: 'xMidYMid slice'
                                                 }
-                                            }} height={"50vh"} width={"50vh"} />
+                                            }} height={300} width={300} />
                                             <p className="my-p">SFAE sendet dir anschließend die Details zu den Auftrag.</p>
                                         </div>
                                     </div>

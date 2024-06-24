@@ -121,7 +121,7 @@ function App() {
           <Route path="/worker/:workerId/profile" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerProfile /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/preferences" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerPreferences /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/faq" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerFAQ /> : < Navigate to="/NotAuth" replace />} />
-          <Route path="/worker/:workerId/order/:orderId" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerOrder /> : < Navigate to="/NotAuth" replace />} />
+          <Route path="/worker/:workerId/orders" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerOrder /> : < Navigate to="/NotAuth" replace />} />
 
 
 

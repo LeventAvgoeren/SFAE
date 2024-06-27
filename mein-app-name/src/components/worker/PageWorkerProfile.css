@@ -31,3 +31,13 @@ input[type="file"]::file-selector-button {
   color: white;
 }
 
+@media only screen and (max-width: 980px) {
+
+  .button10{
+    font-size: 2.5vh;
+  }
+  .button9{
+    font-size: 2.5vh;
+  }
+}
+

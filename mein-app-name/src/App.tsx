@@ -42,6 +42,7 @@ import { Toolbar, Typography } from "@mui/material";
 import { PageVerifyEmail } from "./components/customer/PageVerifyEmail";
 import { PageVerifyWorkerEmail } from "./components/customer/PageVerfyWorkerEmail";
 import { PageWorkerOrder } from "./components/worker/PageWorkerOrder";
+import {PageChatBot } from "./components/PageChatBot";
 
 
 
@@ -98,6 +99,7 @@ function App() {
                   <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
                   <Route path="/passwordreset" element={<PageRequestPasswordReset/>}/>
                   <Route path="/newPassword" element={<PagePasswordReset/>}/>
+                  <Route path="/chatBot" element={(loginInfo) ? <PageChatBot /> : < Navigate to="/NotAuth" replace />} />
 
 
           {/* Customer */}

@@ -270,7 +270,6 @@ public class WorkerImpl implements WorkerInterface {
         rs.getJobType() == null || rs.getMinPayment() == null || rs.getEmail() == null) {
       throw new IllegalArgumentException("Some data are empty");
     }
-    System.out.println(rs);
     try {
       byte[] defaultImage = pictureService.loadDefaultProfilePicture();
       var pic=pictureService.saveImageAsLargeObject(defaultImage);
@@ -354,17 +353,11 @@ public class WorkerImpl implements WorkerInterface {
       String statusOrder = rs.getString("status_order");
       Double range = rs.getDouble("range");
       String jobTypeString = rs.getString("job_type");
-      String[] jobType = new String[10];
       jobTypeString = jobTypeString.replace("{", "");
       jobTypeString = jobTypeString.replace("}", "");
       jobTypeString = jobTypeString.replace("\"", "");
 
-      if(jobTypeString.contains(",")){
-          jobType = jobTypeString.split(",");
-
-      } else {
-          jobType[0] = jobTypeString;
-      }
+      String[] jobType = jobTypeString.split(",");
     
       Double minPayment = rs.getDouble("min_payment");
       Double rating = rs.getDouble("rating");

@@ -44,7 +44,7 @@ public class SFAEAlgorithm {
    */
   public Map<Worker, Double> getBestWorkersforTheJob(ContractDTO contract) {
     String sql = "SELECT " +
-    "name, email, latitude, longitude, min_payment, rating, id," +
+    "name, email, latitude, longitude, min_payment, rating, id, " +
     "(6371 * acos( " +
     "cos(radians(?)) * " +
     "cos(radians(latitude)) * " +
@@ -59,7 +59,7 @@ public class SFAEAlgorithm {
     "cos(radians(longitude) - radians(?)) + " +
     "sin(radians(?)) * " +
     "sin(radians(latitude)))) < ? " +
-    "AND job_type @> ARRAY[?]::varchar[]" +
+    "AND ? = ANY(string_to_array(trim(both '{}' FROM job_type), ',')) " +
     "AND status = 'AVAILABLE' " +
     "ORDER BY rating;";
         try {

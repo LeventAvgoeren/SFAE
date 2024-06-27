@@ -400,7 +400,7 @@ public class WorkerImpl implements WorkerInterface {
   @Override
   public Worker findWorkerByJob(String jobType) {
     List<Optional<Worker>> result = jdbcTemplate.query(
-        "SELECT * FROM WORKER WHERE ? = ANY(job_type)",
+        "SELECT * FROM WORKER WHERE ? = ANY(string_to_array(trim(both '{}' FROM job_type), ','))",
         ps -> {
           ps.setString(1, jobType);
         },

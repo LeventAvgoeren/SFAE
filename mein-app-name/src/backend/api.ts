@@ -627,18 +627,19 @@ export async function deleteChat(user1: string, user2: string): Promise<void> {
 
 export async function updateWorkerOrderStatus(workerId: string, status: string): Promise<string> {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/statusOrder/${workerId}`;
-  const response = await fetchWithErrorHandling(url, {
-      method: 'PUT',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify( status),
-      credentials: 'include' as RequestCredentials,
+  const response = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ status }), // Send status as an object
+    credentials: 'include' as RequestCredentials,
   });
 
   const result = await response.text();
   return result;
 }
+
 
 export async function updateWorkerPreferences(workerData: WorkerResourcePreferences): Promise<WorkerResourcePreferences> {
 

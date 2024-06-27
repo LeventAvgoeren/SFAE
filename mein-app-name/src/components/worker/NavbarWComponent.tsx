@@ -6,8 +6,7 @@ import { deleteCookie } from "../../backend/api";
 import { useLoginContext } from "../LoginManager";
 import ChatComponent from "../ChatComponent";
 import "./NavbarWComponent.css";
-import { getContractByWorkerId } from "../../backend/api"; // Importiere die Funktion
-import { LinkContainer } from "react-router-bootstrap";
+import { getContractByWorkerId } from "../../backend/api";
 
 interface Message {
   sender: string;
@@ -95,28 +94,30 @@ export function NavbarWComponent() {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg" style={{ backgroundColor: "transparent", position: "sticky", top: "0", zIndex: "100000" }}>
-        <img src="/Sfae_Logo.png" alt="Logo" className="logo" />
-        <button className="navbar-toggler bg-light mt-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <nav className="navbar navbar-expand-lg navbar-light bg-transparent" style={{ position: "sticky", top: "0", zIndex: "1000" }}>
+        <Link className="navbar-brand" to="/">
+          <img src="/Sfae_Logo.png" alt="Logo" className="logo" />
+        </Link>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+        <div className="collapse navbar-collapse" id="navbarNav">
           {loginInfo && (
-            <ul className="navbar-nav">
-              <li className="nav-item mx-3">
-                <a className="nav-link" href={`/worker/${loginInfo.userId}`}>Home</a>
+            <ul className="navbar-nav mr-auto">
+              <li className="nav-item">
+                <Link className="nav-link" to={`/worker/${loginInfo.userId}`}>Home</Link>
               </li>
-              <li className="nav-item mx-3">
-                <a className="nav-link" href={`/worker/${loginInfo.userId}/profile`}>Profil</a>
+              <li className="nav-item">
+                <Link className="nav-link" to={`/worker/${loginInfo.userId}/profile`}>Profil</Link>
               </li>
-              <li className="nav-item mx-3">
-                <a className="nav-link" href={`/worker/${loginInfo.userId}/preferences`}>Präferenzen</a>
+              <li className="nav-item">
+                <Link className="nav-link" to={`/worker/${loginInfo.userId}/preferences`}>Präferenzen</Link>
               </li>
-              <li className="nav-item mx-3">
-                <a className="nav-link" href={`/worker/${loginInfo.userId}/orders/overview`}>Übersicht</a>
+              <li className="nav-item">
+                <Link className="nav-link" to={`/worker/${loginInfo.userId}/orders/overview`}>Übersicht</Link>
               </li>
-              <li className="nav-item mx-3">
-                <a className="nav-link" href={`/worker/${loginInfo.userId}/faq`}>Faq</a>
+              <li className="nav-item">
+                <Link className="nav-link" to={`/worker/${loginInfo.userId}/faq`}>Faq</Link>
               </li>
               <li className="nav-item mx-3">
                 <a className="nav-link" href={`/chatBot`}>Chat Bot</a>
@@ -125,7 +126,7 @@ export function NavbarWComponent() {
           )}
         </div>
         {loginInfo && (
-          <div className="d-flex">
+          <div className="navbar-icons d-flex">
             <div className="icon-item">
               <a onClick={doLogout}>
                 <img src="/icons8-logout-100.png" alt="Logout" className="icon-img" />
@@ -137,12 +138,6 @@ export function NavbarWComponent() {
               <img src="/icons8-chat-64.png" alt="Live-Chat" className="icon-img" />
               <div className="icon-label">Live-Chat</div>
             </div>
-            <LinkContainer to={`/worker/${userId}/finish-contract`}>
-              <div className={`icon-item ${hasUnfinishedContract ? "blink" : ""}`}>
-                <img src="/icons8-notification-100.png" alt="Notification" className="icon-img" />
-                <div className="icon-label">Notification</div>
-              </div>
-            </LinkContainer>
           </div>
         )}
       </nav>

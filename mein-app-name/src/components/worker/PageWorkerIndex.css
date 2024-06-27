@@ -19,3 +19,36 @@
 .navbar {
   margin-bottom: 0 !important; /* Entfernt unerwünschten Abstand unter der Navbar */
 }
+
+/* Center the modal and make it larger */
+.custom-modal .modal-dialog {
+  max-width: 80%; /* Adjust width as needed */
+  margin: 30vh auto; /* Center vertically and add some top margin */
+}
+
+.custom-modal .modal-content {
+  padding: 20px; /* Add some padding for better appearance */
+  border-radius: 10px; /* Rounded corners */
+  border: 2px solid #007bff; /* Border color */
+}
+
+.custom-modal .modal-header, .custom-modal .modal-footer {
+  background-color: #007bff; /* Background color */
+  color: white; /* Text color */
+}
+
+.custom-modal .modal-body {
+  background-color: #f8f9fa; /* Light background color for the body */
+  padding: 20px; /* Add some padding for better appearance */
+  border-top: 1px solid #007bff; /* Border between header and body */
+  border-bottom: 1px solid #007bff; /* Border between body and footer */
+}
+
+.custom-modal .modal-footer button {
+  background-color: #007bff; /* Button background color */
+  color: white; /* Button text color */
+}
+
+.custom-modal .modal-footer button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}

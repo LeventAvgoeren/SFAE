@@ -184,7 +184,7 @@ export default function PageOrderRequest() {
   };
   return (
     <>
-    <div className="Backg">
+    
     <ToastContainer 
             position="top-center" 
             autoClose={5000} 
@@ -196,10 +196,12 @@ export default function PageOrderRequest() {
             draggable 
             pauseOnHover 
         />
+
+        <div className="Backg">
     <NavbarComponent />
-      <div className="container-frame3 glassmorphism">  
+      <div className="container-frame30">  
         <Form onSubmit={handleSubmit} className="form-content">
-          <Button onClick={handleClickMap1} variant="info">
+          <Button onClick={handleClickMap1} variant="info" >
             {showMap ? "Karte verbergen" : "Karte anzeigen"}
           </Button>
           {showMap && (
@@ -223,7 +225,7 @@ export default function PageOrderRequest() {
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Dienstleistung</Form.Label>
-            <Form.Select value={service} onChange={handleSelectChange} required>
+            <Form.Select value={service} onChange={handleSelectChange} required >
               <option value="">ServiceTyp wählen...</option>
               {jobTypes.map((type) => (
                 <option key={type} value={type}>
@@ -268,8 +270,8 @@ export default function PageOrderRequest() {
               {isCreatingContract ? 'Erstellt...' : 'Vertrag erstellen und suchen'}
             </Button>
           </>}
-       
         </Form>
+
       </div>
       </div>
     </>

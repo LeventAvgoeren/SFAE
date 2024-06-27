@@ -215,7 +215,7 @@ export default function PageRegistrationWorker() {
                         <h2 className="text-uppercase text-center mb-5">Registrieren als Worker</h2>
                         <form onSubmit={handleRegistration}>
                             <MDBInput wrapperClass='mb-4' label='Dein Name' size='lg' type='text' value={name} onChange={(e) => setName(e.target.value)} required/>
-                            <MDBInput wrapperClass='mb-3 inputField' label='Adresse' id='addressInput' type='text' value={address} onChange={e => setAddress(e.target.value)} onBlur={() => handleAddressValidation(address).then(valid => setAddressValid(valid))} required/>
+                            <MDBInput wrapperClass='mb-4' label='Adresse' size='lg' id='addressInput' type='text' value={address} onChange={e => setAddress(e.target.value)} onBlur={() => handleAddressValidation(address).then(valid => setAddressValid(valid))} required/>
                             {!addressValid && <div style={{ color: '#e4a11b' }}>Ungültige Adresse.</div>}
                             <MDBInput wrapperClass='mb-4' label='Deine E-Mail' size='lg' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required/>
                             <MDBInput wrapperClass='mb-4' label='Passwort' size='lg' type='password' value={password} onChange={handlePasswordChange} required/>
@@ -263,7 +263,7 @@ export default function PageRegistrationWorker() {
                         </form>
                         <MDBRow>
                             <MDBCol size='12' className='text-center'>
-                                <MDBTypography tag='div' className='mb-4'>
+                                <MDBTypography tag='div' >
                                     Du hast bereits ein Konto? <Link to="/login" className="link">Melde dich hier an</Link>
                                 </MDBTypography>
                             </MDBCol>

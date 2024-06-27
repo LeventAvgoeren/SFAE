@@ -217,11 +217,9 @@ export function PageWorkerProfile() {
 
   return (
     <>
-      <div className="background-image">
+      <div className="Backg">
         <NavbarWComponent />
-        <div className="custom-container glassmorphism">
-          <MDBContainer className="p-3 my-5 d-flex flex-column align-items-center justify-content-center w-50">
-            <div className="text-center mb-4">
+        <div className="custom-container">
               <h1>Profileinstellungen</h1>
               {previewImage || profileImage ? (
                 <div>
@@ -232,7 +230,7 @@ export function PageWorkerProfile() {
                   <span>Kein Bild</span>
                 </div>
               )}
-            </div>
+        
             <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
               <MDBInput wrapperClass="inputField1" label="Name" type="text" value={name} onChange={(e) => setName(e.target.value)} />
               <MDBInput wrapperClass="inputField1" label="Adresse" type="text" value={location} onChange={(e) => setLocation(e.target.value)} onBlur={() => handleAddressValidation(location)} />
@@ -253,19 +251,18 @@ export function PageWorkerProfile() {
                 value={slogan}
                 onChange={(e) => setSlogan(e.target.value)}
               />
-              <div className="mb-3">
+              <div className="profile-upload-container">
                 <label htmlFor="profileImage" className="form-label" style={{ color: "white" }}>Profilbild hochladen</label>
                 <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
               </div>
-              <Button className="button" variant="success" type="submit">Profil speichern</Button>
+              <Button className="button" variant="success" type="button">Profil speichern</Button>
               <LinkContainer to={`/worker/${worId}`}>
                 <Button className="button" type="button">Zurück zur Startseite!</Button>
               </LinkContainer>
-              <Button type="button" className="button" variant="danger" onClick={handleDelete}>
+              <Button type="button" className="button" variant="danger" onClick={handleDelete} >
                 Account Löschen
               </Button>
             </form>
-          </MDBContainer>
         </div>
       </div>
       <ToastContainer 

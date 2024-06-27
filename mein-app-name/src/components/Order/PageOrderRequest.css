@@ -8,89 +8,64 @@
   height: 100vh;          
 }
 
-.container-frame3 {
+.container-frame30 {
+  display: grid;
   background: rgba(0, 0, 0, 0.7);
-  padding: 40px;
+  padding: 10px;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  max-width: 900px;
-  max-height: 900px;
-  text-align: center !important;
+  width: 50%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   color: white;
   margin:auto;
-  box-sizing: border-box ;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); 
+  height: 85vh;
+  max-height: 650px;
+  max-width: 600px;
+  overflow-y: scroll;
 }
 
 .Backg{
   background-image: url('/public/b1.jpg');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
     height: 100vh; /* Vollbildhöhe */
 }
 
-.form-content {
-  color: white;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  width: 100%;
-}
-
-.map-container {
-  position: relative;
-  width: 100%;
-  height: 400px;
-  margin-top: 20px;
-  border: 1px solid #ccc;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-}
 
 .myButton {
-  width: 100%;
   background-color: #007bff;
   color: white;
-  padding: 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
+
+
 
 .myButton:hover {
   background-color: #0056b3;
   color: black;
 }
 
-@media (max-width: 768px) {
-  .navbar-nav {
-    flex-direction: column;
-    position: sticky;
-  }
-
-  .nav-dropdown, #collapsible-nav-dropdown {
-    position: sticky;
-  }
-}
-
 .form-content .form-label {
   color: white;
 }
 
-.nav-dropdown, #collapsible-nav-dropdown {
-  position: sticky;
-}
-.background-image-berlin {
-  font-family: 'Nunito', sans-serif;
-  background-image: url('/public/b1.jpg'); /* Stellen Sie sicher, dass der Pfad korrekt ist */
-  background-size: cover;
-  background-position: center;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+
+
+@media only screen and (max-width: 1000px) {
+
+  .myButton{
+    font-size: 5vh;
+  }
+
+  .form-content .form-label {
+    color: white;
+  }
 }

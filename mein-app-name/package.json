@@ -8,7 +8,7 @@
     "@fortawesome/fontawesome-free": "^6.5.2",
     "@mui/material": "^5.15.17",
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
-    "@mui/x-data-grid": "^7.6.2",
+    "@mui/x-data-grid": "^7.7.0",
     "@stomp/stompjs": "^7.0.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -96,7 +96,7 @@
     "@types/sockjs-client": "^1.5.4",
     "@types/stompjs": "^2.3.9",
     "@types/three": "^0.164.0",
-    "@types/validator": "^13.11.10",
+    "@types/validator": "^13.12.0",
     "concurrently": "^8.2.2"
   }
 }

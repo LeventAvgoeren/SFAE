@@ -1,71 +1,37 @@
-.page-background {
-  background: transparent;
-  display: flex;
-  justify-content: flex-start; /* Links ausrichten */
-  align-items: center;
-  height: 10vh;
-  width: 100%;
-  padding: 0 20px;
+.navbar-light .navbar-nav .nav-link {
+  color: rgba(0, 0, 0, 0.5);
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.navbar-links {
-  display: flex;
-  justify-content: flex-start; /* Links ausrichten */
-  align-items: center;
-  flex-grow: 1;
-}
-
-.page-background ul {
-  display: flex;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  justify-content: flex-start; /* Links ausrichten */
-}
-
-.page-background ul li {
-  margin: 0 20px;
-}
-
-.page-background ul li a {
-  text-decoration: none;
-  color: white;
-  font-size: 18px;
-  padding: 10px;
-}
-
-.page-background ul li a:hover {
+.navbar-light .navbar-nav .nav-link:hover {
+  color: rgba(0, 0, 0, 0.7);
   background-color: white;
-  color: black !important;
   border-radius: 15px;
 }
 
-body, button, input, textarea, h1, p {
-  font-family: 'Roboto', sans-serif;
-}
-
-.icons-container {
+.navbar-icons {
+  margin-left: auto;
   display: flex;
   align-items: center;
-  margin-left: auto;
 }
 
 .icon-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 10px;
+  margin-left: 20px; /* Vergrößerter Abstand zwischen den Icons */
 }
 
 .icon-img {
-  width: 40px;
-  height: 40px;
+  width: 50px; /* Angepasste Größe der Icons */
+  height: 50px; /* Angepasste Größe der Icons */
   cursor: pointer;
-  transition: transform 0.3s;
+  transition: transform 0.3s, filter 0.3s;
 }
 
 .icon-img:hover {
   transform: scale(1.1);
+  filter: brightness(0.8); /* Verdunkelt das Icon bei Hover */
 }
 
 .notification-icon:hover img {
@@ -73,8 +39,8 @@ body, button, input, textarea, h1, p {
 }
 
 .icon-label {
-  font-size: 12px;
-  color: white;
+  font-size: 14px; /* Angepasste Schriftgröße */
+  color: black;
   margin-top: 5px;
 }
 
@@ -91,6 +57,21 @@ body, button, input, textarea, h1, p {
   75% {
     transform: rotate(-15deg);
   }
+}
+
+.logo {
+  width: 75px;
+  height: 75px;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
 }
 
 .chat-container {
@@ -110,16 +91,6 @@ body, button, input, textarea, h1, p {
   right: 0;
 }
 
-.notification-badge {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 10px;
-  height: 10px;
-  background-color: red;
-  border-radius: 50%;
-}
-
 .blink {
   animation: blinker 1.5s linear infinite;
 }
@@ -128,9 +99,4 @@ body, button, input, textarea, h1, p {
   50% {
     opacity: 0;
   }
-}
-
-.logo {
-  width: 75px;
-  height: 75px;
 }

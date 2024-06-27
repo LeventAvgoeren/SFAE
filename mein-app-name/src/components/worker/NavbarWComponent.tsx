@@ -134,12 +134,6 @@ export function NavbarWComponent() {
               <img src="/icons8-chat-64.png" alt="Live-Chat" className="icon-img" />
               <div className="icon-label">Live-Chat</div>
             </div>
-            <LinkContainer to={`/worker/${userId}/finish-contract`}>
-              <div className={`icon-item ${hasUnfinishedContract ? "blink" : ""}`}>
-                <img src="/icons8-notification-100.png" alt="Notification" className="icon-img" />
-                <div className="icon-label">Notification</div>
-              </div>
-            </LinkContainer>
           </div>
         )}
       </nav>

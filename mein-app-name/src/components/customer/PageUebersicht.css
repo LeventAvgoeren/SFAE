@@ -24,11 +24,6 @@
     width: 80%;
 }
 
-/* DataGrid styling */
-.MuiDataGrid-root {
-    background-color: white; /* Ensure background is not transparent */
-    color: black; /* Ensure text is visible */
-}
 
 /* Other styles */
 .ag-theme-quartz, .ag-theme-quartz-dark {
@@ -55,4 +50,10 @@
     max-width: 100%;
     text-align: center;
     width: 80%;
+}
+
+.my-section10 {
+    background: #021128;
+    background-size: 400% 400%;
+    animation: my-gradient1 15s ease infinite;
 }

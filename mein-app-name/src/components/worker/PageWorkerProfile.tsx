@@ -3,7 +3,7 @@ import { JobType, Position, WorkerResource, WorkerResourceProfil } from "../../R
 import { deleteWorker, getWorkerbyID, getWorkerImage, deleteCookie, updateWorkerProfile } from "../../backend/api";
 import { Link, useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import { Button } from "react-bootstrap";
+import { Button, Row } from "react-bootstrap";
 import { MDBContainer, MDBInput, MDBProgress, MDBProgressBar } from "mdb-react-ui-kit";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -52,10 +52,21 @@ export function PageWorkerProfile() {
   const [previewImage, setPreviewImage] = useState<string | undefined>(undefined);
   const [addressValid, setAddressValid] = useState(true);
   const [slogan, setSlogan] = useState("");
+  const [modalShow, setModalShow] = useState(false);
+  const [cancelModalShow, setCancelModalShow] = useState(false);
 
   const params = useParams();
   const worId = params.workerId;
 
+
+  const toggleShow = () => {
+    setModalShow(!modalShow);
+  };
+
+  const toggleCancelShow = () => {
+    setCancelModalShow(!cancelModalShow);
+  };
+  
   const handleAddressValidation = async (inputAddress: string) => {
     const isValid = await fetchCoordinates(inputAddress);
     setAddressValid(isValid);
@@ -256,10 +267,29 @@ export function PageWorkerProfile() {
                 <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
               </div>
               <Button  className="button9" variant="success">Profil speichern</Button>
-              <Button  className="button10" variant="danger" onClick={handleDelete}>
+              <Button  className="button10" variant="danger" onClick={toggleShow}>
                 Account Löschen
               </Button>
             </form>
+        </div>
+        <div className={`modal fade ${modalShow ? 'show' : ''}`} style={{ display: modalShow ? 'block' : 'none' }}>
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Auftrag beendet</h5>
+              </div>
+              <div className="modal-body">
+                <p>Bist du sicher, dass du diesen Account wirklich löschen möchtest? </p>   
+                Alle Daten werden unwiderruflich gelöscht.
+              </div>
+              <div className="modal-footer">
+                <Row style={{ gap: "12px" }}>
+                  <button type="button" className="btn btn-secondary" onClick={toggleShow} style={{ width: "150px" }}>Abbrechen</button>
+                  <button type="button" className="btn btn-danger" style={{ width: "150px", gap: "12" }} onClick={handleDelete}>Löschen</button>
+                </Row>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <ToastContainer 

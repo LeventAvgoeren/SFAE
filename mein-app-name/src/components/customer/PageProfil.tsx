@@ -2,7 +2,7 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Button, Modal, Row } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { CustomerResource } from '../../Resources';
-import { deleteCustomer, getCustomerImage, getCustomerbyID, updateCustomer } from '../../backend/api';
+import { deleteCookie, deleteCustomer, getCustomerImage, getCustomerbyID, updateCustomer } from '../../backend/api';
 import "./PageProfil.css";
 import { MDBTypography } from 'mdb-react-ui-kit';
 import NavbarComponent from '../navbar/NavbarComponent';
@@ -152,9 +152,10 @@ export function PageProfil() {
 
     const handleDeleteCustomer = async () => {
         try {
+            await deleteCookie()
             await deleteCustomer(customerId!);
-            alert('Profil erfolgreich gelöscht.');
-            navigate('/');
+            toast.success('Profil erfolgreich gelöscht.');
+            window.location.href = "/index";
         } catch (error) {
             console.error('Fehler beim Löschen des Profils:', error);
             alert('Fehler beim Löschen des Profils');
@@ -286,7 +287,7 @@ export function PageProfil() {
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Auftrag beendet</h5>
+                <h5 className="modal-title">Account löschen</h5>
               </div>
               <div className="modal-body">
                 <p>Bist du sicher, dass du diesen Account wirklich löschen möchtest? </p>   

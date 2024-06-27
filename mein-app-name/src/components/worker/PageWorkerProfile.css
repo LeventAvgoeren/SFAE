@@ -11,13 +11,13 @@
   text-align: center;
   color: white;
   position: absolute;
-  top: 50%;
+  top: 52.5%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 90vw; /* Viewport width */
   max-width: 800px; /* Maximalbreite */
-  height: 85vh;
-  max-height: 1000px;
+  height: 82.5vh;
+  max-height: 1200px;
   overflow-y: auto; /*rausnehmen wenn es auf desktop kacke aussieht  */
   margin-top: 1%; /*rausnehmen wenn es auf desktop kacke aussieht  */
   border: 1px solid rgba(255, 255, 255, 0.3);

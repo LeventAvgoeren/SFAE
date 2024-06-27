@@ -79,7 +79,7 @@ export function NavbarComponent() {
   return (
     <>
       <nav className="page-background">
-        <img src="/Sfae_Logo.png" alt="Logo" style={{ height: 100, width: 100 }} />
+        <img src="/Sfae_Logo.png" alt="Logo" style={{ height: "12vh", width: "12vh" }} />
         <ul>
           {loginInfo && (
             <li><a href={`/customer/${loginInfo.userId}`}>Home</a></li>
@@ -107,7 +107,8 @@ export function NavbarComponent() {
             </div>
             <div className="icon-item notification-icon" onClick={handleNotificationClick}>
               {newMessage && <div className="notification-badge"></div>}
-              <img src="/icons8-chat-64.png" alt="Live-Chat" />
+              <img src="/icons8-chat-64.png" alt="Live-Chat" className="livechat-icon" 
+              style={{width:"8vh", height:"8vh"}}/>
               <div className="icon-label">Live-Chat</div>
             </div>
           </div>

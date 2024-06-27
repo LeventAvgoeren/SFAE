@@ -83,7 +83,7 @@ export function PageWorkerIndex() {
           {worker && <h1>Willkommen, {worker.name}!</h1>}
           <div className="alert alert-warning mt-3">
             Du hast noch unabgeschlossene Aufträge!
-            <Button variant="primary" onClick={handleShowModal}>
+            <Button  onClick={handleShowModal} className='anzeigen'>
               Anzeigen
             </Button>
           </div>

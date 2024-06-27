@@ -81,7 +81,6 @@
 .button {
   width: 100%;
   margin-bottom: 10px;
-  font-size: 2.5vh;
 }
 
 .job-list {
@@ -96,11 +95,21 @@
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 5px;
-  font-size: 2.5vh;
 }
 
 .remove-job {
   cursor: pointer;
   color: red;
   margin-left: 10px;
+}
+
+@media only screen and (max-width: 980px) {
+
+  .button{
+    font-size: 2.5vh;
+  }
+
+  .job-item {
+    font-size: 2.5vh;
+  }
 }

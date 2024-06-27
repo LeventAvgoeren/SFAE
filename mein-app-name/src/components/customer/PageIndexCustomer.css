@@ -23,7 +23,7 @@
   background: rgba(0, 0, 0, 0.7); /* Dunkler, semi-transparenter Hintergrund */
   padding: 30px;
   border-radius: 15px;
-  max-width: 90%;
+  max-width: 90vh;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
   text-align: center;
   margin-top: 3%;
@@ -166,25 +166,10 @@ p, button {
   height: 100vh;
 }
 
-.custom-container2 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.7); 
-  padding: 40px;
-  border-radius: 12%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: auto;
-  max-width: 100%;
-  text-align: center;
-  color: white;  
-  width: 80%;
-}
 
-@media only screen and (max-width: 1400px) {
+@media only screen and (max-width: 800px) {
   .call-to-action{
-    width: 100%;
+    width: 180vh;
   }
 
   .call-to-action h1{

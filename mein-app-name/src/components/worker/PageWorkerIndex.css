@@ -1,11 +1,13 @@
 .card-img-top {
   transition: transform 0.2s; /* Animationseffekt */
   cursor: pointer; /* Cursor als Hinweis, dass das Bild klickbar ist */
+  height: 200px;
 }
 
 .card-img-top:hover {
   transform: scale(1.05); /* Leichter Zoom beim Hovern */
 }
+
 
 
 .page-background {
@@ -52,3 +54,17 @@
 .custom-modal .modal-footer button:hover {
   background-color: #0056b3; /* Darker blue on hover */
 }
+
+.alert-warning{
+  font-size: 2.5vh;
+}
+
+.anzeigen{
+  font-size: 2.5vh;
+}
+
+
+.mt-0 h1{
+  font-size: 6vh;
+}
+

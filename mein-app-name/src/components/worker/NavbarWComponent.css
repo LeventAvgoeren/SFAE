@@ -134,3 +134,7 @@ body, button, input, textarea, h1, p {
   width: 75px;
   height: 75px;
 }
+
+.navbar{
+  overflow-y: hidden;
+}

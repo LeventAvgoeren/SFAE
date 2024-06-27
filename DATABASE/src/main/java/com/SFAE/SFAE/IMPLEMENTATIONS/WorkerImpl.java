@@ -399,6 +399,8 @@ public class WorkerImpl implements WorkerInterface {
    */
   @Override
   public Worker findWorkerByJob(String jobType) {
+    System.out.println("MEIN JOB "+jobType);
+    System.out.println("BIN DRINNE ERROR");
     List<Optional<Worker>> result = jdbcTemplate.query(
         "SELECT * FROM WORKER WHERE ? = ANY(job_type)",
         ps -> {

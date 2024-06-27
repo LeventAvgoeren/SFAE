@@ -47,13 +47,14 @@ export function PageWorkerOrderOverview() {
 
   
     const columns: GridColDef[] = [
-        { field: 'id', headerName: 'ID', width: 130 },
-        { field: 'adress', headerName: 'Adresse', width: 290 },
-        { field: 'description', headerName: 'Beschreibung', width: 400 },
-        { field: 'jobType', headerName: 'Job Typ', width: 290 },
-        { field: 'payment', headerName: 'Bezahlung', width: 290 },
-        { field: 'maxPayment', headerName: 'Maximale Zahlung', width: 290 },
-        { field: 'customer', headerName: 'Customer Name', width: 290, 
+        { field: 'id', headerName: 'ID', width: 130 ,headerClassName: 'super-app-theme--header'},
+        { field: 'status', headerName: 'Status', width: 130 , headerClassName:'super-app-theme--header'},
+        { field: 'adress', headerName: 'Adresse', width: 290,headerClassName: 'super-app-theme--header' },
+        { field: 'description', headerName: 'Beschreibung', width: 400 ,headerClassName: 'super-app-theme--header'},
+        { field: 'jobType', headerName: 'Job Typ', width: 290,headerClassName: 'super-app-theme--header' },
+        { field: 'payment', headerName: 'Bezahlung', width: 290,headerClassName: 'super-app-theme--header' },
+        { field: 'maxPayment', headerName: 'Maximale Zahlung', width: 290,headerClassName: 'super-app-theme--header' },
+        { field: 'customer', headerName: 'Customer Name', width: 290, headerClassName: 'super-app-theme--header',
          renderCell: (params) => {
           return params.value ? params.value.name : 'N/A';
         }},
@@ -61,6 +62,7 @@ export function PageWorkerOrderOverview() {
           field: 'action',
           headerName: 'Zum Auftrag',
           width: 150,
+          headerClassName: 'super-app-theme--header',
           renderCell: (params: GridRenderCellParams) => (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height:35, width: '100%' }}>
               <MDBBtn outline rounded color='dark'
@@ -73,7 +75,7 @@ export function PageWorkerOrderOverview() {
       ]
   
     return (
-      <>    <div className="Backg"> 
+      <>    <div className="my-section10"> 
              <NavbarWComponent />
    
             <div style={{ height: 'calc(100vh - 100px)', width: '100%',marginTop:"0.5%" }}>
@@ -82,6 +84,20 @@ export function PageWorkerOrderOverview() {
               columns={columns}
               style={{ backgroundColor: 'white', color: 'black' }}
               localeText={deDE.components.MuiDataGrid.defaultProps.localeText}
+              sx={{
+                width: '100%',
+                '& .super-app-theme--header': {
+                  backgroundColor: '#e0e0e0',
+                },
+                '& .MuiDataGrid-row': {
+                  '&:nth-of-type(odd)': {
+                    backgroundColor: '#f5f5f5', // Color for odd rows
+                  },
+                  '&:nth-of-type(even)': {
+                    backgroundColor: '#e0e0e0', // Color for even rows
+                  },
+                },
+              }}
             />
           </div>
           <div style={{ padding: 10, backgroundColor: '#f0f0f0', textAlign: 'right' }}>

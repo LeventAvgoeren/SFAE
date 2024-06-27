@@ -118,6 +118,9 @@ export function NavbarWComponent() {
               <li className="nav-item mx-3">
                 <a className="nav-link" href={`/worker/${loginInfo.userId}/faq`}>Faq</a>
               </li>
+              <li className="nav-item mx-3">
+                <a className="nav-link" href={`/chatBot`}>Chat Bot</a>
+              </li>
             </ul>
           )}
         </div>

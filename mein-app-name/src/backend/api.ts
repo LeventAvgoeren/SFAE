@@ -732,3 +732,24 @@ export async function verifyEmailWorker(token: string): Promise<void> {
 }
 
 
+export async function chatBot(input: string): Promise<string> {
+  const url = `${process.env.REACT_APP_API_SERVER_URL}/api/chatBot`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(input),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText);
+  }
+
+  const data = await response.text(); 
+  return data; 
+}
+
+
+

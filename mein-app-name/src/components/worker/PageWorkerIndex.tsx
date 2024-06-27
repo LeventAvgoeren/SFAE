@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import LoadingIndicator from '../LoadingIndicator';
-import { Container, Navbar, Nav, NavDropdown, Row, Col, Card } from 'react-bootstrap';
+import { Container, Row, Col, Card, Modal, Button } from 'react-bootstrap';
 import './DesignVorlage.css';
-import { WorkerResource } from '../../Resources';
-import { getWorkerByName, getWorkerbyID } from '../../backend/api';
-import './PageWorkerIndex.css'
+import { WorkerResource, ContractResourceforWorker } from '../../Resources';
+import { getWorkerbyID, getContractByWorkerId, updateWorkerOrderStatus } from '../../backend/api';
+import './PageWorkerIndex.css';
 import NavbarWComponent from './NavbarWComponent';
 
 export function PageWorkerIndex() {
@@ -14,35 +14,52 @@ export function PageWorkerIndex() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [zoom, setZoom] = useState<string | null>(null);
-
+  const [unfinishedContracts, setUnfinishedContracts] = useState<ContractResourceforWorker[]>([]);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    console.log('useEffect ausgeführt', workerId); // Überprüfen, ob useEffect mit der korrekten workerId aufgerufen wird
-  
     if (!workerId) {
       setError('Keine Worker ID in der URL gefunden');
       setLoading(false);
       return;
     }
     const fetchWorker = async () => {
-      console.log('fetchWorker wird gestartet', workerId); // Überprüfen, ob diese Zeile erreicht wird
       try {
-        const id = workerId
-        console.log('parsed ID:', id); // Überprüfen, ob die ID korrekt geparsed wird
-        const workerData = await getWorkerbyID(id);
-        console.log('Daten empfangen:', workerData); // Was wird hier ausgegeben?
+        const workerData = await getWorkerbyID(workerId);
         setWorker(workerData);
         setLoading(false);
       } catch (error) {
-        console.error('Fehler beim Laden der Worker-Daten:', error);
         setError('Fehler beim Laden der Daten');
         setLoading(false);
       }
     };
-  
     fetchWorker();
   }, [workerId]);
 
+  useEffect(() => {
+    const fetchContracts = async () => {
+      try {
+        const contracts = await getContractByWorkerId(workerId!);
+        const unfinished = contracts.filter(contract => contract.statusOrder === 'ACCEPTED');
+        setUnfinishedContracts(unfinished);
+      } catch (error) {
+        console.error('Error fetching contracts', error);
+      }
+    };
+    if (workerId) {
+      fetchContracts();
+    }
+  }, [workerId]);
+
+  const handleFinishContract = async (contractId: number) => {
+    try {
+      await updateWorkerOrderStatus(contractId.toString(), 'FINISHED');
+      setUnfinishedContracts(prevContracts => prevContracts.filter(contract => contract.id !== contractId));
+    } catch (error) {
+      console.error('Error updating contract status', error);
+    }
+  };
+  
   if (loading) {
     return <LoadingIndicator />;
   }
@@ -52,26 +69,29 @@ export function PageWorkerIndex() {
   }
 
   const toggleZoom = (image: string) => {
-    if (zoom === image) {
-      setZoom(null); // Wenn das Bild bereits vergrößert ist, Vergrößerung aufheben
-    } else {
-      setZoom(image); // Andernfalls das Bild vergrößern
-    }
+    setZoom(zoom === image ? null : image);
   };
-  
+
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
 
   return (
     <>
-    <div className="Backg">   
-      <NavbarWComponent />
-     
-        <Container className="mt-0"> {/* Stelle sicher, dass mt-0 oder eine ähnliche Klasse den oberen Margin auf 0 setzt */} 
+      <div className="Backg">   
+        <NavbarWComponent />
+        <Container className="mt-0">
           {worker && <h1>Willkommen, {worker.name}!</h1>}
+          <div className="alert alert-warning mt-3">
+            Du hast noch unabgeschlossene Aufträge!
+            <Button  onClick={handleShowModal} className='anzeigen'>
+              Anzeigen
+            </Button>
+          </div>
           <Row>
             {[
-              {path: `/worker/${workerId}/orders/overview`, label: 'Aufträge', img: '/auftraege.jpg'},
-              {path: `/worker/${workerId}/preferences`, label: 'Präferenz', img: '/praferenz.jpg'},
-              {path: `/worker/${workerId}/profile`, label: 'Profil', img: '/profile.jpg'}
+              { path: `/worker/${workerId}/orders/overview`, label: 'Aufträge', img: '/auftraege.jpg' },
+              { path: `/worker/${workerId}/preferences`, label: 'Präferenz', img: '/praferenz.jpg' },
+              { path: `/worker/${workerId}/profile`, label: 'Profil', img: '/profile.jpg' }
             ].map(({ path, label, img }, index) => (
               <Col key={index} md={4} className="mb-4">
                 <Card>
@@ -80,9 +100,8 @@ export function PageWorkerIndex() {
                       variant="top"
                       src={zoom === img ? `${img}-zoom.jpg` : img}
                       onClick={() => toggleZoom(img)}
-                      style={label === 'Präferenz' ? { width: '100%', height: 'auto' } : { width: '100%', height: 'auto' }}
+                      style={{ width: '100%', height: 'auto' }}
                     />
-
                   </Link>
                   <Card.Body>
                     <Card.Title>{label}</Card.Title>
@@ -98,9 +117,37 @@ export function PageWorkerIndex() {
           </Row>
         </Container>
       </div>
+
+      <Modal show={showModal} onHide={handleCloseModal} className="custom-modal">
+        <Modal.Header closeButton>
+          <Modal.Title>Unabgeschlossene Aufträge</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {unfinishedContracts.length > 0 ? (
+            <ul>
+              {unfinishedContracts.map(contract => (
+                <li key={contract.id} className="d-flex justify-content-between align-items-center">
+                  <div>
+                    <strong>ID:</strong> {contract.id}, <strong>Adresse:</strong> {contract.adress || 'Keine Adresse'}, <strong>Job-Typ:</strong> {contract.jobType}
+                  </div>
+                  <Button variant="success" onClick={() => handleFinishContract(contract.id!)}>
+                    Abschließen
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>Keine unabgeschlossenen Aufträge gefunden.</p>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Schließen
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
-  
 }
 
-export{};
+export default PageWorkerIndex;

@@ -12,6 +12,22 @@
   overflow: scroll;
 }
 
+.custom-container2 {
+  position: absolute;
+  top: 52.5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.7); 
+  padding: 40px;
+  border-radius: 12%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: auto;
+  max-width: 100%;
+  text-align: center;
+  color: white;  
+  width: 80%;
+}
+
 .profileImageCustomer{
   width: 150px;
   height: 150px;
@@ -156,14 +172,6 @@ input[type="file"]::file-selector-button {
     font-size: 4vh;
     padding: 1px;
     }
-
-  .ButtonUpdate{
-    font-size: 5vh;
-  }
-
-  .btn-danger{
-    font-size: 5vh;
-  }
  
 }
 

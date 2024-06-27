@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -19,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.text.Normalizer;
 import java.util.Base64;
 
 import org.springframework.transaction.PlatformTransactionManager;
@@ -26,6 +29,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.SFAE.SFAE.DTO.CustomerDTO;
+import com.SFAE.SFAE.Service.ChatBot;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.io.IOException;
@@ -41,6 +45,9 @@ public class CustomerTestSQL {
 
     @Autowired
     private PlatformTransactionManager transactionManager;
+
+    @Autowired
+    ChatBot chatbot;
 
     @Test
     public void testCreateCustomer() throws Exception {
@@ -316,6 +323,10 @@ public void testImageGetWorkerByIdBadRequest() throws Exception {
         String contentAsString = mvcResult.getResponse().getContentAsString();
         System.out.println("A " + contentAsString);
    }
+
+
+
+  
 
 
 }

@@ -4,8 +4,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 10vh;
-  width: 100vh;
+  height: 12.5vh;
+  width: 100%;
   padding: 0 20px;
 }
 
@@ -31,7 +31,7 @@
 .page-background ul li a {
   text-decoration: none;
   color: white;
-  font-size: 18px;
+  font-size: 3vh;
   padding: 10px;
 }
 
@@ -59,11 +59,12 @@ body, button, input, textarea, h1, p {
 }
 
 .logout-icon {
-  width: 50px;  /* Gleiche Breite wie das Notification-Icon */
-  height: 50px; /* Gleiche Höhe wie das Notification-Icon */
+  width: 8vh;  /* Gleiche Breite wie das Notification-Icon */
+  height: 8vh; /* Gleiche Höhe wie das Notification-Icon */
   cursor: pointer;
   transition: transform 0.3s;
 }
+
 
 .logout-icon:hover {
   transform: scale(1.1);
@@ -83,7 +84,7 @@ body, button, input, textarea, h1, p {
 }
 
 .icon-label {
-  font-size: 12px;  /* Kleine Schriftgröße für die Labels */
+  font-size: 2.25vh;  /* Kleine Schriftgröße für die Labels */
   color: white;
   margin-top: 5px;  /* Abstand zwischen dem Icon und dem Label */
 }
@@ -134,3 +135,4 @@ body, button, input, textarea, h1, p {
   color: white;
   font-size: 12px;
 }
+

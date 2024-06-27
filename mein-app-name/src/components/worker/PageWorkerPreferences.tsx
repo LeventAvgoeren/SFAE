@@ -152,7 +152,7 @@ export function PageWorkerPreferences() {
                   </option>
                 ))}
               </select>
-              <Button className="button" type="button" onClick={handleJobTypeAdd}>Job hinzufügen</Button>
+              <Button className="button3" type="button" onClick={handleJobTypeAdd}>Job hinzufügen</Button>
               <ul className="job-list">
                 {jobList.map((job, index) => (
                   <li key={index} className="job-item">
@@ -161,7 +161,7 @@ export function PageWorkerPreferences() {
                   </li>
                 ))}
               </ul>
-              <Button className="button" variant="success" type="submit">Profil speichern</Button>
+              <Button className="button2" variant="success" type="submit">Profil speichern</Button>
             </form>
           </MDBContainer>
         </div>

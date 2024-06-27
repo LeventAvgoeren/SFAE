@@ -78,6 +78,7 @@ export function PagePasswordReset() {
                 <MDBCard className='worker-registration-container m-5'>
                     <MDBCardBody className='px-5'>
                         <h2 className="text-uppercase text-center mb-5" style={{color:"white"}}>Passwort zurücksetzen</h2>
+                        <div style={{ color: 'white', marginBottom: '10px' }}>Das Passwort muss mindestens einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten.</div>
                         <form onSubmit={handleSubmit}>
                             <MDBInput
                                 wrapperClass='mb-3 inputField'

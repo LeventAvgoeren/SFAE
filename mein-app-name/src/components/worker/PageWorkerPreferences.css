@@ -2,7 +2,7 @@
   background-image: url('/public/b1.jpg'); /* Überprüfen Sie den korrekten Pfad */
   background-size: cover;
   background-position: center;
-  height: 100vh !important;
+  height: 100vh;
 }
 
 .custom-containerrr25 {

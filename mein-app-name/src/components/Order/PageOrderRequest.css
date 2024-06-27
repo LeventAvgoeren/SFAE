@@ -2,7 +2,7 @@
 
 
 .parent {
-  display: flex;
+  display: grid;
   justify-content: center; 
   align-items: center;    
   height: 100vh;          
@@ -13,7 +13,7 @@
   background: rgba(0, 0, 0, 0.7);
   padding: 10px;
   border-radius: 12px;
-  width: 50%;
+  width: 100vh;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -24,9 +24,16 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px); 
   height: 85vh;
-  max-height: 650px;
-  max-width: 600px;
-  overflow-y: scroll;
+  max-height: 700px;
+  max-width: 700px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.map-container{
+  width:65vh;
+  overflow: hidden;
+  max-width: 450px;
 }
 
 .Backg{

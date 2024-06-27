@@ -58,8 +58,8 @@ body, button, input, textarea, h1, p {
 }
 
 .icon-img {
-  width: 40px;
-  height: 40px;
+  width: 7.5vh;
+  height:7.5vh;
   cursor: pointer;
   transition: transform 0.3s;
 }

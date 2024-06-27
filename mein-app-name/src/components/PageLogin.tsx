@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 export function PageLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [userType, setUserType] = useState('worker');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -42,6 +43,7 @@ export function PageLogin() {
         setError('Ein technischer Fehler ist aufgetreten.');
     }
 };
+
   useEffect(() => {
     setIsLoading(false);
   }, []);
@@ -68,7 +70,23 @@ export function PageLogin() {
             </div>
             <form onSubmit={handleLogin} style={{ width: '100%' }}>
                 <MDBInput className="inputField-fluid" wrapperClass='mb-3 inputField' labelClass='text-white' label='E-Mail Adresse' id='emailInput' type='email' value={email} onChange={e => setEmail(e.target.value)} />
-                <MDBInput wrapperClass='mb-4 inputField' labelClass='text-white' label='Passwort' id='passwordInput' type='password' value={password} onChange={e => setPassword(e.target.value)} />
+                <div className="mb-4 inputField position-relative">
+                  <MDBInput 
+                    wrapperClass='d-inline' 
+                    labelClass='text-white' 
+                    label='Passwort' 
+                    id='passwordInput' 
+                    type={showPassword ? 'text' : 'password'} 
+                    value={password} 
+                    onChange={e => setPassword(e.target.value)} 
+                  />
+                  <span 
+                    onClick={() => setShowPassword(!showPassword)} 
+                    style={{ position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)', cursor: 'pointer' }}
+                  >
+                    {showPassword ? <MDBIcon fas icon="eye-slash" /> : <MDBIcon fas icon="eye" />}
+                  </span>
+                </div>
                 <div className="d-flex justify-content-around w-100 mb-3">
                     <div className="form-check">
                         <input className="form-check-input" type="radio" name="userType" id="worker" value="worker" checked={userType === 'worker'} onChange={() => setUserType('worker')} />

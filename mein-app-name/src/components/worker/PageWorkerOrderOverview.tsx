@@ -43,6 +43,8 @@ export function PageWorkerOrderOverview() {
         setAmount(totalAmount);
       }, [contracts]);
 
+      
+
   
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'ID', width: 130 },

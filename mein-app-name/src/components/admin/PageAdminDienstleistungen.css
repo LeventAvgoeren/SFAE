@@ -1,51 +1,15 @@
-.navbar {
-  position: sticky;
-  top: 0;
-  width: 100%; 
-  margin-left: auto; /* Zentriert die Block-Elemente horizontal */
-  margin-right: auto;
-  background-color: #184c8c;
-}
-
-
 /* Sorgt dafür, dass das Dropdown-Menü sich innerhalb der Grenzen der Navbar befindet */
-.nav-dropdown, #collapsible-nav-dropdown {
-  position: center; /* Übergeordnete Positionierung für Dropdown-Menü auf 'static' setzen */
-}
-
-/* Dropdown-Menü-Position anpassen */
-.dropdown-menu {
-  position: absolute; 
-  left: auto; /* Setze den linken Rand auf 'auto', damit das Menü rechtsbündig ausgerichtet wird */
-  right: 0; /* Richte das Menü rechts aus */
-  top: 1000%; /* Positioniere das Menü direkt unter der Nav-Komponente */
-  background-color: teal;
-}
-
-/* Dropdown-Menü für mobile Ansicht anpassen */
-@media (max-width: 768px) { /* Bootstrap mobile Ansicht Breakpoint */
-  .navbar-nav {
-    flex-direction: column; /* Staple die Nav-Elemente vertikal */
-    position: sticky;
-    
-  }
-
-  .nav-dropdown, #collapsible-nav-dropdown {
-    position: sticky; /* Setze die Position auf 'static', um ein korrektes Verhalten in der mobilen Ansicht zu gewährleisten */
-  }
-
-  .dropdown-menu {
-    width: 100%; /* Setze die Breite des Dropdown-Menüs auf 100% */
-    position: sticky;
-  }
-}
-
 .background-image-Diesntleistungen {
   background-image: url('/public/b1.jpg');
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
 }
-
 
 
 .Nav-Link {
@@ -72,7 +36,7 @@
 }
 
 .search-field{
-  /*max-width: 700px;*/
+  max-width: 100%;
 /*   margin: 0 auto;*/
   border-radius: 5px;
 }
@@ -118,7 +82,7 @@
   }
 
   .margin-container {
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     }
 
 .table {
@@ -127,6 +91,7 @@
   background-color: transparent;
   border-collapse: collapse;
   border-spacing: 0;
+  overflow-x: auto;
 }
 
 .table th, .table td {
@@ -201,3 +166,69 @@ color: green;
 color: orange;
 }
 
+.modal-dialog {
+  /* Zentriere das Modal auf kleinen Bildschirmen */
+  margin: 0 auto;
+  max-width: 90%; /* Maximale Breite des Modals */
+}
+
+
+/* Allgemeine Anpassungen für große Bildschirme */
+@media only screen and (max-width: 1200px) {
+  .navbar {
+    width: 90%;
+  }
+
+  .container-frame {
+    padding: 10px;
+  }
+
+  .search-field input {
+    width: 80%;
+    margin: 10px auto;
+  }
+}
+
+/* Anpassungen für mittelgroße Bildschirme */
+@media only screen and (max-width: 900px) {
+  .navbar {
+    flex-direction: column;
+  }
+
+  .grid-container {
+    grid-template-columns: 1fr; /* Eine Spalte */
+  }
+
+  .search-field input {
+    width: 70%;
+  }
+
+  .table {
+    font-size: 14px;
+  }
+}
+
+/* Anpassungen für kleine Bildschirme */
+@media only screen and (max-width: 600px) {
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .grid-container {
+    display: block;
+  }
+
+  .search-field input {
+    width: 100%;
+    margin: 5px 0;
+  }
+
+  .table {
+    font-size: 12px;
+  }
+
+  .modal-dialog {
+    max-width: 90%;
+  }
+}

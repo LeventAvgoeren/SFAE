@@ -79,7 +79,7 @@ export function NavbarComponent() {
   return (
     <>
       <nav className="page-background">
-        <img src="/Sfae_Logo.png" alt="Logo" style={{ height: 100, width: 100 }} />
+        <img src="/Sfae_Logo.png" alt="Logo" style={{ height: 100, width: 100}} />
         <ul>
           {loginInfo && (
             <li><a href={`/customer/${loginInfo.userId}`}>Home</a></li>

@@ -230,8 +230,8 @@ const handleSaveWorkerUpdate = async () => {
             <div className='background-image-Diesntleistungen'>
                    <NavbarComponent/>
                 <div className="background-city">
-                    <div className="container-frame glassmorphism">
-                        <div className="grid-container margin-container">
+                    <div className="container-frame glassmorphism" style={{display:"flex", flexDirection:"column", flexWrap:"nowrap", position:"relative"}}>
+                        <div className="grid-container margin-container"  style={{display:"flex", flexDirection:"row", flexWrap:"nowrap", position:"relative"}}>
                         <Container className='search-field'>
                             <input 
                                 type='text' 

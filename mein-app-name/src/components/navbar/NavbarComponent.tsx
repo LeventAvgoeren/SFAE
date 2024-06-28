@@ -14,11 +14,11 @@ import { Client, IMessage, Frame } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 
 interface Message {
-    sender: string;
-    receiver: string | undefined;
-    content: string;
-    timestamp?: number;
-    type?: string; 
+  sender: string;
+  receiver: string | undefined;
+  content: string;
+  timestamp?: number;
+  type?: string;
 }
 
 export function NavbarComponent() {
@@ -94,11 +94,17 @@ export function NavbarComponent() {
           {loginInfo && (
             <li><a href={`/customer/${loginInfo.userId}/faq`}>Faq</a></li>
           )}
+
+          {loginInfo && (
+            <li><a href={`/chatBot`}>Chat Bot</a></li>
+          )}
           {loginInfo && loginInfo.admin === "ADMIN" && (
             <li><a href={`/admin/${loginInfo.userId}/dienstleistungen`}>Admin</a></li>
           )}
+
         </ul>
-        <Menu loginInfo={loginInfo}/>
+
+        <Menu loginInfo={loginInfo} />
         {loginInfo && (
           <div className="icons-container">
             <div className="icon-item">
@@ -128,10 +134,24 @@ export default NavbarComponent;
 
 function Menu({loginInfo}:any){
 
-  
+  const [show, setShow] = useState(false)
+
+  useEffect(()=>{
+    const menu : any = document.querySelector('#menu');
+    if(show){
+      menu.style.display = "block";
+    }
+    else{
+      menu.style.display = "none";
+    }
+  }, [show])
+
+  const ToggleMenu = ()=>{
+    setShow(!show);
+  }
 
   return (
-    <div className='header'>
+    <div className='header' onClick={ToggleMenu}>
       <div className="links">
           <span className="icon">
             <span></span>

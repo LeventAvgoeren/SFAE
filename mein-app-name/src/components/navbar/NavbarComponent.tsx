@@ -1,3 +1,4 @@
+import "./NavMenu.css"
 import { NavDropdown } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -79,8 +80,8 @@ export function NavbarComponent() {
   return (
     <>
       <nav className="page-background">
-        <img src="/Sfae_Logo.png" alt="Logo" style={{ height: "12vh", width: "12vh" }} />
-        <ul>
+        <img src="/Sfae_Logo.png" alt="Logo" style={{ height: 100, width: 100 }} />
+        <ul className='full-menu'>
           {loginInfo && (
             <li><a href={`/customer/${loginInfo.userId}`}>Home</a></li>
           )}
@@ -93,13 +94,11 @@ export function NavbarComponent() {
           {loginInfo && (
             <li><a href={`/customer/${loginInfo.userId}/faq`}>Faq</a></li>
           )}
-           {loginInfo && (
-            <li><a href={`/chatBot`}>Chat Bot</a></li>
-          )}
           {loginInfo && loginInfo.admin === "ADMIN" && (
             <li><a href={`/admin/${loginInfo.userId}/dienstleistungen`}>Admin</a></li>
           )}
         </ul>
+        <Menu loginInfo={loginInfo}/>
         {loginInfo && (
           <div className="icons-container">
             <div className="icon-item">
@@ -110,8 +109,7 @@ export function NavbarComponent() {
             </div>
             <div className="icon-item notification-icon" onClick={handleNotificationClick}>
               {newMessage && <div className="notification-badge"></div>}
-              <img src="/icons8-chat-64.png" alt="Live-Chat" className="livechat-icon" 
-              style={{width:"8vh", height:"8vh"}}/>
+              <img src="/icons8-chat-64.png" alt="Live-Chat" />
               <div className="icon-label">Live-Chat</div>
             </div>
           </div>
@@ -126,3 +124,40 @@ export function NavbarComponent() {
 }
 
 export default NavbarComponent;
+
+
+function Menu({loginInfo}:any){
+
+  
+
+  return (
+    <div className='header'>
+      <div className="links">
+          <span className="icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+          <ul id="menu">
+            {loginInfo && (
+              <li><a href={`/customer/${loginInfo.userId}`}>Home</a></li>
+            )}
+            {loginInfo && (
+              <li><a href={`/customer/${loginInfo.userId}/profil`}>Profil</a></li>
+            )}
+            {loginInfo && (
+              <li><a href={`/customer/${loginInfo.userId}/uebersicht`}>Übersicht</a></li>
+            )}
+            {loginInfo && (
+              <li><a href={`/customer/${loginInfo.userId}/faq`}>Faq</a></li>
+            )}
+            {loginInfo && loginInfo.admin === "ADMIN" && (
+              <li><a href={`/admin/${loginInfo.userId}/dienstleistungen`}>Admin</a></li>
+            )}
+          </ul>
+      </div>
+      
+
+    </div>
+  )
+}

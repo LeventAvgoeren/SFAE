@@ -4,7 +4,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 12.5vh;
+  height: 10vh;
   width: 100%;
   padding: 0 20px;
 }
@@ -24,14 +24,14 @@
   justify-content: center;
 }
 
-.page-background ul li {
+/* .page-background ul li {
   margin: 0 20px;
-}
+} */
 
 .page-background ul li a {
   text-decoration: none;
   color: white;
-  font-size: 3vh;
+  font-size: 18px;
   padding: 10px;
 }
 
@@ -59,12 +59,11 @@ body, button, input, textarea, h1, p {
 }
 
 .logout-icon {
-  width: 8vh;  /* Gleiche Breite wie das Notification-Icon */
-  height: 8vh; /* Gleiche Höhe wie das Notification-Icon */
+  width: 50px;  /* Gleiche Breite wie das Notification-Icon */
+  height: 50px; /* Gleiche Höhe wie das Notification-Icon */
   cursor: pointer;
   transition: transform 0.3s;
 }
-
 
 .logout-icon:hover {
   transform: scale(1.1);
@@ -84,7 +83,7 @@ body, button, input, textarea, h1, p {
 }
 
 .icon-label {
-  font-size: 2.25vh;  /* Kleine Schriftgröße für die Labels */
+  font-size: 12px;  /* Kleine Schriftgröße für die Labels */
   color: white;
   margin-top: 5px;  /* Abstand zwischen dem Icon und dem Label */
 }
@@ -136,3 +135,47 @@ body, button, input, textarea, h1, p {
   font-size: 12px;
 }
 
+
+/* My edits */
+
+@media (max-width: 1000px) {
+  .icon-item img{
+    width: 30px !important;
+    height: 35px !important;
+  }
+  .page-background ul li a{
+    padding: 4px;
+    margin: 0;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 700px) {
+  .page-background{
+    padding: 5px;
+    flex-wrap: wrap;
+  }
+  .icon-item img{
+    width: 30px !important;
+    height: 35px !important;
+
+  }
+
+  .page-background ul{
+    width: 70%;
+    padding: 0;
+    display: none;
+  }
+
+  .page-background img{
+    margin: 0;
+  }
+
+  .page-background ul li a{
+    padding: 4px;
+    margin: 0;
+    font-size: 14px;
+    color: white !important;
+  }
+
+}

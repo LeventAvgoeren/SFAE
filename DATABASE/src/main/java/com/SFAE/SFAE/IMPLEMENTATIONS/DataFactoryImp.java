@@ -42,9 +42,8 @@ final class DataFactoryImp implements DataFactoryInterface{
     @Override
     public Optional<Worker> createWorker(String id, String name, String location, String password, String email,
             String status, Double range, String[] jobType, String Statusorder, Double minPayment, Double rating, Boolean verification, Double latitude, Double longitude, String slogan,Boolean confirm) {
-                
                 JobList[] list = new JobList[jobType.length];
-                if(jobType.length < 2){
+                if(jobType.length > 1){
                     for(int i= 0; i < jobType.length; i ++) {
                         list[i] = JobList.valueOf(jobType[i]);
                     }

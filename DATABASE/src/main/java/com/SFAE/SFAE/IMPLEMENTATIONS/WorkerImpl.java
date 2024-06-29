@@ -116,6 +116,7 @@ public class WorkerImpl implements WorkerInterface {
 
         (rs, rowNum) -> createWorker(rs));
     if (!result.isEmpty() && result.get(0).isPresent()) {
+      System.out.println("WORKER: " + result.get(0).get());
       return result.get(0).get();
     }
     return null;
@@ -356,7 +357,7 @@ public class WorkerImpl implements WorkerInterface {
       jobTypeString = jobTypeString.replace("\"", "");
 
       String[] jobType = jobTypeString.split(",");
-    
+      
       Double minPayment = rs.getDouble("min_payment");
       Double rating = rs.getDouble("rating");
       Boolean verification = rs.getBoolean("verification");

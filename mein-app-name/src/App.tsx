@@ -41,9 +41,7 @@ import { TermsAndConditions } from "./components/TermsAndConditions";
 import { Toolbar, Typography } from "@mui/material";
 import { PageVerifyEmail } from "./components/customer/PageVerifyEmail";
 import { PageVerifyWorkerEmail } from "./components/customer/PageVerfyWorkerEmail";
-import { PageWorkerOrder } from "./components/worker/PageWorkerOrder";
-import {PageChatBot } from "./components/PageChatBot";
-
+import PageFinishContract from "./components/worker/PageFinishContract";
 
 
 
@@ -82,7 +80,6 @@ function App() {
       <LoginContext.Provider value={{ loginInfo, setLoginInfo }}>
 
         <Routes>
-        
                   {/* Gemeinsame Routen */}
                   <Route path="/agb" element={<PageAGB />} />
                   <Route path ="/" element={<PageIntroduction/>}/>
@@ -99,7 +96,6 @@ function App() {
                   <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
                   <Route path="/passwordreset" element={<PageRequestPasswordReset/>}/>
                   <Route path="/newPassword" element={<PagePasswordReset/>}/>
-                  <Route path="/chatBot" element={(loginInfo) ? <PageChatBot /> : < Navigate to="/NotAuth" replace />} />
 
 
           {/* Customer */}
@@ -120,14 +116,16 @@ function App() {
           {/* Worker */}
           <Route path="/worker/:workerId" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerIndex /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/orders/overview" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerOrderOverview /> : < Navigate to="/NotAuth" replace />} />
+          <Route path="/worker/:workerId/finances" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerFinances /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/profile" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerProfile /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/preferences" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerPreferences /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/faq" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerFAQ /> : < Navigate to="/NotAuth" replace />} />
-          <Route path="/worker/:workerId/order/:orderId" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerOrder /> : < Navigate to="/NotAuth" replace />} />
+          <Route path="/worker/:workerId/orders" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerOrders /> : < Navigate to="/NotAuth" replace />} />
+          <Route path="/worker/:workerId/finishcontract" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageFinishContract /> : <Navigate to="/NotAuth" replace />} />
 
 
 
-          <Route path="/NotAuth" element={<PageError error={401} />} />
+
           <Route path="/contract" element={<PageDeclineJob />} />
           <Route path="/verifyEmail" element={<PageVerifyEmail />} />
           <Route path="/verifyEmailWorker" element={<PageVerifyWorkerEmail />} />
@@ -138,16 +136,9 @@ function App() {
          </Routes>
 
       </LoginContext.Provider>
-      <footer style={{ bottom:0, backgroundColor: "#001325", position: "fixed",textAlign: 'center',  width:"100%", zIndex:100 }}>
-            <Typography variant="body1" style={{ color: 'white', flex: 1,fontSize:"15px" }}>
-              © 2024 SFAE von Ahmad Sfarjalani, Eray Zor, Levent Avgören, Duc Dai Nguyen, Danyal Mahrous. Alle Rechte vorbehalten.
-              <a href="/imprint" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Impressum</a>
-              <span style={{ margin: "10px" }}>|</span>
-                <a href="/agb" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Allgemeine Geschäftsbedingungen</a>
-              </Typography>
-          </footer>
       
     </>
   );
 }
-export default App; 
+
+export default App;

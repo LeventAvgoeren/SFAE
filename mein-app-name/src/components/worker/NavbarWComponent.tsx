@@ -52,7 +52,7 @@ export function NavbarWComponent() {
       },
       onWebSocketClose: (event) => {
         console.error("WebSocket closed, event:", event);
-      },
+      }
     });
 
     client.activate();
@@ -126,7 +126,7 @@ export function NavbarWComponent() {
           )}
         </div>
         {loginInfo && (
-          <div className="navbar-icons d-flex">
+          <div className="navbar-icons d-flex icons-container">
             <div className="icon-item">
               <a onClick={doLogout}>
                 <img src="/icons8-logout-100.png" alt="Logout" className="icon-img" />

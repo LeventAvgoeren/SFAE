@@ -8,6 +8,7 @@ import { deDE } from '@mui/x-data-grid/locales';
 import NavbarWComponent from "./NavbarWComponent";
 import { MDBBtn } from "mdb-react-ui-kit";
 import { FaCheckCircle, FaTimesCircle, FaExclamationCircle, FaUserSlash } from "react-icons/fa";
+import LoadingIndicator from "../LoadingIndicator";
 
 export function PageWorkerOrderOverview() {
     const params = useParams();
@@ -17,6 +18,7 @@ export function PageWorkerOrderOverview() {
     const [contracts, setContracts] = useState<ContractResourceforWorker[]>([]);
     const [noContracts, setNoContracts] = useState(false);
     const [amount, setAmount] = useState(0);
+    const [loading, setLoading] = useState(true); // Hinzufügen des Ladezustands
 
     useEffect(() => {
       async function fetchContracts() {
@@ -29,6 +31,8 @@ export function PageWorkerOrderOverview() {
           }
         } catch (error) {
           console.log("Fehler:" + error);
+        } finally {
+          setLoading(false); // Laden abgeschlossen
         }
       }
       fetchContracts();
@@ -114,26 +118,30 @@ export function PageWorkerOrderOverview() {
             <div className="my-section10"> 
                 <NavbarWComponent />
                 <div style={{ height: 'calc(100vh - 100px)', width: '100%', marginTop: "0.5%" }}>
-                    <DataGrid
-                        rows={contracts}
-                        columns={columns}
-                        style={{ backgroundColor: 'white', color: 'black' }}
-                        localeText={deDE.components.MuiDataGrid.defaultProps.localeText}
-                        sx={{
-                            width: '100%',
-                            '& .super-app-theme--header': {
-                                backgroundColor: '#e0e0e0',
-                            },
-                            '& .MuiDataGrid-row': {
-                                '&:nth-of-type(odd)': {
-                                    backgroundColor: '#f5f5f5', // Color for odd rows
+                    {loading ? (
+                        <LoadingIndicator />
+                    ) : (
+                        <DataGrid
+                            rows={contracts}
+                            columns={columns}
+                            style={{ backgroundColor: 'white', color: 'black' }}
+                            localeText={deDE.components.MuiDataGrid.defaultProps.localeText}
+                            sx={{
+                                width: '100%',
+                                '& .super-app-theme--header': {
+                                    backgroundColor: '#e0e0e0',
                                 },
-                                '&:nth-of-type(even)': {
-                                    backgroundColor: '#e0e0e0', // Color for even rows
+                                '& .MuiDataGrid-row': {
+                                    '&:nth-of-type(odd)': {
+                                        backgroundColor: '#f5f5f5', // Color for odd rows
+                                    },
+                                    '&:nth-of-type(even)': {
+                                        backgroundColor: '#e0e0e0', // Color for even rows
+                                    },
                                 },
-                            },
-                        }}
-                    />
+                            }}
+                        />
+                    )}
                 </div>
                 <div style={{ padding: 10, backgroundColor: '#f0f0f0', textAlign: 'right' }}>
                     <strong>Gesamtumsatz:</strong> {amount} €

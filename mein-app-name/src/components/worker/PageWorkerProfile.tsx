@@ -228,49 +228,48 @@ export function PageWorkerProfile() {
 
   return (
     <>
-      <div className="Backg">
+      <div className="Backg" style={{ backgroundImage: 'url(/b1.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '100vh' }}>
         <NavbarWComponent />
         <div className="custom-container">
-              <h1>Profileinstellungen</h1>
-              {previewImage || profileImage ? (
-                <div>
-                  <img src={previewImage || profileImage} alt="Profilbild" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
-                </div>
-              ) : (
-                <div className="placeholder bg-secondary d-flex align-items-center justify-content-center" style={{ width: '150px', height: '150px', borderRadius: '50%', color: 'white' }}>
-                  <span>Kein Bild</span>
-                </div>
-              )}
-        
-            <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
-              <MDBInput wrapperClass="inputField1" label="Name" type="text" value={name} onChange={(e) => setName(e.target.value)} />
-              <MDBInput wrapperClass="inputField1" label="Adresse" type="text" value={location} onChange={(e) => setLocation(e.target.value)} onBlur={() => handleAddressValidation(location)} />
-              {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
-              <MDBInput wrapperClass="inputField1" label="E-Mail" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-              <MDBInput wrapperClass="inputField1" label="Passwort" type="password" onChange={handlePasswordChange} />
-              <MDBInput wrapperClass="inputField1" label="Passwort erneut eingeben" type="password"  onChange={(e) => setConfirmPassword(e.target.value)} />
-              {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>}
-              <MDBProgress className='mb-4'>
-                <MDBProgressBar width={passwordStrength * 25} valuemin={0} valuemax={100}>
-                  {passwordStrength * 25}%
-                </MDBProgressBar>
-              </MDBProgress>
-              <MDBInput
-                wrapperClass="inputField1"
-                label="Dein Slogan/Motto"
-                type="text"
-                value={slogan}
-                onChange={(e) => setSlogan(e.target.value)}
-              />
-              <div className="profile-upload-container">
-                <label htmlFor="profileImage" className="form-label" style={{ color: "white" }}>Profilbild hochladen</label>
-                <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
-              </div>
-              <Button  className="button9" variant="success" type="submit">Profil speichern</Button>
-              <Button  className="button10" variant="danger" onClick={toggleShow}>
-                Account Löschen
-              </Button>
-            </form>
+          <h1>Profileinstellungen</h1>
+          {previewImage || profileImage ? (
+            <div>
+              <img src={previewImage || profileImage} alt="Profilbild" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
+            </div>
+          ) : (
+            <div className="placeholder bg-secondary d-flex align-items-center justify-content-center" style={{ width: '150px', height: '150px', borderRadius: '50%', color: 'white' }}>
+              <span>Kein Bild</span>
+            </div>
+          )}
+          <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
+            <MDBInput wrapperClass="inputField1" label="Name" type="text" value={name} onChange={(e) => setName(e.target.value)} />
+            <MDBInput wrapperClass="inputField1" label="Adresse" type="text" value={location} onChange={(e) => setLocation(e.target.value)} onBlur={() => handleAddressValidation(location)} />
+            {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
+            <MDBInput wrapperClass="inputField1" label="E-Mail" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <MDBInput wrapperClass="inputField1" label="Passwort" type="password" onChange={handlePasswordChange} />
+            <MDBInput wrapperClass="inputField1" label="Passwort erneut eingeben" type="password"  onChange={(e) => setConfirmPassword(e.target.value)} />
+            {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>}
+            <MDBProgress className='mb-4'>
+              <MDBProgressBar width={passwordStrength * 25} valuemin={0} valuemax={100}>
+                {passwordStrength * 25}%
+              </MDBProgressBar>
+            </MDBProgress>
+            <MDBInput
+              wrapperClass="inputField1"
+              label="Dein Slogan/Motto"
+              type="text"
+              value={slogan}
+              onChange={(e) => setSlogan(e.target.value)}
+            />
+            <div className="profile-upload-container">
+              <label htmlFor="profileImage" className="form-label" style={{ color: "white" }}>Profilbild hochladen</label>
+              <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
+            </div>
+            <Button  className="button9" variant="success" onClick = {handleUpdate}>Profil speichern</Button>
+            <Button  className="button10" variant="danger" onClick={toggleShow}>
+              Account Löschen
+            </Button>
+          </form>
         </div>
         <div className={`modal fade ${modalShow ? 'show' : ''}`} style={{ display: modalShow ? 'block' : 'none' }}>
           <div className="modal-dialog">

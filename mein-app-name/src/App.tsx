@@ -41,9 +41,8 @@ import { TermsAndConditions } from "./components/TermsAndConditions";
 import { Box, Fab, IconButton, Modal, Toolbar, Typography } from "@mui/material";
 import { PageVerifyEmail } from "./components/customer/PageVerifyEmail";
 import { PageVerifyWorkerEmail } from "./components/customer/PageVerfyWorkerEmail";
-import { PageWorkerOrder } from "./components/worker/PageWorkerOrder";
-import {PageChatBot } from "./components/PageChatBot";
-
+import PageFinishContract from "./components/worker/PageFinishContract";
+import { PageChatBot } from "./components/PageChatBot";
 
 function App() {
   const [loginInfo, setLoginInfo] = useState<LoginInfo | false>();
@@ -90,7 +89,6 @@ function App() {
       <LoginContext.Provider value={{ loginInfo, setLoginInfo }}>
 
         <Routes>
-        
                   {/* Gemeinsame Routen */}
                   <Route path="/agb" element={<PageAGB />} />
                   <Route path ="/" element={<PageIntroduction/>}/>
@@ -128,14 +126,16 @@ function App() {
           {/* Worker */}
           <Route path="/worker/:workerId" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerIndex /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/orders/overview" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerOrderOverview /> : < Navigate to="/NotAuth" replace />} />
+          <Route path="/worker/:workerId/finances" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerFinances /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/profile" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerProfile /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/preferences" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerPreferences /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/faq" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerFAQ /> : < Navigate to="/NotAuth" replace />} />
-          <Route path="/worker/:workerId/order/:orderId" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerOrder /> : < Navigate to="/NotAuth" replace />} />
+          <Route path="/worker/:workerId/orders" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerOrders /> : < Navigate to="/NotAuth" replace />} />
+          <Route path="/worker/:workerId/finishcontract" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageFinishContract /> : <Navigate to="/NotAuth" replace />} />
 
 
 
-          <Route path="/NotAuth" element={<PageError error={401} />} />
+
           <Route path="/contract" element={<PageDeclineJob />} />
           <Route path="/verifyEmail" element={<PageVerifyEmail />} />
           <Route path="/verifyEmailWorker" element={<PageVerifyWorkerEmail />} />
@@ -185,4 +185,5 @@ function App() {
     </>
   );
 }
-export default App; 
+
+export default App;

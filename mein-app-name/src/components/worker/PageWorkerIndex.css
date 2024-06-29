@@ -68,6 +68,9 @@
   font-size: 5vh;
 }
 
-.Backg{
-  overflow-y: auto;
+.Backg {
+  min-height: 100vh; /* Minimum height to cover the whole viewport height */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }

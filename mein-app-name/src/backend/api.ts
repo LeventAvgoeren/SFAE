@@ -632,7 +632,7 @@ export async function updateWorkerOrderStatus(workerId: string, status: string):
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ status }), // Send status as an object
+    body: JSON.stringify(status), 
     credentials: 'include' as RequestCredentials,
   });
 

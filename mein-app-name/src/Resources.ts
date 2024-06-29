@@ -31,7 +31,7 @@ export type WorkerResourcePreferences = {
     id?:string;
     range : Number;
     minPayment: Number;
-    jobList:string[];
+    jobType:string[];
 }
 
 export type WorkerResourceProfil = {

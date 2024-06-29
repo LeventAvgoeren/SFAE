@@ -5,7 +5,7 @@ import { chatBot } from '../backend/api';
 export function PageChatBot() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([
-    { sender: 'bot', text: 'Hallo! Wie kann ich Ihnen helfen?' }
+    { sender: 'bot', text: 'Hallo! Wie kann ich Ihnen helfen? Bitte achten sie auf die rechtschreibung und stellen sie nur eine frage' }
   ]);
   const [typingMessage, setTypingMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);

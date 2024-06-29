@@ -53,7 +53,7 @@ export function PageWorkerIndex() {
 
   const handleFinishContract = async (contractId: number) => {
     try {
-      await updateWorkerOrderStatus(contractId.toString(), 'FINISHED');
+      await updateWorkerOrderStatus(workerId!, 'FINISHED');
       setUnfinishedContracts(prevContracts => prevContracts.filter(contract => contract.id !== contractId));
     } catch (error) {
       console.error('Error updating contract status', error);
@@ -83,7 +83,7 @@ export function PageWorkerIndex() {
           {worker && <h1>Willkommen, {worker.name}!</h1>}
           <div className="alert alert-warning mt-3">
             Du hast noch unabgeschlossene Aufträge!
-            <Button variant="primary" onClick={handleShowModal}>
+            <Button  onClick={handleShowModal} className='anzeigen'>
               Anzeigen
             </Button>
           </div>
@@ -95,7 +95,7 @@ export function PageWorkerIndex() {
             ].map(({ path, label, img }, index) => (
               <Col key={index} md={4} className="mb-4">
                 <Card>
-                  <Link to={path}>
+                  <Link to={path}>a
                     <Card.Img
                       variant="top"
                       src={zoom === img ? `${img}-zoom.jpg` : img}

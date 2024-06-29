@@ -88,8 +88,8 @@ export function PageWorkerPreferences() {
 
   // Job Type hinzufügen
   const handleJobTypeAdd = () => {
-    if (jobType && !jobList.includes(jobType)) {
-      setJobList([...jobList, jobType]);
+    if (jobType && !jobList.includes(jobType.toUpperCase())) {
+      setJobList([...jobList, jobType.toUpperCase()]);
       setJobType('');
     }
   };
@@ -104,11 +104,12 @@ export function PageWorkerPreferences() {
     const updatedWorkerData: WorkerResourcePreferences = {
       id: (worId!),
       range: range,
-      jobList: jobList,
+      jobType: jobList,
       minPayment: minPayment!,
     }
 
     try {
+      console.log(updatedWorkerData.jobType+" ---------------------")
       const updatedWorker = await updateWorkerPreferences(updatedWorkerData);
       console.log("Updated Worker:", updatedWorker);
       toast.success("Präferenzen erfolgreich aktualisiert");

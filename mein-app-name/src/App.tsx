@@ -43,6 +43,7 @@ import { PageVerifyEmail } from "./components/customer/PageVerifyEmail";
 import { PageVerifyWorkerEmail } from "./components/customer/PageVerfyWorkerEmail";
 import { PageWorkerOrder } from "./components/worker/PageWorkerOrder";
 import {PageChatBot } from "./components/PageChatBot";
+import { CircleButton } from "./CircleButton";
 
 
 
@@ -93,13 +94,13 @@ function App() {
                     }
                   />
                   <Route path="/admin/:adminId" element={<PageIndexAdmin />} />
-                  <Route path="/admin/:adminId/dienstleistungen" element={<PageAdminDienstleistungen />} />
+                  <Route path="/admin/:adminId/dienstleistungen" element={(loginInfo && loginInfo.admin === "ADMIN")  ?<PageAdminDienstleistungen /> :< Navigate to="/NotAuth" replace />} />
                   <Route path="/login" element={<PageLogin />} />
                   <Route path="/registration/customer" element={<PageRegistration />} />
                   <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
                   <Route path="/passwordreset" element={<PageRequestPasswordReset/>}/>
                   <Route path="/newPassword" element={<PagePasswordReset/>}/>
-                  <Route path="/chatBot" element={(loginInfo) ? <PageChatBot /> : < Navigate to="/NotAuth" replace />} />
+                  <Route path="/chatBot" element=  {<PageChatBot /> }/>
 
 
           {/* Customer */}
@@ -138,6 +139,7 @@ function App() {
          </Routes>
 
       </LoginContext.Provider>
+      <CircleButton />
       <footer style={{ bottom:0, backgroundColor: "#001325", position: "fixed",textAlign: 'center',  width:"100%",height:"3.3vh"}}>
             <Typography variant="body1" style={{ color: 'white', flex: 1,fontSize:"15px" }}>
               © 2024 SFAE von Ahmad Sfarjalani, Eray Zor, Levent Avgören, Duc Dai Nguyen, Danyal Mahrous. Alle Rechte vorbehalten.

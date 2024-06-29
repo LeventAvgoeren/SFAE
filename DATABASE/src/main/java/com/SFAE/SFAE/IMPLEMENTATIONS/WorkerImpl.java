@@ -116,7 +116,6 @@ public class WorkerImpl implements WorkerInterface {
 
         (rs, rowNum) -> createWorker(rs));
     if (!result.isEmpty() && result.get(0).isPresent()) {
-      System.out.println("WORKER: " + result.get(0).get());
       return result.get(0).get();
     }
     return null;

@@ -68,9 +68,9 @@
   font-size: 5vh;
 }
 
-.Backg{
-  overflow-y: auto;
-  background-image: url('/public/b1.jpg'); /* Überprüfen Sie den korrekten Pfad */
-
-
+.Backg {
+  min-height: 100vh; /* Minimum height to cover the whole viewport height */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }

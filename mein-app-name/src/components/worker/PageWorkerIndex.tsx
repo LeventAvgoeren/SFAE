@@ -94,7 +94,7 @@ export function PageWorkerIndex() {
 
   return (
     <>
-      <div className="Backg">   
+      <div className="Backg" style={{ backgroundImage: 'url(/b1.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>   
         <NavbarWComponent />
         <Container className="mt-0">
           {worker && <h1>Willkommen, {worker.name}!</h1>}
@@ -126,7 +126,7 @@ export function PageWorkerIndex() {
               </Col>
             ))}
           </Row>
-          {latestContract && latestContract.statusOrder !== 'FINISHED' && (
+          {worker && worker.statusOrder !== 'FINISHED' && (
             <div className="alert alert-warning mt-3">
               Du hast noch unabgeschlossene Aufträge!
               <Button onClick={handleShowModal} className='anzeigen'>

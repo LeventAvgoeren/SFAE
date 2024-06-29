@@ -266,7 +266,7 @@ export function PageWorkerProfile() {
                 <label htmlFor="profileImage" className="form-label" style={{ color: "white" }}>Profilbild hochladen</label>
                 <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
               </div>
-              <Button  className="button9" variant="success">Profil speichern</Button>
+              <Button  className="button9" variant="success" type="submit">Profil speichern</Button>
               <Button  className="button10" variant="danger" onClick={toggleShow}>
                 Account Löschen
               </Button>

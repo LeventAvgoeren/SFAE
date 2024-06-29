@@ -5,7 +5,7 @@ import { chatBot } from '../backend/api';
 export function PageChatBot() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([
-    { sender: 'bot', text: 'Hallo! Wie kann ich Ihnen helfen?' }
+    { sender: 'bot', text: 'Hallo! Ich bin dein Chatbot. Wie kann ich Ihnen helfen? Bitte achte auf deine Rechtschreibung ,da ich sonst nicht in der Lage bin deine Frage zu beantworten.' }
   ]);
   const [typingMessage, setTypingMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -47,34 +47,40 @@ export function PageChatBot() {
   };
 
   return (
-    <div className="Backg">
-      <div className="container">
-        <h1>Chatbot</h1>
-        <div className="chatWindow">
-          {messages.map((message, index) => (
-            <div
-              key={index}
-              className={`message ${message.sender === 'user' ? 'userMessage' : 'botMessage'}`}
-              dangerouslySetInnerHTML={{ __html: message.text }}
-            />
-          ))}
-          {isTyping && (
-            <div className="message botMessage">
-              {typingMessage}
-            </div>
-          )}
-        </div>
-        <form className="form" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            className="input"
-            placeholder="Schreiben Sie eine Nachricht..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
+
+    <div className="container">
+      <div className="chatWindow">
+        {messages.map((message, index) => (
+          <div
+            key={index}
+            className={`message ${message.sender === 'user' ? 'userMessage' : 'botMessage'}`}
+            dangerouslySetInnerHTML={{ __html: message.text }}
           />
-          <button type="submit" className="button">Senden</button>
-        </form>
+        ))}
+        {isTyping && (
+          <div className="message botMessage">
+            {typingMessage}
+          </div>
+        )}
       </div>
+      <form className="form" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          className="input"
+          placeholder="Schreiben Sie eine Nachricht..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <button type="submit" className="button" 
+        style={{display:'flex', justifyContent:'center', 
+          alignItems:'center', width:'40px', height:'40px', backgroundColor:'#6200ea',
+          border: "none", borderRadius: "8px", cursor:'pointer'
+        }}>
+          <img src="/send-button.png" alt="send" className="button-icon" 
+          style={{width:"3vh", height:"3vh"}}/>
+        </button>
+      </form>
     </div>
+
   );
 }

@@ -78,3 +78,13 @@
   background-position: center;
   height: 100vh;
 }
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: #fff; /* Adjust if needed */
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  overflow: hidden;
+}

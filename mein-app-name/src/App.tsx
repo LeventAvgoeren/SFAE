@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import "./App.css";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -38,20 +38,19 @@ import ChatComponent from "./components/ChatComponent";
 import { ImprintPage } from "./components/ImprintPage";
 import { TermsAndConditions } from "./components/TermsAndConditions";
 
-import { Toolbar, Typography } from "@mui/material";
+import { Box, Fab, IconButton, Modal, Toolbar, Typography } from "@mui/material";
 import { PageVerifyEmail } from "./components/customer/PageVerifyEmail";
 import { PageVerifyWorkerEmail } from "./components/customer/PageVerfyWorkerEmail";
 import { PageWorkerOrder } from "./components/worker/PageWorkerOrder";
 import {PageChatBot } from "./components/PageChatBot";
 
 
-
-
-
 function App() {
   const [loginInfo, setLoginInfo] = useState<LoginInfo | false>();
   const [isLoading, setLoading] = useState(true);
+  const [showChat, setShowChat] = useState(false);
   const location = useLocation(); 
+  const chatBodyRef = useRef<HTMLDivElement>(null);
 
 
   async function fetchLoginStatus() {
@@ -72,10 +71,19 @@ function App() {
     fetchLoginStatus();
   }, []);
 
+  useEffect(() => {
+    if (showChat && chatBodyRef.current) {
+      chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+    }
+  }, [showChat]);
+
 
   if (isLoading) {
     return <LoadingIndicator />
   }
+
+  const isPageIntroduction = location.pathname === '/';
+
   return (
 
     <>
@@ -99,7 +107,7 @@ function App() {
                   <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
                   <Route path="/passwordreset" element={<PageRequestPasswordReset/>}/>
                   <Route path="/newPassword" element={<PagePasswordReset/>}/>
-                  <Route path="/chatBot" element={(loginInfo) ? <PageChatBot /> : < Navigate to="/NotAuth" replace />} />
+                  <Route path="/chatBot" element={ <PageChatBot/>}/>
 
 
           {/* Customer */}
@@ -138,8 +146,35 @@ function App() {
          </Routes>
 
       </LoginContext.Provider>
+
+      {!isPageIntroduction && (
+          <>
+      <Fab
+        color="primary"
+        aria-label="chat"
+        style={{ position: "fixed", bottom: 25, right: 1, backgroundColor:"#021128", width:"10vh", height:"10vh"}}
+        onClick={() => setShowChat(!showChat)}
+      >
+        <img src="/chatbot-icon.png" alt="chatbot" style={{ width: '8vh', height: '8vh' }} />
+      </Fab>
+      
+      {showChat && (
+        <div className="chat-popup">
+          <div className="chat-header">
+            <IconButton onClick={() => setShowChat(false)} style={{ color: 'white' }}>
+              <img src="/close-button.png" alt="close-button" style={{width:"3vh", height:"3vh"}}/>
+            </IconButton>
+          </div>
+          <div className="chat-body" ref={chatBodyRef}>
+            <PageChatBot />
+          </div>
+        </div>
+      )}
+       </>
+      )}
+      
       <footer style={{ bottom:0, backgroundColor: "#001325", position: "fixed",textAlign: 'center',  width:"100%", zIndex:100 }}>
-            <Typography variant="body1" style={{ color: 'white', flex: 1,fontSize:"15px" }}>
+            <Typography variant="body1" style={{ color: 'white', flex: 1,fontSize:"2.5vh" }}>
               © 2024 SFAE von Ahmad Sfarjalani, Eray Zor, Levent Avgören, Duc Dai Nguyen, Danyal Mahrous. Alle Rechte vorbehalten.
               <a href="/imprint" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Impressum</a>
               <span style={{ margin: "10px" }}>|</span>

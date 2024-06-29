@@ -17,7 +17,7 @@
     width: 50%;
     max-width: 800px; /* Maximalbreite */
     height: 85vh;
-    max-height: 800px;
+    max-height: 800 px;
     overflow-y: auto; /*rausnehmen wenn es auf desktop kacke aussieht  */
     margin-top: 1.5%; /*rausnehmen wenn es auf desktop kacke aussieht  */
     border: 1px solid rgba(255, 255, 255, 0.3);

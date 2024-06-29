@@ -13,9 +13,9 @@ export function PageWorkerIndex() {
   const [worker, setWorker] = useState<WorkerResource | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [zoom, setZoom] = useState<string | null>(null);
-  const [unfinishedContracts, setUnfinishedContracts] = useState<ContractResourceforWorker[]>([]);
+  const [latestContract, setLatestContract] = useState<ContractResourceforWorker | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [zoom, setZoom] = useState<string | null>(null);
 
   useEffect(() => {
     if (!workerId) {
@@ -36,30 +36,50 @@ export function PageWorkerIndex() {
     fetchWorker();
   }, [workerId]);
 
-  useEffect(() => {
-    const fetchContracts = async () => {
-      try {
-        const contracts = await getContractByWorkerId(workerId!);
-        const unfinished = contracts.filter(contract => contract.statusOrder === 'ACCEPTED');
-        setUnfinishedContracts(unfinished);
-      } catch (error) {
-        console.error('Error fetching contracts', error);
+  const fetchLatestContract = async () => {
+    try {
+      const contracts = await getContractByWorkerId(workerId!);
+      if (contracts.length > 0) {
+        const latest = contracts.reduce((prev, current) => {
+          if (!prev.id || !current.id) {
+            return prev;
+          }
+          return (prev.id > current.id) ? prev : current;
+        });
+        setLatestContract(latest);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching contracts', error);
+    }
+  };
+
+  useEffect(() => {
     if (workerId) {
-      fetchContracts();
+      fetchLatestContract();
     }
   }, [workerId]);
 
-  const handleFinishContract = async (contractId: number) => {
-    try {
-      await updateWorkerOrderStatus(workerId!, 'FINISHED');
-      setUnfinishedContracts(prevContracts => prevContracts.filter(contract => contract.id !== contractId));
-    } catch (error) {
-      console.error('Error updating contract status', error);
+  const handleShowModal = async () => {
+    await fetchLatestContract();
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => setShowModal(false);
+
+  const handleFinishContract = async () => {
+    if (workerId) {
+      try {
+        await updateWorkerOrderStatus(workerId, 'FINISHED');
+        if (latestContract) {
+          setLatestContract({ ...latestContract, statusOrder: 'FINISHED' });
+        }
+        setShowModal(false);
+      } catch (error) {
+        console.error('Error updating contract status', error);
+      }
     }
   };
-  
+
   if (loading) {
     return <LoadingIndicator />;
   }
@@ -72,21 +92,12 @@ export function PageWorkerIndex() {
     setZoom(zoom === image ? null : image);
   };
 
-  const handleShowModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
-
   return (
     <>
-      <div className="Backg">   
+      <div className="Backg" style={{ backgroundImage: 'url(/b1.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>   
         <NavbarWComponent />
         <Container className="mt-0">
           {worker && <h1>Willkommen, {worker.name}!</h1>}
-          <div className="alert alert-warning mt-3">
-            Du hast noch unabgeschlossene Aufträge!
-            <Button  onClick={handleShowModal} className='anzeigen'>
-              Anzeigen
-            </Button>
-          </div>
           <Row>
             {[
               { path: `/worker/${workerId}/orders/overview`, label: 'Aufträge', img: '/auftraege.jpg' },
@@ -115,29 +126,41 @@ export function PageWorkerIndex() {
               </Col>
             ))}
           </Row>
+          {worker && worker.statusOrder !== 'FINISHED' && (
+            <div className="alert alert-warning mt-3">
+              Du hast noch unabgeschlossene Aufträge!
+              <Button onClick={handleShowModal} className='anzeigen'>
+                Letzten Vertrag anzeigen
+              </Button>
+            </div>
+          )}
         </Container>
       </div>
 
       <Modal show={showModal} onHide={handleCloseModal} className="custom-modal">
         <Modal.Header closeButton>
-          <Modal.Title>Unabgeschlossene Aufträge</Modal.Title>
+          <Modal.Title>Letzter Vertrag</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {unfinishedContracts.length > 0 ? (
-            <ul>
-              {unfinishedContracts.map(contract => (
-                <li key={contract.id} className="d-flex justify-content-between align-items-center">
-                  <div>
-                    <strong>ID:</strong> {contract.id}, <strong>Adresse:</strong> {contract.adress || 'Keine Adresse'}, <strong>Job-Typ:</strong> {contract.jobType}
-                  </div>
-                  <Button variant="success" onClick={() => handleFinishContract(contract.id!)}>
-                    Abschließen
+          {latestContract ? (
+            <Card>
+              <Card.Body>
+                <Card.Title>Vertragsdetails</Card.Title>
+                <Card.Text>
+                  <strong>ID:</strong> {latestContract.id}<br />
+                  <strong>Adresse:</strong> {latestContract.adress || 'Keine Adresse'}<br />
+                  <strong>Job-Typ:</strong> {latestContract.jobType}<br />
+                  <strong>Status:</strong> {latestContract.statusOrder}
+                </Card.Text>
+                {latestContract.statusOrder !== 'FINISHED' && (
+                  <Button variant="success" onClick={handleFinishContract}>
+                    Als erledigt markieren
                   </Button>
-                </li>
-              ))}
-            </ul>
+                )}
+              </Card.Body>
+            </Card>
           ) : (
-            <p>Keine unabgeschlossenen Aufträge gefunden.</p>
+            <p>Kein Vertrag gefunden.</p>
           )}
         </Modal.Body>
         <Modal.Footer>

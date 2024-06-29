@@ -3,7 +3,7 @@ import { JobType, Position, WorkerResource, WorkerResourceProfil } from "../../R
 import { deleteWorker, getWorkerbyID, getWorkerImage, deleteCookie, updateWorkerProfile } from "../../backend/api";
 import { Link, useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import { Button } from "react-bootstrap";
+import { Button, Row } from "react-bootstrap";
 import { MDBContainer, MDBInput, MDBProgress, MDBProgressBar } from "mdb-react-ui-kit";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -52,10 +52,21 @@ export function PageWorkerProfile() {
   const [previewImage, setPreviewImage] = useState<string | undefined>(undefined);
   const [addressValid, setAddressValid] = useState(true);
   const [slogan, setSlogan] = useState("");
+  const [modalShow, setModalShow] = useState(false);
+  const [cancelModalShow, setCancelModalShow] = useState(false);
 
   const params = useParams();
   const worId = params.workerId;
 
+
+  const toggleShow = () => {
+    setModalShow(!modalShow);
+  };
+
+  const toggleCancelShow = () => {
+    setCancelModalShow(!cancelModalShow);
+  };
+  
   const handleAddressValidation = async (inputAddress: string) => {
     const isValid = await fetchCoordinates(inputAddress);
     setAddressValid(isValid);
@@ -217,52 +228,67 @@ export function PageWorkerProfile() {
 
   return (
     <>
-      <div className="Backg">
+      <div className="Backg" style={{ backgroundImage: 'url(/b1.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '100vh' }}>
         <NavbarWComponent />
         <div className="custom-container">
-              <h1>Profileinstellungen</h1>
-              {previewImage || profileImage ? (
-                <div>
-                  <img src={previewImage || profileImage} alt="Profilbild" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
-                </div>
-              ) : (
-                <div className="placeholder bg-secondary d-flex align-items-center justify-content-center" style={{ width: '150px', height: '150px', borderRadius: '50%', color: 'white' }}>
-                  <span>Kein Bild</span>
-                </div>
-              )}
-        
-            <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
-              <MDBInput wrapperClass="inputField1" label="Name" type="text" value={name} onChange={(e) => setName(e.target.value)} />
-              <MDBInput wrapperClass="inputField1" label="Adresse" type="text" value={location} onChange={(e) => setLocation(e.target.value)} onBlur={() => handleAddressValidation(location)} />
-              {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
-              <MDBInput wrapperClass="inputField1" label="E-Mail" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-              <MDBInput wrapperClass="inputField1" label="Passwort" type="password" onChange={handlePasswordChange} />
-              <MDBInput wrapperClass="inputField1" label="Passwort erneut eingeben" type="password"  onChange={(e) => setConfirmPassword(e.target.value)} />
-              {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>}
-              <MDBProgress className='mb-4'>
-                <MDBProgressBar width={passwordStrength * 25} valuemin={0} valuemax={100}>
-                  {passwordStrength * 25}%
-                </MDBProgressBar>
-              </MDBProgress>
-              <MDBInput
-                wrapperClass="inputField1"
-                label="Dein Slogan/Motto"
-                type="text"
-                value={slogan}
-                onChange={(e) => setSlogan(e.target.value)}
-              />
-              <div className="profile-upload-container">
-                <label htmlFor="profileImage" className="form-label" style={{ color: "white" }}>Profilbild hochladen</label>
-                <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
+          <h1>Profileinstellungen</h1>
+          {previewImage || profileImage ? (
+            <div>
+              <img src={previewImage || profileImage} alt="Profilbild" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
+            </div>
+          ) : (
+            <div className="placeholder bg-secondary d-flex align-items-center justify-content-center" style={{ width: '150px', height: '150px', borderRadius: '50%', color: 'white' }}>
+              <span>Kein Bild</span>
+            </div>
+          )}
+          <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
+            <MDBInput wrapperClass="inputField1" label="Name" type="text" value={name} onChange={(e) => setName(e.target.value)} />
+            <MDBInput wrapperClass="inputField1" label="Adresse" type="text" value={location} onChange={(e) => setLocation(e.target.value)} onBlur={() => handleAddressValidation(location)} />
+            {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
+            <MDBInput wrapperClass="inputField1" label="E-Mail" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <MDBInput wrapperClass="inputField1" label="Passwort" type="password" onChange={handlePasswordChange} />
+            <MDBInput wrapperClass="inputField1" label="Passwort erneut eingeben" type="password"  onChange={(e) => setConfirmPassword(e.target.value)} />
+            {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>}
+            <MDBProgress className='mb-4'>
+              <MDBProgressBar width={passwordStrength * 25} valuemin={0} valuemax={100}>
+                {passwordStrength * 25}%
+              </MDBProgressBar>
+            </MDBProgress>
+            <MDBInput
+              wrapperClass="inputField1"
+              label="Dein Slogan/Motto"
+              type="text"
+              value={slogan}
+              onChange={(e) => setSlogan(e.target.value)}
+            />
+            <div className="profile-upload-container">
+              <label htmlFor="profileImage" className="form-label" style={{ color: "white" }}>Profilbild hochladen</label>
+              <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
+            </div>
+            <Button  className="button9" variant="success" onClick = {handleUpdate}>Profil speichern</Button>
+            <Button  className="button10" variant="danger" onClick={toggleShow}>
+              Account Löschen
+            </Button>
+          </form>
+        </div>
+        <div className={`modal fade ${modalShow ? 'show' : ''}`} style={{ display: modalShow ? 'block' : 'none' }}>
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Auftrag beendet</h5>
               </div>
-              <Button className="button" variant="success" type="button">Profil speichern</Button>
-              <LinkContainer to={`/worker/${worId}`}>
-                <Button className="button" type="button">Zurück zur Startseite!</Button>
-              </LinkContainer>
-              <Button type="button" className="button" variant="danger" onClick={handleDelete} >
-                Account Löschen
-              </Button>
-            </form>
+              <div className="modal-body">
+                <p>Bist du sicher, dass du diesen Account wirklich löschen möchtest? </p>   
+                Alle Daten werden unwiderruflich gelöscht.
+              </div>
+              <div className="modal-footer">
+                <Row style={{ gap: "12px" }}>
+                  <button type="button" className="btn btn-secondary" onClick={toggleShow} style={{ width: "150px" }}>Abbrechen</button>
+                  <button type="button" className="btn btn-danger" style={{ width: "150px", gap: "12" }} onClick={handleDelete}>Löschen</button>
+                </Row>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <ToastContainer 

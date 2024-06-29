@@ -77,7 +77,7 @@ export function PageIntroduction() {
                                         rendererSettings: {
                                             preserveAspectRatio: 'xMidYMid slice'
                                         }
-                                    }} height={350} width={350} />
+                                    }} height={"60vh"} width={"60vh"} />
                                 </div>
                                 <button onClick={() => scrollToSection('right')} className="my-arrow my-arrow-right" style={{color:"white"}}>
                                    Erklärung <img src="/right.svg" alt="Next" />

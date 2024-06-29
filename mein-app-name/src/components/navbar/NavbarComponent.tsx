@@ -1,3 +1,4 @@
+import "./NavMenu.css"
 import { NavDropdown } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -13,11 +14,11 @@ import { Client, IMessage, Frame } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 
 interface Message {
-    sender: string;
-    receiver: string | undefined;
-    content: string;
-    timestamp?: number;
-    type?: string; 
+  sender: string;
+  receiver: string | undefined;
+  content: string;
+  timestamp?: number;
+  type?: string;
 }
 
 export function NavbarComponent() {
@@ -80,7 +81,7 @@ export function NavbarComponent() {
     <>
       <nav className="page-background">
         <img src="/Sfae_Logo.png" alt="Logo" style={{ height: 100, width: 100 }} />
-        <ul>
+        <ul className='full-menu'>
           {loginInfo && (
             <li><a href={`/customer/${loginInfo.userId}`}>Home</a></li>
           )}
@@ -93,10 +94,17 @@ export function NavbarComponent() {
           {loginInfo && (
             <li><a href={`/customer/${loginInfo.userId}/faq`}>Faq</a></li>
           )}
+
+          {loginInfo && (
+            <li><a href={`/chatBot`}>Chat Bot</a></li>
+          )}
           {loginInfo && loginInfo.admin === "ADMIN" && (
             <li><a href={`/admin/${loginInfo.userId}/dienstleistungen`}>Admin</a></li>
           )}
+
         </ul>
+
+        <Menu loginInfo={loginInfo} />
         {loginInfo && (
           <div className="icons-container">
             <div className="icon-item">
@@ -122,3 +130,58 @@ export function NavbarComponent() {
 }
 
 export default NavbarComponent;
+
+
+function Menu({loginInfo}:any){
+
+  const [show, setShow] = useState(false)
+
+  useEffect(()=>{
+    const menu : any = document.querySelector('#menu');
+    if(show){
+      menu.style.display = "block";
+    }
+    else{
+      menu.style.display = "none";
+    }
+  }, [show])
+
+  const ToggleMenu = ()=>{
+    setShow(!show);
+  }
+
+  return (
+    <div className='header' onClick={ToggleMenu}>
+      <div className="links">
+          <span className="icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+          <ul id="menu">
+            {loginInfo && (
+              <li><a href={`/customer/${loginInfo.userId}`}>Home</a></li>
+            )}
+            {loginInfo && (
+              <li><a href={`/customer/${loginInfo.userId}/profil`}>Profil</a></li>
+            )}
+            {loginInfo && (
+              <li><a href={`/customer/${loginInfo.userId}/uebersicht`}>Übersicht</a></li>
+            )}
+            {loginInfo && (
+              <li><a href={`/customer/${loginInfo.userId}/faq`}>Faq</a></li>
+            )}
+
+            {loginInfo && (
+              <li><a href={`/chatBot`}>Chat Bot</a></li>
+            )}
+            {loginInfo && loginInfo.admin === "ADMIN" && (
+              <li><a href={`/admin/${loginInfo.userId}/dienstleistungen`}>Admin</a></li>
+            )}
+          </ul>
+      </div>
+      
+
+    </div>
+  )
+}

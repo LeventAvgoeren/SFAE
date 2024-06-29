@@ -1,8 +1,8 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Row } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { CustomerResource } from '../../Resources';
-import { deleteCustomer, getCustomerImage, getCustomerbyID, updateCustomer } from '../../backend/api';
+import { deleteCookie, deleteCustomer, getCustomerImage, getCustomerbyID, updateCustomer } from '../../backend/api';
 import "./PageProfil.css";
 import { MDBTypography } from 'mdb-react-ui-kit';
 import NavbarComponent from '../navbar/NavbarComponent';
@@ -48,9 +48,17 @@ export function PageProfil() {
     const [profileImage, setProfileImage] = useState<string>('');
     const [previewImage, setPreviewImage] = useState<string | undefined>(undefined);
 
-    const handleClose = () => setShowModal(false);
-    const handleShow = () => setShowModal(true);
+    const [modalShow, setModalShow] = useState(false);
+    const [cancelModalShow, setCancelModalShow] = useState(false);
     const handleSuccessClose = () => setShowSuccessModal(false);
+
+    const toggleShow = () => {
+        setModalShow(!modalShow);
+      };
+    
+      const toggleCancelShow = () => {
+        setCancelModalShow(!cancelModalShow);
+      };
 
     const handleNewPasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
         const newPassword = event.target.value;
@@ -144,9 +152,10 @@ export function PageProfil() {
 
     const handleDeleteCustomer = async () => {
         try {
+            await deleteCookie()
             await deleteCustomer(customerId!);
-            alert('Profil erfolgreich gelöscht.');
-            navigate('/');
+            toast.success('Profil erfolgreich gelöscht.');
+            window.location.href = "/index";
         } catch (error) {
             console.error('Fehler beim Löschen des Profils:', error);
             alert('Fehler beim Löschen des Profils');
@@ -264,16 +273,35 @@ export function PageProfil() {
                                             <Button type="submit" className="ButtonUpdate">
                                                 Profil aktualisieren
                                             </Button>
-                                            <Button type="button" className="btn btn-danger" onClick={handleShow}>
+                                            <Button type="button" className="btn btn-danger" onClick={toggleShow}>
                                                 Account löschen
                                             </Button>
                                         </div>
                                     </div>
-                                </form>
+                                </form>        
                             </div>
                         </div>
                     </div>
                 </div>
+                <div className={`modal fade ${modalShow ? 'show' : ''}`} style={{ display: modalShow ? 'block' : 'none' }}>
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Account löschen</h5>
+              </div>
+              <div className="modal-body">
+                <p>Bist du sicher, dass du diesen Account wirklich löschen möchtest? </p>   
+                Alle Daten werden unwiderruflich gelöscht.
+              </div>
+              <div className="modal-footer">
+                <Row style={{ gap: "12px" }}>
+                  <button type="button" className="btn btn-secondary" onClick={toggleShow} style={{ width: "150px" }}>Abbrechen</button>
+                  <button type="button" className="btn btn-danger" style={{ width: "150px", gap: "12" }} onClick={handleDeleteCustomer}>Löschen</button>
+                </Row>
+              </div>
+            </div>
+          </div>
+        </div>
             </div>
         </>
     );

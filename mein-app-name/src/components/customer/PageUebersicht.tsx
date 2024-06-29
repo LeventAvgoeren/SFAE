@@ -9,7 +9,9 @@ import NavbarComponent from '../navbar/NavbarComponent';
 import { deDE } from '@mui/x-data-grid/locales';
 import { MDBBtn } from 'mdb-react-ui-kit';
 
-import { Toolbar, Typography } from '@mui/material';
+import { Toolbar, Typography, createTheme } from '@mui/material';
+
+
 
 export function PageUebersicht() {
   const params = useParams<{ customerId: string }>();
@@ -49,17 +51,19 @@ export function PageUebersicht() {
     return stars;
   };
 
+
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 130 },
-    { field: 'adress', headerName: 'Adresse', width: 130 },
-    { field: 'description', headerName: 'Beschreibung', width: 130 },
-    { field: 'jobType', headerName: 'Job Typ', width: 130 },
-    { field: 'payment', headerName: 'Bezahlung', width: 130 },
-    { field: 'range', headerName: 'Reichweite', width: 130 },
+    { field: 'id', headerName: 'ID', flex: 1 ,headerClassName: 'super-app-theme--header'},
+    { field: 'adress', headerName: 'Adresse', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'description', headerName: 'Beschreibung', flex: 1,headerClassName: 'super-app-theme--header' },
+    { field: 'jobType', headerName: 'Job Typ', flex: 1,headerClassName: 'super-app-theme--header' },
+    { field: 'payment', headerName: 'Bezahlung', flex: 1,headerClassName: 'super-app-theme--header' },
+    { field: 'range', headerName: 'Reichweite', flex: 1,headerClassName: 'super-app-theme--header' },
     {
       field: 'worker',
       headerName: 'Worker Name',
-      width: 130,
+      flex: 1,
+      headerClassName: 'super-app-theme--header',
       renderCell: (params: GridRenderCellParams) => {
         const worker = params.value as WorkerResource;
         return worker ? worker.name : 'N/A';
@@ -68,7 +72,8 @@ export function PageUebersicht() {
     {
       field: 'workerRating',
       headerName: 'Worker Bewertung',
-      width: 130,
+      flex: 1,
+      headerClassName: 'super-app-theme--header',
       renderCell: (params: GridRenderCellParams) => {
         const worker = params.row.worker as WorkerResource;
         return worker ? renderRatingStars(Number(worker.rating)) : 'N/A';
@@ -77,7 +82,8 @@ export function PageUebersicht() {
     {
       field: 'action',
       headerName: 'Zum Auftrag',
-      width: 150,
+      flex: 1,
+      headerClassName: 'super-app-theme--header',
       renderCell: (params: GridRenderCellParams) => (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height:35, width: '100%' }}>
           <MDBBtn outline rounded color='dark'
@@ -89,16 +95,34 @@ export function PageUebersicht() {
     }
   ];
 
+  
+
   return (
     <>
-    <div className="Backg">
+    <div className="my-section10">
       <NavbarComponent />
         <div style={{ height: 'calc(100vh - 100px)', width: '100%', marginTop:"1%"}}>
           <DataGrid
             rows={contracts}
             columns={columns}
-            style={{ backgroundColor: 'white', color: 'black' }}
+            style={{ backgroundColor: 'white', color: 'black' }} //#021128
             localeText={deDE.components.MuiDataGrid.defaultProps.localeText}
+
+            sx={{
+              width: '100%',
+              '& .super-app-theme--header': {
+                backgroundColor: '#e0e0e0',
+              },
+              '& .MuiDataGrid-row': {
+                '&:nth-of-type(odd)': {
+                  backgroundColor: '#f5f5f5', // Color for odd rows
+                },
+                '&:nth-of-type(even)': {
+                  backgroundColor: '#e0e0e0', // Color for even rows
+                },
+              },
+            }}
+
           />
         </div>
     </div>

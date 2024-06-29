@@ -28,6 +28,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import com.SFAE.SFAE.DTO.ContractStatusDTO;
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.Service.ChatBot;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,6 +49,9 @@ public class CustomerTestSQL {
 
     @Autowired
     ChatBot chatbot;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
    
     @Test
@@ -387,6 +391,59 @@ public void testImageGetWorkerByIdBadRequest() throws Exception {
                .andExpect(status().isNotFound())
                .andReturn();
 
+       String contentAsString = mvcResult.getResponse().getContentAsString();
+       System.out.println("Response: " + contentAsString);
+   }
+
+   @Test
+   public void testUpdateCustomerStatusOrder() throws Exception{
+
+  ContractStatusDTO contractStatusDTO= new ContractStatusDTO();
+  contractStatusDTO.setId("C28");
+  contractStatusDTO.setStatusOrder("FINISHED");
+  String jsonContent = objectMapper.writeValueAsString(contractStatusDTO);
+    MvcResult mvcResult = mockMvc.perform(put("/customer/updateStatusOrder")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(jsonContent))
+            .andExpect(status().isOk())
+            .andReturn();
+
+    String contentAsString = mvcResult.getResponse().getContentAsString();
+    System.out.println("Response: " + contentAsString);
+   }
+
+
+   @Test
+   public void testUpdateCustomerStatusOrderWithWrongInput() throws Exception{
+
+  ContractStatusDTO contractStatusDTO= new ContractStatusDTO();
+  contractStatusDTO.setId("C28");
+  contractStatusDTO.setStatusOrder("NOENUM");
+  String jsonContent = objectMapper.writeValueAsString(contractStatusDTO);
+    MvcResult mvcResult = mockMvc.perform(put("/customer/updateStatusOrder")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(jsonContent))
+            .andExpect(status().isBadRequest())
+            .andReturn();
+
+    String contentAsString = mvcResult.getResponse().getContentAsString();
+    System.out.println("Response: " + contentAsString);
+   }
+
+   @Test
+   public void testUpdateCustomerStatusOrderNotFound() throws Exception {
+       ContractStatusDTO contractStatusDTO = new ContractStatusDTO();
+       contractStatusDTO.setId("C800");
+       contractStatusDTO.setStatusOrder("UNDEFINED");
+   
+       String jsonContent = objectMapper.writeValueAsString(contractStatusDTO);
+   
+       MvcResult mvcResult = mockMvc.perform(put("/customer/updateStatusOrder")
+               .contentType(MediaType.APPLICATION_JSON)
+               .content(jsonContent))
+               .andExpect(status().isNotFound())
+               .andReturn();
+   
        String contentAsString = mvcResult.getResponse().getContentAsString();
        System.out.println("Response: " + contentAsString);
    }

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import com.SFAE.SFAE.DTO.ContractStatusDTO;
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.DTO.LoginRequest;
 import com.SFAE.SFAE.DTO.PasswordResetRequest;
@@ -154,7 +156,10 @@ public interface CustomerEP {
     ResponseEntity<?> verifyEmail(@PathVariable("token") String token);
 
     @PutMapping("/updateRole")
-    ResponseEntity<?> updateWorkerRole(@RequestBody RoleDTO data);
+    ResponseEntity<?> updateCustomerRole(@RequestBody RoleDTO data);
+
+    @PutMapping("/updateStatusOrder")
+    ResponseEntity<?> updateCustomerStatusOrder(@RequestBody ContractStatusDTO data);
 
 
 }

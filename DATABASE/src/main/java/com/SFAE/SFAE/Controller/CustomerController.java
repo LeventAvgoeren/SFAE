@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.SFAE.SFAE.DTO.ContractStatusDTO;
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.DTO.LoginRequest;
 import com.SFAE.SFAE.DTO.LoginResponseCustomer;
@@ -613,7 +614,7 @@ class CustomerController implements CustomerEP {
     }
 
     @Override
-    public ResponseEntity<?> updateWorkerRole(RoleDTO data) {
+    public ResponseEntity<?> updateCustomerRole(RoleDTO data) {
         if (!data.getRole().equals("ADMIN") && !data.getRole().equals("CUSTOMER")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Role is not ADMIN or CUSTOMER");
         }
@@ -632,5 +633,25 @@ class CustomerController implements CustomerEP {
 
         }
     }
+    @Override
+    public ResponseEntity<?> updateCustomerStatusOrder(ContractStatusDTO data) {
+    
+        if (!data.getId().startsWith("C") || 
+            (!data.getStatusOrder().equals("FINISHED") && !data.getStatusOrder().equals("UNDEFINED"))) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    
+        try {
+            boolean result = dao.updateContractStatusCustomer(data.getId(), data.getStatusOrder());
+            if (result) {
+                return ResponseEntity.status(HttpStatus.OK).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    
 
 }

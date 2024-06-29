@@ -76,4 +76,5 @@ public interface CustomerInterface{
 
     boolean updateWorkerRole(String id,String role);
     
+    boolean updateContractStatusCustomer(String id,String statusOrder);
 }

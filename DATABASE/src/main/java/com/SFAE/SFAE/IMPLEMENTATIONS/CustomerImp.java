@@ -394,4 +394,25 @@ public class CustomerImp implements CustomerInterface {
             }
     }
 
+    @Override
+    public boolean updateContractStatusCustomer(String id, String statusOrder) {
+       
+        if(id.isEmpty() || statusOrder.isEmpty()){
+            throw new IllegalArgumentException("id or status is empty");
+        }
+        int result = jdbcTemplate.update(
+            "UPDATE CUSTOMER SET contract_status = ? where id=?",
+            ps->{
+                ps.setString(1, statusOrder);
+                ps.setString(2, id);
+            });
+
+            if(result>0){
+                return true;
+            }
+            else{
+                return false;
+            }
+    }
+
 }

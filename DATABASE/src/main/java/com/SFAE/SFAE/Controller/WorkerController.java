@@ -524,6 +524,7 @@ public class WorkerController implements WorkerEp {
 
     @Override
     public ResponseEntity<?> updateWorkerPreferences(WorkerPrefrencesDTO data) {
+        System.out.println("-------------------  "+data+" +++++++++++++++++++");
        
         if(data==null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

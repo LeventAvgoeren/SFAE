@@ -49,16 +49,15 @@ public class CustomerTestSQL {
     @Autowired
     ChatBot chatbot;
 
+   
     @Test
     public void testCreateCustomer() throws Exception {
-        String json = "{ \"name\": \"MaxMusterdsadsda\", \"password\": \"Passwort123!\", \"email\": \"leventavgoren@gmail.com\"}";
-        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        String json = "{ \"name\": \"MaxMusterdsadsda\", \"password\": \"Passwort123!\", \"email\": \"leventavgosdrsddedadadadadn@gmail.com\"}";
 
         mockMvc.perform(post("/customer")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isCreated());
-                transactionManager.commit(status);
     }
 
     @Test
@@ -77,7 +76,7 @@ public class CustomerTestSQL {
     @Test
     public void testGetCustomerByName() throws Exception {
 
-        mockMvc.perform(get("/customer/usr/Eray Kaan"))
+        mockMvc.perform(get("/customer/usr/Test Name"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -122,7 +121,7 @@ public class CustomerTestSQL {
         CustomerDTO customerData = new CustomerDTO();
         customerData.setId("C2");
         customerData.setName("Test Name");
-        customerData.setEmail("testdadad@example.com");
+        customerData.setEmail("kheir321@example.com");
         customerData.setRole("ADMIN");
         customerData.setPassword("tTest123!");
         customerData.setProfileBase64(base64Image);
@@ -315,7 +314,6 @@ public void testImageGetWorkerByIdBadRequest() throws Exception {
 @Test
     public void testDeleteCustomerByid() throws Exception {
 
-        //Fix foreigns 
          MvcResult mvcResult = mockMvc.perform(delete("/customer/C4"))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -323,6 +321,76 @@ public void testImageGetWorkerByIdBadRequest() throws Exception {
         String contentAsString = mvcResult.getResponse().getContentAsString();
         System.out.println("A " + contentAsString);
    }
+
+
+
+   @Test
+   public void testUpdateRoleOfCustomer() throws Exception {
+       String id = "C28";
+       String role = "ADMIN";
+
+       String requestBody = String.format("{\"id\":\"%s\", \"role\":\"%s\"}", id, role);
+
+       MvcResult mvcResult = mockMvc.perform(put("/customer/updateRole")
+               .contentType(MediaType.APPLICATION_JSON)
+               .content(requestBody))
+               .andExpect(status().isOk())
+               .andReturn();
+
+       String contentAsString = mvcResult.getResponse().getContentAsString();
+       System.out.println("Response: " + contentAsString);
+   }
+   @Test
+   public void testUpdateRoleOfCustomerBadReq() throws Exception {
+       String id = "C28";
+       String role = "ADMIsN";
+
+       String requestBody = String.format("{\"id\":\"%s\", \"role\":\"%s\"}", id, role);
+
+       MvcResult mvcResult = mockMvc.perform(put("/customer/updateRole")
+               .contentType(MediaType.APPLICATION_JSON)
+               .content(requestBody))
+               .andExpect(status().isBadRequest())
+               .andReturn();
+
+       String contentAsString = mvcResult.getResponse().getContentAsString();
+       System.out.println("Response: " + contentAsString);
+   }
+
+   @Test
+   public void testUpdateRoleOfCustomerCustom() throws Exception {
+       String id = "C28";
+       String role = "CUSTOMER";
+
+       String requestBody = String.format("{\"id\":\"%s\", \"role\":\"%s\"}", id, role);
+
+       MvcResult mvcResult = mockMvc.perform(put("/customer/updateRole")
+               .contentType(MediaType.APPLICATION_JSON)
+               .content(requestBody))
+               .andExpect(status().isOk())
+               .andReturn();
+
+       String contentAsString = mvcResult.getResponse().getContentAsString();
+       System.out.println("Response: " + contentAsString);
+   }
+
+   @Test
+   public void testUpdateRoleOfCustomerCustomNotFound() throws Exception {
+       String id = "C1000";
+       String role = "CUSTOMER";
+
+       String requestBody = String.format("{\"id\":\"%s\", \"role\":\"%s\"}", id, role);
+
+       MvcResult mvcResult = mockMvc.perform(put("/customer/updateRole")
+               .contentType(MediaType.APPLICATION_JSON)
+               .content(requestBody))
+               .andExpect(status().isNotFound())
+               .andReturn();
+
+       String contentAsString = mvcResult.getResponse().getContentAsString();
+       System.out.println("Response: " + contentAsString);
+   }
+
 
 
 

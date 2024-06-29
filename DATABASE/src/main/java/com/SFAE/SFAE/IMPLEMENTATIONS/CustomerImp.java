@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.ENTITY.Customer;
+import com.SFAE.SFAE.ENUM.StatusOrder;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 import com.SFAE.SFAE.INTERFACE.CustomerRepository;
 import com.SFAE.SFAE.Service.PasswordHasher;
@@ -146,7 +147,8 @@ public class CustomerImp implements CustomerInterface {
             String email = rs.getString("EMAIL");
             String role = rs.getString("ROLE");
             Boolean confirm = rs.getBoolean("CONFIRM");
-            return dataFactory.createCustomer(id, name, password, email, role,confirm);
+            String statusOrder= rs.getString("contract_status");
+            return dataFactory.createCustomer(id, name, password, email, role,confirm,statusOrder);
 
         } catch (SQLException e) {
         }
@@ -173,11 +175,11 @@ public class CustomerImp implements CustomerInterface {
             String password = encoder.hashPassword(jsonData.getPassword());
             String email = jsonData.getEmail();
             Boolean confirm = false;
-    
+            StatusOrder statusOrder= StatusOrder.valueOf("UNDEFINED");
             if (password == null || name == null || email == null) {
                 return null;
             }
-            Customer customer = new Customer(name, password, email, pic,confirm);
+            Customer customer = new Customer(name, password, email, pic,confirm,statusOrder);
             customerRepository.save(customer);
             System.out.println("CUSTOMER WURDE GESAFED");
             return customer;
@@ -374,6 +376,22 @@ public class CustomerImp implements CustomerInterface {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean updateWorkerRole(String id,String role) {
+        int result = jdbcTemplate.update(
+            "UPDATE CUSTOMER SET ROLE = ? WHERE ID=?",
+            ps-> {
+                ps.setString(1, role);
+                ps.setString(2, id);
+            });
+            if(result>0){
+                return true;
+            }
+            else{
+                return false;
+            }
     }
 
 }

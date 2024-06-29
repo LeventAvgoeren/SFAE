@@ -44,7 +44,7 @@ public class Authentication {
                     return token;
                 }
             } catch (Exception e) {
-                System.out.println(e);
+                throw new IllegalArgumentException("this error happen: "+e);
             }
         }
         else{

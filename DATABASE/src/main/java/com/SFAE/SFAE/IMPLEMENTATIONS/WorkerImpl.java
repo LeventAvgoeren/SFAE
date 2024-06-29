@@ -266,6 +266,7 @@ public class WorkerImpl implements WorkerInterface {
    */
   @Override
   public Worker createWorker(WorkerDTO rs) {
+    System.out.println(rs);
     if (rs.getName() == null ||  rs.getLocation() == null  || rs.getPassword() == null ||
         rs.getJobType() == null || rs.getMinPayment() == null || rs.getEmail() == null) {
       throw new IllegalArgumentException("Some data are empty");
@@ -292,7 +293,7 @@ public class WorkerImpl implements WorkerInterface {
       JobList[] list = new JobList[jobType.length];
       System.out.println("Vor Liste: " + list);
       for(int i = 0; i < jobType.length; i++){
-        list[i] = JobList.valueOf(jobType[i]);
+        list[i] = JobList.valueOf(jobType[i].toUpperCase()); 
       }
       System.out.println("Nach Liste: " + list);
 
@@ -680,6 +681,7 @@ public class WorkerImpl implements WorkerInterface {
 
   @Override
   public Worker updateWorkerPreferences(WorkerPrefrencesDTO data) {
+    System.out.println(data);
     if(data==null){
       throw new IllegalArgumentException("No Data "+data);
     }

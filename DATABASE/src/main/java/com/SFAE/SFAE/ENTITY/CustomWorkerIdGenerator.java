@@ -10,9 +10,7 @@ import org.hibernate.id.IdentifierGenerator;
 import org.springframework.context.ApplicationContextAware;
 
 import com.SFAE.SFAE.INTERFACE.WorkerRepository;
-/**
- * @author erayzor
- */
+
 public class CustomWorkerIdGenerator implements IdentifierGenerator, ApplicationContextAware {
     private static ApplicationContext context;
 
@@ -27,21 +25,21 @@ public class CustomWorkerIdGenerator implements IdentifierGenerator, Application
         List<Worker> cus = workerRepository.findAllOrderedById();
 
         long count = 1 + workerRepository.count();  
-        if(workerRepository.count() > 2 ){
-        int lastID = 0;
-        for (Worker worker : cus) {
-            String id = worker.getId();
-            String[] idSplitted = id.split("W");
-            if(Integer.valueOf(idSplitted[1]) - lastID >= 2){
-               count = lastID + 1;
-               break;
+        if(workerRepository.count() > 2) {
+            int lastID = 0;
+            for (Worker worker : cus) {
+                String id = worker.getId();
+                String[] idSplitted = id.split("W");
+                if(Integer.valueOf(idSplitted[1]) - lastID >= 2) {
+                   count = lastID + 1;
+                   break;
+                }
+                lastID = Integer.valueOf(idSplitted[1]);
             }
-            lastID = Integer.valueOf(idSplitted[1]);
         }
-        }
-      
-    
-
-        return "W" + count; 
+        
+        String generatedId = "W" + count;
+        System.out.println("Generated ID: " + generatedId);
+        return generatedId; 
     }
 }

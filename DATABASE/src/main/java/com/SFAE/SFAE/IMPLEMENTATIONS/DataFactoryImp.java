@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.JobList;
-import com.SFAE.SFAE.ENUM.StatusOrder;
 import com.SFAE.SFAE.ENUM.Status;
+import com.SFAE.SFAE.ENUM.StatusOrder;
 import com.SFAE.SFAE.INTERFACE.DataFactoryInterface;
 
 /**
@@ -23,10 +23,10 @@ import com.SFAE.SFAE.INTERFACE.DataFactoryInterface;
 final class DataFactoryImp implements DataFactoryInterface{
 
     @Override
-    public Optional<Customer> createCustomer(String id, String name, String password, String email, String role, Boolean confirm) {
+    public Optional<Customer> createCustomer(String id, String name, String password, String email, String role, Boolean confirm,String statusOrder) {
        try{
       Optional<Customer> customer = Optional.of(
-            new Customer( id, name, password, email, String.valueOf(role),confirm)
+            new Customer( id, name, password, email, String.valueOf(role),confirm,StatusOrder.valueOf(statusOrder))
         );
 
         if(customer.isPresent()){

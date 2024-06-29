@@ -7,6 +7,7 @@ import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
 import "./PageWorkerPreferences.css";
 import NavbarWComponent from "./NavbarWComponent";
 import { ToastContainer, toast } from "react-toastify";
+import LoadingIndicator from "../LoadingIndicator";
 
 export function PageWorkerPreferences() {
 
@@ -120,7 +121,7 @@ export function PageWorkerPreferences() {
     }
   };
 
-  if (loading) return <p>Lädt...</p>;
+  if (loading) return <LoadingIndicator></LoadingIndicator>;
   if (error) return <p>Fehler: {error}</p>;
 
   return (

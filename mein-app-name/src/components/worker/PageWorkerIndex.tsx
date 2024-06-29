@@ -106,7 +106,7 @@ export function PageWorkerIndex() {
             ].map(({ path, label, img }, index) => (
               <Col key={index} md={4} className="mb-4">
                 <Card>
-                  <Link to={path}>a
+                  <Link to={path}>
                     <Card.Img
                       variant="top"
                       src={zoom === img ? `${img}-zoom.jpg` : img}

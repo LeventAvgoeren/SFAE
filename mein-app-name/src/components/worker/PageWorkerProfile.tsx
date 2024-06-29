@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import "./PageWorkerProfile.css";
 import NavbarWComponent from "./NavbarWComponent";
 import axios from 'axios';
+import LoadingIndicator from "../LoadingIndicator";
 
 function validatePassword(password: string) {
   const hasUpperCase = /[A-Z]/.test(password);
@@ -223,7 +224,7 @@ export function PageWorkerProfile() {
     }
   };
 
-  if (loading) return <p>Lädt...</p>;
+  if (loading) return <LoadingIndicator></LoadingIndicator>;
   if (error) return <p>Fehler: {error}</p>;
 
   return (

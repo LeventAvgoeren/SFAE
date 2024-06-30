@@ -135,7 +135,7 @@ export default function PageRegistrationWorker() {
   const handleRegistration = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const fullAddress = `${address}, ${city}, ${postalCode}, ${country.label}`;
+    const fullAddress = `${address}, ${city}, ${postalCode}`;
     const isValidAddress = await handleAddressValidation(fullAddress);
     setAddressValid(isValidAddress);
 

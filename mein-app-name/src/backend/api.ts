@@ -5,11 +5,18 @@ import { fetchWithErrorHandling } from "./fetchWithErrorHandling";
 
 // get/delete/update Customer
 export async function getAllCustomers(): Promise<CustomerResource[]> {
+  const cachedWorkers = localStorage.getItem('customers');
+  if (cachedWorkers) {
+    return JSON.parse(cachedWorkers);
+  }
+
   const url = `${process.env.REACT_APP_API_SERVER_URL}/customer`;
   const response = await fetchWithErrorHandling(url, {
     credentials: "include" as RequestCredentials,
   });
-  return response.json();
+  const customers = await response.json();
+  localStorage.setItem('customers', JSON.stringify(customers));
+  return customers;
 }
 
 export async function getCustomerByName(name: String): Promise<any> {
@@ -545,13 +552,19 @@ export async function setRating(data:RatingRessource) :Promise <Boolean > {
 
 
   export async function getAllWorker(): Promise<WorkerResource[]> {
+    const cachedWorkers = localStorage.getItem('workers');
+    if (cachedWorkers) {
+      return JSON.parse(cachedWorkers);
+    }
+
     const url = `${process.env.REACT_APP_API_SERVER_URL}/worker`;
     const response = await fetchWithErrorHandling(url, {
       credentials: "include" as RequestCredentials,
     });
 
-    const status = await response.json(); 
-    return status;
+    const workers = await response.json();
+    localStorage.setItem('workers', JSON.stringify(workers));
+    return workers;
   }
 
   export async function getContractStatus(contractId: number): Promise<string> {

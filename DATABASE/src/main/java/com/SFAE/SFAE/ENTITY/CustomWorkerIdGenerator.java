@@ -10,7 +10,9 @@ import org.hibernate.id.IdentifierGenerator;
 import org.springframework.context.ApplicationContextAware;
 
 import com.SFAE.SFAE.INTERFACE.WorkerRepository;
-
+/**
+ 
+@author erayzor*/
 public class CustomWorkerIdGenerator implements IdentifierGenerator, ApplicationContextAware {
     private static ApplicationContext context;
 
@@ -22,24 +24,24 @@ public class CustomWorkerIdGenerator implements IdentifierGenerator, Application
     @Override
     public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
         WorkerRepository workerRepository = context.getBean(WorkerRepository.class);
-        List<Worker> cus = workerRepository.findAllOrderedById();
+        List<String> cus = workerRepository.findAllOrderedById();
 
-        long count = 1 + workerRepository.count();  
-        if(workerRepository.count() > 2) {
-            int lastID = 0;
-            for (Worker worker : cus) {
-                String id = worker.getId();
-                String[] idSplitted = id.split("W");
-                if(Integer.valueOf(idSplitted[1]) - lastID >= 2) {
-                   count = lastID + 1;
-                   break;
-                }
-                lastID = Integer.valueOf(idSplitted[1]);
+        long count = 1 + workerRepository.count();
+        if(workerRepository.count() > 2 ){
+        int lastID = 0;
+        for (String worker : cus) {
+            String id = worker;
+            String[] idSplitted = id.split("W");
+            if(Integer.valueOf(idSplitted[1]) - lastID >= 2){
+               count = lastID + 1;
+               break;
             }
+            lastID = Integer.valueOf(idSplitted[1]);
         }
-        
-        String generatedId = "W" + count;
-        System.out.println("Generated ID: " + generatedId);
-        return generatedId; 
+        }
+
+
+
+        return "W" + count; 
     }
 }

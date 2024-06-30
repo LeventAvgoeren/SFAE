@@ -295,12 +295,10 @@ public class WorkerImpl implements WorkerInterface {
       for(int i = 0; i < jobType.length; i++){
         list[i] = JobList.valueOf(jobType[i].toUpperCase()); 
       }
-      System.out.println("Nach Liste: " + list);
 
       Worker worker = new Worker(name, location, password, Status.valueOf("AVAILABLE"),
           StatusOrder.valueOf("UNDEFINED"), range, list, minPayment, rating, verification, email,
           latitude, longitude, ratingAv, pic,slogan,confirm);
-          System.out.println("Nach worker erstelling: "+ worker);
       workerRepository.save(worker);
       System.out.println(worker);
       return worker;
@@ -359,7 +357,7 @@ public class WorkerImpl implements WorkerInterface {
       jobTypeString = jobTypeString.replace("\"", "");
 
       String[] jobType = jobTypeString.split(",");
-    
+      
       Double minPayment = rs.getDouble("min_payment");
       Double rating = rs.getDouble("rating");
       Boolean verification = rs.getBoolean("verification");
@@ -367,7 +365,7 @@ public class WorkerImpl implements WorkerInterface {
       double longitude = rs.getDouble("longitude");
       Boolean confirm= rs.getBoolean("confirm");
       //byte[] picture = rs.getBytes("profile_picture_blob");
-     // var pic=pictureService.saveImageAsLargeObject(picture);
+      // var pic=pictureService.saveImageAsLargeObject(picture);
 
       String slogan =rs.getString("slogan");
 

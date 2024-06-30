@@ -82,9 +82,7 @@ public class WorkerController implements WorkerEp {
         }
 
         try {
-            System.out.println("ASDA " + worker);
             Worker builded = dao.createWorker(worker);
-            System.out.println("wurde rstellt "+builded);
             if(builded!=null){
                 String token = mailService.createToken(0, builded.getId(), TokenType.VERIFYWORKER);
             String link = "https://localhost:3000/verifyEmailWorker?token=" + token;

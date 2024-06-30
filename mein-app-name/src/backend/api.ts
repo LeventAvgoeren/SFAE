@@ -645,13 +645,18 @@ export async function updateWorkerOrderStatus(workerId: string, status: string):
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ status }), // Send status as an object
+    body: JSON.stringify(status), 
     credentials: 'include' as RequestCredentials,
   });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
 
   const result = await response.text();
   return result;
 }
+
 
 
 export async function updateWorkerPreferences(workerData: WorkerResourcePreferences): Promise<WorkerResourcePreferences> {
@@ -745,4 +750,22 @@ export async function verifyEmailWorker(token: string): Promise<void> {
   await fetchWithErrorHandling(url, options);
 }
 
+export async function chatBot(input: string): Promise<string> {
+  const url = `${process.env.REACT_APP_API_SERVER_URL}/api/chatBot`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(input),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText);
+  }
+
+  const data = await response.text(); 
+  return data; 
+}
 

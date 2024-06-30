@@ -45,6 +45,7 @@ import java.util.Base64;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class WorkerTests{
 
     @Autowired
@@ -58,25 +59,22 @@ public class WorkerTests{
     @Test
     public void testCreateWorker() throws Exception {
         String json = "{" +
-        "\"name\": \"TestRating\"," +
-        "\"location\": \"BERLIN\"," +
-        "\"password\": \"Levent123!\"," +
-        "\"email\": \"leventavgoren@gmail.com\"," +
-        "\"range\": 1.5," +
-        "\"jobType\": [\"INSTALLATEUR\",\"WÄSCHER\"]," +
-        "\"minPayment\": 35.0," +
-        "\"latitude\": 54.5134521479732," +
-        "\"longitude\": 13.354172988628778," +
-        "\"slogan\": \"Ich stehe auf ahmad und ducs vateradadadada\"" +
-    "}";
-            try {
-                mockMvc.perform(post("/worker")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                        .andExpect(status().isCreated());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            "\"name\": \"TestRating\"," +
+            "\"location\": \"Rathenowerstrasse 36\"," +
+            "\"password\": \"Levent123!\"," +
+            "\"email\": \"leventavgoren@gmail.com\"," +
+            "\"range\": 1.5," +
+            "\"jobType\": [\"INSTALLATEUR\",\"WÄSCHER\"]," +
+            "\"minPayment\": 35.0," +
+            "\"latitude\": 54.5134521479732," +
+            "\"longitude\": 13.354172988628778," +
+            "\"slogan\": \"Ich stehe auf ahmad und ducs vateradadadada\"" +
+        "}";
+
+        mockMvc.perform(post("/worker")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isCreated());
     }
 
     @Test
@@ -100,7 +98,7 @@ public class WorkerTests{
     "\"password\": \"passwordsasdsad1234\"," +
     "\"email\": \"Levenstavgorendsssdddddsdsa@gmail.com\"," +
     "\"range\": 1.1," +
-"}";
+    "}";
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         mockMvc.perform(post("/worker")

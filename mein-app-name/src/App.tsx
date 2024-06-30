@@ -1,9 +1,8 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import "./App.css";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
-// Komponentenimporte
 import { PageIndex } from "./components/PageIndex";
 import { PageLogin } from "./components/PageLogin";
 import PageRegistrationWorker from "./components/worker/PageRegistrationWorker";
@@ -38,19 +37,20 @@ import ChatComponent from "./components/ChatComponent";
 import { ImprintPage } from "./components/ImprintPage";
 import { TermsAndConditions } from "./components/TermsAndConditions";
 
-import { Toolbar, Typography } from "@mui/material";
+import { Box, Fab, IconButton, Modal, Toolbar, Typography } from "@mui/material";
 import { PageVerifyEmail } from "./components/customer/PageVerifyEmail";
 import { PageVerifyWorkerEmail } from "./components/customer/PageVerfyWorkerEmail";
 import { PageWorkerOrder } from "./components/worker/PageWorkerOrder";
-
-
-
-
+import { CircleButton } from "./CircleButton";
+import PageFinishContract from "./components/worker/PageFinishContract";
+import { PageChatBot } from "./components/PageChatBot";
 
 function App() {
   const [loginInfo, setLoginInfo] = useState<LoginInfo | false>();
   const [isLoading, setLoading] = useState(true);
+  const [showChat, setShowChat] = useState(false);
   const location = useLocation(); 
+  const chatBodyRef = useRef<HTMLDivElement>(null);
 
 
   async function fetchLoginStatus() {
@@ -71,17 +71,25 @@ function App() {
     fetchLoginStatus();
   }, []);
 
+  useEffect(() => {
+    if (showChat && chatBodyRef.current) {
+      chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+    }
+  }, [showChat]);
+
 
   if (isLoading) {
     return <LoadingIndicator />
   }
+
+  const isPageIntroduction = location.pathname === '/';
+
   return (
 
     <>
       <LoginContext.Provider value={{ loginInfo, setLoginInfo }}>
 
         <Routes>
-        
                   {/* Gemeinsame Routen */}
                   <Route path="/agb" element={<PageAGB />} />
                   <Route path ="/" element={<PageIntroduction/>}/>
@@ -92,12 +100,13 @@ function App() {
                     }
                   />
                   <Route path="/admin/:adminId" element={<PageIndexAdmin />} />
-                  <Route path="/admin/:adminId/dienstleistungen" element={<PageAdminDienstleistungen />} />
+                  <Route path="/admin/:adminId/dienstleistungen" element={(loginInfo && loginInfo.admin === "ADMIN")  ?<PageAdminDienstleistungen /> :< Navigate to="/NotAuth" replace />} />
                   <Route path="/login" element={<PageLogin />} />
                   <Route path="/registration/customer" element={<PageRegistration />} />
                   <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
                   <Route path="/passwordreset" element={<PageRequestPasswordReset/>}/>
                   <Route path="/newPassword" element={<PagePasswordReset/>}/>
+                  <Route path="/chatBot" element={ <PageChatBot/>}/>
 
 
           {/* Customer */}
@@ -118,14 +127,16 @@ function App() {
           {/* Worker */}
           <Route path="/worker/:workerId" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerIndex /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/orders/overview" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerOrderOverview /> : < Navigate to="/NotAuth" replace />} />
+          <Route path="/worker/:workerId/finances" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerFinances /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/profile" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerProfile /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/preferences" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerPreferences /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/faq" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerFAQ /> : < Navigate to="/NotAuth" replace />} />
-          <Route path="/worker/:workerId/order/:orderId" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerOrder /> : < Navigate to="/NotAuth" replace />} />
+          <Route path="/worker/:workerId/orders" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerOrders /> : < Navigate to="/NotAuth" replace />} />
+          <Route path="/worker/:workerId/finishcontract" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageFinishContract /> : <Navigate to="/NotAuth" replace />} />
 
 
 
-          <Route path="/NotAuth" element={<PageError error={401} />} />
+
           <Route path="/contract" element={<PageDeclineJob />} />
           <Route path="/verifyEmail" element={<PageVerifyEmail />} />
           <Route path="/verifyEmailWorker" element={<PageVerifyWorkerEmail />} />
@@ -136,8 +147,35 @@ function App() {
          </Routes>
 
       </LoginContext.Provider>
-      <footer style={{ bottom:0, backgroundColor: "#001325", position: "fixed",textAlign: 'center',  width:"100%",height:"3.3vh"}}>
-            <Typography variant="body1" style={{ color: 'white', flex: 1,fontSize:"15px" }}>
+
+      {!isPageIntroduction && (
+          <>
+      <Fab
+        color="primary"
+        aria-label="chat"
+        style={{ position: "fixed", bottom: 25, right: 1, backgroundColor:"#021128", width:"10vh", height:"10vh"}}
+        onClick={() => setShowChat(!showChat)}
+      >
+        <img src="/chatbot-icon.png" alt="chatbot" style={{ width: '8vh', height: '8vh' }} />
+      </Fab>
+      
+      {showChat && (
+        <div className="chat-popup">
+          <div className="chat-header">
+            <IconButton onClick={() => setShowChat(false)} style={{ color: 'white' }}>
+              <img src="/close-button.png" alt="close-button" style={{width:"3vh", height:"3vh"}}/>
+            </IconButton>
+          </div>
+          <div className="chat-body" ref={chatBodyRef}>
+            <PageChatBot />
+          </div>
+        </div>
+      )}
+       </>
+      )}
+      
+      <footer style={{ bottom:0, backgroundColor: "#001325", position: "fixed",textAlign: 'center',  width:"100%", zIndex:100 }}>
+            <Typography variant="body1" style={{ color: 'white', flex: 1,fontSize:"2.5vh" }}>
               © 2024 SFAE von Ahmad Sfarjalani, Eray Zor, Levent Avgören, Duc Dai Nguyen, Danyal Mahrous. Alle Rechte vorbehalten.
               <a href="/imprint" style={{ textDecoration: 'underline', color: 'white', marginLeft: '10px' }}>Impressum</a>
               <span style={{ margin: "10px" }}>|</span>
@@ -149,4 +187,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;

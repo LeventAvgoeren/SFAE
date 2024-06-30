@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -19,13 +21,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.text.Normalizer;
 import java.util.Base64;
 
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import com.SFAE.SFAE.DTO.ContractStatusDTO;
 import com.SFAE.SFAE.DTO.CustomerDTO;
+import com.SFAE.SFAE.Service.ChatBot;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.io.IOException;
@@ -42,16 +47,21 @@ public class CustomerTestSQL {
     @Autowired
     private PlatformTransactionManager transactionManager;
 
+    @Autowired
+    ChatBot chatbot;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+   
     @Test
     public void testCreateCustomer() throws Exception {
-        String json = "{ \"name\": \"MaxMusterdsadsda\", \"password\": \"Passwort123!\", \"email\": \"leventavgoren@gmail.com\"}";
-        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        String json = "{ \"name\": \"MaxMusterdsadsda\", \"password\": \"Passwort123!\", \"email\": \"leventavgosdrsddedadadadadn@gmail.com\"}";
 
         mockMvc.perform(post("/customer")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isCreated());
-                transactionManager.commit(status);
     }
 
     @Test
@@ -70,7 +80,7 @@ public class CustomerTestSQL {
     @Test
     public void testGetCustomerByName() throws Exception {
 
-        mockMvc.perform(get("/customer/usr/Eray Kaan"))
+        mockMvc.perform(get("/customer/usr/Test Name"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -115,7 +125,7 @@ public class CustomerTestSQL {
         CustomerDTO customerData = new CustomerDTO();
         customerData.setId("C2");
         customerData.setName("Test Name");
-        customerData.setEmail("testdadad@example.com");
+        customerData.setEmail("kheir321@example.com");
         customerData.setRole("ADMIN");
         customerData.setPassword("tTest123!");
         customerData.setProfileBase64(base64Image);
@@ -308,7 +318,6 @@ public void testImageGetWorkerByIdBadRequest() throws Exception {
 @Test
     public void testDeleteCustomerByid() throws Exception {
 
-        //Fix foreigns 
          MvcResult mvcResult = mockMvc.perform(delete("/customer/C4"))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -316,6 +325,133 @@ public void testImageGetWorkerByIdBadRequest() throws Exception {
         String contentAsString = mvcResult.getResponse().getContentAsString();
         System.out.println("A " + contentAsString);
    }
+
+
+
+   @Test
+   public void testUpdateRoleOfCustomer() throws Exception {
+       String id = "C28";
+       String role = "ADMIN";
+
+       String requestBody = String.format("{\"id\":\"%s\", \"role\":\"%s\"}", id, role);
+
+       MvcResult mvcResult = mockMvc.perform(put("/customer/updateRole")
+               .contentType(MediaType.APPLICATION_JSON)
+               .content(requestBody))
+               .andExpect(status().isOk())
+               .andReturn();
+
+       String contentAsString = mvcResult.getResponse().getContentAsString();
+       System.out.println("Response: " + contentAsString);
+   }
+   @Test
+   public void testUpdateRoleOfCustomerBadReq() throws Exception {
+       String id = "C28";
+       String role = "ADMIsN";
+
+       String requestBody = String.format("{\"id\":\"%s\", \"role\":\"%s\"}", id, role);
+
+       MvcResult mvcResult = mockMvc.perform(put("/customer/updateRole")
+               .contentType(MediaType.APPLICATION_JSON)
+               .content(requestBody))
+               .andExpect(status().isBadRequest())
+               .andReturn();
+
+       String contentAsString = mvcResult.getResponse().getContentAsString();
+       System.out.println("Response: " + contentAsString);
+   }
+
+   @Test
+   public void testUpdateRoleOfCustomerCustom() throws Exception {
+       String id = "C28";
+       String role = "CUSTOMER";
+
+       String requestBody = String.format("{\"id\":\"%s\", \"role\":\"%s\"}", id, role);
+
+       MvcResult mvcResult = mockMvc.perform(put("/customer/updateRole")
+               .contentType(MediaType.APPLICATION_JSON)
+               .content(requestBody))
+               .andExpect(status().isOk())
+               .andReturn();
+
+       String contentAsString = mvcResult.getResponse().getContentAsString();
+       System.out.println("Response: " + contentAsString);
+   }
+
+   @Test
+   public void testUpdateRoleOfCustomerCustomNotFound() throws Exception {
+       String id = "C1000";
+       String role = "CUSTOMER";
+
+       String requestBody = String.format("{\"id\":\"%s\", \"role\":\"%s\"}", id, role);
+
+       MvcResult mvcResult = mockMvc.perform(put("/customer/updateRole")
+               .contentType(MediaType.APPLICATION_JSON)
+               .content(requestBody))
+               .andExpect(status().isNotFound())
+               .andReturn();
+
+       String contentAsString = mvcResult.getResponse().getContentAsString();
+       System.out.println("Response: " + contentAsString);
+   }
+
+   @Test
+   public void testUpdateCustomerStatusOrder() throws Exception{
+
+  ContractStatusDTO contractStatusDTO= new ContractStatusDTO();
+  contractStatusDTO.setId("C28");
+  contractStatusDTO.setStatusOrder("FINISHED");
+  String jsonContent = objectMapper.writeValueAsString(contractStatusDTO);
+    MvcResult mvcResult = mockMvc.perform(put("/customer/updateStatusOrder")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(jsonContent))
+            .andExpect(status().isOk())
+            .andReturn();
+
+    String contentAsString = mvcResult.getResponse().getContentAsString();
+    System.out.println("Response: " + contentAsString);
+   }
+
+
+   @Test
+   public void testUpdateCustomerStatusOrderWithWrongInput() throws Exception{
+
+  ContractStatusDTO contractStatusDTO= new ContractStatusDTO();
+  contractStatusDTO.setId("C28");
+  contractStatusDTO.setStatusOrder("NOENUM");
+  String jsonContent = objectMapper.writeValueAsString(contractStatusDTO);
+    MvcResult mvcResult = mockMvc.perform(put("/customer/updateStatusOrder")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(jsonContent))
+            .andExpect(status().isBadRequest())
+            .andReturn();
+
+    String contentAsString = mvcResult.getResponse().getContentAsString();
+    System.out.println("Response: " + contentAsString);
+   }
+
+   @Test
+   public void testUpdateCustomerStatusOrderNotFound() throws Exception {
+       ContractStatusDTO contractStatusDTO = new ContractStatusDTO();
+       contractStatusDTO.setId("C800");
+       contractStatusDTO.setStatusOrder("UNDEFINED");
+   
+       String jsonContent = objectMapper.writeValueAsString(contractStatusDTO);
+   
+       MvcResult mvcResult = mockMvc.perform(put("/customer/updateStatusOrder")
+               .contentType(MediaType.APPLICATION_JSON)
+               .content(jsonContent))
+               .andExpect(status().isNotFound())
+               .andReturn();
+   
+       String contentAsString = mvcResult.getResponse().getContentAsString();
+       System.out.println("Response: " + contentAsString);
+   }
+
+
+
+
+  
 
 
 }

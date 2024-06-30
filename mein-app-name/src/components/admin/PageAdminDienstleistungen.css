@@ -25,9 +25,7 @@
 /* Dropdown-Menü für mobile Ansicht anpassen */
 @media (max-width: 768px) { /* Bootstrap mobile Ansicht Breakpoint */
   .navbar-nav {
-    flex-direction: column; /* Staple die Nav-Elemente vertikal */
-    position: sticky;
-    
+    flex-direction: column; /* Staple die Nav-Elemente vertikal */    
   }
 
   .nav-dropdown, #collapsible-nav-dropdown {
@@ -35,8 +33,11 @@
   }
 
   .dropdown-menu {
-    width: 100%; /* Setze die Breite des Dropdown-Menüs auf 100% */
-    position: sticky;
+    position: static; /* Setzt die Position auf 'static', um korrektes Dropdown-Verhalten sicherzustellen */
+    width: auto; /* Breite auf automatisch setzen */
+    right: auto; /* Rechtsausrichtung auf automatisch setzen */
+    left: 0; /* Linksausrichtung auf 0 setzen */
+    top: auto; /* Obere Position auf automatisch setzen */
   }
 }
 
@@ -70,7 +71,7 @@
 }
 
 .search-field{
-  /*max-width: 700px;*/
+  max-width: 100%;
 /*   margin: 0 auto;*/
   border-radius: 5px;
 }
@@ -116,7 +117,7 @@
   }
 
   .margin-container {
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     }
 
 .table {
@@ -125,6 +126,7 @@
   background-color: transparent;
   border-collapse: collapse;
   border-spacing: 0;
+  overflow-x: auto;
 }
 
 .table th, .table td {
@@ -196,6 +198,65 @@ color: green;
 }
 
 .table .icon-pencil {
-color: orange;
+  color: orange;
 }
 
+.modal-dialog {
+  /* Zentriere das Modal auf kleinen Bildschirmen */
+  margin: 0 auto;
+  max-width: 90%; /* Maximale Breite des Modals */
+}
+
+.container-frame{
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+@media (max-width: 700px) {
+
+  .background-city{
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    margin-top: 30px;
+  }
+
+
+  .container-frame{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    z-index: 10;
+  }
+
+  .grid-container{
+    flex-wrap: wrap;
+  }
+
+  
+  .search-field{
+    max-width: 100%;
+    border-radius: 2px;
+  }
+
+  .btn{
+    margin: 0;
+  }
+
+  .search-field{
+    margin: 0;
+    width: 100%;
+    padding: 0;
+  }
+
+  .search-field input{
+    font-size: 18px;
+  }
+
+}
+
+.background-city{
+  margin-top: 30px;
+}

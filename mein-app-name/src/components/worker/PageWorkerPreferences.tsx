@@ -7,6 +7,7 @@ import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
 import "./PageWorkerPreferences.css";
 import NavbarWComponent from "./NavbarWComponent";
 import { ToastContainer, toast } from "react-toastify";
+import LoadingIndicator from "../LoadingIndicator";
 
 export function PageWorkerPreferences() {
 
@@ -109,6 +110,7 @@ export function PageWorkerPreferences() {
     }
 
     try {
+      console.log(updatedWorkerData.jobType+" ---------------------")
       const updatedWorker = await updateWorkerPreferences(updatedWorkerData);
       console.log("Updated Worker:", updatedWorker);
       toast.success("Präferenzen erfolgreich aktualisiert");
@@ -119,7 +121,7 @@ export function PageWorkerPreferences() {
     }
   };
 
-  if (loading) return <p>Lädt...</p>;
+  if (loading) return <LoadingIndicator></LoadingIndicator>;
   if (error) return <p>Fehler: {error}</p>;
 
   return (
@@ -152,7 +154,7 @@ export function PageWorkerPreferences() {
                   </option>
                 ))}
               </select>
-              <Button className="button" type="button" onClick={handleJobTypeAdd}>Job hinzufügen</Button>
+              <Button className="button3" type="button" onClick={handleJobTypeAdd}>Job hinzufügen</Button>
               <ul className="job-list">
                 {jobList.map((job, index) => (
                   <li key={index} className="job-item">
@@ -161,7 +163,7 @@ export function PageWorkerPreferences() {
                   </li>
                 ))}
               </ul>
-              <Button className="button" variant="success" type="submit">Profil speichern</Button>
+              <Button className="button2" variant="success" type="submit">Profil speichern</Button>
             </form>
           </MDBContainer>
         </div>

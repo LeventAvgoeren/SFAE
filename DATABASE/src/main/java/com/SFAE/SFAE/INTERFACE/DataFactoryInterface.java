@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.ENTITY.Worker;
+import com.SFAE.SFAE.ENUM.StatusOrder;
 
 /**
  *  Public interface of a factory that creates objects for datamodel classes
@@ -23,7 +24,7 @@ public interface DataFactoryInterface {
      * @param role Customer role.
      * @return Optional with object or empty when no object could be created from parameters.
      */
-    Optional<Customer> createCustomer(String id, String name, String password, String email, String role,Boolean confirm);
+    Optional<Customer> createCustomer(String id, String name, String password, String email, String role,Boolean confirm,String statusOrder);
 
 
      /**

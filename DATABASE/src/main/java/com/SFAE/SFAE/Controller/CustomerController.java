@@ -4,10 +4,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.SFAE.SFAE.DTO.ContractStatusDTO;
 import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.DTO.LoginRequest;
 import com.SFAE.SFAE.DTO.LoginResponseCustomer;
 import com.SFAE.SFAE.DTO.PasswordResetRequest;
+import com.SFAE.SFAE.DTO.RoleDTO;
 import com.SFAE.SFAE.DTO.Token;
 import com.SFAE.SFAE.ENDPOINTS.CustomerEP;
 import com.SFAE.SFAE.ENTITY.Customer;
@@ -31,6 +33,7 @@ import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.validation.BindingResult;
@@ -609,5 +612,46 @@ class CustomerController implements CustomerEP {
 
         }
     }
+
+    @Override
+    public ResponseEntity<?> updateCustomerRole(RoleDTO data) {
+        if (!data.getRole().equals("ADMIN") && !data.getRole().equals("CUSTOMER")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Role is not ADMIN or CUSTOMER");
+        }
+        try {
+            Boolean result=dao.updateWorkerRole(data.getId(), data.getRole());
+
+            if(result){
+                return ResponseEntity.status(HttpStatus.OK).body(result);
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+            }
+            
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+        }
+    }
+    @Override
+    public ResponseEntity<?> updateCustomerStatusOrder(ContractStatusDTO data) {
+    
+        if (!data.getId().startsWith("C") || 
+            (!data.getStatusOrder().equals("FINISHED") && !data.getStatusOrder().equals("UNDEFINED"))) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    
+        try {
+            boolean result = dao.updateContractStatusCustomer(data.getId(), data.getStatusOrder());
+            if (result) {
+                return ResponseEntity.status(HttpStatus.OK).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    
 
 }

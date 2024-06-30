@@ -2,7 +2,7 @@
   background: transparent;
   background-color: transparent;
   display: flex;
-  justify-content: flex-start; 
+  justify-content: space-between;
   align-items: center;
   height: 10vh;
   width: 100%;
@@ -21,18 +21,16 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  justify-content: center;
 }
 
-.page-background ul li {
+/* .page-background ul li {
   margin: 0 20px;
-}
+} */
 
 .page-background ul li a {
   text-decoration: none;
   color: white;
   font-size: 18px;
-  padding: 10px;
 }
 
 .page-background ul li a:hover {
@@ -55,7 +53,8 @@ body, button, input, textarea, h1, p {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 50px; /* Abstand zwischen den Icons */
+  /* margin-right: 50px; Abstand zwischen den Icons */
+  width: fit-content;
 }
 
 .logout-icon {
@@ -86,6 +85,10 @@ body, button, input, textarea, h1, p {
   font-size: 12px;  /* Kleine Schriftgröße für die Labels */
   color: white;
   margin-top: 5px;  /* Abstand zwischen dem Icon und dem Label */
+}
+
+.page-background ul li{
+  margin: 10px;
 }
 
 @keyframes wobble {
@@ -133,4 +136,54 @@ body, button, input, textarea, h1, p {
   justify-content: center;
   color: white;
   font-size: 12px;
+}
+
+
+/* My edits */
+
+@media (max-width: 1000px) {
+  .icon-item img{
+    width: 30px !important;
+    height: 35px !important;
+  }
+  .page-background ul li a{
+    padding: 4px;
+    margin: 0;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 700px) {
+  .page-background{
+    padding: 5px;
+    flex-wrap: wrap;
+  }
+  .icon-item img{
+    width: 30px !important;
+    height: 35px !important;
+
+  }
+
+  .page-background ul{
+    width: 70%;
+    padding: 0;
+    display: none;
+  }
+
+  .page-background img{
+    margin: 0;
+  }
+
+  .page-background ul li a{
+    padding: 4px;
+    margin: 0;
+    font-size: 14px;
+    color: white !important;
+  }
+
+}
+
+.icon-item img{
+  width: 35px !important;
+  height: 35px !important;
 }

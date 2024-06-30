@@ -11,8 +11,8 @@ import org.springframework.context.ApplicationContextAware;
 
 import com.SFAE.SFAE.INTERFACE.WorkerRepository;
 /**
- * @author erayzor
- */
+ 
+@author erayzor*/
 public class CustomWorkerIdGenerator implements IdentifierGenerator, ApplicationContextAware {
     private static ApplicationContext context;
 
@@ -26,7 +26,7 @@ public class CustomWorkerIdGenerator implements IdentifierGenerator, Application
         WorkerRepository workerRepository = context.getBean(WorkerRepository.class);
         List<String> cus = workerRepository.findAllOrderedById();
 
-        long count = 1 + workerRepository.count();  
+        long count = 1 + workerRepository.count();
         if(workerRepository.count() > 2 ){
         int lastID = 0;
         for (String worker : cus) {
@@ -39,8 +39,8 @@ public class CustomWorkerIdGenerator implements IdentifierGenerator, Application
             lastID = Integer.valueOf(idSplitted[1]);
         }
         }
-      
-    
+
+
 
         return "W" + count; 
     }

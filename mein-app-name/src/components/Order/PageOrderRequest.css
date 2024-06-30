@@ -36,11 +36,12 @@
   max-width: 450px;
 }
 
-.Backg{
-  background-image: url('/public/b1.jpg');
+.Backg10{
+  background-image: url('/public/ErrorBackground.png');
     background-size: cover;
     background-position: center;
     height: 100vh; /* Vollbildhöhe */
+    overflow-y: auto;
 }
 
 

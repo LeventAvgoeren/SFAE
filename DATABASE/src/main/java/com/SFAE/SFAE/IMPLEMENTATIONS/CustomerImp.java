@@ -2,6 +2,7 @@ package com.SFAE.SFAE.IMPLEMENTATIONS;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -10,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import com.SFAE.SFAE.DTO.CustomerDTO;
+import com.SFAE.SFAE.ENTITY.Contract;
 import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.ENUM.StatusOrder;
+import com.SFAE.SFAE.INTERFACE.ContractInterface;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 import com.SFAE.SFAE.INTERFACE.CustomerRepository;
 import com.SFAE.SFAE.Service.PasswordHasher;
@@ -148,6 +151,7 @@ public class CustomerImp implements CustomerInterface {
             String role = rs.getString("ROLE");
             Boolean confirm = rs.getBoolean("CONFIRM");
             String statusOrder= rs.getString("contract_status");
+            System.out.println(statusOrder+" BIN NCIHT DA");
             return dataFactory.createCustomer(id, name, password, email, role,confirm,statusOrder);
 
         } catch (SQLException e) {
@@ -205,15 +209,19 @@ public class CustomerImp implements CustomerInterface {
     @Override
     public Boolean deleteCustomerById(String id) {
 
+        //Wenn der auftrag noch nicht abgeschlossene aufträge hat soll ein fehler enstehen
+        
+        
         try {
-              //Setze den contract auf null bevor ich lösche um den fehler zu 
-             //umgehen DataIntegrityViolationException 
+            //Setze den contract auf null bevor ich lösche um den fehler zu 
+            //umgehen DataIntegrityViolationException 
             jdbcTemplate.update(
                 "UPDATE Contract SET customer_id = NULL WHERE customer_id = ?",
                 ps -> ps.setString(1, id)
             );
         
             //löschen des customer;
+            
             int deleted = jdbcTemplate.update(
                 "DELETE FROM customer WHERE ID = ?",
                 ps -> ps.setString(1, id)

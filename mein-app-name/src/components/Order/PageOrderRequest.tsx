@@ -159,7 +159,7 @@ export default function PageOrderRequest() {
     }  catch (error) {
       if (error instanceof HttpError) {
         const status = error.response.status;
-        const errorMessage = await error.response.text(); // Um die genaue Fehlermeldung zu bekommen
+        const errorMessage = await error.response.text();
         if (status === 400) {
           toast.error('Ungültige Eingabe. Bitte überprüfen Sie Ihre Daten.');
         } else if (status === 404) {

@@ -36,20 +36,26 @@ export async function getCustomerbyID(id: string): Promise<CustomerResource> {
   return response.json();
 }
 
+
 export async function deleteCustomer(id: string) {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/customer/${id}`;
   const isCustomerAdmin = await getCustomerbyID(id);
   if (isCustomerAdmin.role === 'ADMIN') {
     throw new Error('Cannot delete an admin user');
   }
-  const options = {
+
+  const response = await fetch(url, {
     method: "DELETE",
     credentials: "include" as RequestCredentials,
-  };
+  });
 
-  await fetchWithErrorHandling(url, options);
+  console.log(response.status, response.ok+" -------------")
+  if (!response.ok) {
+    throw new HttpError(response);
+  }
+
+  return response;
 }
-
 export async function updateCustomer(customerData: CustomerResource) {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/customer`;
   const options = {

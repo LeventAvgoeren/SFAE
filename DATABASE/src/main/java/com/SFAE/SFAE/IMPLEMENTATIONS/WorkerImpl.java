@@ -14,6 +14,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,6 +23,7 @@ import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.SFAE.SFAE.DTO.WorkerPrefrencesDTO;
 import com.SFAE.SFAE.DTO.WorkerProfileDTO;
 import com.SFAE.SFAE.DTO.WorkerStatus;
+import com.SFAE.SFAE.ENTITY.Contract;
 import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.JobList;
 import com.SFAE.SFAE.ENUM.StatusOrder;
@@ -56,6 +58,9 @@ public class WorkerImpl implements WorkerInterface {
   @Autowired
   private PictureService pictureService;
 
+  @Autowired
+  @Lazy
+  private ContractImpl contract;
 
 
   /**
@@ -157,6 +162,18 @@ public class WorkerImpl implements WorkerInterface {
       throw new IllegalArgumentException("Wrong Id: " + id);
     }
     try {
+
+
+      List<Contract> contractList=contract.getContractByWorkerId(id);
+      if(contractList!=null){
+        for (Contract contractData : contractList) {
+            if(contractData.getStatusOrder().equals(StatusOrder.ACCEPTED)){
+                throw new IllegalArgumentException("You can not delete your account if you have open contracts");
+            }
+        }
+    }
+
+
       //Setze den contract auf null bevor ich lösche um den fehler zu 
       //umgehen DataIntegrityViolationException 
       jdbcTemplate.update(

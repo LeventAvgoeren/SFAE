@@ -88,20 +88,33 @@ export function PageAdminDienstleistungen({ isAdminPage }: PageAdminComponentPro
     
 const handleUpdateCustomer = async (updatedCustomer: CustomerResource) => {
     try {
-        await updateCustomer(updatedCustomer);
-        window.location.reload()
-        handleClose();
+        let resp =await updateCustomer(updatedCustomer);
+        if(resp){
+            toast.success("Customer wurde erfolgreich Aktualisiert")
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000); 
+            handleClose();
+        }
+     
     } catch (error) {
+        toast.error("Es ist ein fehler aufgetreten")
         console.error('Fehler beim Aktualisieren des Kunden:', error);
     }
 }
 
 const handleUpdateWorker = async (updatedWorker: WorkerResourceProfil) => {
     try {
-        await updateWorkerProfile(updatedWorker);
-        window.location.reload()
-        handleClose();
+        let resp=await updateWorkerProfile(updatedWorker);
+        if(resp){
+            toast.success("Worker wurde erfolgreich Aktualisiert")
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000); 
+            handleClose();
+        }
     } catch (error) {
+        toast.error("Es ist ein fehler aufgetreten")
         console.error('Fehler beim Aktualisieren des Kunden:', error);
     }
 }

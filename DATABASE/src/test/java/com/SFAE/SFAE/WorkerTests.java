@@ -169,7 +169,7 @@ public class WorkerTests{
     public void testDeleteWorkerrByid() throws Exception {
 
         //Fix foreigns 
-         MvcResult mvcResult = mockMvc.perform(delete("/worker/W4"))
+         MvcResult mvcResult = mockMvc.perform(delete("/worker/W7"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -193,6 +193,17 @@ public class WorkerTests{
 
         MvcResult mvcResult = mockMvc.perform(delete("/worker/W1000"))
                .andExpect(status().isNotFound())
+               .andReturn();
+
+       String contentAsString = mvcResult.getResponse().getContentAsString();
+       System.out.println("A " + contentAsString);
+  }
+
+  @Test
+   public void testDeleteWorkerWithOpenContracts() throws Exception {
+
+        MvcResult mvcResult = mockMvc.perform(delete("/worker/W1"))
+               .andExpect(status().isConflict())
                .andReturn();
 
        String contentAsString = mvcResult.getResponse().getContentAsString();

@@ -120,20 +120,28 @@ public class WorkerController implements WorkerEp {
      *         operation.
      */
     @Override
-    public ResponseEntity<?> deleteWorkerById(String id) {
-        if (!id.startsWith("W")) {
-            return ResponseEntity.badRequest().body("idis not for Worker");
-        }
-        try {
-            boolean result = dao.deleteWorkerById(id);
-            if (result) {
-                return ResponseEntity.status(HttpStatus.OK).build();
-            }
-        } catch (Error error) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+public ResponseEntity<?> deleteWorkerById(String id) {
+    if (!id.startsWith("W")) {
+        return ResponseEntity.badRequest().body("ID is not for Worker");
     }
+    try {
+        boolean result = dao.deleteWorkerById(id);
+        if (result) {
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+    } catch (IllegalArgumentException e) {
+        if ("You can not delete your account if you have open contracts".equals(e.getMessage())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("You have open contracts");
+        }
+        if ("Wrong Id".equals(e.getMessage())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID is not for Worker");
+        }
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+}
+
 
     /**
      * Endpoint for retrieving all Workers.

@@ -159,19 +159,25 @@ public class WorkerImpl implements WorkerInterface {
   @Override
   public Boolean deleteWorkerById(String id) {
     if (!id.startsWith("W")) {
-      throw new IllegalArgumentException("Wrong Id: " + id);
+      throw new IllegalArgumentException("Wrong Id");
     }
+try {
+  List<Contract> contractList=contract.getContractByWorkerId(id);
+  if(contractList!=null){
+    for (Contract contractData : contractList) {
+        if(contractData.getStatusOrder().equals(StatusOrder.ACCEPTED)){
+            throw new IllegalArgumentException("You can not delete your account if you have open contracts");
+        }
+    }
+}
+
+} catch (IllegalArgumentException e) {
+  throw new IllegalArgumentException("You can not delete your account if you have open contracts");
+}
+   
     try {
 
 
-      List<Contract> contractList=contract.getContractByWorkerId(id);
-      if(contractList!=null){
-        for (Contract contractData : contractList) {
-            if(contractData.getStatusOrder().equals(StatusOrder.ACCEPTED)){
-                throw new IllegalArgumentException("You can not delete your account if you have open contracts");
-            }
-        }
-    }
 
 
       //Setze den contract auf null bevor ich lösche um den fehler zu 

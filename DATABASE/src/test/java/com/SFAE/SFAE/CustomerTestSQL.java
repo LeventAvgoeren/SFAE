@@ -39,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class CustomerTestSQL {
 
     @Autowired
@@ -325,6 +326,41 @@ public void testImageGetWorkerByIdBadRequest() throws Exception {
         String contentAsString = mvcResult.getResponse().getContentAsString();
         System.out.println("A " + contentAsString);
    }
+
+   @Test
+    public void testDeleteCustomer() throws Exception {
+
+         MvcResult mvcResult = mockMvc.perform(delete("/customer/-C4"))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        System.out.println("A " + contentAsString);
+   }
+
+   @Test
+   public void testDeleteCustomerNotFound() throws Exception {
+
+        MvcResult mvcResult = mockMvc.perform(delete("/customer/C400"))
+               .andExpect(status().isNotFound())
+               .andReturn();
+
+       String contentAsString = mvcResult.getResponse().getContentAsString();
+       System.out.println("A " + contentAsString);
+  }
+
+  @Test
+   public void testDeleteCustomerWithOpenContracts() throws Exception {
+
+        MvcResult mvcResult = mockMvc.perform(delete("/customer/C9"))
+               .andExpect(status().isConflict())
+               .andReturn();
+
+       String contentAsString = mvcResult.getResponse().getContentAsString();
+       System.out.println("A " + contentAsString);
+  }
+
+
 
 
 

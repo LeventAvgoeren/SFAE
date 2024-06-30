@@ -62,7 +62,6 @@ public class WorkerImpl implements WorkerInterface {
   @Lazy
   private ContractImpl contract;
 
-
   /**
    * Counts the number of Workers in the database.
    * 
@@ -161,48 +160,43 @@ public class WorkerImpl implements WorkerInterface {
     if (!id.startsWith("W")) {
       throw new IllegalArgumentException("Wrong Id");
     }
-try {
-  List<Contract> contractList=contract.getContractByWorkerId(id);
-  if(contractList!=null){
-    for (Contract contractData : contractList) {
-        if(contractData.getStatusOrder().equals(StatusOrder.ACCEPTED)){
+    try {
+      List<Contract> contractList = contract.getContractByWorkerId(id);
+      if (contractList != null) {
+        for (Contract contractData : contractList) {
+          if (contractData.getStatusOrder().equals(StatusOrder.ACCEPTED)) {
             throw new IllegalArgumentException("You can not delete your account if you have open contracts");
+          }
         }
-    }
-}
+      }
 
-} catch (IllegalArgumentException e) {
-  throw new IllegalArgumentException("You can not delete your account if you have open contracts");
-}
-   
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException("You can not delete your account if you have open contracts");
+    }
+
     try {
 
-
-
-
-      //Setze den contract auf null bevor ich lösche um den fehler zu 
-      //umgehen DataIntegrityViolationException 
+      // Setze den contract auf null bevor ich lösche um den fehler zu
+      // umgehen DataIntegrityViolationException
       jdbcTemplate.update(
           "UPDATE Contract SET worker_id = NULL WHERE worker_id = ?",
-          ps -> ps.setString(1, id)
-      );
-  
-      //löschen des workers;
+          ps -> ps.setString(1, id));
+
+      // löschen des workers;
       int deleted = jdbcTemplate.update(
           "DELETE FROM Worker WHERE ID = ?",
-          ps -> ps.setString(1, id)
-      );
-  
-     
+          ps -> ps.setString(1, id));
+
       if (deleted != 1) {
         return false;
       }
-  
+
       return true;
     } catch (Exception e) {
       throw new IllegalArgumentException("Conflict deleting Id: " + id, e);
     }
   }
+
   /**
    * Updates a Worker's details in the database.
    * 
@@ -227,26 +221,24 @@ try {
       data.setPassword(encoder.hashPassword(data.getPassword()));
     }
 
-    Long [] imageOid={null};
+    Long[] imageOid = { null };
 
-    if(data.getProfileBase64()!=null && !data.getProfileBase64().isEmpty()){
+    if (data.getProfileBase64() != null && !data.getProfileBase64().isEmpty()) {
       try {
         byte[] imageBytes = Base64.getDecoder().decode(data.getProfileBase64());
-            imageOid[0] = pictureService.saveImageAsLargeObject(imageBytes);
+        imageOid[0] = pictureService.saveImageAsLargeObject(imageBytes);
       } catch (Exception e) {
         e.getStackTrace();
       }
     }
 
- 
-    
     int rowsAffected = jdbcTemplate.update(
         "UPDATE WORKER SET name = ?, location = ?, password = ?, status = ?, status_order = ?, range = ?, job_type = ?, min_payment = ?, rating = ?, verification = ?, email = ? , latitude = ? , longitude =?, profile_picture_blob = ?, slogan=? WHERE id = ?",
         ps -> {
-          Connection connection = ps.getConnection(); 
+          Connection connection = ps.getConnection();
 
-            Array jobTypeArray = connection.createArrayOf("VARCHAR", Arrays.stream(data.getJobType())
-                                    .toArray(String[]::new));
+          Array jobTypeArray = connection.createArrayOf("VARCHAR", Arrays.stream(data.getJobType())
+              .toArray(String[]::new));
           ps.setString(1, data.getName());
           ps.setString(2, data.getLocation());
           ps.setString(3, data.getPassword());
@@ -261,21 +253,21 @@ try {
           ps.setDouble(12, data.getLatitude());
           ps.setDouble(13, data.getLongitude());
           ps.setLong(14, imageOid[0]);
-          ps.setString(15,data.getSlogan() );
+          ps.setString(15, data.getSlogan());
           ps.setString(16, data.getId());
-          
+
         });
 
     if (rowsAffected > 0) {
       JobList[] list = new JobList[data.getJobType().length];
-      for(int i = 0; i < data.getJobType().length; i++){
+      for (int i = 0; i < data.getJobType().length; i++) {
         list[i] = JobList.valueOf(data.getJobType()[i]);
       }
 
       return new Worker(data.getName(), data.getLocation(), data.getPassword(), Status.valueOf(data.getStatus()),
           StatusOrder.valueOf(data.getStatusOrder()), data.getRange(), list,
           data.getMinPayment(), data.getRating(), data.getVerification(), data.getEmail(), data.getLatitude(),
-          data.getLongitude(),data.getSlogan());
+          data.getLongitude(), data.getSlogan());
     } else {
       return null;
     }
@@ -290,13 +282,13 @@ try {
   @Override
   public Worker createWorker(WorkerDTO rs) {
     System.out.println(rs);
-    if (rs.getName() == null ||  rs.getLocation() == null  || rs.getPassword() == null ||
+    if (rs.getName() == null || rs.getLocation() == null || rs.getPassword() == null ||
         rs.getJobType() == null || rs.getMinPayment() == null || rs.getEmail() == null) {
       throw new IllegalArgumentException("Some data are empty");
     }
     try {
       byte[] defaultImage = pictureService.loadDefaultProfilePicture();
-      var pic=pictureService.saveImageAsLargeObject(defaultImage);
+      var pic = pictureService.saveImageAsLargeObject(defaultImage);
       String name = rs.getName();
       String location = rs.getLocation();
       String password = encoder.hashPassword(rs.getPassword());
@@ -310,18 +302,18 @@ try {
       Boolean verification = false;
       double latitude = rs.getLatitude();
       double longitude = rs.getLongitude();
-      String slogan =rs.getSlogan();
+      String slogan = rs.getSlogan();
       Boolean confirm = false;
 
       JobList[] list = new JobList[jobType.length];
       System.out.println("Vor Liste: " + list);
-      for(int i = 0; i < jobType.length; i++){
-        list[i] = JobList.valueOf(jobType[i].toUpperCase()); 
+      for (int i = 0; i < jobType.length; i++) {
+        list[i] = JobList.valueOf(jobType[i].toUpperCase());
       }
 
       Worker worker = new Worker(name, location, password, Status.valueOf("AVAILABLE"),
           StatusOrder.valueOf("UNDEFINED"), range, list, minPayment, rating, verification, email,
-          latitude, longitude, ratingAv, pic,slogan,confirm);
+          latitude, longitude, ratingAv, pic, slogan, confirm);
       workerRepository.save(worker);
       System.out.println(worker);
       return worker;
@@ -351,7 +343,7 @@ try {
           ps.setString(1, email);
         },
         (rs, rowNum) -> createWorker(rs));
-        System.out.println("BIN DANACH " + result);
+    System.out.println("BIN DANACH " + result);
     if (!result.isEmpty() && result.get(0).isPresent()) {
       return result.get(0).get();
     }
@@ -380,20 +372,20 @@ try {
       jobTypeString = jobTypeString.replace("\"", "");
 
       String[] jobType = jobTypeString.split(",");
-      
+
       Double minPayment = rs.getDouble("min_payment");
       Double rating = rs.getDouble("rating");
       Boolean verification = rs.getBoolean("verification");
       double latitude = rs.getDouble("latitude");
       double longitude = rs.getDouble("longitude");
-      Boolean confirm= rs.getBoolean("confirm");
-      //byte[] picture = rs.getBytes("profile_picture_blob");
+      Boolean confirm = rs.getBoolean("confirm");
+      // byte[] picture = rs.getBytes("profile_picture_blob");
       // var pic=pictureService.saveImageAsLargeObject(picture);
 
-      String slogan =rs.getString("slogan");
+      String slogan = rs.getString("slogan");
 
       return dataFactory.createWorker(id, name, location, password, email, status, range, jobType, statusOrder,
-          minPayment, rating, verification, latitude, longitude,slogan,confirm);
+          minPayment, rating, verification, latitude, longitude, slogan, confirm);
 
     } catch (SQLException e) {
       System.out.println("ASDASD_" + e);
@@ -414,7 +406,7 @@ try {
    */
   @Override
   public Worker findWorkerByJob(String jobType) {
-    System.out.println("MEIN JOB "+jobType);
+    System.out.println("MEIN JOB " + jobType);
     System.out.println("BIN DRINNE ERROR");
     List<Optional<Worker>> result = jdbcTemplate.query(
         "SELECT * FROM WORKER WHERE ? = ANY(string_to_array(trim(both '{}' FROM job_type), ','))",
@@ -605,7 +597,6 @@ try {
       throw new IllegalArgumentException("Id not given");
     }
 
-    
     List<Integer> oids = jdbcTemplate.query(
         "SELECT profile_picture_blob FROM Worker WHERE ID = ?",
         ps -> {
@@ -622,7 +613,7 @@ try {
 
   @Override
   public WorkerStatus getWorkerStatus(String id) {
-    if(id==null){
+    if (id == null) {
       throw new IllegalArgumentException("Id isnt given");
     }
     List<WorkerStatus> status = jdbcTemplate.query(
@@ -634,16 +625,14 @@ try {
           return new WorkerStatus(rs.getString("status"), rs.getString("status_order"));
         });
 
-        if(status.isEmpty()){
-          throw new IllegalArgumentException("Status is empty");
-        }
-        else{
-         return status.get(0);
-        }
+    if (status.isEmpty()) {
+      throw new IllegalArgumentException("Status is empty");
+    } else {
+      return status.get(0);
+    }
   }
 
-
-  //bild name adresse,email,password,slogan
+  // bild name adresse,email,password,slogan
   @Override
   public Worker updateWorkerProfile(WorkerProfileDTO data) {
     if (data == null) {
@@ -662,74 +651,72 @@ try {
       data.setPassword(encoder.hashPassword(data.getPassword()));
     }
 
-    Long [] imageOid={null};
+    Long[] imageOid = { null };
 
-    if(data.getProfileBase64()!=null && !data.getProfileBase64().isEmpty()){
+    if (data.getProfileBase64() != null && !data.getProfileBase64().isEmpty()) {
       try {
         byte[] imageBytes = Base64.getDecoder().decode(data.getProfileBase64());
-            imageOid[0] = pictureService.saveImageAsLargeObject(imageBytes);
+        imageOid[0] = pictureService.saveImageAsLargeObject(imageBytes);
       } catch (Exception e) {
         e.getStackTrace();
       }
     }
     try {
       int rowsAffected = jdbcTemplate.update(
-        "UPDATE WORKER SET name = ?, location = ?, password = ?, email = ? , latitude = ? , longitude =?, profile_picture_blob = ?, slogan=? WHERE id = ?",
-        ps -> {
-          ps.setString(1, data.getName());
-          ps.setString(2, data.getLocation());
-          ps.setString(3, data.getPassword());
-          ps.setString(4, data.getEmail());
-          ps.setDouble(5, data.getLatitude());
-          ps.setDouble(6, data.getLongitude());
-          ps.setLong(7, imageOid[0]);
-          ps.setString(8,data.getSlogan() );
-          ps.setString(9, data.getId());
-        });
+          "UPDATE WORKER SET name = ?, location = ?, password = ?, email = ? , latitude = ? , longitude =?, profile_picture_blob = ?, slogan=? WHERE id = ?",
+          ps -> {
+            ps.setString(1, data.getName());
+            ps.setString(2, data.getLocation());
+            ps.setString(3, data.getPassword());
+            ps.setString(4, data.getEmail());
+            ps.setDouble(5, data.getLatitude());
+            ps.setDouble(6, data.getLongitude());
+            ps.setLong(7, imageOid[0]);
+            ps.setString(8, data.getSlogan());
+            ps.setString(9, data.getId());
+          });
 
-        if(rowsAffected>0){
-          return new Worker(data.getName(),data.getLocation(),data.getPassword(),data.getEmail(),data.getLatitude(),data.getLongitude(),data.getSlogan());
-        }
-        else{
-          return null;
-        }
+      if (rowsAffected > 0) {
+        return new Worker(data.getName(), data.getLocation(), data.getPassword(), data.getEmail(), data.getLatitude(),
+            data.getLongitude(), data.getSlogan());
+      } else {
+        return null;
+      }
     } catch (Exception e) {
       throw new IllegalArgumentException("Updated failed");
     }
-   
 
   }
 
   @Override
   public Worker updateWorkerPreferences(WorkerPrefrencesDTO data) {
     System.out.println(data);
-    if(data==null){
-      throw new IllegalArgumentException("No Data "+data);
+    if (data == null) {
+      throw new IllegalArgumentException("No Data " + data);
     }
 
     String jobTypesString = String.join(",", data.getJobType());
 
     try {
       int rowsAffected = jdbcTemplate.update(
-        "UPDATE WORKER SET range = ?, job_type = ?, min_payment = ? WHERE id = ?",
-        ps -> {
-          ps.setDouble(1, data.getRange());
-          ps.setString(2, jobTypesString);
-          ps.setDouble(3, data.getMinPayment());
-          ps.setString(4, data.getId());
-        });
+          "UPDATE WORKER SET range = ?, job_type = ?, min_payment = ? WHERE id = ?",
+          ps -> {
+            ps.setDouble(1, data.getRange());
+            ps.setString(2, jobTypesString);
+            ps.setDouble(3, data.getMinPayment());
+            ps.setString(4, data.getId());
+          });
 
-        if(rowsAffected>0){
-          JobList[] list = new JobList[data.getJobType().length];
-          for( int i= 0; i < data.getJobType().length; i ++) {
-              list[i] = JobList.valueOf(data.getJobType()[i]);
-          }
+      if (rowsAffected > 0) {
+        JobList[] list = new JobList[data.getJobType().length];
+        for (int i = 0; i < data.getJobType().length; i++) {
+          list[i] = JobList.valueOf(data.getJobType()[i]);
+        }
 
-          return new Worker(data.getRange(),list,data.getMinPayment());
-        }
-        else{
-          return null;
-        }
+        return new Worker(data.getRange(), list, data.getMinPayment());
+      } else {
+        return null;
+      }
     } catch (Exception e) {
       e.printStackTrace();
       throw new IllegalArgumentException("Updated failed");
@@ -739,21 +726,18 @@ try {
 
   @Override
   public boolean verifyEmail(String id) {
-     if(id==null || !id.startsWith("W")){
-      throw new IllegalArgumentException("Id isnt given or not customer id "+id);
-     }
-     int result = jdbcTemplate.update(
-      "UPDATE WORKER SET confirm = TRUE WHERE id = ?",
-      ps -> ps.setString(1, id)
-);
+    if (id == null || !id.startsWith("W")) {
+      throw new IllegalArgumentException("Id isnt given or not customer id " + id);
+    }
+    int result = jdbcTemplate.update(
+        "UPDATE WORKER SET confirm = TRUE WHERE id = ?",
+        ps -> ps.setString(1, id));
 
-      if (result > 0) {
-          return true;
-      }
+    if (result > 0) {
+      return true;
+    }
 
-      return false;
+    return false;
   }
 
 }
-
-

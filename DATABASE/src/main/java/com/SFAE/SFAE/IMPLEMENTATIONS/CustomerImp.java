@@ -218,16 +218,21 @@ public class CustomerImp implements CustomerInterface {
         }
 
        
-    
-        //Wenn der customer aufträge hat und die auf acc sind soll ein error kommen 
-        List<Contract> contractList=contract.getContractByCustomerId(id);
-        if(contractList!=null){
-            for (Contract contractData : contractList) {
-                if(contractData.getStatusOrder().equals(StatusOrder.ACCEPTED)){
-                    throw new IllegalArgumentException("You can not delete your account if you have open contracts");
-                }
-            }
-        }
+    try {
+          //Wenn der customer aufträge hat und die auf acc sind soll ein error kommen 
+          List<Contract> contractList=contract.getContractByCustomerId(id);
+          if(contractList!=null){
+              for (Contract contractData : contractList) {
+                  if(contractData.getStatusOrder().equals(StatusOrder.ACCEPTED)){
+                      throw new IllegalArgumentException("You can not delete your account if you have open contracts");
+                  }
+              }
+          }
+        
+    } catch (IllegalArgumentException e) {
+        throw new IllegalArgumentException("You can not delete your account if you have open contracts");
+    }
+      
 
  
             try {

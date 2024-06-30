@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import jakarta.transaction.Transactional;
 
 @SpringBootTest
+@Transactional
 public class CustomerImplementationTest {
 
   @Autowired
@@ -80,7 +81,7 @@ public class CustomerImplementationTest {
   public void CreateCustomer() {
     CustomerDTO customerDTO = new CustomerDTO();
     customerDTO.setName("Levent");
-    customerDTO.setEmail("Halladadado@gmail.com");
+    customerDTO.setEmail("Halladadadddcyo@gmail.com");
     customerDTO.setPassword("Levent123!");
     Customer result = dao.createCustomer(customerDTO);
     assertNotNull(customerDTO);
@@ -90,7 +91,7 @@ public class CustomerImplementationTest {
   @Test
   public void CreateCustomerWrongData() {
     CustomerDTO customerDTO = new CustomerDTO();
-    customerDTO.setEmail("Hallo@gmail.com");
+    customerDTO.setEmail("Hallovvx@gmail.com");
     customerDTO.setPassword("Levent123!");
     Customer result = dao.createCustomer(customerDTO);
 
@@ -112,11 +113,14 @@ public class CustomerImplementationTest {
   }
 
   @Test
-  public void deleteCustomerByidWithOpenContracts(){
-
-    assertThrows(IllegalArgumentException.class, () -> {
-      dao.deleteCustomerById("C9");
-    }, "You cant delete your account if you have open contracts");
+  public void deleteCustomerByidWithOpenContracts() {
+      assertThrows(IllegalArgumentException.class, () -> {
+          dao.deleteCustomerById("C9");
+      }, "You can not delete your account if you have open contracts");
   }
 
+  @Test
+  public void deleteCustomerByidWithNotOpen() {
+   assertTrue(dao.deleteCustomerById("C2"));
+  }
 }

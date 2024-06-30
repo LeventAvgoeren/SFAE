@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import com.SFAE.SFAE.DTO.CustomerDTO;
@@ -47,6 +48,10 @@ public class CustomerImp implements CustomerInterface {
 
     @Autowired
     private PictureService pictureService;
+
+    @Autowired
+    @Lazy
+    private ContractImpl contract;
 
     @Autowired
     WorkerImpl worker;
@@ -208,32 +213,48 @@ public class CustomerImp implements CustomerInterface {
 
     @Override
     public Boolean deleteCustomerById(String id) {
-
-        //Wenn der auftrag noch nicht abgeschlossene aufträge hat soll ein fehler enstehen
-        
-        
-        try {
-            //Setze den contract auf null bevor ich lösche um den fehler zu 
-            //umgehen DataIntegrityViolationException 
-            jdbcTemplate.update(
-                "UPDATE Contract SET customer_id = NULL WHERE customer_id = ?",
-                ps -> ps.setString(1, id)
-            );
-        
-            //löschen des customer;
-            
-            int deleted = jdbcTemplate.update(
-                "DELETE FROM customer WHERE ID = ?",
-                ps -> ps.setString(1, id)
-            );
-            
-            if (deleted != 1) {
-                throw new IllegalArgumentException("Id could not been deleted");
-            }
-            return true;
-        } catch (Error error) {
-            return false;
+        if(!id.startsWith("C")){
+            throw new IllegalArgumentException("Id is not customer");
         }
+
+       
+    
+        //Wenn der customer aufträge hat und die auf acc sind soll ein error kommen 
+        List<Contract> contractList=contract.getContractByCustomerId(id);
+        if(contractList!=null){
+            for (Contract contractData : contractList) {
+                if(contractData.getStatusOrder().equals(StatusOrder.ACCEPTED)){
+                    throw new IllegalArgumentException("You can not delete your account if you have open contracts");
+                }
+            }
+        }
+
+ 
+            try {
+                //Setze den contract auf null bevor ich lösche um den fehler zu 
+                //umgehen DataIntegrityViolationException 
+                jdbcTemplate.update(
+                    "UPDATE Contract SET customer_id = NULL WHERE customer_id = ?",
+                    ps -> ps.setString(1, id)
+                );
+            
+                //löschen des customer;
+                
+                int deleted = jdbcTemplate.update(
+                    "DELETE FROM customer WHERE ID = ?",
+                    ps -> ps.setString(1, id)
+                );
+                
+                if (deleted != 1) {
+                    throw new IllegalArgumentException("Id could not been deleted");
+                }
+                return true;
+            } catch (Error error) {
+                return false;
+            }
+        
+        
+       
     }
 
     /**

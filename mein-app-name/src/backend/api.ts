@@ -130,14 +130,18 @@ export async function updateWorker(workerData: WorkerResource): Promise<WorkerRe
 
 export async function deleteWorker(id: string) {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/${id}`;
-  const options = {
+  const response = await fetch(url, {
     method: "DELETE",
     credentials: "include" as RequestCredentials,
-  };
+  });
 
-  await fetchWithErrorHandling(url, options);
+  console.log(response.status, response.ok + " -------------");
+  if (!response.ok) {
+    throw new HttpError(response);
+  }
+
+  return response;
 }
-
 export async function deleteCookieWorker() {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/logout`;
   const options = {

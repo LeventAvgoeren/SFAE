@@ -148,17 +148,16 @@ const removeCustomer = async () => {
                 toast.success('Customer wurde erfolgreich gelöscht.');
                 setSelectedCustomer(null);
     
-                // Verzögern des Neuladens der Seite, um sicherzustellen, dass der Erfolg-Toast angezeigt wird
+              
                 setTimeout(() => {
                     window.location.reload();
-                }, 1000); // Verzögerung von 1 Sekunde vor dem Neuladen der Seite
+                }, 1000); 
             }
         } catch (error) {
             if (error instanceof HttpError) {
                 const status = error.response.status;
                 const errorMessage = await error.response.text();
 
-                // Debugging-Logs hinzufügen
                 console.log("Status:", status);
                 console.log("Error Message:", errorMessage);
 
@@ -185,18 +184,47 @@ const removeCustomer = async () => {
 
 
 
-    const removeWorker = () => {
-        if (selectedWorker?.id) {
-            try {
-                deleteWorker(selectedWorker.id)
+const removeWorker = async () => {
+    if (selectedWorker?.id) {
+        try {
+            let res = await deleteWorker(selectedWorker.id);
+            if (res.ok) {
+                toast.success('Worker wurde erfolgreich gelöscht.');
                 setSelectedWorker(null);
-                window.location.reload()
-            } catch {
-                console.log("error")
+
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
             }
+        } catch (error) {
+            if (error instanceof HttpError) {
+                const status = error.response.status;
+                const errorMessage = await error.response.text();
+
+                console.log("Status:", status);
+                console.log("Error Message:", errorMessage);
+
+                if (status === 409 && errorMessage.includes("You have open contracts")) {
+                    toast.error('Worker hat noch nicht abgeschlossene Aufträge.');
+                } else if (status === 400 && errorMessage.includes("ID is not for Worker")) {
+                    toast.error('Id ist keine Worker Id.');
+                } else if (status === 404) {
+                    toast.error('Id konnte nicht gefunden werden.');
+                } else if (status === 500) {
+                    toast.error('Es kam zu einem Serverfehler.');
+                } else {
+                    toast.error('Fehler beim Löschen des Workers.');
+                }
+            } else {
+                console.error('Fehler beim Löschen des Workers:', error);
+                toast.error('Fehler beim Löschen des Workers.');
+            }
+        } finally {
+            setShowDeleteW(false);
         }
-        setShowDeleteW(false);
     }
+};
+
 
 
     const closeDeleteCustomerDialog = () => {

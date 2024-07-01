@@ -1,7 +1,8 @@
 .card-img-top {
   transition: transform 0.2s; /* Animationseffekt */
   cursor: pointer; /* Cursor als Hinweis, dass das Bild klickbar ist */
-  height: 200px;
+  height: auto;
+  position: relative;
 }
 
 .card-img-top:hover {
@@ -73,4 +74,46 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+@media only screen and (max-width: 768px) {
+
+  .mt-0 h1{
+    bottom: 5vh;
+  }
+
+
+  .indexcard-img-top {
+    transition: transform 0.2s; /* Animationseffekt */
+    cursor: pointer; /* Cursor als Hinweis, dass das Bild klickbar ist */
+    height: 150px;
+    width: 150px;
+    position: relative;
+  }
+
+  .indexcard {
+     /* Flex-Grow, Flex-Shrink und Basiswert für die Breite */
+    width: 150px;
+    margin: 0px; /* Reduzierter Abstand zwischen den Cards */
+  }
+
+  .card-title {
+    font-size: 11px;
+  }
+
+  .card-text {
+    font-size: 7px;
+  }
+}
+
+@media only screen and (max-width: 760px) {
+
+  .indexcard {
+     /* Flex-Grow, Flex-Shrink und Basiswert für die Breite */
+    width: 150px;
+    top: 50px;
+    right: 100px;
+    margin: -60px; /* Reduzierter Abstand zwischen den Cards */
+  }
+
 }

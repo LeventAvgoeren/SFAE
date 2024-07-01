@@ -10,7 +10,7 @@ import {
 } from "../../backend/api";
 import NavbarComponent from "../navbar/NavbarComponent";
 import ImprintPage from "../ImprintPage";
-
+import LoadingIndicator from "../LoadingIndicator"; // Importiere den Ladebildschirm
 
 export function PageIndexCustomer() {
   const params = useParams();
@@ -24,6 +24,7 @@ export function PageIndexCustomer() {
   const [customerCounter, setCustomerCounter] = useState(0);
   const [workerCounter, setWorkerCounter] = useState(0);
   const [contractCounter, setContractCounter] = useState(0);
+  const [loading, setLoading] = useState(true); // Ladezustand hinzufügen
 
   const quotes = [
     `"Dank SFAE konnte ich schnell und sicher meinen Wohnungsputz organisieren!" - Anna B.`,
@@ -60,10 +61,13 @@ export function PageIndexCustomer() {
         console.log("Fehler:" + error);
       }
     }
-    getCustomer();
-    countCustomer();
-    countWorkers();
-    countContracts();
+
+    async function fetchData() {
+      await Promise.all([getCustomer(), countCustomer(), countWorkers(), countContracts()]);
+      setLoading(false);
+    }
+
+    fetchData();
     setQuote(quotes[quoteIndex]);
     setFact(facts[factIndex]);
 
@@ -80,36 +84,40 @@ export function PageIndexCustomer() {
     setFact(facts[factIndex]);
   }, [quoteIndex, factIndex]);
 
+  if (loading) {
+    return <LoadingIndicator />; 
+  }
+
   return (
     <>
       <div className="background-image"> 
-      <NavbarComponent/>
-      <div className="call-to-action">
-        <h1>{name}, starte jetzt deinen ersten Auftrag!</h1>
-        <p>
-          Schnell, einfach und zuverlässig – finde jetzt den richtigen
-          Dienstleister für dein Projekt!
-        </p>
-        <div className="features">
-          <div>
-            <img src="/trust.png" alt="Vertrauenswürdig" />
-            <p>Sicher und vertrauenswürdig</p>
+        <NavbarComponent/>
+        <div className="call-to-action">
+          <h1>{name}, starte jetzt deinen ersten Auftrag!</h1>
+          <p>
+            Schnell, einfach und zuverlässig – finde jetzt den richtigen
+            Dienstleister für dein Projekt!
+          </p>
+          <div className="features">
+            <div>
+              <img src="/trust.png" alt="Vertrauenswürdig" />
+              <p>Sicher und vertrauenswürdig</p>
+            </div>
+            <div>
+              <img src="/clock.png" alt="Schnelle Bearbeitung" />
+              <p>Schnelle Bearbeitungszeiten</p>
+            </div>
           </div>
-          <div>
-            <img src="/clock.png" alt="Schnelle Bearbeitung" />
-            <p>Schnelle Bearbeitungszeiten</p>
-          </div>
+          <NavLink to={`/customer/${customerId}/order/new`}>
+            <button>Jetzt starten</button>
+          </NavLink>
+          <CSSTransition in={true} timeout={500} classNames="fade" key={quote}>
+            <p className="testimonial">{quote}</p>
+          </CSSTransition>
+          <CSSTransition in={true} timeout={500} classNames="fade" key={fact}>
+            <p className="registered-customers">{fact}</p>
+          </CSSTransition>
         </div>
-        <NavLink to={`/customer/${customerId}/order/new`}>
-        <button>Jetzt starten</button>
-        </NavLink>
-        <CSSTransition in={true} timeout={500} classNames="fade" key={quote}>
-          <p className="testimonial">{quote}</p>
-        </CSSTransition>
-        <CSSTransition in={true} timeout={500} classNames="fade" key={fact}>
-          <p className="registered-customers">{fact}</p>
-        </CSSTransition>
-      </div>
       </div>
     </>
   );

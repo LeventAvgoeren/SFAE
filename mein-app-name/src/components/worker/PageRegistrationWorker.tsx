@@ -135,7 +135,7 @@ export default function PageRegistrationWorker() {
   const handleRegistration = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const fullAddress = `${address}, ${city}, ${postalCode}, ${country.label}`;
+    const fullAddress = `${address}, ${city}, ${postalCode}`;
     const isValidAddress = await handleAddressValidation(fullAddress);
     setAddressValid(isValidAddress);
 
@@ -250,7 +250,6 @@ export default function PageRegistrationWorker() {
                 type='text'
                 value={slogan}
                 onChange={(e) => setSlogan(e.target.value)}
-                required
               />
               <MDBCheckbox name='termsCheck' id='termsCheck' label={<span>Ich stimme den <Link to="/agb" className="text-white">Nutzungsbedingungen</Link> zu</span>} wrapperClass='d-flex justify-content-center mb-4 text-white' required/>
               <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type="submit">Registrieren</MDBBtn>

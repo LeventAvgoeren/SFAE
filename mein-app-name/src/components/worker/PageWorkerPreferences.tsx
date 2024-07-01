@@ -7,6 +7,7 @@ import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
 import "./PageWorkerPreferences.css";
 import NavbarWComponent from "./NavbarWComponent";
 import { ToastContainer, toast } from "react-toastify";
+import LoadingIndicator from "../LoadingIndicator";
 
 export function PageWorkerPreferences() {
 
@@ -88,8 +89,8 @@ export function PageWorkerPreferences() {
 
   // Job Type hinzufügen
   const handleJobTypeAdd = () => {
-    if (jobType && !jobList.includes(jobType)) {
-      setJobList([...jobList, jobType]);
+    if (jobType && !jobList.includes(jobType.toUpperCase())) {
+      setJobList([...jobList, jobType.toUpperCase()]);
       setJobType('');
     }
   };
@@ -104,11 +105,12 @@ export function PageWorkerPreferences() {
     const updatedWorkerData: WorkerResourcePreferences = {
       id: (worId!),
       range: range,
-      jobList: jobList,
+      jobType: jobList,
       minPayment: minPayment!,
     }
 
     try {
+      console.log(updatedWorkerData.jobType+" ---------------------")
       const updatedWorker = await updateWorkerPreferences(updatedWorkerData);
       console.log("Updated Worker:", updatedWorker);
       toast.success("Präferenzen erfolgreich aktualisiert");
@@ -119,7 +121,7 @@ export function PageWorkerPreferences() {
     }
   };
 
-  if (loading) return <p>Lädt...</p>;
+  if (loading) return <LoadingIndicator></LoadingIndicator>;
   if (error) return <p>Fehler: {error}</p>;
 
   return (

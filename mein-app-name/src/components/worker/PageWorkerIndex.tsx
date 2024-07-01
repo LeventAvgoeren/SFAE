@@ -47,6 +47,8 @@ export function PageWorkerIndex() {
           return (prev.id > current.id) ? prev : current;
         });
         setLatestContract(latest);
+      } else {
+        setLatestContract(null);
       }
     } catch (error) {
       console.error('Error fetching contracts', error);
@@ -126,7 +128,7 @@ export function PageWorkerIndex() {
               </Col>
             ))}
           </Row>
-          {worker && worker.statusOrder !== 'FINISHED' && (
+          {worker && worker.statusOrder !== 'FINISHED' && latestContract && (
             <div className="alert alert-warning mt-3">
               Du hast noch unabgeschlossene Aufträge!
               <Button onClick={handleShowModal} className='anzeigen'>

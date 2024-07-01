@@ -4,6 +4,7 @@ package com.SFAE.SFAE.ENTITY;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.SFAE.SFAE.ENUM.Role;
+import com.SFAE.SFAE.ENUM.StatusOrder;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -52,6 +53,10 @@ public class Customer {
     @Column(name = "ROLE")
     private Role role;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "contract_status")
+    private StatusOrder statusOrder;
+
     @Lob
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "profile_picture_blob", nullable = true)
@@ -62,13 +67,14 @@ public class Customer {
 
     public Customer(){}
     
-    public Customer( String name, String password, String email,Long profilePictureOid,Boolean confirm) { 
+    public Customer( String name, String password, String email,Long profilePictureOid,Boolean confirm,StatusOrder statusOrder) { 
         this.name = name;
         this.password = password;
         this.email = email;
         this.role = Role.CUSTOMER;
         this.profilePictureOid = profilePictureOid;
         this.confirm= confirm;
+        this.statusOrder=statusOrder;
     }
 
     
@@ -80,13 +86,14 @@ public class Customer {
     }
 
     
-    public Customer( String id, String name, String password, String email, String role,Boolean confirm) {
+    public Customer( String id, String name, String password, String email, String role,Boolean confirm,StatusOrder statusOrder) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.email = email;
         this.role = Role.valueOf(role);
         this.confirm= confirm;
+        this.statusOrder=statusOrder;
     }
 
     public String getId() {

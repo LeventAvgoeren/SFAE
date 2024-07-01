@@ -10,10 +10,14 @@ import { CustomerResource, WorkerResource, WorkerResourceProfil } from '../../Re
 import { deleteCustomer, deleteWorker, getAllCustomers, getAllWorker, getCustomerImage, getWorkerImage, updateCustomer, updateWorker, updateWorkerProfile } from '../../backend/api';
 import { LoginInfo } from '../LoginManager';
 import NavbarComponent from '../navbar/NavbarComponent';
+import { HttpError } from '../Order/HTTPError';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface PageAdminComponentProps {
     isAdminPage?: boolean;
-  }
+}
+
 
 export function PageAdminDienstleistungen({ isAdminPage }: PageAdminComponentProps) {
     const [loginInfo, setLoginInfo] = useState<LoginInfo | false | undefined>(undefined);
@@ -25,7 +29,7 @@ export function PageAdminDienstleistungen({ isAdminPage }: PageAdminComponentPro
     const [customerFilterData, setCustomerFilterData] = useState<CustomerResource[]>([]);
     const [workerData, setWorkerData] = useState<WorkerResource[]>([]);
     const [workerFilterData, setWorkerFilterData] = useState<WorkerResource[]>([]);
-    const [selectedCustomer, setSelectedCustomer] = useState<CustomerResource | null>(null);
+    const [selectedCustomer, setSelectedCustomer] = useState<CustomerResource | null>();
     const [selectedWorker, setSelectedWorker] = useState<WorkerResource | null>(null);
     const [customerButtonClicked, setCustomerButtonClicked] = useState<boolean>(false);
     const [showDialog, setShowDialog] = useState(false);
@@ -37,7 +41,7 @@ export function PageAdminDienstleistungen({ isAdminPage }: PageAdminComponentPro
     const [WorkerName, setWorkerName] = useState("");
     const [WorkerEmail, setWorkerEmail] = useState("");
     const [WorkerPassword, setWorkerPassword] = useState("");
-
+    const [isAdmin, setIsAdmin] = useState(false);
 
     const navigate = useNavigate();
 
@@ -60,6 +64,7 @@ export function PageAdminDienstleistungen({ isAdminPage }: PageAdminComponentPro
 
     const selectEditCustomer = (cus: CustomerResource) => {
         setSelectedCustomer(cus);
+        setIsAdmin(cus.role === "ADMIN")
         setShowDialog(true);
     }
     const handleClose = () => {
@@ -83,20 +88,33 @@ export function PageAdminDienstleistungen({ isAdminPage }: PageAdminComponentPro
     
 const handleUpdateCustomer = async (updatedCustomer: CustomerResource) => {
     try {
-        await updateCustomer(updatedCustomer);
-        window.location.reload()
-        handleClose();
+        let resp =await updateCustomer(updatedCustomer);
+        if(resp){
+            toast.success("Customer wurde erfolgreich Aktualisiert")
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000); 
+            handleClose();
+        }
+     
     } catch (error) {
+        toast.error("Es ist ein fehler aufgetreten")
         console.error('Fehler beim Aktualisieren des Kunden:', error);
     }
 }
 
 const handleUpdateWorker = async (updatedWorker: WorkerResourceProfil) => {
     try {
-        await updateWorkerProfile(updatedWorker);
-        window.location.reload()
-        handleClose();
+        let resp=await updateWorkerProfile(updatedWorker);
+        if(resp){
+            toast.success("Worker wurde erfolgreich Aktualisiert")
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000); 
+            handleClose();
+        }
     } catch (error) {
+        toast.error("Es ist ein fehler aufgetreten")
         console.error('Fehler beim Aktualisieren des Kunden:', error);
     }
 }
@@ -135,32 +153,91 @@ const handleSaveWorkerUpdate = async () => {
 };
 
 
-
-    const removeCustomer = () => {
-        if (selectedCustomer?.id) {
-            try {
-                deleteCustomer(selectedCustomer.id)
+const removeCustomer = async () => {
+    if (selectedCustomer?.id) {
+        try {
+            let res=await deleteCustomer(selectedCustomer.id);
+            if(res.ok){
+                toast.success('Customer wurde erfolgreich gelöscht.');
                 setSelectedCustomer(null);
-                window.location.reload()
-            } catch {
-                console.log("error")
+    
+              
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000); 
             }
-        }
-        setShowDeleteC(false);
-    }
+        } catch (error) {
+            if (error instanceof HttpError) {
+                const status = error.response.status;
+                const errorMessage = await error.response.text();
 
-    const removeWorker = () => {
-        if (selectedWorker?.id) {
-            try {
-                deleteWorker(selectedWorker.id)
-                setSelectedWorker(null);
-                window.location.reload()
-            } catch {
-                console.log("error")
+                console.log("Status:", status);
+                console.log("Error Message:", errorMessage);
+
+                if (status === 409 && errorMessage.includes("You have open contracts")) {
+                    toast.error('Customer hat noch nicht abgeschlossene Aufträge.');
+                } else if (status === 400 && errorMessage.includes("ID is not for Worker")) {
+                    toast.error('Id ist keine Customer Id.');
+                } else if (status === 404) {
+                    toast.error('Id konnte nicht gefunden werden.');
+                } else if (status === 500) {
+                    toast.error('Es kam zu einem Serverfehler.');
+                } else {
+                    toast.error('Fehler beim Löschen des Customers.');
+                }
+            } else {
+                console.error('Fehler beim Löschen des Customers:', error);
+                toast.error('Fehler beim Löschen des Customers.');
             }
+        } finally {
+            setShowDeleteC(false);
         }
-        setShowDeleteW(false);
     }
+};
+
+
+
+const removeWorker = async () => {
+    if (selectedWorker?.id) {
+        try {
+            let res = await deleteWorker(selectedWorker.id);
+            if (res.ok) {
+                toast.success('Worker wurde erfolgreich gelöscht.');
+                setSelectedWorker(null);
+
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            }
+        } catch (error) {
+            if (error instanceof HttpError) {
+                const status = error.response.status;
+                const errorMessage = await error.response.text();
+
+                console.log("Status:", status);
+                console.log("Error Message:", errorMessage);
+
+                if (status === 409 && errorMessage.includes("You have open contracts")) {
+                    toast.error('Worker hat noch nicht abgeschlossene Aufträge.');
+                } else if (status === 400 && errorMessage.includes("ID is not for Worker")) {
+                    toast.error('Id ist keine Worker Id.');
+                } else if (status === 404) {
+                    toast.error('Id konnte nicht gefunden werden.');
+                } else if (status === 500) {
+                    toast.error('Es kam zu einem Serverfehler.');
+                } else {
+                    toast.error('Fehler beim Löschen des Workers.');
+                }
+            } else {
+                console.error('Fehler beim Löschen des Workers:', error);
+                toast.error('Fehler beim Löschen des Workers.');
+            }
+        } finally {
+            setShowDeleteW(false);
+        }
+    }
+};
+
 
 
     const closeDeleteCustomerDialog = () => {
@@ -202,7 +279,15 @@ const handleSaveWorkerUpdate = async () => {
         }
     }
     
-    
+    const changeAdmin = () =>{
+        setIsAdmin(!isAdmin);
+        if (selectedCustomer) {
+            setSelectedCustomer(prevCustomer => ({
+              ...prevCustomer!,
+              role: isAdmin ? 'USER' : 'ADMIN'
+            }));
+          }
+    }
    
     const fetchData = useCallback(async () => {
         try {
@@ -224,9 +309,20 @@ const handleSaveWorkerUpdate = async () => {
         return () => clearTimeout(timer); 
     }, []);
 
+    
     return (
         <>
-     
+        <ToastContainer 
+            position="top-center" 
+            autoClose={5000} 
+            hideProgressBar={false} 
+            newestOnTop={false} 
+            closeOnClick 
+            rtl={false} 
+            pauseOnFocusLoss 
+            draggable 
+            pauseOnHover 
+        />
             <div className='background-image-Diesntleistungen'>
                    <NavbarComponent />
                 <div className="background-city">
@@ -306,7 +402,7 @@ const handleSaveWorkerUpdate = async () => {
                         <Modal.Title>Delete Customer</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        Möchten sie wirklich {selectedCustomer?.name} löschen?
+                        Möchten Sie wirklich {selectedCustomer?.name} löschen?
                     </Modal.Body>
                     <Modal.Footer style={{ backgroundColor: '#d1e7dd' }}>
                         <Button variant='secondary' onClick={closeDeleteCustomerDialog}>Close</Button>
@@ -318,7 +414,7 @@ const handleSaveWorkerUpdate = async () => {
                         <Modal.Title>Delete Worker</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        Möchten sie wirklich {selectedWorker?.name} löschen?
+                        Möchten Sie wirklich {selectedWorker?.name} löschen?
                     </Modal.Body>
                     <Modal.Footer style={{ backgroundColor: '#d1e7dd' }}>
                         <Button variant='secondary' onClick={closeDeleteWorkerDialog}>Close</Button>
@@ -393,6 +489,9 @@ const handleSaveWorkerUpdate = async () => {
 <Form.Group>
     <Form.Label>Password:</Form.Label>
     <Form.Control type="password" defaultValue={selectedCustomer.password} onChange={e => setCostumerPassword(e.target.value)} />
+</Form.Group>
+<Form.Group>
+    <Form.Label>Admin: <Form.Check type="checkbox" checked={isAdmin} onChange={e => changeAdmin()} /></Form.Label>
 </Form.Group>
     </Form>
 </Modal.Body>

@@ -73,5 +73,8 @@ public interface CustomerInterface{
     byte [] getProfilePictureByCustomerId(String id);
 
     boolean verifyEmail(String id);
+
+    boolean updateWorkerRole(String id,String role);
     
+    boolean updateContractStatusCustomer(String id,String statusOrder);
 }

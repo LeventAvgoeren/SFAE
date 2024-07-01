@@ -3,7 +3,6 @@ import "./App.css";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
-// Komponentenimporte
 import { PageIndex } from "./components/PageIndex";
 import { PageLogin } from "./components/PageLogin";
 import PageRegistrationWorker from "./components/worker/PageRegistrationWorker";
@@ -41,6 +40,8 @@ import { TermsAndConditions } from "./components/TermsAndConditions";
 import { Box, Fab, IconButton, Modal, Toolbar, Typography } from "@mui/material";
 import { PageVerifyEmail } from "./components/customer/PageVerifyEmail";
 import { PageVerifyWorkerEmail } from "./components/customer/PageVerfyWorkerEmail";
+import { PageWorkerOrder } from "./components/worker/PageWorkerOrder";
+import { CircleButton } from "./CircleButton";
 import PageFinishContract from "./components/worker/PageFinishContract";
 import { PageChatBot } from "./components/PageChatBot";
 
@@ -99,7 +100,7 @@ function App() {
                     }
                   />
                   <Route path="/admin/:adminId" element={<PageIndexAdmin />} />
-                  <Route path="/admin/:adminId/dienstleistungen" element={<PageAdminDienstleistungen />} />
+                  <Route path="/admin/:adminId/dienstleistungen" element={(loginInfo && loginInfo.admin === "ADMIN")  ?<PageAdminDienstleistungen /> :< Navigate to="/NotAuth" replace />} />
                   <Route path="/login" element={<PageLogin />} />
                   <Route path="/registration/customer" element={<PageRegistration />} />
                   <Route path="/registration/worker" element={<PageRegistrationWorker />}/>

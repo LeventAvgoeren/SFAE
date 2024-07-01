@@ -5,11 +5,18 @@ import { fetchWithErrorHandling } from "./fetchWithErrorHandling";
 
 // get/delete/update Customer
 export async function getAllCustomers(): Promise<CustomerResource[]> {
+  const cachedWorkers = localStorage.getItem('customers');
+  if (cachedWorkers) {
+    return JSON.parse(cachedWorkers);
+  }
+
   const url = `${process.env.REACT_APP_API_SERVER_URL}/customer`;
   const response = await fetchWithErrorHandling(url, {
     credentials: "include" as RequestCredentials,
   });
-  return response.json();
+  const customers = await response.json();
+  localStorage.setItem('customers', JSON.stringify(customers));
+  return customers;
 }
 
 export async function getCustomerByName(name: String): Promise<any> {
@@ -29,20 +36,26 @@ export async function getCustomerbyID(id: string): Promise<CustomerResource> {
   return response.json();
 }
 
+
 export async function deleteCustomer(id: string) {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/customer/${id}`;
   const isCustomerAdmin = await getCustomerbyID(id);
   if (isCustomerAdmin.role === 'ADMIN') {
     throw new Error('Cannot delete an admin user');
   }
-  const options = {
+
+  const response = await fetch(url, {
     method: "DELETE",
     credentials: "include" as RequestCredentials,
-  };
+  });
 
-  await fetchWithErrorHandling(url, options);
+  console.log(response.status, response.ok+" -------------")
+  if (!response.ok) {
+    throw new HttpError(response);
+  }
+
+  return response;
 }
-
 export async function updateCustomer(customerData: CustomerResource) {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/customer`;
   const options = {
@@ -117,14 +130,18 @@ export async function updateWorker(workerData: WorkerResource): Promise<WorkerRe
 
 export async function deleteWorker(id: string) {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/${id}`;
-  const options = {
+  const response = await fetch(url, {
     method: "DELETE",
     credentials: "include" as RequestCredentials,
-  };
+  });
 
-  await fetchWithErrorHandling(url, options);
+  console.log(response.status, response.ok + " -------------");
+  if (!response.ok) {
+    throw new HttpError(response);
+  }
+
+  return response;
 }
-
 export async function deleteCookieWorker() {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/logout`;
   const options = {
@@ -545,13 +562,19 @@ export async function setRating(data:RatingRessource) :Promise <Boolean > {
 
 
   export async function getAllWorker(): Promise<WorkerResource[]> {
+    const cachedWorkers = localStorage.getItem('workers');
+    if (cachedWorkers) {
+      return JSON.parse(cachedWorkers);
+    }
+
     const url = `${process.env.REACT_APP_API_SERVER_URL}/worker`;
     const response = await fetchWithErrorHandling(url, {
       credentials: "include" as RequestCredentials,
     });
 
-    const status = await response.json(); 
-    return status;
+    const workers = await response.json();
+    localStorage.setItem('workers', JSON.stringify(workers));
+    return workers;
   }
 
   export async function getContractStatus(contractId: number): Promise<string> {

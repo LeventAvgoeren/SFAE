@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.JobList;
-import com.SFAE.SFAE.ENUM.StatusOrder;
 import com.SFAE.SFAE.ENUM.Status;
+import com.SFAE.SFAE.ENUM.StatusOrder;
 import com.SFAE.SFAE.INTERFACE.DataFactoryInterface;
 
 /**
@@ -23,10 +23,12 @@ import com.SFAE.SFAE.INTERFACE.DataFactoryInterface;
 final class DataFactoryImp implements DataFactoryInterface{
 
     @Override
-    public Optional<Customer> createCustomer(String id, String name, String password, String email, String role, Boolean confirm) {
+    public Optional<Customer> createCustomer(String id, String name, String password, String email, String role, Boolean confirm,String statusOrder) {
+        System.out.println(role+" adadadadadada");
+        System.out.println(statusOrder+" dadadad--------------");
        try{
       Optional<Customer> customer = Optional.of(
-            new Customer( id, name, password, email, String.valueOf(role),confirm)
+            new Customer( id, name, password, email, String.valueOf(role),confirm,StatusOrder.valueOf(statusOrder))
         );
 
         if(customer.isPresent()){
@@ -42,9 +44,8 @@ final class DataFactoryImp implements DataFactoryInterface{
     @Override
     public Optional<Worker> createWorker(String id, String name, String location, String password, String email,
             String status, Double range, String[] jobType, String Statusorder, Double minPayment, Double rating, Boolean verification, Double latitude, Double longitude, String slogan,Boolean confirm) {
-                
                 JobList[] list = new JobList[jobType.length];
-                if(jobType.length < 2){
+                if(jobType.length > 1){
                     for(int i= 0; i < jobType.length; i ++) {
                         list[i] = JobList.valueOf(jobType[i]);
                     }

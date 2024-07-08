@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.SFAE.SFAE.ENDPOINTS.NewsLetterEp;
 import com.SFAE.SFAE.ENTITY.NewsLetter;
+import com.SFAE.SFAE.ENUM.JobList;
 import com.SFAE.SFAE.INTERFACE.NewsLetterRepository;
 import com.SFAE.SFAE.Service.NewsLetterService;
 
@@ -23,6 +24,7 @@ public class NewLetterController implements NewsLetterEp {
 
   @Override
   public ResponseEntity<?> safeEmailToNewsLetter(String emailCustomer) {
+
     if (emailCustomer == null) {
 
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -44,13 +46,15 @@ public class NewLetterController implements NewsLetterEp {
   }
 
   @Override
-  public ResponseEntity<?> sendEmailToCustomer(String jobType) {
-    if (jobType != null) {
+  public ResponseEntity<?> sendEmailToCustomer(List<JobList> jobType) {
+    System.out.println(jobType+" ----------------------");
+    if (jobType == null) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
     try {
 
       Boolean result = newsService.sendNewsLetter(jobType);
+      System.out.println(result+" mdoandoadn");
       if (result) {
         return ResponseEntity.status(HttpStatus.OK).build();
       }

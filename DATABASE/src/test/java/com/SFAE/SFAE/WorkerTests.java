@@ -33,7 +33,9 @@ import jakarta.transaction.Transactional;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 
 
@@ -45,7 +47,6 @@ import java.util.Base64;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 public class WorkerTests{
 
     @Autowired
@@ -665,6 +666,67 @@ public void testUpdateWorkerStatusOrderBadReq() throws Exception {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(workerJson))
                 .andExpect(status().isAccepted());
+
+    }
+
+
+    @Test
+    public void testNewsLetter() throws Exception{
+      
+        List<JobList> jobtype = new ArrayList<>();
+        jobtype.add(JobList.KAMMERZOFEN);
+        String workerJson = objectMapper.writeValueAsString(jobtype);
+
+        mockMvc.perform(post("/newsLetter/sendNews")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(workerJson))
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    public void testNewsLetterError() throws Exception{
+      
+        List<JobList> jobtype = new ArrayList<>();
+        jobtype.add(JobList.BABYSITTER);
+        String workerJson = objectMapper.writeValueAsString(jobtype);
+
+        mockMvc.perform(post("/newsLetter/sendNews")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(workerJson))
+                .andExpect(status().isNoContent());
+
+    }
+
+
+    @Test
+    public void testNewsLetterWithReg() throws Exception{
+        String json = "{" +
+        "\"name\": \"TestRating\"," +
+        "\"location\": \"Rathenowerstrasse 36\"," +
+        "\"password\": \"Levent123!\"," +
+        "\"email\": \"Xalofr@gmail.com\"," +
+        "\"range\": 1.5," +
+        "\"jobType\": [\"KAMMERZOFEN\"]," +
+        "\"minPayment\": 35.0," +
+        "\"latitude\": 54.5134521479732," +
+        "\"longitude\": 13.354172988628778," +
+        "\"slogan\": \"Ich stehe auf ahmad und ducs vateradadadada\"" +
+    "}";
+
+    mockMvc.perform(post("/worker")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(json))
+            .andExpect(status().isCreated());
+      
+        List<JobList> jobtype = new ArrayList<>();
+        jobtype.add(JobList.KAMMERZOFEN);
+        String workerJson = objectMapper.writeValueAsString(jobtype);
+
+        mockMvc.perform(post("/newsLetter/sendNews")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(workerJson))
+                .andExpect(status().isOk());
 
     }
     }

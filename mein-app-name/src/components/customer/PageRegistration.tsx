@@ -1,10 +1,10 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { MDBBtn, MDBContainer, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBProgress, MDBProgressBar, MDBIcon } from 'mdb-react-ui-kit';
 import { Link, useNavigate } from 'react-router-dom';
 import './PageRegistration.css';
-import { registrationCustomer } from '../../backend/api';
+import { registrationCustomer, safeEmailToNewsLetter } from '../../backend/api';
 import axios from 'axios';
 import validator from 'validator';
 
@@ -42,9 +42,10 @@ export default function PageRegistration() {
     const [passwordError, setPasswordError] = useState('');
     const [passwordStrength, setPasswordStrength] = useState(0);
     const navigate = useNavigate();
+    const [newsLetteracc,setNewsLetteracc]= useState(false);
 
     const handleAddressValidation = async (inputAddress: string) => {
-        const apiKey = 'a295d6f75ae64ed5b8c6b3568b58bbf6';  // Ersetzen Sie dies mit Ihrem tatsächlichen API-Key
+        const apiKey = 'a295d6f75ae64ed5b8c6b3568b58bbf6';  
         const requestUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(inputAddress)}&key=${apiKey}`;
 
         console.log(`Requesting validation for address: ${inputAddress}`); // Log the address being validated
@@ -112,6 +113,16 @@ export default function PageRegistration() {
             toast.error("Fehler beim Erstellen des Accounts")
         }
     };
+
+    async function safeEmail(){
+        await safeEmailToNewsLetter(email)
+    }
+
+    useEffect(()=> {
+        if(newsLetteracc){
+            safeEmail()
+        }
+    },[newsLetteracc])
 
     return (
         
@@ -205,6 +216,14 @@ export default function PageRegistration() {
                                 label={<span>Ich stimme den <Link to="/agb" className="text-white">Nutzungsbedingungen</Link> zu</span>}
                                 wrapperClass='d-flex justify-content-center mb-4 text-white'
                                 required
+                            />
+                             <MDBCheckbox
+                                name='termsCheck'
+                                id='termsCheck'
+                                label={<span>Ich stimme den <Link to="/agb" className="text-white">News Letter</Link> zu</span>}
+                                wrapperClass='d-flex justify-content-center mb-4 text-white'
+                                checked={newsLetteracc}
+                                onChange={(e)=>setNewsLetteracc(e.target.checked)}
                             />
                             <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type="submit">Registrieren</MDBBtn>
                             <MDBRow>

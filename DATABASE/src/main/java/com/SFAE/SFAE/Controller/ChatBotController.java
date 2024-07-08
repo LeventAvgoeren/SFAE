@@ -15,7 +15,6 @@ public class ChatBotController  implements ChatBotEP{
 
   @Override
   public ResponseEntity<?> chatBot(String input) {
-    System.out.println(input);
     if(input.length()> 100){
       return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("Input is too long. Maximum allowed length is " + 40 + " characters.");
     }

@@ -24,8 +24,6 @@ final class DataFactoryImp implements DataFactoryInterface{
 
     @Override
     public Optional<Customer> createCustomer(String id, String name, String password, String email, String role, Boolean confirm,String statusOrder) {
-        System.out.println(role+" adadadadadada");
-        System.out.println(statusOrder+" dadadad--------------");
        try{
       Optional<Customer> customer = Optional.of(
             new Customer( id, name, password, email, String.valueOf(role),confirm,StatusOrder.valueOf(statusOrder))

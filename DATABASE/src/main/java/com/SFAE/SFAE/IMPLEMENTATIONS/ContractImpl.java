@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DataAccessException;
@@ -17,8 +19,11 @@ import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.JobList;
 import com.SFAE.SFAE.ENUM.Payment;
 import com.SFAE.SFAE.ENUM.StatusOrder;
+import com.SFAE.SFAE.ENUM.TokenType;
 import com.SFAE.SFAE.INTERFACE.ContractInterface;
 import com.SFAE.SFAE.INTERFACE.ContractRepository;
+import com.SFAE.SFAE.Service.MailService;
+import com.SFAE.SFAE.Service.TokenMailService;
 
 @Component
 public class ContractImpl implements ContractInterface {
@@ -35,6 +40,18 @@ public class ContractImpl implements ContractInterface {
 
   @Autowired
   private ContractRepository contractRepository;
+
+  @Autowired
+  private SFAEAlgorithm algo;
+
+  @Autowired
+  private TokenMailService tokenService;
+
+  @Autowired
+  private MailService mail;
+
+  @Autowired
+  private CustomerImp custo;
 
   /**
    * Retrieves a specific contract by its ID from the database.
@@ -133,7 +150,6 @@ public class ContractImpl implements ContractInterface {
     Double range = contract.getRange();
     Double maxPayment = contract.getMaxPayment();
     Customer customer = customerImpl.findCustomerbyID(String.valueOf(contract.getCustomerId()));
-   
 
     Contract newContract = new Contract(JobList.valueOf(jobType), address, Payment.valueOf(payment), description,
         StatusOrder.valueOf(statusOrder), range, customer, maxPayment);
@@ -159,16 +175,14 @@ public class ContractImpl implements ContractInterface {
       String customerId = rs.getString("customer_id");
       String workerId = rs.getString("worker_id");
       Double maxPayment = rs.getDouble("max_Payment");
-
       Customer customer = customerImpl.findCustomerbyID(String.valueOf(customerId));
-   
 
-      if(workerId == null){ 
-         
+      if (workerId == null) {
+
         return new Contract(id, JobList.valueOf(jobType), adress, Payment.valueOf(payment), description,
-          StatusOrder.valueOf(statusOrder), range, customer,  maxPayment);
-      } 
-      
+            StatusOrder.valueOf(statusOrder), range, customer, maxPayment);
+      }
+
       Worker worker = workerImpl.findWorkersbyID(String.valueOf(workerId));
       return new Contract(id, JobList.valueOf(jobType), adress, Payment.valueOf(payment), description,
           StatusOrder.valueOf(statusOrder), range, customer, worker, maxPayment);
@@ -237,7 +251,6 @@ public class ContractImpl implements ContractInterface {
         },
         (rs, rowNum) -> createContract(rs));
 
-        System.out.println("ICH BIn contract "+result);
     if (!result.isEmpty()) {
       return result;
     }
@@ -258,7 +271,6 @@ public class ContractImpl implements ContractInterface {
     if (contractId < 0 || workerId == null) {
       return false;
     }
-    System.out.println("ASDAS" + workerId);
     int result = jdbcTemplate.update(
         "Update contract SET worker_id=? where id= ? ",
         ps -> {
@@ -276,48 +288,96 @@ public class ContractImpl implements ContractInterface {
 
   @Override
   public Boolean updateOrderStatus(Long contractId, String statusOrder) {
-    if(contractId==null || statusOrder==null){
+    if (contractId == null || statusOrder == null) {
       throw new IllegalArgumentException("Id or Status not given");
     }
-    
-   System.out.println("A" + StatusOrder.valueOf(statusOrder));
-    int row=jdbcTemplate.update(
-         "UPDATE Contract SET status_order = ? WHERE id = ?",
+
+    int row = jdbcTemplate.update(
+        "UPDATE Contract SET status_order = ? WHERE id = ?",
         ps -> {
           ps.setString(1, statusOrder);
           ps.setLong(2, contractId);
         });
 
-
-        if(row>0){
-          return true;
-        }
-        else{
-          return false;
-        }
+    if (row > 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @Override
   public String getStatusFromContract(Long contractId) {
-    if(contractId<0){
+    if (contractId < 0) {
       throw new IllegalArgumentException("Id can not be negative");
     }
     List<String> statusList = jdbcTemplate.query(
         "SELECT status_order FROM Contract WHERE ID = ?",
         ps -> {
-            ps.setLong(1, contractId);
+          ps.setLong(1, contractId);
         },
-        (rs, rowNum) -> rs.getString("status_order")  
-    );
+        (rs, rowNum) -> rs.getString("status_order"));
 
-    if(statusList.isEmpty()){
+    if (statusList.isEmpty()) {
       return null;
-    }
-    else{
+    } else {
       return statusList.get(0);
     }
-}
-  
+  }
 
+  @Override
+  public void findNextBestWorker(ContractDTO contract) {
+    if (!contract.getWorkerId().startsWith("W")) {
+      throw new IllegalArgumentException("Wrong ID");
+    }
+    Map<Worker, Double> best = algo.getBestWorkersforTheJob(contract);
+    
+    if (best == null || best.size() < 2) {
+      throw new Error("Not another Worker exists or available.");
+    }
+    boolean nextWorker = true;
+
+    for (Worker worker : best.keySet()) {
+      if (nextWorker) {
+        contract.setWorkerId(worker.getId());
+        Contract con = createContract(contract);
+        Customer foundCustomer = custo.findCustomerbyID(contract.getCustomerId());
+        String token = tokenService.createToken(con.getId(), worker.getId(), TokenType.CONTRACT);
+        String link = "https://localhost:3000/contract?token=" + token;
+        try {
+          mail.sendHtmlMessage(worker.getEmail(), "Jobangebot erhalten",
+              "<html><body>" +
+                  "wir freuen uns, Ihnen mitteilen zu können, dass wir ein neues Jobangebot erhalten haben. Unten finden Sie die Details zum Auftrag:<br><br>"
+                  +
+                  "<strong>Auftraggeber:</strong> " + foundCustomer.getName() + "<br>" +
+                  "<strong>Jobtyp:</strong> " + contract.getJobType() + "<br>" +
+                  "<strong>Beschreibung:</strong> " + contract.getDescription() + "<br>" +
+                  "<strong>Adresse:</strong> " + contract.getAdress() + "<br>" +
+                  "<strong>Zahlung:</strong> " + contract.getPayment() + "<br>" +
+                  "<strong>Zahlung:</strong> " + contract.getMaxPayment() + "€<br>" +
+                  "<strong>Entfernung:</strong> " + contract.getRange() + " km<br><br>" +
+                  "Unter diesem <a href='" + link
+                  + "'>Link</a> können Sie die Anfrage bestätigen. Sie haben 5 Minuten Zeit die Anfrage anzunehmen.<br>"
+                  +
+                  "Bei Fragen oder für weitere Informationen stehen wir Ihnen gerne zur Verfügung.<br><br>" +
+                  "Mit freundlichen Grüßen,<br>" +
+                  "Ihr SFAE-Team" +
+                  "</body></html>");
+        } catch (Exception e) {
+          throw new Error("Message Error");
+        }
+
+        if (worker.getId().equals(contract.getWorkerId())) {
+          nextWorker = true;
+        }
+      }
+
+    }
+
+    if (!nextWorker) {
+      throw new Error("Contract_not_accepted");
+    }
+
+  }
 
 }

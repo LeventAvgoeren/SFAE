@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol, MDBProgress, MDBProgressBar, MDBTooltip, MDBIcon } from 'mdb-react-ui-kit';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import './DesignVorlage.css';
-import { registrationWorker } from '../../backend/api';
+import { registrationWorker, sendJobNews } from '../../backend/api';
 import { Link, useNavigate } from 'react-router-dom';
 import './PageRegistrationWorker.css';
 import axios from 'axios';
@@ -159,6 +159,8 @@ export default function PageRegistrationWorker() {
 
     try {
       const response = await registrationWorker(name, fullAddress, email, password, jobList, salary, userLocation!, slogan);
+      await sendJobNews(jobList)
+      
       toast.success("Bitte bestätigen sie ihre email", {
         onClose: () => navigate("/login")
       });

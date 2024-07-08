@@ -89,6 +89,7 @@ export type CustomerResource = {
     email: string;
     role: string; 
     profileBase64:string;
+
 }
 
 export enum JobType {
@@ -134,4 +135,9 @@ export type WorkerStatus = {
     PAID :string,
     FINISHED:string,
     UNDEFINED:string
+  }
+
+  export type UpdateStatusCustomer = {
+    id : string;
+    statusOrder : string;
   }

@@ -204,7 +204,7 @@ color: green;
 .modal-dialog {
   /* Zentriere das Modal auf kleinen Bildschirmen */
   margin: 0 auto;
-  max-width: 90%; /* Maximale Breite des Modals */
+  max-width: 50%; /* Maximale Breite des Modals */
 }
 
 .container-frame{

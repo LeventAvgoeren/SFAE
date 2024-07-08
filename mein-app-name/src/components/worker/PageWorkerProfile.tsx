@@ -276,7 +276,7 @@ export function PageWorkerProfile() {
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Auftrag beendet</h5>
+                <h5 className="modal-title">Account Löschen</h5>
               </div>
               <div className="modal-body">
                 <p>Bist du sicher, dass du diesen Account wirklich löschen möchtest? </p>   

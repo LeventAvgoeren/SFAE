@@ -25,7 +25,7 @@
 
 /* Center the modal and make it larger */
 .custom-modal .modal-dialog {
-  max-width: 80%; /* Adjust width as needed */
+  max-width: 50%; /* Adjust width as needed */
   margin: 30vh auto; /* Center vertically and add some top margin */
 }
 

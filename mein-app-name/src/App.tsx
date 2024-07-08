@@ -2,6 +2,7 @@ import React, { ReactNode, useEffect, useRef, useState } from "react";
 import "./App.css";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+// import "./transitions.css";
 
 import { PageIndex } from "./components/PageIndex";
 import { PageLogin } from "./components/PageLogin";
@@ -89,6 +90,8 @@ function App() {
     <>
       <LoginContext.Provider value={{ loginInfo, setLoginInfo }}>
 
+     
+
         <Routes>
                   {/* Gemeinsame Routen */}
                   <Route path="/agb" element={<PageAGB />} />
@@ -145,7 +148,6 @@ function App() {
           <Route path="/imprint" element={<ImprintPage />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
          </Routes>
-
       </LoginContext.Provider>
 
       {!isPageIntroduction && (

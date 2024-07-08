@@ -96,29 +96,29 @@ export function PageWorkerIndex() {
 
   return (
     <>
-      <div className="Backg" style={{ backgroundImage: 'url(/b1.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>   
+      <div className="Backg" style={{ backgroundImage: 'url(/b1.jpg)', backgroundSize: 'cover', backgroundPosition: 'center',overflow:'auto' }}>   
         <NavbarWComponent />
         <Container className="mt-0">
           {worker && <h1>Willkommen, {worker.name}!</h1>}
-          <Row>
+          <Row className="flex-nowrap">
             {[
               { path: `/worker/${workerId}/orders/overview`, label: 'Aufträge', img: '/auftraege.jpg' },
               { path: `/worker/${workerId}/preferences`, label: 'Präferenz', img: '/praferenz.jpg' },
               { path: `/worker/${workerId}/profile`, label: 'Profil', img: '/profile.jpg' }
             ].map(({ path, label, img }, index) => (
               <Col key={index} md={4} className="mb-4">
-                <Card>
+                <Card className='indexcard'>
                   <Link to={path}>
                     <Card.Img
                       variant="top"
                       src={zoom === img ? `${img}-zoom.jpg` : img}
                       onClick={() => toggleZoom(img)}
-                      style={{ width: '100%', height: 'auto' }}
+                      // style={{ width: '100%', height: 'auto' }}
                     />
                   </Link>
                   <Card.Body>
-                    <Card.Title>{label}</Card.Title>
-                    <Card.Text>
+                    <Card.Title className='indexcard2'>{label}</Card.Title>
+                    <Card.Text >
                       {label === 'Aufträge' ? 'Verwalten Sie Ihre Aufträge effizient und behalten Sie den Überblick über laufende Prozesse.' : 
                       label === 'Präferenz' ? 'Passen Sie Ihre Einstellungen an, um eine personalisierte Erfahrung zu erhalten.' : 
                       'Verwalten Sie Ihr Profil und aktualisieren Sie Ihre persönlichen Informationen.'}

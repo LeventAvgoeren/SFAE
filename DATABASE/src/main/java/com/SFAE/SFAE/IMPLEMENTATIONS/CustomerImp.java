@@ -2,16 +2,20 @@ package com.SFAE.SFAE.IMPLEMENTATIONS;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import com.SFAE.SFAE.DTO.CustomerDTO;
+import com.SFAE.SFAE.ENTITY.Contract;
 import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.ENUM.StatusOrder;
+import com.SFAE.SFAE.INTERFACE.ContractInterface;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 import com.SFAE.SFAE.INTERFACE.CustomerRepository;
 import com.SFAE.SFAE.Service.PasswordHasher;
@@ -44,6 +48,10 @@ public class CustomerImp implements CustomerInterface {
 
     @Autowired
     private PictureService pictureService;
+
+    @Autowired
+    @Lazy
+    private ContractImpl contract;
 
     @Autowired
     WorkerImpl worker;
@@ -148,6 +156,7 @@ public class CustomerImp implements CustomerInterface {
             String role = rs.getString("ROLE");
             Boolean confirm = rs.getBoolean("CONFIRM");
             String statusOrder= rs.getString("contract_status");
+            System.out.println(statusOrder+" BIN NCIHT DA");
             return dataFactory.createCustomer(id, name, password, email, role,confirm,statusOrder);
 
         } catch (SQLException e) {
@@ -204,28 +213,53 @@ public class CustomerImp implements CustomerInterface {
 
     @Override
     public Boolean deleteCustomerById(String id) {
-
-        try {
-              //Setze den contract auf null bevor ich lösche um den fehler zu 
-             //umgehen DataIntegrityViolationException 
-            jdbcTemplate.update(
-                "UPDATE Contract SET customer_id = NULL WHERE customer_id = ?",
-                ps -> ps.setString(1, id)
-            );
-        
-            //löschen des customer;
-            int deleted = jdbcTemplate.update(
-                "DELETE FROM customer WHERE ID = ?",
-                ps -> ps.setString(1, id)
-            );
-            
-            if (deleted != 1) {
-                throw new IllegalArgumentException("Id could not been deleted");
-            }
-            return true;
-        } catch (Error error) {
-            return false;
+        if(!id.startsWith("C")){
+            throw new IllegalArgumentException("Id is not customer");
         }
+
+       
+    try {
+          //Wenn der customer aufträge hat und die auf acc sind soll ein error kommen 
+          List<Contract> contractList=contract.getContractByCustomerId(id);
+          if(contractList!=null){
+              for (Contract contractData : contractList) {
+                  if(contractData.getStatusOrder().equals(StatusOrder.ACCEPTED)){
+                      throw new IllegalArgumentException("You can not delete your account if you have open contracts");
+                  }
+              }
+          }
+        
+    } catch (IllegalArgumentException e) {
+        throw new IllegalArgumentException("You can not delete your account if you have open contracts");
+    }
+      
+
+ 
+            try {
+                //Setze den contract auf null bevor ich lösche um den fehler zu 
+                //umgehen DataIntegrityViolationException 
+                jdbcTemplate.update(
+                    "UPDATE Contract SET customer_id = NULL WHERE customer_id = ?",
+                    ps -> ps.setString(1, id)
+                );
+            
+                //löschen des customer;
+                
+                int deleted = jdbcTemplate.update(
+                    "DELETE FROM customer WHERE ID = ?",
+                    ps -> ps.setString(1, id)
+                );
+                
+                if (deleted != 1) {
+                    throw new IllegalArgumentException("Id could not been deleted");
+                }
+                return true;
+            } catch (Error error) {
+                return false;
+            }
+        
+        
+       
     }
 
     /**

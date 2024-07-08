@@ -240,8 +240,14 @@ class CustomerController implements CustomerEP {
             if (Answer) {
                 return ResponseEntity.status(HttpStatus.OK).build();
             }
-        } catch (DataAccessException dax) {
-            logger.error("Database access error: " + dax.getMessage(), dax);
+        } catch (IllegalArgumentException e) {
+            if ("You can not delete your account if you have open contracts".equals(e.getMessage())) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("You have open contracts");
+            }
+            if ("Wrong Id".equals(e.getMessage())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID is not for Worker");
+            }
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 

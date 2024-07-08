@@ -73,7 +73,7 @@ export function PageChatBot() {
         />
         <button type="submit" className="button" 
         style={{display:'flex', justifyContent:'center', 
-          alignItems:'center', width:'40px', height:'40px', backgroundColor:'#6200ea',
+          alignItems:'center', backgroundColor:'#6200ea',
           border: "none", borderRadius: "8px", cursor:'pointer'
         }}>
           <img src="/send-button.png" alt="send" className="button-icon" 

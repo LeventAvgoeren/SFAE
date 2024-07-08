@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getContractByCustomerId } from "../../backend/api";
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { ContractResource, WorkerResource } from "../../Resources";
-import { FaStar, FaStarHalfAlt, FaRegStar, FaCheckCircle, FaTimesCircle, FaExclamationCircle, FaUserSlash } from "react-icons/fa";
+import { FaStar, FaStarHalfAlt, FaRegStar, FaCheckCircle, FaTimesCircle, FaExclamationCircle, FaUserSlash, FaSpinner, FaThumbsUp } from "react-icons/fa";
 import "./PageUebersicht.css";
 import NavbarComponent from '../navbar/NavbarComponent';
 import { deDE } from '@mui/x-data-grid/locales';
@@ -54,7 +54,7 @@ export function PageUebersicht() {
       case 'FINISHED':
         return <FaCheckCircle color="green" />;
       case 'ACCEPTED':
-        return <FaTimesCircle color="blue" />;
+        return <FaThumbsUp color="blue" />;
       case 'DECLINED':
         return <FaExclamationCircle color="red" />;
       case 'N/A':

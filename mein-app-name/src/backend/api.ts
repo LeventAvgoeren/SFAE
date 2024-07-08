@@ -779,3 +779,61 @@ export async function chatBot(input: string): Promise<string> {
   return data; 
 }
 
+export async function safeEmailToNewsLetter(emailCustomer:string){
+  const url = `${process.env.REACT_APP_API_SERVER_URL}/newsLetter`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(emailCustomer),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText);
+  }
+
+  const data = await response.text(); 
+  return data; 
+}
+
+export async function sendOwnNews(titel:string,text:string){
+  const url = `${process.env.REACT_APP_API_SERVER_URL}/newsLetter/sendOwnNews`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({titel,text}),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText);
+  }
+
+  const data = await response.text(); 
+  return data; 
+}
+
+export async function sendJobNews(jobTyp: string[]){
+  const jobType = jobTyp.map(element => element.toUpperCase());
+
+  const url = `${process.env.REACT_APP_API_SERVER_URL}/newsLetter/sendNews`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(jobType),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText);
+  }
+
+  const data = await response.text(); 
+  return data; 
+}

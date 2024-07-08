@@ -135,39 +135,48 @@ export default function PageRegistrationWorker() {
   const handleRegistration = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    console.log('Registrierung gestartet');
+
     const fullAddress = `${address}, ${city}, ${postalCode}`;
     const isValidAddress = await handleAddressValidation(fullAddress);
     setAddressValid(isValidAddress);
 
     if (!isValidAddress) {
       alert('Bitte geben Sie eine gültige Adresse ein.');
+      console.log('Ungültige Adresse');
       return;
     }
 
     if (!validatePassword(password)) {
       setPasswordError('Das Passwort muss mindestens einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten.');
+      console.log('Passwortvalidierung fehlgeschlagen');
       return;
     }
 
     if (password !== confirmPassword) {
       setPasswordError('Passwörter sind nicht identisch.');
+      console.log('Passwörter sind nicht identisch');
       return;
     }
 
     setPasswordError('');
 
     try {
+      console.log('Sende Registrierung an Server');
       const response = await registrationWorker(name, fullAddress, email, password, jobList, salary, userLocation!, slogan);
-      await sendJobNews(jobList)
-      
+      console.log('Registrierung erfolgreich', response);
+
+      await sendJobNews(jobList);
+
       toast.success("Bitte bestätigen sie ihre email", {
         onClose: () => navigate("/login")
       });
     } catch (error) {
-      console.error('Registration failed:', error);
+      console.error('Registrierung fehlgeschlagen:', error);
       toast.error("Ein Fehler ist aufgetreten");
     }
-  };
+};
+
 
   const handleJobTypeAdd = () => {
     if (jobType && !jobList.includes(jobType)) {
@@ -247,7 +256,7 @@ export default function PageRegistrationWorker() {
               </div>
               <MDBInput
                 wrapperClass='mb-4'
-                label='Dein Slogan/Motto'
+                label='Dein Slogan/Motto (optional)'
                 size='lg'
                 type='text'
                 value={slogan}

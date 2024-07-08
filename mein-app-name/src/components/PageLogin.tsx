@@ -6,6 +6,7 @@ import './PageLogin.css';
 import { useLoginContext } from './LoginManager';
 import LoadingIndicator from './LoadingIndicator';
 import { ToastContainer, toast } from 'react-toastify';
+import Footer from './Footer';
 
 export function PageLogin() {
   const [email, setEmail] = useState('');
@@ -106,6 +107,7 @@ export function PageLogin() {
             </form>
         </MDBCard>
     </MDBContainer>
+    <Footer></Footer>
 </div>
   );
 }

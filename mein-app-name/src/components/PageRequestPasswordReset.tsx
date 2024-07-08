@@ -6,6 +6,7 @@ import { getUserFromEmail, requestPassword } from '../backend/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingIndicator from './LoadingIndicator';
+import Footer from './Footer';
 
 export function PageRequestPasswordReset() {
     const [getEmail, setEmail] = useState('');
@@ -60,6 +61,8 @@ export function PageRequestPasswordReset() {
                     </MDBCardBody>
                 </MDBCard>
             </MDBContainer>
+            <Footer></Footer>
+
         </div>
         <ToastContainer 
             position="top-center" 

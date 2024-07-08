@@ -12,6 +12,8 @@ import animationData from "../Worker_2.json";
 import './PageDeclineJob.css';
 import { useLoginContext } from "../LoginManager";
 
+
+
 export function PageDeclineJob() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -24,16 +26,37 @@ export function PageDeclineJob() {
   const [refresh, setRefresh] = useState(false);
   const [customer,setCustomer]= useState<CustomerResource>()
 
-
   async function handleResponse(accepted: boolean) {
 
+    console.log("VERRAG: " + getcontract?.longitude)
     await contractAcceptOrDecline(accepted, getcontract!)
     if (accepted) {
-      navigate(`/worker/${getToken?.receiver}/orders/overview`)
+      //navigate(`/worker/${getToken?.receiver}/orders/overview`)
     } else {
-      navigate(`/worker/${getToken?.receiver}`)
+      //navigate(`/worker/${getToken?.receiver}`)
     }
   }
+
+  const fetchCoordinates = async (address: string) => {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${address}`;
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data.length > 0) {
+        const { lat, lon } = data[0];
+
+        setcontract(prevContract => ({
+          ...prevContract,
+          longitude: parseFloat(lon),
+          latitude: parseFloat(lat)
+        }));
+      } else {
+        console.error("Address not found");
+      }
+    } catch (error) {
+      console.error("Failed to fetch coordinates:", error);
+    }
+  };
 
 
 
@@ -55,9 +78,10 @@ export function PageDeclineJob() {
           console.log("CUSTOMERINFO"+customerFound)
           setCustomer(customerFound)
         }
+      fetchCoordinates(res2.adress!)
       setcontract(prevContract => ({
         ...prevContract,
-        worker: workerFound
+        worker: workerFound,
       }));
       setWorker(workerFound);
       setRefresh(true)
@@ -71,6 +95,7 @@ export function PageDeclineJob() {
     async function fetchContracts() {
       try {
         await getContractIdByToken(tokenID!)
+        console.log(getcontract);
       } catch (error) {
         console.log("Fehler:" + error);
       }

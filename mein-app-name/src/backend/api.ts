@@ -552,7 +552,7 @@ export async function setRating(data:RatingRessource) :Promise <Boolean > {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({ id: contractData.id,   adress: contractData.adress,description: contractData.description, jobType: contractData.jobType, payment: contractData.payment,range: contractData.range, statusOrder: contractData.statusOrder, customerId: contractData.customer!.id,  workerId: contractData.worker!.id}),
+      body: JSON.stringify({ id: contractData.id,   adress: contractData.adress,description: contractData.description, jobType: contractData.jobType, payment: contractData.payment,range: contractData.range, statusOrder: contractData.statusOrder, customerId: contractData.customer!.id,  workerId: contractData.worker!.id, longitude: contractData.longitude, latitude: contractData.latitude, maxPayment: contractData.maxPayment}),
       credentials: "include" as RequestCredentials,
     };
   

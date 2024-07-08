@@ -1,7 +1,6 @@
 package com.SFAE.SFAE.IMPLEMENTATIONS;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,16 +76,16 @@ public class SFAEAlgorithm {
               ps.setString(8, contract.getJobType());
             },
             (rs, rowNum) -> {
-                Worker worker = new Worker();
-                worker.setId(rs.getString("id"));
-                worker.setName(rs.getString("name"));
-                worker.setEmail(rs.getString("email"));
-                worker.setLatitude(rs.getDouble("latitude"));
-                worker.setLongitude(rs.getDouble("longitude"));
-                worker.setMinPayment(rs.getDouble("min_payment"));
-                worker.setJobType(new JobList[1]);
-                worker.setRating(rs.getDouble("rating"));
-                return worker;
+              Worker worker = new Worker();
+              worker.setId(rs.getString("id"));
+              worker.setName(rs.getString("name"));
+              worker.setEmail(rs.getString("email"));
+              worker.setLatitude(rs.getDouble("latitude"));
+              worker.setLongitude(rs.getDouble("longitude"));
+              worker.setMinPayment(rs.getDouble("min_payment"));
+              worker.setJobType(new JobList[1]);
+              worker.setRating(rs.getDouble("rating"));
+              return worker;
             });
 
         Map<Worker, Double> bestWorkers = new HashMap<>();
@@ -98,11 +97,11 @@ public class SFAEAlgorithm {
 
         for (Worker worker : result) {
             if(worker.getMinPayment() < minPaymentMin) {
-                minPaymentMin = worker.getMinPayment();
+              minPaymentMin = worker.getMinPayment();
             }
 
             if(worker.getMinPayment() > maxPayment) {
-              maxPayment = worker.getMinPayment();
+            maxPayment = worker.getMinPayment();
           }
         }
         
@@ -154,23 +153,23 @@ public class SFAEAlgorithm {
             //Rate Rating of worker
             b = (worker.getRating() - ratingMin) / (ratingMax - ratingMin);
            
-           
-              if(p == 0){
-                p = 0.1;
-              }
+          
+            if(p == 0){
+              p = 0.1;
+            }
 
-              if(b==0){
-                b = 0.1;
-              }
+            if(b==0){
+              b = 0.1;
+            }
 
             //Price and rating are added together
             if (p != 0) {
-                double p2 = p * 0.4;
-                double b2 = b * 0.6;
-                double score = (b2 + p2);
-                bestWorkers.put(worker, score);
+              double p2 = p * 0.4;
+              double b2 = b * 0.6;
+              double score = (b2 + p2);
+              bestWorkers.put(worker, score);
             } else {
-                System.out.println("Score calculation skipped due to division by zero");
+              System.out.println("Score calculation skipped due to division by zero");
             }
         }
 
@@ -181,15 +180,13 @@ public class SFAEAlgorithm {
       if(entries.size() > 3){
         Map<Worker, Double> optimalWorker = new HashMap<>();
         for (int i = entries.size() - 1; i >= entries.size() - 3; i--) {
-            optimalWorker.put(entries.get(i).getKey(), entries.get(i).getValue());
+          optimalWorker.put(entries.get(i).getKey(), entries.get(i).getValue());
         } 
         return optimalWorker;
       }
 
-      System.out.println(bestWorkers);
       return bestWorkers;
     } catch (Exception e) {
-      System.out.println(e);
     }
    
 

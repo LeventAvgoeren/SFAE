@@ -105,7 +105,6 @@ public class WorkerImpl implements WorkerInterface {
    */
   @Override
   public Worker findWorkersbyID(String id) {
-    System.out.println(id);
     if (!id.startsWith("W")) {
       throw new IllegalArgumentException("Id is not Worker");
     }
@@ -281,7 +280,6 @@ public class WorkerImpl implements WorkerInterface {
    */
   @Override
   public Worker createWorker(WorkerDTO rs) {
-    System.out.println(rs);
     if (rs.getName() == null || rs.getLocation() == null || rs.getPassword() == null ||
         rs.getJobType() == null || rs.getMinPayment() == null || rs.getEmail() == null) {
       throw new IllegalArgumentException("Some data are empty");
@@ -306,7 +304,6 @@ public class WorkerImpl implements WorkerInterface {
       Boolean confirm = false;
 
       JobList[] list = new JobList[jobType.length];
-      System.out.println("Vor Liste: " + list);
       for (int i = 0; i < jobType.length; i++) {
         list[i] = JobList.valueOf(jobType[i].toUpperCase());
       }
@@ -315,10 +312,8 @@ public class WorkerImpl implements WorkerInterface {
           StatusOrder.valueOf("UNDEFINED"), range, list, minPayment, rating, verification, email,
           latitude, longitude, ratingAv, pic, slogan, confirm);
       workerRepository.save(worker);
-      System.out.println(worker);
       return worker;
     } catch (Exception e) {
-      System.out.println(e);
       e.printStackTrace();
       return null;
     }
@@ -336,14 +331,12 @@ public class WorkerImpl implements WorkerInterface {
     if (email == null) {
       throw new IllegalArgumentException("Email is empty");
     }
-    System.out.println("BIN DAVOR");
     List<Optional<Worker>> result = jdbcTemplate.query(
         "SELECT * FROM WORKER WHERE email = ?",
         ps -> {
           ps.setString(1, email);
         },
         (rs, rowNum) -> createWorker(rs));
-    System.out.println("BIN DANACH " + result);
     if (!result.isEmpty() && result.get(0).isPresent()) {
       return result.get(0).get();
     }
@@ -388,7 +381,6 @@ public class WorkerImpl implements WorkerInterface {
           minPayment, rating, verification, latitude, longitude, slogan, confirm);
 
     } catch (SQLException e) {
-      System.out.println("ASDASD_" + e);
     }
 
     return Optional.empty();
@@ -406,8 +398,6 @@ public class WorkerImpl implements WorkerInterface {
    */
   @Override
   public Worker findWorkerByJob(String jobType) {
-    System.out.println("MEIN JOB " + jobType);
-    System.out.println("BIN DRINNE ERROR");
     List<Optional<Worker>> result = jdbcTemplate.query(
         "SELECT * FROM WORKER WHERE ? = ANY(string_to_array(trim(both '{}' FROM job_type), ','))",
         ps -> {
@@ -545,10 +535,8 @@ public class WorkerImpl implements WorkerInterface {
   }
 
   public byte[] loadDefaultProfilePicture() throws java.io.IOException {
-    System.out.println("DEFAULT BILD ERSTELLEN ");
     try {
       ClassPathResource imgFile = new ClassPathResource("static/images/default_profile.jpeg");
-      System.out.println("ICH BIN FERTIG MIT BILD LADEN ");
       return StreamUtils.copyToByteArray(imgFile.getInputStream());
     } catch (IOException e) {
       e.printStackTrace();
@@ -690,7 +678,6 @@ public class WorkerImpl implements WorkerInterface {
 
   @Override
   public Worker updateWorkerPreferences(WorkerPrefrencesDTO data) {
-    System.out.println(data);
     if (data == null) {
       throw new IllegalArgumentException("No Data " + data);
     }

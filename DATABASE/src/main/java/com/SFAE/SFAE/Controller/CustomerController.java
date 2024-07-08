@@ -19,7 +19,6 @@ import com.SFAE.SFAE.ENUM.TokenType;
 import com.SFAE.SFAE.IMPLEMENTATIONS.CustomerImp;
 import com.SFAE.SFAE.IMPLEMENTATIONS.WorkerImpl;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
-import com.SFAE.SFAE.INTERFACE.TokenRepository;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
 import com.SFAE.SFAE.Security.JWT;
 import com.SFAE.SFAE.Service.Authentication;
@@ -33,7 +32,6 @@ import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.validation.BindingResult;
@@ -270,7 +268,6 @@ class CustomerController implements CustomerEP {
     public ResponseEntity<Iterable<?>> findAllCustomers() {
         try {
             Iterable<Customer> customer = dao.findAllCustomer();
-            System.out.println(customer);
             return ResponseEntity.status(HttpStatus.OK).body(customer);
         } catch (DataAccessException dax) {
             logger.error("Database access error: " + dax.getMessage(), dax);
@@ -509,7 +506,6 @@ class CustomerController implements CustomerEP {
         }
 
         Worker worker = wor.findWorkerbyEmail(email);
-        System.out.println(email);
         if (worker != null) {
             String token = mailService.createToken(0, worker.getId(), TokenType.PASSWORDRESET);
 
@@ -554,7 +550,6 @@ class CustomerController implements CustomerEP {
         if (token == null) {
             return ResponseEntity.status(HttpStatus.GONE).build();
         }
-        System.out.println(token);
         if (token.getReceiver().startsWith("C")) {
             if (cus.updatePassword(data.getPassword(), token.getReceiver())) {
                 return ResponseEntity.status(HttpStatus.OK).build();
@@ -593,19 +588,14 @@ class CustomerController implements CustomerEP {
 
     @Override
     public ResponseEntity<?> verifyEmail(String token) {
-        System.out.println("Bin AUCH DABEI --------------");
-        System.out.println(token);
        //Token data = tokenRepository.findByToken(token);
        Token data = mailService.validateToken(token);
 
-        System.out.println(data+ "  HALLO");
         if (token == null) {
-            System.out.println("HAAAAALLLLLo");
             throw new IllegalArgumentException("No Token given");
         }
         try {
             boolean result = dao.verifyEmail(data.getReceiver());
-            System.out.println("result------"+result);
             if (result) {
                 return ResponseEntity.status(HttpStatus.OK).build();
 

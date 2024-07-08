@@ -123,19 +123,6 @@ public class ChatBot{
       }
     }
 
-        System.out.println("frageWort: " + frageWort);
-        System.out.println("isCustomer: " + isCustomer);
-        System.out.println("registrieren: " + registrieren);
-        System.out.println("anmelden: " + anmelden);
-        System.out.println("suche: " + suche);
-        System.out.println("einkommen: " + einkommen);
-        System.out.println("bewertung: " + bewertung);
-        System.out.println("veraenderung: " + veraenderung);
-        System.out.println("auftrag: " + auftrag);
-        System.out.println("auftragAct: " + auftragAct);
-        System.out.println("verneinung: " + verneinung);
-
-
       if (frageWort && isCustomer && registrieren) {
           return "Sie können sich hier <a href='https://localhost:3000/registration/customer'>registrieren</a>.";
       }

@@ -37,13 +37,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
-import java.util.Arrays;
 
 import javax.validation.Valid;
 
 @RestController
 public class ContractController implements ContractEP {
-  private Logger logger= LoggerFactory.getLogger(ContractController.class);;
+  private Logger logger = LoggerFactory.getLogger(ContractController.class);;
 
   @Autowired
   private ContractInterface dao;
@@ -77,14 +76,11 @@ public class ContractController implements ContractEP {
     }
 
     try {
-      //job is not found
-     
-
       Map<Worker, Double> best = sfae.getBestWorkersforTheJob(contract);
 
       if (best == null) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("NO_WORKER_NEARBY");
-    }
+      }
 
       List<Map.Entry<Worker, Double>> entries = new ArrayList<>(best.entrySet());
       entries.sort(Map.Entry.comparingByValue());
@@ -98,7 +94,6 @@ public class ContractController implements ContractEP {
 
       Contract created = dao.createContract(contract);
       if (created != null) {
-        System.out.println(lastEntry.getKey().getId());
         Worker found = work.findWorkersbyID(String.valueOf(lastEntry.getKey().getId()));
         Customer foundCustomer = custo.findCustomerbyID(String.valueOf(contract.getCustomerId()));
 
@@ -146,7 +141,7 @@ public class ContractController implements ContractEP {
    *         if the contract does not exist, or HttpStatus.INTERNAL_SERVER_ERROR
    *         in case of
    *         database access issues.
-   * @throws MessagingException 
+   * @throws MessagingException
    */
   @Override
   public ResponseEntity<?> deleteContactById(long id) {
@@ -154,20 +149,18 @@ public class ContractController implements ContractEP {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
     try {
-      Contract contract=dao.getContract(id);
-      Worker found=contract.getWorker();
+      Contract contract = dao.getContract(id);
+      Worker found = contract.getWorker();
       boolean result = dao.deleteContract(id);
-      
+
       if (result) {
 
         mail.sendHtmlMessage(
-          found.getEmail(), 
-          "Jobangebot Storniert", 
-          "Wir müssen Ihnen leider mitteilen, dass Ihr Vertrag storniert wurde. "
-          + "Falls es zu Problemen kommt, schreiben Sie bitte unserem Support eine E-Mail an leventavgoren@gmail.com."
-      );       
-       return ResponseEntity.status(HttpStatus.OK).build();
-
+            found.getEmail(),
+            "Jobangebot Storniert",
+            "Wir müssen Ihnen leider mitteilen, dass Ihr Vertrag storniert wurde. "
+                + "Falls es zu Problemen kommt, schreiben Sie bitte unserem Support eine E-Mail an leventavgoren@gmail.com.");
+        return ResponseEntity.status(HttpStatus.OK).build();
 
       } else {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -281,7 +274,6 @@ public class ContractController implements ContractEP {
 
       return ResponseEntity.status(HttpStatus.OK).body(contract);
     } catch (Exception e) {
-      System.out.println(e);
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
@@ -317,7 +309,6 @@ public class ContractController implements ContractEP {
     if (data == null) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
-
     if (accpeted) {
       Boolean result = dao.updateWorkerId(data.getId(), data.getWorkerId());
       work.updateStatusByWorkerId(data.getWorkerId(), "INAVAILABLE");
@@ -328,11 +319,11 @@ public class ContractController implements ContractEP {
       } else {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
       }
-
     } else {
       work.updateStatusByWorkerId(data.getWorkerId(), "AVAILABLE");
       work.updateOrderStatusByWorkerId(data.getWorkerId(), "DECLINED");
       dao.updateOrderStatus(data.getId(), "DECLINED");
+      dao.findNextBestWorker(data);
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
@@ -365,11 +356,9 @@ public class ContractController implements ContractEP {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
     email = email.replace("\"", "");
-    System.out.println(email);
     Worker foundWorker = work.findWorkerbyEmail(email);
 
     if (foundWorker != null) {
-      System.out.println("WORKER");
       return ResponseEntity.status(HttpStatus.FOUND).body(foundWorker);
     }
 
@@ -398,7 +387,6 @@ public class ContractController implements ContractEP {
     }
   }
 
-
   @Override
   public ResponseEntity<?> updateContractStatus(Long id, String orderStatus) {
     if (id == null || orderStatus == null) {
@@ -406,11 +394,10 @@ public class ContractController implements ContractEP {
     }
     orderStatus = orderStatus.replace("\"", "");
     try {
-      boolean result= dao.updateOrderStatus(id, orderStatus);
-      if(result){
+      boolean result = dao.updateOrderStatus(id, orderStatus);
+      if (result) {
         return ResponseEntity.status(HttpStatus.OK).body(result);
-      }
-      else{
+      } else {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
       }
     } catch (Exception e) {

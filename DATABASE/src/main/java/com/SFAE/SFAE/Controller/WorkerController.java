@@ -72,40 +72,38 @@ public class WorkerController implements WorkerEp {
         if (worker == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        System.out.println(worker);
         String passwordTest = worker.getPassword();
         String regex = "^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?\":{}|<>])(?=.*\\d).{8,}$";
         Pattern pattern = Pattern.compile(regex);
 
-        if(!pattern.matcher(passwordTest).matches()){
+        if (!pattern.matcher(passwordTest).matches()) {
             return ResponseEntity.status(400).build();
         }
 
         try {
             Worker builded = dao.createWorker(worker);
-            if(builded!=null){
+            if (builded != null) {
                 String token = mailService.createToken(0, builded.getId(), TokenType.VERIFYWORKER);
-            String link = "https://localhost:3000/verifyEmailWorker?token=" + token;
-            mail.sendHtmlMessage(builded.getEmail(), "Bestätigung Ihrer E-Mail-Adresse",
-                            "<html><body>" +
-                                    "Hallo " + builded.getName() + ",<br>" +
-                                    "Vielen Dank für die Registrierung bei unserem Service.<br>" +
-                                    "Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf den folgenden <a href='" + link
-                                    + "'><button style='background-color: #4CAF50; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;'>Bestätigungs-Button</button></a> klicken. Dieser Link ist nur für kurze Zeit gültig.<br>" +
-                                    "Wenn Sie die Registrierung nicht angefordert haben, können Sie diese E-Mail einfach ignorieren.<br><br>"
-                                    +
-                                    "Bei Fragen oder Problemen wenden Sie sich bitte an unseren Support.<br><br>"
-                                    +
-                                    "Mit freundlichen Grüßen,<br>" +
-                                    "Ihr Unternehmen-Team" +
-                                    "</body></html>");
-            return ResponseEntity.status(HttpStatus.CREATED).body(builded);
-            }
-            else{
+                String link = "https://localhost:3000/verifyEmailWorker?token=" + token;
+                mail.sendHtmlMessage(builded.getEmail(), "Bestätigung Ihrer E-Mail-Adresse",
+                        "<html><body>" +
+                                "Hallo " + builded.getName() + ",<br>" +
+                                "Vielen Dank für die Registrierung bei unserem Service.<br>" +
+                                "Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf den folgenden <a href='" + link
+                                + "'><button style='background-color: #4CAF50; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;'>Bestätigungs-Button</button></a> klicken. Dieser Link ist nur für kurze Zeit gültig.<br>"
+                                +
+                                "Wenn Sie die Registrierung nicht angefordert haben, können Sie diese E-Mail einfach ignorieren.<br><br>"
+                                +
+                                "Bei Fragen oder Problemen wenden Sie sich bitte an unseren Support.<br><br>"
+                                +
+                                "Mit freundlichen Grüßen,<br>" +
+                                "Ihr Unternehmen-Team" +
+                                "</body></html>");
+                return ResponseEntity.status(HttpStatus.CREATED).body(builded);
+            } else {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
-          
-        
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -120,28 +118,27 @@ public class WorkerController implements WorkerEp {
      *         operation.
      */
     @Override
-public ResponseEntity<?> deleteWorkerById(String id) {
-    if (!id.startsWith("W")) {
-        return ResponseEntity.badRequest().body("ID is not for Worker");
+    public ResponseEntity<?> deleteWorkerById(String id) {
+        if (!id.startsWith("W")) {
+            return ResponseEntity.badRequest().body("ID is not for Worker");
+        }
+        try {
+            boolean result = dao.deleteWorkerById(id);
+            if (result) {
+                return ResponseEntity.status(HttpStatus.OK).build();
+            }
+        } catch (IllegalArgumentException e) {
+            if ("You can not delete your account if you have open contracts".equals(e.getMessage())) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("You have open contracts");
+            }
+            if ("Wrong Id".equals(e.getMessage())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID is not for Worker");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
-    try {
-        boolean result = dao.deleteWorkerById(id);
-        if (result) {
-            return ResponseEntity.status(HttpStatus.OK).build();
-        }
-    } catch (IllegalArgumentException e) {
-        if ("You can not delete your account if you have open contracts".equals(e.getMessage())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("You have open contracts");
-        }
-        if ("Wrong Id".equals(e.getMessage())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID is not for Worker");
-        }
-    } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-    }
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-}
-
 
     /**
      * Endpoint for retrieving all Workers.
@@ -179,7 +176,6 @@ public ResponseEntity<?> deleteWorkerById(String id) {
                 return ResponseEntity.status(HttpStatus.OK).body(found);
             }
         } catch (Exception e) {
-            System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 
         }
@@ -210,6 +206,7 @@ public ResponseEntity<?> deleteWorkerById(String id) {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
     /**
      * Endpoint for updating a Worker.
      * 
@@ -228,7 +225,7 @@ public ResponseEntity<?> deleteWorkerById(String id) {
         String regex = "^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?\":{}|<>])(?=.*\\d).{8,}$";
         Pattern pattern = Pattern.compile(regex);
 
-        if(!pattern.matcher(passwordTest).matches()){
+        if (!pattern.matcher(passwordTest).matches()) {
             return ResponseEntity.status(400).build();
         }
         try {
@@ -236,10 +233,8 @@ public ResponseEntity<?> deleteWorkerById(String id) {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(found);
         } catch (DataAccessException dax) {
 
-            System.out.println(dax);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         } catch (Exception e) {
-            System.out.println(e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
@@ -257,10 +252,8 @@ public ResponseEntity<?> deleteWorkerById(String id) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-
         try {
             String token = jwt.loginWorkerJWT(login.getEmail(), login.getPassword());
-            System.out.println("AÖLLLO"+token);
             if(token == "a"){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
@@ -509,20 +502,18 @@ public ResponseEntity<?> deleteWorkerById(String id) {
 
     @Override
     public ResponseEntity<?> updateWorkerProfil(WorkerProfileDTO data) {
-        if(data==null){
+        if (data == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         try {
-            Worker worker=dao.updateWorkerProfile(data);
-            if(worker!=null){
+            Worker worker = dao.updateWorkerProfile(data);
+            if (worker != null) {
                 return ResponseEntity.status(HttpStatus.ACCEPTED).body(worker);
-            }
-            else{
+            } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
-            
-        } 
-        catch (Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -530,22 +521,19 @@ public ResponseEntity<?> deleteWorkerById(String id) {
 
     @Override
     public ResponseEntity<?> updateWorkerPreferences(WorkerPrefrencesDTO data) {
-        System.out.println("-------------------  "+data+" +++++++++++++++++++");
        
         if(data==null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         try {
-            Worker worker=dao.updateWorkerPreferences(data);
-            if(worker!=null){
+            Worker worker = dao.updateWorkerPreferences(data);
+            if (worker != null) {
                 return ResponseEntity.status(HttpStatus.ACCEPTED).body(worker);
-            }
-            else{
+            } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
-            
-        } 
-        catch (Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -556,13 +544,12 @@ public ResponseEntity<?> deleteWorkerById(String id) {
         if (token == null) {
             throw new IllegalArgumentException("No Token given");
         }
-        
-       //Token data = tokenRepository.findByToken(token);
-       Token data = mailService.validateToken(token);
+
+        // Token data = tokenRepository.findByToken(token);
+        Token data = mailService.validateToken(token);
 
         try {
             boolean result = dao.verifyEmail(data.getReceiver());
-            System.out.println("result------"+result);
             if (result) {
                 return ResponseEntity.status(HttpStatus.OK).build();
 
@@ -575,6 +562,5 @@ public ResponseEntity<?> deleteWorkerById(String id) {
 
         }
     }
-
 
 }

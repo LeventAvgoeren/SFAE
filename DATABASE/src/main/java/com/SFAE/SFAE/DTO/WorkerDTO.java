@@ -1,6 +1,5 @@
 package com.SFAE.SFAE.DTO;
 
-import com.SFAE.SFAE.ENUM.JobList;
 
 import lombok.Data;
 

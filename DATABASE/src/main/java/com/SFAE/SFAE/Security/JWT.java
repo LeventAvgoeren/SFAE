@@ -154,7 +154,6 @@ public class JWT {
         }
         // Alle Worker geben lassen
         Worker worker = dao.findWorkerbyEmail(email);
-        System.out.println("adadadad"+worker);
         if (worker != null) {
             if(!worker.getConfirm()){
                 return "a";

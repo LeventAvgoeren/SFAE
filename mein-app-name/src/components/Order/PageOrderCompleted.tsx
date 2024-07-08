@@ -14,6 +14,7 @@ import NavbarComponent from '../navbar/NavbarComponent';
 import { getContract, setRating } from '../../backend/api';
 import { ContractResource, RatingRessource } from '../../Resources';
 import { Button, Col, Row } from 'react-bootstrap';
+import Footer from '../Footer';
 
 
 export function PageOrderCompleted() {
@@ -108,6 +109,8 @@ export function PageOrderCompleted() {
           </MDBCard>
         </div>
       </div>
+      <Footer></Footer>
+
       </div>
     </>
   );

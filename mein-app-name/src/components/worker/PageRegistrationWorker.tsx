@@ -9,6 +9,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Select from 'react-select';
+import Footer from '../Footer';
 
 interface Position {
   latitude: number;
@@ -266,6 +267,8 @@ export default function PageRegistrationWorker() {
           </MDBCardBody>
         </MDBCard>
       </MDBContainer>
+      <Footer></Footer>
+
     </div>
   );
 }

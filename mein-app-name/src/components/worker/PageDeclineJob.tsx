@@ -11,6 +11,7 @@ import Lottie from "react-lottie";
 import animationData from "../Worker_2.json";
 import './PageDeclineJob.css';
 import { useLoginContext } from "../LoginManager";
+import Footer from "../Footer";
 
 
 
@@ -162,7 +163,8 @@ export function PageDeclineJob() {
             </div>
           </div>
         ) : null}
-   
+               <Footer></Footer>
+
     </>
   );
 }

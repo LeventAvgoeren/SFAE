@@ -7,6 +7,7 @@ import { WorkerResource, ContractResourceforWorker } from '../../Resources';
 import { getWorkerbyID, getContractByWorkerId, updateWorkerOrderStatus } from '../../backend/api';
 import './PageWorkerIndex.css';
 import NavbarWComponent from './NavbarWComponent';
+import Footer from '../Footer';
 
 export function PageWorkerIndex() {
   const { workerId } = useParams<{ workerId?: string }>();
@@ -176,6 +177,8 @@ export function PageWorkerIndex() {
           </Button>
         </Modal.Footer>
       </Modal>
+      <Footer></Footer>
+
     </>
   );
   

@@ -39,6 +39,7 @@ export default function PageRegistrationWorker() {
   const [country, setCountry] = useState<any>(null);  // Country is an object now
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState('');
   const [jobType, setJobType] = useState('');
   const [jobList, setJobList] = useState<string[]>([]);
@@ -184,16 +185,16 @@ export default function PageRegistrationWorker() {
 
   return (
     <div className="animated-background">
-      <ToastContainer 
-        position="top-center" 
-        autoClose={1000} 
-        hideProgressBar={false} 
-        newestOnTop={false} 
-        closeOnClick 
-        rtl={false} 
-        pauseOnFocusLoss 
-        draggable 
-        pauseOnHover 
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
       />
       <MDBContainer fluid className='d-flex align-items-center justify-content-center' style={{ backgroundSize: 'cover', height: '100vh' }}>
         <MDBCard className='worker-registration-container m-5'>
@@ -202,15 +203,23 @@ export default function PageRegistrationWorker() {
             <form onSubmit={handleRegistration}>
               <MDBRow>
                 <MDBCol md='6'>
-                  <MDBInput wrapperClass='mb-4' label='Dein Name' size='lg' type='text' value={name} onChange={(e) => setName(e.target.value)} required/>
-                  <MDBInput wrapperClass='mb-4' label='Adresse' size='lg' type='text' value={address} onChange={e => setAddress(e.target.value)} required/>
-                  <MDBInput wrapperClass='mb-4' label='Stadt' size='lg' type='text' value={city} onChange={e => setCity(e.target.value)} required/>
-                  <MDBInput wrapperClass='mb-4' label='Postleitzahl' size='lg' type='text' value={postalCode} onChange={e => setPostalCode(e.target.value)} required/>
+                  <MDBInput wrapperClass='mb-4' label='Dein Name' size='lg' type='text' value={name} onChange={(e) => setName(e.target.value)} required />
+                  <MDBInput wrapperClass='mb-4' label='Adresse' size='lg' type='text' value={address} onChange={e => setAddress(e.target.value)} required />
+                  <MDBInput wrapperClass='mb-4' label='Stadt' size='lg' type='text' value={city} onChange={e => setCity(e.target.value)} required />
+                  <MDBInput wrapperClass='mb-4' label='Postleitzahl' size='lg' type='text' value={postalCode} onChange={e => setPostalCode(e.target.value)} required />
                 </MDBCol>
                 <MDBCol md='6'>
                   {!addressValid && <div style={{ color: '#e4a11b' }}>Ungültige Adresse.</div>}
-                  <MDBInput wrapperClass='mb-4' label='Deine E-Mail' size='lg' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required/>
-                  <MDBInput wrapperClass='mb-4' label='Passwort' size='lg' type='password' value={password} onChange={handlePasswordChange} required/>
+                  <MDBInput wrapperClass='mb-4' label='Deine E-Mail' size='lg' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
+                  <div style={{ position: 'relative' }}>
+                    <MDBInput wrapperClass='mb-4' label='Passwort' size='lg' type={showPassword ? 'text' : 'password'} value={password} onChange={handlePasswordChange} required />
+                    <span
+                      onClick={() => setShowPassword(!showPassword)}
+                      style={{ position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)', cursor: 'pointer' }}
+                    >
+                      {showPassword ? <MDBIcon fas icon="eye-slash" /> : <MDBIcon fas icon="eye" />}
+                    </span>
+                  </div>
                   <MDBInput wrapperClass='mb-4' label='Passwort erneut eingeben' size='lg' type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
                 </MDBCol>
               </MDBRow>
@@ -221,10 +230,10 @@ export default function PageRegistrationWorker() {
                   {passwordStrength * 25}%
                 </MDBProgressBar>
               </MDBProgress>
-              <select className="form-select mb-4 option-black" value={jobType} onChange={(e) => setJobType(e.target.value)} style={{backgroundColor:"black", color: "black"}}>
-                <option value="" style={{color:'black'}}>Jobtyp wählen...</option>,
+              <select className="form-select mb-4 option-black" value={jobType} onChange={(e) => setJobType(e.target.value)} style={{ backgroundColor: "black", color: "black" }}>
+                <option value="" style={{ color: 'black' }}>Jobtyp wählen...</option>,
                 {jobTypes.map((type, index) => (
-                  <option key={index} value={type} style={{color:'black'}}>{type}</option>
+                  <option key={index} value={type} style={{ color: 'black' }}>{type}</option>
                 ))}
               </select>
               <MDBBtn type="button" onClick={handleJobTypeAdd} className='mb-4 w-100 gradient-custom-4' size='lg'>Job hinzufügen</MDBBtn>
@@ -251,7 +260,7 @@ export default function PageRegistrationWorker() {
                 value={slogan}
                 onChange={(e) => setSlogan(e.target.value)}
               />
-              <MDBCheckbox name='termsCheck' id='termsCheck' label={<span>Ich stimme den <Link to="/agb" className="text-white">Nutzungsbedingungen</Link> zu</span>} wrapperClass='d-flex justify-content-center mb-4 text-white' required/>
+              <MDBCheckbox name='termsCheck' id='termsCheck' label={<span>Ich stimme den <Link to="/agb" className="text-white">Nutzungsbedingungen</Link> zu</span>} wrapperClass='d-flex justify-content-center mb-4 text-white' required />
               <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type="submit">Registrieren</MDBBtn>
             </form>
             <MDBRow>

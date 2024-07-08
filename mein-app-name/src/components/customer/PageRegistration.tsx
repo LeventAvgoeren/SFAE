@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { MDBBtn, MDBContainer, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBProgress, MDBProgressBar } from 'mdb-react-ui-kit';
+import { MDBBtn, MDBContainer, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBProgress, MDBProgressBar, MDBIcon } from 'mdb-react-ui-kit';
 import { Link, useNavigate } from 'react-router-dom';
 import './PageRegistration.css';
 import { registrationCustomer } from '../../backend/api';
@@ -29,11 +29,14 @@ function getPasswordStrength(password: string) {
     return strength;
 }
 
+
+
 export default function PageRegistration() {
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [confirmPassword, setConfirmPassword] = useState('');
     const [addressValid, setAddressValid] = useState(true);
     const [passwordError, setPasswordError] = useState('');
@@ -161,16 +164,24 @@ export default function PageRegistration() {
                                 onChange={e => setEmail(e.target.value)}
                                 required
                             />
+                            <div style={{ position: 'relative' }}>
                             <MDBInput
                                 wrapperClass='mb-3 inputField'
                                 labelClass='text-white'
                                 label='Passwort'
                                 id='passwordInput'
-                                type='password'
+                                type={showPassword ? 'text' : 'password'}
                                 value={password}
                                 onChange={handlePasswordChange}
                                 required
                             />
+                             <span
+                      onClick={() => setShowPassword(!showPassword)}
+                      style={{ position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)', cursor: 'pointer' }}
+                    >
+                      {showPassword ? <MDBIcon fas icon="eye-slash" /> : <MDBIcon fas icon="eye" />}
+                    </span>
+                    </div>
                             <MDBInput
                                 wrapperClass='mb-3 inputField'
                                 labelClass='text-white'

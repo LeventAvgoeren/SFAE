@@ -2,15 +2,18 @@
 .card2 {
     background-color: rgba(0, 0, 0, 0.7); /* Schwarze Farbe mit leichter Transparenz */
     border-radius: 15px; /* Abgerundete Ecken */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); 
     padding: 20px; /* Innenabstand */
     width: fit-content; /* Breite des Inhalts anpassen */
     margin: auto; /* Zentriert die Card horizontal */
     margin-top: 20rem; /* Abstand nach oben */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Leichter Schatten für einen "schwebenden" Effekt */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Leichter Schatten für einen "schwebenden" Effekt */
     display: flex;
     flex-direction: column; /* Ordnet die Kinder (p und button) vertikal an */
     align-items: center; /* Zentriert die Inhalte horizontal */
     gap: 10px; /* Abstand zwischen den Elementen im Container */
+    margin-bottom: 20%;
 }
 
 
@@ -25,6 +28,7 @@
     align-items: center;
     height: 100vh;
     width: 100%;
+    overflow-y: auto;
 }
 
 /* Stil für den Paragraphen */

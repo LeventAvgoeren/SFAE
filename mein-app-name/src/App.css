@@ -90,7 +90,7 @@
 
 .chat-popup {
   position: fixed;
-  bottom: 80px;
+  bottom: 10vh;
   right: 16px;
   width: 300px;
   height: 400px;
@@ -119,4 +119,26 @@
   flex: 1;
   
   overflow-y: auto;
+}
+
+@media only screen and (max-width: 1200px) {
+  .chat-popup {
+    width: 250x;
+    height: 350px;
+    bottom: 50px;
+  }
+}
+
+@media only screen and (max-width: 980px) {
+  .chat-popup {
+    width: 250px;
+    height: 200px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .chat-popup {
+    width: 175px;
+    height: 150px;
+  }
 }

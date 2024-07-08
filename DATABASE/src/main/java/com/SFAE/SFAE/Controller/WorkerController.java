@@ -72,7 +72,6 @@ public class WorkerController implements WorkerEp {
         if (worker == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        System.out.println(worker);
         String passwordTest = worker.getPassword();
         String regex = "^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?\":{}|<>])(?=.*\\d).{8,}$";
         Pattern pattern = Pattern.compile(regex);
@@ -177,7 +176,6 @@ public class WorkerController implements WorkerEp {
                 return ResponseEntity.status(HttpStatus.OK).body(found);
             }
         } catch (Exception e) {
-            System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 
         }
@@ -235,10 +233,8 @@ public class WorkerController implements WorkerEp {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(found);
         } catch (DataAccessException dax) {
 
-            System.out.println(dax);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         } catch (Exception e) {
-            System.out.println(e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
@@ -258,8 +254,7 @@ public class WorkerController implements WorkerEp {
 
         try {
             String token = jwt.loginWorkerJWT(login.getEmail(), login.getPassword());
-            System.out.println("AÖLLLO" + token);
-            if (token == "a") {
+            if(token == "a"){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
             if (token == null) {
@@ -526,9 +521,8 @@ public class WorkerController implements WorkerEp {
 
     @Override
     public ResponseEntity<?> updateWorkerPreferences(WorkerPrefrencesDTO data) {
-        System.out.println("-------------------  " + data + " +++++++++++++++++++");
-
-        if (data == null) {
+       
+        if(data==null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         try {
@@ -556,7 +550,6 @@ public class WorkerController implements WorkerEp {
 
         try {
             boolean result = dao.verifyEmail(data.getReceiver());
-            System.out.println("result------" + result);
             if (result) {
                 return ResponseEntity.status(HttpStatus.OK).build();
 

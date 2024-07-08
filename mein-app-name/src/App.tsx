@@ -153,10 +153,10 @@ function App() {
       <Fab
         color="primary"
         aria-label="chat"
-        style={{ position: "fixed", bottom: 25, right: 1, backgroundColor:"#021128", width:"10vh", height:"10vh"}}
+        style={{ position: "fixed", bottom: 25, right: 1, backgroundColor:"#021128", width:"8vh", height:"8vh"}}
         onClick={() => setShowChat(!showChat)}
       >
-        <img src="/chatbot-icon.png" alt="chatbot" style={{ width: '8vh', height: '8vh' }} />
+        <img src="/chatbot-icon.png" alt="chatbot" style={{ width: '6vh', height: '6vh' }} />
       </Fab>
       
       {showChat && (

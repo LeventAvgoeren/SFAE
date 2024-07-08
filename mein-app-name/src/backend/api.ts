@@ -1,4 +1,4 @@
-import { ContractResource, ContractResourceforWorker, CustomerResource, Position, RatingRessource, TokenRessource, WorkerResource, WorkerResourcePreferences, WorkerResourceProfil } from "../Resources";
+import { ContractResource, ContractResourceforWorker, CustomerResource, Position, RatingRessource, TokenRessource, UpdateStatusCustomer, WorkerResource, WorkerResourcePreferences, WorkerResourceProfil } from "../Resources";
 import { LoginInfo } from "../components/LoginManager";
 import { HttpError } from "../components/Order/HTTPError";
 import { fetchWithErrorHandling } from "./fetchWithErrorHandling";
@@ -552,7 +552,7 @@ export async function setRating(data:RatingRessource) :Promise <Boolean > {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({ id: contractData.id,   adress: contractData.adress,description: contractData.description, jobType: contractData.jobType, payment: contractData.payment,range: contractData.range, statusOrder: contractData.statusOrder, customerId: contractData.customer!.id,  workerId: contractData.worker!.id}),
+      body: JSON.stringify({ id: contractData.id,   adress: contractData.adress,description: contractData.description, jobType: contractData.jobType, payment: contractData.payment,range: contractData.range, statusOrder: contractData.statusOrder, customerId: contractData.customer!.id,  workerId: contractData.worker!.id, longitude: contractData.longitude, latitude: contractData.latitude, maxPayment: contractData.maxPayment}),
       credentials: "include" as RequestCredentials,
     };
   
@@ -777,6 +777,23 @@ export async function chatBot(input: string): Promise<string> {
 
   const data = await response.text(); 
   return data; 
+}
+export async function updateCustomerOrderStatus(data: UpdateStatusCustomer): Promise<boolean> {
+  const url = `${process.env.REACT_APP_API_SERVER_URL}/customer/updateStatusOrder`;
+  const response = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+    credentials: 'include' as RequestCredentials,
+  });
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const result = await response.text();
+  return result === 'true';
 }
 
 export async function safeEmailToNewsLetter(emailCustomer:string){

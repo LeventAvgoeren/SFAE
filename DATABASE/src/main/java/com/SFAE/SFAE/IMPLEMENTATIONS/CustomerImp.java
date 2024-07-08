@@ -111,10 +111,8 @@ public class CustomerImp implements CustomerInterface {
                 },
                 (rs, rowNum) -> createCustomer(rs));
 
-                System.out.println("result "+result);
         // Verifyin if the List is empty
         if (!result.isEmpty() && result.get(0).isPresent()) {
-            System.out.println("HALLLLO");
             return result.get(0).get();
         }
 
@@ -156,7 +154,6 @@ public class CustomerImp implements CustomerInterface {
             String role = rs.getString("ROLE");
             Boolean confirm = rs.getBoolean("CONFIRM");
             String statusOrder= rs.getString("contract_status");
-            System.out.println(statusOrder+" BIN NCIHT DA");
             return dataFactory.createCustomer(id, name, password, email, role,confirm,statusOrder);
 
         } catch (SQLException e) {
@@ -176,7 +173,6 @@ public class CustomerImp implements CustomerInterface {
      */
     @Override
     public Customer createCustomer(CustomerDTO jsonData) {
-        System.out.println("ICH BIN IN DER CREATECUSTOMER IMPL");
         try {
             byte[] defaultImage = worker.loadDefaultProfilePicture();
             var pic=pictureService.saveImageAsLargeObject(defaultImage);
@@ -190,7 +186,6 @@ public class CustomerImp implements CustomerInterface {
             }
             Customer customer = new Customer(name, password, email, pic,confirm,statusOrder);
             customerRepository.save(customer);
-            System.out.println("CUSTOMER WURDE GESAFED");
             return customer;
     
         } catch (Exception e) {
@@ -360,7 +355,6 @@ public class CustomerImp implements CustomerInterface {
 
     @Override
     public boolean updatePassword(String password, String Id) {
-        System.out.println(password + " " +  Id);
         int result = jdbcTemplate.update(
                 "UPDATE CUSTOMER SET password = ? WHERE id = ?",
                 ps -> {

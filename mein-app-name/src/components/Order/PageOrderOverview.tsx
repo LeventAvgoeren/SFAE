@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './PageOrderOverview.css';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus, deleteChat, deleteContractById, updateWorkerOrderStatus, getCustomerImage, getWorkerImage, checkLoginStatus } from '../../backend/api'; // Importiere die Funktion
-import { ContractResource } from '../../Resources';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus, deleteChat, updateWorkerOrderStatus, getCustomerImage, getWorkerImage, updateCustomerOrderStatus } from '../../backend/api'; // Importiere die Funktion
+import { ContractResource, UpdateStatusCustomer } from '../../Resources';
 import NavbarComponent from '../navbar/NavbarComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Lottie from 'react-lottie';
@@ -13,7 +13,6 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine';
 import { Routing } from 'leaflet-routing-machine';
 import { Typewriter } from 'react-simple-typewriter';
-import NavbarWComponent from '../worker/NavbarWComponent';
 import { LoginInfo } from '../LoginManager';
 
 export function PageOrderOverview() {
@@ -23,7 +22,7 @@ export function PageOrderOverview() {
   const params = useParams<{ orderId: string }>();
   const contId = params.orderId;
   let contractId = parseInt(contId!);
-  const [conData, setConData] = useState<ContractResource>();
+  const [conData, setConData] = useState<ContractResource | null>(null);
   const [modalShow, setModalShow] = useState(false);
   const [cancelModalShow, setCancelModalShow] = useState(false);
   const [messageIndex, setMessageIndex] = useState(0);
@@ -33,12 +32,12 @@ export function PageOrderOverview() {
   const [routeTime, setRouteTime] = useState<string>('');
   const [routeDistance, setRouteDistance] = useState<string>('');
   const navigate = useNavigate();
-  const { orderId } = useParams();
-  //ist nur ein versuch ob es machbar ist 
   const [isPaid, setIsPaid] = useState<boolean>(false);
-  const [mapLoading, setMapLoading] = useState(false)
+  const [mapLoading, setMapLoading] = useState(false);
   const handlePayment = () => setIsPaid(true);
   const [loginInfo, setLoginInfo] = useState<LoginInfo | false>();
+  const [contractFinished, setContractFinished] = useState(false);
+  const { orderId } = useParams();
 
 
   const messages = [
@@ -47,7 +46,6 @@ export function PageOrderOverview() {
     "Der Vorgang wird gleich abgeschlossen, danke für Ihre Geduld...",
     "Der Mensch muss essen und trinken... Wie das Pferd"
   ];
-
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -58,9 +56,8 @@ export function PageOrderOverview() {
 
   useEffect(() => {
     async function fetchContractData() {
-     setLoading(true)
+      setLoading(true);
       try {
-        
         const data = await getContractByCustomerId(customerId!);
         setContractData(data);
         let contract = await getContract(contractId);
@@ -72,24 +69,33 @@ export function PageOrderOverview() {
           setWorkerFoto(`data:image/jpeg;base64,${workerResult}`);
           setWorkerAssigned(true);
         }
+
+        // Check if both statuses are FINISHED
+        if (contract.statusOrder === 'FINISHED' && contract.worker?.statusOrder === 'FINISHED') {
+          setContractFinished(true);
+          await updateContractStatus(contractId, 'FINISHED');
+        } else {
+          setContractFinished(false);
+        }
         
-       
       } catch (error) {
         console.error('Error fetching contract data:', error);
-      } 
+      }
+      setLoading(false);
     }
+
     fetchContractData();
 
     const statusInterval = setInterval(async () => {
       try {
         const status = await getContractStatus(contractId);
-        console.log(status)
+        console.log(status);
         if (status !== 'UNDEFINED' || !status) {
-          fetchContractData()
+          fetchContractData();
           clearInterval(statusInterval);
           setLoading(false);
           setWorkerAssigned(true);
-        } 
+        }
       } catch (error) {
         console.error('Error fetching contract status:', error);
       }
@@ -105,14 +111,18 @@ export function PageOrderOverview() {
   const toggleCancelShow = () => {
     setCancelModalShow(!cancelModalShow);
   };
+
   const handleConfirm = async () => {
     if (conData && conData.worker && conData.worker.id) {
       try {
         await deleteChat(conData.worker.id, conData.customer!.id!);
-        await updateWorkerOrderStatus(conData.worker.id, "UNDEFINED");
+        await updateWorkerOrderStatus(conData.worker.id, "FINISHED");
         await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
-        await updateContractStatus(contractId!, 'FINISHED');
-        navigate(`/customer/${customerId}/orders/${orderId}/completed`)
+        await updateContractStatus(contractId, 'FINISHED');
+        if (conData.statusOrder === 'FINISHED' && conData.worker.statusOrder === 'FINISHED') {
+          await updateContractStatus(contractId, 'FINISHED');
+        }
+        navigate(`/customer/${customerId}/orders/${orderId}/completed`);
         console.log('Worker status updated to AVAILABLE and contract status updated to COMPLETED');
       } catch (error) {
         console.error('Error updating status:', error);
@@ -126,7 +136,7 @@ export function PageOrderOverview() {
       try {
         await deleteChat(conData.worker.id, conData.customer!.id!);
         await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
-        await updateContractStatus(contractId!, 'CANCELLED');
+        await updateContractStatus(contractId, 'CANCELLED');
         await updateWorkerOrderStatus(conData.worker.id, "UNDEFINED");
       } catch (error) {
         console.error('Error updating status:', error);
@@ -159,7 +169,6 @@ export function PageOrderOverview() {
     iconAnchor: [25, 50],
   });
 
-
   useEffect(() => {
     if (conData && conData.worker && conData.worker.location) {
       const createMap = async () => {
@@ -188,7 +197,6 @@ export function PageOrderOverview() {
             e.originalEvent.stopPropagation();
           });
 
-
           const control = L.Routing.control({
             waypoints: [
               L.latLng(customerCoords.latitude, customerCoords.longitude),
@@ -212,8 +220,7 @@ export function PageOrderOverview() {
           });
         } catch (error) {
           console.error('Error creating map:', error);
-        }
-        finally {
+        } finally {
           setMapLoading(false);
         }
       };
@@ -221,8 +228,6 @@ export function PageOrderOverview() {
       createMap();
     }
   }, [conData]);
-
-
 
   if (!contractData.length) {
     return <div className="Backg">No contracts found</div>;
@@ -244,21 +249,22 @@ export function PageOrderOverview() {
   return (
     <>
       <div className="Backg">
-        
-      <NavbarComponent />
-     
+        <NavbarComponent />
+        {contractFinished && (
+          <div className="alert alert-success mt-3">
+            Der Auftrag wurde beendet.
+          </div>
+        )}
         {loading || !workerAssigned ? (
-            <div style={{ paddingBottom:"20%", height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: 'center'  }}>
-              <Lottie options={defaultOptions} height={400} width={400} />
-              <div style={{background:"black", color:"white", width:"30%", alignSelf:"center"}}> 
+          <div style={{ paddingBottom:"20%", height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: 'center'  }}>
+            <Lottie options={defaultOptions} height={400} width={400} />
+            <div style={{background:"black", color:"white", width:"30%", alignSelf:"center"}}> 
               <Typewriter  words={messages}  loop={0} cursor cursorStyle="/" cursorColor='red' cursorBlinking={true} typeSpeed={70}   deleteSpeed={50}  delaySpeed={1000}/>
-              </div>
             </div>
+          </div>
         ) : (
           <div className='containertest'>
             <h2>Order Information</h2>
-
-
             <div className="row">
               <div className="left-column">
                 <div className='text-light'>
@@ -278,29 +284,22 @@ export function PageOrderOverview() {
               <div style={{ justifyItems: "center", alignContent: "center" }} className='middle-column'>
                 <main style={{ gridArea: 'map10', display: 'flex', alignItems: 'center', width: '100%', height: '100%', borderRadius: "50%" }} draggable="false">
                   <div id="map" style={{ borderRadius: "28px", width: '100%',height:"100%"}}></div>
-
                 </main>
-
-
               </div>
-
-
-
-
-
               <div className="col-lg-4">
                 <div className="right-column1">
                   <div className="info-section">
                     <h5>Customer Details</h5>
                     {conData.customer && (
-                      <>  <div className="Foto">
-                        <img
-                          src={foto}
-                          className="img-fluid"
-                          alt=""
-                          style={{ borderRadius: "20%" }}
-                        />
-                      </div>
+                      <>  
+                        <div className="Foto">
+                          <img
+                            src={foto}
+                            className="img-fluid"
+                            alt=""
+                            style={{ borderRadius: "20%" }}
+                          />
+                        </div>
                         <address>
                           <strong>Name: {conData.customer.name}</strong><br />
                           Email: {conData.customer.email}<br />
@@ -309,44 +308,34 @@ export function PageOrderOverview() {
                       </>
                     )}
                   </div>
-
                 </div>
                 <br />
                 <div className="right-column2">
                   <div className="info-section">
-
-
                     <h5>Worker Details</h5>
                     {conData.worker && (
-                      <>  <div className="Foto">
-                        <img
-                          src={workerFoto}
-                          className="img-fluid"
-                          alt=""
-                          style={{ borderRadius: "20%" }}
-                        />
-                      </div>
+                      <>  
+                        <div className="Foto">
+                          <img
+                            src={workerFoto}
+                            className="img-fluid"
+                            alt=""
+                            style={{ borderRadius: "20%" }}
+                          />
+                        </div>
                         <address>
                           <strong>Name: {conData.worker.name}</strong><br />
                           Email: {conData.worker.email}<br />
                           Adresse: {conData.worker.location}<br />
-
                         </address>
                         Min Payment: {conData.worker.minPayment}€<br />
-
                         Rating: {conData.worker.rating.toFixed(1)}<br />
-
                       </>
                     )}
-
                   </div>
                 </div>
-
-
-
               </div>
             </div>
-         
           </div>
         )}
         <div className={`modal fade ${modalShow ? 'show' : ''}`} style={{ display: modalShow ? 'block' : 'none' }}>
@@ -368,7 +357,6 @@ export function PageOrderOverview() {
           </div>
         </div>
         {modalShow && <div className="modal-backdrop fade show"></div>}
-
         <div className={`modal fade ${cancelModalShow ? 'show' : ''}`} style={{ display: cancelModalShow ? 'block' : 'none' }}>
           <div className="modal-dialog">
             <div className="modal-content">
@@ -391,5 +379,4 @@ export function PageOrderOverview() {
       </div>
     </>
   );
-
 }

@@ -165,10 +165,6 @@ function Menu({loginInfo}:any){
               <li><a href={`/customer/${loginInfo.userId}/uebersicht`}>Übersicht</a></li>
             )}
             {loginInfo && (
-              <li><a href={`/customer/${loginInfo.userId}/faq`}>Faq</a></li>
-            )}
-
-            {loginInfo && (
               <li><a href={`/chatBot`}>Chat Bot</a></li>
             )}
             {loginInfo && loginInfo.admin === "ADMIN" && (

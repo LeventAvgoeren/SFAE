@@ -116,9 +116,6 @@ export function NavbarWComponent() {
               <li className="nav-item">
                 <Link className="nav-link" to={`/worker/${loginInfo.userId}/orders/overview`}>Übersicht</Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={`/worker/${loginInfo.userId}/faq`}>Faq</Link>
-              </li>
             </ul>
           )}
         </div>

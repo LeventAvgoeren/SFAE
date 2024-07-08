@@ -39,6 +39,7 @@ export function PageWorkerIndex() {
   const fetchLatestContract = async () => {
     try {
       const contracts = await getContractByWorkerId(workerId!);
+      console.log('Fetched contracts:', contracts); // Log fetched contracts
       if (contracts.length > 0) {
         const latest = contracts.reduce((prev, current) => {
           if (!prev.id || !current.id) {
@@ -46,6 +47,7 @@ export function PageWorkerIndex() {
           }
           return (prev.id > current.id) ? prev : current;
         });
+        console.log('Latest contract:', latest); // Log latest contract
         setLatestContract(latest);
       } else {
         setLatestContract(null);
@@ -128,7 +130,7 @@ export function PageWorkerIndex() {
               </Col>
             ))}
           </Row>
-          {worker && worker.statusOrder !== 'FINISHED' && latestContract && (
+          {worker && worker.statusOrder !== 'FINISHED' && latestContract && latestContract.statusOrder !== 'FINISHED' && latestContract.statusOrder !== 'UNDEFINED' && (
             <div className="alert alert-warning mt-3">
               Du hast noch unabgeschlossene Aufträge!
               <Button onClick={handleShowModal} className='anzeigen'>

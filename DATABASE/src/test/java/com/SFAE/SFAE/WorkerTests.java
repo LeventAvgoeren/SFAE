@@ -694,7 +694,7 @@ public void testUpdateWorkerStatusOrderBadReq() throws Exception {
         mockMvc.perform(post("/newsLetter/sendNews")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(workerJson))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isNoContent());
 
     }
 

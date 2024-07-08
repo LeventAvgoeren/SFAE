@@ -62,7 +62,7 @@ public class NewLetterController implements NewsLetterEp {
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
   }
 

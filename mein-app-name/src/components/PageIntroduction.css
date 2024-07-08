@@ -38,25 +38,25 @@ body {
 }
 
 .my-section3 {
-    background: linear-gradient(-45deg, #4d666d, #1e4c72, #27c7ba, #17ca94);
+    background: linear-gradient(-45deg, #4d666d, #1e4c72, #12213d, #0c2f3d);
     background-size: 400% 400%;
     animation: my-gradient3 15s ease infinite;
 }
 
 .my-section4 {
-    background: linear-gradient(-45deg, #1e3c72, #1e3c72, #23d5ab, #23d5ab);
+    background: linear-gradient(-45deg, #1e3c72, #1e3c72,#12213d, #0c2f3d);
     background-size: 400% 400%;
     animation: my-gradient4 15s ease infinite;
 }
 
 .my-section5 {
-    background: linear-gradient(-45deg, #1e3c72, #1e3c72, #23d5ab, #23d5ab);
+    background: linear-gradient(-45deg, #1e3c72, #1e3c72, #12213d, #0c2f3d);
     background-size: 400% 400%;
     animation: my-gradient4 15s ease infinite;
 }
 
 .left-section {
-    background: linear-gradient(-45deg, #1e3c72, #1e3c72, #23d5ab, #23d5ab);
+    background: linear-gradient(-45deg, #1e3c72, #1e3c72, #12213d, #0c2f3d);
     background-size: 400% 400%;
     animation: my-gradient5 15s ease infinite;
 }

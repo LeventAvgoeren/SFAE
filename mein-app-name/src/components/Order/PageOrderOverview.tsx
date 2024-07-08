@@ -14,6 +14,7 @@ import 'leaflet-routing-machine';
 import { Routing } from 'leaflet-routing-machine';
 import { Typewriter } from 'react-simple-typewriter';
 import { LoginInfo } from '../LoginManager';
+import Footer from '../Footer';
 
 export function PageOrderOverview() {
   const { customerId } = useParams<{ customerId: string }>();
@@ -376,6 +377,8 @@ export function PageOrderOverview() {
           </div>
         </div>
         {cancelModalShow && <div className="modal-backdrop fade show"></div>}
+        <Footer></Footer>
+
       </div>
     </>
   );

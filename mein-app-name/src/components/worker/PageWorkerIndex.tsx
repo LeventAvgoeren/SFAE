@@ -98,38 +98,41 @@ export function PageWorkerIndex() {
 
   return (
     <>
-      <div className="Backg" style={{ backgroundImage: 'url(/b1.jpg)', backgroundSize: 'cover', backgroundPosition: 'center',overflow:'auto' }}>   
+      <div className="Backg" style={{ backgroundImage: 'url(/b1.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', overflow: 'auto' }}>
         <NavbarWComponent />
         <Container className="mt-0">
           {worker && <h1>Willkommen, {worker.name}!</h1>}
-          <Row className="flex-nowrap">
-            {[
-              { path: `/worker/${workerId}/orders/overview`, label: 'Aufträge', img: '/auftraege.jpg' },
-              { path: `/worker/${workerId}/preferences`, label: 'Präferenz', img: '/praferenz.jpg' },
-              { path: `/worker/${workerId}/profile`, label: 'Profil', img: '/profile.jpg' }
-            ].map(({ path, label, img }, index) => (
-              <Col key={index} md={4} className="mb-4">
-                <Card className='indexcard'>
-                  <Link to={path}>
-                    <Card.Img
-                      variant="top"
-                      src={zoom === img ? `${img}-zoom.jpg` : img}
-                      onClick={() => toggleZoom(img)}
-                      // style={{ width: '100%', height: 'auto' }}
-                    />
-                  </Link>
-                  <Card.Body>
-                    <Card.Title className='indexcard2'>{label}</Card.Title>
-                    <Card.Text >
-                      {label === 'Aufträge' ? 'Verwalten Sie Ihre Aufträge effizient und behalten Sie den Überblick über laufende Prozesse.' : 
-                      label === 'Präferenz' ? 'Passen Sie Ihre Einstellungen an, um eine personalisierte Erfahrung zu erhalten.' : 
-                      'Verwalten Sie Ihr Profil und aktualisieren Sie Ihre persönlichen Informationen.'}
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
+  
+          {/* Large Left Container */}
+          <div className="unique-container-left">
+            <Card.Body>
+              <Card.Title className="indexcard2">Nachrichten</Card.Title>
+              <Card.Text>
+                Bleiben Sie auf dem Laufenden mit den neuesten Nachrichten und Ankündigungen.
+              </Card.Text>
+            </Card.Body>
+          </div>
+  
+          {/* Top Right Container */}
+          <div className="unique-container-top-right">
+            <Card.Body>
+              <Card.Title className="indexcard2">Wetter</Card.Title>
+              <Card.Text>
+                Aktuelle Wetterbedingungen und Vorhersagen für Ihre Region.
+              </Card.Text>
+            </Card.Body>
+          </div>
+  
+          {/* Bottom Right Container */}
+          <div className="unique-container-bottom-right">
+            <Card.Body>
+              <Card.Title className="indexcard2">Verkehr</Card.Title>
+              <Card.Text>
+                Informationen zu Verkehrsbedingungen und Staus in Ihrer Nähe.
+              </Card.Text>
+            </Card.Body>
+          </div>
+  
           {worker && worker.statusOrder !== 'FINISHED' && latestContract && latestContract.statusOrder !== 'FINISHED' && latestContract.statusOrder !== 'UNDEFINED' && (
             <div className="alert alert-warning mt-3">
               Du hast noch unabgeschlossene Aufträge!
@@ -140,7 +143,7 @@ export function PageWorkerIndex() {
           )}
         </Container>
       </div>
-
+  
       <Modal show={showModal} onHide={handleCloseModal} className="custom-modal">
         <Modal.Header closeButton>
           <Modal.Title>Letzter Vertrag</Modal.Title>
@@ -175,6 +178,7 @@ export function PageWorkerIndex() {
       </Modal>
     </>
   );
+  
 }
 
 export default PageWorkerIndex;

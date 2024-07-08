@@ -1,119 +1,54 @@
-.card-img-top {
-  transition: transform 0.2s; /* Animationseffekt */
-  cursor: pointer; /* Cursor als Hinweis, dass das Bild klickbar ist */
-  height: auto;
-  position: relative;
-}
-
-.card-img-top:hover {
-  transform: scale(1.05); /* Leichter Zoom beim Hovern */
-}
-
-
-
-.page-background {
-  margin-bottom: 0 !important; /* Entfernt Margin unter der Navbar */
-}
-
-.background-image {
-  margin-top: 0; /* Entfernt Margin oben, der durch vorherige Elemente verursacht sein könnte */
-}
-
-.navbar {
-  margin-bottom: 0 !important; /* Entfernt unerwünschten Abstand unter der Navbar */
-}
-
-/* Center the modal and make it larger */
-.custom-modal .modal-dialog {
-  max-width: 80%; /* Adjust width as needed */
-  margin: 30vh auto; /* Center vertically and add some top margin */
-}
-
-.custom-modal .modal-content {
-  padding: 20px; /* Add some padding for better appearance */
-  border-radius: 10px; /* Rounded corners */
-  border: 2px solid #007bff; /* Border color */
-}
-
-.custom-modal .modal-header, .custom-modal .modal-footer {
-  background-color: #007bff; /* Background color */
-  color: white; /* Text color */
-}
-
-.custom-modal .modal-body {
-  background-color: #f8f9fa; /* Light background color for the body */
-  padding: 20px; /* Add some padding for better appearance */
-  border-top: 1px solid #007bff; /* Border between header and body */
-  border-bottom: 1px solid #007bff; /* Border between body and footer */
-}
-
-.custom-modal .modal-footer button {
-  background-color: #007bff; /* Button background color */
-  color: white; /* Button text color */
-}
-
-.custom-modal .modal-footer button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
-}
-
-.alert-warning{
-  font-size: 2.5vh;
-}
-
-.anzeigen{
-  font-size: 2.5vh;
-}
-
-
-.mt-0 h1{
-  font-size: 5vh;
-}
-
 .Backg {
   min-height: 100vh; /* Minimum height to cover the whole viewport height */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  position: relative;
+}
+
+.unique-container-left,
+.unique-container-top-right,
+.unique-container-bottom-right {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  padding: 20px;
+  position: absolute;
+}
+
+.unique-container-left {
+  color : black;
+  top: 18%;
+  left: 5%;
+  bottom: 10%;
+  width: 30%;
+}
+
+.unique-container-top-right {
+  top: 18%;
+  right: 5%;
+  width: 30%;
+}
+
+.unique-container-bottom-right {
+  bottom: 35%;
+  right: 5%;
+  width: 30%;
+}
+
+.indexcard2 {
+  font-size: 1.5rem;
 }
 
 @media only screen and (max-width: 768px) {
-
-  .mt-0 h1{
-    bottom: 5vh;
+  .unique-container-left,
+  .unique-container-top-right,
+  .unique-container-bottom-right {
+    width: 80%;
+    margin: 10px auto;
+    position: static;
   }
 
-
-  .indexcard-img-top {
-    transition: transform 0.2s; /* Animationseffekt */
-    cursor: pointer; /* Cursor als Hinweis, dass das Bild klickbar ist */
-    height: 150px;
-    width: 150px;
-    position: relative;
+  .indexcard2 {
+    font-size: 1.2rem;
   }
-
-  .indexcard {
-     /* Flex-Grow, Flex-Shrink und Basiswert für die Breite */
-    width: 150px;
-    margin: 0px; /* Reduzierter Abstand zwischen den Cards */
-  }
-
-  .card-title {
-    font-size: 11px;
-  }
-
-  .card-text {
-    font-size: 7px;
-  }
-}
-
-@media only screen and (max-width: 760px) {
-
-  .indexcard {
-     /* Flex-Grow, Flex-Shrink und Basiswert für die Breite */
-    width: 150px;
-    top: 50px;
-    right: 100px;
-    margin: -60px; /* Reduzierter Abstand zwischen den Cards */
-  }
-
 }

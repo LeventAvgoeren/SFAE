@@ -11,6 +11,7 @@ import "./PageWorkerProfile.css";
 import NavbarWComponent from "./NavbarWComponent";
 import axios from 'axios';
 import LoadingIndicator from "../LoadingIndicator";
+import Footer from "../Footer";
 
 function validatePassword(password: string) {
   const hasUpperCase = /[A-Z]/.test(password);
@@ -291,6 +292,8 @@ export function PageWorkerProfile() {
             </div>
           </div>
         </div>
+        <Footer></Footer>
+
       </div>
       <ToastContainer 
         position="top-center" 

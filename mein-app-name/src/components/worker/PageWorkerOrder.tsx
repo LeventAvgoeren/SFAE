@@ -184,7 +184,7 @@ export function PageWorkerOrder(){
               <div className='text-light'>
                 {contractData ? (
                   <>
-                    <div className='h4 mb-3'><strong>Dienstleistung:</strong> {contractData.jobType}</div>
+                    <div className='info-item h4 mb-3'><strong>Dienstleistung:</strong> {contractData.jobType}</div>
                     <div className='info-item h4 mb-3'><strong>Beschreibung:</strong> {contractData.description}</div>
                     <div className="info-item h4 mb-3"><strong>Distanz: </strong> {routeDistance}</div>
                     <div className="info-item h4 mb-3"><strong>Dauer: </strong> {routeTime}</div>
@@ -192,7 +192,7 @@ export function PageWorkerOrder(){
                     <div className='info-item h4 mb-3'><strong>Payment Method: </strong> {contractData.payment}</div>
                     <div className="info-item h4 mb-3"><strong>StatusOrder:</strong> {contractData.statusOrder}</div>
                     <div className="info-item h4 mb-3"><strong>Adresse: </strong> {contractData.adress}</div>
-                    {contractData.statusOrder === "ACCEPTED" && <button onClick={toggleShow} className="btn btn-danger" style={{ width: "80%", marginInline: "5%", marginTop: "35%" }}>Auftrag beendet</button>}
+                    {contractData.statusOrder === "ACCEPTED" && <button onClick={toggleShow} className="btn btn-danger">Auftrag beendet</button>}
                   </>
                 ) : (
                   <p>Loading...</p>
@@ -207,13 +207,12 @@ export function PageWorkerOrder(){
             <div className="col-lg-4">
               <div className="right-column1">
                 <div className="info-section">
-                  <h3>Customer Details</h3>
+                  <h5>Customer Details</h5>
                   {contractData?.customer && (
                     <>
                       <div className="Foto">
                         <img
                           src={foto}
-                          width="250"
                           className="img-fluid"
                           alt=""
                           style={{ borderRadius: "20%" }}
@@ -231,13 +230,12 @@ export function PageWorkerOrder(){
               <br />
               <div className="right-column2">
                 <div className="info-section">
-                  <h3>Worker Details</h3>
+                  <h5>Worker Details</h5>
                   {contractData?.worker && (
                     <>
                       <div className="Foto">
                         <img
                           src={workerFoto}
-                          width="250"
                           className="img-fluid"
                           alt=""
                           style={{ borderRadius: "20%" }}
@@ -257,7 +255,7 @@ export function PageWorkerOrder(){
             </div>
           </div>
         </div>
-        <div className={`modal fade ${modalShow ? 'show' : ''}`} style={{ display: modalShow ? 'block' : 'none' }}>
+        <div className={`modal fade ${modalShow ? 'show' : ''}`} style={{ display: modalShow ? 'block' : 'none', transition: 'opacity 0.15s linear' }}>
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">

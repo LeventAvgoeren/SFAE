@@ -11,6 +11,7 @@ import Lottie from "react-lottie";
 import animationData from "../Worker_2.json";
 import './PageDeclineJob.css';
 import { useLoginContext } from "../LoginManager";
+import Footer from "../Footer";
 
 
 
@@ -31,9 +32,9 @@ export function PageDeclineJob() {
     console.log("VERRAG: " + getcontract?.longitude)
     await contractAcceptOrDecline(accepted, getcontract!)
     if (accepted) {
-      //navigate(`/worker/${getToken?.receiver}/orders/overview`)
+      navigate(`/worker/${getToken?.receiver}/orders/overview`)
     } else {
-      //navigate(`/worker/${getToken?.receiver}`)
+      navigate(`/worker/${getToken?.receiver}`)
     }
   }
 
@@ -156,13 +157,15 @@ export function PageDeclineJob() {
               <div style={{ display: 'flex', justifyContent: 'center', gap: '10px'}}>
                 <Button className="button10" variant="danger" onClick={() => handleResponse(false)}
                 style={{width:"30%"}}>Ablehnen</Button>
+
                 <Button  className="button9" variant="success" onClick={() => handleResponse(true)}
                 style={{width:"30%"}}>Annehmen</Button>
               </div>
             </div>
           </div>
         ) : null}
-   
+               <Footer></Footer>
+
     </>
   );
 }

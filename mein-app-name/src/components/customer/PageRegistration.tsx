@@ -7,6 +7,7 @@ import './PageRegistration.css';
 import { registrationCustomer, safeEmailToNewsLetter } from '../../backend/api';
 import axios from 'axios';
 import validator from 'validator';
+import Footer from '../Footer';
 
 interface Position {
     latitude: number;
@@ -237,6 +238,8 @@ export default function PageRegistration() {
                     </MDBCardBody>
                 </MDBCard>
             </MDBContainer>
+            <Footer></Footer>
+
         </div>
     );
 }

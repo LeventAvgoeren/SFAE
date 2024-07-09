@@ -8,6 +8,7 @@ import { MDBTypography } from 'mdb-react-ui-kit';
 import NavbarComponent from '../navbar/NavbarComponent';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from '../Footer';
 
 
 function validatePassword(password: string) {
@@ -302,6 +303,8 @@ export function PageProfil() {
             </div>
           </div>
         </div>
+        <Footer></Footer>
+
             </div>
         </>
     );

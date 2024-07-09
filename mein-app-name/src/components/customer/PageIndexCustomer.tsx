@@ -11,6 +11,7 @@ import {
 import NavbarComponent from "../navbar/NavbarComponent";
 import ImprintPage from "../ImprintPage";
 import LoadingIndicator from "../LoadingIndicator"; // Importiere den Ladebildschirm
+import Footer from "../Footer";
 
 export function PageIndexCustomer() {
   const params = useParams();
@@ -118,6 +119,8 @@ export function PageIndexCustomer() {
             <p className="registered-customers">{fact}</p>
           </CSSTransition>
         </div>
+        <Footer></Footer>
+
       </div>
     </>
   );

@@ -98,9 +98,6 @@ a {
 
 
 .containertest {
- 
- 
- 
   max-width: 100%; /* Begrenzt die Breite des Containers */
   margin: 0 auto; /* Zentriert den Container horizontal */
   padding: 20px; /* Gibt dem Inneren des Containers etwas Raum */
@@ -271,7 +268,7 @@ a {
 }
 
 
-@media only screen and (max-width: 990px) {
+@media only screen and (max-width: 995px) {
   .containertest{
     display: grid;
     grid-template-columns: 1fr;

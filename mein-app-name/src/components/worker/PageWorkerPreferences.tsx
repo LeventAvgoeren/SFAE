@@ -8,6 +8,7 @@ import "./PageWorkerPreferences.css";
 import NavbarWComponent from "./NavbarWComponent";
 import { ToastContainer, toast } from "react-toastify";
 import LoadingIndicator from "../LoadingIndicator";
+import Footer from "../Footer";
 
 export function PageWorkerPreferences() {
 
@@ -167,6 +168,8 @@ export function PageWorkerPreferences() {
             </form>
           </MDBContainer>
         </div>
+        <Footer></Footer>
+
       </div>
       <ToastContainer
         position="top-center"

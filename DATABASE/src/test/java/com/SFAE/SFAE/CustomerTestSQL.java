@@ -279,7 +279,6 @@ public class CustomerTestSQL {
                 .andReturn();
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        System.out.println("A " + contentAsString);
    }
 
    @Test
@@ -289,7 +288,6 @@ public void testImageGetWorkerById() throws Exception {
             .andReturn();
 
     String contentAsString = mvcResult.getResponse().getContentAsString();
-    System.out.println("HAAAAAAAALLLLLLLLLLOOOOOOOO " + contentAsString);  
 
 }
 
@@ -301,7 +299,6 @@ public void testImageGetWorkerByIdNotFound() throws Exception {
             .andReturn();
 
     String contentAsString = mvcResult.getResponse().getContentAsString();
-    System.out.println("HAAAAAAAALLLLLLLLLLOOOOOOOO " + contentAsString);  
 
 }
 
@@ -312,7 +309,6 @@ public void testImageGetWorkerByIdBadRequest() throws Exception {
             .andReturn();
 
     String contentAsString = mvcResult.getResponse().getContentAsString();
-    System.out.println("HAAAAAAAALLLLLLLLLLOOOOOOOO " + contentAsString);  
 
 }
 
@@ -324,7 +320,6 @@ public void testImageGetWorkerByIdBadRequest() throws Exception {
                 .andReturn();
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        System.out.println("A " + contentAsString);
    }
 
    @Test
@@ -335,7 +330,6 @@ public void testImageGetWorkerByIdBadRequest() throws Exception {
                 .andReturn();
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        System.out.println("A " + contentAsString);
    }
 
    @Test
@@ -346,7 +340,6 @@ public void testImageGetWorkerByIdBadRequest() throws Exception {
                .andReturn();
 
        String contentAsString = mvcResult.getResponse().getContentAsString();
-       System.out.println("A " + contentAsString);
   }
 
   @Test
@@ -357,7 +350,6 @@ public void testImageGetWorkerByIdBadRequest() throws Exception {
                .andReturn();
 
        String contentAsString = mvcResult.getResponse().getContentAsString();
-       System.out.println("A " + contentAsString);
   }
 
 
@@ -378,7 +370,6 @@ public void testImageGetWorkerByIdBadRequest() throws Exception {
                .andReturn();
 
        String contentAsString = mvcResult.getResponse().getContentAsString();
-       System.out.println("Response: " + contentAsString);
    }
    @Test
    public void testUpdateRoleOfCustomerBadReq() throws Exception {
@@ -394,7 +385,6 @@ public void testImageGetWorkerByIdBadRequest() throws Exception {
                .andReturn();
 
        String contentAsString = mvcResult.getResponse().getContentAsString();
-       System.out.println("Response: " + contentAsString);
    }
 
    @Test
@@ -411,7 +401,6 @@ public void testImageGetWorkerByIdBadRequest() throws Exception {
                .andReturn();
 
        String contentAsString = mvcResult.getResponse().getContentAsString();
-       System.out.println("Response: " + contentAsString);
    }
 
    @Test
@@ -428,7 +417,6 @@ public void testImageGetWorkerByIdBadRequest() throws Exception {
                .andReturn();
 
        String contentAsString = mvcResult.getResponse().getContentAsString();
-       System.out.println("Response: " + contentAsString);
    }
 
    @Test
@@ -445,7 +433,6 @@ public void testImageGetWorkerByIdBadRequest() throws Exception {
             .andReturn();
 
     String contentAsString = mvcResult.getResponse().getContentAsString();
-    System.out.println("Response: " + contentAsString);
    }
 
 
@@ -463,7 +450,6 @@ public void testImageGetWorkerByIdBadRequest() throws Exception {
             .andReturn();
 
     String contentAsString = mvcResult.getResponse().getContentAsString();
-    System.out.println("Response: " + contentAsString);
    }
 
    @Test
@@ -481,7 +467,6 @@ public void testImageGetWorkerByIdBadRequest() throws Exception {
                .andReturn();
    
        String contentAsString = mvcResult.getResponse().getContentAsString();
-       System.out.println("Response: " + contentAsString);
    }
 
 

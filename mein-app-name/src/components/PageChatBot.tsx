@@ -30,7 +30,7 @@ export function PageChatBot() {
     setInput("");
   };
 
-  const typeMessage = (message: any) => {
+  const typeMessage = (message: any) => { 
     setTypingMessage("");
     setIsTyping(true);
     let index = 0;
@@ -71,7 +71,7 @@ export function PageChatBot() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
-        <button type="submit" className="button" 
+        <button type="submit" className="chat-form-button"
         style={{display:'flex', justifyContent:'center', 
           alignItems:'center', backgroundColor:'#6200ea',
           border: "none", borderRadius: "8px", cursor:'pointer'

@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { updatePassword } from '../backend/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from './Footer';
 
 function validatePassword(password: string) {
     const hasUpperCase = /[A-Z]/.test(password);
@@ -126,9 +127,13 @@ export function PagePasswordReset() {
                                 </MDBCol>
                             </MDBRow>
                         </form>
+                        <Footer></Footer>
+
                     </MDBCardBody>
                 </MDBCard>
+
             </MDBContainer>
+
         </div>
         <ToastContainer 
             position="top-center" 
@@ -141,6 +146,7 @@ export function PagePasswordReset() {
             draggable 
             pauseOnHover 
         />
+
         </>
     );
 }

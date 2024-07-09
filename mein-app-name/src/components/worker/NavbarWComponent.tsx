@@ -96,14 +96,14 @@ export function NavbarWComponent() {
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-transparent" style={{ position: "sticky", top: "0", zIndex: "1000" }}>
         <Link className="navbar-brand" to="/">
-          <img src="/Sfae_Logo.png" alt="Logo" className="logo" />
+          <img src="/Sfae_Logo.png" alt="Logo" className="navbar-logo-custom" />
         </Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           {loginInfo && (
-            <ul className="navbar-nav mr-auto">
+            <ul className="navbar-nav mr-auto navbar-links-custom">
               <li className="nav-item">
                 <Link className="nav-link" to={`/worker/${loginInfo.userId}`}>Home</Link>
               </li>
@@ -116,24 +116,21 @@ export function NavbarWComponent() {
               <li className="nav-item">
                 <Link className="nav-link" to={`/worker/${loginInfo.userId}/orders/overview`}>Übersicht</Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={`/worker/${loginInfo.userId}/faq`}>Faq</Link>
-              </li>
             </ul>
           )}
         </div>
         {loginInfo && (
-          <div className="navbar-icons d-flex icons-container">
-            <div className="icon-item">
+          <div className="navbar-icons d-flex icons-container-custom">
+            <div className="icon-item-custom">
               <a onClick={doLogout}>
-                <img src="/icons8-logout-100.png" alt="Logout" className="icon-img" />
+                <img src="/icons8-logout-100.png" alt="Logout" className="icon-img-custom" />
               </a>
-              <div className="icon-label">Logout</div>
+              <div className="icon-label-custom">Logout</div>
             </div>
-            <div className="icon-item notification-icon" onClick={handleNotificationClick}>
-              {newMessage && <div className="notification-badge"></div>}
-              <img src="/icons8-chat-64.png" alt="Live-Chat" className="icon-img" />
-              <div className="icon-label">Live-Chat</div>
+            <div className="icon-item-custom notification-icon-custom" onClick={handleNotificationClick}>
+              {newMessage && <div className="notification-badge-custom"></div>}
+              <img src="/icons8-chat-64.png" alt="Live-Chat" className="icon-img-custom" />
+              <div className="icon-label-custom">Live-Chat</div>
             </div>
           </div>
         )}

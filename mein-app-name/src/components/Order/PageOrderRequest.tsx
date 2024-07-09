@@ -11,6 +11,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AxiosError } from "axios";
 import { HttpError } from "./HTTPError";
+import Footer from "../Footer";
 
 
 export default function PageOrderRequest() {
@@ -273,6 +274,8 @@ export default function PageOrderRequest() {
         </Form>
 
       </div>
+      <Footer></Footer>
+
       </div>
     </>
   );

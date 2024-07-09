@@ -8,6 +8,7 @@ import { MDBTypography } from 'mdb-react-ui-kit';
 import NavbarComponent from '../navbar/NavbarComponent';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from '../Footer';
 
 
 function validatePassword(password: string) {
@@ -225,19 +226,19 @@ export function PageProfil() {
                             <div className="container col-lg-8 pb-5">
                                 <form className="row" onSubmit={handleUpdateCustomer}>
                                     <div className="col-12">
-                                        <div className="form-group">
+                                        <div className="form-group mb-2">
                                             <label htmlFor="account-fn">Vorname</label>
                                             <input className="form-control" type="text" placeholder='Vorname' id="account-fn" value={name} onChange={(e) => setName(e.target.value)} required />
                                         </div>
                                     </div>
                                     <div className="col-12">
-                                        <div className="form-group Margins">
+                                        <div className="form-group Margins mb-2">
                                             <label htmlFor="account-email">E-Mail Adresse</label>
                                             <input className="form-control" type="email" id="account-email" value={email} onChange={(e) => setEmail(e.target.value)} disabled />
                                         </div>
                                     </div>
                                     <div className="col-12">
-                                        <div className="form-group Margins">
+                                        <div className="form-group Margins mb-2">
                                             <label htmlFor="account-pass">Neues Passwort</label>
                                             <input className="form-control"
                                                 type="password" placeholder='Passwort'
@@ -302,6 +303,8 @@ export function PageProfil() {
             </div>
           </div>
         </div>
+        <Footer></Footer>
+
             </div>
         </>
     );

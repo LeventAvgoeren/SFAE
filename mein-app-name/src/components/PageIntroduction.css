@@ -38,25 +38,25 @@ body {
 }
 
 .my-section3 {
-    background: linear-gradient(-45deg, #4d666d, #1e4c72, #12213d, #0c2f3d);
+    background: linear-gradient(-45deg, #4d666d, #1e4c72, #27c7ba, #17ca94);
     background-size: 400% 400%;
     animation: my-gradient3 15s ease infinite;
 }
 
 .my-section4 {
-    background: linear-gradient(-45deg, #1e3c72, #1e3c72,#12213d, #0c2f3d);
+    background: linear-gradient(-45deg, #1e3c72, #1e3c72, #23d5ab, #23d5ab);
     background-size: 400% 400%;
     animation: my-gradient4 15s ease infinite;
 }
 
 .my-section5 {
-    background: linear-gradient(-45deg, #1e3c72, #1e3c72, #12213d, #0c2f3d);
+    background: linear-gradient(-45deg, #1e3c72, #1e3c72, #23d5ab, #23d5ab);
     background-size: 400% 400%;
     animation: my-gradient4 15s ease infinite;
 }
 
 .left-section {
-    background: linear-gradient(-45deg, #1e3c72, #1e3c72, #12213d, #0c2f3d);
+    background: linear-gradient(-45deg, #1e3c72, #1e3c72, #23d5ab, #23d5ab);
     background-size: 400% 400%;
     animation: my-gradient5 15s ease infinite;
 }
@@ -123,24 +123,38 @@ body {
 }
 
 .my-arrow {
-    font-size: 5vh;
+    font-size: 2.5vh; /* Verkleinert die Schriftgröße */
     cursor: pointer;
     position: absolute;
     z-index: 10;
     background: none;
     border: none;
     transition: transform 0.3s ease;
-    color: black; /* Pfeile schwarz machen */
+    color: black;
+    padding: 10px; /* Reduziert die Padding */
 }
 
-.my-arrow-left { top: 50%; left: 20px; transform: translateY(-50%); }
-.my-arrow-right { top: 50%; right: 20px; transform: translateY(-50%); }
+.my-arrow-left { 
+    top: 50%; 
+    left: 20px; 
+    transform: translateY(-50%); 
+}
+
+.my-arrow-right { 
+    top: 50%; 
+    right: 20px; 
+    transform: translateY(-50%); 
+}
 
 .my-arrow img {
-    width: 10vh;
+    width: 5vh; /* Verkleinert das Bild */
     height: auto;
 }
 
+/* Hover-Effekt */
+.my-arrow:hover img {
+    transform: scale(1.1);
+}
 /* Hover-Effekt */
 .my-arrow:hover img {
     transform: scale(1.2);
@@ -155,10 +169,12 @@ body {
 }
 
 .my-p {
-    font-size: 2.5vh;
+    font-size: 2vh; /* Reduziert die Schriftgröße */
     color: white;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin-top: 10px;
 }
+
 
 .my-img {
     margin: 20px 0;
@@ -237,7 +253,8 @@ body {
 
 .animation-roboter {
     position: relative;
-    width: 45%;
+    width: 30%; /* Reduziert die Breite */
+    height: auto; /* Beibehaltung der Proportionen */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -399,14 +416,15 @@ body {
     right: 20px;
     background-color: #4CAF50; /* Green background */
     color: white; /* White text */
-    padding: 10px 20px;
+    padding: 5px 10px; /* Reduce padding */
     border: none;
     border-radius: 5px;
-    font-size: 2.75vh;
+    font-size: 2vh; /* Reduce font size */
     cursor: pointer;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s, transform 0.3s;
 }
+
 
 .skip-tutorial-button:hover {
     background-color: #45a049; /* Darker green */

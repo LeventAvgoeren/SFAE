@@ -115,7 +115,6 @@ export function PageWorkerPreferences() {
       const updatedWorker = await updateWorkerPreferences(updatedWorkerData);
       console.log("Updated Worker:", updatedWorker);
       toast.success("Präferenzen erfolgreich aktualisiert");
-      alert("Worker erfolgreich aktualisiert");
     } catch (error) {
       console.error("Fehler beim Aktualisieren des Workers:", error);
       toast.error("Fehler beim Aktualisieren der Präferenzen");
@@ -135,11 +134,11 @@ export function PageWorkerPreferences() {
               <h1>Präferenzen</h1>
             </div>
             <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
-              <MDBInput wrapperClass="inputField1" label="Örtliche Präferenzen" type="text"
+              <MDBInput wrapperClass="inputField1" label="Reichweite (km)" type="text"
                 className="form-control"
                 value={range.toString()}
                 onChange={(e) => setRange(Number(e.target.value))} />
-              <MDBInput wrapperClass="inputField1" label="Mindestbertrag" type="text"
+              <MDBInput wrapperClass="inputField1" label="Mindestbetrag (€)" type="text"
                 className="form-control"
                 value={minPayment.toString()}
                 onChange={(e) => setMinPayment(Number(e.target.value))} />

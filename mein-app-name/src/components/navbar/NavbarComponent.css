@@ -1,94 +1,77 @@
-.page-background { 
+.page-background-custom {
   background: transparent;
-  background-color: transparent;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   height: 10vh;
   width: 100%;
   padding: 0 20px;
 }
 
-.navbar-links {
+.navbar-links-custom {
   display: flex;
-  justify-content: center; 
+  justify-content: flex-start;
   align-items: center;
   flex-grow: 1;
+  padding: 10px; /* Fügt Innenabstand hinzu */
 }
 
-.page-background ul {
-  display: flex;
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.navbar-links-custom .nav-item {
+  margin: 15px; /* Vergrößert den Abstand zwischen den Texten */
 }
 
-/* .page-background ul li {
-  margin: 0 20px;
-} */
-
-.page-background ul li a {
+.page-background-custom ul li a {
   text-decoration: none;
   color: white;
   font-size: 18px;
+  padding: 10px;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.page-background ul li a:hover {
+.page-background-custom ul li a:hover {
   background-color: white;
   color: black !important;
   border-radius: 15px;
+  padding: 10px 15px; /* Vergrößert den Padding beim Hover für eine bessere Sichtbarkeit */
 }
 
 body, button, input, textarea, h1, p {
-  font-family: 'Roboto', sans-serif; 
+  font-family: 'Roboto', sans-serif;
 }
 
-.icons-container {
+.icons-container-custom {
   display: flex;
   align-items: center;
   margin-left: auto;
+  margin-right: 30px; /* Verschiebt die Icons etwas nach links */
 }
 
-.icon-item {
+.icon-item-custom {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* margin-right: 50px; Abstand zwischen den Icons */
-  width: fit-content;
+  margin-left: 35px; /* Verkleinert den Abstand zwischen den Icons */
 }
 
-.logout-icon {
-  width: 50px;  /* Gleiche Breite wie das Notification-Icon */
-  height: 50px; /* Gleiche Höhe wie das Notification-Icon */
+.icon-img-custom {
+  width: 60px; /* Vergrößert die SVGs */
+  height: 60px; /* Vergrößert die SVGs */
   cursor: pointer;
   transition: transform 0.3s;
 }
 
-.logout-icon:hover {
+.icon-img-custom:hover {
   transform: scale(1.1);
 }
 
-.notification-icon {
-  cursor: pointer;
-}
-
-.notification-icon img {
-  width: 50px;  /* Gleiche Breite wie das Logout-Icon */
-  height: 50px; /* Gleiche Höhe wie das Logout-Icon */
-}
-
-.notification-icon:hover img {
+.notification-icon-custom:hover img {
   animation: wobble 0.5s ease-in-out infinite;
 }
 
-.icon-label {
-  font-size: 12px;  /* Kleine Schriftgröße für die Labels */
+.icon-label-custom {
+  font-size: 12px;
   color: white;
-  margin-top: 5px;  /* Abstand zwischen dem Icon und dem Label */
-}
-
-.page-background ul li{
-  margin: 10px;
+  margin-top: 5px;
 }
 
 @keyframes wobble {
@@ -115,7 +98,7 @@ body, button, input, textarea, h1, p {
   background-color: white;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
   transition: right 0.5s ease;
-  z-index: 1000; 
+  z-index: 1000;
   border-left: white solid;
 }
 
@@ -123,67 +106,27 @@ body, button, input, textarea, h1, p {
   right: 0;
 }
 
-.notification-badge {
+.notification-badge-custom {
   position: absolute;
-  top: 20%;
-  right: 6.3%;
-  width: 30px;
-  height: 30px;
+  top: 5px;
+  right: 5px;
+  width: 10px;
+  height: 10px;
   background-color: red;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 12px;
 }
 
+.blink-custom {
+  animation: blinker 1.5s linear infinite;
+}
 
-/* My edits */
-
-@media (max-width: 1000px) {
-  .icon-item img{
-    width: 30px !important;
-    height: 35px !important;
-  }
-  .page-background ul li a{
-    padding: 4px;
-    margin: 0;
-    font-size: 14px;
+@keyframes blinker {
+  50% {
+    opacity: 0;
   }
 }
 
-@media (max-width: 700px) {
-  .page-background{
-    padding: 5px;
-    flex-wrap: wrap;
-  }
-  .icon-item img{
-    width: 30px !important;
-    height: 35px !important;
-
-  }
-
-  .page-background ul{
-    width: 70%;
-    padding: 0;
-    display: none;
-  }
-
-  .page-background img{
-    margin: 0;
-  }
-
-  .page-background ul li a{
-    padding: 4px;
-    margin: 0;
-    font-size: 14px;
-    color: white !important;
-  }
-
-}
-
-.icon-item img{
-  width: 35px !important;
-  height: 35px !important;
+.navbar-logo-custom {
+  width: 75px;
+  height: 75px;
 }

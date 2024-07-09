@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBCheckbox, MDBTypography, MDBRow, MDBCol, MDBProgress, MDBProgressBar, MDBTooltip, MDBIcon } from 'mdb-react-ui-kit';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import './DesignVorlage.css';
@@ -48,6 +48,8 @@ export default function PageRegistrationWorker() {
   const [slogan, setSlogan] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [passwordStrength, setPasswordStrength] = useState(0);
+  const [sendReg, setSendReg] = useState(false);
+  const [isAddressValidated, setIsAddressValidated] = useState(false);
 
   const navigate = useNavigate();
 
@@ -58,6 +60,7 @@ export default function PageRegistrationWorker() {
     try {
       const response = await axios.get(requestUrl);
       const data = response.data;
+      console.log(data)
       if (data.results.length > 0 && data.results[0].components) {
         const components = data.results[0].components;
         setCity(components.city || components.town || components.village || '');
@@ -67,6 +70,7 @@ export default function PageRegistrationWorker() {
           latitude: data.results[0].geometry.lat,
           longitude: data.results[0].geometry.lng,
         });
+        setIsAddressValidated(true);
         return true;
       } else {
         return false;
@@ -132,14 +136,14 @@ export default function PageRegistrationWorker() {
     setSalary(Number(e.target.value));
   };
 
-  const handleRegistration = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const handleRegistration = async () => {
+    if(!sendReg){
+      return null;
+    }
     console.log('Registrierung gestartet');
 
     const fullAddress = `${address}, ${city}, ${postalCode}`;
     const isValidAddress = await handleAddressValidation(fullAddress);
-    setAddressValid(isValidAddress);
 
     if (!isValidAddress) {
       alert('Bitte geben Sie eine gültige Adresse ein.');
@@ -162,6 +166,7 @@ export default function PageRegistrationWorker() {
     setPasswordError('');
 
     try {
+      console.log("LOCATION: " + userLocation)
       console.log('Sende Registrierung an Server');
       const response = await registrationWorker(name, fullAddress, email, password, jobList, salary, userLocation!, slogan);
       console.log('Registrierung erfolgreich', response);
@@ -192,6 +197,20 @@ export default function PageRegistrationWorker() {
   const handleCountryChange = (selectedOption: any) => {
     setCountry(selectedOption);
   };
+
+  useEffect(() => {
+    if (sendReg && isAddressValidated) {
+      handleRegistration();
+    }
+  }, [sendReg, isAddressValidated]);
+
+  const handleSetReg =  async (e: FormEvent) => {
+    e.preventDefault();
+    const fullAddress = `${address}, ${city}, ${postalCode}`;
+    const isValidAddress = await handleAddressValidation(fullAddress);
+    setAddressValid(isValidAddress);
+    setSendReg(isValidAddress);
+  }
 
   return (
     <div className="animated-background">
@@ -263,7 +282,7 @@ export default function PageRegistrationWorker() {
                 onChange={(e) => setSlogan(e.target.value)}
               />
               <MDBCheckbox name='termsCheck' id='termsCheck' label={<span>Ich stimme den <Link to="/agb" className="text-white">Nutzungsbedingungen</Link> zu</span>} wrapperClass='d-flex justify-content-center mb-4 text-white' required/>
-              <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type="submit">Registrieren</MDBBtn>
+              <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' onClick={handleSetReg}>Registrieren</MDBBtn>
             </form>
             <MDBRow>
               <MDBCol size='12' className='text-center'>

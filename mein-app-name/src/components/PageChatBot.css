@@ -1,3 +1,6 @@
+
+
+
 .container {
   display: flex;
   flex-direction: column;
@@ -40,6 +43,14 @@
   align-self: flex-start;
   background-color: #FFF;
   margin-left: 10px;
+}
+.rotated-icon {
+  width: 2vh;
+  height: 2vh;
+  color: #FFF;
+  transform: rotate(45deg); /* Dreht das Icon um 45 Grad */
+  margin-right: 20px;
+  margin-left: 0px;
 }
 
 .userMessage {

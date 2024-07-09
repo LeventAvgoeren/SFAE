@@ -3,19 +3,16 @@ import '../Order/PageOrderOverview.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus, deleteChat, deleteContractById, updateWorkerOrderStatus, getCustomerImage, getWorkerImage, checkLoginStatus, getContractByWorkerId } from '../../backend/api'; // Importiere die Funktion
 import { ContractResource } from '../../Resources';
-import NavbarComponent from '../navbar/NavbarComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Lottie from 'react-lottie';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import { Col, Row } from 'react-bootstrap';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine';
-import { Routing } from 'leaflet-routing-machine';
-import { Typewriter } from 'react-simple-typewriter';
 import NavbarWComponent from '../worker/NavbarWComponent';
-import { LoginInfo } from '../LoginManager';
 import { useEffect, useState } from 'react';
 import "./PageWorkerOrder.css";
+
 export function PageWorkerOrder(){
 
   const { workerId, orderId } = useParams<{ workerId: string, orderId: string }>();
@@ -255,7 +252,7 @@ export function PageWorkerOrder(){
             </div>
           </div>
         </div>
-        <div className={`modal fade ${modalShow ? 'show' : ''}`} style={{ display: modalShow ? 'block' : 'none', transition: 'opacity 0.15s linear' }}>
+        <div className={`modal fade ${modalShow ? 'show' : ''}`} style={{ display: modalShow ? 'block' : 'none', transition: 'opacity 0.15s linear' }} aria-labelledby="modalTitle" aria-hidden={!modalShow}>
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">

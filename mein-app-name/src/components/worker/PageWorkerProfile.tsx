@@ -273,15 +273,14 @@ export function PageWorkerProfile() {
             </Button>
           </form>
         </div>
-        <div className={`modal fade ${modalShow ? 'show' : ''}`} style={{ display: modalShow ? 'block' : 'none' }}>
+        <div className={`modal fade ${modalShow ? 'show' : ''}`} style={{ display: modalShow ? 'block' : 'none', transition: 'opacity 0.15s linear' }} aria-labelledby="modalTitle" aria-hidden={!modalShow}>
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Account Löschen</h5>
               </div>
               <div className="modal-body">
-                <p>Bist du sicher, dass du diesen Account wirklich löschen möchtest? </p>   
-                Alle Daten werden unwiderruflich gelöscht.
+              <div>Bist du sicher, dass du diesen Account wirklich löschen möchtest?<br /> Alle Daten werden unwiderruflich gelöscht.</div>
               </div>
               <div className="modal-footer">
                 <Row style={{ gap: "12px" }}>
@@ -292,6 +291,8 @@ export function PageWorkerProfile() {
             </div>
           </div>
         </div>
+        {modalShow && <div className="modal-backdrop fade show"></div>}
+          {cancelModalShow && <div className="modal-backdrop fade show"></div>}
         <Footer></Footer>
 
       </div>

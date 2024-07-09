@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './PageChatBot.css';
 import { chatBot } from '../backend/api';
+import { FiSend } from 'react-icons/fi';
 
 export function PageChatBot() {
   const [input, setInput] = useState("");
@@ -45,9 +46,7 @@ export function PageChatBot() {
       }
     }, 25);
   };
-
   return (
-
     <div className="container">
       <div className="chatWindow">
         {messages.map((message, index) => (
@@ -71,16 +70,10 @@ export function PageChatBot() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
-        <button type="submit" className="chat-form-button"
-        style={{display:'flex', justifyContent:'center', 
-          alignItems:'center', backgroundColor:'#6200ea',
-          border: "none", borderRadius: "8px", cursor:'pointer'
-        }}>
-          <img src="/send-button.png" alt="send" className="button-icon" 
-          style={{width:"3vh", height:"3vh"}}/>
+        <button type="submit" className="chat-form-button">
+          <FiSend className="rotated-icon" />
         </button>
       </form>
     </div>
-
   );
 }

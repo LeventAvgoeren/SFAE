@@ -177,7 +177,6 @@ public class ContractTests {
         "\"workerId\": \"W1\"" +
         "}";
 
-    System.out.println(json);
     TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
     mockMvc.perform(put("/contract")
@@ -193,7 +192,6 @@ public class ContractTests {
 
     String json = "";
 
-    System.out.println(json);
     TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
     mockMvc.perform(put("/contract")
@@ -219,7 +217,6 @@ public class ContractTests {
         "\"workerId\": 6" +
         "}";
 
-    System.out.println(json);
     TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
     mockMvc.perform(put("/contract")
@@ -247,7 +244,6 @@ public class ContractTests {
         "\"longitude\": 13.35002718682623" +
         "}";
 
-    System.out.println(json);
     TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
     mockMvc.perform(put("/contract")
@@ -266,7 +262,6 @@ public class ContractTests {
         .andReturn();
 
     String contentAsString = mvcResult.getResponse().getContentAsString();
-    System.out.println("A " + contentAsString);
   }
 
   @Test
@@ -293,7 +288,6 @@ public class ContractTests {
     transactionManager.commit(status);
 
     String contentAsString = mvcResult.getResponse().getContentAsString();
-    System.out.println("A " + contentAsString);
   }
 
   @Test
@@ -321,7 +315,6 @@ public class ContractTests {
         .andReturn();
 
     String contentAsString = mvcResult.getResponse().getContentAsString();
-    System.out.println("A " + contentAsString);
   }
 
   @Test
@@ -336,7 +329,6 @@ public class ContractTests {
     transactionManager.commit(status);
 
     String contentAsString = mvcResult.getResponse().getContentAsString();
-    System.out.println("A " + contentAsString);
   }
 
   @Test
@@ -351,7 +343,6 @@ public class ContractTests {
     transactionManager.commit(status);
 
     String contentAsString = mvcResult.getResponse().getContentAsString();
-    System.out.println("A " + contentAsString);
   }
 
   @Test
@@ -367,7 +358,6 @@ public class ContractTests {
         .andReturn();
 
     String contentAsString = mvcResult.getResponse().getContentAsString();
-    System.out.println("A " + contentAsString);
   }
 
   @Test
@@ -383,7 +373,6 @@ public class ContractTests {
         .andReturn();
 
     String contentAsString = mvcResult.getResponse().getContentAsString();
-    System.out.println("A " + contentAsString);
   }
 
   @Test
@@ -399,7 +388,6 @@ public class ContractTests {
         .andReturn();
 
     String contentAsString = mvcResult.getResponse().getContentAsString();
-    System.out.println("A " + contentAsString);
   }
 
   @Test
@@ -415,7 +403,6 @@ public class ContractTests {
         .andReturn();
 
     String contentAsString = mvcResult.getResponse().getContentAsString();
-    System.out.println("A " + contentAsString);
   }
 
 }

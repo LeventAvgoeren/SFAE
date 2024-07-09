@@ -30,7 +30,6 @@ public class CustomerImplementationTest {
   @Test
   public void countCustomer() {
     long result = dao.countCustomer();
-    System.out.println(result);
     assertNotEquals(0, result);
   }
 

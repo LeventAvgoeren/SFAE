@@ -43,7 +43,6 @@ public class TokenTest {
                 transactionManager.commit(status);
 
                 String contentAsString = mvcResult.getResponse().getContentAsString();
-                System.out.println("A " + contentAsString);
     }
 
     

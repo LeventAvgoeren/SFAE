@@ -70,15 +70,15 @@ export function PageIntroduction() {
                                 <p className="my-p">Service fast and efficient!</p>
                                 <p className="my-p">Ein Projekt erstellt von Ahmad Sfarjalani, Eray Zor, Levent Avgören, Duc Dai Nguyen und Danyal Mahrous!</p>
                                 <div className="animation-roboter">
-                                    <Lottie options={{
-                                        loop: true,
-                                        autoplay: true,
-                                        animationData: animationData,
-                                        rendererSettings: {
-                                            preserveAspectRatio: 'xMidYMid slice'
-                                        }
-                                    }} height={"60vh"} width={"60vh"} />
-                                </div>
+    <Lottie options={{
+        loop: true,
+        autoplay: true,
+        animationData: animationData,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+        }
+    }} height={"30vh"} width={"30vh"} />
+</div>
                                 <button onClick={() => scrollToSection('right')} className="my-arrow my-arrow-right" style={{color:"white"}}>
                                    Erklärung <img src="/right.svg" alt="Next" />
                                 </button>
@@ -255,7 +255,7 @@ export function PageIntroduction() {
                                                 rendererSettings: {
                                                     preserveAspectRatio: 'xMidYMid slice'
                                                 }
-                                            }} height={"50vh"} width={"50vh"} />
+                                            }} height={"40vh"} width={"40vh"} />
                                             <p className="my-p">Die Sternebewertung, die der Dienstleister von früheren Kunden erhalten hat.</p>
                                         </div>
                                         {/* Preis */}
@@ -267,7 +267,7 @@ export function PageIntroduction() {
                                                 rendererSettings: {
                                                     preserveAspectRatio: 'xMidYMid slice'
                                                 }
-                                            }} height={"50vh"} width={"50vh"} />
+                                            }} height={"40vh"} width={"40vh"} />
                                             <p className="my-p">Den Preis, der deinem Budget am nächsten kommt.</p>
                                         </div>
                                         {/* Standort */}
@@ -279,7 +279,7 @@ export function PageIntroduction() {
                                                 rendererSettings: {
                                                     preserveAspectRatio: 'xMidYMid slice'
                                                 }
-                                            }} height={"50vh"} width={"50vh"} />
+                                            }} height={"40vh"} width={"40vh"} />
                                             <p className="my-p">Und die geografische Nähe zu deinem Standort.</p>
                                         </div>
                                     </div>
@@ -306,7 +306,7 @@ export function PageIntroduction() {
                                                 rendererSettings: {
                                                     preserveAspectRatio: 'xMidYMid slice'
                                                 }
-                                            }} height={"50vh"} width={"50vh"} />
+                                            }} height={"45vh"} width={"45vh"} />
                                             <p className="my-p">Leg fest, in welchem Umkreis du Jobs erhalten möchtest.</p>
                                         </div>
                                         {/* Preis */}
@@ -318,7 +318,7 @@ export function PageIntroduction() {
                                                 rendererSettings: {
                                                     preserveAspectRatio: 'xMidYMid slice'
                                                 }
-                                            }} height={"50vh"} width={"50vh"} />
+                                            }} height={"45vh"} width={"45vh"} />
                                             <p className="my-p">SFAE sendet dir anschließend die Details zu den Auftrag.</p>
                                         </div>
                                     </div>

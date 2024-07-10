@@ -22,9 +22,6 @@ import com.SFAE.SFAE.DTO.RoleDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-/**
- * @author erayzor
- */
 
 /**
  * Endpoint interface for managing Customer entities.

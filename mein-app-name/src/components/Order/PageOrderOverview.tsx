@@ -75,6 +75,7 @@ export function PageOrderOverview() {
         if (contract.statusOrder === 'FINISHED' && contract.worker?.statusOrder === 'FINISHED') {
           setContractFinished(true);
           await updateContractStatus(contractId, 'FINISHED');
+          
         } else {
           setContractFinished(false);
         }

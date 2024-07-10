@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.SFAE.SFAE.DTO.CustomerDTO;
+import com.SFAE.SFAE.DTO.NewsDTO;
 import com.SFAE.SFAE.ENUM.JobList;
 
 @RequestMapping("/newsLetter")
@@ -22,7 +23,7 @@ public interface NewsLetterEp {
     ResponseEntity<?> sendEmailToCustomer(@RequestBody List<JobList> jobType);
 
     @PostMapping("/sendOwnNews")
-    ResponseEntity<?> sendOwnEmailToCustomer(@RequestBody String titel, String text);
+    ResponseEntity<?> sendOwnEmailToCustomer(@RequestBody NewsDTO news);
 
     @GetMapping("")
     ResponseEntity<?> getAllEmailsSend();

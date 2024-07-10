@@ -141,3 +141,8 @@ export type WorkerStatus = {
     id : string;
     statusOrder : string;
   }
+
+  export type SendNews = {
+    titel : string;
+    text : string;
+  }

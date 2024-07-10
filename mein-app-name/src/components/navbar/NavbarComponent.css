@@ -26,15 +26,14 @@
   font-size: 18px;
   padding: 10px;
   transition: background-color 0.3s, color 0.3s;
+  border-radius: 15px; 
 }
 
 .page-background-custom ul li a:hover {
   background-color: white;
   color: black !important;
-  border-radius: 15px;
-  padding: 10px 15px; /* Vergrößert den Padding beim Hover für eine bessere Sichtbarkeit */
+  padding: 10px 15px; /* Optionally adjust padding if needed */
 }
-
 body, button, input, textarea, h1, p {
   font-family: 'Roboto', sans-serif;
 }

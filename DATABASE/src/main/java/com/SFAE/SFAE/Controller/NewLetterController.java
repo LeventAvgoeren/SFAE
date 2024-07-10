@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.SFAE.SFAE.DTO.NewsDTO;
 import com.SFAE.SFAE.ENDPOINTS.NewsLetterEp;
 import com.SFAE.SFAE.ENTITY.NewsLetter;
 import com.SFAE.SFAE.ENUM.JobList;
@@ -65,12 +66,9 @@ public class NewLetterController implements NewsLetterEp {
   }
 
   @Override
-  public ResponseEntity<?> sendOwnEmailToCustomer(String titel, String text) {
-    if(titel.isEmpty() || text.isEmpty()|| titel==null || text ==null){
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-    }
+  public ResponseEntity<?> sendOwnEmailToCustomer(NewsDTO news) {
     try {
-      newsService.sendOwnNewsLetter(titel, text);
+      newsService.sendOwnNewsLetter(news.getTitel(), news.getText());
       return ResponseEntity.status(HttpStatus.OK).build();
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

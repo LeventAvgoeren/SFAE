@@ -1,24 +1,23 @@
-import { ContractResource, ContractResourceforWorker, CustomerResource, Position, RatingRessource, TokenRessource, UpdateStatusCustomer, WorkerResource, WorkerResourcePreferences, WorkerResourceProfil } from "../Resources";
+import { ContractResource, ContractResourceforWorker, CustomerResource, Position, RatingRessource, SendNews, TokenRessource, UpdateStatusCustomer, WorkerResource, WorkerResourcePreferences, WorkerResourceProfil } from "../Resources";
 import { LoginInfo } from "../components/LoginManager";
 import { HttpError } from "../components/Order/HTTPError";
 import { fetchWithErrorHandling } from "./fetchWithErrorHandling";
 
 // get/delete/update Customer
 export async function getAllCustomers(): Promise<CustomerResource[]> {
-  const cachedWorkers = localStorage.getItem('customers');
-  if (cachedWorkers) {
-    return JSON.parse(cachedWorkers);
+  const cachedCustomers = localStorage.getItem('customers');
+  if (cachedCustomers) {
+      return JSON.parse(cachedCustomers);
   }
 
   const url = `${process.env.REACT_APP_API_SERVER_URL}/customer`;
   const response = await fetchWithErrorHandling(url, {
-    credentials: "include" as RequestCredentials,
+      credentials: "include" as RequestCredentials,
   });
   const customers = await response.json();
   localStorage.setItem('customers', JSON.stringify(customers));
   return customers;
 }
-
 export async function getCustomerByName(name: String): Promise<any> {
   const url = process.env.REACT_APP_API_SERVER_URL + `/customer/usr/${name}`;
   const response = await fetchWithErrorHandling(url, {
@@ -564,18 +563,18 @@ export async function setRating(data:RatingRessource) :Promise <Boolean > {
   export async function getAllWorker(): Promise<WorkerResource[]> {
     const cachedWorkers = localStorage.getItem('workers');
     if (cachedWorkers) {
-      return JSON.parse(cachedWorkers);
+        return JSON.parse(cachedWorkers);
     }
 
     const url = `${process.env.REACT_APP_API_SERVER_URL}/worker`;
     const response = await fetchWithErrorHandling(url, {
-      credentials: "include" as RequestCredentials,
+        credentials: "include" as RequestCredentials,
     });
 
     const workers = await response.json();
     localStorage.setItem('workers', JSON.stringify(workers));
     return workers;
-  }
+}
 
   export async function getContractStatus(contractId: number): Promise<string> {
     const url = `${process.env.REACT_APP_API_SERVER_URL}/contract/status/${contractId}`;
@@ -815,25 +814,31 @@ export async function safeEmailToNewsLetter(emailCustomer:string){
   return data; 
 }
 
-export async function sendOwnNews(titel:string,text:string){
+export async function sendOwnNews(news: SendNews) {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/newsLetter/sendOwnNews`;
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({titel,text}),
-  });
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText);
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(news),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Error sending news: ${errorText}`);
+      throw new Error(errorText);
+    }
+
+    const data = await response.text(); 
+    return data; 
+  } catch (error) {
+    console.error('Error in sendOwnNews function:', error);
+    throw error;
   }
-
-  const data = await response.text(); 
-  return data; 
 }
-
 export async function sendJobNews(jobTyp: string[]){
   const jobType = jobTyp.map(element => element.toUpperCase());
 

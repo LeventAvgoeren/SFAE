@@ -21,6 +21,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import com.SFAE.SFAE.DTO.NewsDTO;
 import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.SFAE.SFAE.DTO.WorkerPrefrencesDTO;
 import com.SFAE.SFAE.DTO.WorkerProfileDTO;
@@ -669,6 +670,23 @@ public void testUpdateWorkerStatusOrderBadReq() throws Exception {
                 .andExpect(status().isNoContent());
 
     }
+
+    @Test
+    public void testSendOwnNews() throws Exception{
+        NewsDTO news= new NewsDTO();
+        news.setText("Hallo");
+        news.setTitel("Ich bin da adad");
+     
+        String workerJson = objectMapper.writeValueAsString(news);
+
+        mockMvc.perform(post("/newsLetter/sendOwnNews")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(workerJson))
+                .andExpect(status().isOk());
+
+    }
+
+    
 
 
     @Test

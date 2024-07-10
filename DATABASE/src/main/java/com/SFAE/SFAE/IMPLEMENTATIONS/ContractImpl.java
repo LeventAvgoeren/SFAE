@@ -18,6 +18,7 @@ import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.JobList;
 import com.SFAE.SFAE.ENUM.Payment;
+import com.SFAE.SFAE.ENUM.Status;
 import com.SFAE.SFAE.ENUM.StatusOrder;
 import com.SFAE.SFAE.ENUM.TokenType;
 import com.SFAE.SFAE.INTERFACE.ContractInterface;
@@ -292,10 +293,17 @@ public class ContractImpl implements ContractInterface {
       throw new IllegalArgumentException("Id or Status not given");
     }
 
-    int row = jdbcTemplate.update(
+    Contract con = getContract(contractId);
+    System.out.println(Status.AVAILABLE == con.getWorker().getStatus() );
+    System.out.println(StatusOrder.FINISHED ==  con.getWorker().getStatusOrder() );
+    System.out.println(StatusOrder.FINISHED == con.getCustomer().getStatusOrder());
+    System.out.println(statusOrder);
+    if(Status.AVAILABLE == con.getWorker().getStatus() && StatusOrder.FINISHED ==  con.getWorker().getStatusOrder() &&  StatusOrder.FINISHED == con.getCustomer().getStatusOrder()){
+      System.out.println("bin drin");
+        int row = jdbcTemplate.update(
         "UPDATE Contract SET status_order = ? WHERE id = ?",
         ps -> {
-          ps.setString(1, statusOrder);
+          ps.setString(1, StatusOrder.valueOf(statusOrder).name());
           ps.setLong(2, contractId);
         });
 
@@ -303,7 +311,10 @@ public class ContractImpl implements ContractInterface {
       return true;
     } else {
       return false;
+    } 
     }
+
+    return false;
   }
 
   @Override

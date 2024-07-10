@@ -69,7 +69,7 @@ export function PageWorkerOrder(){
     if (contractData && contractData.worker && contractData.worker.id) {
       try {
         await deleteChat(contractData.worker.id, contractData.customer!.id!);
-        await updateWorkerOrderStatus(contractData.worker.id, "UNDEFINED");
+        await updateWorkerOrderStatus(contractData.worker.id, "FINISHED");
         await updateWorkerStatus(contractData.worker.id, 'AVAILABLE');
         await updateContractStatus(contractData.id!, 'FINISHED');
         navigate(`/worker/${workerId}`);

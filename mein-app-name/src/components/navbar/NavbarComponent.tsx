@@ -93,9 +93,6 @@ export function NavbarComponent() {
               <li className="nav-item">
                 <Link className="nav-link" to={`/customer/${loginInfo.userId}/uebersicht`}>Übersicht</Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={`/customer/${loginInfo.userId}/faq`}>FAQ</Link>
-              </li>
               {loginInfo && loginInfo.admin === "ADMIN" && (
                 <li className="nav-item">
                   <Link className="nav-link" to={`/admin/${loginInfo.userId}/dienstleistungen`}>Admin</Link>

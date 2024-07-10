@@ -19,11 +19,11 @@
   top: 52%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90vw; /* Viewport width */
-  max-width: 800px; /* Maximalbreite */
+  width: 90vw;
+  max-width: 800px;
   height: auto;
-  max-height: 85vh;
-  overflow-y: auto; /* Ermöglicht das Scrollen des Containers */
+  max-height: 90vh; /* Stelle sicher, dass dies die korrekte Höhe ist */
+  overflow-y: auto; /* Scrollbar aktivieren, wenn nötig */
   border: 1px solid rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -123,12 +123,13 @@
 .form-check-label {
   color: white !important; /* Farbe der Labels neben den Radiobuttons */
 }
-
 .job-list {
   list-style-type: none;
   padding: 0;
-  width: 100%; /* Macht die Liste breiter */
-  margin-top: 20px; /* Fügt oben einen Abstand hinzu */
+  width: 100%;
+  margin-top: 20px;
+  max-height: 300px; /* Beispielwert */
+  overflow-y: auto; /* Ermöglicht das Scrollen innerhalb der Liste */
 }
 
 .job-item {

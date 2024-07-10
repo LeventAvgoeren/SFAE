@@ -1,10 +1,9 @@
 import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
-import NavbarWComponent from "./NavbarWComponent"
+import NavbarWComponent from "./NavbarWComponent";
 import { useEffect, useState } from "react";
-
 import { ContractResource, CustomerResource, TokenRessource, WorkerResource } from "../../Resources";
 import { Button } from "react-bootstrap";
-import { contractAcceptOrDecline, getContract, getCustomerbyID, getWorkerbyID, validateToken } from "../../backend/api";
+import { contractAcceptOrDecline, getContract, getCustomerbyID, getWorkerbyID, updateContractStatus, validateToken } from "../../backend/api";
 import { LinkContainer } from "react-router-bootstrap";
 import PageError from "../Error";
 import Lottie from "react-lottie";
@@ -12,31 +11,31 @@ import animationData from "../Worker_2.json";
 import './PageDeclineJob.css';
 import { useLoginContext } from "../LoginManager";
 import Footer from "../Footer";
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
-
+import { toast, ToastContainer } from "react-toastify";
 
 export function PageDeclineJob() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const tokenID = searchParams.get("token");
-  const {loginInfo, setLoginInfo} = useLoginContext();
+  const { loginInfo, setLoginInfo } = useLoginContext();
   const navigate = useNavigate();
   const [worker, setWorker] = useState<WorkerResource>();
   const [getcontract, setcontract] = useState<ContractResource>();
   const [getToken, setToken] = useState<TokenRessource>();
   const [refresh, setRefresh] = useState(false);
-  const [customer,setCustomer]= useState<CustomerResource>()
+  const [customer, setCustomer] = useState<CustomerResource>();
 
   async function handleResponse(accepted: boolean) {
+    console.log("VERRAG: " + getcontract?.longitude);
+    await contractAcceptOrDecline(accepted, getcontract!);
 
-    console.log("VERRAG: " + getcontract?.longitude)
-    await contractAcceptOrDecline(accepted, getcontract!)
     if (accepted) {
+      navigate(`/worker/${getToken?.receiver}/orders/overview`);
       toast.success("Auftrag wurde erfolgreich angenommen.", {
         onClose: () => navigate("/login")
       });
     } else {
+      navigate(`/worker/${getToken?.receiver}`);
       toast.info("Auftrag wurde erfolgreich abgelehnt.", {
         onClose: () => navigate("/login")
       });
@@ -64,43 +63,36 @@ export function PageDeclineJob() {
     }
   };
 
-
-
-  //Beim ersten Mal Laden der Seite kommt undefined bzw die fkae WorkerID
   async function getContractIdByToken(token: string) {
-
     let res = await validateToken(token);
     if (res) {
-      setToken(res)
+      setToken(res);
       let res2 = await getContract(res.id);
       setcontract(res2);
       setLoginInfo({
-                  userId:res.receiver,
-                  admin: ""
-                });
+        userId: res.receiver,
+        admin: ""
+      });
       let workerFound = await getWorkerbyID(res.receiver);
-        if(getcontract?.customer?.id){
-          let customerFound = await getCustomerbyID(getcontract?.customer?.id)
-          console.log("CUSTOMERINFO"+customerFound)
-          setCustomer(customerFound)
-        }
-      fetchCoordinates(res2.adress!)
+      if (getcontract?.customer?.id) {
+        let customerFound = await getCustomerbyID(getcontract?.customer?.id);
+        console.log("CUSTOMERINFO" + customerFound);
+        setCustomer(customerFound);
+      }
+      fetchCoordinates(res2.adress!);
       setcontract(prevContract => ({
         ...prevContract,
         worker: workerFound,
       }));
       setWorker(workerFound);
-      setRefresh(true)
+      setRefresh(true);
     }
-
   }
 
-
   useEffect(() => {
-
     async function fetchContracts() {
       try {
-        await getContractIdByToken(tokenID!)
+        await getContractIdByToken(tokenID!);
         console.log(getcontract);
       } catch (error) {
         console.log("Fehler:" + error);
@@ -109,20 +101,8 @@ export function PageDeclineJob() {
     fetchContracts();
   }, []);
 
-
   return (
     <>
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
       {refresh ? (
         <div className="Backg">
           <NavbarWComponent />
@@ -130,6 +110,17 @@ export function PageDeclineJob() {
             <h2>Hey {worker?.name}, du hast ein Jobangebot erhalten.</h2>
             <h3>Möchtest du diesen Job annehmen?</h3>
             <div className="white-text">
+              <ToastContainer
+                position="top-center"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+              />
               <div className="centered-content">
                 <div><span className="bold-label">Adresse</span></div>
                 <div>{getcontract?.adress}</div>
@@ -154,22 +145,20 @@ export function PageDeclineJob() {
                 <div><span className="bold-label">Außerhalb des Chats können sie ihn hier erreichen</span></div>
                 <div>{customer?.email}</div>
               </div>
-            </div>
-            <div className="animation-Worker_2">
-              <Lottie options={{
-                loop: true,
-                autoplay: true,
-                animationData: animationData,
-                rendererSettings: {
-                  preserveAspectRatio: 'xMidYMid slice'
-                }
-              }} height={200} width={200} />
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
-              <Button className="button10" variant="danger" onClick={() => handleResponse(false)}
-                style={{ width: "30%" }}>Ablehnen</Button>
-              <Button className="button9" variant="success" onClick={() => handleResponse(true)}
-                style={{ width: "30%" }}>Annehmen</Button>
+              <div className="animation-Worker_2">
+                <Lottie options={{
+                  loop: true,
+                  autoplay: true,
+                  animationData: animationData,
+                  rendererSettings: {
+                    preserveAspectRatio: 'xMidYMid slice'
+                  }
+                }} height={200} width={200} />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+                <Button className="button10" variant="danger" onClick={() => handleResponse(false)} style={{ width: "30%" }}>Ablehnen</Button>
+                <Button className="button9" variant="success" onClick={() => handleResponse(true)} style={{ width: "30%" }}>Annehmen</Button>
+              </div>
             </div>
           </div>
         </div>

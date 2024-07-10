@@ -32,9 +32,9 @@ export function PageDeclineJob() {
     console.log("VERRAG: " + getcontract?.longitude)
     await contractAcceptOrDecline(accepted, getcontract!)
     if (accepted) {
-      //navigate(`/worker/${getToken?.receiver}/orders/overview`)
+      navigate(`/worker/${getToken?.receiver}/orders/overview`)
     } else {
-      //navigate(`/worker/${getToken?.receiver}`)
+      navigate(`/worker/${getToken?.receiver}`)
     }
   }
 

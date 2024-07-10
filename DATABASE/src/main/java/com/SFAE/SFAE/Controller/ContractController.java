@@ -313,7 +313,7 @@ public class ContractController implements ContractEP {
       Boolean result = dao.updateWorkerId(data.getId(), data.getWorkerId());
       work.updateStatusByWorkerId(data.getWorkerId(), "INAVAILABLE");
       work.updateOrderStatusByWorkerId(data.getWorkerId(), "ACCEPTED");
-      dao.updateOrderStatus(data.getId(), "ACCEPTED");
+      dao.updateOrderStatus(data.getId(), "ACCEPTED", false);
       if (result) {
         return ResponseEntity.status(HttpStatus.OK).build();
       } else {
@@ -322,7 +322,7 @@ public class ContractController implements ContractEP {
     } else {
       work.updateStatusByWorkerId(data.getWorkerId(), "AVAILABLE");
       work.updateOrderStatusByWorkerId(data.getWorkerId(), "DECLINED");
-      dao.updateOrderStatus(data.getId(), "DECLINED");
+      dao.updateOrderStatus(data.getId(), "DECLINED", false);
       dao.findNextBestWorker(data);
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
@@ -394,7 +394,7 @@ public class ContractController implements ContractEP {
     }
     orderStatus = orderStatus.replace("\"", "");
     try {
-      boolean result = dao.updateOrderStatus(id, orderStatus);
+      boolean result = dao.updateOrderStatus(id, orderStatus, true);
       if (result) {
         return ResponseEntity.status(HttpStatus.OK).body(result);
       } else {

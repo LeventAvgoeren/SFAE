@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import für Navigation
+import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './DesignVorlage.css';
 import './PageAdminDienstleistungen.css';
-import { Link } from 'react-router-dom';
 import { Table, Button, Container, Nav, NavDropdown, Navbar, Modal, Form, Badge } from 'react-bootstrap';
 import { Trash, Search, Pencil, Modem } from 'react-bootstrap-icons';
 import { CustomerResource, WorkerResource, WorkerResourceProfil } from '../../Resources';
@@ -14,12 +13,7 @@ import { HttpError } from '../Order/HTTPError';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-interface PageAdminComponentProps {
-    isAdminPage?: boolean;
-}
-
-
-export function PageAdminDienstleistungen({ isAdminPage }: PageAdminComponentProps) {
+export function PageAdminDienstleistungen() {
     const [loginInfo, setLoginInfo] = useState<LoginInfo | false | undefined>(undefined);
     const [showDeleteC, setShowDeleteC] = useState<boolean>(false);
     const [showDeleteW, setShowDeleteW] = useState<boolean>(false);
@@ -42,8 +36,6 @@ export function PageAdminDienstleistungen({ isAdminPage }: PageAdminComponentPro
     const [WorkerEmail, setWorkerEmail] = useState("");
     const [WorkerPassword, setWorkerPassword] = useState("");
     const [isAdmin, setIsAdmin] = useState(false);
-
-    const navigate = useNavigate();
 
     const handleCustomerClick = (): void => {
         setCustomerButtonClicked(true);
@@ -85,160 +77,129 @@ export function PageAdminDienstleistungen({ isAdminPage }: PageAdminComponentPro
         setSelectedWorker(cus);
         setshowSearchW(true);
     }
-    
-const handleUpdateCustomer = async (updatedCustomer: CustomerResource) => {
-    try {
-        let resp =await updateCustomer(updatedCustomer);
-        if(resp){
-            toast.success("Customer wurde erfolgreich Aktualisiert")
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000); 
-            handleClose();
-        }
-     
-    } catch (error) {
-        toast.error("Es ist ein fehler aufgetreten")
-        console.error('Fehler beim Aktualisieren des Kunden:', error);
-    }
-}
 
-const handleUpdateWorker = async (updatedWorker: WorkerResourceProfil) => {
-    try {
-        let resp=await updateWorkerProfile(updatedWorker);
-        if(resp){
-            toast.success("Worker wurde erfolgreich Aktualisiert")
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000); 
-            handleClose();
-        }
-    } catch (error) {
-        toast.error("Es ist ein fehler aufgetreten")
-        console.error('Fehler beim Aktualisieren des Kunden:', error);
-    }
-}
-
-
-const handleSave = async  () => {
-        let pic = await getCustomerImage(selectedCustomer!.id!)
-    
-    const updatedCustomer: CustomerResource = {
-        id: selectedCustomer?.id,
-        name: costumerName || selectedCustomer!.name,
-        email: costumerEmail || selectedCustomer!.email,
-        password: costumerPassword || selectedCustomer!.password,
-        profileBase64:pic,
-        role:selectedCustomer!.role
-    };
-    handleUpdateCustomer(updatedCustomer);
-    console.log("HALLLLO "+updatedCustomer.password,updatedCustomer.email,updatedCustomer.id)
-};
-
-const handleSaveWorkerUpdate = async () => {
-    let pic = await getWorkerImage(selectedWorker!.id!)
-    const updatedWorker: WorkerResourceProfil = {
-        id: selectedWorker!.id,
-        name: WorkerName|| selectedWorker!.name!,
-        email: WorkerEmail || selectedWorker?.email!,
-        password: WorkerPassword || selectedWorker!.password!,
-        location: selectedWorker!.location!,
-        profileBase64:pic,
-        slogan:selectedWorker!.slogan!,
-        latitude:selectedWorker!.latitude,
-        longitude: selectedWorker!.longitude,
-    };
-    handleUpdateWorker(updatedWorker);
-
-};
-
-
-const removeCustomer = async () => {
-    if (selectedCustomer?.id) {
+    const handleUpdateCustomer = async (updatedCustomer: CustomerResource) => {
         try {
-            let res=await deleteCustomer(selectedCustomer.id);
-            if(res.ok){
-                toast.success('Customer wurde erfolgreich gelöscht.');
-                setSelectedCustomer(null);
-    
-              
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000); 
+            let resp = await updateCustomer(updatedCustomer);
+            if (resp) {
+                toast.success("Customer wurde erfolgreich aktualisiert");
+                updateCustomerInCache(updatedCustomer);
+                updateLocalStorage(customerData, workerData);
+                handleClose();
             }
         } catch (error) {
-            if (error instanceof HttpError) {
-                const status = error.response.status;
-                const errorMessage = await error.response.text();
-
-                console.log("Status:", status);
-                console.log("Error Message:", errorMessage);
-
-                if (status === 409 && errorMessage.includes("You have open contracts")) {
-                    toast.error('Customer hat noch nicht abgeschlossene Aufträge.');
-                } else if (status === 400 && errorMessage.includes("ID is not for Worker")) {
-                    toast.error('Id ist keine Customer Id.');
-                } else if (status === 404) {
-                    toast.error('Id konnte nicht gefunden werden.');
-                } else if (status === 500) {
-                    toast.error('Es kam zu einem Serverfehler.');
-                } else {
-                    toast.error('Fehler beim Löschen des Customers.');
-                }
-            } else {
-                console.error('Fehler beim Löschen des Customers:', error);
-                toast.error('Fehler beim Löschen des Customers.');
-            }
-        } finally {
-            setShowDeleteC(false);
+            toast.error("Es ist ein Fehler aufgetreten");
+            console.error('Fehler beim Aktualisieren des Kunden:', error);
         }
     }
-};
 
-
-
-const removeWorker = async () => {
-    if (selectedWorker?.id) {
+    const handleUpdateWorker = async (updatedWorker: WorkerResourceProfil) => {
         try {
-            let res = await deleteWorker(selectedWorker.id);
-            if (res.ok) {
-                toast.success('Worker wurde erfolgreich gelöscht.');
-                setSelectedWorker(null);
-
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000);
+            let resp = await updateWorkerProfile(updatedWorker);
+            if (resp) {
+                toast.success("Worker wurde erfolgreich aktualisiert");
+                updateWorkerInCache(updatedWorker);
+                updateLocalStorage(customerData, workerData);
+                handleClose();
             }
         } catch (error) {
-            if (error instanceof HttpError) {
-                const status = error.response.status;
-                const errorMessage = await error.response.text();
-
-                console.log("Status:", status);
-                console.log("Error Message:", errorMessage);
-
-                if (status === 409 && errorMessage.includes("You have open contracts")) {
-                    toast.error('Worker hat noch nicht abgeschlossene Aufträge.');
-                } else if (status === 400 && errorMessage.includes("ID is not for Worker")) {
-                    toast.error('Id ist keine Worker Id.');
-                } else if (status === 404) {
-                    toast.error('Id konnte nicht gefunden werden.');
-                } else if (status === 500) {
-                    toast.error('Es kam zu einem Serverfehler.');
-                } else {
-                    toast.error('Fehler beim Löschen des Workers.');
-                }
-            } else {
-                console.error('Fehler beim Löschen des Workers:', error);
-                toast.error('Fehler beim Löschen des Workers.');
-            }
-        } finally {
-            setShowDeleteW(false);
+            toast.error("Es ist ein Fehler aufgetreten");
+            console.error('Fehler beim Aktualisieren des Workers:', error);
         }
     }
-};
 
+    const handleSave = async () => {
+        let pic = await getCustomerImage(selectedCustomer!.id!);
 
+        const updatedCustomer: CustomerResource = {
+            id: selectedCustomer?.id,
+            name: costumerName || selectedCustomer!.name,
+            email: costumerEmail || selectedCustomer!.email,
+            password: costumerPassword || selectedCustomer!.password,
+            profileBase64: pic,
+            role: selectedCustomer!.role
+        };
+        handleUpdateCustomer(updatedCustomer);
+    };
+
+    const handleSaveWorkerUpdate = async () => {
+        let pic = await getWorkerImage(selectedWorker!.id!);
+        const updatedWorker: WorkerResourceProfil = {
+            id: selectedWorker!.id,
+            name: WorkerName || selectedWorker!.name!,
+            email: WorkerEmail || selectedWorker?.email!,
+            password: WorkerPassword || selectedWorker!.password!,
+            location: selectedWorker!.location!,
+            profileBase64: pic,
+            slogan: selectedWorker!.slogan!,
+            latitude: selectedWorker!.latitude,
+            longitude: selectedWorker!.longitude,
+        };
+        handleUpdateWorker(updatedWorker);
+    };
+
+    const removeCustomer = async () => {
+        if (selectedCustomer?.id) {
+            try {
+                let res = await deleteCustomer(selectedCustomer.id);
+                if (res.ok) {
+                    toast.success('Customer wurde erfolgreich gelöscht.');
+                    removeCustomerFromCache(selectedCustomer.id);
+                    updateLocalStorage(customerData, workerData);
+                    setSelectedCustomer(null);
+                }
+            } catch (error) {
+                handleDeleteError(error);
+            } finally {
+                setShowDeleteC(false);
+            }
+        }
+    };
+
+    const removeWorker = async () => {
+        if (selectedWorker?.id) {
+            try {
+                let res = await deleteWorker(selectedWorker.id);
+                if (res.ok) {
+                    toast.success('Worker wurde erfolgreich gelöscht.');
+                    removeWorkerFromCache(selectedWorker.id);
+                    updateLocalStorage(customerData, workerData);
+                    setSelectedWorker(null);
+                }
+            } catch (error) {
+                handleDeleteError(error);
+            } finally {
+                setShowDeleteW(false);
+            }
+        }
+    };
+
+    const handleDeleteError = async (error: any) => {
+        if (error instanceof HttpError) {
+            const status = error.response.status;
+            const errorMessage = await error.response.text();
+            console.log("Status:", status);
+            console.log("Error Message:", errorMessage);
+            handleErrorMessages(status, errorMessage);
+        } else {
+            console.error('Fehler beim Löschen:', error);
+            toast.error('Fehler beim Löschen.');
+        }
+    };
+
+    const handleErrorMessages = (status: number, errorMessage: string) => {
+        if (status === 409 && errorMessage.includes("You have open contracts")) {
+            toast.error('Es gibt noch offene Verträge.');
+        } else if (status === 400 && errorMessage.includes("ID is not for Worker")) {
+            toast.error('ID ist keine gültige Worker-ID.');
+        } else if (status === 404) {
+            toast.error('ID konnte nicht gefunden werden.');
+        } else if (status === 500) {
+            toast.error('Serverfehler.');
+        } else {
+            toast.error('Fehler beim Löschen.');
+        }
+    };
 
     const closeDeleteCustomerDialog = () => {
         setShowDeleteC(false);
@@ -257,93 +218,155 @@ const removeWorker = async () => {
     }
 
     const changeSearch = (value: string) => {
-
-        if (customerButtonClicked){
+        if (customerButtonClicked) {
             const newCustomers = customerData.filter(element => {
-                if(!value){
+                if (!value) {
                     return true;
-                }else{
+                } else {
                     return element.name.toLowerCase().startsWith(value.toLowerCase());
                 }
             })
-            setCustomerFilterData(newCustomers)
-        }else{
+            setCustomerFilterData(newCustomers);
+        } else {
             const newWorkers = workerData.filter(element => {
-                if(!value){
+                if (!value) {
                     return true;
-                }else{
+                } else {
                     return element.name.toLowerCase().startsWith(value.toLowerCase());
                 }
             })
-            setWorkerFilterData(newWorkers)
+            setWorkerFilterData(newWorkers);
         }
     }
-    
-    const changeAdmin = () =>{
+
+    const changeAdmin = () => {
         setIsAdmin(!isAdmin);
         if (selectedCustomer) {
             setSelectedCustomer(prevCustomer => ({
-              ...prevCustomer!,
-              role: isAdmin ? 'USER' : 'ADMIN'
+                ...prevCustomer!,
+                role: isAdmin ? 'USER' : 'ADMIN'
             }));
-          }
+        }
     }
-   
+
     const fetchData = useCallback(async () => {
         try {
-            const [customerData, workerData] = await Promise.all([getAllCustomers(), getAllWorker()]);
-            setCustomerData(customerData);
-            setCustomerFilterData(customerData);
-            setWorkerData(workerData);
-            setWorkerFilterData(workerData);
+            const storedCustomers = localStorage.getItem('customerData');
+            const storedWorkers = localStorage.getItem('workerData');
+            if (storedCustomers && storedWorkers) {
+                setCustomerData(JSON.parse(storedCustomers));
+                setCustomerFilterData(JSON.parse(storedCustomers));
+                setWorkerData(JSON.parse(storedWorkers));
+                setWorkerFilterData(JSON.parse(storedWorkers));
+            } else {
+                const [customerData, workerData] = await Promise.all([getAllCustomers(), getAllWorker()]);
+                setCustomerData(customerData);
+                setCustomerFilterData(customerData);
+                setWorkerData(workerData);
+                setWorkerFilterData(workerData);
+                updateLocalStorage(customerData, workerData);
+            }
         } catch (error) {
             console.error("Error fetching data:", error);
         }
     }, []);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            fetchData();
-        }, 100); 
+        fetchData();
+    }, [fetchData]);
 
-        return () => clearTimeout(timer); 
-    }, []);
+    const updateLocalStorage = (customerData: CustomerResource[], workerData: WorkerResource[]) => {
+        localStorage.setItem('customerData', JSON.stringify(customerData));
+        localStorage.setItem('workerData', JSON.stringify(workerData));
+    };
 
-    
+    const updateCustomerInCache = (updatedCustomer: CustomerResource) => {
+        setCustomerData(prevData => {
+            const newData = prevData.map(customer => customer.id === updatedCustomer.id ? updatedCustomer : customer);
+            updateLocalStorage(newData, workerData);
+            return newData;
+        });
+        setCustomerFilterData(prevData => prevData.map(customer => customer.id === updatedCustomer.id ? updatedCustomer : customer));
+    }
+
+    const updateWorkerInCache = (updatedWorker: WorkerResourceProfil) => {
+        setWorkerData(prevData => {
+            const newData = prevData.map(worker => worker.id === updatedWorker.id ? ({
+                ...worker,
+                name: updatedWorker.name,
+                email: updatedWorker.email,
+                password: updatedWorker.password,
+                location: updatedWorker.location,
+                profileBase64: updatedWorker.profileBase64,
+                slogan: updatedWorker.slogan,
+                latitude: updatedWorker.latitude,
+                longitude: updatedWorker.longitude,
+            }) : worker);
+            updateLocalStorage(customerData, newData);
+            return newData;
+        });
+        setWorkerFilterData(prevData => prevData.map(worker => worker.id === updatedWorker.id ? ({
+            ...worker,
+            name: updatedWorker.name,
+            email: updatedWorker.email,
+            password: updatedWorker.password,
+            location: updatedWorker.location,
+            profileBase64: updatedWorker.profileBase64,
+            slogan: updatedWorker.slogan,
+            latitude: updatedWorker.latitude,
+            longitude: updatedWorker.longitude,
+        }) : worker));
+    }
+
+    const removeCustomerFromCache = (customerId: string) => {
+        setCustomerData(prevData => {
+            const newData = prevData.filter(customer => customer.id !== customerId);
+            updateLocalStorage(newData, workerData);
+            return newData;
+        });
+        setCustomerFilterData(prevData => prevData.filter(customer => customer.id !== customerId));
+    }
+
+    const removeWorkerFromCache = (workerId: string) => {
+        setWorkerData(prevData => {
+            const newData = prevData.filter(worker => worker.id !== workerId);
+            updateLocalStorage(customerData, newData);
+            return newData;
+        });
+        setWorkerFilterData(prevData => prevData.filter(worker => worker.id !== workerId));
+    }
+
     return (
         <>
-        <ToastContainer 
-            position="top-center" 
-            autoClose={5000} 
-            hideProgressBar={false} 
-            newestOnTop={false} 
-            closeOnClick 
-            rtl={false} 
-            pauseOnFocusLoss 
-            draggable 
-            pauseOnHover 
-        />
+            <ToastContainer 
+                position="top-center" 
+                autoClose={5000} 
+                hideProgressBar={false} 
+                newestOnTop={false} 
+                closeOnClick 
+                rtl={false} 
+                pauseOnFocusLoss 
+                draggable 
+                pauseOnHover 
+            />
             <div className='background-image-Diesntleistungen'>
-                   <NavbarComponent />
+                <NavbarComponent />
                 <div className="background-city">
                     <div className="container-frame glassmorphism" style={{display:"flex", flexDirection:"column", flexWrap:"nowrap", position:"relative"}}>
                         <div className="grid-container margin-container"  style={{display:"flex", flexDirection:"row", position:"relative"}}>
-                        <Container className='search-field'>
-                            <input 
-                                type='text' 
-                                className='form-control glassmorphism' 
-                                placeholder='Suchen'
-                                onChange={e => changeSearch(e.target.value)}  
-                            />
-                        </Container>
-                    {(
-                        <>
-                        <Button onClick={handleWorkerClick}>Workers</Button>
-                        <Button onClick={handleCustomerClick}>Customers</Button>
-                        </>
-                    )}
-                    </div>
-
+                            <Container className='search-field'>
+                                <input 
+                                    type='text' 
+                                    className='form-control glassmorphism' 
+                                    placeholder='Suchen'
+                                    onChange={e => changeSearch(e.target.value)}  
+                                />
+                            </Container>
+                            <>
+                                <Button onClick={handleWorkerClick}>Workers</Button>
+                                <Button onClick={handleCustomerClick}>Customers</Button>
+                            </>
+                        </div>
                         <Table striped hover bordered className="table" data-bs-theme="dark" variant="primary"> 
                             <thead>
                                 <tr>
@@ -356,44 +379,42 @@ const removeWorker = async () => {
                                 </tr>
                             </thead>
                             <tbody>
-    {customerButtonClicked ? (
-        customerFilterData.map((customer, idx) => (
-            <tr key={idx}>
-                <td>{idx + 1}</td>
-                <td>{customer.name}</td>
-                <td>{customer.id}</td>
-                <td colSpan={1}>
-                    <Trash size={24} color='red' onClick={() => selectDeleteCustomer(customer)} />
-                </td>
-                <td colSpan={1}>
-                    <Search size={24} color='green' onClick={() => selectSearchCustomer(customer)} />
-                </td>
-                <td colSpan={1}>
-                    <Pencil size={24} color='orange' onClick={() => selectEditCustomer(customer)} />
-                </td>
-            </tr>
-        ))
-    ) : (
-        workerFilterData.map((worker, idx) => (
-            <tr key={idx}>
-                <td>{idx + 1}</td>
-                <td>{worker.name}</td>
-                <td>{worker.id}</td>
-                <td colSpan={1}>
-                    <Trash size={24} color='red' onClick={() => selectDeleteWorker(worker)} />
-                </td>
-                <td colSpan={1}>
-                    <Search size={24} color='green' onClick={() => selectSearchWorker(worker)} />
-                </td>
-                <td colSpan={1}>
-                    <Pencil size={24} color='orange' onClick={() => selectEditWorker(worker)} />
-                </td>
-            </tr>
-        ))
-    )}
-</tbody>
-
-
+                                {customerButtonClicked ? (
+                                    customerFilterData.map((customer, idx) => (
+                                        <tr key={idx}>
+                                            <td>{idx + 1}</td>
+                                            <td>{customer.name}</td>
+                                            <td>{customer.id}</td>
+                                            <td colSpan={1}>
+                                                <Trash size={24} color='red' onClick={() => selectDeleteCustomer(customer)} />
+                                            </td>
+                                            <td colSpan={1}>
+                                                <Search size={24} color='green' onClick={() => selectSearchCustomer(customer)} />
+                                            </td>
+                                            <td colSpan={1}>
+                                                <Pencil size={24} color='orange' onClick={() => selectEditCustomer(customer)} />
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    workerFilterData.map((worker, idx) => (
+                                        <tr key={idx}>
+                                            <td>{idx + 1}</td>
+                                            <td>{worker.name}</td>
+                                            <td>{worker.id}</td>
+                                            <td colSpan={1}>
+                                                <Trash size={24} color='red' onClick={() => selectDeleteWorker(worker)} />
+                                            </td>
+                                            <td colSpan={1}>
+                                                <Search size={24} color='green' onClick={() => selectSearchWorker(worker)} />
+                                            </td>
+                                            <td colSpan={1}>
+                                                <Pencil size={24} color='orange' onClick={() => selectEditWorker(worker)} />
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
                         </Table> 
                     </div>
                 </div>
@@ -421,106 +442,102 @@ const removeWorker = async () => {
                         <Button variant='primary' onClick={removeWorker}>Delete</Button>
                     </Modal.Footer>
                 </Modal>}
-
                 {selectedCustomer && (
-    <Modal show={showSearchC}>
-        <Modal.Header style={{ backgroundColor: '#d1e7dd' }}>
-            <Modal.Title>{selectedCustomer.name} Daten</Modal.Title>
-        </Modal.Header>
-        <Modal.Body style={{ backgroundColor: '#ffffff' }}>
-            <Container>
-                <p><strong>Id:</strong> {selectedCustomer.id}</p>
-            </Container>
-            <Container>
-                <p><strong>Name:</strong> {selectedCustomer.name}</p>
-            </Container>
-            <Container>
-                <p><strong>Email:</strong> {selectedCustomer.email}</p>
-            </Container>
-            <Container>
-                <p><strong>Role:</strong> {selectedCustomer.role}</p>
-            </Container>
-        </Modal.Body>
-        <Modal.Footer style={{ backgroundColor: '#d1e7dd' }}>
-            <Button variant='secondary' onClick={closeSearchDialog}>Close</Button>
-        </Modal.Footer>
-    </Modal>
-)}
-
-
-{selectedWorker && (
-    <Modal show={showSearchW}>
-        <Modal.Header style={{ backgroundColor: '#d1e7dd' }}>
-            <Modal.Title>{selectedWorker.name} Daten</Modal.Title>
-        </Modal.Header>
-        <Modal.Body style={{ backgroundColor: '#ffffff' }}>
-            <Container>
-                <p><strong>Id:</strong> {selectedWorker.id}</p>
-            </Container>
-            <Container>
-                <p><strong>Name:</strong> {selectedWorker.name}</p>
-            </Container>
-            <Container>
-                <p><strong>Email:</strong> {selectedWorker.email}</p>
-            </Container>
-            <Container>
-                <p><strong>Location:</strong> {selectedWorker.location}</p>
-            </Container>
-        </Modal.Body>
-        <Modal.Footer style={{ backgroundColor: '#d1e7dd' }}>
-            <Button variant='secondary' onClick={closeSearchWorkerDialog}>Close</Button>
-        </Modal.Footer>
-    </Modal>
-)}
+                    <Modal show={showSearchC}>
+                        <Modal.Header style={{ backgroundColor: '#d1e7dd' }}>
+                            <Modal.Title>{selectedCustomer.name} Daten</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body style={{ backgroundColor: '#ffffff' }}>
+                            <Container>
+                                <p><strong>Id:</strong> {selectedCustomer.id}</p>
+                            </Container>
+                            <Container>
+                                <p><strong>Name:</strong> {selectedCustomer.name}</p>
+                            </Container>
+                            <Container>
+                                <p><strong>Email:</strong> {selectedCustomer.email}</p>
+                            </Container>
+                            <Container>
+                                <p><strong>Role:</strong> {selectedCustomer.role}</p>
+                            </Container>
+                        </Modal.Body>
+                        <Modal.Footer style={{ backgroundColor: '#d1e7dd' }}>
+                            <Button variant='secondary' onClick={closeSearchDialog}>Close</Button>
+                        </Modal.Footer>
+                    </Modal>
+                )}
+                {selectedWorker && (
+                    <Modal show={showSearchW}>
+                        <Modal.Header style={{ backgroundColor: '#d1e7dd' }}>
+                            <Modal.Title>{selectedWorker.name} Daten</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body style={{ backgroundColor: '#ffffff' }}>
+                            <Container>
+                                <p><strong>Id:</strong> {selectedWorker.id}</p>
+                            </Container>
+                            <Container>
+                                <p><strong>Name:</strong> {selectedWorker.name}</p>
+                            </Container>
+                            <Container>
+                                <p><strong>Email:</strong> {selectedWorker.email}</p>
+                            </Container>
+                            <Container>
+                                <p><strong>Location:</strong> {selectedWorker.location}</p>
+                            </Container>
+                        </Modal.Body>
+                        <Modal.Footer style={{ backgroundColor: '#d1e7dd' }}>
+                            <Button variant='secondary' onClick={closeSearchWorkerDialog}>Close</Button>
+                        </Modal.Footer>
+                    </Modal>
+                )}
                 {selectedCustomer && <Modal show={showDialog}>
                     <Modal.Header style={{ backgroundColor: '#d1e7dd' }}>
                         <Modal.Title>{selectedCustomer.name} Daten</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-    <Form >
-<Form.Group>
-    <Form.Label>Name:</Form.Label>
-    <Form.Control type="text" defaultValue={selectedCustomer.name} onChange={e => setCostumerName(e.target.value)} />
-</Form.Group>
-<Form.Group>
-    <Form.Label>Email:</Form.Label>
-    <Form.Control type="email" defaultValue={selectedCustomer.email} onChange={(e) => setCostumerEmail(e.target.value)} />
-</Form.Group>
-<Form.Group>
-    <Form.Label>Password:</Form.Label>
-    <Form.Control type="password" defaultValue={selectedCustomer.password} onChange={e => setCostumerPassword(e.target.value)} />
-</Form.Group>
-<Form.Group>
-    <Form.Label>Admin: <Form.Check type="checkbox" checked={isAdmin} onChange={e => changeAdmin()} /></Form.Label>
-</Form.Group>
-    </Form>
-</Modal.Body>
+                        <Form>
+                            <Form.Group>
+                                <Form.Label>Name:</Form.Label>
+                                <Form.Control type="text" defaultValue={selectedCustomer.name} onChange={e => setCostumerName(e.target.value)} />
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Email:</Form.Label>
+                                <Form.Control type="email" defaultValue={selectedCustomer.email} onChange={(e) => setCostumerEmail(e.target.value)} />
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Password:</Form.Label>
+                                <Form.Control type="password" defaultValue={selectedCustomer.password} onChange={e => setCostumerPassword(e.target.value)} />
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Admin: <Form.Check type="checkbox" checked={isAdmin} onChange={e => changeAdmin()} /></Form.Label>
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
                     <Modal.Footer style={{ backgroundColor: '#d1e7dd' }}>
                         <Button variant='secondary' onClick={handleSave}>Speichern</Button>
                         <Button variant='secondary' onClick={handleClose}>Close</Button>
                     </Modal.Footer>
                 </Modal>}
-
                 {selectedWorker && <Modal show={showDialog}>
                     <Modal.Header style={{ backgroundColor: '#d1e7dd' }}>
                         <Modal.Title>{selectedWorker.name} Daten</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-    <Form>
-<Form.Group>
-    <Form.Label>Name:</Form.Label>
-    <Form.Control type="text" defaultValue={selectedWorker.name} onChange={e => setWorkerName(e.target.value)} />
-</Form.Group>
-<Form.Group>
-    <Form.Label>Email:</Form.Label>
-    <Form.Control type="email" defaultValue={selectedWorker.email} onChange={e => setWorkerEmail(e.target.value)} />
-</Form.Group>
-<Form.Group>
-    <Form.Label>Password:</Form.Label>
-    <Form.Control type="password" defaultValue={selectedWorker.password} onChange={e => setWorkerPassword(e.target.value)} />
-</Form.Group>
-    </Form>
-</Modal.Body>
+                        <Form>
+                            <Form.Group>
+                                <Form.Label>Name:</Form.Label>
+                                <Form.Control type="text" defaultValue={selectedWorker.name} onChange={e => setWorkerName(e.target.value)} />
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Email:</Form.Label>
+                                <Form.Control type="email" defaultValue={selectedWorker.email} onChange={e => setWorkerEmail(e.target.value)} />
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Password:</Form.Label>
+                                <Form.Control type="password" defaultValue={selectedWorker.password} onChange={e => setWorkerPassword(e.target.value)} />
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
                     <Modal.Footer style={{ backgroundColor: '#d1e7dd' }}>
                         <Button variant='secondary' onClick={handleSaveWorkerUpdate}>Speichern</Button>
                         <Button variant='secondary' onClick={handleClose}>Close</Button>
@@ -530,5 +547,3 @@ const removeWorker = async () => {
         </>
     );
 }
-
-

@@ -365,39 +365,43 @@ export function PageAdminDienstleistungen() {
     }
     return (
         <>
-            <ToastContainer 
-                position="top-center" 
-                autoClose={5000} 
-                hideProgressBar={false} 
-                newestOnTop={false} 
-                closeOnClick 
-                rtl={false} 
-                pauseOnFocusLoss 
-                draggable 
-                pauseOnHover 
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
             />
             <div className='background-image-Diesntleistungen'>
                 <NavbarComponent />
                 <div className="background-city">
-                    <div className="container-frame glassmorphism" style={{display:"flex", flexDirection:"column", flexWrap:"nowrap", position:"relative"}}>
-                        <div className="grid-container margin-container" style={{display:"flex", flexDirection:"row", position:"relative"}}>
+                    <div className="container-frame glassmorphism" style={{ display: "flex", flexDirection: "column", flexWrap: "nowrap", position: "relative" }}>
+                        <div className="grid-container margin-container" style={{ display: "flex", flexDirection: "row", position: "relative" }}>
                             <Container className='search-field'>
-                                <input 
-                                    type='text' 
-                                    className='form-control glassmorphism' 
+                                <input
+                                    type='text'
+                                    className='form-control glassmorphism'
                                     placeholder='Suchen'
-                                    onChange={e => changeSearch(e.target.value)}  
+                                    onChange={e => changeSearch(e.target.value)}
                                 />
                             </Container>
                             <>
-                                <Button onClick={handleWorkerClick}>Workers</Button>
-                                <Button onClick={handleCustomerClick}>Customers</Button>
-                                <Button onClick={sendNews}>Send news</Button>
-                                <Button variant='danger' onClick={clearLocalStorage}>Reload</Button>
+                            <Button style={{ backgroundColor: '#007bff', color: 'white' }} onClick={handleWorkerClick}>Workers</Button>
+<Button style={{ backgroundColor: '#004085', color: 'white' }} onClick={handleCustomerClick}>Customers</Button>
+<Button style={{ backgroundColor: '#28a745', color: 'white' }} onClick={sendNews}>Send news</Button>
+
+
+                                <Button variant="danger" onClick={clearLocalStorage} style={{ width: '500px' }}>
+    <img src="/reload.png" alt="Reload" style={{ width: 20, height: 20 }} />
+</Button>
                             </>
                         </div>
                         <div className="table-container">
-                            <Table striped hover bordered className="table" data-bs-theme="dark" variant="primary"> 
+                            <Table striped hover bordered className="table" data-bs-theme="dark" variant="primary">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -446,109 +450,103 @@ export function PageAdminDienstleistungen() {
                                     )}
                                 </tbody>
                             </Table>
-                        </div> 
+                        </div>
                     </div>
                 </div>
-                {selectedCustomer && <Modal show={showDeleteC}>
-                    <Modal.Header style={{ backgroundColor: '#d1e7dd' }}>
-                        <Modal.Title>Delete Customer</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        Möchten Sie wirklich {selectedCustomer?.name} löschen?
-                    </Modal.Body>
-                    <Modal.Footer style={{ backgroundColor: '#d1e7dd' }}>
-                        <Button variant='secondary' onClick={closeDeleteCustomerDialog}>Close</Button>
-                        <Button variant='primary' onClick={removeCustomer}>Delete</Button>
-                    </Modal.Footer >
-                </Modal>}
-                {selectedWorker && <Modal show={showDeleteW}>
-                    <Modal.Header style={{ backgroundColor: '#d1e7dd' }}>
-                        <Modal.Title>Delete Worker</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        Möchten Sie wirklich {selectedWorker?.name} löschen?
-                    </Modal.Body>
-                    <Modal.Footer style={{ backgroundColor: '#d1e7dd' }}>
-                        <Button variant='secondary' onClick={closeDeleteWorkerDialog}>Close</Button>
-                        <Button variant='primary' onClick={removeWorker}>Delete</Button>
-                    </Modal.Footer>
-                </Modal>}
                 {selectedCustomer && (
-                    <Modal show={showSearchC}>
-                        <Modal.Header style={{ backgroundColor: '#d1e7dd' }}>
+                    <Modal show={showDeleteC} onHide={closeDeleteCustomerDialog} centered>
+                        <Modal.Header className="custom-modal-header">
+                            <Modal.Title>Delete Customer</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body className="custom-modal-body">
+                            Möchten Sie wirklich {selectedCustomer?.name} löschen?
+                        </Modal.Body>
+                        <Modal.Footer className="custom-modal-footer">
+                            <Button variant='secondary' onClick={closeDeleteCustomerDialog}>Close</Button>
+                            <Button className="custom-modal-button" onClick={removeCustomer}>Delete</Button>
+                        </Modal.Footer>
+                    </Modal>
+                )}
+                {selectedWorker && (
+                    <Modal show={showDeleteW} onHide={closeDeleteWorkerDialog} centered>
+                        <Modal.Header className="custom-modal-header">
+                            <Modal.Title>Delete Worker</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body className="custom-modal-body">
+                            Möchten Sie wirklich {selectedWorker?.name} löschen?
+                        </Modal.Body>
+                        <Modal.Footer className="custom-modal-footer">
+                            <Button variant='secondary' onClick={closeDeleteWorkerDialog}>Close</Button>
+                            <Button className="custom-modal-button" onClick={removeWorker}>Delete</Button>
+                        </Modal.Footer>
+                    </Modal>
+                )}
+                {selectedCustomer && (
+                    <Modal show={showSearchC} onHide={closeSearchDialog} centered>
+                        <Modal.Header className="custom-modal-header">
                             <Modal.Title>{selectedCustomer.name} Daten</Modal.Title>
                         </Modal.Header>
-                        <Modal.Body style={{ backgroundColor: '#ffffff' }}>
+                        <Modal.Body className="custom-modal-body">
                             <Container>
                                 <p><strong>Id:</strong> {selectedCustomer.id}</p>
-                            </Container>
-                            <Container>
                                 <p><strong>Name:</strong> {selectedCustomer.name}</p>
-                            </Container>
-                            <Container>
                                 <p><strong>Email:</strong> {selectedCustomer.email}</p>
-                            </Container>
-                            <Container>
                                 <p><strong>Role:</strong> {selectedCustomer.role}</p>
                             </Container>
                         </Modal.Body>
-                        <Modal.Footer style={{ backgroundColor: '#d1e7dd' }}>
+                        <Modal.Footer className="custom-modal-footer">
                             <Button variant='secondary' onClick={closeSearchDialog}>Close</Button>
                         </Modal.Footer>
                     </Modal>
                 )}
                 {selectedWorker && (
-                    <Modal show={showSearchW}>
-                        <Modal.Header style={{ backgroundColor: '#d1e7dd' }}>
+                    <Modal show={showSearchW} onHide={closeSearchWorkerDialog} centered>
+                        <Modal.Header className="custom-modal-header">
                             <Modal.Title>{selectedWorker.name} Daten</Modal.Title>
                         </Modal.Header>
-                        <Modal.Body style={{ backgroundColor: '#ffffff' }}>
+                        <Modal.Body className="custom-modal-body">
                             <Container>
                                 <p><strong>Id:</strong> {selectedWorker.id}</p>
-                            </Container>
-                            <Container>
                                 <p><strong>Name:</strong> {selectedWorker.name}</p>
-                            </Container>
-                            <Container>
                                 <p><strong>Email:</strong> {selectedWorker.email}</p>
-                            </Container>
-                            <Container>
                                 <p><strong>Location:</strong> {selectedWorker.location}</p>
                             </Container>
                         </Modal.Body>
-                        <Modal.Footer style={{ backgroundColor: '#d1e7dd' }}>
+                        <Modal.Footer className="custom-modal-footer">
                             <Button variant='secondary' onClick={closeSearchWorkerDialog}>Close</Button>
                         </Modal.Footer>
                     </Modal>
                 )}
-                {selectedCustomer && <Modal show={showDialog}>
-                    <Modal.Header style={{ backgroundColor: '#d1e7dd' }}>
-                        <Modal.Title>{selectedCustomer.name} Daten</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form>
-                            <Form.Group>
-                                <Form.Label>Name:</Form.Label>
-                                <Form.Control type="text" defaultValue={selectedCustomer.name} onChange={e => setCostumerName(e.target.value)} />
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label>Email:</Form.Label>
-                                <Form.Control type="email" defaultValue={selectedCustomer.email} onChange={(e) => setCostumerEmail(e.target.value)} />
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label>Password:</Form.Label>
-                                <Form.Control type="password" defaultValue={selectedCustomer.password} onChange={e => setCostumerPassword(e.target.value)} />
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label>Admin: <Form.Check type="checkbox" checked={isAdmin} onChange={e => changeAdmin()} /></Form.Label>
-                            </Form.Group>
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer style={{ backgroundColor: '#d1e7dd' }}>
-                        <Button variant='secondary' onClick={handleSave}>Speichern</Button>
-                        <Button variant='secondary' onClick={handleClose}>Close</Button>
-                    </Modal.Footer>
-                </Modal>}
+                {selectedCustomer && (
+                    <Modal show={showDialog} onHide={handleClose} centered>
+                        <Modal.Header className="custom-modal-header">
+                            <Modal.Title>{selectedCustomer.name} Daten</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body className="custom-modal-body">
+                            <Form>
+                                <Form.Group>
+                                    <Form.Label>Name:</Form.Label>
+                                    <Form.Control type="text" defaultValue={selectedCustomer.name} onChange={e => setCostumerName(e.target.value)} />
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Label>Email:</Form.Label>
+                                    <Form.Control type="email" defaultValue={selectedCustomer.email} onChange={(e) => setCostumerEmail(e.target.value)} />
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Label>Password:</Form.Label>
+                                    <Form.Control type="password" defaultValue={selectedCustomer.password} onChange={e => setCostumerPassword(e.target.value)} />
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Label>Admin: <Form.Check type="checkbox" checked={isAdmin} onChange={e => changeAdmin()} /></Form.Label>
+                                </Form.Group>
+                            </Form>
+                        </Modal.Body>
+                        <Modal.Footer className="custom-modal-footer">
+                            <Button variant='secondary' onClick={handleSave}>Speichern</Button>
+                            <Button variant='secondary' onClick={handleClose}>Close</Button>
+                        </Modal.Footer>
+                    </Modal>
+                )}
                 {selectedWorker && <Modal show={showDialog}>
                     <Modal.Header style={{ backgroundColor: '#d1e7dd' }}>
                         <Modal.Title>{selectedWorker.name} Daten</Modal.Title>

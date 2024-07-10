@@ -225,3 +225,43 @@
 .background-city {
   margin-top: 30px;
 }
+
+.custom-reload-button {
+  background-color: red; 
+  border: none; 
+
+}
+.custom-button-width {
+  width: 100px; /* oder jede andere gewünschte Breite */
+}
+.custom-modal-header, .custom-modal-body, .custom-modal-footer {
+  background-color: white; 
+  color: black; 
+}
+
+.custom-modal-header {
+  border-bottom: 1px solid #dee2e6; 
+}
+
+.custom-modal-footer {
+  border-top: 1px solid #dee2e6; 
+}
+
+.custom-modal-button {
+  background-color: #007bff; 
+  color: white;
+}
+
+.custom-modal-button:hover {
+  background-color: #0056b3; 
+}
+.custom-modal-center {
+  display: flex;
+  align-items: center; /* Zentriert das Modal vertikal */
+  justify-content: center; /* Zentriert das Modal horizontal */
+  height: 100%;
+}
+
+.modal-dialog {
+  align-items: center; /* Zentriert das Modal vertikal */
+  justify-content: center; /* Zentriert das Modal horizontal */}

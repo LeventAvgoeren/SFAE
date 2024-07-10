@@ -117,8 +117,12 @@ export function PageOrderOverview() {
     if (conData && conData.worker && conData.worker.id) {
       try {
         await deleteChat(conData.worker.id, conData.customer!.id!);
-        await updateCustomerOrderStatus({id: conData.customer!.id!, statusOrder: "FINISHED"});
+        await updateWorkerOrderStatus(conData.worker.id, "FINISHED");
+        await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
         await updateContractStatus(contractId, 'FINISHED');
+        if (conData.statusOrder === 'FINISHED' && conData.worker.statusOrder === 'FINISHED') {
+          await updateContractStatus(contractId, 'FINISHED');
+        }
         navigate(`/customer/${customerId}/orders/${orderId}/completed`);
         console.log('Worker status updated to AVAILABLE and contract status updated to COMPLETED');
       } catch (error) {
@@ -278,7 +282,7 @@ export function PageOrderOverview() {
                   <div className="info-item h4 mb-3"><strong>StatusOrder:</strong>  {conData.statusOrder}</div>
                   <div className="info-item h4 mb-3"><strong>Adresse: </strong> {conData.adress}</div>
                 </div>
-                {conData.statusOrder === "ACCEPTED" && <button onClick={toggleShow} className="btn btn-danger" >
+                {conData.statusOrder === "UNDEFINED" && <button onClick={toggleShow} className="btn btn-danger" >
                   Auftrag beendet
                 </button>}
               </div>

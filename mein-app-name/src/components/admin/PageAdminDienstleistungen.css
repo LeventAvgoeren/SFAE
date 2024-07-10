@@ -7,7 +7,10 @@
   background-color: #184c8c;
 }
 
-
+.table-container {
+  height: 70vh; /* Adjust height as needed */
+  overflow-y: auto;
+}
 /* Sorgt dafür, dass das Dropdown-Menü sich innerhalb der Grenzen der Navbar befindet */
 .nav-dropdown, #collapsible-nav-dropdown {
   position: center; /* Übergeordnete Positionierung für Dropdown-Menü auf 'static' setzen */

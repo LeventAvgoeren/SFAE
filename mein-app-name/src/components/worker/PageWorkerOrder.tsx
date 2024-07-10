@@ -96,17 +96,19 @@ export function PageWorkerOrder(){
     iconAnchor: [25, 50],
   });
 
-  async function getCoordinates(address: string) {
-    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
+  async function getCoordinates(address : string) {
+    const berlinBounds = '13.088209,52.341823,13.760610,52.669724'; // Längen- und Breitengrade für Berlin
+    const url = `https://nominatim.openstreetmap.org/search?format=json&bounded=1&viewbox=${berlinBounds}&q=${encodeURIComponent(address + ', Berlin')}`;
+    const response = await fetch(url);
     const data = await response.json();
     if (data && data.length > 0) {
-      return {
-        latitude: parseFloat(data[0].lat),
-        longitude: parseFloat(data[0].lon),
-      };
+        return {
+            latitude: parseFloat(data[0].lat),
+            longitude: parseFloat(data[0].lon),
+        };
     }
     throw new Error('Address not found');
-  }
+}
 
 
   useEffect(() => {
@@ -117,6 +119,8 @@ export function PageWorkerOrder(){
           const customerCoords = await getCoordinates(contractData.adress!);
           const workerCoords = await getCoordinates(contractData.worker!.location!);
           const map = L.map('map', {
+            center: [52.5200, 13.4050], // Koordinaten von Berlin
+            zoom: 12, // Anfangs-Zoom-Level, angepasst für eine Stadtansicht
             dragging: false,
             touchZoom: false,
             scrollWheelZoom: false,
@@ -124,7 +128,7 @@ export function PageWorkerOrder(){
             boxZoom: false,
             zoomControl: true,
             keyboard: false,
-          }).setView([customerCoords.latitude, customerCoords.longitude], 0);
+        }).setView([customerCoords.latitude, customerCoords.longitude], 0);
 
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: ''

@@ -16,13 +16,13 @@
   text-align: center;
   color: white;
   position: absolute;
-  top: 50%;
+  top: 52%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 90vw; /* Viewport width */
   max-width: 800px; /* Maximalbreite */
   height: auto;
-  max-height: 90vh;
+  max-height: 85vh;
   overflow-y: auto; /* Ermöglicht das Scrollen des Containers */
   border: 1px solid rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(10px);

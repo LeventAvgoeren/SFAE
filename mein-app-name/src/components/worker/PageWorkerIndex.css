@@ -56,7 +56,8 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   margin-bottom: 20px; /* Add margin between the containers */
-  height:130px;
+  height:300px;
+  overflow-y: auto;
 }
 
 .indexcard2 {

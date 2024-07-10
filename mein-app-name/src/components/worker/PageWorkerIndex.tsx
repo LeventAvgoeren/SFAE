@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import LoadingIndicator from '../LoadingIndicator';
 import { Container, Row, Col, Card, Modal, Button } from 'react-bootstrap';
 import './DesignVorlage.css';
@@ -8,6 +8,7 @@ import { getWorkerbyID, getContractByWorkerId, updateWorkerOrderStatus } from '.
 import './PageWorkerIndex.css';
 import NavbarWComponent from './NavbarWComponent';
 import Footer from '../Footer';
+import { MDBBtn } from 'mdb-react-ui-kit';
 
 export function PageWorkerIndex() {
   const { workerId } = useParams<{ workerId?: string }>();
@@ -17,6 +18,7 @@ export function PageWorkerIndex() {
   const [latestContract, setLatestContract] = useState<ContractResourceforWorker | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [zoom, setZoom] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!workerId) {
@@ -120,37 +122,57 @@ export function PageWorkerIndex() {
             <div className="right-container">
             <div className="unique-container2">
               <Card.Body>
-                <Card.Title className="indexcard2">Wetter</Card.Title>
+                <Card.Title className="indexcard2">Aktive Aufträge</Card.Title>
                 <Card.Text>
-                  Aktuelle Wetterbedingungen und Vorhersagen für Ihre Region.
+                {latestContract && latestContract.statusOrder !== 'FINISHED' ? (
+                      <>
+                        <strong>ID:</strong> {latestContract.id}<br />
+                        <strong>Adresse:</strong> {latestContract.adress || 'Keine Adresse'}<br />
+                        <strong>Job-Typ:</strong> {latestContract.jobType}<br />
+                        <strong>Status:</strong> {latestContract.statusOrder}<br />
+                        <MDBBtn 
+                        onClick={() => navigate(`/worker/${workerId}/order/${latestContract.id}`)}>
+                        Zum Auftrag
+                    </MDBBtn >
+                        {/* <Button onClick={handleShowModal} className='anzeigen'>
+                          Letzten Vertrag anzeigen
+                        </Button> */}
+                      </>
+                    ) : (
+                      'Gerade hast du noch keine Aufträge.'
+                    )}
                 </Card.Text>
               </Card.Body>
             </div>
 
             {/* Bottom Right Container */}
-            <div className="unique-container2">
+            {/* <div className="unique-container2">
               <Card.Body>
                 <Card.Title className="indexcard2">Verkehr</Card.Title>
                 <Card.Text>
                   Informationen zu Verkehrsbedingungen und Staus in Ihrer Nähe.
                 </Card.Text>
               </Card.Body>
-            </div>
+            </div> */}
+
+
           </div>
           </div>
 
-          {worker && worker.statusOrder !== 'FINISHED' && latestContract && latestContract.statusOrder !== 'FINISHED' && latestContract.statusOrder !== 'UNDEFINED' && (
+          {/* MODAL FÜR EINEN NOCH NICHT ABGESCHLOSSENEN AUFTRAG */}
+
+          {/* {worker && worker.statusOrder !== 'FINISHED' && latestContract && latestContract.statusOrder !== 'FINISHED' && latestContract.statusOrder !== 'UNDEFINED' && (
             <div className="alert alert-warning mt-3">
               Du hast noch unabgeschlossene Aufträge!
               <Button onClick={handleShowModal} className='anzeigen'>
                 Letzten Vertrag anzeigen
               </Button>
             </div>
-          )}
+          )} */}
         </Container>
       </div>
 
-      <Modal show={showModal} onHide={handleCloseModal} className="custom-modal">
+      {/* <Modal show={showModal} onHide={handleCloseModal} className="custom-modal">
         <Modal.Header closeButton>
           <Modal.Title>Letzter Vertrag</Modal.Title>
         </Modal.Header>
@@ -181,7 +203,9 @@ export function PageWorkerIndex() {
             Schließen
           </Button>
         </Modal.Footer>
-      </Modal>
+      </Modal> */}
+
+
       <Footer></Footer>
 
     </>

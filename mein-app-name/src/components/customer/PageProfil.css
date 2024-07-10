@@ -1,6 +1,6 @@
 .custom-container2 {
   position: absolute;
-  top: 52.5%;
+  top: 53%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: rgba(0, 0, 0, 0.7); 
@@ -17,7 +17,7 @@
   -webkit-backdrop-filter: blur(10px);
   overflow: scroll;
   box-sizing: border-box;
-  max-height: 85vh;
+  max-height: 80vh;
 }
 
 .profileImageCustomer{

@@ -290,13 +290,8 @@ export default function PageRegistrationWorker() {
                 value={slogan}
                 onChange={(e) => setSlogan(e.target.value)}
               />
-<<<<<<< HEAD
-              <MDBCheckbox name='termsCheck' id='termsCheck' label={<span>Ich stimme den <Link to="/agb" className="text-white">Nutzungsbedingungen</Link> zu</span>} wrapperClass='d-flex justify-content-center mb-4 text-white' required />
-              <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' type="submit">Registrieren</MDBBtn>
-=======
               <MDBCheckbox name='termsCheck' id='termsCheck' label={<span>Ich stimme den <Link to="/agb" className="text-white">Nutzungsbedingungen</Link> zu</span>} wrapperClass='d-flex justify-content-center mb-4 text-white' required/>
               <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' onClick={handleSetReg}>Registrieren</MDBBtn>
->>>>>>> 9ee15676f02d17941d04ffb44d8ce48e14136e1f
             </form>
             <MDBRow>
               <MDBCol size='12' className='text-center'>

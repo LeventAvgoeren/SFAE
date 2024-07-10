@@ -47,14 +47,12 @@ public class NewLetterController implements NewsLetterEp {
 
   @Override
   public ResponseEntity<?> sendEmailToCustomer(List<JobList> jobType) {
-    System.out.println(jobType+" ----------------------");
     if (jobType == null) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
     try {
 
       Boolean result = newsService.sendNewsLetter(jobType);
-      System.out.println(result+" mdoandoadn");
       if (result) {
         return ResponseEntity.status(HttpStatus.OK).build();
       }

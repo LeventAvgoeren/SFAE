@@ -13,24 +13,26 @@
   justify-content: flex-start;
   align-items: center;
   flex-grow: 1;
+  padding: 10px; /* Fügt Innenabstand hinzu */
 }
 
 .navbar-links-custom .nav-item {
-  margin: 0 20px; /* Vergrößert den Abstand zwischen den Texten */
+  margin: 15px; /* Vergrößert den Abstand zwischen den Texten */
 }
 
-.nav-link-custom {
+.page-background-custom ul li a {
   text-decoration: none;
   color: white;
   font-size: 18px;
-  padding: 10px 20px;
+  padding: 10px;
   transition: background-color 0.3s, color 0.3s;
-  border-radius: 15px;
 }
 
-.nav-link-custom:hover {
+.page-background-custom ul li a:hover {
   background-color: white;
   color: black !important;
+  border-radius: 15px;
+  padding: 10px 15px; /* Vergrößert den Padding beim Hover für eine bessere Sichtbarkeit */
 }
 
 body, button, input, textarea, h1, p {

@@ -5,8 +5,7 @@ import SockJS from "sockjs-client";
 import { deleteCookie } from "../../backend/api";
 import { useLoginContext } from "../LoginManager";
 import ChatComponent from "../ChatComponent";
-import "./NavbarWComponent.css";
-import { getContractByWorkerId } from "../../backend/api";
+import "./NavbarWComponent.css";  // Ensure this CSS file is identical to NavbarComponent.css
 
 interface Message {
   sender: string;
@@ -19,7 +18,6 @@ interface Message {
 export function NavbarWComponent() {
   const { loginInfo } = useLoginContext();
   const [showChat, setShowChat] = useState(false);
-  const [hasUnfinishedContract, setHasUnfinishedContract] = useState(false);
   const params = useParams<{ customerId: string; workerId: string }>();
   const userId = params.customerId ? params.customerId! : params.workerId!;
   const clientRef = useRef<Client | null>(null);
@@ -63,25 +61,7 @@ export function NavbarWComponent() {
         clientRef.current.deactivate();
       }
     };
-  }, [userId]);
-
-  useEffect(() => {
-    async function fetchContracts() {
-      try {
-        const contracts = await getContractByWorkerId(userId);
-        const unfinished = contracts.some(
-          (contract) => contract.statusOrder !== "FINISHED"
-        );
-        setHasUnfinishedContract(unfinished);
-      } catch (error) {
-        console.error("Error fetching contracts", error);
-      }
-    }
-
-    if (userId) {
-      fetchContracts();
-    }
-  }, [userId]);
+  }, []);
 
   const toggleChat = () => {
     setShowChat(!showChat);
@@ -94,7 +74,7 @@ export function NavbarWComponent() {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-transparent" style={{ position: "sticky", top: "0", zIndex: "1000" }}>
+      <nav className="navbar navbar-expand-lg navbar-light bg-transparent page-background-custom" style={{ position: "sticky", top: "0", zIndex: "1000" }}>
         <Link className="navbar-brand" to="/">
           <img src="/Sfae_Logo.png" alt="Logo" className="navbar-logo-custom" />
         </Link>

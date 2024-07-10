@@ -120,7 +120,6 @@ public class WorkerTests{
                 .andReturn();
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        System.out.println("A " + contentAsString);
     }
 
     @Test
@@ -131,7 +130,6 @@ public class WorkerTests{
                 .andReturn();
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        System.out.println("A " + contentAsString);
     }
 
     @Test
@@ -142,7 +140,6 @@ public class WorkerTests{
                 .andReturn();
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        System.out.println("A " + contentAsString);
     }
 
     @Test
@@ -153,7 +150,6 @@ public class WorkerTests{
                 .andReturn();
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        System.out.println("A " + contentAsString);
     }
     @Test
     public void testGetWorkerrByNotExistingId() throws Exception {
@@ -163,7 +159,6 @@ public class WorkerTests{
                 .andReturn();
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        System.out.println("A " + contentAsString);
     }
 
     @Test
@@ -175,7 +170,6 @@ public class WorkerTests{
                 .andReturn();
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        System.out.println("A " + contentAsString);
    }
 
    @Test
@@ -186,7 +180,6 @@ public class WorkerTests{
                .andReturn();
 
        String contentAsString = mvcResult.getResponse().getContentAsString();
-       System.out.println("A " + contentAsString);
   }
 
   @Test
@@ -197,7 +190,6 @@ public class WorkerTests{
                .andReturn();
 
        String contentAsString = mvcResult.getResponse().getContentAsString();
-       System.out.println("A " + contentAsString);
   }
 
   @Test
@@ -208,7 +200,6 @@ public class WorkerTests{
                .andReturn();
 
        String contentAsString = mvcResult.getResponse().getContentAsString();
-       System.out.println("A " + contentAsString);
   }
 
    @Test
@@ -219,7 +210,6 @@ public class WorkerTests{
                 .andReturn();
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        System.out.println("A " + contentAsString);
    }
 
 @Test
@@ -354,7 +344,6 @@ public void loginWorker() throws Exception{
         transactionManager.commit(status);  
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        System.out.println("A " + contentAsString);
 
 }
 @Test
@@ -373,7 +362,6 @@ public void loginWorkerWithoutAuth() throws Exception{
         transactionManager.commit(status);  
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        System.out.println("A " + contentAsString);
 
 }
 
@@ -393,7 +381,6 @@ public void loginWorkerWithNull() throws Exception{
         transactionManager.commit(status);  
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        System.out.println("A " + contentAsString);
 
 }
 
@@ -413,7 +400,6 @@ public void loginWorkerWithEmailNull() throws Exception{
         transactionManager.commit(status);  
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        System.out.println("A " + contentAsString);
 
 }
 @Test
@@ -430,7 +416,6 @@ public void loginWorkerNotExistingWorker() throws Exception{
             
         transactionManager.commit(status);  
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        System.out.println("A " + contentAsString);
 
 }
 
@@ -442,7 +427,6 @@ public void testCountAllWorkers() throws Exception {
             .andReturn();
 
     String contentAsString = mvcResult.getResponse().getContentAsString();
-    System.out.println("A " + contentAsString);
 }
 
 @Test
@@ -457,7 +441,6 @@ MvcResult mvcResult = mockMvc.perform(put("/worker/rating")
 .andReturn();
 
     String contentAsString = mvcResult.getResponse().getContentAsString();
-    System.out.println("A " + contentAsString);
 }
 
 @Test
@@ -467,7 +450,6 @@ public void testImageGetWorkerById() throws Exception {
             .andReturn();
 
     String contentAsString = mvcResult.getResponse().getContentAsString();
-    System.out.println("HAAAAAAAALLLLLLLLLLOOOOOOOO " + contentAsString);  
 
 }
 
@@ -484,7 +466,6 @@ public void testUpdateWorkerStatus() throws Exception {
       .andReturn();
 
   String contentAsString = mvcResult.getResponse().getContentAsString();
-  System.out.println("A " + contentAsString);
 }
 @Test
 public void testUpdateWorkerStatusNotFound() throws Exception {
@@ -499,7 +480,6 @@ public void testUpdateWorkerStatusNotFound() throws Exception {
       .andReturn();
 
   String contentAsString = mvcResult.getResponse().getContentAsString();
-  System.out.println("A " + contentAsString);
 }
 
 
@@ -516,7 +496,6 @@ public void testUpdateWorkerStatusWithOutEnum() throws Exception {
       .andReturn();
 
   String contentAsString = mvcResult.getResponse().getContentAsString();
-  System.out.println("A " + contentAsString);
 }
 
 @Test
@@ -532,7 +511,6 @@ public void testUpdateWorkerStatusWithOutInput() throws Exception {
       .andReturn();
 
   String contentAsString = mvcResult.getResponse().getContentAsString();
-  System.out.println("A " + contentAsString);
 }
 
 @Test
@@ -548,7 +526,6 @@ public void testUpdateWorkerStatusOrder() throws Exception {
       .andReturn();
 
   String contentAsString = mvcResult.getResponse().getContentAsString();
-  System.out.println("A " + contentAsString);
 }
 
 @Test
@@ -564,7 +541,6 @@ public void testUpdateWorkerStatusOrderWithOutEnum() throws Exception {
       .andReturn();
 
   String contentAsString = mvcResult.getResponse().getContentAsString();
-  System.out.println("A " + contentAsString);
 }
 
 @Test
@@ -580,7 +556,6 @@ public void testUpdateWorkerStatusOrderNotFound() throws Exception {
       .andReturn();
 
   String contentAsString = mvcResult.getResponse().getContentAsString();
-  System.out.println("A " + contentAsString);
 }
 
 @Test
@@ -596,7 +571,6 @@ public void testUpdateWorkerStatusOrderBadReq() throws Exception {
       .andReturn();
 
   String contentAsString = mvcResult.getResponse().getContentAsString();
-  System.out.println("A " + contentAsString);
 }
 
 @Test
@@ -607,7 +581,6 @@ public void testUpdateWorkerStatusOrderBadReq() throws Exception {
                 .andReturn();
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        System.out.println("A " + contentAsString);
     }
 
 
@@ -619,7 +592,6 @@ public void testUpdateWorkerStatusOrderBadReq() throws Exception {
                 .andReturn();
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        System.out.println("A " + contentAsString);
     }
 
     @Test

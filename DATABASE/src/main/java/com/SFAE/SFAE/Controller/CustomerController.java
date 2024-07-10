@@ -165,7 +165,7 @@ class CustomerController implements CustomerEP {
 
 
 
-        // 8 Zeichen, 1 Sonderzeichen, 1 Großbuchtsaben und eine Zahl
+         
         String passwordTest = customerData.getPassword();
         String regex = "^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?\":{}|<>])(?=.*\\d).{8,}$";
         Pattern pattern = Pattern.compile(regex);

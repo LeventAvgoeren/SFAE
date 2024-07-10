@@ -380,7 +380,7 @@ export function PageAdminDienstleistungen() {
                 <NavbarComponent />
                 <div className="background-city">
                     <div className="container-frame glassmorphism" style={{display:"flex", flexDirection:"column", flexWrap:"nowrap", position:"relative"}}>
-                        <div className="grid-container margin-container"  style={{display:"flex", flexDirection:"row", position:"relative"}}>
+                        <div className="grid-container margin-container" style={{display:"flex", flexDirection:"row", position:"relative"}}>
                             <Container className='search-field'>
                                 <input 
                                     type='text' 

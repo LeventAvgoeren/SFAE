@@ -12,7 +12,8 @@ import animationData from "../Worker_2.json";
 import './PageDeclineJob.css';
 import { useLoginContext } from "../LoginManager";
 import Footer from "../Footer";
-
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 export function PageDeclineJob() {
@@ -32,9 +33,13 @@ export function PageDeclineJob() {
     console.log("VERRAG: " + getcontract?.longitude)
     await contractAcceptOrDecline(accepted, getcontract!)
     if (accepted) {
-      navigate(`/worker/${getToken?.receiver}/orders/overview`)
+      toast.success("Auftrag wurde erfolgreich angenommen.", {
+        onClose: () => navigate("/login")
+      });
     } else {
-      navigate(`/worker/${getToken?.receiver}`)
+      toast.info("Auftrag wurde erfolgreich abgelehnt.", {
+        onClose: () => navigate("/login")
+      });
     }
   }
 
@@ -107,64 +112,69 @@ export function PageDeclineJob() {
 
   return (
     <>
-      
-        {refresh ? (
-
-          <div className="Backg">
-            <NavbarWComponent />
-            <div className="container-frame20">
-
-              <h2>Hey {worker?.name}, du hast ein Jobangebot erhalten.</h2>
-              <h3>Möchtest du diesen Job annehmen?</h3>
-              <div className="white-text">
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      {refresh ? (
+        <div className="Backg">
+          <NavbarWComponent />
+          <div className="container-frame20">
+            <h2>Hey {worker?.name}, du hast ein Jobangebot erhalten.</h2>
+            <h3>Möchtest du diesen Job annehmen?</h3>
+            <div className="white-text">
               <div className="centered-content">
-            <div><span className="bold-label">Adresse</span></div>
-            <div>{getcontract?.adress}</div>
+                <div><span className="bold-label">Adresse</span></div>
+                <div>{getcontract?.adress}</div>
+              </div>
+              <div className="white-text">
+                <div><span className="bold-label">Beschreibung</span></div>
+                <div>{getcontract?.description}</div>
+              </div>
+              <div className="white-text">
+                <div><span className="bold-label">Job Typ</span></div>
+                <div>{getcontract?.jobType}</div>
+              </div>
+              <div className="white-text">
+                <div><span className="bold-label">Schmerzgrenze des Arbeitgebers</span></div>
+                <div>{getcontract?.maxPayment}</div>
+              </div>
+              <div className="white-text">
+                <div><span className="bold-label">Name des Arbeitgebers</span></div>
+                <div>{customer?.name}</div>
+              </div>
+              <div className="white-text">
+                <div><span className="bold-label">Außerhalb des Chats können sie ihn hier erreichen</span></div>
+                <div>{customer?.email}</div>
+              </div>
             </div>
-            <div className="white-text">
-            <div><span className="bold-label">Beschreibung</span></div>
-            <div>{getcontract?.description}</div>
+            <div className="animation-Worker_2">
+              <Lottie options={{
+                loop: true,
+                autoplay: true,
+                animationData: animationData,
+                rendererSettings: {
+                  preserveAspectRatio: 'xMidYMid slice'
+                }
+              }} height={200} width={200} />
             </div>
-            <div className="white-text">
-            <div><span className="bold-label">Job Typ</span></div>
-            <div>{getcontract?.jobType}</div>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+              <Button className="button10" variant="danger" onClick={() => handleResponse(false)}
+                style={{ width: "30%" }}>Ablehnen</Button>
+              <Button className="button9" variant="success" onClick={() => handleResponse(true)}
+                style={{ width: "30%" }}>Annehmen</Button>
             </div>
-            <div className="white-text">
-            <div><span className="bold-label">Schmerzgrenze des Arbeitgebers</span></div>
-            <div>{getcontract?.maxPayment}</div>
-          </div>
-          <div className="white-text">
-          <div><span className="bold-label">Name des Arbeitgebers</span></div>
-        <div>{customer?.name}</div>
-           </div>
-        <div className="white-text">
-        <div><span className="bold-label">Außerhalb des Chats können sie ihn hier erreichen</span></div>
-          <div>{customer?.email}</div>
           </div>
         </div>
-              <div className="animation-Worker_2">
-
-                <Lottie options={{
-                  loop: true,
-                  autoplay: true,
-                  animationData: animationData,
-                  rendererSettings: {
-                    preserveAspectRatio: 'xMidYMid slice'
-                  }
-                }} height={200} width={200} />
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '10px'}}>
-                <Button className="button10" variant="danger" onClick={() => handleResponse(false)}
-                style={{width:"30%"}}>Ablehnen</Button>
-                <Button  className="button9" variant="success" onClick={() => handleResponse(true)}
-                style={{width:"30%"}}>Annehmen</Button>
-              </div>
-            </div>
-          </div>
-        ) : null}
-               <Footer></Footer>
-
+      ) : null}
+      <Footer />
     </>
   );
 }

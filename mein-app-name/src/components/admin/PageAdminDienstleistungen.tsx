@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'; // Import für Navigation
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './DesignVorlage.css';
 import './PageAdminDienstleistungen.css';
-import { Link } from 'react-router-dom';
 import { Table, Button, Container, Nav, NavDropdown, Navbar, Modal, Form, Badge } from 'react-bootstrap';
 import { Trash, Search, Pencil, Modem } from 'react-bootstrap-icons';
 import { CustomerResource, WorkerResource, WorkerResourceProfil } from '../../Resources';
@@ -14,12 +13,9 @@ import { HttpError } from '../Order/HTTPError';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-interface PageAdminComponentProps {
-    isAdminPage?: boolean;
-}
 
 
-export function PageAdminDienstleistungen({ isAdminPage }: PageAdminComponentProps) {
+export function PageAdminDienstleistungen() {
     const [loginInfo, setLoginInfo] = useState<LoginInfo | false | undefined>(undefined);
     const [showDeleteC, setShowDeleteC] = useState<boolean>(false);
     const [showDeleteW, setShowDeleteW] = useState<boolean>(false);
@@ -42,8 +38,6 @@ export function PageAdminDienstleistungen({ isAdminPage }: PageAdminComponentPro
     const [WorkerEmail, setWorkerEmail] = useState("");
     const [WorkerPassword, setWorkerPassword] = useState("");
     const [isAdmin, setIsAdmin] = useState(false);
-
-    const navigate = useNavigate();
 
     const handleCustomerClick = (): void => {
         setCustomerButtonClicked(true);

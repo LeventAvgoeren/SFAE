@@ -288,33 +288,35 @@ public class ContractImpl implements ContractInterface {
   }
 
   @Override
-  public Boolean updateOrderStatus(Long contractId, String statusOrder) {
+  public Boolean updateOrderStatus(Long contractId, String statusOrder, boolean isPageAccept) {
     if (contractId == null || statusOrder == null) {
       throw new IllegalArgumentException("Id or Status not given");
     }
-
+    
     Contract con = getContract(contractId);
-    System.out.println(Status.AVAILABLE == con.getWorker().getStatus() );
-    System.out.println(StatusOrder.FINISHED ==  con.getWorker().getStatusOrder() );
-    System.out.println(StatusOrder.FINISHED == con.getCustomer().getStatusOrder());
-    System.out.println(statusOrder);
-    if(Status.AVAILABLE == con.getWorker().getStatus() && StatusOrder.FINISHED ==  con.getWorker().getStatusOrder() &&  StatusOrder.FINISHED == con.getCustomer().getStatusOrder()){
-      System.out.println("bin drin");
-        int row = jdbcTemplate.update(
+    int row = 0;
+    if(isPageAccept && Status.AVAILABLE == con.getWorker().getStatus() && StatusOrder.FINISHED ==  con.getWorker().getStatusOrder() &&  StatusOrder.FINISHED == con.getCustomer().getStatusOrder()){
+         row = jdbcTemplate.update(
         "UPDATE Contract SET status_order = ? WHERE id = ?",
         ps -> {
           ps.setString(1, StatusOrder.valueOf(statusOrder).name());
           ps.setLong(2, contractId);
-        });
+    });}
+
+    if(!isPageAccept){
+      row = jdbcTemplate.update(
+      "UPDATE Contract SET status_order = ? WHERE id = ?",
+      ps -> {
+        ps.setString(1, StatusOrder.valueOf(statusOrder).name());
+        ps.setLong(2, contractId);
+    });}
 
     if (row > 0) {
       return true;
     } else {
       return false;
     } 
-    }
-
-    return false;
+  
   }
 
   @Override

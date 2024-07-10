@@ -121,7 +121,7 @@ public interface ContractInterface {
     */
    Boolean updateWorkerId(long contractid, String workerId);
 
-   Boolean updateOrderStatus(Long contractId, String statusOrder);
+   Boolean updateOrderStatus(Long contractId, String statusOrder, boolean isPageAccept);
 
    String getStatusFromContract(Long contractId);
 

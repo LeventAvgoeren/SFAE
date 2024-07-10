@@ -380,7 +380,7 @@ export function PageAdminDienstleistungen() {
                 <NavbarComponent />
                 <div className="background-city">
                     <div className="container-frame glassmorphism" style={{display:"flex", flexDirection:"column", flexWrap:"nowrap", position:"relative"}}>
-                        <div className="grid-container margin-container"  style={{display:"flex", flexDirection:"row", position:"relative"}}>
+                        <div className="grid-container margin-container" style={{display:"flex", flexDirection:"row", position:"relative"}}>
                             <Container className='search-field'>
                                 <input 
                                     type='text' 
@@ -396,55 +396,57 @@ export function PageAdminDienstleistungen() {
                                 <Button variant='danger' onClick={clearLocalStorage}>Reload</Button>
                             </>
                         </div>
-                        <Table striped hover bordered className="table" data-bs-theme="dark" variant="primary"> 
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Id</th>
-                                    <th>Delete</th>
-                                    <th>Search</th>
-                                    <th>Edit</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {customerButtonClicked ? (
-                                    customerFilterData.map((customer, idx) => (
-                                        <tr key={idx}>
-                                            <td>{idx + 1}</td>
-                                            <td>{customer.name}</td>
-                                            <td>{customer.id}</td>
-                                            <td colSpan={1}>
-                                                <Trash size={24} color='red' onClick={() => selectDeleteCustomer(customer)} />
-                                            </td>
-                                            <td colSpan={1}>
-                                                <Search size={24} color='green' onClick={() => selectSearchCustomer(customer)} />
-                                            </td>
-                                            <td colSpan={1}>
-                                                <Pencil size={24} color='orange' onClick={() => selectEditCustomer(customer)} />
-                                            </td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    workerFilterData.map((worker, idx) => (
-                                        <tr key={idx}>
-                                            <td>{idx + 1}</td>
-                                            <td>{worker.name}</td>
-                                            <td>{worker.id}</td>
-                                            <td colSpan={1}>
-                                                <Trash size={24} color='red' onClick={() => selectDeleteWorker(worker)} />
-                                            </td>
-                                            <td colSpan={1}>
-                                                <Search size={24} color='green' onClick={() => selectSearchWorker(worker)} />
-                                            </td>
-                                            <td colSpan={1}>
-                                                <Pencil size={24} color='orange' onClick={() => selectEditWorker(worker)} />
-                                            </td>
-                                        </tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </Table> 
+                        <div className="table-container">
+                            <Table striped hover bordered className="table" data-bs-theme="dark" variant="primary"> 
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Id</th>
+                                        <th>Delete</th>
+                                        <th>Search</th>
+                                        <th>Edit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {customerButtonClicked ? (
+                                        customerFilterData.map((customer, idx) => (
+                                            <tr key={idx}>
+                                                <td>{idx + 1}</td>
+                                                <td>{customer.name}</td>
+                                                <td>{customer.id}</td>
+                                                <td colSpan={1}>
+                                                    <Trash size={24} color='red' onClick={() => selectDeleteCustomer(customer)} />
+                                                </td>
+                                                <td colSpan={1}>
+                                                    <Search size={24} color='green' onClick={() => selectSearchCustomer(customer)} />
+                                                </td>
+                                                <td colSpan={1}>
+                                                    <Pencil size={24} color='orange' onClick={() => selectEditCustomer(customer)} />
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        workerFilterData.map((worker, idx) => (
+                                            <tr key={idx}>
+                                                <td>{idx + 1}</td>
+                                                <td>{worker.name}</td>
+                                                <td>{worker.id}</td>
+                                                <td colSpan={1}>
+                                                    <Trash size={24} color='red' onClick={() => selectDeleteWorker(worker)} />
+                                                </td>
+                                                <td colSpan={1}>
+                                                    <Search size={24} color='green' onClick={() => selectSearchWorker(worker)} />
+                                                </td>
+                                                <td colSpan={1}>
+                                                    <Pencil size={24} color='orange' onClick={() => selectEditWorker(worker)} />
+                                                </td>
+                                            </tr>
+                                        ))
+                                    )}
+                                </tbody>
+                            </Table>
+                        </div> 
                     </div>
                 </div>
                 {selectedCustomer && <Modal show={showDeleteC}>

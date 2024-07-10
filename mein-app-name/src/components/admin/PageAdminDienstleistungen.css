@@ -2,77 +2,49 @@
   position: sticky;
   top: 0;
   width: 100%; 
-  margin-left: auto; /* Zentriert die Block-Elemente horizontal */
+  margin-left: auto;
   margin-right: auto;
   background-color: #184c8c;
 }
 
-
-/* Sorgt dafür, dass das Dropdown-Menü sich innerhalb der Grenzen der Navbar befindet */
-.nav-dropdown, #collapsible-nav-dropdown {
-  position: center; /* Übergeordnete Positionierung für Dropdown-Menü auf 'static' setzen */
+.table-container {
+  height: 70vh; /* Adjust height as needed */
+  overflow-y: auto;
+  margin-top: 10px; /* Adjust the top margin to move the table up */
 }
-
-/* Dropdown-Menü-Position anpassen */
-.dropdown-menu {
-  position: absolute; 
-  left: auto; /* Setze den linken Rand auf 'auto', damit das Menü rechtsbündig ausgerichtet wird */
-  right: 0; /* Richte das Menü rechts aus */
-  top: 1000%; /* Positioniere das Menü direkt unter der Nav-Komponente */
-  background-color: teal;
-}
-
-/* Dropdown-Menü für mobile Ansicht anpassen */
-@media (max-width: 768px) { /* Bootstrap mobile Ansicht Breakpoint */
-  .navbar-nav {
-    flex-direction: column; /* Staple die Nav-Elemente vertikal */    
-  }
-
-  .nav-dropdown, #collapsible-nav-dropdown {
-    position: sticky; /* Setze die Position auf 'static', um ein korrektes Verhalten in der mobilen Ansicht zu gewährleisten */
-  }
-
-  .dropdown-menu {
-    position: static; /* Setzt die Position auf 'static', um korrektes Dropdown-Verhalten sicherzustellen */
-    width: auto; /* Breite auf automatisch setzen */
-    right: auto; /* Rechtsausrichtung auf automatisch setzen */
-    left: 0; /* Linksausrichtung auf 0 setzen */
-    top: auto; /* Obere Position auf automatisch setzen */
-  }
-}
-
 .background-image-Diesntleistungen {
   background-image: url('/public/b1.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+  min-height: 100vh; /* Ensure the background covers the full viewport height */
+  display: flex;
+  flex-direction: column;
 }
-
-
-
 .Nav-Link {
-  text-align: center; /* Zentriert den Inhalt des Links */
+  text-align: center;
   position: sticky;
 }
 
 .Nav-Link img, .Nav-Link div {
-  display: block; /* Sorgt dafür, dass das Bild und der Text als Block-Elemente gerendert werden */
-  margin-left: auto; /* Zentriert die Block-Elemente horizontal */
+  display: block;
+  margin-left: auto;
   margin-right: auto;
   position: sticky;
 }
 
 .Nav-Link div {
-  font-size: 10px; /* Stellt die Schriftgröße des Textes ein */
+  font-size: 10px;
   position: sticky;
 }
 
-.from-control .search-field {
- /* text-align: center;*/
-  width: 200%; /* Ändere die Breite nach Bedarf */
- 
+.search-field {
+  width: 200%;
 }
 
-.search-field{
+.search-field {
   max-width: 100%;
-/*   margin: 0 auto;*/
   border-radius: 5px;
 }
 
@@ -81,44 +53,44 @@
   border-radius: 10px;
   width: 100%;
   background-color: #003366;
-  border: none; 
+  border: none;
   outline: none;
-  color: white; 
-  margin-top: 20px ;
-  }
-
-  .search-field input::placeholder {
-    color: white;
-    opacity: 0.7; 
-  }
-
-  .search-field input:focus {
-    background-color: #003366;  
-    color: white; 
+  color: white;
+  margin-top: 20px;
 }
 
-  .glassmorphism {
-    background: rgba(255, 255, 255, 0.2); 
-    border-radius: 25px;
-    border: 1px solid rgba(255, 255, 255, 0.3); 
-    backdrop-filter: blur(10px); 
-    -webkit-backdrop-filter: blur(10px); 
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-  }
+.search-field input::placeholder {
+  color: white;
+  opacity: 0.7;
+}
 
-  .flex-container {
-    display: flex;
-  }
+.search-field input:focus {
+  background-color: #003366;
+  color: white;
+}
 
-  .grid-container {
-    display: grid;
-    grid-template-columns: 3fr 1fr 1fr; /* Erste Spalte nimmt doppelt so viel Platz wie die anderen beiden */
-    gap: 10px;
-  }
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-  .margin-container {
-    margin-bottom: 20px;
-    }
+.flex-container {
+  display: flex;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr;
+  gap: 10px;
+}
+
+.margin-container {
+  margin-bottom: 20px;
+}
 
 .table {
   width: 100%;
@@ -167,7 +139,6 @@
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-
 .table .icon {
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
@@ -176,7 +147,6 @@
 .table .icon:hover {
   transform: scale(1.1);
 }
-
 
 .table .btn-icon {
   background: none;
@@ -188,13 +158,12 @@
   pointer-events: none;
 }
 
-
 .table .icon-trash {
-color: red;
+  color: red;
 }
 
 .table .icon-search {
-color: green;
+  color: green;
 }
 
 .table .icon-pencil {
@@ -202,28 +171,26 @@ color: green;
 }
 
 .modal-dialog {
-  /* Zentriere das Modal auf kleinen Bildschirmen */
   margin: 0 auto;
-  max-width: 50%; /* Maximale Breite des Modals */
+  max-width: 50%;
 }
 
-.container-frame{
+.container-frame {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   position: relative;
+  margin-top: -20px; /* Adjust this value to move the container frame up */
 }
 
 @media (max-width: 700px) {
-
-  .background-city{
+  .background-city {
     display: flex;
     justify-content: start;
     align-items: start;
     margin-top: 30px;
   }
 
-
-  .container-frame{
+  .container-frame {
     display: flex;
     width: 100%;
     height: 100%;
@@ -231,32 +198,30 @@ color: green;
     z-index: 10;
   }
 
-  .grid-container{
+  .grid-container {
     flex-wrap: wrap;
   }
 
-  
-  .search-field{
+  .search-field {
     max-width: 100%;
     border-radius: 2px;
   }
 
-  .btn{
+  .btn {
     margin: 0;
   }
 
-  .search-field{
+  .search-field {
     margin: 0;
     width: 100%;
     padding: 0;
   }
 
-  .search-field input{
+  .search-field input {
     font-size: 18px;
   }
-
 }
 
-.background-city{
+.background-city {
   margin-top: 30px;
 }

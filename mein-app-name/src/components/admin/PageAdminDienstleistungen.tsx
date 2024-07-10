@@ -5,8 +5,8 @@ import './DesignVorlage.css';
 import './PageAdminDienstleistungen.css';
 import { Table, Button, Container, Nav, NavDropdown, Navbar, Modal, Form, Badge } from 'react-bootstrap';
 import { Trash, Search, Pencil, Modem } from 'react-bootstrap-icons';
-import { CustomerResource, WorkerResource, WorkerResourceProfil } from '../../Resources';
-import { deleteCustomer, deleteWorker, getAllCustomers, getAllWorker, getCustomerImage, getWorkerImage, updateCustomer, updateWorker, updateWorkerProfile } from '../../backend/api';
+import { CustomerResource, SendNews, WorkerResource, WorkerResourceProfil } from '../../Resources';
+import { deleteCustomer, deleteWorker, getAllCustomers, getAllWorker, getCustomerImage, getWorkerImage, sendOwnNews, updateCustomer, updateWorker, updateWorkerProfile } from '../../backend/api';
 import { LoginInfo } from '../LoginManager';
 import NavbarComponent from '../navbar/NavbarComponent';
 import { HttpError } from '../Order/HTTPError';
@@ -35,7 +35,11 @@ export function PageAdminDienstleistungen() {
     const [WorkerName, setWorkerName] = useState("");
     const [WorkerEmail, setWorkerEmail] = useState("");
     const [WorkerPassword, setWorkerPassword] = useState("");
+    const [text, setText] = useState("");
+    const [titel, setTitel] = useState("");
     const [isAdmin, setIsAdmin] = useState(false);
+    const [showNewsModal, setShowNewsModal] = useState(false);
+
 
     const handleCustomerClick = (): void => {
         setCustomerButtonClicked(true);
@@ -336,6 +340,29 @@ export function PageAdminDienstleistungen() {
         setWorkerFilterData(prevData => prevData.filter(worker => worker.id !== workerId));
     }
 
+    const clearLocalStorage = () => {
+        localStorage.removeItem('customerData');
+        localStorage.removeItem('workerData');
+        localStorage.removeItem('workers');
+        localStorage.removeItem('customers');
+        fetchData();
+        window.location.reload()
+    };
+    const sendNews = () => {
+        setShowNewsModal(true);
+    }
+    const closeNewsModal = () => {
+        setShowNewsModal(false);
+    }
+    const handleSendNews = async () => {
+        const send: SendNews = {
+            titel: titel,
+            text: text
+        };
+
+        await sendOwnNews(send);
+        setShowNewsModal(false);
+    }
     return (
         <>
             <ToastContainer 
@@ -365,6 +392,8 @@ export function PageAdminDienstleistungen() {
                             <>
                                 <Button onClick={handleWorkerClick}>Workers</Button>
                                 <Button onClick={handleCustomerClick}>Customers</Button>
+                                <Button onClick={sendNews}>Send news</Button>
+                                <Button variant='danger' onClick={clearLocalStorage}>Reload</Button>
                             </>
                         </div>
                         <Table striped hover bordered className="table" data-bs-theme="dark" variant="primary"> 
@@ -543,6 +572,41 @@ export function PageAdminDienstleistungen() {
                         <Button variant='secondary' onClick={handleClose}>Close</Button>
                     </Modal.Footer>
                 </Modal>}
+
+                <Modal show={showNewsModal} onHide={closeNewsModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Send News</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <Form.Group>
+                                <Form.Label>Title:</Form.Label>
+                                <Form.Control 
+                                    type="text" 
+                                    onChange={(e) => setText(e.target.value)} 
+                                />
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Content:</Form.Label>
+                                <Form.Control 
+                                    as="textarea" 
+                                    rows={3} 
+                                    onChange={(e) => setTitel(e.target.value)} 
+                                />
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={closeNewsModal}>
+                            Close
+                        </Button>
+                        <Button variant="primary" onClick={handleSendNews}>
+                            Send
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                
             </div>
         </>
     );

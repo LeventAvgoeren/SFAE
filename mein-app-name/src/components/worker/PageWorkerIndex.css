@@ -6,6 +6,70 @@
   position: relative;
   overflow-y: auto;
 }
+.pStatus {
+  color: white;
+  text-align: center;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.68); /* Improves readability */
+  margin-top: 8%;
+  font-size: 1.2em; /* Increase font size */
+}
+
+.status-box {
+  position: absolute;
+  top: 180px; /* Adjust this value based on the height of your navbar */
+  right: 90px;
+  width: 250px;
+  height: auto;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Ensure it is above other content */
+   color: #ffffff; /* Text color */
+  border: 4px solid; /* Thicker border */
+  border: 4px solid; /* Thicker border */
+}
+.status-box2 {
+  position: absolute;
+  top: 300px; /* Adjust this value based on the height of your navbar */
+  right: 90px;
+  width: 250px;
+  height: auto;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Ensure it is above other content */
+  border: 4px solid; /* Thicker border */
+  margin-top: 20px; /* Add space between the boxes */
+}
+.status-available {
+  background-color: #66c966;  
+  border-color: #39ff14; /* Neon green border */
+
+}
+
+.status-inavailable {
+  background-color: #d14b4b; /* Darker red background */
+  border-color: #ff073a; /* Neon red border */
+}
+
+.status-accepted {
+  background-color: #66c966; /* Same color for accepted */
+  border-color: #39ff14; /* Neon green border */
+}
+
+.status-finished {
+  background-color: #56a1ec; /* Blue background */
+  border-color: #0056b3; /* Dark blue border */
+}
+
+.status-undefined {
+  background-color: #afafaf; /* Neutral grey background */
+  border-color: #999999; /* Neutral grey border */
+}
 
 .container-row {
   display: flex;

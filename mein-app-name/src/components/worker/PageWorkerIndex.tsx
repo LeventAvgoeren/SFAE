@@ -153,9 +153,16 @@ export function PageWorkerIndex() {
           backgroundSize: "cover",
           backgroundPosition: "center",
           overflow: "auto",
+          position: "relative", // Add relative positioning to the parent container
         }}
       >
         <NavbarWComponent />
+        <div className={`status-box ${worker?.status === 'AVAILABLE' ? 'status-available' : 'status-inavailable'}`}>
+          <p className="pStatus">Status: {worker ? worker.status : 'Laden...'}</p>
+        </div>
+        <div className={`status-box2 ${worker.statusOrder === 'FINISHED' ? 'status-finished' : worker.statusOrder === 'ACCEPTED' ? 'status-accepted' : 'status-undefined'}`}>
+          <p className="pStatus">Order Status: {worker.statusOrder ? worker.statusOrder: 'Laden...'}</p>
+        </div>
         {worker && <h1>Willkommen, {worker.name}!</h1>}
         <Container className="mt-0">
           <div className="container-row">
@@ -174,72 +181,57 @@ export function PageWorkerIndex() {
               </div>
             </div>
 
-            {/* Top Right Container */}
-            <div className="right-container">
-              <div className="unique-container2">
-                <Card.Body>
-                  <Card.Title className="indexcard2">
-                    Aktive Aufträge
-                  </Card.Title>
-                  <Card.Text>
-                    {latestContract &&
-                    latestContract.statusOrder !== "FINISHED" ? (
+        {/* Top Right Container */}
+        <div className="right-container">
+            <div className="unique-container2">
+              <Card.Body>
+                <Card.Title className="indexcard2">Aktive Aufträge</Card.Title>
+                <Card.Text>
+                {latestContract && latestContract.statusOrder !== 'FINISHED' ? (
                       <>
-                        <strong>ID:</strong> {latestContract.id}
-                        <br />
-                        <strong>Adresse:</strong>{" "}
-                        {latestContract.adress || "Keine Adresse"}
-                        <br />
-                        <strong>Job-Typ:</strong> {latestContract.jobType}
-                        <br />
-                        <strong>Status:</strong> {latestContract.statusOrder}
-                        <br />
-                        <MDBBtn
-                          onClick={() =>
-                            navigate(
-                              `/worker/${workerId}/order/${latestContract.id}`
-                            )
-                          }
-                        >
-                          Zum Auftrag
-                        </MDBBtn>
-                        {/* <Button onClick={handleShowModal} className='anzeigen'>
+                        <strong>ID:</strong> {latestContract.id}<br />
+                        <strong>Adresse:</strong> {latestContract.adress || 'Keine Adresse'}<br />
+                        <strong>Job-Typ:</strong> {latestContract.jobType}<br />
+                        <strong>Status:</strong> {latestContract.statusOrder}<br />
+                        <MDBBtn 
+                        onClick={() => navigate(`/worker/${workerId}/order/${latestContract.id}`)}>
+                        Zum Auftrag
+                    </MDBBtn >
+                         <Button onClick={handleShowModal} className='anzeigen'>
                           Letzten Vertrag anzeigen
-                        </Button> */}
+                        </Button> 
                       </>
                     ) : (
-                      "Gerade hast du noch keine Aufträge."
+                      'Gerade hast du noch keine Aufträge.'
                     )}
-                  </Card.Text>
-                </Card.Body>
-              </div>
+                </Card.Text>
+              </Card.Body>
+            </div>
 
-              {/* Bottom Right Container */}
-              {/* <div className="unique-container2">
+            <div className="unique-container2">
               <Card.Body>
                 <Card.Title className="indexcard2">Verkehr</Card.Title>
                 <Card.Text>
                   Informationen zu Verkehrsbedingungen und Staus in Ihrer Nähe.
                 </Card.Text>
               </Card.Body>
-            </div> */}
-            </div>
+            </div> 
+
+          </div>
           </div>
 
-          {/* MODAL FÜR EINEN NOCH NICHT ABGESCHLOSSENEN AUFTRAG */}
-
-          {/* {worker && worker.statusOrder !== 'FINISHED' && latestContract && latestContract.statusOrder !== 'FINISHED' && latestContract.statusOrder !== 'UNDEFINED' && (
+          {worker && worker.statusOrder !== 'FINISHED' && latestContract && latestContract.statusOrder !== 'FINISHED' && latestContract.statusOrder !== 'UNDEFINED' && (
             <div className="alert alert-warning mt-3">
               Du hast noch unabgeschlossene Aufträge!
               <Button onClick={handleShowModal} className='anzeigen'>
                 Letzten Vertrag anzeigen
               </Button>
             </div>
-          )} */}
+          )} 
         </Container>
       </div>
 
-      {/* <Modal show={showModal} onHide={handleCloseModal} className="custom-modal">
+       <Modal show={showModal} onHide={handleCloseModal} className="custom-modal">
         <Modal.Header closeButton>
           <Modal.Title>Letzter Vertrag</Modal.Title>
         </Modal.Header>
@@ -270,11 +262,14 @@ export function PageWorkerIndex() {
             Schließen
           </Button>
         </Modal.Footer>
-      </Modal> */}
+      </Modal> 
+
 
       <Footer></Footer>
+
     </>
   );
+
 }
 
 export default PageWorkerIndex;

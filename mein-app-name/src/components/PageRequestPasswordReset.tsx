@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import './PagePasswordReset.css';
-import { MDBBtn, MDBContainer, MDBInput, MDBRow, MDBCol, MDBTypography, MDBCard, MDBCardBody } from 'mdb-react-ui-kit';
+import { MDBContainer, MDBInput, MDBRow, MDBCol, MDBCard, MDBCardBody } from 'mdb-react-ui-kit';
 import { Link, useNavigate } from 'react-router-dom';
-import { getUserFromEmail, requestPassword } from '../backend/api';
+import { requestPassword } from '../backend/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import LoadingIndicator from './LoadingIndicator';
 import Footer from './Footer';
 
 export function PageRequestPasswordReset() {
@@ -49,12 +48,23 @@ export function PageRequestPasswordReset() {
                             />
                             <MDBRow>
                                 <MDBCol>
-                                    <MDBBtn className='mb-4 w-100 gradient-custom-4 button-text-large' style={{backgroundColor: "gray", color: 'white', border: 'none', boxShadow: 'none' }}>
-                                        <Link to="/login" className="link button-text-large">Zurück zum Login</Link>
-                                    </MDBBtn>
+                                    <button 
+                                        className='mb-4 w-100 gradient-custom-4 button-text-large' 
+                                        style={{backgroundColor: "gray", color: 'white', border: 'none', boxShadow: 'none', padding: '15px 0', fontSize: '16px', borderRadius: '8px', transition: 'background-color 0.3s' }}
+                                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#b0b0b0'}
+                                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'gray'}>
+                                        <Link to="/login" className="link button-text-large" style={{ color: 'white', textDecoration: 'none', fontSize: '16px' }}>Zurück zum Login</Link>
+                                    </button>
                                 </MDBCol>
                                 <MDBCol>
-                                    <MDBBtn className='mb-4 w-100 gradient-custom-4 button-text-large' type="submit">Passwort zurücksetzen</MDBBtn>
+                                    <button 
+                                        className='mb-4 w-100 gradient-custom-4 button-text-large' 
+                                        type="submit"
+                                        style={{ padding: '15px 0', fontSize: '16px', backgroundColor: '#007bff', color: 'white', border: 'none', boxShadow: 'none', borderRadius: '8px', transition: 'background-color 0.3s' }}
+                                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
+                                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#007bff'}>
+                                        Passwort zurücksetzen
+                                    </button>
                                 </MDBCol>
                             </MDBRow>
                         </form>
@@ -62,7 +72,6 @@ export function PageRequestPasswordReset() {
                 </MDBCard>
             </MDBContainer>
             <Footer></Footer>
-
         </div>
         <ToastContainer 
             position="top-center" 

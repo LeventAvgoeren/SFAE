@@ -779,6 +779,9 @@ export async function chatBot(input: string): Promise<string> {
 }
 export async function updateCustomerOrderStatus(data: UpdateStatusCustomer): Promise<boolean> {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/customer/updateStatusOrder`;
+  console.log('Sending request to:', url);
+  console.log('Request body:', JSON.stringify(data));
+
   const response = await fetch(url, {
     method: 'PUT',
     headers: {
@@ -787,7 +790,9 @@ export async function updateCustomerOrderStatus(data: UpdateStatusCustomer): Pro
     body: JSON.stringify(data),
     credentials: 'include' as RequestCredentials,
   });
+  
   if (!response.ok) {
+    console.error(`HTTP error! status: ${response.status}`);
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 

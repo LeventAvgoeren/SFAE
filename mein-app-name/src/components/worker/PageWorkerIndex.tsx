@@ -185,7 +185,7 @@ export function PageWorkerIndex() {
                       <div className="stat-item"><strong>Job-Typ:</strong> {latestContract.jobType}</div>
                       <div className="stat-item"><strong>Status:</strong> {latestContract.statusOrder}</div>
                       <MDBBtn onClick={() => navigate(`/worker/${workerId}/order/${latestContract.id}`)}>Zum Auftrag</MDBBtn>
-                      <Button onClick={handleShowModal} className='anzeigen'>Letzten Vertrag anzeigen</Button>
+                      <Button onClick={handleShowModal} className='anzeigen'>Auftrag beenden</Button>
                     </>
                   ) : (
                     'Gerade hast du noch keine Aufträge.'
@@ -195,12 +195,7 @@ export function PageWorkerIndex() {
             </div>
           </div>
         </div>
-        {worker && worker.statusOrder !== 'FINISHED' && latestContract && latestContract.statusOrder !== 'FINISHED' && latestContract.statusOrder !== 'UNDEFINED' && (
-          <div className="alert alert-warning mt-3">
-            Du hast noch unabgeschlossene Aufträge!
-            <Button onClick={handleShowModal} className='anzeigen'>Letzten Vertrag anzeigen</Button>
-          </div>
-        )}
+        
       </Container>
       <Modal show={showModal} onHide={handleCloseModal} className="custom-modal">
         <Modal.Header closeButton>

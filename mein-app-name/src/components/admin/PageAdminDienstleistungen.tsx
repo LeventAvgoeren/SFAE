@@ -121,7 +121,8 @@ export function PageAdminDienstleistungen() {
             email: costumerEmail || selectedCustomer!.email,
             password: costumerPassword || selectedCustomer!.password,
             profileBase64: pic,
-            role: selectedCustomer!.role
+            role: selectedCustomer!.role,
+            statusOrder: selectedCustomer!.statusOrder
         };
         handleUpdateCustomer(updatedCustomer);
     };

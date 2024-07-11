@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './PageOrderOverview.css';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus, deleteChat, updateWorkerOrderStatus, getCustomerImage, getWorkerImage, updateCustomerOrderStatus } from '../../backend/api'; // Importiere die Funktion
+import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus, deleteChat, updateWorkerOrderStatus, getCustomerImage, getWorkerImage, updateCustomerOrderStatus } from '../../backend/api';
 import { ContractResource, UpdateStatusCustomer } from '../../Resources';
 import NavbarComponent from '../navbar/NavbarComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -11,7 +11,6 @@ import { Col, Row } from 'react-bootstrap';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine';
-import { Routing } from 'leaflet-routing-machine';
 import { Typewriter } from 'react-simple-typewriter';
 import { LoginInfo } from '../LoginManager';
 import Footer from '../Footer';
@@ -39,7 +38,6 @@ export function PageOrderOverview() {
   const [loginInfo, setLoginInfo] = useState<LoginInfo | false>();
   const [contractFinished, setContractFinished] = useState(false);
   const { orderId } = useParams();
-
 
   const messages = [
     "Passender Worker wird gesucht...",
@@ -114,16 +112,35 @@ export function PageOrderOverview() {
     setCancelModalShow(!cancelModalShow);
   };
 
+  useEffect(() => {
+    if (conData?.worker?.statusOrder === 'FINISHED' && conData?.customer?.statusOrder === 'FINISHED') {
+      const updateStatus = async () => {
+        try {
+          await updateContractStatus(contractId, 'FINISHED');
+          
+          console.log('Contract status updated to FINISHED');
+        } catch (error) {
+          console.error('Error updating contract status:', error);
+        }
+      };
+      updateStatus();
+    }
+  }, [conData]);
+
   const handleConfirm = async () => {
     if (conData && conData.worker && conData.worker.id) {
       try {
+        console.log('Confirming completion for contract:', conData);
         await deleteChat(conData.worker.id, conData.customer!.id!);
-        await updateWorkerOrderStatus(conData.worker.id, "FINISHED");
-        await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
-        await updateContractStatus(contractId, 'FINISHED');
-        if (conData.statusOrder === 'FINISHED' && conData.worker.statusOrder === 'FINISHED') {
+        await updateCustomerOrderStatus({ id: conData.customer!.id!, statusOrder: 'FINISHED' });
+
+        // Check if both worker and customer statusOrder are FINISHED
+        if (conData.worker.statusOrder === 'FINISHED' && conData.customer!.statusOrder === 'FINISHED') {
           await updateContractStatus(contractId, 'FINISHED');
+          await updateCustomerOrderStatus({ id: conData.customer!.id!, statusOrder: 'UNDEFINED' });
         }
+
+
         navigate(`/customer/${customerId}/orders/${orderId}/completed`);
         console.log('Worker status updated to AVAILABLE and contract status updated to COMPLETED');
       } catch (error) {
@@ -136,6 +153,7 @@ export function PageOrderOverview() {
   const handleCancelConfirm = async () => {
     if (conData && conData.worker && conData.worker.id) {
       try {
+        console.log('Cancelling contract:', conData);
         await deleteChat(conData.worker.id, conData.customer!.id!);
         await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
         await updateContractStatus(contractId, 'CANCELLED');
@@ -147,19 +165,19 @@ export function PageOrderOverview() {
     toggleCancelShow();
   };
 
-  async function getCoordinates(address : string) {
+  async function getCoordinates(address: string) {
     const berlinBounds = '13.088209,52.341823,13.760610,52.669724'; // Längen- und Breitengrade für Berlin
     const url = `https://nominatim.openstreetmap.org/search?format=json&bounded=1&viewbox=${berlinBounds}&q=${encodeURIComponent(address + ', Berlin')}`;
     const response = await fetch(url);
     const data = await response.json();
     if (data && data.length > 0) {
-        return {
-            latitude: parseFloat(data[0].lat),
-            longitude: parseFloat(data[0].lon),
-        };
+      return {
+        latitude: parseFloat(data[0].lat),
+        longitude: parseFloat(data[0].lon),
+      };
     }
     throw new Error('Address not found');
-}
+  }
 
   const customIconCustomer = L.icon({
     iconUrl: "/MarkerIcon.png",
@@ -190,7 +208,7 @@ export function PageOrderOverview() {
             boxZoom: false,
             zoomControl: true,
             keyboard: false,
-        }).setView([customerCoords.latitude, customerCoords.longitude], 0);
+          }).setView([customerCoords.latitude, customerCoords.longitude], 0);
 
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: ''
@@ -262,10 +280,10 @@ export function PageOrderOverview() {
           </div>
         )}
         {loading || !workerAssigned ? (
-          <div style={{ paddingBottom:"20%", height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: 'center'  }}>
+          <div style={{ paddingBottom: "20%", height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: 'center' }}>
             <Lottie options={defaultOptions} height={400} width={400} />
-            <div style={{background:"black", color:"white", width:"30%", alignSelf:"center"}}> 
-              <Typewriter  words={messages}  loop={0} cursor cursorStyle="/" cursorColor='red' cursorBlinking={true} typeSpeed={70}   deleteSpeed={50}  delaySpeed={1000}/>
+            <div style={{ background: "black", color: "white", width: "30%", alignSelf: "center" }}>
+              <Typewriter words={messages} loop={0} cursor cursorStyle="/" cursorColor='red' cursorBlinking={true} typeSpeed={70} deleteSpeed={50} delaySpeed={1000} />
             </div>
           </div>
         ) : (
@@ -283,13 +301,13 @@ export function PageOrderOverview() {
                   <div className="info-item h4 mb-3"><strong>StatusOrder:</strong>  {conData.statusOrder}</div>
                   <div className="info-item h4 mb-3"><strong>Adresse: </strong> {conData.adress}</div>
                 </div>
-                {conData.statusOrder === "UNDEFINED" && <button onClick={toggleShow} className="btn btn-danger" >
+                {conData.statusOrder === "ACCEPTED" && <button onClick={toggleShow} className="btn btn-danger" >
                   Auftrag beendet
                 </button>}
               </div>
               <div style={{ justifyItems: "center", alignContent: "center" }} className='middle-column'>
                 <main style={{ gridArea: 'map10', display: 'flex', alignItems: 'center', width: '100%', height: '100%', borderRadius: "50%" }} draggable="false">
-                  <div id="map" style={{ borderRadius: "28px", width: '100%',height:"100%"}}></div>
+                  <div id="map" style={{ borderRadius: "28px", width: '100%', height: "100%" }}></div>
                 </main>
               </div>
               <div className="col-lg-4">
@@ -297,7 +315,7 @@ export function PageOrderOverview() {
                   <div className="info-section">
                     <h5>Customer Details</h5>
                     {conData.customer && (
-                      <>  
+                      <>
                         <div className="Foto">
                           <img
                             src={foto}
@@ -320,7 +338,7 @@ export function PageOrderOverview() {
                   <div className="info-section">
                     <h5>Worker Details</h5>
                     {conData.worker && (
-                      <>  
+                      <>
                         <div className="Foto">
                           <img
                             src={workerFoto}

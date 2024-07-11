@@ -153,7 +153,7 @@ export function PageWorkerIndex() {
       <div className={`status-box2 ${worker?.statusOrder === 'FINISHED' ? 'status-finished' : worker?.statusOrder === 'ACCEPTED' ? 'status-accepted' : 'status-undefined'}`}>
         <p className="pStatus">Order Status: {worker ? worker.statusOrder : 'Laden...'}</p>
       </div>
-      {worker && <h1>Willkommen, {worker.name}!</h1>}
+      {worker && <h1 className="h1index">Willkommen, {worker.name}!</h1>}
       <Container className="mt-0">
         <div className="container-row">
           <div className="left-container">

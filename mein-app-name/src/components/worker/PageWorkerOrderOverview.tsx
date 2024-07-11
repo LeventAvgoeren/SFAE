@@ -99,7 +99,7 @@ export function PageWorkerOrderOverview() {
         },
         {
             field: 'action',
-            headerName: 'Zum Auftrag',
+            headerName: '',
             width: 150,
             headerClassName: 'super-app-theme--header',
             renderCell: (params: GridRenderCellParams) => (

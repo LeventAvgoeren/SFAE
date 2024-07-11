@@ -10,7 +10,7 @@ import {
 } from "../../backend/api";
 import NavbarComponent from "../navbar/NavbarComponent";
 import ImprintPage from "../ImprintPage";
-import LoadingIndicator from "../LoadingIndicator"; // Importiere den Ladebildschirm
+import LoadingIndicator from "../LoadingIndicator"; 
 import Footer from "../Footer";
 
 export function PageIndexCustomer() {

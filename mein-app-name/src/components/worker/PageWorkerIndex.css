@@ -15,11 +15,18 @@
   font-size: 1em; /* Increase font size */
 }
 
+.status-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between status boxes */
+  position: absolute; /* Position relative to parent container */
+  left: 20px; /* Adjust the distance from the left edge */
+  top: 50%; /* Adjust this value based on your layout */
+  transform: translateY(-50%); /* Center vertically */
+}
+
 .status-box {
-  position: absolute;
-  right: 20px; /* Adjust the distance from the right edge */
-  top: 180px; /* Adjust this value based on the height of your navbar */
-  width: 36vh;
+  width: 38vh;
   max-width: 250px;
   height: auto;
   border-radius: 50px;
@@ -30,14 +37,10 @@
   color: #ffffff; /* Text color */
   border: 4px solid; /* Thicker border */
   overflow-y: auto;
-  z-index: 1000; /* Ensure it's on top */
 }
 
 .status-box2 {
-  position: absolute;
-  right: 20px; /* Adjust the distance from the right edge */
-  top: 250px; /* Adjust this value based on the height of your navbar */
-  width: 36vh;
+  width: 38vh;
   max-width: 250px;
   height: auto;
   border-radius: 50px;
@@ -46,9 +49,7 @@
   justify-content: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border: 4px solid; /* Thicker border */
-  margin-top: 20px; /* Add space between the boxes */
   overflow-y: auto;
-  z-index: 1000; /* Ensure it's on top */
 }
 
 .status-available {
@@ -160,7 +161,7 @@ strong {
   }
 
   .status-box, .status-box2 {
-    width: 20%;
+    width: 80%;
     height: 8%;
     margin: auto;
     position: sticky;

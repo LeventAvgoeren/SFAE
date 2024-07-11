@@ -153,7 +153,7 @@ function App() {
         color="primary"
         className="chat-button"
         aria-label="chat"
-        style={{ position: "fixed", bottom: 30, right: 3, backgroundColor:"#021128", width:"8vh", height:"8vh"}}
+        style={{ position: "fixed", bottom:65, left: 3, backgroundColor:"#021128", width:"8vh", height:"8vh"}}
         onClick={() => setShowChat(!showChat)}
       >
         <img src="/chatbot-icon.png" alt="chatbot" style={{ width: '6vh', height: '6vh' }} />

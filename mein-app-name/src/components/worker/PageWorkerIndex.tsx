@@ -146,14 +146,14 @@ export function PageWorkerIndex() {
             </div>
 
             {/* Bottom Right Container */}
-            <div className="unique-container2">
+            {/* <div className="unique-container2">
               <Card.Body>
                 <Card.Title className="indexcard2">Verkehr</Card.Title>
                 <Card.Text>
                   Informationen zu Verkehrsbedingungen und Staus in Ihrer Nähe.
                 </Card.Text>
               </Card.Body>
-            </div> 
+            </div>  */}
 
 
           </div>

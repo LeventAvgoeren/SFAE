@@ -147,13 +147,15 @@ export function PageWorkerIndex() {
   return (
     <div className="Backg" style={{ backgroundImage: "url(/b1.jpg)", backgroundSize: "cover", backgroundPosition: "center", overflow: "auto", position: "relative" }}>
       <NavbarWComponent />
-      <div className={`status-box ${worker?.status === 'AVAILABLE' ? 'status-available' : 'status-inavailable'}`}>
-        <p className="pStatus">Status: {worker ? worker.status : 'Laden...'}</p>
-      </div>
-      <div className={`status-box2 ${worker?.statusOrder === 'FINISHED' ? 'status-finished' : worker?.statusOrder === 'ACCEPTED' ? 'status-accepted' : worker?.statusOrder === 'UNDEFINED' ? 'status-undefined' : 'status-no-order'}`}>
-  <p className="pStatus">Order Status: {worker?.statusOrder === 'UNDEFINED' ? 'kein aktiver Auftrag' : worker ? worker.statusOrder : 'Laden...'}</p>
-</div>
       {worker && <h1>Willkommen, {worker.name}!</h1>}
+      <div className="status-container">
+            <div className={`status-box ${worker?.status === 'AVAILABLE' ? 'status-available' : 'status-inavailable'}`}>
+              <p className="pStatus">Status: {worker ? worker.status : 'Laden...'}</p>
+            </div>
+            <div className={`status-box2 ${worker?.statusOrder === 'FINISHED' ? 'status-finished' : worker?.statusOrder === 'ACCEPTED' ? 'status-accepted' : 'status-undefined'}`}>
+              <p className="pStatus">Order Status: {worker ? worker.statusOrder : 'Laden...'}</p>
+            </div>
+          </div>
       <Container className="mt-0">
         <div className="container-row">
           <div className="left-container">

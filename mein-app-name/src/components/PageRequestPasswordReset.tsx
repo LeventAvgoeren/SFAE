@@ -46,7 +46,7 @@ export function PageRequestPasswordReset() {
                                 required
                                 onChange={handleNewPasswordChange}
                             />
-                            <MDBRow>
+                            {/* <MDBRow>
                                 <MDBCol>
                                     <button 
                                         className='mb-4 w-100 gradient-custom-4 button-text-large' 
@@ -61,6 +61,31 @@ export function PageRequestPasswordReset() {
                                         className='mb-4 w-100 gradient-custom-4 button-text-large' 
                                         type="submit"
                                         style={{ padding: '15px 0', fontSize: '16px', backgroundColor: '#007bff', color: 'white', border: 'none', boxShadow: 'none', borderRadius: '8px', transition: 'background-color 0.3s' }}
+                                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
+                                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#007bff'}>
+                                        Passwort zurücksetzen
+                                    </button>
+                                </MDBCol>
+                            </MDBRow> */}
+                            <MDBRow>
+                                <MDBCol>
+                                    <button 
+                                        className='mb-4 w-100 gradient-custom-4 button-text-large' 
+                                        style={{backgroundColor: "gray", color: 'white', border: 'none', boxShadow: 'none', padding: '15px 0', fontSize: '15px', borderRadius: '8px', transition: 'background-color 0.3s', height:"40px",display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center' }}
+                                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#b0b0b0'}
+                                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'gray'}>
+                                        <Link to="/login" className="link button-text-large" style={{ color: 'white', textDecoration: 'none', fontSize: '16px' }}>Zurück zum Login</Link>
+                                    </button>
+                                </MDBCol>
+                                <MDBCol>
+                                    <button 
+                                        className='mb-4 w-100 gradient-custom-4 button-text-large' 
+                                        type="submit"
+                                        style={{ padding: '15px 0', fontSize: '15px', backgroundColor: '#007bff', color: 'white', border: 'none', boxShadow: 'none', borderRadius: '8px', transition: 'background-color 0.3s', height:"40px",display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center' }}
                                         onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
                                         onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#007bff'}>
                                         Passwort zurücksetzen

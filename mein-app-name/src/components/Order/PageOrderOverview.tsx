@@ -72,6 +72,8 @@ export function PageOrderOverview() {
         // Check if both statuses are FINISHED
         if (contract.statusOrder === 'FINISHED' && contract.worker?.statusOrder === 'FINISHED') {
           setContractFinished(true);
+          await updateContractStatus(contractId, 'FINISHED');
+          
         } else {
           setContractFinished(false);
         }
@@ -110,20 +112,32 @@ export function PageOrderOverview() {
     setCancelModalShow(!cancelModalShow);
   };
 
+  useEffect(() => {
+    if (conData?.worker?.statusOrder === 'FINISHED' && conData?.customer?.statusOrder === 'FINISHED') {
+      const updateStatus = async () => {
+        try {
+          await updateContractStatus(contractId, 'FINISHED');
+          
+          console.log('Contract status updated to FINISHED');
+        } catch (error) {
+          console.error('Error updating contract status:', error);
+        }
+      };
+      updateStatus();
+    }
+  }, [conData]);
+
   const handleConfirm = async () => {
     if (conData && conData.worker && conData.worker.id) {
       try {
         console.log('Confirming completion for contract:', conData);
         await deleteChat(conData.worker.id, conData.customer!.id!);
-        await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
         await updateCustomerOrderStatus({ id: conData.customer!.id!, statusOrder: 'FINISHED' });
 
         // Check if both worker and customer statusOrder are FINISHED
         if (conData.worker.statusOrder === 'FINISHED' && conData.customer!.statusOrder === 'FINISHED') {
           await updateContractStatus(contractId, 'FINISHED');
           await updateCustomerOrderStatus({ id: conData.customer!.id!, statusOrder: 'UNDEFINED' });
-          await updateWorkerOrderStatus(conData.worker.statusOrder,'UNDEFINED');
-
         }
 
 

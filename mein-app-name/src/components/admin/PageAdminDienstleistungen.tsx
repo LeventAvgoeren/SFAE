@@ -392,8 +392,8 @@ export function PageAdminDienstleistungen() {
                             </Container>
                             <>
                             <Button style={{ backgroundColor: '#007bff', color: 'white' }} onClick={handleWorkerClick}>Workers</Button>
-<Button style={{ backgroundColor: '#004085', color: 'white' }} onClick={handleCustomerClick}>Customers</Button>
-<Button style={{ backgroundColor: '#28a745', color: 'white' }} onClick={sendNews}>Send news</Button>
+                            <Button style={{ backgroundColor: '#004085', color: 'white' }} onClick={handleCustomerClick}>Customers</Button>
+                            <Button style={{ backgroundColor: '#28a745', color: 'white',borderColor: '#28a745', borderStyle: 'solid' }} onClick={sendNews}>Send news</Button>
 
 
                                 <Button variant="danger" onClick={clearLocalStorage} style={{ width: '500px' }}>

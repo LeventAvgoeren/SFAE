@@ -150,9 +150,9 @@ export function PageWorkerIndex() {
       <div className={`status-box ${worker?.status === 'AVAILABLE' ? 'status-available' : 'status-inavailable'}`}>
         <p className="pStatus">Status: {worker ? worker.status : 'Laden...'}</p>
       </div>
-      <div className={`status-box2 ${worker?.statusOrder === 'FINISHED' ? 'status-finished' : worker?.statusOrder === 'ACCEPTED' ? 'status-accepted' : 'status-undefined'}`}>
-        <p className="pStatus">Order Status: {worker ? worker.statusOrder : 'Laden...'}</p>
-      </div>
+      <div className={`status-box2 ${worker?.statusOrder === 'FINISHED' ? 'status-finished' : worker?.statusOrder === 'ACCEPTED' ? 'status-accepted' : worker?.statusOrder === 'UNDEFINED' ? 'status-undefined' : 'status-no-order'}`}>
+  <p className="pStatus">Order Status: {worker?.statusOrder === 'UNDEFINED' ? 'kein aktiver Auftrag' : worker ? worker.statusOrder : 'Laden...'}</p>
+</div>
       {worker && <h1>Willkommen, {worker.name}!</h1>}
       <Container className="mt-0">
         <div className="container-row">
@@ -162,11 +162,12 @@ export function PageWorkerIndex() {
                 <Card.Title className="indexcard2">Statistiken über Sie</Card.Title>
                 <Card.Text>
                   <div className="stat-item"><span className="stat-title">Aktuelle Bewertung:</span> <div>{renderRatingStars(worker.rating)}</div></div>
-                  <div className="stat-item"><span className="stat-title">Meist ausgeführter Job:</span> <div>{}</div></div>
                   <div className="stat-item"><span className="stat-title">Folgende Jobtypen haben Sie ausgeführt:</span> <div>{job?.join(", ")}</div></div>
                   <div className="stat-item"><span className="stat-title">Im Durchschnitt wollen Sie mindestens:</span> <div>{geld} €</div></div>
-                  <div className="stat-item"><span className="stat-title">Anzahl der Jobs:</span> <div>{workerJobAnzahl?.length}</div></div>
-                </Card.Text>
+                  <div className="stat-item">
+  <span className="stat-title">Anzahl der Jobs:</span> 
+  <div>{workerJobAnzahl?.length ?? 0}</div>
+</div>                </Card.Text>
               </Card.Body>
             </div>
           </div>
@@ -182,7 +183,7 @@ export function PageWorkerIndex() {
                       <div className="stat-item"><strong>Job-Typ:</strong> {latestContract.jobType}</div>
                       <div className="stat-item"><strong>Status:</strong> {latestContract.statusOrder}</div>
                       <MDBBtn onClick={() => navigate(`/worker/${workerId}/order/${latestContract.id}`)}>Zum Auftrag</MDBBtn>
-                      <Button onClick={handleShowModal} className='anzeigen'>Letzten Vertrag anzeigen</Button>
+                      <Button onClick={handleShowModal} className='anzeigen'>Auftrag beenden</Button>
                     </>
                   ) : (
                     'Gerade hast du noch keine Aufträge.'
@@ -192,12 +193,7 @@ export function PageWorkerIndex() {
             </div>
           </div>
         </div>
-        {worker && worker.statusOrder !== 'FINISHED' && latestContract && latestContract.statusOrder !== 'FINISHED' && latestContract.statusOrder !== 'UNDEFINED' && (
-          <div className="alert alert-warning mt-3">
-            Du hast noch unabgeschlossene Aufträge!
-            <Button onClick={handleShowModal} className='anzeigen'>Letzten Vertrag anzeigen</Button>
-          </div>
-        )}
+        
       </Container>
       <Modal show={showModal} onHide={handleCloseModal} className="custom-modal">
         <Modal.Header closeButton>

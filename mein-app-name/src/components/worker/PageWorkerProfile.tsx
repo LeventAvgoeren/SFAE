@@ -4,7 +4,7 @@ import { deleteWorker, getWorkerbyID, getWorkerImage, deleteCookie, updateWorker
 import { Link, useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { Button, Row } from "react-bootstrap";
-import { MDBContainer, MDBInput, MDBProgress, MDBProgressBar } from "mdb-react-ui-kit";
+import { MDBContainer, MDBIcon, MDBInput, MDBProgress, MDBProgressBar } from "mdb-react-ui-kit";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./PageWorkerProfile.css";
@@ -38,11 +38,12 @@ export function PageWorkerProfile() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [passwordStrength, setPasswordStrength] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
   const [location, setLocation] = useState("");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
   const [statusOrder, setStatusOrder] = useState("");
-  
+
   const [jobList, setJobList] = useState<string[]>([]);
   const [range, setRange] = useState<Number>(0);
   const [jobType, setJobType] = useState("");
@@ -68,7 +69,7 @@ export function PageWorkerProfile() {
   const toggleCancelShow = () => {
     setCancelModalShow(!cancelModalShow);
   };
-  
+
   const handleAddressValidation = async (inputAddress: string) => {
     const isValid = await fetchCoordinates(inputAddress);
     setAddressValid(isValid);
@@ -157,7 +158,7 @@ export function PageWorkerProfile() {
 
   const handleUpdate = async () => {
     const isValidAddress = await handleAddressValidation(location);
-  
+
     if (!isValidAddress || !userLocation) {
       toast.error('Bitte geben Sie eine gültige Adresse ein.');
       return;
@@ -248,8 +249,27 @@ export function PageWorkerProfile() {
             <MDBInput wrapperClass="inputField1" label="Adresse" type="text" value={location} onChange={(e) => setLocation(e.target.value)} onBlur={() => handleAddressValidation(location)} />
             {!addressValid && <div style={{ color: 'red' }}>Ungültige Adresse.</div>}
             <MDBInput wrapperClass="inputField1" label="E-Mail" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <MDBInput wrapperClass="inputField1" label="Passwort" type="password" onChange={handlePasswordChange} />
-            <MDBInput wrapperClass="inputField1" label="Passwort erneut eingeben" type="password"  onChange={(e) => setConfirmPassword(e.target.value)} />
+            <div className="password-wrapper" style={{ position: 'relative' }}>
+            <MDBInput
+              wrapperClass="inputField1"
+              label="Passwort"
+              type={showPassword ? 'text' : 'password'}
+              onChange={handlePasswordChange}
+              style={{ paddingRight: '40px' }} />
+            <span
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: 'absolute',
+                right: '10px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                cursor: 'pointer',
+              }}
+            >
+              {showPassword ? <MDBIcon fas icon="eye-slash" /> : <MDBIcon fas icon="eye" />}
+            </span>
+            </div>
+            <MDBInput wrapperClass="inputField1" label="Passwort erneut eingeben" type="password" onChange={(e) => setConfirmPassword(e.target.value)} />
             {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>}
             <MDBProgress className='mb-4'>
               <MDBProgressBar width={passwordStrength * 25} valuemin={0} valuemax={100}>
@@ -267,8 +287,8 @@ export function PageWorkerProfile() {
               <label htmlFor="profileImage" className="form-label" style={{ color: "white" }}>Profilbild hochladen</label>
               <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} />
             </div>
-            <Button  className="button9" variant="success" onClick = {handleUpdate}>Profil speichern</Button>
-            <Button  className="button10" variant="danger" onClick={toggleShow}>
+            <Button className="button9" variant="success" onClick={handleUpdate}>Profil speichern</Button>
+            <Button className="button10" variant="danger" onClick={toggleShow}>
               Account Löschen
             </Button>
           </form>
@@ -280,7 +300,7 @@ export function PageWorkerProfile() {
                 <h5 className="modal-title">Account Löschen</h5>
               </div>
               <div className="modal-body">
-              <div>Bist du sicher, dass du diesen Account wirklich löschen möchtest?<br /> Alle Daten werden unwiderruflich gelöscht.</div>
+                <div>Bist du sicher, dass du diesen Account wirklich löschen möchtest?<br /> Alle Daten werden unwiderruflich gelöscht.</div>
               </div>
               <div className="modal-footer">
                 <Row style={{ gap: "12px" }}>
@@ -292,20 +312,20 @@ export function PageWorkerProfile() {
           </div>
         </div>
         {modalShow && <div className="modal-backdrop fade show"></div>}
-          {cancelModalShow && <div className="modal-backdrop fade show"></div>}
+        {cancelModalShow && <div className="modal-backdrop fade show"></div>}
         <Footer></Footer>
 
       </div>
-      <ToastContainer 
-        position="top-center" 
-        autoClose={5000} 
-        hideProgressBar={false} 
-        newestOnTop={false} 
-        closeOnClick 
-        rtl={false} 
-        pauseOnFocusLoss 
-        draggable 
-        pauseOnHover 
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
       />
     </>
   );

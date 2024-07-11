@@ -35,9 +35,13 @@ export function PageChatBot() {
     setTypingMessage("");
     setIsTyping(true);
     let index = 0;
+    let tempMessage = "";
+
     const interval = setInterval(() => {
-      setTypingMessage(prev => prev + message[index]);
+      tempMessage += message[index];
+      setTypingMessage(tempMessage);
       index++;
+      
       if (index >= message.length) {
         clearInterval(interval);
         setIsTyping(false);

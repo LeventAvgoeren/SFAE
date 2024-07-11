@@ -301,9 +301,9 @@ export function PageOrderOverview() {
                   <div className="info-item h4 mb-3"><strong>StatusOrder:</strong>  {conData.statusOrder}</div>
                   <div className="info-item h4 mb-3"><strong>Adresse: </strong> {conData.adress}</div>
                 </div>
-                {conData.statusOrder === "ACCEPTED" && <button onClick={toggleShow} className="btn btn-danger" >
-                  Auftrag beendet
-                </button>}
+                {conData.statusOrder === "ACCEPTED" && conData.customer!.statusOrder !== "FINISHED" && conData.worker!.statusOrder !== "FINISHED" && (
+                  <button onClick={toggleShow} className="btn btn-danger">Auftrag beendet</button>
+                )}
               </div>
               <div style={{ justifyItems: "center", alignContent: "center" }} className='middle-column'>
                 <main style={{ gridArea: 'map10', display: 'flex', alignItems: 'center', width: '100%', height: '100%', borderRadius: "50%" }} draggable="false">

@@ -99,7 +99,7 @@ export function PageOrderCompleted() {
                 
                 <Button type="submit" className="button" onClick={updateRating} >Bewertung absenden</Button>
                 
-                <Link to={`/customer/${customerId}`}>
+                <Link to={`/customer/${customerId}/${orderId}`}>
                   <Button className="button" >Zurück zur Startseite</Button>
                 </Link>
 

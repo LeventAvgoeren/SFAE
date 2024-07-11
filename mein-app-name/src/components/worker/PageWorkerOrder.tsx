@@ -1,4 +1,3 @@
-
 import '../Order/PageOrderOverview.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus, deleteChat, deleteContractById, updateWorkerOrderStatus, getCustomerImage, getWorkerImage, checkLoginStatus, getContractByWorkerId, updateCustomerOrderStatus } from '../../backend/api'; // Importiere die Funktion
@@ -199,7 +198,9 @@ export function PageWorkerOrder(){
                     <div className='info-item h4 mb-3'><strong>Payment Method: </strong> {contractData.payment}</div>
                     <div className="info-item h4 mb-3"><strong>StatusOrder:</strong> {contractData.statusOrder}</div>
                     <div className="info-item h4 mb-3"><strong>Adresse: </strong> {contractData.adress}</div>
-                    {contractData.statusOrder === "ACCEPTED" && <button onClick={toggleShow} className="btn btn-danger">Auftrag beendet</button>}
+                    {contractData.statusOrder === "ACCEPTED" && contractData.worker!.statusOrder !== "FINISHED" && (
+                      <button onClick={toggleShow} className="btn btn-danger">Auftrag beendet</button>
+                    )}
                   </>
                 ) : (
                   <p>Loading...</p>

@@ -6,34 +6,97 @@
   position: relative;
   overflow-y: auto;
 }
+.pStatus {
+  color: white;
+  text-align: center;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.68); /* Improves readability */
+  margin-top: 8%;
+  font-size: 1.2em; /* Increase font size */
+}
 
+.status-box {
+  position: absolute;
+  top: 180px; /* Adjust this value based on the height of your navbar */
+  right: 90px;
+  width: 250px;
+  height: auto;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Ensure it is above other content */
+   color: #ffffff; /* Text color */
+  border: 4px solid; /* Thicker border */
+  border: 4px solid; /* Thicker border */
+}
+.status-box2 {
+  position: absolute;
+  top: 300px; /* Adjust this value based on the height of your navbar */
+  right: 90px;
+  width: 250px;
+  height: auto;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Ensure it is above other content */
+  border: 4px solid; /* Thicker border */
+  margin-top: 20px; /* Add space between the boxes */
+}
+
+.status-available {
+  background-color: #66c966;  
+  border-color: #39ff14; /* Neon green border */
+
+}
+
+.status-inavailable {
+  background-color: #d14b4b; /* Darker red background */
+  border-color: #ff073a; /* Neon red border */
+}
+
+.status-accepted {
+  background-color: #66c966; /* Same color for accepted */
+  border-color: #39ff14; /* Neon green border */
+}
+
+.status-finished {
+  background-color: #56a1ec; /* Blue background */
+  border-color: #0056b3; /* Dark blue border */
+}
+
+.status-undefined {
+  background-color: #afafaf; /* Neutral grey background */
+  border-color: #999999; /* Neutral grey border */
+}
+
+/* Container row and unique container styles */
 .container-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: center; /* Center the unique containers horizontally */
   flex-wrap: wrap; /* Allows wrapping to next line if space is limited */
   gap: 20px; /* Space between the containers */
 }
 
 .left-container {
   flex: 1;
+  display: flex;
+  justify-content: center; /* Center the content within the container */
   min-width: 300px;
-
 }
 
 .right-container {
+  flex: 1;
   display: flex;
   flex-direction: column;
+  align-items: center; /* Center the content within the container */
   gap: 20px;
-  flex: 1;
   min-width: 300px;
 }
-
-.indexcard2 {
-  font-size: 1.5rem;
-}
-
-
-.unique-container1 {
+.unique-container1, .unique-container2 {
+  margin-top: 30%;
   background: rgba(0, 0, 0, 0.7);
   border-radius: 14px;
   padding: 20px;
@@ -42,22 +105,26 @@
   box-sizing: border-box;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  margin-bottom: 20px; /* Add margin between the containers */
-  height: 300px;
-}
-
-.unique-container2 {
-  background: rgba(0, 0, 0, 0.7);
-  border-radius: 14px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  color: white;
-  box-sizing: border-box;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  margin-bottom: 20px; /* Add margin between the containers */
-  height:300px;
+  height: auto;
   overflow-y: auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-text p {
+  margin: 0;
+  padding: 5px 0;
+}
+.stat-item {
+  margin-bottom: 15px; /* Increased spacing */
+}
+
+strong {
+  display: block;
+  margin-top: 10px;
+}
+
+.unique-container1:hover, .unique-container2:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
 .indexcard2 {

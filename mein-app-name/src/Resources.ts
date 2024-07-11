@@ -89,7 +89,7 @@ export type CustomerResource = {
     email: string;
     role: string; 
     profileBase64:string;
-
+    statusOrder:string;
 }
 
 export enum JobType {

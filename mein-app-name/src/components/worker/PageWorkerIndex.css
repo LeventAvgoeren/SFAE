@@ -6,50 +6,54 @@
   position: relative;
   overflow-y: auto;
 }
+
 .pStatus {
   color: white;
   text-align: center;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.68); /* Improves readability */
   margin-top: 8%;
-  font-size: 1.2em; /* Increase font size */
+  font-size: 1em; /* Increase font size */
 }
 
 .status-box {
   position: absolute;
+  left: 20px; /* Adjust the distance from the right edge */
   top: 180px; /* Adjust this value based on the height of your navbar */
-  right: 90px;
-  width: 250px;
+  width: 38vh;
+  max-width: 250px;
   height: auto;
   border-radius: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 1000; /* Ensure it is above other content */
-   color: #ffffff; /* Text color */
+  color: #ffffff; /* Text color */
   border: 4px solid; /* Thicker border */
-  border: 4px solid; /* Thicker border */
+  overflow-y: auto;
+  z-index: 1000; /* Ensure it's on top */
 }
+
 .status-box2 {
   position: absolute;
-  top: 300px; /* Adjust this value based on the height of your navbar */
-  right: 90px;
-  width: 250px;
+  left: 20px; /* Adjust the distance from the right edge */
+  top: 250px; /* Adjust this value based on the height of your navbar */
+  width: 38vh;
+  max-width: 250px;
   height: auto;
   border-radius: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 1000; /* Ensure it is above other content */
   border: 4px solid; /* Thicker border */
   margin-top: 20px; /* Add space between the boxes */
+  overflow-y: auto;
+  z-index: 1000; /* Ensure it's on top */
 }
 
 .status-available {
-  background-color: #66c966;  
+  background-color: #66c966;
   border-color: #39ff14; /* Neon green border */
-
 }
 
 .status-inavailable {
@@ -91,12 +95,13 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center the content within the container */
+  align-items: flex-end; /* Align items to the right */
   gap: 20px;
   min-width: 300px;
 }
+
 .unique-container1, .unique-container2 {
-  margin-top: 30%;
+  margin-top: 20%;
   background: rgba(0, 0, 0, 0.7);
   border-radius: 14px;
   padding: 20px;
@@ -109,10 +114,12 @@
   overflow-y: auto;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 .card-text p {
   margin: 0;
   padding: 5px 0;
 }
+
 .stat-item {
   margin-bottom: 15px; /* Increased spacing */
 }
@@ -132,21 +139,37 @@ strong {
 }
 
 @media only screen and (max-width: 768px) {
-  .unique-container1{
+  .unique-container1 {
     width: 60%;
     margin: 10px auto;
     position: static;
     overflow-y: auto;
+    font-size: 3vh;
   }
 
-  .unique-container2{
+  .unique-container2 {
     width: 60%;
     margin: 10px auto;
     position: static;
     overflow-y: auto;
+    font-size: 3vh;
   }
 
   .indexcard2 {
-    font-size: 1.2rem;
+    font-size: 0.9rem;
   }
+
+  .status-box, .status-box2 {
+    width: 20%;
+    height: 8%;
+    margin: auto;
+    position: sticky;
+    font-size: 3vh;
+    right: 170vh;
+  }
+  .h1index{
+    font-size: 1.5rem;
+  }
+  
 }
+

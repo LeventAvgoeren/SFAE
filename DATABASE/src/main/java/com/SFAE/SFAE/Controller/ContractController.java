@@ -314,6 +314,7 @@ public class ContractController implements ContractEP {
       work.updateStatusByWorkerId(data.getWorkerId(), "INAVAILABLE");
       work.updateOrderStatusByWorkerId(data.getWorkerId(), "ACCEPTED");
       dao.updateOrderStatus(data.getId(), "ACCEPTED", false);
+      custo.updateContractStatusCustomer(data.getCustomerId(), "ACCEPTED");
       if (result) {
         return ResponseEntity.status(HttpStatus.OK).build();
       } else {

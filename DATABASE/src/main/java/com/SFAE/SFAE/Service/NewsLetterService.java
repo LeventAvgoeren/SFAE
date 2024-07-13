@@ -11,6 +11,7 @@ import com.SFAE.SFAE.ENTITY.Worker;
 import com.SFAE.SFAE.ENUM.JobList;
 import com.SFAE.SFAE.INTERFACE.NewsLetterRepository;
 import com.SFAE.SFAE.INTERFACE.WorkerInterface;
+import com.SFAE.SFAE.INTERFACE.WorkerRepository;
 
 import jakarta.mail.MessagingException;
 
@@ -24,61 +25,41 @@ public class NewsLetterService {
     private WorkerInterface worker;
 
     @Autowired
+    private WorkerRepository workerRep;
+
+    @Autowired
     private MailService mail;
 
-
-    public Worker findWorkerWithHighestId(List<Worker> workers) {
-        if (workers.isEmpty()) {
-            return null;
-        }
-
-        Worker highestIdWorker = workers.get(0);
-        int highestId = extractNumericId(highestIdWorker.getId());
-
-        for (Worker worker : workers) {
-            int workerId = extractNumericId(worker.getId());
-            if (workerId > highestId) {
-                highestIdWorker = worker;
-                highestId = workerId;
-            }
-        }
-
-        return highestIdWorker;
-    }
-
-    private int extractNumericId(String id) {
-        return Integer.parseInt(id.replaceAll("\\D+", ""));
-    }
-
     public Boolean sendNewsLetter(List<JobList> jobTyp) {
+        try {
+            
+       
         // Hole mir alle news
         List<NewsLetter> found = newsLetterRepository.findAll();
         //Hole mir alleWorker 
-        Iterable<Worker> allWorker=worker.findAllWorker();
-        //packe alle Worker in eine liste
-        List<Worker> workerFound= new ArrayList<>();
-        for (Worker worker : allWorker) {
-            workerFound.add(worker);
-        }
+        List<String> workerIdList= workerRep.findAllOrderedById();
+        
+     
         //workerFound.removeLast();
         for (JobList jobList : jobTyp) {
             Worker workers = worker.findWorkerByJob(jobList.name());
 
             // Wenn es den job noch nicht gibt sende eine email an alle customer das es
             // einen neuen arbeiter gibt
-
-            Worker lastRegisteredWorker = findWorkerWithHighestId(workerFound);
-            if (workers == null || lastRegisteredWorker.getId().equals(workers.getId())) {
+            if (workers == null || workerIdList.get(workerIdList.size() - 1).equals(workers.getId())) {
                 for (NewsLetter data : found) {
                     try {
                         String emailSubject = "Wir haben tolle Nachrichten!";
-                        String emailContent = "<h1>Neuer Arbeiter eingestellt!</h1>"
+                        String emailContent = "<h1>Ein neuer Job ist nun bei SFAE verfügbar!</h1>"
                                 + "<p>Liebe Kunden,</p>"
                                 + "<p>Wir freuen uns, Ihnen mitteilen zu können, dass wir einen neuen Arbeiter in unserem Team haben, der auf den Jobtyp <strong>"
-                                + jobTyp + "</strong> spezialisiert ist.</p>";
+                                + jobTyp.toString().replace("[", "").replace("]", "") + "</strong> spezialisiert ist.</p>";
                              
-                               
-                                String cleanEmail = data.getCustomerEmail().replace("\"", "");
+                        if(data.getCustomerEmail().isEmpty() ||data.getCustomerEmail().isBlank() || data.getCustomerEmail().equals("") || data.getCustomerEmail() == null || data.getCustomerEmail().equals("\"\"")){
+                            continue;
+                        }
+
+                        String cleanEmail = data.getCustomerEmail().replace("\"", "");
                         mail.sendHtmlMessage(cleanEmail, emailSubject, emailContent);
 
                     } catch (MessagingException e) {
@@ -88,6 +69,10 @@ public class NewsLetterService {
                 return true;
             }
         }
+        } catch (Exception e) {
+            System.out.println("FEHLER: " + e);
+        }
+
         return false;
     }
 

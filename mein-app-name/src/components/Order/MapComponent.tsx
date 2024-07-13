@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-
-/**
- * @author erayzor
- */
 
 interface Position {
   latitude: number;
@@ -17,23 +13,26 @@ const SetView: React.FC<{ center: [number, number]; zoom: number }> = ({
   zoom,
 }) => {
   const [initialized, setInitialized] = useState(false);
-
   const map = useMap();
-  if (!initialized) {
-    map.setView(center, zoom);
-    setInitialized(true);
-  }
+
+  useEffect(() => {
+    if (!initialized) {
+      map.setView(center, zoom);
+      setInitialized(true);
+    }
+  }, [initialized, map, center, zoom]);
 
   return null;
 };
 
 interface MapComponentProps {
-  onAddressChange: (address: string, Location:Position) => void;
+  onAddressChange: (address: string, Location: Position) => void;
 }
 
-const MapComponent:  React.FC<MapComponentProps> = ({ onAddressChange }) => {
+const MapComponent: React.FC<MapComponentProps> = ({ onAddressChange }) => {
   const [userLocation, setUserLocation] = useState<Position | null>(null);
   const [address, setAddress] = useState("");
+  const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const getLocation = () => {
@@ -64,59 +63,43 @@ const MapComponent:  React.FC<MapComponentProps> = ({ onAddressChange }) => {
     iconAnchor: [25, 50],
   });
 
-  const updatePosition = (event: L.DragEndEvent) => {
-    const markerPosition = event.target.getLatLng();
-    setUserLocation({
-      latitude: markerPosition.lat,
-      longitude: markerPosition.lng,
-    });
-    fetchAddress(markerPosition.lat, markerPosition.lng);
-  };
-
-  const fetchAddress = async (lat: any, lon: any) => {
+  const fetchAddress = useCallback(async (lat: number, lon: number) => {
     const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
     try {
       const response = await fetch(url);
       const data = await response.json();
 
       let add = data.display_name.split(",");
-
-      let formattedAddress = add[1] + " " + add[0]
+      let formattedAddress = add[1] + " " + add[0];
       setAddress(formattedAddress);
-      fetchCoordinates(data.display_name)
-      onAddressChange(formattedAddress, userLocation!);
+      onAddressChange(formattedAddress, { latitude: lat, longitude: lon });
     } catch (error) {
       console.error("Failed to fetch address:", error);
     }
-  };
+  }, [onAddressChange]);
 
-  const fetchCoordinates = async (address: string) => {
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${address}`;
-    try {
-      console.log("DASD ")
-      const response = await fetch(url);
-      const data = await response.json();
-      if (data.length > 0) {
-        const { lat, lon } = data[0];
-        setUserLocation({
-          latitude: parseFloat(lat),
-          longitude: parseFloat(lon),
-        });
-      } else {
-        console.error("Address not found");
-      }
-    } catch (error) {
-      console.error("Failed to fetch coordinates:", error);
+  const updatePosition = (event: L.DragEndEvent) => {
+    const markerPosition = event.target.getLatLng();
+    setUserLocation({
+      latitude: markerPosition.lat,
+      longitude: markerPosition.lng,
+    });
+
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current);
     }
+
+    debounceTimeout.current = setTimeout(() => {
+      fetchAddress(markerPosition.lat, markerPosition.lng);
+    }, 500); // 500ms debounce time
   };
 
   return (
-    <>
     <MapContainer
       center={defaultCenter}
       zoom={defaultZoom}
       style={{ height: "400px" }}
-    >  
+    >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       {userLocation && (
         <>
@@ -127,7 +110,7 @@ const MapComponent:  React.FC<MapComponentProps> = ({ onAddressChange }) => {
               dragend: (event: L.DragEndEvent) => updatePosition(event),
             }}
             icon={customIcon}
-          ></Marker>
+          />
           <SetView
             center={[userLocation.latitude, userLocation.longitude]}
             zoom={13}
@@ -135,7 +118,6 @@ const MapComponent:  React.FC<MapComponentProps> = ({ onAddressChange }) => {
         </>
       )}
     </MapContainer>
-    </>
   );
 };
 

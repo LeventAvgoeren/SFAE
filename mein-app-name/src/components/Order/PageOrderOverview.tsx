@@ -1,7 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import './PageOrderOverview.css';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus, deleteChat, updateWorkerOrderStatus, getCustomerImage, getWorkerImage, updateCustomerOrderStatus } from '../../backend/api';
+import {
+  getContract,
+  getContractByCustomerId,
+  getContractStatus,
+  updateWorkerStatus,
+  updateContractStatus,
+  deleteChat,
+  updateWorkerOrderStatus,
+  getCustomerImage,
+  getWorkerImage,
+  updateCustomerOrderStatus,
+} from '../../backend/api';
 import { ContractResource, UpdateStatusCustomer } from '../../Resources';
 import NavbarComponent from '../navbar/NavbarComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -73,11 +84,9 @@ export function PageOrderOverview() {
         if (contract.statusOrder === 'FINISHED' && contract.worker?.statusOrder === 'FINISHED') {
           setContractFinished(true);
           await updateContractStatus(contractId, 'FINISHED');
-          
         } else {
           setContractFinished(false);
         }
-        
       } catch (error) {
         console.error('Error fetching contract data:', error);
       }
@@ -165,8 +174,8 @@ export function PageOrderOverview() {
     toggleCancelShow();
   };
 
-  async function getCoordinates(address: string) {
-    const berlinBounds = '13.088209,52.341823,13.760610,52.669724'; // Längen- und Breitengrade für Berlin
+  async function getCoordinates(address : string) {
+    const berlinBounds = '13.088209,52.341823,13.760610,52.669724';
     const url = `https://nominatim.openstreetmap.org/search?format=json&bounded=1&viewbox=${berlinBounds}&q=${encodeURIComponent(address + ', Berlin')}`;
     const response = await fetch(url);
     const data = await response.json();
@@ -199,8 +208,8 @@ export function PageOrderOverview() {
           const customerCoords = await getCoordinates(conData.adress!);
           const workerCoords = await getCoordinates(conData.worker!.location!);
           const map = L.map('map', {
-            center: [52.5200, 13.4050], // Koordinaten von Berlin
-            zoom: 12, // Anfangs-Zoom-Level, angepasst für eine Stadtansicht
+            center: [52.5200, 13.4050],
+            zoom: 12,
             dragging: false,
             touchZoom: false,
             scrollWheelZoom: false,
@@ -230,15 +239,14 @@ export function PageOrderOverview() {
             createMarker: function () { return null; }
           } as any).addTo(map);
 
-          // Füge benutzerdefinierte Icons hinzu
           L.marker([customerCoords.latitude, customerCoords.longitude], { icon: customIconCustomer }).addTo(map);
           L.marker([workerCoords.latitude, workerCoords.longitude], { icon: customIconWorker }).addTo(map);
 
           control.on('routesfound', function (e) {
             const routes = e.routes;
             const summary = routes[0].summary;
-            const totalTimeMinutes = Math.round(summary.totalTime / 60); // Sekunden in Minuten umrechnen
-            const totalDistanceKm = (summary.totalDistance / 1000).toFixed(2); // Meter in Kilometer umrechnen und auf 2 Dezimalstellen runden
+            const totalTimeMinutes = Math.round(summary.totalTime / 60);
+            const totalDistanceKm = (summary.totalDistance / 1000).toFixed(2);
             setRouteTime(`${totalTimeMinutes} Minuten`);
             setRouteDistance(`${totalDistanceKm} Km`);
           });
@@ -401,7 +409,6 @@ export function PageOrderOverview() {
         </div>
         {cancelModalShow && <div className="modal-backdrop fade show"></div>}
         <Footer></Footer>
-
       </div>
     </>
   );

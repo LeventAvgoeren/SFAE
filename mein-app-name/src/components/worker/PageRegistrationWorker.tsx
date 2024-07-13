@@ -149,18 +149,22 @@ export default function PageRegistrationWorker() {
     if (!isValidAddress) {
       alert('Bitte geben Sie eine gültige Adresse ein.');
       console.log('Ungültige Adresse');
+      setSendReg(false)
       return;
     }
 
     if (!validatePassword(password)) {
       setPasswordError('Das Passwort muss mindestens einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten.');
       console.log('Passwortvalidierung fehlgeschlagen');
+      setSendReg(false)
+
       return;
     }
 
     if (password !== confirmPassword) {
       setPasswordError('Passwörter sind nicht identisch.');
       console.log('Passwörter sind nicht identisch');
+      setSendReg(false)
       return;
     }
 
@@ -178,6 +182,7 @@ export default function PageRegistrationWorker() {
         onClose: () => navigate("/login")
       });
     } catch (error) {
+      setSendReg(false)
       console.error('Registrierung fehlgeschlagen:', error);
       toast.error("Ein Fehler ist aufgetreten");
     }

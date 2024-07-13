@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.SFAE.SFAE.DTO.ContractDTO;
 import com.SFAE.SFAE.ENTITY.Contract;
-import com.SFAE.SFAE.ENTITY.Worker;
 
 /**
  * The ContractInterface provides a set of methods to manage contract entities

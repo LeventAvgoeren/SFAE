@@ -20,6 +20,7 @@ public class PictureService {
 @Autowired
 private JdbcTemplate jdbcTemplate;
 
+  @SuppressWarnings("null")
   public byte[] readLargeObject(int oid) {
     Connection conn = null;
     LargeObjectManager lobjManager = null;
@@ -97,7 +98,8 @@ private JdbcTemplate jdbcTemplate;
   }
 
 
-   public Long saveImageAsLargeObject(byte[] imageBytes) throws SQLException, IOException {
+   @SuppressWarnings("null")
+  public Long saveImageAsLargeObject(byte[] imageBytes) throws SQLException, IOException {
     Connection conn = null;
     Long oid = null;
 

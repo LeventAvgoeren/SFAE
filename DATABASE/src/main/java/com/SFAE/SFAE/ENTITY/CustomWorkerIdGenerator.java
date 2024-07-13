@@ -17,7 +17,7 @@ public class CustomWorkerIdGenerator implements IdentifierGenerator, Application
     private static ApplicationContext context;
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) {
+    public void setApplicationContext(@SuppressWarnings("null") ApplicationContext applicationContext) {
         CustomWorkerIdGenerator.context = applicationContext;
     }
 

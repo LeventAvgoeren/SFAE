@@ -27,22 +27,17 @@ public class NewLetterController implements NewsLetterEp {
   public ResponseEntity<?> safeEmailToNewsLetter(String emailCustomer) {
 
     if (emailCustomer == null) {
-
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
     try {
       NewsLetter news = new NewsLetter();
       news.setCustomerEmail(emailCustomer);
 
-      var result = newsLetter.save(news);
-      if (result != null) {
-        return ResponseEntity.status(HttpStatus.OK).build();
-      } else {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-      }
+      newsLetter.save(news);
+      return ResponseEntity.status(HttpStatus.OK).build();
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-
     }
   }
 
@@ -81,12 +76,10 @@ public class NewLetterController implements NewsLetterEp {
       List<NewsLetter> allNews = newsLetter.findAll();
       if (allNews != null) {
         ResponseEntity.status(HttpStatus.OK).body(allNews);
-      } else {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
       }
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
   }
 }

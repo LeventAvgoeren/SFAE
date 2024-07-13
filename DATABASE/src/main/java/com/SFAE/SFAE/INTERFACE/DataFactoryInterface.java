@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.ENTITY.Worker;
-import com.SFAE.SFAE.ENUM.StatusOrder;
 
 /**
  *  Public interface of a factory that creates objects for datamodel classes

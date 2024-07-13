@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import LoadingIndicator from "../LoadingIndicator";
 import { Container, Card, Modal, Button } from "react-bootstrap";
+import "./DesignVorlage.css";
 import { WorkerResource, ContractResourceforWorker } from "../../Resources";
 import {
   getWorkerbyID,
@@ -53,7 +54,7 @@ export function PageWorkerIndex() {
       const contracts = await getContractByWorkerId(workerId!);
       setWorkerJobAnzahl(contracts);
 
-      if (contracts) {
+      if (contracts && contracts.length > 0) {
         let money = 0;
         for (let index = 0; index < contracts.length; index++) {
           const element = contracts[index];
@@ -81,7 +82,6 @@ export function PageWorkerIndex() {
           }
           return prev.id > current.id ? prev : current;
         });
-        console.log("Latest contract:", latest); // Log latest contract
         setLatestContract(latest);
       } else {
         setLatestContract(null);
@@ -225,7 +225,7 @@ export function PageWorkerIndex() {
                 <Card.Title className="indexcard2">Aktive Aufträge</Card.Title>
                 <Card.Text>
                   {latestContract &&
-                  latestContract.statusOrder !== "FINISHED" ? (
+                  worker?.statusOrder === "ACCEPTED" ? (
                     <>
                       <div className="stat-item">
                         <strong>ID:</strong> {latestContract.id}
@@ -249,9 +249,6 @@ export function PageWorkerIndex() {
                       >
                         Zum Auftrag
                       </MDBBtn>
-                      <Button onClick={handleShowModal} className="anzeigen">
-                        Letzten Vertrag anzeigen
-                      </Button>
                     </>
                   ) : (
                     "Gerade hast du noch keine Aufträge."
@@ -261,18 +258,6 @@ export function PageWorkerIndex() {
             </div>
           </div>
         </div>
-        {worker &&
-          worker.statusOrder !== "FINISHED" &&
-          latestContract &&
-          latestContract.statusOrder !== "FINISHED" &&
-          latestContract.statusOrder !== "UNDEFINED" && (
-            <div className="alert alert-warning mt-3">
-              Du hast noch unabgeschlossene Aufträge!
-              <Button onClick={handleShowModal} className="anzeigen">
-                Letzten Vertrag anzeigen
-              </Button>
-            </div>
-          )}
       </Container>
       <Modal
         show={showModal}

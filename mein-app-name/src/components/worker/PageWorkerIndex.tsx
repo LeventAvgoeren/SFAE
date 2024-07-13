@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import LoadingIndicator from "../LoadingIndicator";
-import { Container, Row, Col, Card, Modal, Button } from "react-bootstrap";
+import { Container, Card, Modal, Button } from "react-bootstrap";
 import "./DesignVorlage.css";
 import { WorkerResource, ContractResourceforWorker } from "../../Resources";
 import {
@@ -30,6 +30,7 @@ export function PageWorkerIndex() {
   const [geld, setGeld] = useState(0);
 
   const navigate = useNavigate();
+
   useEffect(() => {
     if (!workerId) {
       setError("Keine Worker ID in der URL gefunden");
@@ -54,34 +55,31 @@ export function PageWorkerIndex() {
       const contracts = await getContractByWorkerId(workerId!);
       setWorkerJobAnzahl(contracts);
 
-      if (contracts) {
+      if (contracts && contracts.length > 0) {
         let money = 0;
-        for (let index = 0; index < workerJobAnzahl!.length; index++) {
-          const element = workerJobAnzahl![index];
+        for (let index = 0; index < contracts.length; index++) {
+          const element = contracts[index];
           money += element.worker!.minPayment;
-          money = money / workerJobAnzahl!.length;
         }
-        setGeld(parseFloat(money.toFixed(2)));
+        setGeld(parseFloat((money / contracts.length).toFixed(2)));
+
         let jobs: string[] = [];
         let uniqueJobs = new Set<string>();
-        for (let index = 0; index < workerJobAnzahl!.length; index++) {
-          const element = workerJobAnzahl![index];
+        for (let index = 0; index < contracts.length; index++) {
+          const element = contracts[index];
           if (!uniqueJobs.has(element.jobType)) {
             uniqueJobs.add(element.jobType);
             jobs.push(element.jobType);
           }
-          setJob(jobs);
         }
-      }
-      console.log("Fetched contracts:", contracts); // Log fetched contracts
-      if (contracts.length > 0) {
+        setJob(jobs);
+
         const latest = contracts.reduce((prev, current) => {
           if (!prev.id || !current.id) {
             return prev;
           }
           return prev.id > current.id ? prev : current;
         });
-        console.log("Latest contract:", latest); // Log latest contract
         setLatestContract(latest);
       } else {
         setLatestContract(null);
@@ -225,7 +223,7 @@ export function PageWorkerIndex() {
                 <Card.Title className="indexcard2">Aktive Aufträge</Card.Title>
                 <Card.Text>
                   {latestContract &&
-                  latestContract.statusOrder !== "FINISHED" ? (
+                  worker?.statusOrder === "ACCEPTED" ? (
                     <>
                       <div className="stat-item">
                         <strong>ID:</strong> {latestContract.id}
@@ -249,9 +247,6 @@ export function PageWorkerIndex() {
                       >
                         Zum Auftrag
                       </MDBBtn>
-                      <Button onClick={handleShowModal} className="anzeigen">
-                        Letzten Vertrag anzeigen
-                      </Button>
                     </>
                   ) : (
                     "Gerade hast du noch keine Aufträge."
@@ -261,18 +256,6 @@ export function PageWorkerIndex() {
             </div>
           </div>
         </div>
-        {worker &&
-          worker.statusOrder !== "FINISHED" &&
-          latestContract &&
-          latestContract.statusOrder !== "FINISHED" &&
-          latestContract.statusOrder !== "UNDEFINED" && (
-            <div className="alert alert-warning mt-3">
-              Du hast noch unabgeschlossene Aufträge!
-              <Button onClick={handleShowModal} className="anzeigen">
-                Letzten Vertrag anzeigen
-              </Button>
-            </div>
-          )}
       </Container>
       <Modal
         show={showModal}

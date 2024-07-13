@@ -82,7 +82,7 @@ export function PageWorkerOrder(){
           setContractFinished(true);
         }
         
-        navigate(`/worker/${workerId}`);
+        navigate(`/worker/${workerId}/orders/overview`);
         console.log('Worker status updated to AVAILABLE and contract status updated to COMPLETED');
       } catch (error) {
         console.error('Error updating status:', error);
@@ -90,7 +90,6 @@ export function PageWorkerOrder(){
     }
     toggleShow();
   };
-  
 
   const customIconCustomer = L.icon({
     iconUrl: "/MarkerIcon.png",

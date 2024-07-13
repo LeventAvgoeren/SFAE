@@ -221,7 +221,7 @@ export default function PageRegistration() {
                              <MDBCheckbox
                                 name='termsCheck'
                                 id='termsCheck'
-                                label={<span>Ich stimme den <Link to="/agb" className="text-white">News Letter</Link> zu</span>}
+                                label={<span>Ich stimme den <Link to="/agb" className="text-white">Newsletter</Link> zu</span>}
                                 wrapperClass='d-flex justify-content-center mb-4 text-white'
                                 checked={newsLetteracc}
                                 onChange={(e)=>setNewsLetteracc(e.target.checked)}

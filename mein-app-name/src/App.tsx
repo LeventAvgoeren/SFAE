@@ -71,7 +71,7 @@ function App() {
 
   const shouldShowChatButton = !(
     location.pathname.includes('/customer/') && location.pathname.includes('/uebersicht') ||
-    location.pathname.includes('/worker/') && location.pathname.includes('/orders/overview') ,
+    location.pathname.includes('/worker/') && location.pathname.includes('/orders/overview') ||
     location.pathname.includes("/index")
   );
 

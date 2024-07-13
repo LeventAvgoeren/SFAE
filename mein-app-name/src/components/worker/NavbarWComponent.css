@@ -53,8 +53,8 @@ body, button, input, textarea, h1, p {
 }
 
 .icon-img-custom {
-  width: 60px; /* Vergrößert die SVGs */
-  height: 60px; /* Vergrößert die SVGs */
+  width: 45px; /* Vergrößert die SVGs */
+  height: 45px; /* Vergrößert die SVGs */
   cursor: pointer;
   transition: transform 0.3s;
 }

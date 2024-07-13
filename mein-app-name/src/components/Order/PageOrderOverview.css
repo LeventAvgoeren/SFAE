@@ -54,7 +54,7 @@
 
 /* Textanpassungen für Links und allgemeinen Text */
 .text-reset, .text-muted, a {
-  color: white !important;
+  color: white ;
 }
 
 .btn-danger:hover {

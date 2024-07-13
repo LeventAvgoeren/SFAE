@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { CustomerResource } from '../../Resources';
 import { deleteCookie, deleteCustomer, getCustomerImage, getCustomerbyID, updateCustomer } from '../../backend/api';
 import "./PageProfil.css";
-import { MDBIcon, MDBProgress, MDBProgressBar, MDBTypography } from 'mdb-react-ui-kit';
+import { MDBTypography } from 'mdb-react-ui-kit';
 import NavbarComponent from '../navbar/NavbarComponent';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -42,7 +42,6 @@ export function PageProfil() {
     const [passwordError, setPasswordError] = useState('');
     const [passwordStrength, setPasswordStrength] = useState(0);
     const [passwordsMatch, setPasswordsMatch] = useState(true);
-    const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState('');
     const [status, setStatus] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -56,11 +55,11 @@ export function PageProfil() {
 
     const toggleShow = () => {
         setModalShow(!modalShow);
-    };
-
-    const toggleCancelShow = () => {
+      };
+    
+      const toggleCancelShow = () => {
         setCancelModalShow(!cancelModalShow);
-    };
+      };
 
     const handleNewPasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
         const newPassword = event.target.value;
@@ -123,7 +122,8 @@ export function PageProfil() {
             email: email,
             password: password, // Verwende das bestehende Passwort standardmäßig
             role: "CUSTOMER",
-            profileBase64: profileImage
+            profileBase64: profileImage,
+            statusOrder: customer!.statusOrder
         };
 
         if (newPassword) { // Wenn ein neues Passwort gesetzt ist, führe die Validierung durch
@@ -182,16 +182,16 @@ export function PageProfil() {
 
     return (
         <>
-            <ToastContainer
-                position="top-center"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
+            <ToastContainer 
+            position="top-center" 
+            autoClose={5000} 
+            hideProgressBar={false} 
+            newestOnTop={false} 
+            closeOnClick 
+            rtl={false} 
+            pauseOnFocusLoss 
+            draggable 
+            pauseOnHover 
             />
             <div className='Backg'>
                 <NavbarComponent />
@@ -207,7 +207,7 @@ export function PageProfil() {
                                         </div>
                                     ) : (
                                         (previewImage || profileImage) ? (
-                                            <img src={previewImage || profileImage} alt="Profilbild" className="profileImageCustomer" />
+                                            <img src={previewImage || profileImage} alt="Profilbild" className="profileImageCustomer"/>
                                         ) : (
                                             <div className="" style={{ width: '150px', height: '150px', borderRadius: '50%', color: 'white' }}>
                                                 <span>Kein Bild</span>
@@ -220,7 +220,7 @@ export function PageProfil() {
                                 </div>
                                 <div className="profile-upload-container">
                                     <label htmlFor="profileImage" className="form-label">Profilbild hochladen</label>
-                                    <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} style={{ color: 'white' }} />
+                                    <input className="form-control" type="file" id="profileImage" onChange={handleProfileImageChange} style={{color:'white'}}/>
                                 </div>
                             </div>
 
@@ -235,32 +235,16 @@ export function PageProfil() {
                                     <div className="col-12">
                                         <div className="form-group Margins mb-2">
                                             <label htmlFor="account-email">E-Mail Adresse</label>
-                                            <input className="form-control" type="email" id="account-email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                            <input className="form-control" type="email" id="account-email" value={email} onChange={(e) => setEmail(e.target.value)} disabled />
                                         </div>
                                     </div>
                                     <div className="col-12">
-                                    <div className="form-group Margins mb-2" style={{ position: 'relative' }}>
+                                        <div className="form-group Margins mb-2">
                                             <label htmlFor="account-pass">Neues Passwort</label>
                                             <input className="form-control"
-                                                type={showPassword ? 'text' : 'password'}
-                                                placeholder='Passwort'
+                                                type="password" placeholder='Passwort'
                                                 id="account-pass"
-                                                onChange={handleNewPasswordChange}
-                                                style={{ paddingRight: '40px' }}
-                                            />
-                                            <span
-                                                onClick={() => setShowPassword(!showPassword)}
-                                                style={{
-                                                    position: 'absolute',
-                                                    right: '10px',
-                                                    top: '70%',
-                                                    transform: 'translateY(-50%)',
-                                                    cursor: 'pointer',
-                                                    color: 'black'
-                                                }}
-                                            >
-                                                {showPassword ? <MDBIcon fas icon="eye-slash" /> : <MDBIcon fas icon="eye" />}
-                                            </span>
+                                                onChange={handleNewPasswordChange} />
                                         </div>
                                     </div>
                                     <div className="col-12">
@@ -283,23 +267,12 @@ export function PageProfil() {
                                                 {passwordError}
                                             </MDBTypography>
                                         )}
-                                        <div className='col-12'style={{marginTop:"15px"}}>
-                                    <div style={{ color: 'white', marginBottom: '15px' }}>Das Passwort muss mindestens einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten.</div>
-                                        {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>}
-                                        <MDBProgress className='mb-4'>
-                                            <MDBProgressBar width={passwordStrength * 25} valuemin={0} valuemax={100}>
-                                                {passwordStrength * 25}%
-                                            </MDBProgressBar>
-                                        </MDBProgress>
-                                        </div>
-
                                     </div>
-
 
                                     <div className="col-12">
                                         <hr className="mt-2 mb-3" />
                                         <div className="ButtonsDiv">
-                                            <Button type="submit" className="ButtonUpdate" style={{ backgroundColor: "green", borderColor: "green" }}>
+                                            <Button type="submit" className="ButtonUpdate">
                                                 Profil aktualisieren
                                             </Button>
                                             <Button type="button" className="btn btn-danger" onClick={toggleShow}>
@@ -307,32 +280,32 @@ export function PageProfil() {
                                             </Button>
                                         </div>
                                     </div>
-                                </form>
+                                </form>        
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className={`modal fade ${modalShow ? 'show' : ''}`} style={{ display: modalShow ? 'block' : 'none', transition: 'opacity 0.15s linear' }} aria-labelledby="modalTitle" aria-hidden={!modalShow}>
-                    <div className="modal-dialog">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">Account löschen</h5>
-                            </div>
-                            <div className="modal-body">
-                                <p>Bist du sicher, dass du diesen Account wirklich löschen möchtest?<br /> Alle Daten werden unwiderruflich gelöscht.</p>
-                            </div>
-                            <div className="modal-footer">
-                                <Row style={{ gap: "12px" }}>
-                                    <button type="button" className="btn btn-secondary" onClick={toggleShow} style={{ width: "150px" }}>Abbrechen</button>
-                                    <button type="button" className="btn btn-danger" style={{ width: "150px", gap: "12" }} onClick={handleDeleteCustomer}>Löschen</button>
-                                </Row>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {modalShow && <div className="modal-backdrop fade show"></div>}
-                {cancelModalShow && <div className="modal-backdrop fade show"></div>}
-                <Footer></Footer>
+                <div className={`modal fade ${modalShow ? 'show' : ''}`} style={{ display: modalShow ? 'block' : 'none',transition: 'opacity 0.15s linear' }} aria-labelledby="modalTitle" aria-hidden={!modalShow}>
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Account löschen</h5>
+              </div>
+              <div className="modal-body">
+                <p>Bist du sicher, dass du diesen Account wirklich löschen möchtest?<br /> Alle Daten werden unwiderruflich gelöscht.</p>   
+              </div>
+              <div className="modal-footer">
+                <Row style={{ gap: "12px" }}>
+                  <button type="button" className="btn btn-secondary" onClick={toggleShow} style={{ width: "150px" }}>Abbrechen</button>
+                  <button type="button" className="btn btn-danger" style={{ width: "150px", gap: "12" }} onClick={handleDeleteCustomer}>Löschen</button>
+                </Row>
+              </div>
+            </div>
+          </div>
+        </div>
+        {modalShow && <div className="modal-backdrop fade show"></div>}
+          {cancelModalShow && <div className="modal-backdrop fade show"></div>}
+        <Footer></Footer>
 
             </div>
         </>

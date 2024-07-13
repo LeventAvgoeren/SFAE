@@ -149,25 +149,27 @@ function App() {
 
       {!isPageIntroduction && (
           <>
-      <Fab
-        color="primary"
-        className="chat-button"
-        aria-label="chat"
-        style={{ position: "fixed", bottom:65, left: 3, backgroundColor:"#021128", width:"8vh", height:"8vh"}}
-        onClick={() => setShowChat(!showChat)}
-      >
-        <img src="/chatbot-icon.png" alt="chatbot" style={{ width: '6vh', height: '6vh' }} />
-      </Fab>
-      
+     {!showChat && (
+        <Fab
+          color="primary"
+          className="chat-button"
+          aria-label="chat"
+          style={{ position: 'fixed', bottom: 65, left: 3, backgroundColor: '#021128', width: '8vh', height: '8vh' }}
+          onClick={() => setShowChat(true)}
+        >
+          <img src="/chatbot-icon.png" alt="chatbot" style={{ width: '6vh', height: '6vh' }} />
+        </Fab>
+      )}
+
       {showChat && (
         <div className="chat-popup">
           <div className="chat-header">
             <IconButton onClick={() => setShowChat(false)} style={{ color: 'white' }}>
-              <img src="/close-button.png" alt="close-button" style={{width:"3vh", height:"3vh"}} />
+              <img src="/close-button.png" alt="close-button" style={{ width: '3vh', height: '3vh' }} />
             </IconButton>
             ChatBot
           </div>
-          <div className="chat-body" ref={chatBodyRef}>
+          <div className="chat-body">
             <PageChatBot />
           </div>
         </div>

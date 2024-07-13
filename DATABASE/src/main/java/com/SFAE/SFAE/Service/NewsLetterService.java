@@ -69,7 +69,7 @@ public class NewsLetterService {
             }
         }
         } catch (Exception e) {
-            System.out.println("FEHLER: " + e);
+            e.printStackTrace();
         }
 
         return false;

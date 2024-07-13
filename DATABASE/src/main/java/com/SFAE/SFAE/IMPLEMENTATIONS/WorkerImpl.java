@@ -511,6 +511,7 @@ public class WorkerImpl implements WorkerInterface {
    * @throws ClassNotFoundException If the class of a serialized object cannot be
    *                                found.
    */
+  @SuppressWarnings("unchecked")
   private List<Double> deserializeList(byte[] data) throws IOException, ClassNotFoundException, java.io.IOException {
     ByteArrayInputStream bis = new ByteArrayInputStream(data);
     ObjectInputStream ois = new ObjectInputStream(bis);

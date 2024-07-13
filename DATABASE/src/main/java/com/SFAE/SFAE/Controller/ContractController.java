@@ -93,7 +93,7 @@ public class ContractController implements ContractEP {
       }
 
       Contract created = dao.createContract(contract);
-      if (created != null) {
+      if (created != null && lastEntry != null) {
         Worker found = work.findWorkersbyID(String.valueOf(lastEntry.getKey().getId()));
         Customer foundCustomer = custo.findCustomerbyID(String.valueOf(contract.getCustomerId()));
 
@@ -314,6 +314,7 @@ public class ContractController implements ContractEP {
       work.updateStatusByWorkerId(data.getWorkerId(), "INAVAILABLE");
       work.updateOrderStatusByWorkerId(data.getWorkerId(), "ACCEPTED");
       dao.updateOrderStatus(data.getId(), "ACCEPTED", false);
+      custo.updateContractStatusCustomer(data.getCustomerId(), "ACCEPTED");
       if (result) {
         return ResponseEntity.status(HttpStatus.OK).build();
       } else {

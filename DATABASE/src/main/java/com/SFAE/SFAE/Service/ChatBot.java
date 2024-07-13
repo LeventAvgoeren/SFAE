@@ -1,7 +1,6 @@
 package com.SFAE.SFAE.Service;
 
 import java.util.Set;
-import java.text.Normalizer;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -47,21 +46,16 @@ public class ChatBot{
     Boolean einkommen=false;
     Boolean isCustomer=false;
     
-    Boolean entscheidung=false;
-    Boolean vorgeschlagen=false;
     Boolean verneinung=false;
     Boolean frageWort=false;
     Boolean bewertung=false;
     Boolean veraenderung=false;
     
-    Boolean auftragAct=false;
     Boolean auftrag=false;
     Boolean suche=false;
     Boolean registrieren=false;
     Boolean anmelden=false;
-    Boolean abgaben=false;
-    Boolean konflikte=false;
-   
+
     String output = input.replaceAll("[^a-zA-Z0-9\\s]", "");
     String[] splitted=output.split("\\s+");
 
@@ -99,7 +93,6 @@ public class ChatBot{
          
         }
         if (decisionActions.contains(word)) {
-          entscheidung = true;
 
         }
         if (searchActions.contains(word)) {
@@ -109,7 +102,6 @@ public class ChatBot{
           veraenderung = true;
         }
         if(word.equals("erstellen")){
-          auftragAct=true;
         }
       }
       if(auftragActions.contains(word)){

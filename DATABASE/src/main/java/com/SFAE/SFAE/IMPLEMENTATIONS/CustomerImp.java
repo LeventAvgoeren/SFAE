@@ -2,7 +2,6 @@ package com.SFAE.SFAE.IMPLEMENTATIONS;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +14,6 @@ import com.SFAE.SFAE.DTO.CustomerDTO;
 import com.SFAE.SFAE.ENTITY.Contract;
 import com.SFAE.SFAE.ENTITY.Customer;
 import com.SFAE.SFAE.ENUM.StatusOrder;
-import com.SFAE.SFAE.INTERFACE.ContractInterface;
 import com.SFAE.SFAE.INTERFACE.CustomerInterface;
 import com.SFAE.SFAE.INTERFACE.CustomerRepository;
 import com.SFAE.SFAE.Service.PasswordHasher;

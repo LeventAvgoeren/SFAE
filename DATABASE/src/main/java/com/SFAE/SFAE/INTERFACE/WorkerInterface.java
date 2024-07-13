@@ -1,6 +1,5 @@
 package com.SFAE.SFAE.INTERFACE;
 
-import java.util.List;
 
 import com.SFAE.SFAE.DTO.WorkerDTO;
 import com.SFAE.SFAE.DTO.WorkerPrefrencesDTO;

@@ -1,6 +1,6 @@
 import '../Order/PageOrderOverview.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getContract, getContractByCustomerId, getContractStatus, updateWorkerStatus, updateContractStatus, deleteChat, deleteContractById, updateWorkerOrderStatus, getCustomerImage, getWorkerImage, checkLoginStatus, getContractByWorkerId, updateCustomerOrderStatus } from '../../backend/api'; // Importiere die Funktion
+import { getContract, getCustomerImage, getWorkerImage, updateWorkerStatus, updateContractStatus, deleteChat, updateWorkerOrderStatus } from '../../backend/api';
 import { ContractResource } from '../../Resources';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
@@ -24,6 +24,7 @@ export function PageWorkerOrder(){
   const [routeDistance, setRouteDistance] = useState<string>('');
   const navigate = useNavigate();
   const [mapLoading, setMapLoading] = useState(false);
+  const [contractFinished, setContractFinished] = useState(false);
 
   console.log("Order id mit parse "+ parseInt(orderId!));
   console.log("Order id ohne parse "+ orderId!);
@@ -41,6 +42,10 @@ export function PageWorkerOrder(){
           setFoto(`data:image/jpeg;base64,${pic}`);
           let workerResult = await getWorkerImage(workerId!);
           setWorkerFoto(`data:image/jpeg;base64,${workerResult}`);
+
+          if (contract.statusOrder === 'FINISHED') {
+            setContractFinished(true);
+          }
         }
       } catch (error) {
         console.error('Error fetching contract data: ', error);
@@ -74,6 +79,7 @@ export function PageWorkerOrder(){
         
         if (contractData.worker.statusOrder === 'FINISHED' && contractData.customer!.statusOrder === 'FINISHED') {
           await updateWorkerOrderStatus(contractData.worker.id, 'UNDEFINED');
+          setContractFinished(true);
         }
         
         navigate(`/worker/${workerId}`);
@@ -99,7 +105,7 @@ export function PageWorkerOrder(){
   });
 
   async function getCoordinates(address : string) {
-    const berlinBounds = '13.088209,52.341823,13.760610,52.669724'; // Längen- und Breitengrade für Berlin
+    const berlinBounds = '13.088209,52.341823,13.760610,52.669724';
     const url = `https://nominatim.openstreetmap.org/search?format=json&bounded=1&viewbox=${berlinBounds}&q=${encodeURIComponent(address + ', Berlin')}`;
     const response = await fetch(url);
     const data = await response.json();
@@ -121,8 +127,8 @@ export function PageWorkerOrder(){
           const customerCoords = await getCoordinates(contractData.adress!);
           const workerCoords = await getCoordinates(contractData.worker!.location!);
           const map = L.map('map', {
-            center: [52.5200, 13.4050], // Koordinaten von Berlin
-            zoom: 12, // Anfangs-Zoom-Level, angepasst für eine Stadtansicht
+            center: [52.5200, 13.4050],
+            zoom: 12,
             dragging: false,
             touchZoom: false,
             scrollWheelZoom: false,
@@ -143,7 +149,6 @@ export function PageWorkerOrder(){
             e.originalEvent.stopPropagation();
           });
 
-
           const control = L.Routing.control({
             waypoints: [
               L.latLng(customerCoords.latitude, customerCoords.longitude),
@@ -153,15 +158,14 @@ export function PageWorkerOrder(){
             createMarker: function () { return null; }
           } as any).addTo(map);
 
-          // Füge benutzerdefinierte Icons hinzu
           L.marker([customerCoords.latitude, customerCoords.longitude], { icon: customIconCustomer }).addTo(map);
           L.marker([workerCoords.latitude, workerCoords.longitude], { icon: customIconWorker }).addTo(map);
 
           control.on('routesfound', function (e) {
             const routes = e.routes;
             const summary = routes[0].summary;
-            const totalTimeMinutes = Math.round(summary.totalTime / 60); // Sekunden in Minuten umrechnen
-            const totalDistanceKm = (summary.totalDistance / 1000).toFixed(2); // Meter in Kilometer umrechnen und auf 2 Dezimalstellen runden
+            const totalTimeMinutes = Math.round(summary.totalTime / 60);
+            const totalDistanceKm = (summary.totalDistance / 1000).toFixed(2);
             setRouteTime(`${totalTimeMinutes} Minuten`);
             setRouteDistance(`${totalDistanceKm} Km`);
           });
@@ -181,8 +185,11 @@ export function PageWorkerOrder(){
     <>
       <div className="Backg">
         <NavbarWComponent />
-
-
+        {contractFinished && (
+          <div className="alert alert-success mt-3">
+            Der Auftrag wurde beendet.
+          </div>
+        )}
         <div className="containertest">
           <h2>Order Information</h2>
           <div className="row">
@@ -200,6 +207,9 @@ export function PageWorkerOrder(){
                     <div className="info-item h4 mb-3"><strong>Adresse: </strong> {contractData.adress}</div>
                     {contractData.statusOrder === "ACCEPTED" && contractData.worker!.statusOrder !== "FINISHED" && (
                       <button onClick={toggleShow} className="btn btn-danger">Auftrag beendet</button>
+                    )}
+                    {contractFinished && (
+                      <div className='info-item h4 mb-3'><strong>Auftragstatus: </strong> Beendet</div>
                     )}
                   </>
                 ) : (

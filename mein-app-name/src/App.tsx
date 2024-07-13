@@ -1,9 +1,6 @@
-import React, { ReactNode, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-// import "./transitions.css";
-
 import { PageIndex } from "./components/PageIndex";
 import { PageLogin } from "./components/PageLogin";
 import PageRegistrationWorker from "./components/worker/PageRegistrationWorker";
@@ -32,15 +29,12 @@ import { PageIndexAdmin } from "./components/admin/PageIndexAdmin";
 import { PageAdminDienstleistungen } from "./components/admin/PageAdminDienstleistungen";
 import { PageWorkerFAQ } from "./components/worker/PageWorkerFAQ";
 import PageAGB from "./components/PageAGB";
-import ChatComponent from "./components/ChatComponent";
 import { ImprintPage } from "./components/ImprintPage";
 import { TermsAndConditions } from "./components/TermsAndConditions";
-
 import { Box, Fab, IconButton, Modal, Toolbar, Typography } from "@mui/material";
 import { PageVerifyEmail } from "./components/customer/PageVerifyEmail";
 import { PageVerifyWorkerEmail } from "./components/customer/PageVerfyWorkerEmail";
 import { PageWorkerOrder } from "./components/worker/PageWorkerOrder";
-import { CircleButton } from "./CircleButton";
 import PageFinishContract from "./components/worker/PageFinishContract";
 import { PageChatBot } from "./components/PageChatBot";
 
@@ -50,7 +44,6 @@ function App() {
   const [showChat, setShowChat] = useState(false);
   const location = useLocation(); 
   const chatBodyRef = useRef<HTMLDivElement>(null);
-
 
   async function fetchLoginStatus() {
     try {
@@ -76,39 +69,39 @@ function App() {
     }
   }, [showChat]);
 
+  const shouldShowChatButton = !(
+    location.pathname.includes('/customer/') && location.pathname.includes('/uebersicht') ||
+    location.pathname.includes('/worker/') && location.pathname.includes('/orders/overview') ,
+    location.pathname.includes("/index")
+  );
 
   if (isLoading) {
-    return <LoadingIndicator />
+    return <LoadingIndicator />;
   }
 
   const isPageIntroduction = location.pathname === '/';
 
   return (
-
     <>
       <LoginContext.Provider value={{ loginInfo, setLoginInfo }}>
-
-     
-
         <Routes>
-                  {/* Gemeinsame Routen */}
-                  <Route path="/agb" element={<PageAGB />} />
-                  <Route path ="/" element={<PageIntroduction/>}/>
-                  <Route path="/index" element={ loginInfo ? ( loginInfo.userId.startsWith("C") ? 
-                        ( <Navigate to={`/customer/${loginInfo.userId}`} replace /> ) :
-                         (<Navigate to={`/worker/${loginInfo.userId}`} replace />)) :
-                          (<PageIndex />)
-                    }
-                  />
-                  <Route path="/admin/:adminId" element={<PageIndexAdmin />} />
-                  <Route path="/admin/:adminId/dienstleistungen" element={(loginInfo && loginInfo.admin === "ADMIN")  ?<PageAdminDienstleistungen /> :< Navigate to="/NotAuth" replace />} />
-                  <Route path="/login" element={<PageLogin />} />
-                  <Route path="/registration/customer" element={<PageRegistration />} />
-                  <Route path="/registration/worker" element={<PageRegistrationWorker />}/>
-                  <Route path="/passwordreset" element={<PageRequestPasswordReset/>}/>
-                  <Route path="/newPassword" element={<PagePasswordReset/>}/>
-                  <Route path="/chatBot" element={ <PageChatBot/>}/>
-
+          {/* Gemeinsame Routen */}
+          <Route path="/agb" element={<PageAGB />} />
+          <Route path="/" element={<PageIntroduction />} />
+          <Route path="/index" element={ loginInfo ? ( loginInfo.userId.startsWith("C") ? 
+                ( <Navigate to={`/customer/${loginInfo.userId}`} replace /> ) :
+                 (<Navigate to={`/worker/${loginInfo.userId}`} replace />)) :
+                  (<PageIndex />)
+            }
+          />
+          <Route path="/admin/:adminId" element={<PageIndexAdmin />} />
+          <Route path="/admin/:adminId/dienstleistungen" element={(loginInfo && loginInfo.admin === "ADMIN")  ?<PageAdminDienstleistungen /> :< Navigate to="/NotAuth" replace />} />
+          <Route path="/login" element={<PageLogin />} />
+          <Route path="/registration/customer" element={<PageRegistration />} />
+          <Route path="/registration/worker" element={<PageRegistrationWorker />} />
+          <Route path="/passwordreset" element={<PageRequestPasswordReset />} />
+          <Route path="/newPassword" element={<PagePasswordReset />} />
+          <Route path="/chatBot" element={<PageChatBot />} />
 
           {/* Customer */}
           <Route path="/customer/:customerId" element={(loginInfo && loginInfo.userId.startsWith("C")) ? <PageIndexCustomer /> : < Navigate to="/NotAuth" replace />} />
@@ -120,10 +113,6 @@ function App() {
           <Route path="/customer/:customerId/order/:orderId" element={(loginInfo && loginInfo.userId.startsWith("C")) ? <PageOrderOverview /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/customer/:customerId/orders/:orderId/completed" element={(loginInfo && loginInfo.userId.startsWith("C")) ? <PageOrderCompleted /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/customer/:customerId/orders/:orderId/rating" element={(loginInfo && loginInfo.userId.startsWith("C")) ? <PageOrderRating /> : < Navigate to="/NotAuth" replace />} />
-          {/* Chat Route */}
-       
-
-
 
           {/* Worker */}
           <Route path="/worker/:workerId" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerIndex /> : < Navigate to="/NotAuth" replace />} />
@@ -134,9 +123,6 @@ function App() {
           <Route path="/worker/:workerId/order/:orderId" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageWorkerOrder /> : < Navigate to="/NotAuth" replace />} />
           <Route path="/worker/:workerId/finishcontract" element={(loginInfo && loginInfo.userId.startsWith("W")) ? <PageFinishContract /> : <Navigate to="/NotAuth" replace />} />
 
-
-
-
           <Route path="/contract" element={<PageDeclineJob />} />
           <Route path="/verifyEmail" element={<PageVerifyEmail />} />
           <Route path="/verifyEmailWorker" element={<PageVerifyWorkerEmail />} />
@@ -144,40 +130,38 @@ function App() {
           <Route path="/NotFound" element={<PageError error={404} />} />
           <Route path="/imprint" element={<ImprintPage />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-         </Routes>
+        </Routes>
       </LoginContext.Provider>
 
       {!isPageIntroduction && (
-          <>
-     {!showChat && (
-        <Fab
-          color="primary"
-          className="chat-button"
-          aria-label="chat"
-          style={{ position: 'fixed', bottom: 65, left: 3, backgroundColor: '#021128', width: '8vh', height: '8vh' }}
-          onClick={() => setShowChat(true)}
-        >
-          <img src="/chatbot-icon.png" alt="chatbot" style={{ width: '6vh', height: '6vh' }} />
-        </Fab>
-      )}
+        <>
+          {!showChat && shouldShowChatButton && (
+            <Fab
+              color="primary"
+              className="chat-button"
+              aria-label="chat"
+              style={{ position: 'fixed', bottom: 65, left: 3, backgroundColor: '#A1532E', width: '8vh', height: '8vh' }}
+              onClick={() => setShowChat(true)}
+            >
+              <img src="/chatbot-icon.png" alt="chatbot" style={{ width: '6vh', height: '6vh' }} />
+            </Fab>
+          )}
 
-      {showChat && (
-        <div className="chat-popup">
-          <div className="chat-header">
-            <IconButton onClick={() => setShowChat(false)} style={{ color: 'white' }}>
-              <img src="/close-button.png" alt="close-button" style={{ width: '3vh', height: '3vh' }} />
-            </IconButton>
-            ChatBot
-          </div>
-          <div className="chat-body">
-            <PageChatBot />
-          </div>
-        </div>
+          {showChat && (
+            <div className="chat-popup">
+              <div className="chat-header">
+                <IconButton onClick={() => setShowChat(false)} style={{ color: 'white' }}>
+                  <img src="/close-button.png" alt="close-button" style={{ width: '3vh', height: '3vh' }} />
+                </IconButton>
+                ChatBot
+              </div>
+              <div className="chat-body" ref={chatBodyRef}>
+                <PageChatBot />
+              </div>
+            </div>
+          )}
+        </>
       )}
-       </>
-      )}
-    
-      
     </>
   );
 }

@@ -184,11 +184,6 @@ export function PageWorkerOrder(){
     <>
       <div className="Backg">
         <NavbarWComponent />
-        {contractFinished && (
-          <div className="alert alert-success mt-3">
-            Der Auftrag wurde beendet.
-          </div>
-        )}
         <div className="containertest">
           <h2>Order Information</h2>
           <div className="row">
@@ -204,11 +199,14 @@ export function PageWorkerOrder(){
                     <div className='info-item h4 mb-3'><strong>Payment Method: </strong> {contractData.payment}</div>
                     <div className="info-item h4 mb-3"><strong>StatusOrder:</strong> {contractData.statusOrder}</div>
                     <div className="info-item h4 mb-3"><strong>Adresse: </strong> {contractData.adress}</div>
-                    {contractData.statusOrder === "ACCEPTED" && contractData.worker!.statusOrder !== "FINISHED" && (
-                      <button onClick={toggleShow} className="btn btn-danger">Auftrag beendet</button>
-                    )}
-                    {contractFinished && (
-                      <div className='info-item h4 mb-3'><strong>Auftragstatus: </strong> Beendet</div>
+                    {contractFinished ? (
+                      <div className="alert alert-success mt-3 text-center" style={{ backgroundColor: '#001A2C', color: 'white' }}>
+                        Der Auftrag wurde beendet.
+                      </div>
+                    ) : (
+                      contractData.statusOrder === "ACCEPTED" && contractData.worker!.statusOrder !== "FINISHED" && (
+                        <button onClick={toggleShow} className="btn btn-danger">Auftrag beendet</button>
+                      )
                     )}
                   </>
                 ) : (

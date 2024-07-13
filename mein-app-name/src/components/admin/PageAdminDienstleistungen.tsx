@@ -277,8 +277,13 @@ export function PageAdminDienstleistungen() {
     }, []);
 
     useEffect(() => {
-        fetchData();
-    }, [fetchData]);
+        const timeoutId = setTimeout(() => {
+            fetchData();
+        }, 300);
+
+        return () => clearTimeout(timeoutId);
+
+    }, []);
 
     const updateLocalStorage = (customerData: CustomerResource[], workerData: WorkerResource[]) => {
         localStorage.setItem('customerData', JSON.stringify(customerData));

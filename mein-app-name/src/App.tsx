@@ -136,7 +136,7 @@ function App() {
 
 
 
-
+          <Route path="/NotAuth" element={<PageError error={403} />} />
           <Route path="/contract" element={<PageDeclineJob />} />
           <Route path="/verifyEmail" element={<PageVerifyEmail />} />
           <Route path="/verifyEmailWorker" element={<PageVerifyWorkerEmail />} />

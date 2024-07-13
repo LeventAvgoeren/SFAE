@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import LoadingIndicator from "../LoadingIndicator";
-import { Container, Row, Col, Card, Modal, Button } from "react-bootstrap";
-import "./DesignVorlage.css";
+import { Container, Card, Modal, Button } from "react-bootstrap";
 import { WorkerResource, ContractResourceforWorker } from "../../Resources";
 import {
   getWorkerbyID,
   getContractByWorkerId,
   updateWorkerOrderStatus,
 } from "../../backend/api";
-import "./PageWorkerIndex.css";
 import NavbarWComponent from "./NavbarWComponent";
 import Footer from "../Footer";
 import { MDBBtn } from "mdb-react-ui-kit";
 import { FaRegStar, FaStar, FaStarHalfAlt } from "react-icons/fa";
+import "./PageWorkerIndex.css";
 
 export function PageWorkerIndex() {
   const { workerId } = useParams<{ workerId?: string }>();
@@ -24,12 +23,12 @@ export function PageWorkerIndex() {
     useState<ContractResourceforWorker | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [zoom, setZoom] = useState<string | null>(null);
-  const [workerJobAnzahl, setWorkerJobAnzahl] =
-    useState<ContractResourceforWorker[]>();
-  const [job, setJob] = useState<String[]>();
+  const [workerJobAnzahl, setWorkerJobAnzahl] = useState<ContractResourceforWorker[]>([]);
+  const [job, setJob] = useState<String[]>([]);
   const [geld, setGeld] = useState(0);
 
   const navigate = useNavigate();
+
   useEffect(() => {
     if (!workerId) {
       setError("Keine Worker ID in der URL gefunden");
@@ -56,22 +55,23 @@ export function PageWorkerIndex() {
 
       if (contracts) {
         let money = 0;
-        for (let index = 0; index < workerJobAnzahl!.length; index++) {
-          const element = workerJobAnzahl![index];
+        for (let index = 0; index < contracts.length; index++) {
+          const element = contracts[index];
           money += element.worker!.minPayment;
-          money = money / workerJobAnzahl!.length;
         }
+        money = money / contracts.length;
         setGeld(parseFloat(money.toFixed(2)));
+
         let jobs: string[] = [];
         let uniqueJobs = new Set<string>();
-        for (let index = 0; index < workerJobAnzahl!.length; index++) {
-          const element = workerJobAnzahl![index];
+        for (let index = 0; index < contracts.length; index++) {
+          const element = contracts[index];
           if (!uniqueJobs.has(element.jobType)) {
             uniqueJobs.add(element.jobType);
             jobs.push(element.jobType);
           }
-          setJob(jobs);
         }
+        setJob(jobs);
       }
       console.log("Fetched contracts:", contracts); // Log fetched contracts
       if (contracts.length > 0) {

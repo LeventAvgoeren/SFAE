@@ -74,7 +74,6 @@ export function PageWorkerIndex() {
         }
         setJob(jobs);
       }
-      console.log("Fetched contracts:", contracts); // Log fetched contracts
       if (contracts.length > 0) {
         const latest = contracts.reduce((prev, current) => {
           if (!prev.id || !current.id) {

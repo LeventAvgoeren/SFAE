@@ -30,7 +30,6 @@ export function PageWorkerOrderOverview() {
             setContracts(contracts);
           }
         } catch (error) {
-          console.log("Fehler:" + error);
         } finally {
           setLoading(false); // Laden abgeschlossen
         }

@@ -61,7 +61,6 @@ export default function PageRegistrationWorker() {
     try {
       const response = await axios.get(requestUrl);
       const data = response.data;
-      console.log(data)
       if (data.results.length > 0 && data.results[0].components) {
         const components = data.results[0].components;
         setCity(components.city || components.town || components.village || '');
@@ -141,21 +140,17 @@ export default function PageRegistrationWorker() {
     if(!sendReg){
       return null;
     }
-    console.log('Registrierung gestartet');
-
     const fullAddress = `${address}, ${city}, ${postalCode}`;
     const isValidAddress = await handleAddressValidation(fullAddress);
 
     if (!isValidAddress) {
       alert('Bitte geben Sie eine gültige Adresse ein.');
-      console.log('Ungültige Adresse');
       setSendReg(false)
       return;
     }
 
     if (!validatePassword(password)) {
       setPasswordError('Das Passwort muss mindestens einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten.');
-      console.log('Passwortvalidierung fehlgeschlagen');
       setSendReg(false)
 
       return;
@@ -163,7 +158,6 @@ export default function PageRegistrationWorker() {
 
     if (password !== confirmPassword) {
       setPasswordError('Passwörter sind nicht identisch.');
-      console.log('Passwörter sind nicht identisch');
       setSendReg(false)
       return;
     }
@@ -171,10 +165,9 @@ export default function PageRegistrationWorker() {
     setPasswordError('');
 
     try {
-      console.log("LOCATION: " + userLocation)
-      console.log('Sende Registrierung an Server');
+     
       const response = await registrationWorker(name, fullAddress, email, password, jobList, salary, userLocation!, slogan);
-      console.log('Registrierung erfolgreich', response);
+     
 
       await sendJobNews(jobList);
 
@@ -183,7 +176,6 @@ export default function PageRegistrationWorker() {
       });
     } catch (error) {
       setSendReg(false)
-      console.error('Registrierung fehlgeschlagen:', error);
       toast.error("Ein Fehler ist aufgetreten");
     }
 };

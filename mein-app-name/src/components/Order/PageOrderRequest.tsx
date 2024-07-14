@@ -147,6 +147,7 @@ export default function PageOrderRequest() {
       const contract = await createContract(contractData);
       toast.success('Auftrags erfolgreich erstellt.');
       if (contract) {
+        localStorage.removeItem('chatReload');
         setContract(contract);
         navigate(`/customer/${cusId}/order/${contract.id}`);
       } else {

@@ -183,8 +183,6 @@ export function PageAdminDienstleistungen() {
         if (error instanceof HttpError) {
             const status = error.response.status;
             const errorMessage = await error.response.text();
-            console.log("Status:", status);
-            console.log("Error Message:", errorMessage);
             handleErrorMessages(status, errorMessage);
         } else {
             console.error('Fehler beim Löschen:', error);

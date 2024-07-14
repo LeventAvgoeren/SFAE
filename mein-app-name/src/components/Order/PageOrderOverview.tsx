@@ -98,7 +98,6 @@ export function PageOrderOverview() {
     const statusInterval = setInterval(async () => {
       try {
         const status = await getContractStatus(contractId);
-        console.log(status);
         if (status !== 'UNDEFINED' || !status) {
           fetchContractData();
           clearInterval(statusInterval);
@@ -127,7 +126,6 @@ export function PageOrderOverview() {
         try {
           await updateContractStatus(contractId, 'FINISHED');
           
-          console.log('Contract status updated to FINISHED');
         } catch (error) {
           console.error('Error updating contract status:', error);
         }
@@ -139,7 +137,6 @@ export function PageOrderOverview() {
   const handleConfirm = async () => {
     if (conData && conData.worker && conData.worker.id) {
       try {
-        console.log('Confirming completion for contract:', conData);
         await deleteChat(conData.worker.id, conData.customer!.id!);
         await updateCustomerOrderStatus({ id: conData.customer!.id!, statusOrder: 'FINISHED' });
 
@@ -151,7 +148,6 @@ export function PageOrderOverview() {
 
 
         navigate(`/customer/${customerId}/orders/${orderId}/completed`);
-        console.log('Worker status updated to AVAILABLE and contract status updated to COMPLETED');
       } catch (error) {
         console.error('Error updating status:', error);
       }
@@ -162,7 +158,6 @@ export function PageOrderOverview() {
   const handleCancelConfirm = async () => {
     if (conData && conData.worker && conData.worker.id) {
       try {
-        console.log('Cancelling contract:', conData);
         await deleteChat(conData.worker.id, conData.customer!.id!);
         await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
         await updateContractStatus(contractId, 'CANCELLED');

@@ -20,7 +20,6 @@ export function PageChatBot() {
 
     try {
       const response = await chatBot(input);
-      console.log("Backend Response:", response);
       typeMessage(response);
     } catch (error) {
       console.error('Error sending message to chatbot:', error);

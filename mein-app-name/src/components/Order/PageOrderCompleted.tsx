@@ -23,7 +23,6 @@ export function PageOrderCompleted() {
   const orderId = params.orderId!;
   const { customerId } = useParams();
 
-  console.log(orderId)
   const [ratting, setRatting] = useState(0);
   const [hover, setHover] = useState(0);
 
@@ -40,11 +39,9 @@ export function PageOrderCompleted() {
 
     async function getOrder() {
       try {
-        console.log("WURDE AUSGEFÜHRT")
         let result=await getContract(parseInt(orderId));
         setContract(result)
       } catch (error) {
-        console.log(error)
       }
     }
     getOrder()
@@ -53,7 +50,6 @@ export function PageOrderCompleted() {
   
   async function updateRating() {
    
-  console.log("DAS IST MEINE BEWERTUNG"+ratting);
     await setRating(rat);
     naviagte(`/customer/${customerId}/uebersicht`)
   }

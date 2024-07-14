@@ -26,15 +26,10 @@ export function PageWorkerOrder(){
   const [mapLoading, setMapLoading] = useState(false);
   const [contractFinished, setContractFinished] = useState(false);
 
-  console.log("Order id mit parse "+ parseInt(orderId!));
-  console.log("Order id ohne parse "+ orderId!);
-  console.log("worker id "+ workerId!);
-
   async function getContractData() {
     if (orderId) {
       try {
         let contract = await getContract(parseInt(orderId));
-        console.log("Das ist der contract: ", contract);
         setContractData(contract);
 
         if (contract) {
@@ -56,7 +51,6 @@ export function PageWorkerOrder(){
   }
   
   useEffect(() => {
-    console.log("useEffect triggered");
     getContractData();
     setMapLoading(true);
   }, []);
@@ -83,7 +77,6 @@ export function PageWorkerOrder(){
         }
         
         navigate(`/worker/${workerId}/orders/overview`);
-        console.log('Worker status updated to AVAILABLE and contract status updated to COMPLETED');
       } catch (error) {
         console.error('Error updating status:', error);
       }

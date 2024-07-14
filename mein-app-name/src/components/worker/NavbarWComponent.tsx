@@ -36,7 +36,6 @@ export function NavbarWComponent() {
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
       onConnect: async () => {
-        console.log("Connected");
         client.subscribe(`/topic/${userId}`, (message: IMessage) => {
           const receivedMessage: Message = JSON.parse(message.body);
           if (receivedMessage.content.length > 1) {

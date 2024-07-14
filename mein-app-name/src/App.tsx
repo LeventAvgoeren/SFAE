@@ -48,12 +48,10 @@ function App() {
   async function fetchLoginStatus() {
     try {
       const loginStatus = await checkLoginStatus();
-      console.log("CHECK " + loginStatus)
       if (loginStatus) {
         setLoginInfo(loginStatus);
       }
     } catch (e) {
-      console.log(e);
     } finally {
       setLoading(false);
     }

@@ -17,7 +17,6 @@ export default function PageRegistrationAdmin() {
       event.preventDefault();
         try {
             const response = await registrationAdmin(name, password, email);
-            console.log('Registration successful:', response);
             alert('Registration successful!');
         } catch (error) {
             console.error('Registration failed:', error);

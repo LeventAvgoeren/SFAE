@@ -39,7 +39,6 @@ export function PageLogin() {
             }
         }
     } catch (error) {
-        console.log(error);
         console.error("Fehler beim Anmelden:", error);
         setError('Ein technischer Fehler ist aufgetreten.');
     }

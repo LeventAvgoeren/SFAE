@@ -50,7 +50,6 @@ export default function PageOrderRequest() {
       setRangeError("");
     }
 
-    console.log("Form submitted");
     await handleCreateContract();
   };
 
@@ -129,7 +128,6 @@ export default function PageOrderRequest() {
     const cus = await getCustomerbyID(cusId!)
 
     setIsCreatingContract(true);
-    console.log("Creating contract...");
     const contractData = {
       adress: address,
       jobType: service.toUpperCase(),
@@ -144,15 +142,12 @@ export default function PageOrderRequest() {
       maxPayment: budget,
     };
   
-    console.log("Contract data:", contractData);
   
     try {
       const contract = await createContract(contractData);
       toast.success('Auftrags erfolgreich erstellt.');
-      console.log("Response from createContract:", contract);
       if (contract) {
         setContract(contract);
-        console.log(`Navigating to /customer/${cusId}/${contract.id}`);
         navigate(`/customer/${cusId}/order/${contract.id}`);
       } else {
         console.error("Fehler: Keine ContractID erhalten, Response:", contract);

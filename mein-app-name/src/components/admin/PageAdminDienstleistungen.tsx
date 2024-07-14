@@ -595,7 +595,7 @@ export function PageAdminDienstleistungen() {
                                 <Form.Label>Title:</Form.Label>
                                 <Form.Control 
                                     type="text" 
-                                    onChange={(e) => setText(e.target.value)} 
+                                    onChange={(e) => setTitel(e.target.value)} 
                                 />
                             </Form.Group>
                             <Form.Group>
@@ -603,7 +603,7 @@ export function PageAdminDienstleistungen() {
                                 <Form.Control 
                                     as="textarea" 
                                     rows={3} 
-                                    onChange={(e) => setTitel(e.target.value)} 
+                                    onChange={(e) => setText(e.target.value)} 
                                 />
                             </Form.Group>
                         </Form>

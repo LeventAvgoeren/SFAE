@@ -277,11 +277,6 @@ export function PageOrderOverview() {
     <>
       <div className="Backg">
         <NavbarComponent />
-        {contractFinished && (
-          <div className="alert alert-success mt-3">
-            Der Auftrag wurde beendet.
-          </div>
-        )}
         {loading || !workerAssigned ? (
           <div style={{ paddingBottom: "20%", height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: 'center' }}>
             <Lottie options={defaultOptions} height={400} width={400} />

@@ -76,17 +76,6 @@ public class NewsLetterService {
     }
 
     
-    private boolean isValidEmailAddress(String email) {
-        if (email == null || email.isEmpty()) {
-            return false;
-        }
-        // Basic validation to remove quotes
-        email = email.replace("\"", "");
-
-        return email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z]{2,6}$");
-    }
-
-
     public void sendOwnNewsLetter(String titel, String text) {
         if (text == null || text.isEmpty()) {
             throw new IllegalArgumentException("Text is empty: " + text);

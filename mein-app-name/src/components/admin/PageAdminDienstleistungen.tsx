@@ -366,7 +366,13 @@ export function PageAdminDienstleistungen() {
             text: text
         };
 
-        await sendOwnNews(send);
+        try {
+            await sendOwnNews(send);
+            toast.success("Emails wurden erfolgreich gesendet");
+        } catch (error) {
+            toast.error("Email konnte nicht gesendet werden");
+        }
+        
         setShowNewsModal(false);
     }
     return (

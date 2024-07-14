@@ -46,9 +46,9 @@ export function PageOrderOverview() {
   const [isPaid, setIsPaid] = useState<boolean>(false);
   const [mapLoading, setMapLoading] = useState(true);
   const handlePayment = () => setIsPaid(true);
+  const [loginInfo, setLoginInfo] = useState<LoginInfo | false>();
   const [contractFinished, setContractFinished] = useState(false);
   const { orderId } = useParams();
-  const [load, setLoad] = useState(false);
 
   const messages = [
     "Passender Worker wird gesucht...",
@@ -103,12 +103,7 @@ export function PageOrderOverview() {
           clearInterval(statusInterval);
           setLoading(false);
           setWorkerAssigned(true);
-          if(status === "ACCEPTED" && !localStorage.getItem('chatReload')){
-            localStorage.setItem('chatReload', 'true')
-            window.location.reload()
-          }
         }
-     
       } catch (error) {
         console.error('Error fetching contract status:', error);
       }
@@ -309,7 +304,7 @@ export function PageOrderOverview() {
                   <div className="info-item h4 mb-3"><strong>StatusOrder:</strong>  {conData.statusOrder}</div>
                   <div className="info-item h4 mb-3"><strong>Adresse: </strong> {conData.adress}</div>
                 </div>
-                {conData.statusOrder === "ACCEPTED" && conData.customer!.statusOrder !== "FINISHED" && conData.worker!.statusOrder !== "FINISHED" ? (
+                {conData.statusOrder === "ACCEPTED" && conData.customer!.statusOrder !== "FINISHED"? (
                   <button onClick={toggleShow} className="btn btn-danger">Auftrag beendet</button>
                 ) : (
                   <div className="alert alert-success mt-3 text-center" style={{ backgroundColor: '#001A2C', color: 'white' }}>

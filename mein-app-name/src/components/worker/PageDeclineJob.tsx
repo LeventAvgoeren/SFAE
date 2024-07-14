@@ -30,7 +30,6 @@ export function PageDeclineJob() {
 
   async function handleResponse(accepted: boolean) {
 
-    console.log("VERRAG: " + getcontract?.longitude)
     await contractAcceptOrDecline(accepted, getcontract!)
     if (accepted) {
       toast.success("Auftrag wurde erfolgreich angenommen.", {
@@ -81,7 +80,6 @@ export function PageDeclineJob() {
       let workerFound = await getWorkerbyID(res.receiver);
         if(getcontract?.customer?.id){
           let customerFound = await getCustomerbyID(getcontract?.customer?.id)
-          console.log("CUSTOMERINFO"+customerFound)
           setCustomer(customerFound)
         }
       fetchCoordinates(res2.adress!)
@@ -101,9 +99,7 @@ export function PageDeclineJob() {
     async function fetchContracts() {
       try {
         await getContractIdByToken(tokenID!)
-        console.log(getcontract);
       } catch (error) {
-        console.log("Fehler:" + error);
       }
     }
     fetchContracts();

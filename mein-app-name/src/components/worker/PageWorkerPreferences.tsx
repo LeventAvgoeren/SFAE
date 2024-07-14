@@ -111,9 +111,7 @@ export function PageWorkerPreferences() {
     }
 
     try {
-      console.log(updatedWorkerData.jobType+" ---------------------")
       const updatedWorker = await updateWorkerPreferences(updatedWorkerData);
-      console.log("Updated Worker:", updatedWorker);
       toast.success("Präferenzen erfolgreich aktualisiert");
     } catch (error) {
       console.error("Fehler beim Aktualisieren des Workers:", error);

@@ -95,7 +95,6 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ onClose }) => {
                     contract.sort((a, b) => a.id! - b.id!);
                     if (contract) {
                         const status = contract[contract.length - 1].statusOrder;
-                        console.log(contract[contract.length - 1])
                         if (status !== "ACCEPTED") {
                             return setActive(false);
                         }
@@ -148,7 +147,6 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ onClose }) => {
                 if (status !== 'ACCEPTED') {
                     setActive(false)
                 } else {
-                    console.log("AS")
                     setActive(true)
                     fetchMessage()  
                     window.location.reload()
@@ -184,7 +182,6 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ onClose }) => {
             heartbeatIncoming: 4000,
             heartbeatOutgoing: 4000,
             onConnect: async () => {
-                console.log('Connected');
                 fetchMessage();
                 client.subscribe(`/topic/${userId}`, (message: IMessage) => {
                     const receivedMessage: Message = JSON.parse(message.body);

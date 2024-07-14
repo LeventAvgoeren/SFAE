@@ -34,7 +34,7 @@ public class NewsLetterService {
             
        
         // Hole mir alle news
-        List<NewsLetter> found = newsLetterRepository.findAll();
+        List<NewsLetter> found = newsLetterRepository.findAllNonEmptyCustomerEmail();
         //Hole mir alleWorker 
         List<String> workerIdList= workerRep.findAllOrderedById();
         
@@ -76,16 +76,14 @@ public class NewsLetterService {
     }
 
     
-
-
     public void sendOwnNewsLetter(String titel, String text) {
         if (text == null || text.isEmpty()) {
             throw new IllegalArgumentException("Text is empty: " + text);
         }
         try {
-            List<NewsLetter> user = newsLetterRepository.findAll();
+            List<NewsLetter> user = newsLetterRepository.findAllNonEmptyCustomerEmail();
             for (NewsLetter data : user) {
-                mail.sendHtmlMessage(data.getCustomerEmail(), titel, text);
+                    mail.sendHtmlMessage(data.getCustomerEmail(), titel, text);
             }
         } catch (Exception e) {
             e.printStackTrace();

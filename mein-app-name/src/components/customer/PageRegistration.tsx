@@ -49,18 +49,14 @@ export default function PageRegistration() {
         const apiKey = 'a295d6f75ae64ed5b8c6b3568b58bbf6';  
         const requestUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(inputAddress)}&key=${apiKey}`;
 
-        console.log(`Requesting validation for address: ${inputAddress}`); // Log the address being validated
 
         try {
             const response = await axios.get(requestUrl);
-            console.log('API Response:', response);  // Log the full API response
 
             const data = response.data;
             if (data.results.length > 0 && data.results[0].geometry) {
-                console.log('Valid address with geometry:', data.results[0].geometry);  // Log the geometry data
                 return true;
             } else {
-                console.log('No valid address found in the API response.');  // Log when no valid address is found
                 return false;
             }
         } catch (error) {
@@ -77,11 +73,9 @@ export default function PageRegistration() {
 
     const handleRegistration = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log('Starting registration process...');  // Log the start of the registration process
 
         const isValidAddress = true
         setAddressValid(isValidAddress);
-        console.log(`Address validation result: ${isValidAddress}`);  // Log the result of the address validation
 
         if (!isValidAddress) {
             alert('Bitte geben Sie eine gültige Adresse ein.');
@@ -105,7 +99,6 @@ export default function PageRegistration() {
             if(response){
             
             }
-            console.log('Registration successful:', response);  // Log the response from the registration attempt
             toast.success("Bestätigen sie nun ihre email", {
                 onClose: () => navigate("/login")
             });

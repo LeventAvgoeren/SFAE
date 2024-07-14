@@ -59,7 +59,6 @@ export function PageIndexCustomer() {
         let customer = await getCustomerbyID(customerId);
         setName(customer.name);
       } catch (error) {
-        console.log("Fehler:" + error);
       }
     }
 

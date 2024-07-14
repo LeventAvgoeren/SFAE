@@ -192,7 +192,6 @@ export function PageWorkerProfile() {
       updatedWorkerData.profileBase64 = updatedWorkerData.profileBase64.slice(23);
 
       const updatedWorker = await updateWorkerProfile(updatedWorkerData);
-      console.log("Updated Worker:", updatedWorker);
       toast.success("Profil erfolgreich aktualisiert");
     } catch (error) {
       console.error("Fehler beim Aktualisieren des Workers:", error);

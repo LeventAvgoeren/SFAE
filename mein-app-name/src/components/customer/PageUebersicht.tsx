@@ -29,7 +29,6 @@ export function PageUebersicht() {
           setContracts(contracts);
         }
       } catch (error) {
-        console.log("Fehler:" + error);
       }
     }
     fetchContracts();

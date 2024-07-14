@@ -34,7 +34,6 @@ export function PageWorkerOrder() {
   const [mapLoading, setMapLoading] = useState(true);
   const [contractFinished, setContractFinished] = useState(false);
 
-
   async function getContractData() {
     if (orderId) {
       try {

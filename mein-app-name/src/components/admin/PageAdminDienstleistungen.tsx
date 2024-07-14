@@ -183,8 +183,6 @@ export function PageAdminDienstleistungen() {
         if (error instanceof HttpError) {
             const status = error.response.status;
             const errorMessage = await error.response.text();
-            console.log("Status:", status);
-            console.log("Error Message:", errorMessage);
             handleErrorMessages(status, errorMessage);
         } else {
             console.error('Fehler beim Löschen:', error);
@@ -366,7 +364,13 @@ export function PageAdminDienstleistungen() {
             text: text
         };
 
-        await sendOwnNews(send);
+        try {
+            await sendOwnNews(send);
+            toast.success("Emails wurden erfolgreich gesendet");
+        } catch (error) {
+            toast.error("Email konnte nicht gesendet werden");
+        }
+        
         setShowNewsModal(false);
     }
     return (
@@ -589,7 +593,7 @@ export function PageAdminDienstleistungen() {
                                 <Form.Label>Title:</Form.Label>
                                 <Form.Control 
                                     type="text" 
-                                    onChange={(e) => setText(e.target.value)} 
+                                    onChange={(e) => setTitel(e.target.value)} 
                                 />
                             </Form.Group>
                             <Form.Group>
@@ -597,7 +601,7 @@ export function PageAdminDienstleistungen() {
                                 <Form.Control 
                                     as="textarea" 
                                     rows={3} 
-                                    onChange={(e) => setTitel(e.target.value)} 
+                                    onChange={(e) => setText(e.target.value)} 
                                 />
                             </Form.Group>
                         </Form>

@@ -34,7 +34,7 @@ public class NewsLetterService {
             
        
         // Hole mir alle news
-        List<NewsLetter> found = newsLetterRepository.findAll();
+        List<NewsLetter> found = newsLetterRepository.findAllNonEmptyCustomerEmail();
         //Hole mir alleWorker 
         List<String> workerIdList= workerRep.findAllOrderedById();
         
@@ -76,6 +76,15 @@ public class NewsLetterService {
     }
 
     
+    private boolean isValidEmailAddress(String email) {
+        if (email == null || email.isEmpty()) {
+            return false;
+        }
+        // Basic validation to remove quotes
+        email = email.replace("\"", "");
+
+        return email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z]{2,6}$");
+    }
 
 
     public void sendOwnNewsLetter(String titel, String text) {
@@ -83,9 +92,9 @@ public class NewsLetterService {
             throw new IllegalArgumentException("Text is empty: " + text);
         }
         try {
-            List<NewsLetter> user = newsLetterRepository.findAll();
+            List<NewsLetter> user = newsLetterRepository.findAllNonEmptyCustomerEmail();
             for (NewsLetter data : user) {
-                mail.sendHtmlMessage(data.getCustomerEmail(), titel, text);
+                    mail.sendHtmlMessage(data.getCustomerEmail(), titel, text);
             }
         } catch (Exception e) {
             e.printStackTrace();

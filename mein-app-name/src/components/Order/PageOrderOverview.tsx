@@ -44,7 +44,7 @@ export function PageOrderOverview() {
   const [routeDistance, setRouteDistance] = useState<string>('');
   const navigate = useNavigate();
   const [isPaid, setIsPaid] = useState<boolean>(false);
-  const [mapLoading, setMapLoading] = useState(false);
+  const [mapLoading, setMapLoading] = useState(true);
   const handlePayment = () => setIsPaid(true);
   const [loginInfo, setLoginInfo] = useState<LoginInfo | false>();
   const [contractFinished, setContractFinished] = useState(false);
@@ -98,7 +98,6 @@ export function PageOrderOverview() {
     const statusInterval = setInterval(async () => {
       try {
         const status = await getContractStatus(contractId);
-        console.log(status);
         if (status !== 'UNDEFINED' || !status) {
           fetchContractData();
           clearInterval(statusInterval);
@@ -127,7 +126,6 @@ export function PageOrderOverview() {
         try {
           await updateContractStatus(contractId, 'FINISHED');
           
-          console.log('Contract status updated to FINISHED');
         } catch (error) {
           console.error('Error updating contract status:', error);
         }
@@ -139,7 +137,6 @@ export function PageOrderOverview() {
   const handleConfirm = async () => {
     if (conData && conData.worker && conData.worker.id) {
       try {
-        console.log('Confirming completion for contract:', conData);
         await deleteChat(conData.worker.id, conData.customer!.id!);
         await updateCustomerOrderStatus({ id: conData.customer!.id!, statusOrder: 'FINISHED' });
 
@@ -151,7 +148,6 @@ export function PageOrderOverview() {
 
 
         navigate(`/customer/${customerId}/orders/${orderId}/completed`);
-        console.log('Worker status updated to AVAILABLE and contract status updated to COMPLETED');
       } catch (error) {
         console.error('Error updating status:', error);
       }
@@ -162,7 +158,6 @@ export function PageOrderOverview() {
   const handleCancelConfirm = async () => {
     if (conData && conData.worker && conData.worker.id) {
       try {
-        console.log('Cancelling contract:', conData);
         await deleteChat(conData.worker.id, conData.customer!.id!);
         await updateWorkerStatus(conData.worker.id, 'AVAILABLE');
         await updateContractStatus(contractId, 'CANCELLED');
@@ -203,7 +198,6 @@ export function PageOrderOverview() {
   useEffect(() => {
     if (conData && conData.worker && conData.worker.location) {
       const createMap = async () => {
-        setMapLoading(true);
         try {
           const customerCoords = await getCoordinates(conData.adress!);
           const workerCoords = await getCoordinates(conData.worker!.location!);
@@ -218,18 +212,18 @@ export function PageOrderOverview() {
             zoomControl: true,
             keyboard: false,
           }).setView([customerCoords.latitude, customerCoords.longitude], 0);
-
+  
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: ''
           }).addTo(map);
-
+  
           map.attributionControl.setPrefix(false);
           map.attributionControl.remove();
           map.on('click', function (e) {
             e.originalEvent.preventDefault();
             e.originalEvent.stopPropagation();
           });
-
+  
           const control = L.Routing.control({
             waypoints: [
               L.latLng(customerCoords.latitude, customerCoords.longitude),
@@ -238,10 +232,10 @@ export function PageOrderOverview() {
             routeWhileDragging: false,
             createMarker: function () { return null; }
           } as any).addTo(map);
-
+  
           L.marker([customerCoords.latitude, customerCoords.longitude], { icon: customIconCustomer }).addTo(map);
           L.marker([workerCoords.latitude, workerCoords.longitude], { icon: customIconWorker }).addTo(map);
-
+  
           control.on('routesfound', function (e) {
             const routes = e.routes;
             const summary = routes[0].summary;
@@ -250,16 +244,17 @@ export function PageOrderOverview() {
             setRouteTime(`${totalTimeMinutes} Minuten`);
             setRouteDistance(`${totalDistanceKm} Km`);
           });
+  
+          setMapLoading(false);  // Set to false once the map is loaded
         } catch (error) {
           console.error('Error creating map:', error);
-        } finally {
-          setMapLoading(false);
         }
       };
-
+  
       createMap();
     }
   }, [conData]);
+  
 
   if (!contractData.length) {
     return <div className="Backg">No contracts found</div>;
@@ -309,15 +304,28 @@ export function PageOrderOverview() {
                   <div className="info-item h4 mb-3"><strong>StatusOrder:</strong>  {conData.statusOrder}</div>
                   <div className="info-item h4 mb-3"><strong>Adresse: </strong> {conData.adress}</div>
                 </div>
-                {conData.statusOrder === "ACCEPTED" && (conData.customer!.statusOrder !== "FINISHED" || conData.worker!.statusOrder !== "FINISHED") && (
+                {conData.statusOrder === "ACCEPTED" && conData.customer!.statusOrder !== "FINISHED" && conData.worker!.statusOrder !== "FINISHED" ? (
                   <button onClick={toggleShow} className="btn btn-danger">Auftrag beendet</button>
+                ) : (
+                  <div className="alert alert-success mt-3 text-center" style={{ backgroundColor: '#001A2C', color: 'white' }}>
+                    Der Auftrag wurde beendet.
+                  </div>
                 )}
               </div>
               <div style={{ justifyItems: "center", alignContent: "center" }} className='middle-column'>
                 <main style={{ gridArea: 'map10', display: 'flex', alignItems: 'center', width: '100%', height: '100%', borderRadius: "50%" }} draggable="false">
-                  <div id="map" style={{ borderRadius: "28px", width: '100%', height: "100%" }}></div>
+                  <div id="map" style={{ borderRadius: "28px", width: '100%', height: "100%", position: "relative" }}>
+                    {mapLoading && (
+                      <div className="loading-overlay">
+                        <div className="spinner-border text-light" role="status">
+                          <span className="visually-hidden">Loading...</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </main>
               </div>
+
               <div className="col-lg-4">
                 <div className="right-column1">
                   <div className="info-section">
@@ -408,7 +416,7 @@ export function PageOrderOverview() {
           </div>
         </div>
         {cancelModalShow && <div className="modal-backdrop fade show"></div>}
-        <Footer></Footer>
+        <Footer />
       </div>
     </>
   );

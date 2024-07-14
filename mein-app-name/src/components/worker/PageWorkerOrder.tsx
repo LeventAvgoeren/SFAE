@@ -1,19 +1,27 @@
-import '../Order/PageOrderOverview.css';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getContract, getCustomerImage, getWorkerImage, updateWorkerStatus, updateContractStatus, deleteChat, updateWorkerOrderStatus } from '../../backend/api';
+import React, { useEffect, useState } from 'react';
+import './PageWorkerOrder.css';
+import { useParams, useNavigate } from 'react-router-dom';
+import {
+  getContract,
+  getCustomerImage,
+  getWorkerImage,
+  updateWorkerStatus,
+  updateContractStatus,
+  deleteChat,
+  updateWorkerOrderStatus
+} from '../../backend/api';
 import { ContractResource } from '../../Resources';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import Lottie from 'react-lottie';
 import { Col, Row } from 'react-bootstrap';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine';
 import NavbarWComponent from '../worker/NavbarWComponent';
-import { useEffect, useState } from 'react';
-import "./PageWorkerOrder.css";
+import Footer from '../Footer';
 
-export function PageWorkerOrder(){
-
+export function PageWorkerOrder() {
   const { workerId, orderId } = useParams<{ workerId: string, orderId: string }>();
   const [foto, setFoto] = useState("");
   const [workerFoto, setWorkerFoto] = useState("");
@@ -23,18 +31,14 @@ export function PageWorkerOrder(){
   const [routeTime, setRouteTime] = useState<string>('');
   const [routeDistance, setRouteDistance] = useState<string>('');
   const navigate = useNavigate();
-  const [mapLoading, setMapLoading] = useState(false);
+  const [mapLoading, setMapLoading] = useState(true);
   const [contractFinished, setContractFinished] = useState(false);
 
-  console.log("Order id mit parse "+ parseInt(orderId!));
-  console.log("Order id ohne parse "+ orderId!);
-  console.log("worker id "+ workerId!);
 
   async function getContractData() {
     if (orderId) {
       try {
         let contract = await getContract(parseInt(orderId));
-        console.log("Das ist der contract: ", contract);
         setContractData(contract);
 
         if (contract) {
@@ -54,9 +58,8 @@ export function PageWorkerOrder(){
       console.error("Order ID is not defined");
     }
   }
-  
+
   useEffect(() => {
-    console.log("useEffect triggered");
     getContractData();
     setMapLoading(true);
   }, []);
@@ -76,14 +79,13 @@ export function PageWorkerOrder(){
         await updateWorkerOrderStatus(contractData.worker.id, "FINISHED");
         await updateWorkerStatus(contractData.worker.id, 'AVAILABLE');
         await updateContractStatus(contractData.id!, 'FINISHED');
-        
+
         if (contractData.worker.statusOrder === 'FINISHED' && contractData.customer!.statusOrder === 'FINISHED') {
           await updateWorkerOrderStatus(contractData.worker.id, 'UNDEFINED');
           setContractFinished(true);
         }
-        
+
         navigate(`/worker/${workerId}/orders/overview`);
-        console.log('Worker status updated to AVAILABLE and contract status updated to COMPLETED');
       } catch (error) {
         console.error('Error updating status:', error);
       }
@@ -103,20 +105,19 @@ export function PageWorkerOrder(){
     iconAnchor: [25, 50],
   });
 
-  async function getCoordinates(address : string) {
+  async function getCoordinates(address: string) {
     const berlinBounds = '13.088209,52.341823,13.760610,52.669724';
     const url = `https://nominatim.openstreetmap.org/search?format=json&bounded=1&viewbox=${berlinBounds}&q=${encodeURIComponent(address + ', Berlin')}`;
     const response = await fetch(url);
     const data = await response.json();
     if (data && data.length > 0) {
-        return {
-            latitude: parseFloat(data[0].lat),
-            longitude: parseFloat(data[0].lon),
-        };
+      return {
+        latitude: parseFloat(data[0].lat),
+        longitude: parseFloat(data[0].lon),
+      };
     }
     throw new Error('Address not found');
-}
-
+  }
 
   useEffect(() => {
     if (contractData && contractData.worker && contractData.worker.location) {
@@ -135,7 +136,7 @@ export function PageWorkerOrder(){
             boxZoom: false,
             zoomControl: true,
             keyboard: false,
-        }).setView([customerCoords.latitude, customerCoords.longitude], 0);
+          }).setView([customerCoords.latitude, customerCoords.longitude], 0);
 
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: ''
@@ -168,11 +169,10 @@ export function PageWorkerOrder(){
             setRouteTime(`${totalTimeMinutes} Minuten`);
             setRouteDistance(`${totalDistanceKm} Km`);
           });
+
+          setMapLoading(false);  // Set to false once the map is loaded
         } catch (error) {
           console.error('Error creating map:', error);
-        }
-        finally {
-          setMapLoading(false);
         }
       };
 
@@ -216,7 +216,15 @@ export function PageWorkerOrder(){
             </div>
             <div style={{ justifyItems: "center", alignContent: "center" }} className='middle-column'>
               <main style={{ gridArea: 'map10', display: 'flex', alignItems: 'center', width: '100%', height: '100%', borderRadius: "50%" }} draggable="false">
-                <div id="map" style={{ borderRadius: "28px", width: '100%', height: '100%' }}></div>
+                <div id="map" style={{ borderRadius: "28px", width: '100%', height: '100%', position: "relative" }}>
+                  {mapLoading && (
+                    <div className="loading-overlay">
+                      <div className="spinner-border text-light" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </main>
             </div>
             <div className="col-lg-4">
@@ -289,8 +297,9 @@ export function PageWorkerOrder(){
           </div>
         </div>
         {modalShow && <div className="modal-backdrop fade show"></div>}
-          {cancelModalShow && <div className="modal-backdrop fade show"></div>}
-        </div>
-      </>
-    );
+        {cancelModalShow && <div className="modal-backdrop fade show"></div>}
+      </div>
+      <Footer />
+    </>
+  );
 }

@@ -48,7 +48,6 @@ export async function deleteCustomer(id: string) {
     credentials: "include" as RequestCredentials,
   });
 
-  console.log(response.status, response.ok+" -------------")
   if (!response.ok) {
     throw new HttpError(response);
   }
@@ -119,7 +118,6 @@ export async function updateWorker(workerData: WorkerResource): Promise<WorkerRe
   try {
     const response = await fetchWithErrorHandling(url, options);
     const updatedWorker = await response.json();
-    console.log("ASD" + updatedWorker)
     return updatedWorker;
   } catch (error) {
     console.error("Failed to update worker:", error);
@@ -134,7 +132,6 @@ export async function deleteWorker(id: string) {
     credentials: "include" as RequestCredentials,
   });
 
-  console.log(response.status, response.ok + " -------------");
   if (!response.ok) {
     throw new HttpError(response);
   }
@@ -263,10 +260,8 @@ export async function registrationWorker(
   slogan: string
 ) {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/worker`;
-  console.log(jobTypes)
   const upperJobTypes = jobTypes.map(type => type.toUpperCase());
 
-  console.log(upperJobTypes)
   let latitude = LongLat.latitude;
   let longitude = LongLat.longitude;
   try {
@@ -520,7 +515,6 @@ export async function getUserFromEmail(email: String): Promise<CustomerResource 
 }
 
 export async function setRating(data:RatingRessource) :Promise <Boolean > {
-  console.log("BIN DRINNE");
   const url = `${process.env.REACT_APP_API_SERVER_URL}/worker/rating`;
 
   const options = {
@@ -636,7 +630,6 @@ export async function updateContractStatus(contractId: number, status: string): 
 }
 
 export async function deleteChat(user1: string, user2: string): Promise<void> {
-  console.log("WERDE AUS")
   const url = `${process.env.REACT_APP_API_SERVER_URL}/chat/history?user1=${user1}&user2=${user2}`;
   const response = await fetchWithErrorHandling(url, {
     method: 'DELETE',
@@ -680,7 +673,6 @@ export async function updateWorkerPreferences(workerData: WorkerResourcePreferen
   try {
     const response = await fetchWithErrorHandling(url, options);
     const updatedWorker = await response.json();
-    console.log("ASD" + updatedWorker)
     return updatedWorker;
   } catch (error) {
     console.error("Failed to update worker:", error);
@@ -700,7 +692,6 @@ export async function updateWorkerProfile(workerData: WorkerResourceProfil): Pro
   try {
     const response = await fetchWithErrorHandling(url, options);
     const updatedWorker = await response.json();
-    console.log("ASD" + updatedWorker)
     return updatedWorker;
   } catch (error) {
     console.error("Failed to update worker:", error);
@@ -779,8 +770,6 @@ export async function chatBot(input: string): Promise<string> {
 }
 export async function updateCustomerOrderStatus(data: UpdateStatusCustomer): Promise<boolean> {
   const url = `${process.env.REACT_APP_API_SERVER_URL}/customer/updateStatusOrder`;
-  console.log('Sending request to:', url);
-  console.log('Request body:', JSON.stringify(data));
 
   const response = await fetch(url, {
     method: 'PUT',

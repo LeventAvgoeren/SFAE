@@ -251,7 +251,7 @@ export default function PageRegistrationWorker() {
                 </MDBCol>
               </MDBRow>
               <div style={{ color: 'white', marginBottom: '10px' }}>Das Passwort muss mindestens einen Großbuchstaben, eine Zahl und ein Sonderzeichen enthalten.</div>
-              {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>}
+              {passwordError && <div style={{ color: '#ed4e50' }}>{passwordError}</div>}
               <MDBProgress className='mb-4'>
                 <MDBProgressBar width={passwordStrength * 25} valuemin={0} valuemax={100}>
                   {passwordStrength * 25}%

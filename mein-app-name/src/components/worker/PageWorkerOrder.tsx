@@ -83,7 +83,7 @@ export function PageWorkerOrder() {
           await updateWorkerOrderStatus(contractData.worker.id, 'UNDEFINED');
           setContractFinished(true);
         }
-
+        
         navigate(`/worker/${workerId}/orders/overview`);
       } catch (error) {
         console.error('Error updating status:', error);

@@ -171,7 +171,7 @@ export default function PageRegistrationWorker() {
 
       await sendJobNews(jobList);
 
-      toast.success("Bitte bestätigen sie ihre email", {
+      toast.success("Bitte bestätigen sie ihre E-Mail Adresse", {
         onClose: () => navigate("/login")
       });
     } catch (error) {

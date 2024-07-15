@@ -58,11 +58,11 @@ export function PageWorkerOrderOverview() {
     };
 
     const columns: GridColDef[] = [
-        { field: 'id', headerName: 'ID', width: 130, headerClassName: 'super-app-theme--header' },
+        { field: 'id', headerName: 'ID', flex: 1, headerClassName: 'super-app-theme--header' },
         {
             field: 'statusOrder',
             headerName: 'Status',
-            width: 130,
+            flex: 1,
             headerClassName: 'super-app-theme--header',
             renderCell: (params: GridRenderCellParams) => (
                 <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -71,21 +71,21 @@ export function PageWorkerOrderOverview() {
                 </div>
             )
         },
-        { field: 'adress', headerName: 'Adresse', width: 290, headerClassName: 'super-app-theme--header' },
-        { field: 'description', headerName: 'Beschreibung', width: 400, headerClassName: 'super-app-theme--header' },
-        { field: 'jobType', headerName: 'Job Typ', width: 290, headerClassName: 'super-app-theme--header' },
-        { field: 'payment', headerName: 'Bezahlung', width: 290, headerClassName: 'super-app-theme--header' },
+        { field: 'adress', headerName: 'Adresse', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'description', headerName: 'Beschreibung', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'jobType', headerName: 'Job Typ', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'payment', headerName: 'Bezahlung', flex: 1, headerClassName: 'super-app-theme--header' },
         {
             field: 'maxPayment',
             headerName: 'Maximale Zahlung',
-            width: 290,
+            flex: 1,
             headerClassName: 'super-app-theme--header',
             renderCell: (params: GridRenderCellParams) => `${params.value} €`
         },
         {
             field: 'customer',
             headerName: 'Customer Name',
-            width: 290,
+            flex: 1,
             headerClassName: 'super-app-theme--header',
             renderCell: (params) => {
                 return params.value ? params.value.name : (
@@ -99,7 +99,7 @@ export function PageWorkerOrderOverview() {
         {
             field: 'action',
             headerName: '',
-            width: 150,
+            flex: 1,
             headerClassName: 'super-app-theme--header',
             renderCell: (params: GridRenderCellParams) => (
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 35, width: '100%' }}>

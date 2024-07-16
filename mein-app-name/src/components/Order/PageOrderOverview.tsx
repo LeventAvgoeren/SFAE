@@ -103,6 +103,10 @@ export function PageOrderOverview() {
           clearInterval(statusInterval);
           setLoading(false);
           setWorkerAssigned(true);
+          if(status === "ACCEPTED" && !localStorage.getItem('chatReload')){
+            localStorage.setItem('chatReload', 'true')
+            window.location.reload()
+          }
         }
       } catch (error) {
         console.error('Error fetching contract status:', error);

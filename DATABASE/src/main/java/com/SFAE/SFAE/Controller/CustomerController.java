@@ -184,7 +184,7 @@ class CustomerController implements CustomerEP {
             //token erstellen
             String token = mailService.createToken(0, customer.getId(), TokenType.VERIFYCUSTOMER);
 
-            String link = "https://localhost:3000/verifyEmail?token=" + token;
+            String link = "https://erayzor.de/verifyEmail?token=" + token;
       
 
             //Email senden zum verifizieren
@@ -484,7 +484,7 @@ class CustomerController implements CustomerEP {
         if (foundCustomer != null) {
             String token = mailService.createToken(0, foundCustomer.getId(), TokenType.PASSWORDRESET);
 
-            String link = "https://localhost:3000/newPassword?token=" + token;
+            String link = "https://erayzor.de/newPassword?token=" + token;
 
             try {
                 mail.sendHtmlMessage(foundCustomer.getEmail(), "Passwort zurücksetzen",
@@ -509,7 +509,7 @@ class CustomerController implements CustomerEP {
         if (worker != null) {
             String token = mailService.createToken(0, worker.getId(), TokenType.PASSWORDRESET);
 
-            String link = "https://localhost:3000/newPassword?token=" + token;
+            String link = "https://erayzor.de/newPassword?token=" + token;
 
             try {
                 mail.sendHtmlMessage(worker.getEmail(), "Passwort zurücksetzen",

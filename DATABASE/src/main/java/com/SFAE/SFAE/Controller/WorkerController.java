@@ -84,7 +84,7 @@ public class WorkerController implements WorkerEp {
             Worker builded = dao.createWorker(worker);
             if (builded != null) {
                 String token = mailService.createToken(0, builded.getId(), TokenType.VERIFYWORKER);
-                String link = "https://localhost:3000/verifyEmailWorker?token=" + token;
+                String link = "https://erayzor.de/verifyEmailWorker?token=" + token;
                 mail.sendHtmlMessage(builded.getEmail(), "Bestätigung Ihrer E-Mail-Adresse",
                         "<html><body>" +
                                 "Hallo " + builded.getName() + ",<br>" +

@@ -131,16 +131,16 @@ public class ChatBot{
     }
 
       if (frageWort && isCustomer && registrieren) {
-          return "Sie können sich hier <a href='https://localhost:3000/registration/customer'>registrieren</a>.";
+          return "Sie können sich hier <a href='https://erayzor.de/registration/customer'>registrieren</a>.";
       }
       if (frageWort && !isCustomer && registrieren) {
-          return "Sie können sich hier <a href='https://localhost:3000/registration/worker'>registrieren</a>.";
+          return "Sie können sich hier <a href='https://erayzor.de/registration/worker'>registrieren</a>.";
       }
       if (frageWort && isCustomer && anmelden) {
-          return "Sie können sich hier <a href='https://localhost:3000/login'>anmelden</a>.";
+          return "Sie können sich hier <a href='https://erayzor.de/login'>anmelden</a>.";
       }
       if (frageWort && !isCustomer && anmelden) {
-          return "Sie können sich hier <a href='https://localhost:3000/login'>anmelden</a>.";
+          return "Sie können sich hier <a href='https://erayzor.de/login'>anmelden</a>.";
       }
 
 
@@ -163,7 +163,7 @@ public class ChatBot{
           return "Wenden Sie sich bitte an den Support (Sfae@gmail.com) oder probieren Sie folgende Schritte: 1. Passen Sie die Reichweite an. 2. Passen Sie den gewünschten Jobtyp an. 3. Passen Sie Ihre maximale Zahlung an.";
       }
       if ((frageWort && anmelden && verneinung) || (anmelden && verneinung)) {
-          return "Wenn Sie Probleme bei der Anmeldung haben, probieren Sie Ihre Email zu bestätigen oder Ihr Passwort zurückzusetzen auf folgender Seite <a href='https://localhost:3000/passwordreset'>Passwort zurücksetzen</a>. Sie werden nun eine Email kriegen klicken sie drauf und geben sie ein neues passwort ein.Wenn beide Maßnahmen nicht helfen, wenden Sie sich bitte an den Support (Sfae@gmail.com).";
+          return "Wenn Sie Probleme bei der Anmeldung haben, probieren Sie Ihre Email zu bestätigen oder Ihr Passwort zurückzusetzen auf folgender Seite <a href='https://erayzor.de/passwordreset'>Passwort zurücksetzen</a>. Sie werden nun eine Email kriegen klicken sie drauf und geben sie ein neues passwort ein.Wenn beide Maßnahmen nicht helfen, wenden Sie sich bitte an den Support (Sfae@gmail.com).";
       }
       if ((verneinung && registrieren) || (frageWort && registrieren && verneinung)) {
           return "Wenn Sie keinen neuen Account erstellen können, probieren Sie eine gültige Email-Adresse anzugeben, um später die Email zu bestätigen. Verwenden Sie ein starkes Passwort, das 8 Zeichen, ein Sonderzeichen und eine Zahl enthält.";

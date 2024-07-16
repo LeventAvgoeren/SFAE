@@ -380,7 +380,7 @@ public class ContractImpl implements ContractInterface {
         Contract con = createContract(contract);
         Customer foundCustomer = custo.findCustomerbyID(contract.getCustomerId());
         String token = tokenService.createToken(con.getId(), worker.getId(), TokenType.CONTRACT);
-        String link = "https://localhost:3000/contract?token=" + token;
+        String link = "https://erayzor.de/contract?token=" + token;
         try {
           mail.sendHtmlMessage(worker.getEmail(), "Jobangebot erhalten",
               "<html><body>" +

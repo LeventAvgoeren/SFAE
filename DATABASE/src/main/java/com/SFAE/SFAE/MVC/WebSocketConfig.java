@@ -35,6 +35,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
      */
     @Override
     public void registerStompEndpoints(@SuppressWarnings("null") StompEndpointRegistry registry) {
-        registry.addEndpoint("/chat").setAllowedOrigins("https://localhost:3000").withSockJS();
+        registry.addEndpoint("/chat").setAllowedOrigins("https://localhost:3000", "https://erayzor.de/").withSockJS();
     }
 }

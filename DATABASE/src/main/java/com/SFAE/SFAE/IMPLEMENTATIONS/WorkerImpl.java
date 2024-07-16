@@ -285,6 +285,7 @@ public class WorkerImpl implements WorkerInterface {
       throw new IllegalArgumentException("Some data are empty");
     }
     try {
+
       byte[] defaultImage = pictureService.loadDefaultProfilePicture();
       var pic = pictureService.saveImageAsLargeObject(defaultImage);
       String name = rs.getName();
@@ -312,6 +313,7 @@ public class WorkerImpl implements WorkerInterface {
           StatusOrder.valueOf("UNDEFINED"), range, list, minPayment, rating, verification, email,
           latitude, longitude, ratingAv, pic, slogan, confirm);
       workerRepository.save(worker);
+      
       return worker;
     } catch (Exception e) {
       e.printStackTrace();

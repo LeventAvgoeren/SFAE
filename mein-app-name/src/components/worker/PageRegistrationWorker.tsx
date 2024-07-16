@@ -165,11 +165,11 @@ export default function PageRegistrationWorker() {
     setPasswordError('');
 
     try {
-     
+          await sendJobNews(jobList);
       const response = await registrationWorker(name, fullAddress, email, password, jobList, salary, userLocation!, slogan);
      
 
-      await sendJobNews(jobList);
+ 
 
       toast.success("Bitte bestätigen sie ihre E-Mail Adresse", {
         onClose: () => navigate("/login")

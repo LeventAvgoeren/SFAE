@@ -56,7 +56,8 @@ public class NewsLetterService {
 
             // Wenn es den job noch nicht gibt sende eine email an alle customer das es
             // einen neuen arbeiter gibt
-            if (workers == null || workerIdList.get(workerIdList.size() - 1).equals(workers.getId())) {
+            
+            if (workers == null) {
                 for (NewsLetter data : found) {
                     try {
                         String emailSubject = "Wir haben tolle Nachrichten!";

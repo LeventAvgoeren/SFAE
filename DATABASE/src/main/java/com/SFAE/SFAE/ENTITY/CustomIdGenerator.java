@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- 
+ Custom ID generator for Customer.
 @author erayzor*/
 
 public class CustomIdGenerator implements IdentifierGenerator, ApplicationContextAware {

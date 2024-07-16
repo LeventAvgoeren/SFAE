@@ -128,7 +128,7 @@ public interface WorkerEp {
 @PostMapping("/logout")
     ResponseEntity<?>logout(HttpServletResponse response);
 
-    /**
+/**
  * Counts all registered Workers in the system.
  * 
  * This method retrieves the total number of Workers registered, providing a count that can be used for
@@ -140,7 +140,7 @@ public interface WorkerEp {
     ResponseEntity<?> countAllWorkers();
 
 
-    /**
+/**
  * Updates the average rating of a Worker.
  * 
  * This method calculates and updates the average rating of a Worker based on new rating input. It is typically
@@ -152,30 +152,97 @@ public interface WorkerEp {
    @PutMapping("/rating")
    ResponseEntity<Boolean> avgRating(@RequestBody RatingDTO id);
 
+/**
+ * Requests a password reset for the worker associated with the provided email.
+ * 
+ * @param email The email address of the worker requesting a password reset.
+ * @return ResponseEntity<?> indicating the result of the password reset request.
+ *         Returns HttpStatus.OK if the request is successful, HttpStatus.NOT_FOUND if no worker is associated with the provided email.
+ */ 
    @PutMapping("/passwordreset")
    ResponseEntity<?> requestResetPassword(@RequestBody String email);
 
+
+/**
+ * Resets the password for the worker based on the provided password reset request data.
+ * 
+ * @param data The PasswordResetRequest object containing the necessary data to reset the password.
+ * @return ResponseEntity<?> indicating the result of the password reset operation.
+ *         Returns HttpStatus.OK if the password is successfully reset, HttpStatus.BAD_REQUEST if the provided data is invalid.
+ */
    @PutMapping("/updatepassword")
    ResponseEntity<?> resetPassword(@RequestBody PasswordResetRequest data);
 
+/**
+ * Retrieves the worker's image as a Base64 encoded string based on the provided worker ID.
+ * 
+ * @param id The ID of the worker whose image is to be retrieved.
+ * @return ResponseEntity<?> containing the worker's image in Base64 format.
+ *         Returns HttpStatus.OK if the image is successfully retrieved, HttpStatus.NOT_FOUND if the worker does not exist or has no image.
+ */
    @GetMapping("/{id}/image")
    ResponseEntity<?> getWorkerImageAsBase64(@PathVariable("id") String id);
 
+/**
+ * Updates the status of the worker based on the provided worker ID and status.
+ * 
+ * @param id The ID of the worker to update the status for.
+ * @param status The new status to be set for the worker.
+ * @return ResponseEntity<?> indicating the result of the status update operation.
+ *         Returns HttpStatus.OK if the status is successfully updated, HttpStatus.BAD_REQUEST if the provided status is invalid, HttpStatus.NOT_FOUND if the worker does not exist.
+ */
    @PutMapping("/status/{id}")
    ResponseEntity<?> updateWorkerStatus(@PathVariable("id") String id, @RequestBody String status);
 
+/**
+ * Updates the status of the worker's order based on the provided worker ID and order status.
+ * 
+ * @param id The ID of the worker to update the order status for.
+ * @param orderStatus The new order status to be set for the worker.
+ * @return ResponseEntity<?> indicating the result of the order status update operation.
+ *         Returns HttpStatus.OK if the order status is successfully updated, HttpStatus.BAD_REQUEST if the provided order status is invalid, HttpStatus.NOT_FOUND if the worker does not exist.
+ */
    @PutMapping("/statusOrder/{id}")
    ResponseEntity<?> updateWorkerStatusOrder(@PathVariable("id") String id, @RequestBody String orderStatus);
    
+ /**
+ * Retrieves the status of the worker based on the provided worker ID.
+ * 
+ * @param id The ID of the worker whose status is to be retrieved.
+ * @return ResponseEntity<?> containing the worker's status.
+ *         Returns HttpStatus.OK if the status is successfully retrieved, HttpStatus.NOT_FOUND if the worker does not exist.
+ */  
    @GetMapping("/statuse/{id}")
    ResponseEntity<?> getWorkerStatuse(@PathVariable("id") String id);
 
+/**
+ * Updates the profile of the worker based on the provided worker profile data.
+ * 
+ * @param data The WorkerProfileDTO object containing the necessary data to update the worker's profile.
+ * @return ResponseEntity<?> indicating the result of the profile update operation.
+ *         Returns HttpStatus.OK if the profile is successfully updated, HttpStatus.BAD_REQUEST if the provided data is invalid.
+ */ 
    @PutMapping("/profil")
    ResponseEntity<?> updateWorkerProfil(@RequestBody WorkerProfileDTO data);
    
+ /**
+ * Updates the preferences of the worker based on the provided worker preferences data.
+ * 
+ * @param data The WorkerPrefrencesDTO object containing the necessary data to update the worker's preferences.
+ * @return ResponseEntity<?> indicating the result of the preferences update operation.
+ *         Returns HttpStatus.OK if the preferences are successfully updated, HttpStatus.BAD_REQUEST if the provided data is invalid.
+ */  
    @PutMapping("/preferences")
    ResponseEntity<?> updateWorkerPreferences(@RequestBody WorkerPrefrencesDTO data);
 
+
+/**
+ * Verifies the worker's email based on the provided token.
+ * 
+ * @param token The token used to verify the worker's email.
+ * @return ResponseEntity<?> indicating the result of the email verification.
+ *         Returns HttpStatus.OK if the email is successfully verified, HttpStatus.FORBIDDEN if the token is invalid or expired.
+ */
    @PutMapping("/verifyEmailWorker/{token}")
    ResponseEntity<?> verifyEmail(@PathVariable("token") String token);
 

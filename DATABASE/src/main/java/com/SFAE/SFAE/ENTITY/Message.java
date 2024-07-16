@@ -9,6 +9,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents a message entity in the system.
+ * This entity stores details about a message, including sender, receiver, content, timestamp, and type.
+ * @author erayzor
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

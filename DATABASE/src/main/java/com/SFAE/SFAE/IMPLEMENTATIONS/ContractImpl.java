@@ -287,6 +287,15 @@ public class ContractImpl implements ContractInterface {
 
   }
 
+  /**
+   * Updates the status of an order associated with a contract.
+   * 
+   * @param contractId The ID of the contract whose order status is to be updated.
+   * @param statusOrder The new status to be set for the order.
+   * @param isPageAccept Indicates if the page is accepting the update.
+   * @return true if the order status is successfully updated, false otherwise.
+   * @throws IllegalArgumentException if the contractId or statusOrder is not provided.
+   */
   @Override
   public Boolean updateOrderStatus(Long contractId, String statusOrder, boolean isPageAccept) {
     if (contractId == null || statusOrder == null) {
@@ -319,6 +328,13 @@ public class ContractImpl implements ContractInterface {
   
   }
 
+  /**
+   * Retrieves the status of an order associated with a contract.
+   * 
+   * @param contractId The ID of the contract whose order status is to be retrieved.
+   * @return The status of the order as a String, or null if the contract does not exist.
+   * @throws IllegalArgumentException if the contractId is negative.
+   */
   @Override
   public String getStatusFromContract(Long contractId) {
     if (contractId < 0) {
@@ -338,6 +354,14 @@ public class ContractImpl implements ContractInterface {
     }
   }
 
+
+  /**
+   * Finds the next best worker for a contract.
+   * 
+   * @param contract The ContractDTO object containing the contract details.
+   * @throws IllegalArgumentException if the worker ID is not valid.
+   * @throws Error if no other worker exists or is available, or if an error occurs while sending the email.
+   */
   @Override
   public void findNextBestWorker(ContractDTO contract) {
     if (!contract.getWorkerId().startsWith("W")) {

@@ -14,6 +14,10 @@ import com.SFAE.SFAE.INTERFACE.WorkerRepository;
 
 import jakarta.mail.MessagingException;
 
+/**
+ * Service class for managing newsletter operations.
+ * @author leventavgoren
+ */
 @Service
 public class NewsLetterService {
 
@@ -29,6 +33,13 @@ public class NewsLetterService {
     @Autowired
     private MailService mail;
 
+
+    /**
+     * Sends a newsletter about new job types to customers.
+     * 
+     * @param jobTyp A list of job types to be included in the newsletter.
+     * @return true if the newsletter is successfully sent, false otherwise.
+     */
     public Boolean sendNewsLetter(List<JobList> jobTyp) {
         try {
             
@@ -75,7 +86,13 @@ public class NewsLetterService {
         return false;
     }
 
-    
+    /**
+     * Sends a custom newsletter to all customers.
+     * 
+     * @param titel The title of the newsletter.
+     * @param text The content of the newsletter.
+     * @throws IllegalArgumentException if the text is null or empty.
+     */
     public void sendOwnNewsLetter(String titel, String text) {
         if (text == null || text.isEmpty()) {
             throw new IllegalArgumentException("Text is empty: " + text);

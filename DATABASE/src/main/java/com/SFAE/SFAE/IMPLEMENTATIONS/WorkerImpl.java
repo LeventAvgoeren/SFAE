@@ -518,6 +518,13 @@ public class WorkerImpl implements WorkerInterface {
     return (List<Double>) ois.readObject();
   }
 
+  /**
+   * Updates the password of a worker.
+   * 
+   * @param password The new password to be set.
+   * @param Id The ID of the worker whose password is to be updated.
+   * @return true if the password is successfully updated, false otherwise.
+   */
   @Override
   public Boolean updatePassword(String password, String Id) {
 
@@ -535,6 +542,13 @@ public class WorkerImpl implements WorkerInterface {
     return false;
   }
 
+
+  /**
+   * Loads the default profile picture.
+   * 
+   * @return A byte array representing the default profile picture.
+   * @throws java.io.IOException if an I/O error occurs.
+   */
   public byte[] loadDefaultProfilePicture() throws java.io.IOException {
     try {
       ClassPathResource imgFile = new ClassPathResource("static/images/default_profile.jpeg");
@@ -545,6 +559,13 @@ public class WorkerImpl implements WorkerInterface {
     }
   }
 
+  /**
+   * Updates the status of a worker based on the provided worker ID and status.
+   * 
+   * @param workerId The ID of the worker to update the status for.
+   * @param status The new status to be set for the worker.
+   * @return true if the status is successfully updated, false otherwise.
+   */
   @Override
   public Boolean updateStatusByWorkerId(String workerId, String status) {
 
@@ -563,6 +584,13 @@ public class WorkerImpl implements WorkerInterface {
 
   }
 
+  /**
+   * Updates the order status of a worker based on the provided worker ID and status order.
+   * 
+   * @param workerId The ID of the worker to update the order status for.
+   * @param statusOrder The new order status to be set for the worker.
+   * @return true if the order status is successfully updated, false otherwise.
+   */
   @Override
   public Boolean updateOrderStatusByWorkerId(String workerId, String statusOrder) {
     int row = jdbcTemplate.update(
@@ -580,6 +608,13 @@ public class WorkerImpl implements WorkerInterface {
 
   }
 
+  /**
+   * Retrieves the profile image of a worker by their ID.
+   * 
+   * @param id The ID of the worker whose profile image is to be retrieved.
+   * @return A byte array representing the profile image, or null if no image is found.
+   * @throws IllegalArgumentException if the ID is not provided.
+   */
   @Override
   public byte[] getProfileImageByworkerId(String id) {
     if (id.isEmpty()) {
@@ -600,6 +635,13 @@ public class WorkerImpl implements WorkerInterface {
     return pictureService.readLargeObject(oid);
   }
 
+  /**
+   * Retrieves the status of a worker by their ID.
+   * 
+   * @param id The ID of the worker whose status is to be retrieved.
+   * @return The status of the worker.
+   * @throws IllegalArgumentException if the ID is not provided or if the status is empty.
+   */
   @Override
   public WorkerStatus getWorkerStatus(String id) {
     if (id == null) {
@@ -621,7 +663,13 @@ public class WorkerImpl implements WorkerInterface {
     }
   }
 
-  // bild name adresse,email,password,slogan
+ /**
+   * Updates the profile of a worker based on the provided worker profile data.
+   * 
+   * @param data The WorkerProfileDTO object containing the necessary data to update the worker's profile.
+   * @return The updated Worker object, or null if the update fails.
+   * @throws IllegalArgumentException if the provided data is null or if the worker ID does not exist.
+   */
   @Override
   public Worker updateWorkerProfile(WorkerProfileDTO data) {
     if (data == null) {
@@ -677,6 +725,13 @@ public class WorkerImpl implements WorkerInterface {
 
   }
 
+  /**
+   * Updates the preferences of a worker based on the provided worker preferences data.
+   * 
+   * @param data The WorkerPrefrencesDTO object containing the necessary data to update the worker's preferences.
+   * @return The updated Worker object, or null if the update fails.
+   * @throws IllegalArgumentException if the provided data is null.
+   */
   @Override
   public Worker updateWorkerPreferences(WorkerPrefrencesDTO data) {
     if (data == null) {
@@ -712,6 +767,14 @@ public class WorkerImpl implements WorkerInterface {
 
   }
 
+
+  /**
+   * Verifies the email of a worker.
+   * 
+   * @param id The ID of the worker to verify.
+   * @return true if the email is successfully verified, false otherwise.
+   * @throws IllegalArgumentException if the ID is not provided or is not a valid worker ID.
+   */
   @Override
   public boolean verifyEmail(String id) {
     if (id == null || !id.startsWith("W")) {

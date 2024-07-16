@@ -140,21 +140,67 @@ public interface CustomerEP {
     ResponseEntity<?> countAllCustomers();
 
 
+/**
+ * Requests a password reset for the user associated with the provided email.
+ * 
+ * @param email The email address of the user requesting a password reset.
+ * @return ResponseEntity<?> indicating the result of the password reset request.
+ *         Returns HttpStatus.OK if the request is successful, HttpStatus.NOT_FOUND if no user is associated with the provided email.
+ */
     @PutMapping("/passwordreset")
     ResponseEntity<?> requestResetPassword(@RequestBody String email);
 
+
+/**
+ * Resets the password for the user based on the provided password reset request data.
+ * 
+ * @param data The PasswordResetRequest object containing the necessary data to reset the password.
+ * @return ResponseEntity<?> indicating the result of the password reset operation.
+ *         Returns HttpStatus.OK if the password is successfully reset, HttpStatus.BAD_REQUEST if the provided data is invalid.
+ */   
     @PutMapping("/updatepassword")
     ResponseEntity<?> resetPassword(@RequestBody PasswordResetRequest data);
 
+
+
+/**
+ * Retrieves the customer's image as a Base64 encoded string based on the provided customer ID.
+ * 
+ * @param id The ID of the customer whose image is to be retrieved.
+ * @return ResponseEntity<?> containing the customer's image in Base64 format.
+ *         Returns HttpStatus.OK if the image is successfully retrieved, HttpStatus.NOT_FOUND if the customer does not exist or has no image.
+ */
     @GetMapping("/{id}/image")
     ResponseEntity<?> getCustomerImageAsBase64(@PathVariable("id") String id);
 
+
+/**
+ * Verifies the customer's email based on the provided token.
+ * 
+ * @param token The token used to verify the customer's email.
+ * @return ResponseEntity<?> indicating the result of the email verification.
+ *         Returns HttpStatus.OK if the email is successfully verified, HttpStatus.FORBIDDEN if the token is invalid or expired.
+ */
     @PutMapping("/verifyEmail/{token}")
     ResponseEntity<?> verifyEmail(@PathVariable("token") String token);
 
+/**
+ * Updates the role of the customer based on the provided role data.
+ * 
+ * @param data The RoleDTO object containing the necessary data to update the customer's role.
+ * @return ResponseEntity<?> indicating the result of the role update operation.
+ *         Returns HttpStatus.OK if the role is successfully updated, HttpStatus.BAD_REQUEST if the provided data is invalid.
+ */   
     @PutMapping("/updateRole")
     ResponseEntity<?> updateCustomerRole(@RequestBody RoleDTO data);
 
+/**
+ * Updates the status of the customer's order based on the provided contract status data.
+ * 
+ * @param data The ContractStatusDTO object containing the necessary data to update the customer's order status.
+ * @return ResponseEntity<?> indicating the result of the status update operation.
+ *         Returns HttpStatus.OK if the status is successfully updated, HttpStatus.BAD_REQUEST if the provided data is invalid.
+ */ 
     @PutMapping("/updateStatusOrder")
     ResponseEntity<?> updateCustomerStatusOrder(@RequestBody ContractStatusDTO data);
 

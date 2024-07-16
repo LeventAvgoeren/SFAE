@@ -14,12 +14,25 @@ import org.springframework.util.StreamUtils;
 
 import io.jsonwebtoken.io.IOException;
 
+
+
+/**
+ * Service class for managing image storage and retrieval using PostgreSQL Large Objects.
+ * @author leventavgoren
+ */
 @Service
 public class PictureService {
   
 @Autowired
 private JdbcTemplate jdbcTemplate;
 
+
+  /**
+   * Reads a large object from the database.
+   * 
+   * @param oid The object identifier of the large object.
+   * @return A byte array containing the image data, or null if an error occurs.
+   */
   @SuppressWarnings("null")
   public byte[] readLargeObject(int oid) {
     Connection conn = null;
@@ -98,7 +111,15 @@ private JdbcTemplate jdbcTemplate;
   }
 
 
-   @SuppressWarnings("null")
+  /**
+   * Saves an image as a large object in the database.
+   * 
+   * @param imageBytes The byte array containing the image data.
+   * @return The object identifier of the saved large object.
+   * @throws SQLException if a database access error occurs.
+   * @throws IOException if an I/O error occurs.
+   */
+  @SuppressWarnings("null")
   public Long saveImageAsLargeObject(byte[] imageBytes) throws SQLException, IOException {
     Connection conn = null;
     Long oid = null;
@@ -142,6 +163,13 @@ private JdbcTemplate jdbcTemplate;
     return oid;
 }
 
+
+/**
+ * Loads the default profile picture from the classpath.
+ * 
+ * @return A byte array containing the default profile picture data.
+ * @throws java.io.IOException if an I/O error occurs.
+ */
 public byte[] loadDefaultProfilePicture() throws java.io.IOException {
 
     try {

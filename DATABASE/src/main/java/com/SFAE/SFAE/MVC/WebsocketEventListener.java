@@ -12,6 +12,13 @@ import com.SFAE.SFAE.ENTITY.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+
+/**
+ * Event listener for WebSocket events.
+ * Handles disconnect and subscribe events for WebSocket connections.
+ * 
+ * @author erayzor
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -19,6 +26,11 @@ public class WebsocketEventListener{
 
     private final SimpMessageSendingOperations messageTemplate;
 
+    /**
+     * Handles WebSocket disconnect events.
+     * 
+     * @param event The {@link SessionDisconnectEvent} representing the disconnect event.
+     */
     @EventListener
     public void handleWebSocketDisconnect(SessionDisconnectEvent event){
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
@@ -34,8 +46,12 @@ public class WebsocketEventListener{
         }
     }
 
-
-   @EventListener
+    /**
+     * Handles WebSocket subscribe events.
+     * 
+     * @param event The {@link SessionSubscribeEvent} representing the subscribe event.
+     */
+    @EventListener
     public void handleSubscribeEvent(SessionSubscribeEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
         String sessionId = headerAccessor.getSessionId();

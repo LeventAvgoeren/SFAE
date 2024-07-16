@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContextAware;
 
 import com.SFAE.SFAE.INTERFACE.WorkerRepository;
 /**
- 
+  Custom ID generator for Worker.
 @author erayzor*/
 public class CustomWorkerIdGenerator implements IdentifierGenerator, ApplicationContextAware {
     private static ApplicationContext context;

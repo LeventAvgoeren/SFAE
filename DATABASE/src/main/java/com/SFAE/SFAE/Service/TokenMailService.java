@@ -11,7 +11,10 @@ import com.SFAE.SFAE.INTERFACE.TokenRepository;
 import java.util.UUID;
 
 
-
+/**
+ * Service class for managing token creation and validation, primarily for email verification and password reset functionality.
+ * @author erayzor
+ */
 @Service
 public class TokenMailService {
 

@@ -55,60 +55,81 @@ public interface ContractEP {
 
 
     /**
- * Retrieves the total number of contracts in the system.
- * 
- * @return ResponseEntity containing the total count of contracts or an error message if unable to retrieve data.
- */
+    * Retrieves the total number of contracts in the system.
+    * 
+    * @return ResponseEntity containing the total count of contracts or an error message if unable to retrieve data.
+    */
     @GetMapping("/all")
     ResponseEntity<?> countAllCContracts();
 
-/**
- * Retrieves all contracts associated with a specific customer identified by their ID.
- * 
- * @param id The unique identifier of the customer whose contracts are to be retrieved.
- * @return ResponseEntity containing a list of contracts or an error message if no contracts are found.
- */
+   /**
+    * Retrieves all contracts associated with a specific customer identified by their ID.
+    * 
+    * @param id The unique identifier of the customer whose contracts are to be retrieved.
+    * @return ResponseEntity containing a list of contracts or an error message if no contracts are found.
+    */
     @GetMapping("/customer/{id}")
     ResponseEntity<?> findContractByCustomerId(@PathVariable("id") String id);
-/**
- * Retrieves all contracts associated with a specific worker identified by their ID.
- * 
- * @param id The unique identifier of the worker whose contracts are to be retrieved.
- * @return ResponseEntity containing a list of contracts or an error message if no contracts are found.
- */
+
+   /**
+    * Retrieves all contracts associated with a specific worker identified by their ID.
+    * 
+    * @param id The unique identifier of the worker whose contracts are to be retrieved.
+    * @return ResponseEntity containing a list of contracts or an error message if no contracts are found.
+    */
     @GetMapping("/worker/{id}")
     ResponseEntity<?> findContractByWorkerId(@PathVariable("id") String id);
 
     /**
- * Sets or updates the status of a contract based on the acceptance flag provided.
- * 
- * @param Data The contract DTO containing details for the contract to be updated.
- * @param accepted The boolean flag indicating whether the contract is accepted or not.
- * @return ResponseEntity indicating the success or failure of the operation.
- */
+    * Sets or updates the status of a contract based on the acceptance flag provided.
+    * 
+    * @param Data The contract DTO containing details for the contract to be updated.
+    * @param accepted The boolean flag indicating whether the contract is accepted or not.
+    * @return ResponseEntity indicating the success or failure of the operation.
+    */
     @PutMapping("/{boolean}")
     ResponseEntity<?> setContract(@RequestBody ContractDTO Data, @PathVariable("boolean") Boolean accpeted);
 
    
-/**
- * Validates a given token to check its authenticity and expiry.
- * This method is typically used to validate tokens sent via email for contract confirmations.
- * 
- * @param token The token to be validated.
- * @return ResponseEntity<Boolean> indicating whether the token is valid (true) or not (false).
- *         Returns HttpStatus.OK if the token is valid, HttpStatus.FORBIDDEN if the token is invalid or expired.
- */
+   /**
+    * Validates a given token to check its authenticity and expiry.
+    * This method is typically used to validate tokens sent via email for contract confirmations.
+    * 
+    * @param token The token to be validated.
+    * @return ResponseEntity<Boolean> indicating whether the token is valid (true) or not (false).
+    *         Returns HttpStatus.OK if the token is valid, HttpStatus.FORBIDDEN if the token is invalid or expired.
+    */
    @GetMapping("/token/{token}")
    ResponseEntity<?> validateToken(@PathVariable("token") String token);
-    
 
+   /**
+    * Retrieves user information based on the provided email.
+    * 
+    * @param email The email address to fetch the user information.
+    * @return ResponseEntity<?> containing the user information.
+    *         Returns HttpStatus.OK if the user information is successfully retrieved, HttpStatus.NOT_FOUND if no user is associated with the provided email.
+    */
    @PutMapping("/email")
    ResponseEntity<?> getUserFromEmail(@RequestBody String email);
 
-   
+   /**
+    * Retrieves the status of a contract based on the provided contract ID.
+    * 
+    * @param contractId The ID of the contract to fetch the status for.
+    * @return ResponseEntity<?> containing the contract status.
+    *         Returns HttpStatus.OK if the contract status is successfully retrieved, HttpStatus.NOT_FOUND if the contract does not exist.
+    */
    @GetMapping("/status/{id}")
    ResponseEntity<?> getContractStatus(@PathVariable ("id") Long contractId);
     
+   /**
+    * Updates the status of a contract based on the provided contract ID and order status.
+    * 
+    * @param id The ID of the contract to update the status for.
+    * @param orderStatus The new status to be set for the contract.
+    * @return ResponseEntity<?> indicating the result of the update operation.
+    *         Returns HttpStatus.OK if the contract status is successfully updated, HttpStatus.BAD_REQUEST if the provided status is invalid, HttpStatus.NOT_FOUND if the contract does not exist.
+    */
    @PutMapping("/status/{id}")
    ResponseEntity<?> updateContractStatus(@PathVariable("id") Long id, @RequestBody String orderStatus);
 }

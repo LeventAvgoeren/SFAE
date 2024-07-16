@@ -10,6 +10,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents a newsletter subscription entity in the system.
+ * This entity stores details about a newsletter subscription, including the customer's email.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

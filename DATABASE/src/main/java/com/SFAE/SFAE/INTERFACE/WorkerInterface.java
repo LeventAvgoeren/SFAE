@@ -109,21 +109,77 @@ public interface WorkerInterface {
    */
   Boolean avgWorkerRating(Double rating, String id);
 
+
+  /**
+   * Updates the password of a worker.
+   * 
+   * @param password The new password to be set.
+   * @param Id The ID of the worker whose password is to be updated.
+   * @return true if the password is successfully updated, false otherwise.
+   */
   Boolean updatePassword(String password, String Id);
   
+  /**
+   * Updates the status of a worker based on the provided worker ID and status.
+   * 
+   * @param workerId The ID of the worker to update the status for.
+   * @param status The new status to be set for the worker.
+   * @return true if the status is successfully updated, false otherwise.
+   */
   Boolean updateStatusByWorkerId(String workerId,String status);
 
+  /**
+   * Updates the order status of a worker based on the provided worker ID and order status.
+   * 
+   * @param workerId The ID of the worker to update the order status for.
+   * @param statusOrder The new order status to be set for the worker.
+   * @return true if the order status is successfully updated, false otherwise.
+   */
   Boolean updateOrderStatusByWorkerId(String workerId,String statusOrder);
 
+
+  /**
+   * Retrieves the profile image of a worker by their ID.
+   * 
+   * @param id The ID of the worker whose profile image is to be retrieved.
+   * @return A byte array representing the profile image, or null if no image is found.
+   * @throws IllegalArgumentException if the ID is not provided.
+   */
   byte[] getProfileImageByworkerId(String id);
 
+  /**
+   * Retrieves the status of a worker by their ID.
+   * 
+   * @param id The ID of the worker whose status is to be retrieved.
+   * @return The status of the worker.
+   * @throws IllegalArgumentException if the ID is not provided or if the status is empty.
+   */
   WorkerStatus getWorkerStatus(String id);
 
+  /**
+   * Updates the profile of a worker based on the provided worker profile data.
+   * 
+   * @param data The WorkerProfileDTO object containing the necessary data to update the worker's profile.
+   * @return The updated Worker object, or null if the update fails.
+   * @throws IllegalArgumentException if the provided data is null or if the worker ID does not exist.
+   */
   Worker updateWorkerProfile(WorkerProfileDTO data);
 
+  /**
+   * Updates the preferences of a worker based on the provided worker preferences data.
+   * 
+   * @param data The WorkerPrefrencesDTO object containing the necessary data to update the worker's preferences.
+   * @return The updated Worker object, or null if the update fails.
+   * @throws IllegalArgumentException if the provided data is null.
+   */
   Worker updateWorkerPreferences(WorkerPrefrencesDTO data);
 
+  /**
+   * Verifies the email of a worker.
+   * 
+   * @param id The ID of the worker to verify.
+   * @return true if the email is successfully verified, false otherwise.
+   * @throws IllegalArgumentException if the ID is not provided or is not a valid worker ID.
+   */
   boolean verifyEmail(String id);
-
-
 }

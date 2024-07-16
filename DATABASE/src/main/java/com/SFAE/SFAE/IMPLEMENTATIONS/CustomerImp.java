@@ -351,6 +351,14 @@ public class CustomerImp implements CustomerInterface {
         return null;
     }
 
+
+    /**
+     * Updates the password of a customer.
+     * 
+     * @param password The new password to be set.
+     * @param Id The ID of the customer whose password is to be updated.
+     * @return true if the password is successfully updated, false otherwise.
+     */
     @Override
     public boolean updatePassword(String password, String Id) {
         int result = jdbcTemplate.update(
@@ -367,6 +375,13 @@ public class CustomerImp implements CustomerInterface {
         return false;
     }
 
+    /**
+     * Retrieves the profile picture of a customer by their ID.
+     * 
+     * @param id The ID of the customer whose profile picture is to be retrieved.
+     * @return A byte array representing the profile picture, or null if no picture is found.
+     * @throws IllegalArgumentException if the ID is not provided.
+     */
     @Override
     public byte[] getProfilePictureByCustomerId(String id) {
         if (id.isEmpty()) {
@@ -387,6 +402,13 @@ public class CustomerImp implements CustomerInterface {
         return pictureService.readLargeObject(oid);
     }
 
+    /**
+     * Verifies the email of a customer.
+     * 
+     * @param id The ID of the customer to verify.
+     * @return true if the email is successfully verified, false otherwise.
+     * @throws IllegalArgumentException if the ID is not provided or is not a valid customer ID.
+     */ 
     @Override
     public boolean verifyEmail(String id) {
        if(id==null || !id.startsWith("C")){
@@ -404,6 +426,14 @@ public class CustomerImp implements CustomerInterface {
         return false;
     }
 
+
+    /**
+     * Updates the role of a worker.
+     * 
+     * @param id The ID of the worker whose role is to be updated.
+     * @param role The new role to be assigned to the worker.
+     * @return true if the role is successfully updated, false otherwise.
+     */
     @Override
     public boolean updateWorkerRole(String id,String role) {
         int result = jdbcTemplate.update(
@@ -420,6 +450,14 @@ public class CustomerImp implements CustomerInterface {
             }
     }
 
+    /**
+     * Updates the contract status of a customer.
+     * 
+     * @param id The ID of the customer whose contract status is to be updated.
+     * @param statusOrder The new contract status to be set.
+     * @return true if the contract status is successfully updated, false otherwise.
+     * @throws IllegalArgumentException if the ID or statusOrder is not provided.
+     */
     @Override
     public boolean updateContractStatusCustomer(String id, String statusOrder) {
        

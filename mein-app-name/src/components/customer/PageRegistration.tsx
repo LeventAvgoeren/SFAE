@@ -158,7 +158,7 @@ export default function PageRegistration() {
                                 onBlur={() => handleAddressValidation(address).then(valid => setAddressValid(valid))}
                                 required
                             />
-                            {!addressValid && <div style={{ color: '#ed4e50' }}>Ungültige Adresse.</div>}
+                            {!addressValid && <div style={{ color: '#e4a11b' }}>Ungültige Adresse.</div>}
                             <MDBInput
                                 wrapperClass='mb-3 inputField'
                                 labelClass='text-white'

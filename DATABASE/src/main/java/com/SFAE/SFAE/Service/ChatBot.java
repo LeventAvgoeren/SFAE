@@ -169,7 +169,7 @@ public class ChatBot{
           return "Wenn Sie keinen neuen Account erstellen können, probieren Sie eine gültige Email-Adresse anzugeben, um später die Email zu bestätigen. Verwenden Sie ein starkes Passwort, das 8 Zeichen, ein Sonderzeichen und eine Zahl enthält.";
       }
       if (einkommen && fees.contains("gebuehren")) {
-          return "Sie bezahlen minimale Gebühren von 2.5%. Ihr Gehalt erhalten Sie immer am 28. des jeweiligen Monats.";
+          return "Sie bezahlen minimale Gebühren von 2.5%.";
       }
 
 

@@ -234,7 +234,7 @@ export function PageProfil() {
                                     <div className="col-12">
                                         <div className="form-group Margins mb-2">
                                             <label htmlFor="account-email">E-Mail Adresse</label>
-                                            <input className="form-control" type="email" id="account-email" value={email} onChange={(e) => setEmail(e.target.value)} disabled />
+                                            <input className="form-control" type="email" id="account-email" value={email} onChange={(e) => setEmail(e.target.value)}/>
                                         </div>
                                     </div>
                                     <div className="col-12">

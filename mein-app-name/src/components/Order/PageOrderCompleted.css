@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
+
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.card-completed {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 40px 50px;
+  border-radius: 14px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color: white;
+  width: 90%;
+  max-width: 800px;
+  height: 85vh;
+  max-height: 800px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  overflow: scroll;
+}
+
+.rating {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.rating button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 2rem;
+  /* Größe der Sterne */
+}
+
+.rating button.on svg {
+  color: gold;
+}
+
+.rating button.off svg {
+  color: grey;
+}
+
+.rating button:focus {
+  outline: none;
+}
+
+.rating button.on svg {
+  color: gold;
+  /* Farbe für aktive Sterne */
+}
+
+.rating button.off svg {
+  color: grey;
+  /* Farbe für inaktive Sterne */
+}
+
+
+.card {
+  box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background: rgba(0, 0, 0, 0.7);
+  background-clip: border-box;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 1rem;
+}
+
+.text-reset {
+  --bs-text-opacity: 1;
+  color: inherit !important;
+}
+
+a {
+  color: #5465ff;
+  text-decoration: none;
+}
+
+.containertest {
+  max-width: 100%;
+  /* Begrenzt die Breite des Containers */
+  margin: 0 auto;
+  /* Zentriert den Container horizontal */
+  padding: 20px;
+  /* Gibt dem Inneren des Containers etwas Raum */
+}
+
+.item-details,
+.info-section,
+.details-panel {
+  overflow: auto;
+  max-height: 400px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.content-area {
+  overflow: auto;
+  max-height: 400px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.2);
+  /* Weiß mit etwas Transparenz */
+  border-radius: 10px;
+  /* Abgerundete Ecken */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Leichter Schatten für Tiefe */
+  backdrop-filter: blur(10px);
+  /* Unschärfeeffekt für den Glas-Look */
+  -webkit-backdrop-filter: blur(10px);
+  /* Für Safari-Browser */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  /* Dünner weißer Rand */
+}
+
+.textarea-glassmorphism {
+  background: rgba(255, 255, 255, 0.2);
+  /* Weiß mit Transparenz */
+  border-radius: 8px;
+  /* Abgerundete Ecken */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Leichter Schatten für Tiefe */
+  backdrop-filter: blur(5px);
+  /* Unschärfeeffekt für den Glas-Look */
+  -webkit-backdrop-filter: blur(5px);
+  /* Für Safari-Browser */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  /* Dünner weißer Rand */
+  padding: 10px;
+  /* Innerer Abstand */
+}
+
+.rating button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: grey;
+  /* Standardfarbe */
+  transition: color 0.2s;
+  /* Weicher Übergang für Farbwechsel */
+}
+
+.rating button:hover,
+.rating button:hover~button,
+.rating button:focus {
+  color: gold;
+  /* Farbe beim Hover oder Fokus */
+}
+
+/* Damit bereits bewertete Sterne gold bleiben */
+RyR .rating button.rated {
+  color: gold;
+}

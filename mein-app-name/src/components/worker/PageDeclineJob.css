@@ -1,0 +1,75 @@
+
+
+
+.container-frame20 {
+    display: flex;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px 30px;
+    border-radius: 14px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    max-width: 800px; /* Maximalbreite */
+    height: 85vh;
+    max-height: 800 px;
+    overflow-y: auto; /*rausnehmen wenn es auf desktop kacke aussieht  */
+    margin-top: 1.5%; /*rausnehmen wenn es auf desktop kacke aussieht  */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); 
+    overflow-y: auto;
+}
+
+
+
+
+  .button10:hover {
+    border-color: #ff6666;
+    background-color: #ff6666;
+    color: white; /* Ensure text color also stays the same */
+  }
+
+  .bold-label {
+    font-weight: bold;
+    color: white;
+    text-align: center;
+  }
+  .white-text {
+    color: white;
+    text-align: center;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6); /* Verbessert die Lesbarkeit */
+}
+
+.centered-content > div {
+    margin-bottom: 10px; /* Fügt Abstand zwischen den Blöcken hinzu */
+}
+
+
+@media only screen and (max-width: 980px) {
+    .container-frame20{
+      max-width: 60%;
+      font-size: 8px;
+      overflow-y: auto;
+      max-height: 80vh;
+    }
+
+    .container-frame20 h1{
+        font-size: 5vh;
+    }
+    .container-frame20 h2{
+        font-size: 4vh;
+    }
+
+     .container-frame20 h3{
+        font-size: 3vh;
+    }
+
+    /* height={"35vh"} width={"35vh"}  */
+  }
+  

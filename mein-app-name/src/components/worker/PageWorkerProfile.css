@@ -1,0 +1,43 @@
+
+
+.custom-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 20px 30px;
+  border-radius: 14px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  color: white;
+  position: absolute;
+  top: 52.5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw; /* Viewport width */
+  max-width: 800px; /* Maximalbreite */
+  height: 82.5vh;
+  max-height: 1200px;
+  overflow-y: auto; /*rausnehmen wenn es auf desktop kacke aussieht  */
+  margin-top: 1%; /*rausnehmen wenn es auf desktop kacke aussieht  */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+   -webkit-backdrop-filter: blur(10px); 
+}
+
+
+
+input[type="file"]::file-selector-button {
+  color: white;
+}
+
+@media only screen and (max-width: 980px) {
+
+  .button10{
+    font-size: 2.5vh;
+  }
+  .button9{
+    font-size: 2.5vh;
+  }
+}
+

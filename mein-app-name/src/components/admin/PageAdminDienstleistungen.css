@@ -1,0 +1,271 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  width: 100%; 
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #184c8c;
+}
+
+.table-container {
+  height: 70vh; /* Adjust height as needed */
+  overflow-y: auto;
+  margin-top: 10px; /* Adjust the top margin to move the table up */
+}
+.background-image-Diesntleistungen {
+  background-image: url('/public/b1.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+  min-height: 100vh; /* Ensure the background covers the full viewport height */
+  display: flex;
+  flex-direction: column;
+}
+.Nav-Link {
+  text-align: center;
+  position: sticky;
+}
+
+.Nav-Link img, .Nav-Link div {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  position: sticky;
+}
+
+.Nav-Link div {
+  font-size: 10px;
+  position: sticky;
+}
+
+.search-field {
+  width: 200%;
+}
+
+.search-field {
+  max-width: 100%;
+  border-radius: 5px;
+}
+
+.search-field input {
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+  background-color: #003366;
+  border: none;
+  outline: none;
+  color: white;
+  margin-top: 20px;
+}
+
+.search-field input::placeholder {
+  color: white;
+  opacity: 0.7;
+}
+
+.search-field input:focus {
+  background-color: #003366;
+  color: white;
+}
+
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.flex-container {
+  display: flex;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr;
+  gap: 10px;
+}
+
+.margin-container {
+  margin-bottom: 20px;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  background-color: transparent;
+  border-collapse: collapse;
+  border-spacing: 0;
+  overflow-x: auto;
+}
+
+.table th, .table td {
+  padding: 12px;
+  vertical-align: middle;
+  text-align: left;
+  border-top: 1px solid #dee2e6;
+}
+
+.table thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dee2e6;
+  background-color: #f8f9fa;
+  color: #495057;
+}
+
+.table tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.table-bordered {
+  border: 1px solid #dee2e6;
+}
+
+.table-bordered th, .table-bordered td {
+  border: 1px solid #dee2e6;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.table .icon {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.table .icon:hover {
+  transform: scale(1.1);
+}
+
+.table .btn-icon {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.table .btn-icon .icon {
+  pointer-events: none;
+}
+
+.table .icon-trash {
+  color: red;
+}
+
+.table .icon-search {
+  color: green;
+}
+
+.table .icon-pencil {
+  color: orange;
+}
+
+.modal-dialog {
+  margin: 0 auto;
+  max-width: 50%;
+}
+
+.container-frame {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-top: -20px; /* Adjust this value to move the container frame up */
+}
+
+@media (max-width: 700px) {
+  .background-city {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    margin-top: 30px;
+  }
+
+  .container-frame {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    z-index: 10;
+  }
+
+  .grid-container {
+    flex-wrap: wrap;
+  }
+
+  .search-field {
+    max-width: 100%;
+    border-radius: 2px;
+  }
+
+  .btn {
+    margin: 0;
+  }
+
+  .search-field {
+    margin: 0;
+    width: 100%;
+    padding: 0;
+  }
+
+  .search-field input {
+    font-size: 18px;
+  }
+}
+
+.background-city {
+  margin-top: 30px;
+}
+
+.custom-reload-button {
+  background-color: red; 
+  border: none; 
+
+}
+.custom-button-width {
+  width: 100px; /* oder jede andere gewünschte Breite */
+}
+.custom-modal-header, .custom-modal-body, .custom-modal-footer {
+  background-color: white; 
+  color: black; 
+}
+
+.custom-modal-header {
+  border-bottom: 1px solid #dee2e6; 
+}
+
+.custom-modal-footer {
+  border-top: 1px solid #dee2e6; 
+}
+
+.custom-modal-button {
+  background-color: #007bff; 
+  color: white;
+}
+
+.custom-modal-button:hover {
+  background-color: #0056b3; 
+}
+.custom-modal-center {
+  display: flex;
+  align-items: center; /* Zentriert das Modal vertikal */
+  justify-content: center; /* Zentriert das Modal horizontal */
+  height: 100%;
+}
+
+.modal-dialog {
+  align-items: center; /* Zentriert das Modal vertikal */
+  justify-content: center; /* Zentriert das Modal horizontal */}
+
+  .pbs{
+    
+  }

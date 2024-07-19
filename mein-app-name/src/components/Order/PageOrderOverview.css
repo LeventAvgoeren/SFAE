@@ -1,0 +1,352 @@
+/* Haupt-Hintergrund und Schriftarten */
+.background-image-berlin {
+  font-family: 'Nunito', sans-serif;
+  background-image: url('/public/b1.jpg'); /* Überprüfe den Pfad */
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-informationen {
+  background: rgba(0, 0, 0, 0.7); /* Semi-transparentes Schwarz */
+  padding: 40px 50px;
+  border-radius: 14px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: calc(100vw - 5cm); /* Breite des Bildschirms minus 5cm */
+  height: calc(100vh - 5cm);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Layout-Einstellungen für Grid */
+.layout {
+  display: grid;
+  grid-template-areas:
+    'header header header'
+    'orderDetails map workerDetails'
+    'footer footer footer';
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: auto 1fr auto;
+  gap: 20px;
+}
+
+/* Card- und Inhaltsbereich-Anpassungen */
+.card {
+  box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 1rem;
+  color: white;
+  overflow-x: hidden; /* Versteckt den horizontalen Überlauf */
+  
+}
+
+/* Versteckt Scrollbars in Webkit-basierten Browsern */
+::-webkit-scrollbar {
+  display: none;
+}
+
+
+
+/* Textanpassungen für Links und allgemeinen Text */
+.text-reset, .text-muted, a {
+  color: white ;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  box-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  padding-top: 100px;
+}
+
+.loading-message {
+  color: white;
+  margin-top: 20px;
+  font-size: 20px;
+}
+
+/* Stile für modale Elemente */
+.modal-content {
+  background-color: #f8f9fa;
+}
+
+.modal-header, .modal-body, .modal-footer {
+  padding: 20px;
+}
+
+
+.text-reset {
+  --bs-text-opacity: 1;
+  color: inherit!important;
+}
+a {
+  color: #5465ff;
+  text-decoration: none;
+}
+
+
+.containertest {
+  max-width: 100%; /* Begrenzt die Breite des Containers */
+  margin: 0 auto; /* Zentriert den Container horizontal */
+  padding: 20px; /* Gibt dem Inneren des Containers etwas Raum */
+}
+
+.containertest h1{
+  align-items: center;
+}
+
+.item-details, .info-section, .details-panel {
+  overflow: auto; 
+  max-height: 450px; 
+  padding: 15px; 
+  margin-bottom: 20px; 
+}
+
+.content-area{
+  overflow: auto; 
+  max-height: 600px; 
+  padding: 15px; 
+  margin-bottom: 20px;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.text-muted{
+  color: white !important;
+}
+
+.white-text {
+  color: white !important;
+}
+
+.table{
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.leaflet-routing-container .leaflet-routing-alt {
+ display: none; /* Schriftgröße anpassen */
+}
+
+.left-column{
+  background:rgba(0, 0, 0, 0.7); /*rgba(255, 255, 255, 0.2)*/
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+  padding: 20px; /* Padding für Innenabstand */
+  margin: 0 auto; /* Zentrieren des Containers */
+  flex-basis: 25%; /* adjust the width of each column */
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.right-column1{
+  background:rgba(0, 0, 0, 0.7); /*rgba(255, 255, 255, 0.2)*/
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+  padding: 5px; /* Padding für Innenabstand */
+  flex-basis: 30%; /* adjust the width of each column */
+  max-height: 35vh;
+  color: white;
+  font-size: 14px;
+  max-width: 90%;
+  overflow-y: auto;
+}
+
+.right-column2{
+  background:rgba(0, 0, 0, 0.7); /*rgba(255, 255, 255, 0.2)*/
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+  padding: 5px; /* Padding für Innenabstand */
+  flex-basis: 30%; /* adjust the width of each column */
+  max-height: 35vh;
+  color: white;
+  font-size: 14px;
+  max-width: 90%;
+  overflow-y: auto;
+}
+
+.middle-column{ 
+  flex-basis: 35%; /* adjust the width of each column */
+  height: 70vh;
+
+}
+
+.map10{/* bild*/
+  height: 70vh
+}
+
+/* Hauptcontainer für das Badge und die Informationen */
+.badge-container {
+  display: flex;
+  align-items: center;
+  color: white;
+  background-color: #5465ff;
+  padding: 10px;
+  border-radius: 20px; /* Abgerundete Ecken für das Badge */
+  box-sizing: border-box; /* Stellt sicher, dass Padding und Border in der Breite inkludiert sind */
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* Stile für die Informationen innerhalb des Badges */
+.info-item {
+  margin: 5px 0; /* Fügt oben und unten einen kleinen Abstand hinzu */
+  flex: 1; /* Lässt die Elemente den verfügbaren Platz ausfüllen */
+ 
+}
+
+/* Spezifischer Stil für die Betragsanzeige */
+.payment-info {
+  display: flex;
+  justify-content: space-between; /* Setzt den Betrag an das Ende des Containers */
+  width: 100%; /* Nimmt die volle Breite des Containers ein */
+}
+
+.info-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Zwei gleich große Spalten */
+  gap: 20px; /* Abstand zwischen den Spalten */
+  align-items: start; /* Start-Ausrichtung für die Elemente in den Spalten */
+}
+
+.img-fluid {
+  border-radius: 10%; /* Runde Ecken */
+  width: 40%; /* Bild nimmt die ganze Zellenbreite ein */
+}
+
+.info-item{
+  font-size: 18px;
+}
+
+.info-item{
+  font-size: 18px;
+}
+
+
+@media only screen and (max-width: 1200px) {
+  .containertest h2{
+    font-size: 20px;
+  }
+
+  .info-item{
+    font-size: 15px;
+  }
+
+  .row{
+    font-size: 15px;
+  }
+
+  .info-section{
+    font-size: 12px;
+  }
+
+  .info-section h5{
+    font-size: 15px;
+  }
+}
+
+
+@media only screen and (max-width: 995px) {
+  .containertest{
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .containertest h2{
+    font-size: 20px;
+  }
+
+  .info-item{
+    font-size: 3vh;
+  }
+
+  .row{
+    font-size: 3vh;
+  }
+
+  .info-section{
+    font-size: 2vh;
+  }
+
+  .info-section h5{
+    font-size: 3.5vh;
+  }
+
+  .left-column{
+    margin-left: 2%;
+  }
+
+  .middle-column{
+  
+    margin-right: 35%;
+  }
+
+  .right-column1{
+    
+    display: flex;
+  
+    width: 30%;
+    height: 35vh;
+    grid-column: 3;
+    margin-left: 70%;
+    margin-top: -35%;
+  }
+
+  .right-column2{
+    
+    display: flex;
+  
+    width: 30%;
+    height: 35vh;
+    grid-column: 3;
+    margin-left: 70%;
+
+  }
+}
+.middle-column {
+  flex-basis: 35%;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  border-radius: 28px;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.5); /* Halbtransparenter Hintergrund */
+}

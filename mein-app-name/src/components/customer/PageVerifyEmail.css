@@ -1,0 +1,60 @@
+
+.card2 {
+    background-color: rgba(0, 0, 0, 0.7); /* Schwarze Farbe mit leichter Transparenz */
+    border-radius: 15px; /* Abgerundete Ecken */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); 
+    padding: 20px; /* Innenabstand */
+    width: fit-content; /* Breite des Inhalts anpassen */
+    margin: auto; /* Zentriert die Card horizontal */
+    margin-top: 20rem; /* Abstand nach oben */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Leichter Schatten für einen "schwebenden" Effekt */
+    display: flex;
+    flex-direction: column; /* Ordnet die Kinder (p und button) vertikal an */
+    align-items: center; /* Zentriert die Inhalte horizontal */
+    gap: 10px; /* Abstand zwischen den Elementen im Container */
+    margin-bottom: 20%;
+}
+
+
+.confirmation-page-container2 {
+    background-size: cover;
+    background: linear-gradient(-45deg, #162c53, #199c7e, #004a4d, #132547);
+    background-position: center;
+    animation: animated-background 15s ease infinite;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    overflow-y: auto;
+}
+
+/* Stil für den Paragraphen */
+.card2 p {
+    color: #f0e6e6; /* Textfarbe */
+    font-size: 24px; /* Schriftgröße */
+    text-align: center; /* Zentriert den Text */
+    margin: 20px 0; /* Abstand oben und unten */
+}
+
+/* Stil für den Button */
+.card2 button  {
+    background-color: #4CAF50; /* Hintergrundfarbe */
+    color: white; /* Textfarbe */
+    border: none; /* Kein Rahmen */
+    padding: 10px 20px; /* Innenabstand */
+    text-align: center; /* Zentriert den Text im Button */
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px; /* Schriftgröße */
+    margin: 4px 2px; /* Abstand um den Button */
+    cursor: pointer; /* Cursor als Zeiger */
+    border-radius: 5px; /* Abgerundete Ecken */
+    transition: background-color 0.3s ease; /* Übergangseffekt für die Hintergrundfarbe */
+}
+
+.card2 button:hover  {
+    background-color: #45a049; /* Hintergrundfarbe beim Hover */
+}

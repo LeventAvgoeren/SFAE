@@ -1,0 +1,41 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: 'Poppins', sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8f9fa; /* Helles Grau für modernen Look */
+  color: #333; /* Dunkle Schriftfarbe für besseren Kontrast */
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: visible;
+}
+
+.main-content {
+  padding-bottom: 50px; /* Gleiche Höhe wie die Toolbar, wenn nötig */
+}
+
+/* Hinzufügen eines modernen Buttons */
+.btn-custom {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-custom:hover {
+  background-color: #0056b3;
+}

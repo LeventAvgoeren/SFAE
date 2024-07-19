@@ -1,0 +1,131 @@
+.page-background-custom {
+  background: transparent;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 10vh;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.navbar-links-custom {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-grow: 1;
+  padding: 10px; /* Fügt Innenabstand hinzu */
+}
+
+.navbar-links-custom .nav-item {
+  margin: 15px; /* Vergrößert den Abstand zwischen den Texten */
+}
+
+.page-background-custom ul li a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  padding: 10px;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 15px; 
+}
+
+.page-background-custom ul li a:hover {
+  background-color: white;
+  color: black !important;
+  padding: 10px 15px; /* Optionally adjust padding if needed */
+}
+body, button, input, textarea, h1, p {
+  font-family: 'Roboto', sans-serif;
+}
+
+.icons-container-custom {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 30px; /* Verschiebt die Icons etwas nach links */
+}
+
+.icon-item-custom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 35px; /* Verkleinert den Abstand zwischen den Icons */
+}
+
+.icon-img-custom {
+  width: 45px; /* Vergrößert die SVGs */
+  height: 45px; /* Vergrößert die SVGs */
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.icon-img-custom:hover {
+  transform: scale(1.1);
+}
+
+.notification-icon-custom:hover img {
+  animation: wobble 0.5s ease-in-out infinite;
+}
+
+.icon-label-custom {
+  font-size: 12px;
+  color: white;
+  margin-top: 5px;
+}
+
+@keyframes wobble {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-15deg);
+  }
+  50% {
+    transform: rotate(15deg);
+  }
+  75% {
+    transform: rotate(-15deg);
+  }
+}
+
+.chat-container {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 400px;
+  height: 100%;
+  background-color: white;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  transition: right 0.5s ease;
+  z-index: 1000;
+  border-left: white solid;
+}
+
+.chat-container.show {
+  right: 0;
+}
+
+.notification-badge-custom {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+}
+
+.blink-custom {
+  animation: blinker 1.5s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+.navbar-logo-custom {
+  width: 75px;
+  height: 75px;
+}

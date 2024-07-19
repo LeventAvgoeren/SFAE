@@ -1,0 +1,184 @@
+
+  
+  .anmelden-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.2s;
+  }
+
+  .fade-background {
+    animation: fadeEffect 1s;
+  }
+  
+
+  .role-selection {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+
+  }
+  
+  .role-image {
+    flex: 1;
+    height: 100vh;
+    cursor: pointer;
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Fügen Sie 'transform' zu den Übergängen hinzu */
+    position: relative; /* Macht die Position der Überschrift relativ zum Bild */
+    overflow: hidden; /* Verhindert das Überlaufen des Inhalts */
+  }
+
+  .left-image {
+    background: url('/public/t1.jpeg') no-repeat center center;
+    background-size: cover;
+  }
+  
+  .right-image {
+    background: url('/public/t2.jpeg') no-repeat center center;
+    background-size: cover;
+  }
+
+  
+  .selected {
+    opacity: 1;
+    box-shadow: 0 0 20px 10px white inset;
+  }
+  
+  .container-frame {
+    position: relative;
+    z-index: 100;
+    animation: fadeIn 1s;
+  }
+  
+  
+
+  .role-title {
+    position: absolute;
+    top: 500px; /* Positioniert die Überschrift tiefer */
+    transform: translateX(-30%);
+    color: white;
+    padding: 10px 20px;
+    font-size: 36px;
+    border-radius: 5px;
+    transition: all 0.5s ease;
+    font-family: 'Arial', sans-serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 3px solid;
+    max-width: 189px; /* Maximale Breite der Box */
+    visibility: hidden;
+  }
+
+  
+  
+  .worker-title {
+    left: 50%;
+  }
+  
+  .customer-title {
+    left: 50%;
+  }
+  
+  .role-image:hover .role-title {
+    visibility: visible;
+    width: auto; 
+    animation: typing 3s steps(20, end), blink-caret 0.75s step-end infinite;
+  }
+  
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+  
+ 
+  .icon {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+  }
+  
+  .hammer-icon {
+    top: 60px; /* Positioniert den Hammer weiter oben */
+    left: 75.5%; /* Zentriert das Icon horizontal */
+    transform: translateX(-50%);
+  }
+  
+  .role-image:hover {
+    transform: scale(1.05); /* Zoom-Effekt */
+  }
+  
+  .question-icon {
+    bottom: 20px; /* Positioniert die Fragezeichen-Icons am unteren Rand der Bilder */
+    left: 50%; /* Zentriert das Icon horizontal */
+    transform: translateX(-50%);
+    animation: bounceQuestion 2s infinite;
+  }
+  
+  @keyframes swingHammer {
+    0% { transform: translateX(-50%) rotate(0deg); }
+    50% { transform: translateX(-50%) rotate(20deg); }
+    100% { transform: translateX(-50%) rotate(0deg); }
+  }
+  
+  @keyframes bounceQuestion {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-10px); }
+  }
+  .login-button-container {
+    position: absolute;
+    bottom: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 30%;
+  }
+
+  h1, h2 {
+    color: white;
+    text-align: center;
+  }
+  .welcome-container {
+    position: absolute;
+    top: 20%; /* Positioniert die Überschrift in der Mitte */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    animation: fadeIn 2s ease-out;
+    z-index: 2; /* Stellt sicher, dass die Überschrift über den Bildern liegt */
+    height: auto; /* Automatische Höhe basierend auf dem Inhalt */
+    padding: 20px; /* Abstand innerhalb des Containers */
+  }
+
+  .welcome-text, .choose-role-text {
+    color: white;
+    text-align: center;
+  }
+.role-image::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0); /* Anfangs transparent */
+  transition: background-color 0.5s ease; /* Übergang für die Hintergrundfarbe */
+  z-index: 1; /* Stellt sicher, dass es über dem Bild liegt */
+}.role-image:hover::before {
+  background-color: rgba(0, 0, 0, 0.5); /* Halbtransparentes Schwarz bei Hover */
+}
+
+.role-background {
+  position: relative;
+  min-height: 100vh;
+}

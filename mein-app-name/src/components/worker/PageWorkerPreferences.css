@@ -1,0 +1,163 @@
+.background-images {
+  background-image: url('/public/b1.jpg'); /* Überprüfen Sie den korrekten Pfad */
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+}
+
+.custom-containerrr25 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 30px 40px;
+  border-radius: 14px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  color: white;
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  max-width: 800px;
+  height: auto;
+  max-height: 85vh; /* Stelle sicher, dass dies die korrekte Höhe ist */
+  overflow-y: auto; /* Scrollbar aktivieren, wenn nötig */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+
+.content-container {
+  width: 100%;
+  max-width: 600px; /* Maximale Breite für den Inhalt */
+  display: flex;
+  flex-direction: column; /* Vertikale Anordnung der Kinder */
+  justify-content: center; /* Zentrieren entlang der vertikalen Achse */
+  align-items: center; /* Zentrieren entlang der horizontalen Achse */
+  gap: 20px; /* Abstand zwischen den Elementen */
+}
+
+.text-center {
+  margin-bottom: 20px; /* Fügt unten einen Abstand hinzu */
+}
+
+.text-center h1 {
+  font-size: 2.5em; /* Vergrößert die Überschrift */
+}
+
+.inputField1 {
+  width: 100% !important; /* Setzt die Breite auf 100% des umgebenden Containers */
+  max-width: 600px; /* Optional: Maximale Breite */
+  display: flex; /* Flexbox */
+  flex-direction: column; /* Vertikale Anordnung der Kinder */
+  justify-content: center; /* Zentrieren entlang der vertikalen Achse */
+  align-items: center; /* Zentrieren entlang der horizontalen Achse */
+  margin-bottom: 20px; /* Fügt unten einen Abstand von 20px hinzu */
+}
+
+.inputField1 input, .inputField1 input::placeholder {
+  color: white !important; /* Erzwingt die Textfarbe Weiß für Text und Platzhalter */
+  background-color: rgba(255, 255, 255, 0.1) !important; /* Leicht transparenter weißer Hintergrund */
+  border: 1px solid #ccc !important; /* Optional: Grenze */
+  padding: 10px; /* Fügt Innenabstand hinzu */
+  border-radius: 5px; /* Abgerundete Ecken */
+}
+
+.inputField1 select {
+  color: black !important;
+  background-color: rgba(255, 255, 255, 1) !important; /* Weißer Hintergrund für das Dropdown */
+  border: 1px solid #ccc !important; /* Optional: Grenze */
+  padding: 10px; /* Fügt Innenabstand hinzu */
+  border-radius: 5px; /* Abgerundete Ecken */
+}
+
+.inputField1 + .inputField1 {
+  margin-top: 20px; /* Fügt Abstand zwischen aufeinanderfolgenden inputField1-Elementen hinzu */
+}
+
+.button3, .button2 {
+  padding: 10px 20px; /* Fügt Innenabstand hinzu */
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  margin-top: 20px; /* Fügt oben einen Abstand hinzu */
+}
+
+.button3 {
+  background-color: #007bff; /* Blau für den "Job hinzufügen"-Button */
+}
+
+.button3:hover {
+  background-color: #0056b3; /* Dunkleres Blau beim Hover */
+  transform: scale(1.05);
+}
+
+.button2 {
+  background-color: #28a745; /* Grün für den "Profil speichern"-Button */
+}
+
+.button2:hover {
+  background-color: #218838; /* Dunkleres Grün beim Hover */
+  transform: scale(1.05);
+}
+
+.alert {
+  color: red; /* Farbe für Fehlermeldungen, wenn gewünscht */
+}
+
+.inputField1 label {
+  margin: -7.5px !important;
+  color: white !important; /* Setzt die Textfarbe der Labels auf Weiß */
+}
+
+.form-check-input {
+  accent-color: white !important; /* Farbe der Radiobuttons für die Nutzertyp-Auswahl */
+}
+
+.form-check-label {
+  color: white !important; /* Farbe der Labels neben den Radiobuttons */
+}
+.job-list {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+  margin-top: 20px;
+  max-height: 300px; /* Beispielwert */
+  overflow-y: auto; /* Ermöglicht das Scrollen innerhalb der Liste */
+}
+
+.job-item {
+  display: flex;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  color: white; /* Textfarbe Weiß */
+}
+
+.remove-job {
+  cursor: pointer;
+  color: red;
+  margin-left: 10px;
+}
+
+@media only screen and (max-width: 980px) {
+  .button3, .button2 {
+    font-size: 2.5vh;
+  }
+
+  .job-item {
+    font-size: 2.5vh;
+  }
+}
+
+input[type="file"]::file-selector-button {
+  color: white;
+}

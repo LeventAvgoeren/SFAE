@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getContractByCustomerId } from "../../backend/api";
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { ContractResource, WorkerResource } from "../../Resources";
-import { FaStar, FaStarHalfAlt, FaRegStar, FaCheckCircle, FaTimesCircle, FaExclamationCircle, FaUserSlash, FaSpinner, FaThumbsUp } from "react-icons/fa";
+import { FaStar, FaStarHalfAlt, FaRegStar, FaCheckCircle, FaTimesCircle, FaExclamationCircle, FaUserSlash, FaSpinner, FaThumbsUp, FaQuestionCircle } from "react-icons/fa";
 import "./PageUebersicht.css";
 import NavbarComponent from '../navbar/NavbarComponent';
 import { deDE } from '@mui/x-data-grid/locales';
@@ -58,6 +58,8 @@ export function PageUebersicht() {
         return <FaExclamationCircle color="red" />;
       case 'N/A':
         return <FaUserSlash color="gray" />;
+      case 'UNDEFINED': // Fall für 'UNDEFINED' hinzugefügt
+        return <FaQuestionCircle color="orange" />;
       default:
         return statusOrder;
     }
@@ -70,12 +72,16 @@ export function PageUebersicht() {
       headerName: 'Status ihres Auftrags',
       flex: 1,
       headerClassName: 'super-app-theme--header',
-      renderCell: (params: GridRenderCellParams) => (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          {renderStatusIcon(params.value as string)}
-          <span style={{ marginLeft: 8 }}>{params.value}</span>
-        </div>
-      )
+      renderCell: (params: GridRenderCellParams) => {
+        const icon = renderStatusIcon(params.value as string);
+        const displayValue = params.value === 'UNDEFINED' ? 'N/A' : params.value;
+        return (
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                {icon}
+                <span style={{ marginLeft: 8 }}>{displayValue}</span>
+            </div>
+        );
+    }
     },
     { field: 'adress', headerName: 'Adresse', flex: 1, headerClassName: 'super-app-theme--header' },
     { field: 'description', headerName: 'Beschreibung', flex: 1, headerClassName: 'super-app-theme--header' },

@@ -142,7 +142,6 @@ export function PageIntroduction() {
                                         frontContent={(
                                             <>
                                                 <p className="team-role"><strong>Backend /Scrum Master</strong></p>
-                                                <p className="team-role">Pick-Me Boy</p>
                                                 <p className="team-role">Fixed Duc's Bugs</p>
                                             </>
                                         )}
@@ -229,7 +228,7 @@ export function PageIntroduction() {
                                                 preserveAspectRatio: 'xMidYMid slice'
                                             }
                                         }} height={"50vh"} width={"50vh"} />
-                                        <p className="my-p">Levent ist knapp bei Kasse! Er besucht SfÆ, um neben seiner eigentlichen Arbeit als Maler etwas Geld zu verdienen und hilft Eray bei seiner Wand! Duc Dai ist dabei.</p>
+                                        <p className="my-p">Levent ist knapp bei Kasse! Er besucht SfÆ, um neben seiner eigentlichen Arbeit als Maler etwas Geld zu verdienen und hilft Eray bei seiner Wand!</p>
                                     </div>
                                 </div>
                                 </div>

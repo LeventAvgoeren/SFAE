@@ -7,7 +7,7 @@ import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { deDE } from '@mui/x-data-grid/locales';
 import NavbarWComponent from "./NavbarWComponent";
 import { MDBBtn } from "mdb-react-ui-kit";
-import { FaCheckCircle, FaTimesCircle, FaExclamationCircle, FaUserSlash } from "react-icons/fa";
+import { FaCheckCircle, FaTimesCircle, FaExclamationCircle, FaUserSlash, FaQuestionCircle } from "react-icons/fa";
 import LoadingIndicator from "../LoadingIndicator";
 
 export function PageWorkerOrderOverview() {
@@ -52,6 +52,8 @@ export function PageWorkerOrderOverview() {
                 return <FaExclamationCircle color="red" />;
             case 'N/A':
                 return <FaUserSlash color="gray" />;
+            case 'UNDEFINED': // Fall für 'UNDEFINED' hinzugefügt
+                return <FaQuestionCircle color="orange" />;
             default:
                 return statusOrder;
         }
@@ -64,12 +66,16 @@ export function PageWorkerOrderOverview() {
             headerName: 'Status',
             flex: 1,
             headerClassName: 'super-app-theme--header',
-            renderCell: (params: GridRenderCellParams) => (
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    {renderStatusIcon(params.value as string)}
-                    <span style={{ marginLeft: 8 }}>{params.value}</span>
-                </div>
-            )
+            renderCell: (params: GridRenderCellParams) => {
+                const icon = renderStatusIcon(params.value as string);
+                const displayValue = params.value === 'UNDEFINED' ? 'N/A' : params.value;
+                return (
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        {icon}
+                        <span style={{ marginLeft: 8 }}>{displayValue}</span>
+                    </div>
+                );
+            }
         },
         { field: 'adress', headerName: 'Adresse', flex: 1, headerClassName: 'super-app-theme--header' },
         { field: 'description', headerName: 'Beschreibung', flex: 1, headerClassName: 'super-app-theme--header' },

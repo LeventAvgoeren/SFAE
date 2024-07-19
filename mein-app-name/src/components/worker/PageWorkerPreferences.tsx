@@ -132,10 +132,6 @@ export function PageWorkerPreferences() {
               <h1>Präferenzen</h1>
             </div>
             <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
-              <MDBInput wrapperClass="inputField1" label="Reichweite (km)" type="text"
-                className="form-control"
-                value={range.toString()}
-                onChange={(e) => setRange(Number(e.target.value))} />
               <MDBInput wrapperClass="inputField1" label="Mindestbetrag (€)" type="text"
                 className="form-control"
                 value={minPayment.toString()}
